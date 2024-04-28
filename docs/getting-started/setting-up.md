@@ -1,7 +1,7 @@
 # Getting started with your Raspberry Pi
 
 To get started with your Raspberry Pi, you'll need the following:
-<iframe width="560" height="315" src="https://www.youtube.com/embed/CQtliTJ41ZE" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/CQtliTJ41ZE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 - a [power supply](raspberry-pi.adoc#power-supply)
 - boot media (e.g. a [microSD card with ample storage and speed](getting-started.adoc#recommended-sd-cards))
