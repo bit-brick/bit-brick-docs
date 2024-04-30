@@ -65,12 +65,12 @@ const config: Config = {
         href: 'http://8.129.16.106:8080/',
       },
       items: [
-        {
-          type: 'docSidebar',
-          sidebarId: 'tutorialSidebar',
-          position: 'left',
-          label: 'Documentation',
-        },
+        // {
+        //   type: 'docSidebar',
+        //   sidebarId: 'tutorialSidebar',
+        //   position: 'left',
+        //   label: 'Documentation',
+        // },
         {
           to: '/',
           position: 'left',
