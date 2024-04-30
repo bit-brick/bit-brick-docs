@@ -24,7 +24,7 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
-      collapsed: false,
+      collapsed: true,
       label: 'Getting Started',
       items: [
         {
@@ -47,7 +47,7 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
-      collapsed: false,
+      collapsed: true,
       label: 'PI one OS',
       items: [
         {
@@ -58,7 +58,7 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
-      collapsed: false,
+      collapsed: true,
       label: 'PI one linux kernel',
       items: [
         {
@@ -69,7 +69,7 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
-      collapsed: false,
+      collapsed: true,
       label: 'PI one uboot',
       items: [
         {
@@ -80,7 +80,7 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
-      collapsed: false,
+      collapsed: true,
       label: 'PI one hardware',
       items: [
         {
@@ -91,7 +91,7 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
-      collapsed: false,
+      collapsed: true,
       label: 'PI one camera',
       items: [
         {
@@ -102,7 +102,7 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
-      collapsed: false,
+      collapsed: true,
       label: 'PI one display',
       items: [
         {
@@ -113,7 +113,7 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
-      collapsed: false,
+      collapsed: true,
       label: 'Datasheets',
       items: [
         {
