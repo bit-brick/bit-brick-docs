@@ -1,3 +1,0 @@
-# Hardware 
-
-## to be continued

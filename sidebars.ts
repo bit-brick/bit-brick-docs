@@ -19,7 +19,7 @@ const sidebars: SidebarsConfig = {
   tutorialSidebar: [
     {
       type: 'doc',
-      id: 'intro',
+      id: 'pi-one/intro',
     },
     {
       type: 'category',
@@ -28,19 +28,19 @@ const sidebars: SidebarsConfig = {
       items: [
         {
           type: 'doc',
-          id: 'getting-started/setting-up',
+          id: 'pi-one/getting-started/setting-up',
         },
         {
           type: 'doc',
-          id: 'getting-started/configuring',
+          id: 'pi-one/getting-started/configuring',
         },
         {
           type: 'doc',
-          id: 'getting-started/install',
+          id: 'pi-one/getting-started/install',
         },
         {
           type: 'doc',
-          id: 'getting-started/wrapping-up',
+          id: 'pi-one/getting-started/wrapping-up',
         },
       ],
     },
@@ -51,7 +51,7 @@ const sidebars: SidebarsConfig = {
       items: [
         {
           type: 'doc',
-          id: 'pi-one-os/os',
+          id: 'pi-one/pi-one-os/os',
         },
       ],
     },
@@ -62,7 +62,7 @@ const sidebars: SidebarsConfig = {
       items: [
         {
           type: 'doc',
-          id: 'pi-one-linux-kernel/yocto',
+          id: 'pi-one/pi-one-linux-kernel/yocto',
         },
       ],
     },
@@ -73,7 +73,7 @@ const sidebars: SidebarsConfig = {
       items: [
         {
           type: 'doc',
-          id: 'pi-one-uboot/uboot',
+          id: 'pi-one/pi-one-uboot/uboot',
         },
       ],
     },
@@ -84,7 +84,7 @@ const sidebars: SidebarsConfig = {
       items: [
         {
           type: 'doc',
-          id: 'pi-one-hardware/hardware',
+          id: 'pi-one/pi-one-hardware/hardware',
         },
       ],
     },
@@ -95,7 +95,7 @@ const sidebars: SidebarsConfig = {
       items: [
         {
           type: 'doc',
-          id: 'pi-one-camera/camera',
+          id: 'pi-one/pi-one-camera/camera',
         },
       ],
     },
@@ -106,7 +106,7 @@ const sidebars: SidebarsConfig = {
       items: [
         {
           type: 'doc',
-          id: 'pi-one-display/display',
+          id: 'pi-one/pi-one-display/display',
         },
       ],
     },
@@ -117,7 +117,7 @@ const sidebars: SidebarsConfig = {
       items: [
         {
           type: 'doc',
-          id: 'datasheets/datasheets',
+          id: 'pi-one/datasheets/datasheets',
         },
       ],
     },
