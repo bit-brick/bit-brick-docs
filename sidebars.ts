@@ -92,6 +92,17 @@ const sidebars: SidebarsConfig = {
     {
       type: 'category',
       collapsed: true,
+      label: 'PI one software',
+      items: [
+        {
+          type: 'doc',
+          id: 'pi-one/pi-one-software/GPIOs-functions',
+        },
+      ],
+    },
+    {
+      type: 'category',
+      collapsed: true,
       label: 'PI one camera',
       items: [
         {
