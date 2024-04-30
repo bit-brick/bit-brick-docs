@@ -20,6 +20,7 @@ const sidebars: SidebarsConfig = {
     {
       type: 'doc',
       id: 'pi-one/intro',
+      label: 'Pi One intro',
     },
     {
       type: 'category',

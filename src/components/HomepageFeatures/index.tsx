@@ -24,7 +24,7 @@ function Feature({title, Svg, description}: FeatureItem) {
   return (
     <div className={clsx('col col--4')}>
       <div className="text--center">
-      <a href={"docs/pi-one/intro"} target="_blank" rel="noopener noreferrer">
+      <a href={"docs/pi-one/intro"}  rel="noopener noreferrer">
           <Svg className={styles.featureSvg} role="img" />
         </a>
       </div>
