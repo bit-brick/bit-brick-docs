@@ -1,15 +1,15 @@
 # Bit-Brick PI ONE Hardware Introduction
 
 Published May 2024
-![](image/bevel.jpg)
+![](/img/pi-one/hardware/bevel.jpg)
 
 ## NOTE
 
 BIT-BRICK IS THE TRADEMARK OF BIT BRICK LTD. ANYONE WANT TO USE THIS SHOULD GET THE PERMISSION FROM BIT BRICK COMPANY.
 
 ## Overview
-![](image/front.jpg)
-![](image/back.jpg)
+![](/img/pi-one/hardware/front.jpg)
+![](/img/pi-one/hardware/back.jpg)
 
 Welcome to PI ONE: an interesting single board computer.
 

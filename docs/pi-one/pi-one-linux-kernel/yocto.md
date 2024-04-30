@@ -140,12 +140,12 @@ To use the UUU for i.MX 8ULP EVK, follow the instructions below:
 • To burn single-boot image and rootfs to eMMC, run the following command:
 
 Switch the board pins to burn mode ``0 0 0 1``.
-![](image/burn_status.jpg)
+![](/img/pi-one/linux-kernel/burn_status.jpg)
 ~~~
 sudo ~/bin/uuu -b emmc_all imx-boot-imx8mpevk-sd.bin-flash_evk imx-image-full-imx8mp-lpddr4-evk.wic.zst
 ~~~
 After burning, switch the board pins to system running mode ``0 0 1 0``, then reset and reboot the system.
-![](image/run_status.jpg)
+![](/img/pi-one/linux-kernel/run_status.jpg)
 You can also directly download the compiled image from the following link:  
 [imx-image-full-imx8mp-lpddr4-evk.wic.zst](https://drive.google.com/drive/folders/1DeiQxV0aQYxEGHuIq0V043Mfd73IX5uA?usp=drive_link)
 

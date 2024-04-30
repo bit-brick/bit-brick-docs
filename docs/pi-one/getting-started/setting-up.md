@@ -26,7 +26,7 @@ The following table shows the USB-PD power mode required to power various Raspbe
 | Raspberry Pi 1 (all models) | 5V/2.5A | [12.5W Micro USB power supply](https://www.raspberrypi.com/products/micro-usb-power-supply/) |
 | Raspberry Pi Zero (all models) | 5V/2.5A | [12.5W Micro USB power supply](https://www.raspberrypi.com/products/micro-usb-power-supply/) |
 
-![Plugging a power supply into a Raspberry Pi](images/peripherals/cable-power.png)
+![Plugging a power supply into a Raspberry Pi](/img/pi-one/getting-started/peripherals/cable-power.png)
 
 Plug your power supply into the port marked "POWER IN", "PWR IN", or "PWR". Some Raspberry Pi models, such as the Zero series, have output USB ports with the same form factor as the power port. Be sure to use the correct port on your Raspberry Pi!
 
@@ -36,7 +36,7 @@ Raspberry Pi models lack onboard storage, so you have to supply it. You can boot
 
 All Raspberry Pi consumer models since the Raspberry Pi 1 Model A+ feature a microSD slot. Your Raspberry Pi automatically boots from the microSD slot when the slot contains a card.
 
-![Inserting a microSD card into a Raspberry Pi](images/peripherals/sd-card.png)
+![Inserting a microSD card into a Raspberry Pi](/img/pi-one/getting-started/peripherals/sd-card.png)
 
 ### Recommended SD cards
 
@@ -54,13 +54,13 @@ Other operating systems have different requirements. Check the documentation for
 
 You can use any of the USB ports on your Raspberry Pi to connect a [wired keyboard](https://www.raspberrypi.com/products/raspberry-pi-keyboard-and-hub/) or USB Bluetooth receiver.
 
-![Plugging a keyboard into a Raspberry Pi](images/peripherals/cable-key.png)
+![Plugging a keyboard into a Raspberry Pi](/img/pi-one/getting-started/peripherals/cable-key.png)
 
 ## Mouse
 
 You can use any of the USB ports on your Raspberry Pi to connect a [wired mouse](https://www.raspberrypi.com/products/raspberry-pi-mouse/) or USB Bluetooth receiver.
 
-![Plugging a mouse into a Raspberry Pi](images/peripherals/cable-mouse.png)
+![Plugging a mouse into a Raspberry Pi](/img/pi-one/getting-started/peripherals/cable-mouse.png)
 
 ## Display
 
@@ -82,7 +82,7 @@ If your Raspberry Pi has more than one HDMI port, plug your primary monitor into
 
 Most displays don't have micro or mini HDMI ports. However, you can use a [micro-HDMI-to-HDMI cable](https://www.raspberrypi.com/products/micro-hdmi-to-standard-hdmi-a-cable/) or [mini-HDMI-to-HDMI cable](https://www.raspberrypi.com/products/standard-hdmi-a-male-to-mini-hdmi-c-male-cable/) to connect those ports on your Raspberry Pi to any HDMI display. For displays that don't support HDMI, consider an adapter that translates display output from HDMI to a port supported by your display.
 
-![Plugging a micro HDMI cable into a Raspberry Pi](images/peripherals/cable-hdmi.png)
+![Plugging a micro HDMI cable into a Raspberry Pi](/img/pi-one/getting-started/peripherals/cable-hdmi.png)
 
 ## Audio
 
@@ -101,4 +101,4 @@ The following Raspberry Pi models come with Wi-Fi and Bluetooth connectivity:
 
 The "Model B" suffix indicates variants with an Ethernet port; "Model A" indicates no Ethernet port. If your Raspberry Pi doesn't have an Ethernet port, you can still connect to a wired internet connection using a USB-to-Ethernet adapter.
 
-![Plugging an Ethernet cable into a Raspberry Pi](images/peripherals/cable-net.png)
+![Plugging an Ethernet cable into a Raspberry Pi](/img/pi-one/getting-started/peripherals/cable-net.png)

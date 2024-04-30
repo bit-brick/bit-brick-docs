@@ -4,7 +4,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
   title: 'Bit-Brick',
-  tagline: 'Dinosaurs are cool',
+  tagline: 'Bit-Brick are cool',
   favicon: 'img/favicon.ico',
   // Set the production url of your site here
   url: 'https://bit-brick.github.io',
@@ -38,7 +38,7 @@ const config: Config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+            'https://github.com/bit-brick/bit-brick-docs/tree/main/',
         },
         // blog: {
         //   showReadingTime: true,
@@ -62,7 +62,9 @@ const config: Config = {
       logo: {
         alt: 'Bit-Brick Logo',
         src: 'img/logo.png',
+        srcDark: 'img/logo_white.png',
         href: 'http://8.129.16.106:8080/',
+        target: '_self',
       },
       items: [
         // {
@@ -73,8 +75,18 @@ const config: Config = {
         // },
         {
           to: '/',
-          position: 'left',
+          position: 'right',
           label: 'Documentation',
+        },
+        {
+          label: 'About us',
+          href: 'http://8.129.16.106:8080/about-us',
+          position: 'right',
+        },
+        {
+          label: ' Community',
+          href: 'http://bbs.lacrimosa.cn/',
+          position: 'right',
         },
         {
           href: 'https://github.com/bit-brick',
@@ -84,19 +96,29 @@ const config: Config = {
       ],
     },
     footer: {
-      style: 'dark',
+      style: 'light',
+      logo: {
+        alt: 'Bit-Brick Logo',
+        src: 'img/logo.png',
+        srcDark: 'img/logo_white.png',
+        href: 'http://8.129.16.106:8080/',
+        target: '_self',
+        width: 51,
+        height: 51,
+      },
+      
       links: [
         {
-          title: 'Docs',
+          title: ' ',
           items: [
             {
-              label: 'Tutorial',
+              label: ' ',
               to: '/pi-one/docs/intro',
             },
           ],
         },
         {
-          title: 'Community',
+          title: 'Follow us',
           items: [
             {
               label: 'Stack Overflow',
@@ -110,18 +132,35 @@ const config: Config = {
               label: 'Twitter',
               href: 'https://twitter.com/docusaurus',
             },
+            {
+              label: 'Youtube',
+              href: 'https://twitter.com/docusaurus',
+            },
+            {
+              label: 'Facebook',
+              href: 'https://twitter.com/docusaurus',
+            },
           ],
         },
         {
-          title: 'More',
+          title: 'About Bit-Brick',
           items: [
             {
               label: 'GitHub',
               href: 'https://github.com/bit-brick',
             },
+            {
+              label: 'About us',
+              href: 'http://8.129.16.106:8080/about-us',
+            },
+            {
+              label: ' Community',
+              href: 'http://bbs.lacrimosa.cn/',
+            },
           ],
         },
       ],
+     
       copyright: `Copyright © ${new Date().getFullYear()} Bit-Brick`,
     },
     prism: {
