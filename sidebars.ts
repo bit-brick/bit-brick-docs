@@ -85,7 +85,7 @@ const sidebars: SidebarsConfig = {
       items: [
         {
           type: 'doc',
-          id: 'pi-one/pi-one-hardware/hardware',
+          id: 'pi-one/pi-one-hardware/hardware-brief',
         },
       ],
     },
