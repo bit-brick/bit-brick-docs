@@ -54,120 +54,114 @@ const config: Config = {
     ],
   ],
 
-  themeConfig: {
-    // Replace with your project's social card
-    image: 'img/docusaurus-social-card.jpg',
-    navbar: {
-      title: 'Bit-Brick',
-      logo: {
-        alt: 'Bit-Brick Logo',
-        src: 'img/logo.png',
-        srcDark: 'img/logo_white.png',
-        href: 'http://8.129.16.106:8080/',
-        target: '_self',
-      },
-      items: [
-        // {
-        //   type: 'docSidebar',
-        //   sidebarId: 'tutorialSidebar',
-        //   position: 'left',
-        //   label: 'Documentation',
-        // },
-        {
-          to: '/',
-          position: 'right',
-          label: 'Documentation',
-        },
-        {
-          label: 'About us',
-          href: 'http://8.129.16.106:8080/about-us',
-          position: 'right',
-        },
-        {
-          label: ' Community',
-          href: 'http://bbs.lacrimosa.cn/',
-          position: 'right',
-        },
-        {
-          href: 'https://github.com/bit-brick',
-          label: 'GitHub',
-          position: 'right',
-        },
-      ],
-    },
-    footer: {
-      style: 'light',
-      logo: {
-        alt: 'Bit-Brick Logo',
-        src: 'img/logo.png',
-        srcDark: 'img/logo_white.png',
-        href: 'http://8.129.16.106:8080/',
-        target: '_self',
-        width: 51,
-        height: 51,
-      },
+  // themeConfig: {
+  //   // Replace with your project's social card
+  //   // image: 'img/docusaurus-social-card.jpg',
+  //   // navbar: {
+  //   //   title: 'Bit-Brick',
+  //   //   logo: {
+  //   //     alt: 'Bit-Brick Logo',
+  //   //     src: 'img/logo.png',
+  //   //     srcDark: 'img/logo_white.png',
+  //   //     href: 'http://8.129.16.106:8080/',
+  //   //     target: '_self',
+  //   //   },
+  //   //   items: [
+  //   //     {
+  //   //       to: '/',
+  //   //       position: 'right',
+  //   //       label: 'Documentation',
+  //   //     },
+  //   //     {
+  //   //       label: 'About us',
+  //   //       href: 'http://8.129.16.106:8080/about-us',
+  //   //       position: 'right',
+  //   //     },
+  //   //     {
+  //   //       label: ' Community',
+  //   //       href: 'http://bbs.lacrimosa.cn/',
+  //   //       position: 'right',
+  //   //     },
+  //   //     {
+  //   //       href: 'https://github.com/bit-brick',
+  //   //       label: 'GitHub',
+  //   //       position: 'right',
+  //   //     },
+  //   //   ],
+  //   // },
+  //   // footer: {
+  //   //   style: 'light',
+  //   //   logo: {
+  //   //     alt: 'Bit-Brick Logo',
+  //   //     src: 'img/logo.png',
+  //   //     srcDark: 'img/logo_white.png',
+  //   //     href: 'http://8.129.16.106:8080/',
+  //   //     target: '_self',
+  //   //     width: 51,
+  //   //     height: 51,
+  //   //   },
       
-      links: [
-        {
-          title: ' ',
-          items: [
-            {
-              label: ' ',
-              to: '/pi-one/docs/intro',
-            },
-          ],
-        },
-        {
-          title: 'Follow us',
-          items: [
-            {
-              label: 'Stack Overflow',
-              href: 'https://stackoverflow.com/questions/tagged/docusaurus',
-            },
-            {
-              label: 'Discord',
-              href: 'https://discordapp.com/invite/docusaurus',
-            },
-            {
-              label: 'Twitter',
-              href: 'https://twitter.com/docusaurus',
-            },
-            {
-              label: 'Youtube',
-              href: 'https://twitter.com/docusaurus',
-            },
-            {
-              label: 'Facebook',
-              href: 'https://twitter.com/docusaurus',
-            },
-          ],
-        },
-        {
-          title: 'About Bit-Brick',
-          items: [
-            {
-              label: 'GitHub',
-              href: 'https://github.com/bit-brick',
-            },
-            {
-              label: 'About us',
-              href: 'http://8.129.16.106:8080/about-us',
-            },
-            {
-              label: ' Community',
-              href: 'http://bbs.lacrimosa.cn/',
-            },
-          ],
-        },
-      ],
+  //   //   links: [
+  //   //     {
+  //   //       title: ' ',
+  //   //       items: [
+  //   //         {
+  //   //           label: ' ',
+  //   //           to: '/pi-one/docs/intro',
+  //   //         },
+  //   //       ],
+  //   //     },
+  //   //     {
+  //   //       title: 'Follow us',
+  //   //       items: [
+  //   //         {
+  //   //           label: 'Stack Overflow',
+  //   //           href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+  //   //         },
+  //   //         {
+  //   //           label: 'Discord',
+  //   //           href: 'https://discordapp.com/invite/docusaurus',
+  //   //         },
+  //   //         {
+  //   //           label: 'Twitter',
+  //   //           href: 'https://twitter.com/docusaurus',
+  //   //         },
+  //   //         {
+  //   //           label: 'Youtube',
+  //   //           href: 'https://twitter.com/docusaurus',
+  //   //         },
+  //   //         {
+  //   //           label: 'Facebook',
+  //   //           href: 'https://twitter.com/docusaurus',
+  //   //         },
+  //   //       ],
+  //   //     },
+  //   //     {
+  //   //       title: 'About Bit-Brick',
+  //   //       items: [
+  //   //         {
+  //   //           label: 'GitHub',
+  //   //           href: 'https://github.com/bit-brick',
+  //   //         },
+  //   //         {
+  //   //           label: 'About us',
+  //   //           href: 'http://8.129.16.106:8080/about-us',
+  //   //         },
+  //   //         {
+  //   //           label: ' Community',
+  //   //           href: 'http://bbs.lacrimosa.cn/',
+  //   //         },
+  //   //       ],
+  //   //     },
+  //   //   ],
      
-      copyright: `Copyright © ${new Date().getFullYear()} Bit-Brick`,
-    },
-    prism: {
-      theme: prismThemes.github,
-      darkTheme: prismThemes.dracula,
-    },
-  } satisfies Preset.ThemeConfig,
+  //   //   copyright: `Copyright © ${new Date().getFullYear()} Bit-Brick`,
+  //   // },
+  //   // prism: {
+  //   //   theme: prismThemes.github,
+  //   //   darkTheme: prismThemes.dracula,
+  //   // },
+  // } satisfies Preset.ThemeConfig,
 };
 
 export default config;
