@@ -74,31 +74,48 @@ const sidebars: SidebarsConfig = {
       items: [
         {
           type: 'doc',
+          label: 'PI One Hardware Brief',
           id: 'pi-one/pi-one-hardware/hardware-brief',
         },
         {
           type: 'doc',
+          label: 'PI One Audio Hardware Introduction',
           id: 'pi-one/pi-one-hardware/audio-hardware-introduction',
         },
         {
           type: 'doc',
+          label: 'PI One GPIO And 40 Pin Header',
           id: 'pi-one/pi-one-hardware/GPIO-and-40-pin-header',
         },
         {
           type: 'doc',
+          label: 'PI One Hardware Design Resources',
           id: 'pi-one/pi-one-hardware/hardware-design-resources',
         },
         {
           type: 'doc',
+          label: 'PI One Camera Interface',
           id: 'pi-one/pi-one-hardware/camera-interface',
         },
         {
           type: 'doc',
+          label: 'PI One Lcd Interface',
           id: 'pi-one/pi-one-hardware/lcd-interface',
         },
         {
           type: 'doc',
+          label: 'PI One Power Sequence',
           id: 'pi-one/pi-one-hardware/power-sequence',
+        },
+        {
+          type: 'doc',
+          label: 'PI One Processor Brief',
+          id: 'pi-one/pi-one-hardware/processor-brief',
+        },
+        {
+          type: 'doc',
+          label: 'PI One Display Interface',
+          id: 'pi-one/pi-one-hardware/display-interface',
         }
       ],
     },
