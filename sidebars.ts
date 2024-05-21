@@ -70,23 +70,53 @@ const sidebars: SidebarsConfig = {
     {
       type: 'category',
       collapsed: true,
-      label: 'PI one uboot',
-      items: [
-        {
-          type: 'doc',
-          id: 'pi-one/pi-one-uboot/uboot',
-        },
-      ],
-    },
-    {
-      type: 'category',
-      collapsed: true,
       label: 'PI one hardware',
       items: [
         {
           type: 'doc',
+          label: 'PI One Hardware Brief',
           id: 'pi-one/pi-one-hardware/hardware-brief',
         },
+        {
+          type: 'doc',
+          label: 'PI One Audio Hardware Introduction',
+          id: 'pi-one/pi-one-hardware/audio-hardware-introduction',
+        },
+        {
+          type: 'doc',
+          label: 'PI One GPIO And 40 Pin Header',
+          id: 'pi-one/pi-one-hardware/GPIO-and-40-pin-header',
+        },
+        {
+          type: 'doc',
+          label: 'PI One Hardware Design Resources',
+          id: 'pi-one/pi-one-hardware/hardware-design-resources',
+        },
+        {
+          type: 'doc',
+          label: 'PI One Camera Interface',
+          id: 'pi-one/pi-one-hardware/camera-interface',
+        },
+        {
+          type: 'doc',
+          label: 'PI One Lcd Interface',
+          id: 'pi-one/pi-one-hardware/lcd-interface',
+        },
+        {
+          type: 'doc',
+          label: 'PI One Power Sequence',
+          id: 'pi-one/pi-one-hardware/power-sequence',
+        },
+        {
+          type: 'doc',
+          label: 'PI One Processor Brief',
+          id: 'pi-one/pi-one-hardware/processor-brief',
+        },
+        {
+          type: 'doc',
+          label: 'PI One Display Interface',
+          id: 'pi-one/pi-one-hardware/display-interface',
+        }
       ],
     },
     {
@@ -98,27 +128,57 @@ const sidebars: SidebarsConfig = {
           type: 'doc',
           id: 'pi-one/pi-one-software/GPIOs-functions',
         },
-      ],
-    },
-    {
-      type: 'category',
-      collapsed: true,
-      label: 'PI one camera',
-      items: [
         {
           type: 'doc',
-          id: 'pi-one/pi-one-camera/camera',
+          id: 'pi-one/pi-one-software/camera-configuration',
         },
-      ],
-    },
-    {
-      type: 'category',
-      collapsed: true,
-      label: 'PI one display',
-      items: [
         {
           type: 'doc',
-          id: 'pi-one/pi-one-display/display',
+          id: 'pi-one/pi-one-software/can-bus-configuration',
+        },
+        {
+          type: 'doc',
+          id: 'pi-one/pi-one-software/display-configuration',
+        },
+        {
+          type: 'doc',
+          id: 'pi-one/pi-one-software/ethernet-configuration',
+        },
+        {
+          type: 'doc',
+          id: 'pi-one/pi-one-software/I2C-configuration',
+        },
+        {
+          type: 'doc',
+          id: 'pi-one/pi-one-software/linux-kernel',
+        },
+        {
+          type: 'doc',
+          id: 'pi-one/pi-one-software/PCIE-configuration',
+        },
+        {
+          type: 'doc',
+          id: 'pi-one/pi-one-software/pwm',
+        },
+        {
+          type: 'doc',
+          id: 'pi-one/pi-one-software/spi-configuration',
+        },
+        {
+          type: 'doc',
+          id: 'pi-one/pi-one-software/uart-configuration',
+        },
+        {
+          type: 'doc',
+          id: 'pi-one/pi-one-software/uboot',
+        },
+        {
+          type: 'doc',
+          id: 'pi-one/pi-one-software/USB-configuration',
+        },
+        {
+          type: 'doc',
+          id: 'pi-one/pi-one-software/wifi-and-bluetooth',
         },
       ],
     },

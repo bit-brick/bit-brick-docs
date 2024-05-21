@@ -1,3 +1,0 @@
-# Camera 
-
-## to be continued
