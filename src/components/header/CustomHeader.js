@@ -1,9 +1,9 @@
 // src/components/CustomHeader.js
 import React from 'react';
-import './CustomHeader.css'; // Ensure you import the relevant CSS
 
 const CustomHeader = () => (
-  <header className="site-header header-main-layout-1 ast-primary-menu-enabled ast-logo-title-inline ast-hide-custom-menu-mobile ast-builder-menu-toggle-icon ast-mobile-header-inline" id="masthead" itemType="https://schema.org/WPHeader" itemScope itemID="#masthead">
+  <div className='custom-header'>
+    <header className="site-header header-main-layout-1 ast-primary-menu-enabled ast-logo-title-inline ast-hide-custom-menu-mobile ast-builder-menu-toggle-icon ast-mobile-header-inline" id="masthead" itemType="https://schema.org/WPHeader" itemScope itemID="#masthead">
     <div id="ast-desktop-header" data-toggle-type="dropdown">
       <div className="ast-main-header-wrap main-header-bar-wrap">
         <div className="ast-primary-header-bar ast-primary-header main-header-bar site-header-focus-item" data-section="section-primary-header-builder">
@@ -102,6 +102,7 @@ const CustomHeader = () => (
       </div>
     </div>
   </header>
+  </div>
 );
 
 export default CustomHeader;

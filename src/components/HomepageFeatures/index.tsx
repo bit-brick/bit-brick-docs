@@ -74,7 +74,7 @@ const FeatureList: FeatureItem[] = [
 
 function Feature({title, imageSrc, description, url}: FeatureItem) {
   return (
-    <div className={clsx('col col--4', styles.customCol)}>
+    <div className={clsx('col col--4')}>
       <div className={styles.block}>
       <div className="text--center">
       <a href={url}  rel="noopener noreferrer">

@@ -1,9 +1,9 @@
 // src/components/CustomFooter.js
 import React from 'react';
-import './CustomFooter.css';
 
 const CustomFooter = () => (
-  <footer className="site-footer" id="colophon" itemType="https://schema.org/WPFooter" itemScope itemID="#colophon">
+  <div className='custom-footer'>
+    <footer className="site-footer" id="colophon" itemType="https://schema.org/WPFooter" itemScope itemID="#colophon">
     <div className="site-above-footer-wrap ast-builder-grid-row-container site-footer-focus-item ast-builder-grid-row-4-equal ast-builder-grid-row-tablet-4-equal ast-builder-grid-row-mobile-full ast-footer-row-inline ast-footer-row-tablet-stack ast-footer-row-mobile-stack" data-section="section-above-footer-builder">
       <div className="ast-builder-grid-row-container-inner">
         <div className="ast-builder-footer-grid-columns site-above-footer-inner-wrap ast-builder-grid-row">
@@ -134,6 +134,7 @@ const CustomFooter = () => (
       </div>
     </div>
   </footer>
+  </div>
 );
 
 export default CustomFooter;

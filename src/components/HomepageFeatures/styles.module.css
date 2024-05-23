@@ -18,7 +18,3 @@
   margin: 20px 0px;
   padding: 10px;
 }
-
-.customCol{
-  flex: 1 1 calc(33.333% - 2rem) !important;
-}
