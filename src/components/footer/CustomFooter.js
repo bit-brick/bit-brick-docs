@@ -12,7 +12,7 @@ const CustomFooter = () => (
               <section id="block-58" className="widget widget_block">
                 <div className="wp-block-group is-nowrap is-layout-flex wp-container-core-group-is-layout-13 wp-block-group-is-layout-flex">
                   <figure className="wp-block-image size-full is-resized">
-                    <img loading="lazy" decoding="async" width="686" height="756" src="http://8.129.16.106:8080/wp-content/uploads/2024/04/b8307ac25a3c1cb979327a9d176b207.png" alt="" className="wp-image-270" style={{width: '40px'}} srcSet="http://8.129.16.106:8080/wp-content/uploads/2024/04/b8307ac25a3c1cb979327a9d176b207.png 686w, http://8.129.16.106:8080/wp-content/uploads/2024/04/b8307ac25a3c1cb979327a9d176b207-272x300.png 272w" sizes="(max-width: 686px) 100vw, 686px" />
+                    <img loading="lazy" decoding="async" width="686" height="756" src="https://www.bit-brick.com/wp-content/uploads/2024/04/b8307ac25a3c1cb979327a9d176b207.png" alt="" className="wp-image-270" style={{width: '40px'}} srcSet="https://www.bit-brick.com/wp-content/uploads/2024/04/b8307ac25a3c1cb979327a9d176b207.png 686w, https://www.bit-brick.com/wp-content/uploads/2024/04/b8307ac25a3c1cb979327a9d176b207-272x300.png 272w" sizes="(max-width: 686px) 100vw, 686px" />
                   </figure>
                   <h2 className="wp-block-heading">BIT-BRICK</h2>
                 </div>
@@ -87,16 +87,16 @@ const CustomFooter = () => (
                           <a href="https://github.com/bit-brick" className="menu-link">Github</a>
                         </li>
                         <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-547">
-                          <a href="http://8.129.16.106:8080/blog/" className="menu-link">News</a>
+                          <a href="https://www.bit-brick.com/blog/" className="menu-link">News</a>
                         </li>
                         <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-525">
-                          <a href="http://8.129.16.106:8080/test/" className="menu-link">Documentation</a>
+                          <a href="./" className="menu-link">Documentation</a>
                         </li>
                         <li className="menu-item menu-item-type-custom menu-item-object-custom menu-item-249">
                           <a href="http://bbs.lacrimosa.cn/" className="menu-link">Community</a>
                         </li>
                         <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-98">
-                          <a href="http://8.129.16.106:8080/about-us/" className="menu-link">About us</a>
+                          <a href="https://www.bit-brick.com/about-us/" className="menu-link">About us</a>
                         </li>
                       </ul>
                     </nav>
