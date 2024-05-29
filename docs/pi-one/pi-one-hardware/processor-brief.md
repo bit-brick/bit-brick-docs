@@ -1,6 +1,6 @@
-# MX 8M Plus
+# I.MX 8M Plus
 
-The i.MX 8M Plus family focuses on machine learning and vision, advanced multimedia, and industrial automation with high reliability. It is built to meet the needs of Smart Home, Building, City and Industry 4.0 applications.
+The I.MX 8M Plus family focuses on machine learning and vision, advanced multimedia, and industrial automation with high reliability. It is built to meet the needs of Smart Home, Building, City and Industry 4.0 applications.
 ![img](/img/pi-one/hardware/processor-brief/architecture.png)
 
 ## Features
