@@ -12,7 +12,7 @@ const CustomFooter = () => (
               <section id="block-58" className="widget widget_block">
                 <div className="wp-block-group is-nowrap is-layout-flex wp-container-core-group-is-layout-13 wp-block-group-is-layout-flex">
                   <figure className="wp-block-image size-full is-resized">
-                    <img loading="lazy" decoding="async" width="686" height="756" src="https://www.bit-brick.com/wp-content/uploads/2024/04/b8307ac25a3c1cb979327a9d176b207.png" alt="" className="wp-image-270" style={{width: '40px'}} srcSet="https://www.bit-brick.com/wp-content/uploads/2024/04/b8307ac25a3c1cb979327a9d176b207.png 686w, https://www.bit-brick.com/wp-content/uploads/2024/04/b8307ac25a3c1cb979327a9d176b207-272x300.png 272w" sizes="(max-width: 686px) 100vw, 686px" />
+                    <img loading="lazy" decoding="async" width="686" height="756" src="https://www.bit-brick.com/wp-content/uploads/2024/05/logo3.png" alt="" className="wp-image-270" style={{width: '40px'}} srcSet="https://www.bit-brick.com/wp-content/uploads/2024/05/logo3.png 686w, https://www.bit-brick.com/wp-content/uploads/2024/04/b8307ac25a3c1cb979327a9d176b207-272x300.png 272w" sizes="(max-width: 686px) 100vw, 686px" />
                   </figure>
                   <h2 className="wp-block-heading">BIT-BRICK</h2>
                 </div>
