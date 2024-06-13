@@ -33,7 +33,7 @@ const CustomHeader = () => (
                             <li id="menu-item-231" className="menu-item menu-item-type-custom menu-item-object-custom menu-item-231"><a href="https://github.com/bit-brick" className="menu-link">Github</a></li>
                             <li id="menu-item-547" className="menu-item menu-item-type-post_type menu-item-object-page menu-item-547"><a href="https://www.bit-brick.com/blog/" aria-current="page" className="menu-link">News</a></li>
                             <li id="menu-item-525" className="menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-533 current_page_item  menu-item-525"><a href="./" className="menu-link">Documentation</a></li>
-                            <li id="menu-item-249" className="menu-item menu-item-type-custom menu-item-object-custom menu-item-249"><a href="http://bbs.lacrimosa.cn/" className="menu-link">Community</a></li>
+                            <li id="menu-item-249" className="menu-item menu-item-type-custom menu-item-object-custom menu-item-249"><a href="https://discourse.bit-brick.com/" className="menu-link">Community</a></li>
                             <li id="menu-item-98" className="menu-item menu-item-type-post_type menu-item-object-page menu-item-98"><a href="https://www.bit-brick.com/about-us/" className="menu-link">About us</a></li>
                           </ul>
                         </div>
@@ -91,7 +91,7 @@ const CustomHeader = () => (
                       <li id="menu-item-546" className="menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-533 current_page_item menu-item-546"><a href="https://www.bit-brick.com/blog/" aria-current="page" className="menu-link">News</a></li>
                       <li id="menu-item-526" className="menu-item menu-item-type-post_type menu-item-object-page menu-item-526"><a href="./" className="menu-link">Documentation</a></li>
                       <li id="menu-item-112" className="menu-item menu-item-type-post_type menu-item-object-page menu-item-112"><a href="https://www.bit-brick.com/about-us/" className="menu-link">About us</a></li>
-                      <li id="menu-item-290" className="menu-item menu-item-type-custom menu-item-object-custom menu-item-290"><a href="http://bbs.lacrimosa.cn/" className="menu-link">community</a></li>
+                      <li id="menu-item-290" className="menu-item menu-item-type-custom menu-item-object-custom menu-item-290"><a href="https://discourse.bit-brick.com/" className="menu-link">community</a></li>
                     </ul>
                   </div>
                 </nav>

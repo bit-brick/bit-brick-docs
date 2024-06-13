@@ -1,22 +1,36 @@
 # Set up your Pi One
+
 After installing an operating system image, connect your storage device to your Pi One.
+
 ![](https://www.bit-brick.com/wp-content/uploads/2024/04/5d3a2d77e7619a6c3568569d3952692-1024x614.png)
-## Power
-Connect the power supply
+
+## 电源
+接入电源
 ![power_connect](/img/pi-one/getting-started/peripherals/power_connect.jpg)
-## Display
-Connect the display
+
+## 显示器
+接入显示器
 ![display_connect](/img/pi-one/getting-started/peripherals/display_connect.jpg)
+
 ## USB
-Connect the USB mouse and keyboard
+接入USB鼠标键盘
 ![usb_connect](/img/pi-one/getting-started/peripherals/usb_connect.jpg)
-## Ethernet
-Connect the network
+
+
+## 以太网
+接入网络
 ![network_connect](/img/pi-one/getting-started/peripherals/network_connect.jpg)
-## SD card
-Insert the SD card
+
+## sd card
+sd 卡插入
 ![sd_card](/img/pi-one/getting-started/peripherals/sd_card.jpg)
-## Boot the system
-After successfully burning the TF card according to the above steps, insert the TF card into the TF slot of (as shown in the figure below), use the power adapter to power on, and then the system starts to boot, and the HDMI displays the desktop.
-## Log in to the system
-After the system starts, the user name of the ubuntu system is `user`, and the password is `user`.
+
+## 启动系统
+
+按照上述步骤成功烧录 TF 卡后， 将 TF 卡插入  的
+TF 插槽内（如下图所示）， 使用  
+电源适配器上电，然后系统开始启动，HDMI显示桌面。
+
+## 登录系统
+
+系统启动后，ubuntu系统的用户名为 `user` ，密码为 `user`。

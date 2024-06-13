@@ -18,22 +18,13 @@ const sidebars: SidebarsConfig = {
   
   tutorialSidebar: [
     {
-      type: 'doc',
-      id: 'pi-one/intro',
-      label: 'Pi One intro',
-    },
-    {
       type: 'category',
       collapsed: true,
       label: 'Getting Started',
       items: [
         {
           type: 'doc',
-          id: 'pi-one/getting-started/setting-up',
-        },
-        {
-          type: 'doc',
-          id: 'pi-one/getting-started/configuring',
+          id: 'pi-one/getting-started/preparation',
         },
         {
           type: 'doc',
@@ -41,8 +32,9 @@ const sidebars: SidebarsConfig = {
         },
         {
           type: 'doc',
-          id: 'pi-one/getting-started/wrapping-up',
+          id: 'pi-one/getting-started/configuring',
         },
+        
       ],
     },
     {

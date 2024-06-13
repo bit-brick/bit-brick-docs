@@ -14,14 +14,9 @@ const FeatureList: FeatureItem[] = [
     title: 'Getting started',
     imageSrc: require('@site/static/img/index/Getting-Started.png').default,
     description: (<>How to get started with your Raspberry Pi</>),
-    url: "docs/pi-one/getting-started/setting-up"
+    url: "docs/pi-one/getting-started/preparation"
   },
-  {
-    title: 'Pi one intro',
-    imageSrc: require('@site/static/img/index/Compute-Module-Hardware.png').default,
-    description: (<>Welcome to Bit-Brick and meet with Pi one</>),
-    url: "docs/pi-one/intro"
-  },
+  
   {
     title: 'Pi one OS',
     imageSrc: require('@site/static/img/index/Raspberry-Pi-OS.png').default,

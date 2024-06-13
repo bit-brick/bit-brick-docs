@@ -1,156 +1,91 @@
-# Install an operating system
+# Install an Operating System
 
-To use your Raspberry Pi, you'll need an operating system. By default, Raspberry Pis check for an operating system on any SD card inserted in the SD card slot.
+Pi one Linux image download links:  
+[yocto bsp](https://drive.google.com/drive/folders/1DeiQxV0aQYxEGHuIq0V043Mfd73IX5uA?usp=drive_link)
 
-Depending on your Raspberry Pi model, you can also boot an operating system from other storage devices, including USB drives, storage connected via a HAT, and network storage.
+[ubuntu](https://drive.google.com/drive/folders/1DeiQxV0aQYxEGHuIq0V043Mfd73IX5uA?usp=drive_link)
 
-## Requirements
+## Method for Writing Linux Images to TF Cards Based on Windows PC
 
-To install an operating system on a storage device for your Raspberry Pi, you'll need:
+### Using balenaEtcher to Write Linux Images
 
-- a computer you can use to image the storage device into a boot device
-- a way to plug your storage device into that computer
+1. First, prepare a TF card with a capacity of 16GB or larger. The transfer speed of the TF card must be class 10 or above. It is recommended to use brands like SanDisk.
 
-Most Raspberry Pi users choose microSD cards as their boot device.
+2. Then, use a card reader to insert the TF card into the computer.
 
-## Recommended Installation Method
+3. Locate the downloaded Linux operating system image file package, then use decompression software to extract it. The file ending in ".wic" in the extracted files is the operating system image file, usually larger than 1GB.
 
-We recommend installing an operating system using [Raspberry Pi Imager](https://www.raspberrypi.com/software/getting-started/#raspberry-pi-imager).
+4. Next, download the Linux image writing software - balenaEtcher, available at
+[https://www.balena.io/etcher/](https://www.balena.io/etcher/)
 
-Raspberry Pi Imager is a tool that helps you download and write images on macOS, Windows, and Linux. Imager includes many popular operating system images for Raspberry Pi. It also supports loading images downloaded directly from [Raspberry Pi](https://www.raspberrypi.com/software/operating-systems/) or third-party vendors such as [Ubuntu](https://ubuntu.com/download/raspberry-pi). You can use Imager to preconfigure credentials and remote access settings for your Raspberry Pi.
+5. On the balenaEtcher download page, click the green download button to proceed to the software download section.
+![balena_download](/img/pi-one/getting-started/install/balena_download.png)
 
-Imager supports images packaged in the `.img` format as well as container formats like `.zip`.
+6. You can choose to download the portable version of balenaEtcher, which doesn't require installation and can be used by double-clicking to open it.
+![balena_download](/img/pi-one/getting-started/install/balena_download1.png)
 
-If you have no other computer to write an image to a boot device, you may be able to install an operating system [directly on your Raspberry Pi from the internet](#install-over-the-network).
+7. If you downloaded the installable version of balenaEtcher, install it first before using it. If you downloaded the portable version, simply double-click to open it. The interface of balenaEtcher after opening is shown below.
+![balena1](/img/pi-one/getting-started/install/balenaEtcher_001.png)
 
-## Install using Imager
+8. The specific steps to use balenaEtcher to write a Linux image are as follows:
 
-You can install Imager in the following ways:
+    - First, select the path of the Linux image file to be written.
 
-- Download the latest version from [raspberrypi.com/software](https://www.raspberrypi.com/software/) and run the installer.
-- Install it from a terminal using your package manager, e.g., `sudo apt install rpi-imager`.
+    - Then, select the drive letter of the TF card.
 
-Once you've installed Imager, launch the application by clicking the Raspberry Pi Imager icon or running `rpi-imager`.
+    - Finally, click Flash to start writing the Linux image to the TF card.
 
-![Raspberry Pi Imager main window](/img/pi-one/getting-started/imager/welcome.png)
+    ![balena1](/img/pi-one/getting-started/install/balenaEtcher_002.png)
 
-Click **Choose device** and select your Raspberry Pi model from the list.
+9. The interface displayed during the process of balenaEtcher writing the Linux image is shown below. The purple progress bar indicates that the Linux image is being written to the TF card.
+![balena1_flashing](/img/pi-one/getting-started/install/balenaEtcher_Flashing.png)
 
-![Raspberry Pi model selections in Imager](/img/pi-one/getting-started/imager/choose-model.png)
+10. After writing the Linux image, balenaEtcher will, by default, verify the image written to the TF card to ensure there were no issues during the process. As shown below, a green progress bar indicates that the image has been written, and balenaEtcher is verifying the written image.
+![balena1_flashing](/img/pi-one/getting-started/install/balenaEtcher_Validating.png)
 
-Next, click **Choose OS** and select an operating system to install. Imager always shows the recommended version of Raspberry Pi OS for your model at the top of the list.
+11. After successfully writing, the display interface of balenaEtcher is shown below. If a green indicator icon is displayed, it means the image writing was successful. You can now exit balenaEtcher and insert the TF card into the TF card slot of the development board for use.
+![balena1_flashing](/img/pi-one/getting-started/install/balenaEtcher_003.png)
 
-![Operating system selections in Imager](/img/pi-one/getting-started/imager/choose-os.png)
+## Method for Writing Linux Images to TF Cards Based on Ubuntu
 
-Connect your preferred storage device to your computer. For example, plug a microSD card in using an external or built-in SD card reader. Then, click **Choose storage** and select your storage device.
+### Using balenaEtcher to Write Linux Images
 
-**WARNING**: If you have more than one storage device connected to your computer, be sure to choose the correct device! You can often identify storage devices by size. If you're unsure, disconnect other devices until you've identified the device you want to image.
+1. First, prepare a TF card with a capacity of 16GB or larger. The transfer speed of the TF card must be class 10 or above. It is recommended to use brands like SanDisk.
 
-![Storage selection options in Imager](/img/pi-one/getting-started/imager/choose-storage.png)
+2. Then, use a card reader to insert the TF card into the computer.
 
-Next, click **Next**.
+3. Locate the downloaded Linux operating system image file package, then use the following command. The file ending in ".wic" in the extracted files is the operating system image file, usually larger than 1GB.
+    ```bash
+    $ zstd -d imx-image-desktop.rootfs.wic.zst 
+    ```
 
-In a popup, Imager will ask you to apply OS customisation. We strongly recommend configuring your Raspberry Pi via the OS customisation settings. Click the **Edit Settings** button to open [OS customisation](#advanced-options).
+4. Next, download the Linux image writing software - balenaEtcher, available at
+[https://www.balena.io/etcher/](https://www.balena.io/etcher/)
 
-If you don't configure your Raspberry Pi via OS customisation settings, Raspberry Pi OS will ask you for the same information at first boot during the [configuration wizard](#configuration-on-first-boot). You can click the **No** button to skip OS customisation.
+5. On the balenaEtcher download page, click the green download button to proceed to the software download section.
+![balena_download](/img/pi-one/getting-started/install/balena_download.png)
 
-## OS customisation
+6. You can choose to download the portable version of balenaEtcher, which doesn't require installation and can be used by double-clicking to open it.
+![balena_download](/img/pi-one/getting-started/install/balena_download_ubuntu.png)
 
-The OS customisation menu lets you set up your Raspberry Pi before first boot. You can preconfigure:
+7. Then, double-click balenaEtcher-1.14.3-x64.AppImage on the Ubuntu PC graphical interface to open balenaEtcher (no installation required). The interface of balenaEtcher after opening is shown below.
+![balena1](/img/pi-one/getting-started/install/balenaEtcher_001.png)
 
-- a username and password
-- Wi-Fi credentials
-- the device hostname
-- the time zone
-- your keyboard layout
-- remote connectivity
+8. The specific steps to use balenaEtcher to write a Linux image are as follows:
 
-When you first open the OS customisation menu, you might see a prompt asking for permission to load Wi-Fi credentials from your host computer. If you respond "yes", Imager will prefill Wi-Fi credentials from the network you're currently connected to. If you respond "no", you can enter Wi-Fi credentials manually.
+    - First, select the path of the Linux image file to be written.
 
-The **hostname** option defines the hostname your Raspberry Pi broadcasts to the network using [mDNS](https://en.wikipedia.org/wiki/Multicast_DNS). When you connect your Raspberry Pi to your network, other devices on the network can communicate with your computer using `<hostname>.local` or `<hostname>.lan`.
+    - Then, select the drive letter of the TF card.
 
-The **username and password** option defines the username and password of the admin user account on your Raspberry Pi.
+    - Finally, click Flash to start writing the Linux image to the TF card.
 
-The **wireless LAN** option allows you to enter an SSID (name) and password for your wireless network. If your network does not broadcast an SSID publicly, you should enable the "Hidden SSID" setting. By default, Imager uses the country you're currently in as the "Wireless LAN country". This setting controls the Wi-Fi broadcast frequencies used by your Raspberry Pi. Enter credentials for the wireless LAN option if you plan to run a headless Raspberry Pi.
+    ![balena1](/img/pi-one/getting-started/install/balenaEtcher_002.png)
 
-The **locale settings** option allows you to define the time zone and default keyboard layout for your Pi.
+9. The interface displayed during the process of balenaEtcher writing the Linux image is shown below. The purple progress bar indicates that the Linux image is being written to the TF card.
+![balena1_flashing](/img/pi-one/getting-started/install/balenaEtcher_Flashing.png)
 
-![General settings in the OS customisation menu](/img/pi-one/getting-started/imager/os-customisation-general.png)
+10. After writing the Linux image, balenaEtcher will, by default, verify the image written to the TF card to ensure there were no issues during the process. As shown below, a green progress bar indicates that the image has been written, and balenaEtcher is verifying the written image.
+![balena1_flashing](/img/pi-one/getting-started/install/balenaEtcher_Validating.png)
 
-The **Services** tab includes settings to help you connect to your Raspberry Pi remotely.
-
-If you plan to use your Raspberry Pi remotely over your network, check the box next to **Enable SSH**. You should enable this option if you plan to run a headless Raspberry Pi.
-
-- Choose the **password authentication** option to SSH into your Raspberry Pi over the network using the username and password you provided in the general tab of OS customisation.
-
-- Choose **Allow public-key authentication only** to preconfigure your Raspberry Pi for passwordless public-key SSH authentication using a private key from the computer you're currently using. If already have an RSA key in your SSH configuration, Imager uses that public key. If you don't, you can click **Run SSH-keygen** to generate a public/private key pair. Imager will use the newly-generated public key.
-
-![Services settings in the OS customisation menu](/img/pi-one/getting-started/imager/os-customisation-services.png)
-
-OS customisation also includes an **Options** menu that allows you to configure the behaviour of Imager during a write. These options allow you to play a noise when Imager finishes verifying an image, to automatically unmount storage media after verification, and to disable telemetry.
-
-![Options in the OS customisation menu](/img/pi-one/getting-started/imager/os-customisation-options.png)
-
-## Write
-
-When you've finished entering OS customisation settings, click **Save** to save your customisation.
-
-Then, click **Yes** to apply OS customisation settings when you write the image to the storage device.
-
-Finally, respond **Yes** to the "Are you sure you want to continue?" popup to begin writing data to the storage device.
-
-![Confirming a reimage of a storage device in Imager](/img/pi-one/getting-started/imager/are-you-sure.png)
-
-If you see an admin prompt asking for permissions to read and write to your storage medium, grant Imager the permissions to proceed.
-
-Grab a cup of coffee or go for a walk. This could take a few minutes.
-
-![Writing an image to a device in Imager](/img/pi-one/getting-started/imager/writing.png)
-
-If you want to live especially dangerously, you can click **cancel verify** to skip the verification process.
-
-![Verifying an image on a device in Imager](/img/pi-one/getting-started/imager/stop-ask-verify.png)
-
-When you see the "Write Successful" popup, your image has been completely written and verified. You're now ready to boot a Raspberry Pi from the storage device!
-
-![The screen Imager shows when it finishes writing an image to a storage device](/img/pi-one/getting-started/imager/finished.png)
-
-Next, proceed to the [first boot configuration instructions](#configuration-on-first-boot) to get your Raspberry Pi up and running.
-
-## Install over the network
-
-Network Install enables a Raspberry Pi to install an operating system on a storage device using a version of Raspberry Pi Imager downloaded over the network. With Network Install, you can get an operating system installed on your Raspberry Pi with no separate SD card reader and no computer other than your Raspberry Pi. You can run Network Install on any compatible storage device, including SD cards and USB storage.
-
-Network Install only runs on Raspberry Pi 4, 400, and 5. If your Raspberry Pi runs an older bootloader, you may need to [update the bootloader](raspberry-pi.adoc#bootloader_update_stable) to use Network Install.
-
-Network Install requires the following:
-
-- a compatible Raspberry Pi model running firmware that supports Network Install
-- a monitor
-- a keyboard
-- a wired internet connection
-
-To launch Network Install, power on your Raspberry Pi while pressing and holding the **SHIFT** key in the following configuration:
-
-- no bootable storage device
-- attached keyboard
-- attached compatible storage device, such as an SD card or USB storage
-
-![The Network Install screen](/img/pi-one/getting-started/network-install-1.png)
-
-If you haven't already connected your Raspberry Pi to the internet, connect it with an Ethernet cable.
-
-![Starting Network Install](/img/pi-one/getting-started/network-install-2.png)
-
-Once you're connected to the internet, your Raspberry Pi will download Raspberry Pi installer. If the download fails, you can repeat the process to try
-## Downloading Imager using Network Install
-
-![Downloading Imager using Network Install](/img/pi-one/getting-started/network-install-3.png)
-
-Once you finish downloading Raspberry Pi Installer, your Raspberry Pi will automatically start Raspberry Pi Imager. For more information about running Raspberry Pi Imager, see [install an operating system](getting-started.adoc#installing-the-operating-system).
-
-## Choose a storage device
-
-![Choose a storage device](/img/pi-one/getting-started/network-install-4.png)
-
-For more information about Network Install configuration, see [HTTP boot](raspberry-pi.adoc#http-boot).
+11. After successfully writing, the display interface of balenaEtcher is shown below. If a green indicator icon is displayed, it means the image writing was successful. You can now exit balenaEtcher and insert the TF card into the TF card slot of the development board for use.
+![balena1_flashing](/img/pi-one/getting-started/install/balenaEtcher_003.png)
