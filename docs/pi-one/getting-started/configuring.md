@@ -1,22 +1,27 @@
 # Set up your Pi One
-After installing an operating system image, connect your storage device to your Pi One.
-![](https://www.bit-brick.com/wp-content/uploads/2024/04/5d3a2d77e7619a6c3568569d3952692-1024x614.png)
-## Power
-Connect the power supply
-![power_connect](/img/pi-one/getting-started/peripherals/power_connect.jpg)
-## Display
-Connect the display
-![display_connect](/img/pi-one/getting-started/peripherals/display_connect.jpg)
-## USB
-Connect the USB mouse and keyboard
-![usb_connect](/img/pi-one/getting-started/peripherals/usb_connect.jpg)
-## Ethernet
-Connect the network
-![network_connect](/img/pi-one/getting-started/peripherals/network_connect.jpg)
-## SD card
-Insert the SD card
-![sd_card](/img/pi-one/getting-started/peripherals/sd_card.jpg)
-## Boot the system
-After successfully burning the TF card according to the above steps, insert the TF card into the TF slot of (as shown in the figure below), use the power adapter to power on, and then the system starts to boot, and the HDMI displays the desktop.
-## Log in to the system
-After the system starts, the user name of the ubuntu system is `user`, and the password is `user`.
+After install the image to the micro SD ,then plug the card in to the PI one card slot.connect the HDMI ,keyboard and the mouse.
+
+![usb](/img/pi-one/getting-started/peripherals/usb_connect.png)
+
+
+Power up the board ,then you will see the board has led shining like that ,it means that the board is working:
+
+![power](/img/pi-one/getting-started/peripherals/power_connect.png)
+
+
+After a few seconds, you can see the ubuntu launch ,
+
+
+## Login to the system
+After the system starts, the user name of the ubuntu system is”user”, and the password is ”user”.
+
+![main](/img/pi-one/getting-started/peripherals/main.png)
+
+## Debugging the booting 
+You can connect the debug port to see the booting process,and it is USB to serial interface ,and you don’t need the converter anymore .
+
+![main](/img/pi-one/getting-started/peripherals/putty_config.png)
+You can use any COM software to see the result ,here we are using the putty.
+
+![main](/img/pi-one/getting-started/peripherals/putty_logs.png)
+

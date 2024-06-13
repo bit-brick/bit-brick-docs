@@ -1,43 +1,84 @@
-# Preparations
+# Getting started with your PI
 
-## Development Preparations
+To get started with your PI one, you’ll need the following:
 
-### Power Supply
+- a power supply
+- boot media (e.g. a microSD card with ample storage and speed)
 
-The Pi One uses a Type-C interface for power supply and supports 5V/12V input.
+You can set up your PI one as an interactive computer with a desktop, or as a headless computer accessible only over the network. To set your PI one up headless, you don’t need any additional peripherals: you can preconfigure a hostname, user account, network connection, and SSH when you install an operating system. If you want to use your PI one directly, you’ll need the following additional accessories:
 
-### Boot Media
+- a display support HDMI
+- HDMI cable
+- a keyboard
+- a mouse
+- USB type C cable
 
-A TF card with a capacity of no less than 16GB, used as the system boot disk.
+## Power supply
 
-### TF Card Reader
+The following table shows the USB-PD power mode required to power various Pi one. You can use any high-quality power supply that provides the correct power mode.
 
-Used to create the system boot disk.
+| Model       | Recommended power supply (voltage/current) |
+|-------------|-------------------------------------------|
+| PI one power supply | 5V@2A |
+| PI zero      | 10W power supply |
+| PI one      | 5V@3A |
+|              | 15W power supply |
 
-### Monitor
+![power](/img/pi-one/getting-started/preparation/power.png)
 
-A monitor with an HDMI interface. The Pi One can support resolutions up to 1920x1080 (i.e., 1080p) at 60Hz.
+Plug your power supply into the port marked "DC-IN".
 
-### Micro HDMI to HDMI Cable
+## Boot media
 
-Used to connect the development board to an HDMI monitor or TV for display.
+All Pi series models lack onboard storage, so you have to supply it. You can boot your Pi from an operating system image installed on supported media: microSD cards are used commonly. All the PI series feature a microSD slot, and the board will boot from the microSD slot when the slot contains a card.
 
-### Network Connection
+![sd_set](/img/pi-one/getting-started/preparation/sd_set.png)
 
-The Pi One has an Ethernet port and can connect to the network via Ethernet.
+### Recommended SD cards
 
-### Heatsink
+We recommend using an SD card with at least 32GB of storage for Pi OS installations.
 
-If there are concerns about the development board's temperature, a heatsink can be added. The heatsink should be attached to the chip.
 
-### USB Hub
+## Keyboard
 
-Used for USB port expansion, allowing the connection of devices such as a USB mouse and USB keyboard.
+You can use any of the USB ports on your PI one to connect a wired keyboard or USB Bluetooth receiver.
 
-### USB Mouse
+![keyboard](/img/pi-one/getting-started/preparation/keyboard_connect.png)
 
-A standard USB mouse will suffice.
+## Mouse
 
-### USB Keyboard
+You can use any of the USB ports on your PI one to connect a wired mouse or USB Bluetooth receiver.
 
-A standard USB keyboard will suffice.
+![mouse](/img/pi-one/getting-started/preparation/mouse_connect.png)
+
+## Display
+
+Pi series have the following display connectivity:
+
+| Model       | Display output       |
+|-------------|----------------------|
+| PI zero     | MIPI DSI             |
+| PI one      | Micro HDMI           |
+|              | MIPI DSI             |
+
+![display_hdmi](/img/pi-one/getting-started/preparation/display_hdmi.png)
+
+Plug your monitor into the port marked HDMI. If you want to use the MIPI DSI, please read the document in the hardware and software part.
+
+## Audio
+
+PI one support audio output over HDMI. All PI series support audio over USB. All Pi series equipped with Bluetooth support Bluetooth audio. PI one also include a 3.5mm auxiliary TRRS jack, which may require amplification for sufficient output volume.
+
+
+
+## Networking
+
+PI one support two Ethernet ports, you can use both of them to connect the network.
+
+![network](/img/pi-one/getting-started/preparation/networking.png)
+
+## Debugging
+
+PI series support USB to serial on board, so if you want to debug, you can directly use a USB type C cable to connect the PC.
+
+![debugging](/img/pi-one/getting-started/preparation/debugging_port.png)

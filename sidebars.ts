@@ -172,6 +172,10 @@ const sidebars: SidebarsConfig = {
           type: 'doc',
           id: 'pi-one/pi-one-software/wifi-and-bluetooth',
         },
+        {
+          type: 'doc',
+          id: 'pi-one/pi-one-software/ros2',
+        },
       ],
     },
     {
