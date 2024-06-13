@@ -93,7 +93,7 @@ const CustomFooter = () => (
                           <a href="./" className="menu-link">Documentation</a>
                         </li>
                         <li className="menu-item menu-item-type-custom menu-item-object-custom menu-item-249">
-                          <a href="http://bbs.lacrimosa.cn/" className="menu-link">Community</a>
+                          <a href="https://discourse.bit-brick.com/" className="menu-link">Community</a>
                         </li>
                         <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-98">
                           <a href="https://www.bit-brick.com/about-us/" className="menu-link">About us</a>
