@@ -17,12 +17,11 @@ You can set up your PI one as an interactive computer with a desktop, or as a he
 
 The following table shows the USB-PD power mode required to power various Pi one. You can use any high-quality power supply that provides the correct power mode.
 
-| Model       | Recommended power supply (voltage/current) |
-|-------------|-------------------------------------------|
-| PI one power supply | 5V@2A |
-| PI zero      | 10W power supply |
-| PI one      | 5V@3A |
-|              | 15W power supply |
+| Model       | Recommended power supply (voltage/current) |PI one power supply |
+|-------------|-------------------------------------------|------------------------------------------- |
+| PI zero     | 5V@2A|10W power supply |
+| PI one      | 5V@3A |15W power supply |
+
 
 ![power](/img/pi-one/getting-started/preparation/power.png)
 
@@ -55,11 +54,11 @@ You can use any of the USB ports on your PI one to connect a wired mouse or USB 
 
 Pi series have the following display connectivity:
 
-| Model       | Display output       |
-|-------------|----------------------|
-| PI zero     | MIPI DSI             |
-| PI one      | Micro HDMI           |
-|              | MIPI DSI             |
+| Model       | Display output                   |
+|-------------|----------------------------------|
+| PI zero     | MIPI DSI                         |
+| PI one      | Micro HDMI   MIPI DSI            |
+
 
 ![display_hdmi](/img/pi-one/getting-started/preparation/display_hdmi.png)
 

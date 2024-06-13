@@ -20,8 +20,9 @@ After the system starts, the user name of the ubuntu system is”user”, and th
 ## Debugging the booting 
 You can connect the debug port to see the booting process,and it is USB to serial interface ,and you don’t need the converter anymore .
 
-![main](/img/pi-one/getting-started/peripherals/putty_config.png)
+![putty_config](/img/pi-one/getting-started/peripherals/putty_config.png)
+
 You can use any COM software to see the result ,here we are using the putty.
 
-![main](/img/pi-one/getting-started/peripherals/putty_logs.png)
+![putty_logs](/img/pi-one/getting-started/peripherals/putty_logs.png)
 
