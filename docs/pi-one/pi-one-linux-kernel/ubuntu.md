@@ -1,8 +1,3 @@
-# ubuntu
-
-The ``kind`` parameter should be either ``"meat"``, ``"fish"``,
-or ``"veggies"``. Otherwise, :py:func:`lumache.get_random_ingredients`
-will raise an exception
 ~~~
 sudo apt-get install gawk wget git-core diffstat unzip texinfo gcc-multilib \
 build-essential chrpath socat cpio python python3 python3-pip python3-pexpect \
@@ -16,7 +11,8 @@ $ cd desktop
 $ repo init -u https://github.com/nxp-imx/imx-manifest -b imx-linux-mickledore -m imx-6.1.22-2.0.0_desktop.xml
 $ repo sync
 ~~~
-
+DISTRO=imx-desktop-xwayland MACHINE=imx8mpevk source imx-
+setup-desktop.sh -b build-desktop
 ~~~
 ENV_HOST_PROXIES = "http_proxy=http://127.0.0.1:7890"
 
@@ -105,7 +101,7 @@ bitbake -c noexec do_rootfs
 
 
 
-~~~~
+~~~
 内存修改
 kernel   /mnt/nvssd/ubuntu/build-desktop/workspace/sources/linux-imx/arch/arm64/boot/dts/freescale/imx8mp-evk.dts
 	memory@40000000 {
@@ -130,5 +126,70 @@ uboot imx8mp-evk.dts 修改
 
 ~~~
 
+uboot
+~~~
+/mnt/nvssd/ubuntu/sources/meta-imx/meta-bsp/recipes-bsp/u-boot/u-boot-imx-common_2023.04.inc
 
-1854377201382720512_5Z8P84ItFgOR5rjPtdxx5rYVCIMz37J1X8QRaPb45q165Rm6tRurS611Iok6ou78G87xQqeHSBrpa7NbDPjVnj7iJ3lCLRqlLEXa
+UBOOT_SRC ?= "git://github.com/nxp-imx/uboot-imx.git;protocol=https"
+SRC_URI = "${UBOOT_SRC};branch=${SRCBRANCH}"
+SRCBRANCH = "lf_v2023.04"
+LOCALVERSION ?= "-${SRCBRANCH}"
+SRCREV = "af7d004eaf18437c7db76f7962652b924099405b"
+
+change
+/mnt/nvssd/ubuntu/build-desktop/workspace/sources/u-boot-imx/include/configs/imx8mp_evk.h
+/* Totally 6GB DDR */
+#define CFG_SYS_SDRAM_BASE		0x40000000
+#define PHYS_SDRAM			0x40000000
+#define PHYS_SDRAM_SIZE			0x80000000	/* 2 GB */
+#define PHYS_SDRAM_2			0x100000000
+#ifdef CONFIG_TARGET_IMX8MP_DDR4_EVK
+#define PHYS_SDRAM_2_SIZE		0x40000000	/* 1 GB */
+#else
+#define PHYS_SDRAM_2_SIZE		0x80000000	/* 2 GB */
+#endif
+~~~
+
+kernel
+~~~
+change
+
+/mnt/nvssd/ubuntu/build-desktop/workspace/sources/linux-imx/arch/arm64/boot/dts/freescale/imx8mp-evk.dts
+
+
+memory@40000000 {
+		device_type = "memory";
+		reg = <0x0 0x40000000 0 0xC0000000>,
+		      <0x1 0x00000000 0 0xC0000000>;
+	};
+	memory@40000000 {
+		device_type = "memory";
+		reg = <0x0 0x40000000 0 0x80000000>,
+		      <0x1 0x00000000 0 0x80000000>;
+	};
+~~~
+
+[download img](https://drive.google.com/drive/folders/18wfIRb4lRl9apQt7GygpZkwtNY0UgREM?usp=drive_link)
+
+~~~
+
+
+烧录sd卡
+sudo dd if=imx-image-desktop-imx8mpevk.wic  of=/dev/sdd bs=1M &&sync
+
+查看串口
+ls /dev/ttyUSB*
+
+~~~
+
+~~~
+
+pytorch:
+
+IMAGE_INSTALL:append = " python3-dev python3-pip python3-wheel python3-pillow python3-setuptools python3-numpy python3-pyyaml python3-cffi python3-future cmake ninja packagegroup-core-buildessential git git-perltools libxcrypt libxcrypt-dev"
+
+
+~~~
+
+DL_DIR ?="/mnt/nvssd/yocto/downloads"
+SSTATE_DIR ?="/mnt/nvssd/yocto/sstate-cache"

@@ -1,4 +1,4 @@
-# yocto
+# Build Yocto image
 A Yocto Project build requires that some packages be installed for the build that are
 documented under the Yocto Project. Go to Yocto Project Quick Start and check for the
 packages that must be installed for your build machine.
@@ -73,34 +73,20 @@ Replace the ``uboot`` bb file before starting the build.
 
 before
 ~~~
-
-# BEGIN: Changes to u-boot-imx-common_${PV}.inc
-
-LIC_FILES_CHKSUM = "file://Licenses/gpl-2.0.txt;md5=b234ee4d69f5fce4486a80fdaf4a4263"
-
-SRC_URI = "${UBOOT_SRC};branch=${SRCBRANCH}"
 UBOOT_SRC ?= "git://github.com/nxp-imx/uboot-imx.git;protocol=https"
-SRCBRANCH = "lf_v2022.04"
-SRCREV = "181859317bfafef1da79c59a4498650168ad9df6"
-LOCALVERSION = "-${SRCBRANCH}"
-
-DEPENDS += "gnutls-native xxd-native"
-
+SRC_URI = "${UBOOT_SRC};branch=${SRCBRANCH}"
+SRCBRANCH = "lf_v2023.04"
+LOCALVERSION ?= "-${SRCBRANCH}"
+SRCREV = "af7d004eaf18437c7db76f7962652b924099405b"
 ~~~
 after
+
 ~~~
-# BEGIN: Changes to u-boot-imx-common_${PV}.inc
-
-LIC_FILES_CHKSUM = "file://Licenses/gpl-2.0.txt;md5=b234ee4d69f5fce4486a80fdaf4a4263"
-
-SRC_URI = "${UBOOT_SRC};branch=${SRCBRANCH}"
 UBOOT_SRC ?= "git://github.com/bit-brick/uboot-imx.git;protocol=https"
-SRCBRANCH = "lf_v2022.04"
-SRCREV = "2a29b5972b88343286ceda95b592c2f93a9c8bc4"
-LOCALVERSION = "-${SRCBRANCH}"
-
-DEPENDS += "gnutls-native xxd-native"
-
+SRC_URI = "${UBOOT_SRC};branch=${SRCBRANCH}"
+SRCBRANCH = "lf_v2023.04"
+LOCALVERSION ?= "-${SRCBRANCH}"
+SRCREV = "af7d004eaf18437c7db76f7962652b924099405b"
 ~~~
 
 ### 4.2 change kernel
@@ -109,14 +95,12 @@ Modify bb files:
 ``  
 ``[your path]/imx-yocto-bsp/sources/meta-imx/meta-bsp/recipes-kernel/linux/linux-imx-headers_5.15.bb``
 ~~~
-SRCBRANCH = "lf-5.15.y"
-LOCALVERSION = "-lts-next"
+SRC_URI = "${KERNEL_SRC}"
 KERNEL_SRC ?= "git://github.com/bit-brick/linux-imx.git;protocol=https;branch=${SRCBRANCH}"
 KBRANCH = "${SRCBRANCH}"
-SRC_URI = "${KERNEL_SRC}"
-
-SRCREV = "50912be386017c8d2ca7f0c9c0a32fa7ac84a283"
-
+SRCBRANCH = "lf-6.1.y"
+LOCALVERSION = "-lts-6.1.22"
+SRCREV = "66e442bc7fdcc935e6faa94c743f653263d4ed67"
 ~~~
 then run code to build image
 ~~~
@@ -125,7 +109,7 @@ $ bitbake imx-image-full
 ~~~
 
 when it success, you will see the files in the build-wayland/tmp/deploy/images/imx8mp-lpddr4-evk  directory
-
+<!-- 
 ## 5.Burn Image to device
 ### 5.1 Downloading UUU
 Download UUU version 1.4.193 or later from https://github.com/NXPmicro/mfgtools/releases.
@@ -147,7 +131,7 @@ sudo ~/bin/uuu -b emmc_all imx-boot-imx8mpevk-sd.bin-flash_evk imx-image-full-im
 After burning, switch the board pins to system running mode ``0 0 1 0``, then reset and reboot the system.
 ![](/img/pi-one/linux-kernel/run_status.jpg)
 You can also directly download the compiled image from the following link:  
-[imx-image-full-imx8mp-lpddr4-evk.wic.zst](https://drive.google.com/drive/folders/1DeiQxV0aQYxEGHuIq0V043Mfd73IX5uA?usp=drive_link)
+[imx-image-full-imx8mp-lpddr4-evk.wic.zst](https://drive.google.com/drive/folders/1DeiQxV0aQYxEGHuIq0V043Mfd73IX5uA?usp=drive_link) -->
 
 
 ## FAQ

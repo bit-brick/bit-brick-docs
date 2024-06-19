@@ -34,6 +34,10 @@ const sidebars: SidebarsConfig = {
           type: 'doc',
           id: 'pi-one/getting-started/configuring',
         },
+        {
+          type: 'doc',
+          id: 'pi-one/getting-started/resize-rootfs',
+        },
         
       ],
     },
@@ -56,6 +60,10 @@ const sidebars: SidebarsConfig = {
         {
           type: 'doc',
           id: 'pi-one/pi-one-linux-kernel/yocto',
+        },
+        {
+          type: 'doc',
+          id: 'pi-one/pi-one-linux-kernel/ubuntu-build',
         },
       ],
     },
@@ -176,10 +184,8 @@ const sidebars: SidebarsConfig = {
           type: 'doc',
           id: 'pi-one/pi-one-software/ros2',
         },
-        {
-          type: 'doc',
-          id: 'pi-one/pi-one-software/resize-rootfs-zh',
-        },
+        
+        
       ],
     },
     {
