@@ -184,6 +184,10 @@ const sidebars: SidebarsConfig = {
           type: 'doc',
           id: 'pi-one/pi-one-software/ros2',
         },
+        {
+          type: 'doc',
+          id: 'pi-one/pi-one-software/docker',
+        },
         
         
       ],
