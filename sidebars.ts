@@ -195,6 +195,21 @@ const sidebars: SidebarsConfig = {
     {
       type: 'category',
       collapsed: true,
+      label: 'PI one Machine Learning',
+      items: [
+        {
+          type: 'doc',
+          id: 'pi-one/pi-one-ml/go-point',
+        },
+        // {
+        //   type: 'doc',
+        //   id: 'pi-one/pi-one-ml/ml',
+        // },
+      ],
+    },
+    {
+      type: 'category',
+      collapsed: true,
       label: 'Datasheets',
       items: [
         {
@@ -203,21 +218,21 @@ const sidebars: SidebarsConfig = {
         },
       ],
     },
-    {
-      type: 'category',
-      collapsed: true,
-      label: 'Blog',
-      items: [
-        {
-          type: 'doc',
-          id: 'pi-one/blog/netpan-zh',
-        },
-        {
-          type: 'doc',
-          id: 'pi-one/blog/ollama-zh',
-        },
-      ],
-    },
+    // {
+    //   type: 'category',
+    //   collapsed: true,
+    //   label: 'Blog',
+    //   items: [
+    //     {
+    //       type: 'doc',
+    //       id: 'pi-one/blog/netpan-zh',
+    //     },
+    //     {
+    //       type: 'doc',
+    //       id: 'pi-one/blog/ollama-zh',
+    //     },
+    //   ],
+    // },
   ],
    
 };

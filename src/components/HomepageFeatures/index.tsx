@@ -13,56 +13,56 @@ const FeatureList: FeatureItem[] = [
   {
     title: 'Getting started',
     imageSrc: require('@site/static/img/index/Getting-Started.png').default,
-    description: (<>How to get started with your Raspberry Pi</>),
+    description: (<>How to get started with your Pi One</>),
     url: "docs/pi-one/getting-started/preparation"
   },
   
   {
     title: 'Pi one OS',
     imageSrc: require('@site/static/img/index/Raspberry-Pi-OS.png').default,
-    description: (<>How to get started with your Raspberry Pi</>),
+    description: (<>Pi One OS  </>),
     url: "docs/pi-one/pi-one-os/os"
   },
   {
     title: 'Pi one linux kernel',
     imageSrc: require('@site/static/img/index/PIP.png').default,
-    description: (<>How to get started with your Raspberry Pi</>),
+    description: (<>Linux kernel</>),
     url: "docs/pi-one/pi-one-linux-kernel/yocto"
   },
-  {
-    title: 'Pi one uboot',
-    imageSrc: require('@site/static/img/index/Remote-Access.png').default,
-    description: (<>How to get started with your Raspberry Pi</>),
-    url: "docs/pi-one/pi-one-uboot/uboot"
-  },
+  // {
+  //   title: 'Pi one uboot',
+  //   imageSrc: require('@site/static/img/index/Remote-Access.png').default,
+  //   description: (<>How to get started with your Raspberry Pi</>),
+  //   url: "docs/pi-one/pi-one-uboot/uboot"
+  // },
   {
     title: 'Pi one hardware',
-    imageSrc: require('@site/static/img/index/Tutorials.png').default,
-    description: (<>How to get started with your Raspberry Pi</>),
-    url: "docs/pi-one/pi-one-hardware/hardware"
+    imageSrc: require('@site/static/img/index/Getting-Started.png').default,
+    description: (<>Hardware </>),
+    url: "docs/pi-one/pi-one-hardware/hardware-brief"
   },
   {
     title: 'Pi one software',
-    imageSrc: require('@site/static/img/index/Getting-Started.png').default,
-    description: (<>How to get started with your Raspberry Pi</>),
+    imageSrc: require('@site/static/img/index/Tutorials.png').default,
+    description: (<>Software </>),
     url: "docs/pi-one/pi-one-software/GPIOs-functions"
   },
-  {
-    title: 'Pi one camera',
-    imageSrc: require('@site/static/img/index/Camera.png').default,
-    description: (<>How to get started with your Raspberry Pi</>),
-    url: "docs/pi-one/pi-one-camera/camera"
-  },
-  {
-    title: 'Pi one display',
-    imageSrc: require('@site/static/img/index/Getting-Started.png').default,
-    description: (<>How to get started with your Raspberry Pi</>),
-    url: "docs/pi-one/pi-one-display/display"
-  },
+  // {
+  //   title: 'Pi one camera',
+  //   imageSrc: require('@site/static/img/index/Camera.png').default,
+  //   description: (<>How to get started with your Raspberry Pi</>),
+  //   url: "docs/pi-one/pi-one-camera/camera"
+  // },
+  // {
+  //   title: 'Pi one display',
+  //   imageSrc: require('@site/static/img/index/Getting-Started.png').default,
+  //   description: (<>How to get started with your Raspberry Pi</>),
+  //   url: "docs/pi-one/pi-one-display/display"
+  // },
   {
     title: 'Datasheets',
     imageSrc: require('@site/static/img/index/Datasheets.png').default,
-    description: (<>How to get started with your Raspberry Pi</>),
+    description: (<>Datasheets</>),
     url: "docs/pi-one/datasheets"
   },
 ];
