@@ -201,10 +201,10 @@ const sidebars: SidebarsConfig = {
           type: 'doc',
           id: 'pi-one/pi-one-ml/go-point',
         },
-        // {
-        //   type: 'doc',
-        //   id: 'pi-one/pi-one-ml/ml',
-        // },
+        {
+          type: 'doc',
+          id: 'pi-one/pi-one-ml/ml-tensorflow-lite',
+        },
       ],
     },
     {

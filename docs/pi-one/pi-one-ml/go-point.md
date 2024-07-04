@@ -1,4 +1,4 @@
- # GoPoint DEMO
+ # GoPoint User Guide
 ## 1 Introduction
 GoPoint for i.MX Applications Processors is a user-friendly application that allows the user to launch
 preselected demonstrations included in the NXP provided Linux Board Support Package (BSP).
