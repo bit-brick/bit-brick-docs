@@ -205,6 +205,10 @@ const sidebars: SidebarsConfig = {
           type: 'doc',
           id: 'pi-one/pi-one-ml/ml-tensorflow-lite',
         },
+        {
+          type: 'doc',
+          id: 'pi-one/pi-one-ml/ml-onnx-zh',
+        },
       ],
     },
     {
