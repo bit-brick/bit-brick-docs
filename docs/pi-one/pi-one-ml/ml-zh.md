@@ -14,7 +14,7 @@ engines across the computing units.
 
 The NXP eIQ inference engines support multi-threaded execution on Cortex-A cores. Additionally, ONNX
 Runtime, TensorFlow Lite, and DeepViewRT also support acceleration on the GPU or NPU through Neural
-Network Runtime (NNRT). See also Section 2. Generally, the NXP eIQ is prepared to support the following key
+Network Runtime (NNRT).  Generally, the NXP eIQ is prepared to support the following key
 application domains:
 - Vision
 
@@ -42,7 +42,7 @@ enabled ML accelerators.
 
 ModelRunner for DeepViewRT is a server application being able to receive requests using HTTP REST API,
 Python API, or UNIX RPC service, and delegate those to different inference engines, or the NN accelerator
-driver directly. See also Section 7.4 for more details.
+driver directly. 
 
 The NNRT supplies different backends for Android NN HAL, ONNX, and TensorFlow Lite allowing quick
 application deployment. The NNRT also empowers an application-oriented framework for use with i.MX8
