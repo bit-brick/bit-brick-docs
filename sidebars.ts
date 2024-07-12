@@ -199,6 +199,10 @@ const sidebars: SidebarsConfig = {
       items: [
         {
           type: 'doc',
+          id: 'pi-one/pi-one-ml/ml-zh',
+        },
+        {
+          type: 'doc',
           id: 'pi-one/pi-one-ml/go-point',
         },
         {
