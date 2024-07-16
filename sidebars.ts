@@ -226,21 +226,17 @@ const sidebars: SidebarsConfig = {
         },
       ],
     },
-    // {
-    //   type: 'category',
-    //   collapsed: true,
-    //   label: 'Blog',
-    //   items: [
-    //     {
-    //       type: 'doc',
-    //       id: 'pi-one/blog/netpan-zh',
-    //     },
-    //     {
-    //       type: 'doc',
-    //       id: 'pi-one/blog/ollama-zh',
-    //     },
-    //   ],
-    // },
+    {
+      type: 'category',
+      collapsed: true,
+      label: 'Blog',
+      items: [
+        {
+          type: 'doc',
+          id: 'pi-one/blog/ml/yolov5-dms-zh',
+        }
+      ],
+    },
   ],
    
 };
