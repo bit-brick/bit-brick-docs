@@ -11,60 +11,42 @@ type FeatureItem = {
 
 const FeatureList: FeatureItem[] = [
   {
-    title: 'Getting started',
+    title: 'PI One',
     imageSrc: require('@site/static/img/index/Getting-Started.png').default,
     description: (<>How to get started with your Pi One</>),
     url: "docs/pi-one/getting-started/preparation"
   },
   
   {
-    title: 'Pi one OS',
+    title: 'RISC-V',
     imageSrc: require('@site/static/img/index/Raspberry-Pi-OS.png').default,
     description: (<>Pi One OS  </>),
-    url: "docs/pi-one/pi-one-os/os"
-  },
-  {
-    title: 'Pi one linux kernel',
-    imageSrc: require('@site/static/img/index/PIP.png').default,
-    description: (<>Linux kernel</>),
-    url: "docs/pi-one/pi-one-linux-kernel/yocto"
+    url: "docs/risc-v/bianbu-os/os-intro-zh"
   },
   // {
-  //   title: 'Pi one uboot',
-  //   imageSrc: require('@site/static/img/index/Remote-Access.png').default,
-  //   description: (<>How to get started with your Raspberry Pi</>),
-  //   url: "docs/pi-one/pi-one-uboot/uboot"
-  // },
-  {
-    title: 'Pi one hardware',
-    imageSrc: require('@site/static/img/index/Getting-Started.png').default,
-    description: (<>Hardware </>),
-    url: "docs/pi-one/pi-one-hardware/hardware-brief"
-  },
-  {
-    title: 'Pi one software',
-    imageSrc: require('@site/static/img/index/Tutorials.png').default,
-    description: (<>Software </>),
-    url: "docs/pi-one/pi-one-software/GPIOs-functions"
-  },
-  // {
-  //   title: 'Pi one camera',
-  //   imageSrc: require('@site/static/img/index/Camera.png').default,
-  //   description: (<>How to get started with your Raspberry Pi</>),
-  //   url: "docs/pi-one/pi-one-camera/camera"
+  //   title: 'Pi one linux kernel',
+  //   imageSrc: require('@site/static/img/index/PIP.png').default,
+  //   description: (<>Linux kernel</>),
+  //   url: "docs/pi-one/pi-one-linux-kernel/yocto"
   // },
   // {
-  //   title: 'Pi one display',
+  //   title: 'Pi one hardware',
   //   imageSrc: require('@site/static/img/index/Getting-Started.png').default,
-  //   description: (<>How to get started with your Raspberry Pi</>),
-  //   url: "docs/pi-one/pi-one-display/display"
+  //   description: (<>Hardware </>),
+  //   url: "docs/pi-one/pi-one-hardware/hardware-brief"
   // },
-  {
-    title: 'Datasheets',
-    imageSrc: require('@site/static/img/index/Datasheets.png').default,
-    description: (<>Datasheets</>),
-    url: "docs/pi-one/datasheets"
-  },
+  // {
+  //   title: 'Pi one software',
+  //   imageSrc: require('@site/static/img/index/Tutorials.png').default,
+  //   description: (<>Software </>),
+  //   url: "docs/pi-one/pi-one-software/GPIOs-functions"
+  // },
+  // {
+  //   title: 'Datasheets',
+  //   imageSrc: require('@site/static/img/index/Datasheets.png').default,
+  //   description: (<>Datasheets</>),
+  //   url: "docs/pi-one/datasheets"
+  // },
 ];
 
 function Feature({title, imageSrc, description, url}: FeatureItem) {
