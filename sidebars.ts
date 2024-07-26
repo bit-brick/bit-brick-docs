@@ -20,220 +20,283 @@ const sidebars: SidebarsConfig = {
     {
       type: 'category',
       collapsed: true,
-      label: 'Getting Started',
+      label: 'PI One',
       items: [
         {
-          type: 'doc',
-          id: 'pi-one/getting-started/preparation',
+          type: 'category',
+          collapsed: true,
+          label: 'Getting Started',
+          items: [
+            {
+              type: 'doc',
+              id: 'pi-one/getting-started/preparation',
+            },
+            {
+              type: 'doc',
+              id: 'pi-one/getting-started/install',
+            },
+            {
+              type: 'doc',
+              id: 'pi-one/getting-started/configuring',
+            },
+            {
+              type: 'doc',
+              id: 'pi-one/getting-started/resize-rootfs',
+            },
+            
+          ],
         },
         {
-          type: 'doc',
-          id: 'pi-one/getting-started/install',
+          type: 'category',
+          collapsed: true,
+          label: 'PI one OS',
+          items: [
+            {
+              type: 'doc',
+              id: 'pi-one/pi-one-os/os',
+            },
+          ],
         },
         {
-          type: 'doc',
-          id: 'pi-one/getting-started/configuring',
+          type: 'category',
+          collapsed: true,
+          label: 'PI one linux kernel',
+          items: [
+            {
+              type: 'doc',
+              id: 'pi-one/pi-one-linux-kernel/yocto',
+            },
+            {
+              type: 'doc',
+              id: 'pi-one/pi-one-linux-kernel/ubuntu-build',
+            },
+          ],
         },
         {
-          type: 'doc',
-          id: 'pi-one/getting-started/resize-rootfs',
+          type: 'category',
+          collapsed: true,
+          label: 'PI one hardware',
+          items: [
+            {
+              type: 'doc',
+              label: 'PI One Hardware Brief',
+              id: 'pi-one/pi-one-hardware/hardware-brief',
+            },
+            {
+              type: 'doc',
+              label: 'PI One Audio Hardware Introduction',
+              id: 'pi-one/pi-one-hardware/audio-hardware-introduction',
+            },
+            {
+              type: 'doc',
+              label: 'PI One GPIO And 40 Pin Header',
+              id: 'pi-one/pi-one-hardware/GPIO-and-40-pin-header',
+            },
+            {
+              type: 'doc',
+              label: 'PI One Hardware Design Resources',
+              id: 'pi-one/pi-one-hardware/hardware-design-resources',
+            },
+            {
+              type: 'doc',
+              label: 'PI One Camera Interface',
+              id: 'pi-one/pi-one-hardware/camera-interface',
+            },
+            {
+              type: 'doc',
+              label: 'PI One Lcd Interface',
+              id: 'pi-one/pi-one-hardware/lcd-interface',
+            },
+            {
+              type: 'doc',
+              label: 'PI One Power Sequence',
+              id: 'pi-one/pi-one-hardware/power-sequence',
+            },
+            {
+              type: 'doc',
+              label: 'PI One Processor Brief',
+              id: 'pi-one/pi-one-hardware/processor-brief',
+            },
+            {
+              type: 'doc',
+              label: 'PI One Display Interface',
+              id: 'pi-one/pi-one-hardware/display-interface',
+            }
+          ],
         },
-        
+        {
+          type: 'category',
+          collapsed: true,
+          label: 'PI one software',
+          items: [
+            {
+              type: 'doc',
+              id: 'pi-one/pi-one-software/GPIOs-functions',
+            },
+            {
+              type: 'doc',
+              id: 'pi-one/pi-one-software/camera-configuration',
+            },
+            {
+              type: 'doc',
+              id: 'pi-one/pi-one-software/can-bus-configuration',
+            },
+            {
+              type: 'doc',
+              id: 'pi-one/pi-one-software/display-configuration',
+            },
+            {
+              type: 'doc',
+              id: 'pi-one/pi-one-software/ethernet-configuration',
+            },
+            {
+              type: 'doc',
+              id: 'pi-one/pi-one-software/I2C-configuration',
+            },
+            {
+              type: 'doc',
+              id: 'pi-one/pi-one-software/linux-kernel',
+            },
+            {
+              type: 'doc',
+              id: 'pi-one/pi-one-software/PCIE-configuration',
+            },
+            {
+              type: 'doc',
+              id: 'pi-one/pi-one-software/pwm',
+            },
+            {
+              type: 'doc',
+              id: 'pi-one/pi-one-software/spi-configuration',
+            },
+            {
+              type: 'doc',
+              id: 'pi-one/pi-one-software/uart-configuration',
+            },
+            {
+              type: 'doc',
+              id: 'pi-one/pi-one-software/uboot',
+            },
+            {
+              type: 'doc',
+              id: 'pi-one/pi-one-software/USB-configuration',
+            },
+            {
+              type: 'doc',
+              id: 'pi-one/pi-one-software/wifi-and-bluetooth',
+            },
+            {
+              type: 'doc',
+              id: 'pi-one/pi-one-software/ros2',
+            },
+            {
+              type: 'doc',
+              id: 'pi-one/pi-one-software/docker',
+            },
+            
+            
+          ],
+        },
+        {
+          type: 'category',
+          collapsed: true,
+          label: 'PI one Machine Learning',
+          items: [
+            {
+              type: 'doc',
+              id: 'pi-one/pi-one-ml/ml-zh',
+            },
+            {
+              type: 'doc',
+              id: 'pi-one/pi-one-ml/go-point',
+            },
+            {
+              type: 'doc',
+              id: 'pi-one/pi-one-ml/ml-tensorflow-lite',
+            },
+            {
+              type: 'doc',
+              id: 'pi-one/pi-one-ml/ml-onnx-zh',
+            },
+          ],
+        },
+        {
+          type: 'category',
+          collapsed: true,
+          label: 'Datasheets',
+          items: [
+            {
+              type: 'doc',
+              id: 'pi-one/datasheets/datasheets',
+            },
+          ],
+        },
+        {
+          type: 'category',
+          collapsed: true,
+          label: 'Blog',
+          items: [
+            {
+              type: 'doc',
+              id: 'pi-one/blog/ml/yolov5-dms-zh',
+            }
+          ],
+        },
       ],
     },
     {
       type: 'category',
       collapsed: true,
-      label: 'PI one OS',
+      label: 'RISC-V',
       items: [
         {
-          type: 'doc',
-          id: 'pi-one/pi-one-os/os',
-        },
-      ],
-    },
-    {
-      type: 'category',
-      collapsed: true,
-      label: 'PI one linux kernel',
-      items: [
-        {
-          type: 'doc',
-          id: 'pi-one/pi-one-linux-kernel/yocto',
-        },
-        {
-          type: 'doc',
-          id: 'pi-one/pi-one-linux-kernel/ubuntu-build',
-        },
-      ],
-    },
-    {
-      type: 'category',
-      collapsed: true,
-      label: 'PI one hardware',
-      items: [
-        {
-          type: 'doc',
-          label: 'PI One Hardware Brief',
-          id: 'pi-one/pi-one-hardware/hardware-brief',
-        },
-        {
-          type: 'doc',
-          label: 'PI One Audio Hardware Introduction',
-          id: 'pi-one/pi-one-hardware/audio-hardware-introduction',
-        },
-        {
-          type: 'doc',
-          label: 'PI One GPIO And 40 Pin Header',
-          id: 'pi-one/pi-one-hardware/GPIO-and-40-pin-header',
-        },
-        {
-          type: 'doc',
-          label: 'PI One Hardware Design Resources',
-          id: 'pi-one/pi-one-hardware/hardware-design-resources',
-        },
-        {
-          type: 'doc',
-          label: 'PI One Camera Interface',
-          id: 'pi-one/pi-one-hardware/camera-interface',
-        },
-        {
-          type: 'doc',
-          label: 'PI One Lcd Interface',
-          id: 'pi-one/pi-one-hardware/lcd-interface',
-        },
-        {
-          type: 'doc',
-          label: 'PI One Power Sequence',
-          id: 'pi-one/pi-one-hardware/power-sequence',
-        },
-        {
-          type: 'doc',
-          label: 'PI One Processor Brief',
-          id: 'pi-one/pi-one-hardware/processor-brief',
-        },
-        {
-          type: 'doc',
-          label: 'PI One Display Interface',
-          id: 'pi-one/pi-one-hardware/display-interface',
-        }
-      ],
-    },
-    {
-      type: 'category',
-      collapsed: true,
-      label: 'PI one software',
-      items: [
-        {
-          type: 'doc',
-          id: 'pi-one/pi-one-software/GPIOs-functions',
-        },
-        {
-          type: 'doc',
-          id: 'pi-one/pi-one-software/camera-configuration',
-        },
-        {
-          type: 'doc',
-          id: 'pi-one/pi-one-software/can-bus-configuration',
-        },
-        {
-          type: 'doc',
-          id: 'pi-one/pi-one-software/display-configuration',
-        },
-        {
-          type: 'doc',
-          id: 'pi-one/pi-one-software/ethernet-configuration',
-        },
-        {
-          type: 'doc',
-          id: 'pi-one/pi-one-software/I2C-configuration',
-        },
-        {
-          type: 'doc',
-          id: 'pi-one/pi-one-software/linux-kernel',
-        },
-        {
-          type: 'doc',
-          id: 'pi-one/pi-one-software/PCIE-configuration',
-        },
-        {
-          type: 'doc',
-          id: 'pi-one/pi-one-software/pwm',
-        },
-        {
-          type: 'doc',
-          id: 'pi-one/pi-one-software/spi-configuration',
-        },
-        {
-          type: 'doc',
-          id: 'pi-one/pi-one-software/uart-configuration',
-        },
-        {
-          type: 'doc',
-          id: 'pi-one/pi-one-software/uboot',
-        },
-        {
-          type: 'doc',
-          id: 'pi-one/pi-one-software/USB-configuration',
-        },
-        {
-          type: 'doc',
-          id: 'pi-one/pi-one-software/wifi-and-bluetooth',
-        },
-        {
-          type: 'doc',
-          id: 'pi-one/pi-one-software/ros2',
-        },
-        {
-          type: 'doc',
-          id: 'pi-one/pi-one-software/docker',
-        },
-        
-        
-      ],
-    },
-    {
-      type: 'category',
-      collapsed: true,
-      label: 'PI one Machine Learning',
-      items: [
-        {
-          type: 'doc',
-          id: 'pi-one/pi-one-ml/ml-zh',
-        },
-        {
-          type: 'doc',
-          id: 'pi-one/pi-one-ml/go-point',
-        },
-        {
-          type: 'doc',
-          id: 'pi-one/pi-one-ml/ml-tensorflow-lite',
-        },
-        {
-          type: 'doc',
-          id: 'pi-one/pi-one-ml/ml-onnx-zh',
-        },
-      ],
-    },
-    {
-      type: 'category',
-      collapsed: true,
-      label: 'Datasheets',
-      items: [
-        {
-          type: 'doc',
-          id: 'pi-one/datasheets/datasheets',
-        },
-      ],
-    },
-    {
-      type: 'category',
-      collapsed: true,
-      label: 'Blog',
-      items: [
-        {
-          type: 'doc',
-          id: 'pi-one/blog/ml/yolov5-dms-zh',
+          type: 'category',
+          collapsed: true,
+          label: 'Getting Started',
+          items: [
+            {
+              type: 'doc',
+              id: 'risc-v/getting-started/preparation',
+            },
+            {
+              type: 'doc',
+              id: 'risc-v/getting-started/install',
+            },
+            {
+              type: 'doc',
+              id: 'risc-v/getting-started/configuring',
+            },
+            {
+              type: 'doc',
+              id: 'risc-v/getting-started/resize-rootfs',
+            },
+            
+          ],
+        },{
+          type: 'category',
+          collapsed: true,
+          label: 'Bianbu OS',
+          items: [
+            {
+              type: 'doc',
+              id: 'risc-v/bianbu-os/os-intro-zh',
+            },
+            {
+              type: 'doc',
+              id: 'risc-v/bianbu-os/installation-and-upgrade-zh',
+            },
+            {
+              type: 'doc',
+              id: 'risc-v/bianbu-os/connection-zh',
+            },
+            {
+              type: 'doc',
+              id: 'risc-v/bianbu-os/package-management-zh',
+            },
+            
+            
+            
+          ],
         }
       ],
     },
