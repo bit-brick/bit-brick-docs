@@ -238,7 +238,11 @@ const sidebars: SidebarsConfig = {
         //   items: [
         //     {
         //       type: 'doc',
-        //       id: 'pi-one/blog/ml/yolov5-dms-zh',
+        //       id: 'pi-one/blog/ml/mnist-tensorflow/mnist-tensorflow-1-zh'
+        //     },
+        //     {
+        //       type: 'doc',
+        //       id: 'pi-one/blog/ml/mnist-tensorflow/mnist-tensorflow-2-zh'
         //     }
         //   ],
         // },
