@@ -4,6 +4,8 @@
 注：源码可在 [bit-brick'github](https://github.com/bit-brick/ML_DEMO) 中下载。
 
 ## 模型量化
+ PI One 的NPU不支持直接加速保存的h5模型，需要先对模型进行量化，再转换成tflite格式。才能在PI One上启用其NPU加速运行。
+
  关于模型量化的知识，参考：[Tensorflow模型量化(Quantization)原理及其实现方法 -
 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/79744430)
 
@@ -11,8 +13,12 @@
 
 ![](../image/quanity.png)
 ## 转换量化模型
+模型转换有两种方法：
 
-把保存下来的模型`mnist_model.h5`用下面的脚本进行转换,转换成为可在PI One 上运行的`mnist_model_quantized.tflite`。
+
+ 1、针对Tensorflow 的模型，可以用Google提供的量化参考代码，写成Pyhon脚本做量化：https://www.tensorflow.org/lite/performance/post_training_quantization
+
+把保存下来的模型`mnist_model.h5`用下面的脚本进行量化转换,转换成为可在PI One 上运行的`mnist_model_quantized.tflite`。
 ~~~
 # convert_to_tflite.py
 
@@ -53,6 +59,17 @@ def convert_model_to_tflite(model_path, output_tflite_path):
 convert_model_to_tflite('mnist_model.h5', 'mnist_model_quantized.tflite')
 ~~~
 
+2、可以使用`NXP` 提供的 `eIQ toolkit` 
+
+进入eIQ官网: https://www.nxp.com/design/software/development-software/eiq-ml-developm
+ent-environment/eiq-toolkit-for-end-to-end-model-development-and-deployment:EIQ-TOOLKIT，
+下载最新版本的eIQ工具箱。
+![](../image/EIQ-TOOLKIT-BD.webp)
+
+EIQ toolkit进行量化所支持的格式
+![](../image/eiq_support.png)
+
+tips: EIQ toolkit加一个GUI，可以通过界面量化，其实里面调用的也是Google的TF Lite量化。
 
 ## 测试模型
 把下面的脚本`predict_tflite.py`放在`mnist_model_quantized.tflite`和`test_images`同级的文件夹下，然后运行`predict_tflite.py`

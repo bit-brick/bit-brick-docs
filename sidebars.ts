@@ -231,21 +231,21 @@ const sidebars: SidebarsConfig = {
             },
           ],
         },
-        // {
-        //   type: 'category',
-        //   collapsed: true,
-        //   label: 'Blog',
-        //   items: [
-        //     {
-        //       type: 'doc',
-        //       id: 'pi-one/blog/ml/mnist-tensorflow/mnist-tensorflow-1-zh'
-        //     },
-        //     {
-        //       type: 'doc',
-        //       id: 'pi-one/blog/ml/mnist-tensorflow/mnist-tensorflow-2-zh'
-        //     }
-        //   ],
-        // },
+        {
+          type: 'category',
+          collapsed: true,
+          label: 'Blog',
+          items: [
+            {
+              type: 'doc',
+              id: 'pi-one/blog/ml/mnist-tensorflow/mnist-tensorflow-1-zh'
+            },
+            {
+              type: 'doc',
+              id: 'pi-one/blog/ml/mnist-tensorflow/mnist-tensorflow-2-zh'
+            }
+          ],
+        },
       ],
     },
     {

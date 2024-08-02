@@ -1,6 +1,7 @@
 
 # 在PI One上运行手写数字识别【1】
-这篇文章是 PI One TensorFlow-Lite入门教程的第一篇文章。主要介绍了如何从0开始用tensorflow搭建最简单的网络进行训练。
+这篇文章是 PI One TensorFlow-Lite入门教程的第一篇文章。主要介绍了如何用Mnist数据集从0开始用tensorflow搭建最简单的网络进行训练从而实现手写数字识别。
+![](../image/work_flow.png)
 
 ## mnist数据集
 
