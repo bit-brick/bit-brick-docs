@@ -24,7 +24,7 @@
 .banner{
   background-color: #B8E5F8;
   text-align: center;
-  padding: 100px;
+  padding: 90px;
 }
 
 .banner .title{
@@ -33,13 +33,13 @@
 }
 
 .banner .title .title1{
-  font-size: 2.8rem;
+  font-size: 36px;
   display: inline-block;
   margin-bottom: 20px;
 }
 
 .banner .title .title2{
-  font-size: 1.8rem;
+  font-size: 28px;
   display: inline-block;
   text-indent: 20px;
 }
@@ -47,9 +47,9 @@
 .banner .b_desc{
   padding-bottom: 0;
   margin-bottom: 0;
-  font-size: 1.1rem;
+  font-size: 20px;
   letter-spacing: 1px;
-  line-height: 1.2rem;
+  line-height: 20px;
 }
 
 .filter{
