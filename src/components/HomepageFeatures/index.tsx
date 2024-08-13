@@ -11,16 +11,15 @@ type FeatureItem = {
 
 const FeatureList: FeatureItem[] = [
   {
-    
     title: 'Getting started',
     imageSrc: require('@site/static/img/index/Getting-Started.png').default,
-    description: (<>How to get started with your Raspberry Pi</>),
+    description: (<>How to get started with your PI ONE</>),
     url: "docs/pi-one/getting-started/preparation"
   },
   {
     title: 'Pi one intro',
     imageSrc: require('@site/static/img/index/Compute-Module-Hardware.png').default,
-    description: (<>Welcome to Bit-Brick and meet with Pi one</>),
+    description: (<>Welcome to Bit-Brick and meet with PI ONE</>),
     url: "docs/pi-one/getting-started/preparation"
   },
   {
@@ -55,6 +54,37 @@ const FeatureList: FeatureItem[] = [
   },
 ];
 
+const ProductList = [
+  {
+    title: 'PI ONE',
+    features: FeatureList,
+  },
+  {
+    title: 'RISC-V',
+    features: FeatureList
+  },
+]
+
+let activeProduct = 'PI ONE';
+
+function handleClick(title){
+  activeProduct = title
+}
+
+function ProductFilter(){
+  return (
+    <div className={styles.filter}>
+      <ul>
+      {ProductList.map((props, idx) => (
+        <li className={props.title === activeProduct ? styles.select : ''} key={idx}>
+          <h3><a href="#" onClick={() => handleClick(props.title)}>{props.title}</a></h3>
+        </li>
+      ))}
+      </ul>
+    </div>
+  )
+}
+
 function Feature({title, imageSrc, description, url}: FeatureItem) {
   return (
     <div className={clsx('col col--4')}>
@@ -73,16 +103,30 @@ function Feature({title, imageSrc, description, url}: FeatureItem) {
   );
 }
 
+function Banner() {
+  return (
+    <div className={styles.banner}>
+      <div className={styles.title}><h2 className={styles.title1}>Bit-Brick</h2><h2 className={styles.title2}>Documentation</h2></div>
+      <p className={styles.b_desc}>The official documentation for</p>
+      <p className={styles.b_desc}>BIT-BRICK computers and microcontrollers</p>
+    </div>
+  );
+}
+
 export default function HomepageFeatures(): JSX.Element {
   return (
-    <section className={styles.features}>
-      <div className="container">
-        <div className="row">
-          {FeatureList.map((props, idx) => (
-            <Feature key={idx} {...props} />
-          ))}
+    <div>
+      <Banner></Banner>
+      <ProductFilter/>
+      <section className={styles.features}>
+        <div className="container">
+          <div className="row">
+            {FeatureList.map((props, idx) => (
+              <Feature key={idx} {...props} />
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   );
 }
