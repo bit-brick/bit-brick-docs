@@ -15,13 +15,13 @@ const FeatureList: FeatureItem[] = [
     title: 'Getting started',
     imageSrc: require('@site/static/img/index/Getting-Started.png').default,
     description: (<>How to get started with your Raspberry Pi</>),
-    url: "docs/pi-one/getting-started/setting-up"
+    url: "docs/pi-one/getting-started/preparation"
   },
   {
     title: 'Pi one intro',
     imageSrc: require('@site/static/img/index/Compute-Module-Hardware.png').default,
     description: (<>Welcome to Bit-Brick and meet with Pi one</>),
-    url: "docs/pi-one/intro"
+    url: "docs/pi-one/getting-started/preparation"
   },
   {
     title: 'Pi one OS',
@@ -36,34 +36,16 @@ const FeatureList: FeatureItem[] = [
     url: "docs/pi-one/pi-one-linux-kernel/yocto"
   },
   {
-    title: 'Pi one uboot',
-    imageSrc: require('@site/static/img/index/Remote-Access.png').default,
-    description: (<>How to get started with your Raspberry Pi</>),
-    url: "docs/pi-one/pi-one-uboot/uboot"
-  },
-  {
     title: 'Pi one hardware',
     imageSrc: require('@site/static/img/index/Tutorials.png').default,
     description: (<>How to get started with your Raspberry Pi</>),
-    url: "docs/pi-one/pi-one-hardware/hardware"
+    url: "docs/pi-one/pi-one-hardware/hardware-brief"
   },
   {
     title: 'Pi one software',
     imageSrc: require('@site/static/img/index/Getting-Started.png').default,
     description: (<>How to get started with your Raspberry Pi</>),
     url: "docs/pi-one/pi-one-software/GPIOs-functions"
-  },
-  {
-    title: 'Pi one camera',
-    imageSrc: require('@site/static/img/index/Camera.png').default,
-    description: (<>How to get started with your Raspberry Pi</>),
-    url: "docs/pi-one/pi-one-camera/camera"
-  },
-  {
-    title: 'Pi one display',
-    imageSrc: require('@site/static/img/index/Getting-Started.png').default,
-    description: (<>How to get started with your Raspberry Pi</>),
-    url: "docs/pi-one/pi-one-display/display"
   },
   {
     title: 'Datasheets',
