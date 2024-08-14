@@ -5,6 +5,11 @@
  */
 
 /* You can override the default Infima variables here. */
+
+html{
+  font-size: 112.5%;
+}
+
 :root {
   --ifm-color-primary: #2e8555;
   --ifm-color-primary-dark: #29784c;
