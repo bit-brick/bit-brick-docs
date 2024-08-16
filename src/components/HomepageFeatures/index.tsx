@@ -17,19 +17,13 @@ const FeatureList: FeatureItem[] = [
     url: "docs/pi-one/getting-started/preparation"
   },
   {
-    title: 'Pi one intro',
-    imageSrc: require('@site/static/img/index/icon/intro.png').default,
-    description: (<>Welcome to Bit-Brick and meet with PI ONE</>),
-    url: "docs/pi-one/getting-started/preparation"
-  },
-  {
     title: 'Pi one OS',
     imageSrc: require('@site/static/img/index/icon/os.png').default,
     description: (<>How to get started with your Raspberry Pi</>),
     url: "docs/pi-one/pi-one-os/os"
   },
   {
-    title: 'Pi one linux kernel',
+    title: 'Linux kernel',
     imageSrc: require('@site/static/img/index/icon/kernel.png').default,
     description: (<>How to get started with your Raspberry Pi</>),
     url: "docs/pi-one/pi-one-linux-kernel/yocto"
@@ -48,6 +42,18 @@ const FeatureList: FeatureItem[] = [
   },
   {
     title: 'Datasheets',
+    imageSrc: require('@site/static/img/index/icon/datasheet.png').default,
+    description: (<>How to get started with your Raspberry Pi</>),
+    url: "docs/pi-one/datasheets"
+  },
+  {
+    title: 'Camera software',
+    imageSrc: require('@site/static/img/index/icon/Camera.png').default,
+    description: (<>Software and libraries for Raspberry Pi camera hardware</>),
+    url: "docs/pi-one/datasheets"
+  },
+  {
+    title: 'Machine learning',
     imageSrc: require('@site/static/img/index/icon/datasheet.png').default,
     description: (<>How to get started with your Raspberry Pi</>),
     url: "docs/pi-one/datasheets"
