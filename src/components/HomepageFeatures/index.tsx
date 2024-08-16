@@ -12,43 +12,43 @@ type FeatureItem = {
 const FeatureList: FeatureItem[] = [
   {
     title: 'Getting started',
-    imageSrc: require('@site/static/img/index/Getting-Started.png').default,
+    imageSrc: require('@site/static/img/index/icon/gettingstarted.png').default,
     description: (<>How to get started with your PI ONE</>),
     url: "docs/pi-one/getting-started/preparation"
   },
   {
     title: 'Pi one intro',
-    imageSrc: require('@site/static/img/index/Compute-Module-Hardware.png').default,
+    imageSrc: require('@site/static/img/index/icon/intro.png').default,
     description: (<>Welcome to Bit-Brick and meet with PI ONE</>),
     url: "docs/pi-one/getting-started/preparation"
   },
   {
     title: 'Pi one OS',
-    imageSrc: require('@site/static/img/index/Raspberry-Pi-OS.png').default,
+    imageSrc: require('@site/static/img/index/icon/os.png').default,
     description: (<>How to get started with your Raspberry Pi</>),
     url: "docs/pi-one/pi-one-os/os"
   },
   {
     title: 'Pi one linux kernel',
-    imageSrc: require('@site/static/img/index/PIP.png').default,
+    imageSrc: require('@site/static/img/index/icon/kernel.png').default,
     description: (<>How to get started with your Raspberry Pi</>),
     url: "docs/pi-one/pi-one-linux-kernel/yocto"
   },
   {
     title: 'Pi one hardware',
-    imageSrc: require('@site/static/img/index/Tutorials.png').default,
+    imageSrc: require('@site/static/img/index/icon/hardware.png').default,
     description: (<>How to get started with your Raspberry Pi</>),
     url: "docs/pi-one/pi-one-hardware/hardware-brief"
   },
   {
     title: 'Pi one software',
-    imageSrc: require('@site/static/img/index/Getting-Started.png').default,
+    imageSrc: require('@site/static/img/index/icon/software.png').default,
     description: (<>How to get started with your Raspberry Pi</>),
     url: "docs/pi-one/pi-one-software/GPIOs-functions"
   },
   {
     title: 'Datasheets',
-    imageSrc: require('@site/static/img/index/Datasheets.png').default,
+    imageSrc: require('@site/static/img/index/icon/datasheet.png').default,
     description: (<>How to get started with your Raspberry Pi</>),
     url: "docs/pi-one/datasheets"
   },
