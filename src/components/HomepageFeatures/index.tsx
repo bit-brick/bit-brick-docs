@@ -48,13 +48,19 @@ const FeatureList: FeatureItem[] = [
   },
   {
     title: 'Camera software',
-    imageSrc: require('@site/static/img/index/icon/Camera.png').default,
+    imageSrc: require('@site/static/img/index/icon/cam.png').default,
     description: (<>Software and libraries for Raspberry Pi camera hardware</>),
     url: "docs/pi-one/datasheets"
   },
   {
     title: 'Machine learning',
-    imageSrc: require('@site/static/img/index/icon/datasheet.png').default,
+    imageSrc: require('@site/static/img/index/icon/ml.png').default,
+    description: (<>How to get started with your Raspberry Pi</>),
+    url: "docs/pi-one/datasheets"
+  },
+  {
+    title: 'ROS2',
+    imageSrc: require('@site/static/img/index/icon/ros2.png').default,
     description: (<>How to get started with your Raspberry Pi</>),
     url: "docs/pi-one/datasheets"
   },
