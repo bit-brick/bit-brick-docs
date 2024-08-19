@@ -12,7 +12,7 @@ const CustomHeader = () => (
               <div className="site-header-primary-section-left site-header-section ast-flex site-header-section-left">
                 <div className="ast-builder-layout-element ast-flex site-header-focus-item" data-section="title_tagline">
                   <div className="site-branding ast-site-identity" itemType="https://schema.org/Organization" itemScope>
-                    <span className="site-logo-img"><a href="https://www.bit-brick.com/" className="custom-logo-link" rel="home"><img fetchPriority="high" width="283" height="278" src="https://www.bit-brick.com/wp-content/uploads/2024/05/cropped-logo3-39x35.png" className="custom-logo" alt="BIT-BRICK" decoding="async" /></a></span>
+                    <span className="site-logo-img"><a href="https://www.bit-brick.com/" className="custom-logo-link" rel="home"><img fetchPriority="high" width="283" height="278" src="https://www.bit-brick.com/wp-content/uploads/2024/08/cropped-1723805857491-64x64.png" className="custom-logo" alt="BIT-BRICK" decoding="async" /></a></span>
                     <div className="ast-site-title-wrap">
                       <span className="site-title" itemProp="name">
                         <a href="https://www.bit-brick.com/" rel="home" itemProp="url">
