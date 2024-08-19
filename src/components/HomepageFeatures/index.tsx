@@ -49,7 +49,7 @@ const FeatureList: FeatureItem[] = [
   {
     title: 'Camera software',
     imageSrc: require('@site/static/img/index/icon/cam.png').default,
-    description: (<>Software and libraries for Raspberry Pi camera hardware</>),
+    description: (<>Software and libraries for PI ONE camera hardware</>),
     url: "docs/pi-one/datasheets"
   },
   {

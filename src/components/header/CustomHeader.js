@@ -89,7 +89,7 @@ const CustomHeader = () => (
                     <ul id="ast-hf-mobile-menu" className="main-header-menu ast-nav-menu ast-flex submenu-with-border astra-menu-animation-fade stack-on-mobile">
                       <li id="menu-item-233" className="menu-item menu-item-type-custom menu-item-object-custom menu-item-233"><a href="https://github.com/bit-brick" className="menu-link">Github</a></li>
                       <li id="menu-item-546" className="menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-533 current_page_item menu-item-546"><a href="https://www.bit-brick.com/blog/" aria-current="page" className="menu-link">News</a></li>
-                      <li id="menu-item-526" className="menu-item menu-item-type-post_type menu-item-object-page menu-item-526"><a href="./" className="menu-link">Documentation</a></li>
+                      <li id="menu-item-526" className="menu-item menu-item-type-post_type menu-item-object-page menu-item-526"><a href="https://docs.bit-brick.com/" className="menu-link">Documentation</a></li>
                       <li id="menu-item-112" className="menu-item menu-item-type-post_type menu-item-object-page menu-item-112"><a href="https://www.bit-brick.com/about-us/" className="menu-link">About us</a></li>
                       <li id="menu-item-290" className="menu-item menu-item-type-custom menu-item-object-custom menu-item-290"><a href="https://discourse.bit-brick.com/" className="menu-link">community</a></li>
                     </ul>
