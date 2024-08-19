@@ -24,8 +24,8 @@ export default function Home(): JSX.Element {
   const {siteConfig} = useDocusaurusContext();
   return (
     <Layout
-      title={`Hello from ${siteConfig.title}`}
-      description="Description will go into a meta tag in <head />">
+      title={`Documentation`}
+      description="Here is bit-brick official documentation">
       <main>
         <HomepageFeatures />
       </main>
