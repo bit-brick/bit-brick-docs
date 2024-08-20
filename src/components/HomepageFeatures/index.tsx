@@ -17,33 +17,33 @@ const FeatureList: FeatureItem[] = [
     url: "docs/pi-one/getting-started/preparation"
   },
   {
-    title: 'Pi one OS',
+    title: 'PI ONE OS',
     imageSrc: require('@site/static/img/index/icon/os.png').default,
-    description: (<>How to get started with your Raspberry Pi</>),
+    description: (<>The official PI ONE operation system</>),
     url: "docs/pi-one/pi-one-os/os"
   },
   {
     title: 'Linux kernel',
     imageSrc: require('@site/static/img/index/icon/kernel.png').default,
-    description: (<>How to get started with your Raspberry Pi</>),
+    description: (<>How to configure and build your own kernel for PI ONE</>),
     url: "docs/pi-one/pi-one-linux-kernel/yocto"
   },
   {
-    title: 'Pi one hardware',
+    title: 'Hardware',
     imageSrc: require('@site/static/img/index/icon/hardware.png').default,
-    description: (<>How to get started with your Raspberry Pi</>),
+    description: (<>The information help you to undertand the hardware of PI ONE</>),
     url: "docs/pi-one/pi-one-hardware/hardware-brief"
   },
   {
-    title: 'Pi one software',
+    title: 'Software',
     imageSrc: require('@site/static/img/index/icon/software.png').default,
-    description: (<>How to get started with your Raspberry Pi</>),
+    description: (<>The drivers and applications guide for the PI ONE</>),
     url: "docs/pi-one/pi-one-software/GPIOs-functions"
   },
   {
     title: 'Datasheets',
     imageSrc: require('@site/static/img/index/icon/datasheet.png').default,
-    description: (<>How to get started with your Raspberry Pi</>),
+    description: (<>PDF-based documention</>),
     url: "docs/pi-one/datasheets"
   },
   {
@@ -55,13 +55,13 @@ const FeatureList: FeatureItem[] = [
   {
     title: 'Machine learning',
     imageSrc: require('@site/static/img/index/icon/ml.png').default,
-    description: (<>How to get started with your Raspberry Pi</>),
+    description: (<>How to use hardware accelation for AI</>),
     url: "docs/pi-one/datasheets"
   },
   {
     title: 'ROS2',
     imageSrc: require('@site/static/img/index/icon/ros2.png').default,
-    description: (<>How to get started with your Raspberry Pi</>),
+    description: (<>Guide to show you how to set up ROS</>),
     url: "docs/pi-one/datasheets"
   },
 ];
