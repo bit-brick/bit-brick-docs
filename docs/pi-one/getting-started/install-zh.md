@@ -6,12 +6,12 @@
 
 以 img.zip 结尾的固件为 sdcard 固件，解压后可以用 dd 命令或者 balenaEtcher 写入 sdcard。注意此固件不适用于 eMMC。
 
+## PC 配置要求
+操作系统：Windows 或 Linux 或 MacOS
+C 盘空间（或 Linux/MacOS 系统 Home 空间）：> 5GB
 
 ## 烧录到SD卡
 
-### PC 配置要求
-操作系统：Windows 或 Linux 或 MacOS
-C 盘空间（或 Linux/MacOS 系统 Home 空间）：> 5GB
 ## 基于Windows PC将Linux镜像烧写到TF卡的方法
 ### 使用balenaEtcher烧录镜像的方法
 1. 首先准备一张16GB或更大容量的TF卡，TF卡的传输速度必须为class10级或class10级以上，建议使用闪迪等品牌的TF卡
@@ -64,10 +64,8 @@ https://www.balena.io/etcher/
 
 2. 然后使用读卡器把TF卡插入电脑
 
-3. 找到下载下来的Linux操作系统镜像文件压缩包，然后使用如下命令，解压后的文件中，以”.wic”结尾的文件就是操作系统的镜像文件，大小一般都在1GB以上
-    ~~~bash
-    $ zstd -d imx-image-desktop.rootfs.wic.zst 
-    ~~~
+3. 找到下载下来的Linux操作系统镜像文件压缩包，以img.zip结尾。
+    
 4. 然后下载Linux镜像的烧录软件——balenaEtcher，下载地址为
 https://www.balena.io/etcher/
 
