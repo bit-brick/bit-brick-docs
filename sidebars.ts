@@ -264,7 +264,7 @@ const sidebars: SidebarsConfig = {
             },
             {
               type: 'doc',
-              id: 'risc-v/getting-started/install',
+              id: 'risc-v/getting-started/install-zh',
             },
             {
               type: 'doc',
