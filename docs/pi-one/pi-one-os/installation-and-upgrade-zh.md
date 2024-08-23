@@ -2,7 +2,7 @@
 
 ## 安装
 
-Bianbu 固件可以通过 Titan Flasher 进行刷机，也可以直接通过 fastboot 命令进行刷机，或者写入 sdcard，系统从 sdcard 启动。
+BitOS 固件可以通过 Titan Flasher 进行刷机，也可以直接通过 fastboot 命令进行刷机，或者写入 sdcard，系统从 sdcard 启动。
 
 ### 使用 Titan Flasher 刷机
 
@@ -39,7 +39,7 @@ Bianbu 固件可以通过 Titan Flasher 进行刷机，也可以直接通过 fas
 
 ## 升级
 
-Bianbu Desktop/NAS 支持在线升级。
+BitOS Desktop/NAS 支持在线升级。
 
 ### 通过命令行
 
@@ -50,7 +50,7 @@ sudo do-release-upgrade
 
 ### 通过软件更新器
 
-仅限 Bianbu Desktop。
+仅限 BitOS Desktop。
 
 1. 设备联网；
 2. 打开“软件更新器”；

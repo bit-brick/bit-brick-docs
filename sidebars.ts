@@ -49,7 +49,7 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           collapsed: true,
-          label: 'Bianbu OS',
+          label: 'BitOS',
           items: [
             {
               type: 'doc',

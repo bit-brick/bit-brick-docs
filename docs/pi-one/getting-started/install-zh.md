@@ -7,7 +7,7 @@ C 盘空间（或 Linux/MacOS 系统 Home 空间）：> 5GB
 
 ## 系统镜像下载地址:  
 
-[Bianbu desktop for SDcard](https://archive.spacemit.com/image/k1/version/bianbu/v1.0.13/bianbu-23.10-desktop-k1-v1.0.13-release-20240816183401.img.zip)
+[BitOS desktop for SDcard](https://archive.spacemit.com/image/k1/version/bianbu/v1.0.13/bianbu-23.10-desktop-k1-v1.0.13-release-20240816183401.img.zip)
 
 以 img.zip 结尾的固件为 sdcard 固件，解压后可以用 dd 命令或者 balenaEtcher 写入 sdcard。注意此固件不适用于 eMMC。
 

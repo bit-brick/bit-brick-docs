@@ -2,7 +2,7 @@
 
 ## 连接有线网络
 
-插上网线，Bianbu Desktop 会自动从 DHCP 获取 IP，可以通过以下方法查询当前 IP。
+插上网线，BitOS Desktop 会自动从 DHCP 获取 IP，可以通过以下方法查询当前 IP。
 
 **方法一**：
 1. 打开“设置”；
@@ -11,7 +11,7 @@
 4. 弹出对话框即可查看 IP 地址。
 
 **方法二**：
-在 Bianbu Desktop 打开终端，执行 `ifconfig`，`inet`后面即 IPv4 地址。
+在 BitOS Desktop 打开终端，执行 `ifconfig`，`inet`后面即 IPv4 地址。
 
 ## 连接无线网
 

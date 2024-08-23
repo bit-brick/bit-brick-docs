@@ -1,8 +1,8 @@
 # 简介
 
-Bianbu 是一个针对 RISC - V 架构的处理器做了深度优化的操作系统，基于 Ubuntu 社区源码构建，有 Bianbu Desktop 和 Bianbu NAS 等版本，适用于不同的产品领域。
+BitOS 是一个针对 RISC - V 架构的处理器做了深度优化的操作系统，基于 Ubuntu 社区源码构建，有 BitOS Desktop 和 BitOS NAS 等版本，适用于不同的产品领域。
 
-## 为什么做 Bianbu
+## 为什么做 BitOS
 
 - 为开发者提供一个针对 RISC - V 架构的处理器做了深度优化的操作系统
 - 为客户提供系统解决方案，加速产品量产落地
@@ -12,9 +12,9 @@ Bianbu 是一个针对 RISC - V 架构的处理器做了深度优化的操作系
 
 让我们的技术和服务遍布各行各业，遍布世界，服务每一个有需要的人。
 
-## Bianbu Desktop
+## BitOS Desktop
 
-Bianbu Desktop 是一个桌面操作系统，简洁、快速、安全，支持 RISC - V 单板电脑、笔记本和台式机等。
+BitOS Desktop 是一个桌面操作系统，简洁、快速、安全，支持 RISC - V 单板电脑、笔记本和台式机等。
 
 ![os](/img/pi-one/os/bianbuos.png)
 
@@ -24,7 +24,7 @@ Bianbu Desktop 是一个桌面操作系统，简洁、快速、安全，支持 R
 
 #### 软件组件
 
-以下是 Bianbu Desktop 的组件：
+以下是 BitOS Desktop 的组件：
 
 - **应用**
     - GNOME 桌面及其常用应用
@@ -78,7 +78,7 @@ Bianbu Desktop 是一个桌面操作系统，简洁、快速、安全，支持 R
 ### 固件
 
 - 最新版本：v1.0.9。
-- Bianbu Desktop 固件：https://archive.spacemit.com/image/k1/version/bianbu/
+- BitOS Desktop 固件：https://archive.spacemit.com/image/k1/version/bianbu/
     - *.img.zip 是 sdcard 固件，解压后可以用 dd 命令或者 balenaEtcher 写入 sdcard。
     - *.zip 适用于 Titan Flasher，刷机参考刷机工具使用手册，或者解压后用 fastboot 刷机。
 - 固件 root 用户的密码：bianbu 。
