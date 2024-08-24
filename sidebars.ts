@@ -76,11 +76,23 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'doc',
-              id: 'pi-one/pi-one-linux-kernel/yocto',
+              id: 'pi-one/pi-one-linux-kernel/build-bit-os-zh',
             },
             {
               type: 'doc',
-              id: 'pi-one/pi-one-linux-kernel/ubuntu-build',
+              id: 'pi-one/pi-one-linux-kernel/kernel-build-zh',
+            },
+            {
+              type: 'doc',
+              id: 'pi-one/pi-one-linux-kernel/device-manage-zh',
+            },
+            {
+              type: 'doc',
+              id: 'pi-one/pi-one-linux-kernel/solution-manage-zh',
+            },
+            {
+              type: 'doc',
+              id: 'pi-one/pi-one-linux-kernel/boot-zh',
             },
           ],
         },
