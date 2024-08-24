@@ -17,8 +17,8 @@ bsp-src/uboot-2022.10/configs/k1_defconfig
 bsp-src/linux-6.1/arch/riscv/configs/k1_defconfig
 ```
 - `buildroot-ext/board/spacemit/k1/partition_*.json`：分区配置文件：
-    - `<代码开始>partition_2M.json<代码结束>`：for 2MB flash
-    - `<代码开始>partition_universal.json<代码结束>`：for high capacity flash，例如 eMMC、sdcard、SSD
+    - `partition_2M.json`：for 2MB flash
+    - `partition_universal.json`：for high capacity flash，例如 eMMC、sdcard、SSD
 - `buildroot-ext/board/spacemit/k1/env_k1-x.txt`：u-boot 环境变量，可定制启动参数。
 - `buildroot-ext/board/spacemit/k1/bianbu.bmp`：u-boot 启动 logo：
     - 格式：BMP
@@ -33,11 +33,11 @@ bsp-src/linux-6.1/arch/riscv/configs/k1_defconfig
 
 ## 默认分区配置
 
-尽量不要修改 `<代码开始>bootfs<代码结束>`前面的分区配置，避免引导代码中有 hard code，修改之后无法正常引导。
+尽量不要修改 `bootfs`前面的分区配置，避免引导代码中有 hard code，修改之后无法正常引导。
 
 ## eMMC 分区配置
 
-按 partition_universal.json 文件 `<代码开始>partitions<代码结束>`数组配置，其中 bootinfo 和 fsbl 位于 eMMC 的 boot0 分区。
+按 partition_universal.json 文件 `partitions`数组配置，其中 bootinfo 和 fsbl 位于 eMMC 的 boot0 分区。
 
 eMMC boot0 分区配置如下：
 ```
@@ -61,7 +61,7 @@ eMMC GPP 分区配置如下：
 
 ## sdcard 分区配置
 
-完全按 partition_universal.json 文件 `<代码开始>partitions<代码结束>`数组配置。
+完全按 partition_universal.json 文件 `partitions`数组配置。
 
 分区配置如下：
 ```
@@ -74,7 +74,7 @@ eMMC GPP 分区配置如下：
 ```
 ## SPINOR + SSD 分区配置
 
-SSD 方案，需要用 SPINOR 引导，bootfs 之前的分区都存储在 SPINOR，按 `<代码开始>partition_<SPINOR size>.json<代码结束>`文件 `<代码开始>partitions<代码结束>`数组配置。
+SSD 方案，需要用 SPINOR 引导，bootfs 之前的分区都存储在 SPINOR，按 `partition_<SPINOR size>.json`文件 `partitions`数组配置。
 
 SPINOR 分区配置如下：
 ```
@@ -85,7 +85,7 @@ SPINOR 分区配置如下：
 |         |         |      |     |         |       |
 0K        80bytes   128K   384K  448K      640K    Capacity
 ```
-bootfs 和 rootfs 存储在 SSD，按 partition_universal.json 文件 `<代码开始>partitions<代码结束>`数组配置。
+bootfs 和 rootfs 存储在 SSD，按 partition_universal.json 文件 `partitions`数组配置。
 ```
 ------------------------------------------------------------------------------------------
 | gpt                                                      |    bootfs    |    rootfs    |

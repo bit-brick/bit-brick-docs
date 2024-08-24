@@ -26,7 +26,7 @@ sudo pip3 install pyyaml
 
 Bianbu Linux 代码托管在 Gitee 上，下载前先参考这篇文档设置 SSH Keys。
 
-下载代码，例如下载 `<代码开始>bl-v1.0.y<代码结束>`分支：
+下载代码，例如下载 `bl-v1.0.y`分支：
 ```
 mkdir ~/bianbu-linux
 cd ~/bianbu-linux
@@ -65,11 +65,11 @@ wget -c -r -nv -np -nH -R "index.html*" http://archive.spacemit.com/buildroot/dl
 
 ### 首次完整编译
 
-首次编译，建议使用 `<代码开始>make envconfig<代码结束>`完整编译。
+首次编译，建议使用 `make envconfig`完整编译。
 
-修改了 `<代码开始>buildroot-ext/configs/spacemit_<solution>_defconfig<代码结束>`，要使用 `<代码开始>make envconfig<代码结束>`编译。
+修改了 `buildroot-ext/configs/spacemit_<solution>_defconfig`，要使用 `make envconfig`编译。
 
-其他情况，使用 `<代码开始>make<代码结束>`编译即可。
+其他情况，使用 `make`编译即可。
 ```
 cd ~/bianbu-linux
 make envconfig
@@ -80,9 +80,9 @@ Available configs in buildroot-ext/configs/:
   4. spacemit_k1_v2_defconfig
 your choice (1-4):
 ```
-编译 Bianbu Linux 1.0 版本，输入 `<代码开始>1<代码结束>`，然后回车即开始编译。
+编译 Bianbu Linux 1.0 版本，输入 `1`，然后回车即开始编译。
 
-编译 Bianbu Linux 2.0 版本，输入 `<代码开始>4<代码结束>`。
+编译 Bianbu Linux 2.0 版本，输入 `4`。
 
 编译过程可能需要下载一些第三方软件包，具体耗时和网络环境相关。如果提前下载 buildroot 依赖的第三方软件包，推荐硬件配置编译耗时约为 1 小时。
 
@@ -109,11 +109,11 @@ INFO: hdimage(sdcard.img): writing protective MBR
 INFO: hdimage(sdcard.img): writing MBR
 Successfully generated at /home/username/work/bianbu-linux/output/k1/images/bianbu-linux-k1-sdcard.img
 ```
-其中 `<代码开始>bianbu-linux-k1.zip<代码结束>`适用于 Titan Flasher，或者解压后用 fastboot 刷机；`<代码开始>bianbu-linux-k1-sdcard.img<代码结束>`为 sdcard 固件，解压后可以用 dd 命令或者 balenaEtcher 写入 sdcard。
+其中 `bianbu-linux-k1.zip`适用于 Titan Flasher，或者解压后用 fastboot 刷机；`bianbu-linux-k1-sdcard.img`为 sdcard 固件，解压后可以用 dd 命令或者 balenaEtcher 写入 sdcard。
 
 Titan Flasher 使用指南：刷机工具使用指南
 
-固件默认用户名：`<代码开始>root<代码结束>`，密码：`<代码开始>bianbu<代码结束>`。
+固件默认用户名：`root`，密码：`bianbu`。
 
 ## 配置
 
@@ -123,7 +123,7 @@ Titan Flasher 使用指南：刷机工具使用指南
 ```
 make menuconfig
 ```
-保存配置，默认保存到 `<代码开始>buildroot-ext/configs/spacemit_k1_defconfig<代码结束>`：
+保存配置，默认保存到 `buildroot-ext/configs/spacemit_k1_defconfig`：
 ```
 make savedefconfig
 ```
@@ -134,7 +134,7 @@ make savedefconfig
 ```
 make linux-menuconfig
 ```
-保存配置，默认保存到 `<代码开始>bsp-src/linux-6.1/arch/riscv/configs/k1_defconfig<代码结束>`：
+保存配置，默认保存到 `bsp-src/linux-6.1/arch/riscv/configs/k1_defconfig`：
 ```
 make linux-update-defconfig
 ```
@@ -145,18 +145,18 @@ make linux-update-defconfig
 ```
 make uboot-menuconfig
 ```
-保存配置，默认保存到 `<代码开始>bsp-src/uboot-2022.10/configs/k1_defconfig<代码结束>`：
+保存配置，默认保存到 `bsp-src/uboot-2022.10/configs/k1_defconfig`：
 ```
 make uboot-update-defconfig
 ```
 
 ## 编译指定包
 
-buildroot 支持编译指定 package，可以 `<代码开始>make help<代码结束>`查看指南。
+buildroot 支持编译指定 package，可以 `make help`查看指南。
 
 常用命令：
-- 删除 `<代码开始><pkg><代码结束>`的编译目录：`<代码开始>make <pkg>-dirclean<代码结束>`
-- 编译 `<代码开始><pkg><代码结束>`：`<代码开始>make <pkg><代码结束>`
+- 删除 `<pkg>`的编译目录：`make <pkg>-dirclean`
+- 编译 `<pkg>`：`make <pkg>`
 - 编译内核：
 ```
 make linux-rebuild
@@ -172,7 +172,7 @@ make
 
 ## 单独编译
 
-### 交叉编译器下载地址：`<代码开始>http://archive.spacemit.com/toolchain/<代码结束>`，解压即可使用。
+### 交叉编译器下载地址：`http://archive.spacemit.com/toolchain/`，解压即可使用。
 
 设置环境变量：
 ```
@@ -195,7 +195,7 @@ cd /path/to/uboot-2022.10
 make k1_defconfig
 make -j$(nproc)
 ```
-编译会根据 `<代码开始>board/spacemit/k1-x/k1-x.env<代码结束>`生成 `<代码开始>u-boot-env-default.bin<代码结束>`，对应分区表 `<代码开始>env<代码结束>`分区的镜像。
+编译会根据 `board/spacemit/k1-x/k1-x.env`生成 `u-boot-env-default.bin`，对应分区表 `env`分区的镜像。
 
 ### 编译 linux
 
@@ -215,7 +215,7 @@ LOCALVERSION="" make -j$(nproc)
 cd /path/to/opensbi
 make -j$(nproc) PLATFORM_DEFCONFIG=k1_defconfig PLATFORM=generic
 ```
-将 `<代码开始>platform/generic/firmware/fw_dynamic.itb<代码结束>`用 fastboot 写入 opensbi 分区即可。
+将 `platform/generic/firmware/fw_dynamic.itb`用 fastboot 写入 opensbi 分区即可。
 
 ### 编译 u-boot
 
@@ -224,7 +224,7 @@ cd /path/to/uboot-2022.10
 make k1_defconfig
 make -j$(nproc)
 ```
-将 `<代码开始>FSBL.bin<代码结束>`、`<代码开始>u-boot-env-default.bin<代码结束>`和 `<代码开始>u-boot.itb<代码结束>`用 fastboot 写入对应分区即可。
+将 `FSBL.bin`、`u-boot-env-default.bin`和 `u-boot.itb`用 fastboot 写入对应分区即可。
 
 ### 编译 linux
 
@@ -233,4 +233,4 @@ cd /path/to/linux-6.1
 make k1_defconfig
 LOCALVERSION="" make -j$(nproc)
 ```
-将 `<代码开始>arch/riscv/boot/Image.gz.itb<代码结束>`和 `<代码开始>arch/riscv/boot/dts/spacemit/*.dtb<代码结束>`替换 `<代码开始>bootfs<代码结束>`分区对应文件即可。 
+将 `arch/riscv/boot/Image.gz.itb`和 `arch/riscv/boot/dts/spacemit/*.dtb`替换 `bootfs`分区对应文件即可。 
