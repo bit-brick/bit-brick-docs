@@ -228,15 +228,15 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'doc',
-              id: 'pi-one/pi-one-ml/ml-zh',
+              id: 'pi-one/pi-one-ml/ai-arch-zh',
             },
             {
               type: 'doc',
-              id: 'pi-one/pi-one-ml/go-point',
+              id: 'pi-one/pi-one-ml/tools-overview-zh',
             },
             {
               type: 'doc',
-              id: 'pi-one/pi-one-ml/ml-tensorflow-lite',
+              id: 'pi-one/pi-one-ml/ai-quick-start-zh',
             },
             {
               type: 'doc',
