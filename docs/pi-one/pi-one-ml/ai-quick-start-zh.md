@@ -18,39 +18,39 @@ Docker version 24.0.7, build afdd53b
 提示：如果您无 root 权限，请联系您所使用 PC 设备的管理员，将您的用户名添加到 docker 用户组中。届时，您将不再需要 sudo即可执行 docker 相关命令。
 #### 2.1.1.1 获取 Docker 镜像
 
-您可以选择直接从 harbor.spacemit.com的 spacemit - ai项目中，拉取 spacemit - ai - sdk相关镜像（注：x86_64 架构）；也可以选择从 https://archive.spacemit.com/spacemit - ai/spacemit - ai - sdk / 网站手动下载、导入压缩后的镜像文件。
+您可以选择直接从 harbor.spacemit.com的 spacemit-ai项目中，拉取 spacemit-ai-sdk相关镜像（注：x86_64 架构）；也可以选择从 https://archive.spacemit.com/spacemit-ai/spacemit-ai-sdk / 网站手动下载、导入压缩后的镜像文件。
 提示：出于带宽等因素考虑，我们推荐您采用 手动下载相关镜像 的方式。
 直接拉取（示例）：
 ~~~
-$ sudo docker pull harbor.spacemit.com/spacemit - ai/spacemit - ai - sdk:latest
-latest: Pulling from spacemit - ai/spacemit - ai - sdk
+$ sudo docker pull harbor.spacemit.com/spacemit-ai/spacemit-ai-sdk:latest
+latest: Pulling from spacemit-ai/spacemit-ai-sdk
 ...
 ~~~
 提示：如您需要特定版本的部署工具，操作时可将 latest替换为指定版本号或其他标签（e.g. v1.0.0）。
 手动下载、导入（示例）：
 ~~~
-$ wget https://archive.spacemit.com/spacemit - ai/spacemit - ai - sdk/spacemit - ai - sdk.v1.1.0.x86_64.img.tar.gz --no - check - certificate
-$ sudo docker load -i spacemit - ai - sdk.v1.1.0.x86_64.img.tar.gz
+$ wget https://archive.spacemit.com/spacemit-ai/spacemit-ai-sdk/spacemit-ai-sdk.v1.1.0.x86_64.img.tar.gz --no - check - certificate
+$ sudo docker load -i spacemit-ai-sdk.v1.1.0.x86_64.img.tar.gz
 ~~~
 #### 2.1.1.2 查看 Docker 镜像
 示例：
 ~~~
-$ sudo docker images | grep spacemit - ai - sdk
+$ sudo docker images | grep spacemit-ai-sdk
 REPOSITORY                                       TAG       IMAGE ID        CREATED       SIZE
-harbor.spacemit.com/spacemit - ai/spacemit - ai - sdk  latest    4d239b86f5ea    3 days ago    3.83GB
+harbor.spacemit.com/spacemit-ai/spacemit-ai-sdk  latest    4d239b86f5ea    3 days ago    3.83GB
 ~~~
 #### 2.1.1.3 创建 Docker 容器
 创建容器（示例）：
 ~~~
 $ NAME = ai_test # 给您的 docker 容器取个名称
-$ sudo docker run -itd --name $NAME --net = host harbor.spacemit.com/spacemit - ai/spacemit - ai - sdk:latest /bin/bash
+$ sudo docker run -itd --name $NAME --net = host harbor.spacemit.com/spacemit-ai/spacemit-ai-sdk:latest /bin/bash
 ~~~
 提示：如您打算挂载宿主机目录到容器中 `(e.g. 参数 -v <宿主机目录:容器目录>)`，请回避 /opt目录（当前进迭时空 AI 部署工具预置文件夹路径）。
 查看容器（示例）：
 ~~~
 $ sudo docker ps -a | grep $NAME
 CONTAINER ID   IMAGE                                                   COMMAND        CREATED          STATUS           PORTS    NAMES
-0a35d7feebd9   harbor.spacemit.com/spacemit - ai/spacemit - ai - sdk:latest  "/bin/bash"    2 minutes ago    Up 2 minutes              ai_test
+0a35d7feebd9   harbor.spacemit.com/spacemit-ai/spacemit-ai-sdk:latest  "/bin/bash"    2 minutes ago    Up 2 minutes              ai_test
 ~~~
 #### 2.1.1.4 进入 Docker 容器
 进入容器（示例）：
@@ -74,17 +74,17 @@ Spacemit AI Toolkit(Version: 2024/01/15)
 SDK 包下载页面：https://archive.spacemit.com/spacemit-ai/spacemit-ai-sdk/
 下载示例（e.g. v1.1.0）：
 ~~~
-$ wget https://archive.spacemit.com/spacemit - ai/spacemit - ai - sdk/spacemit - ai - sdk.v1.1.0.x86_64.tar.gz --no - check - certificate
+$ wget https://archive.spacemit.com/spacemit-ai/spacemit-ai-sdk/spacemit-ai-sdk.v1.1.0.x86_64.tar.gz --no - check - certificate
 ~~~
 #### 2.1.2.3 安装部署工具
 解压工具（示例）：
 ~~~
-$ tar xzf spacemit - ai - sdk.v1.1.0.x86_64.tar.gz
+$ tar xzf spacemit-ai-sdk.v1.1.0.x86_64.tar.gz
 ~~~
 目录结构（示例）：
 ~~~
-$ tree -L 1 spacemit - ai - sdk.v1.1.0
-spacemit - ai - sdk.v1.1.0
+$ tree -L 1 spacemit-ai-sdk.v1.1.0
+spacemit-ai-sdk.v1.1.0
 ├──.spine.rc -> spine*       // 工具集 环境配置脚本
 ├── bianbu - ai - support         // 上层应用开发支持库（及示例）
 ├── quick_start*              // 快速上手示例脚本
@@ -107,7 +107,7 @@ $ bash install.sh
 提示：您可能需要 root 权限来执行相关依赖软件的安装。若您无法获取相关权限，您可以联系您当前使用设备的管理员协助安装，或使用进迭时空为您提供的 AI 部署工具 docker 镜像（参见 2.1 Docker 环境使用 章节内容）。
 导入工具（示例）：
 ~~~
-# cd spacemit - ai - sdk.v1.1.0
+# cd spacemit-ai-sdk.v1.1.0
 $ source.spine.rc # 注: 仅对当前终端有效（您也可以编辑 ~/.bashrc 文件，使其对所有终端生效）
 ~~~
 查询版本（示例）：
@@ -123,7 +123,7 @@ Spacemit AI Toolkit(Version: 2024/01/15)
 使用说明（示例）：
 ~~~
 $ quick_start
-Usage: /opt/spacemit - ai - sdk.v1.1.0/quick_start [paddle|demo|all]
+Usage: /opt/spacemit-ai-sdk.v1.1.0/quick_start [paddle|demo|all]
 ~~~
 其中，参数 paddle指明快速演示 Paddle 相关模型部署流程（包括：资源下载、模型转换、模型量化、精度验证、仿真运行等）；参数 demo指明快速演示 C/C++ 应用程序编译、测试等流程；参数 all指明快速演示所有任务（当前： paddle和 demo ）。
 说明：当您首次执行 quick_start paddle或 quick_start all时，脚本工具会自动下载并解压 quick_start.tar.gz 数据包（目录结构示例）：
@@ -232,15 +232,15 @@ resnet50
 不同应用场景、领域下的精度评估指标各不相同。以 quick_start中的 Paddle 分类模型为例，在开发环境中执行下述命令，可以在指定测试数据集上，快速对比、验证量化后模型的精度：
 ~~~
 # eval converted onnx model(fp32)
-$ /opt/spacemit - ai - sdk.v1.1.0/spacengine - toolkit/bin/python3 -m pip install opencv - python -i https://pypi.tuna.tsinghua.edu.cn/simple
-$ /opt/spacemit - ai - sdk.v1.1.0/spacengine - toolkit/bin/python3 \
+$ /opt/spacemit-ai-sdk.v1.1.0/spacengine - toolkit/bin/python3 -m pip install opencv - python -i https://pypi.tuna.tsinghua.edu.cn/simple
+$ /opt/spacemit-ai-sdk.v1.1.0/spacengine - toolkit/bin/python3 \
     dataset/paddle/classification/infer.py --model resnet50/inference.onnx \
     --image_dir dataset/data/Imagenet/Test --label_path dataset/data/Imagenet/test_label.txt
 Prec@1 0.750 = 45 / 60
 Prec@5 0.967 = 58 / 60
 
 # eval quantized onnx model(int8)
-$ /opt/spacemit - ai - sdk.v1.1.0/spacengine - toolkit/bin/python3 \
+$ /opt/spacemit-ai-sdk.v1.1.0/spacengine - toolkit/bin/python3 \
     dataset/paddle/classification/infer.py --model resnet50/inference.q.onnx \
     --image_dir dataset/data/Imagenet/Test --label_path dataset/data/Imagenet/test_label.txt
 Prec@1 0.750 = 45 / 60
@@ -325,7 +325,7 @@ Bianbu AI Support Library 是进迭时空自研的上层应用开发支持库，
 ### Demo 编译、运行示例
 ```
 # 一键交叉编译
-$ cd spacemit - ai - sdk.v1.1.0/bianbu - ai - support/demo
+$ cd spacemit-ai-sdk.v1.1.0/bianbu - ai - support/demo
 $ bash build.sh
 ...
 [INFO] Building demos done.

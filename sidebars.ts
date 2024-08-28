@@ -240,7 +240,11 @@ const sidebars: SidebarsConfig = {
             },
             {
               type: 'doc',
-              id: 'pi-one/pi-one-ml/ml-onnx-zh',
+              id: 'pi-one/pi-one-ml/model-translate-zh',
+            },
+            {
+              type: 'doc',
+              id: 'pi-one/pi-one-ml/model-optimization-zh',
             },
           ],
         },
