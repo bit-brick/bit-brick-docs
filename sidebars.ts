@@ -246,6 +246,11 @@ const sidebars: SidebarsConfig = {
               type: 'doc',
               id: 'pi-one/pi-one-ml/model-optimization-zh',
             },
+            {
+              type: 'doc',
+              id: 'pi-one/pi-one-ml/model-simulation-testing-zh',
+            },
+            
           ],
         },
         {
