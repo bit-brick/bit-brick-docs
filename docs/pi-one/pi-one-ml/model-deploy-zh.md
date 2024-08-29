@@ -2,7 +2,7 @@
 
   ## 6.1 性能测试
   **【提示】**在正式部署 AI 模型前，我们强烈建议您先在 `芯片端`进行相关模型的性能测试，以确保当前模型的推理性能符合预期。
-  SDK 目录下的 `spacemit - ort / bin / onnxruntime_perf_test`工具支持在 `芯片端`快速测试 AI 算法模型的纯推理性能。该工具兼容 ONNX 模型，故您可以很方便的使用它来评测原始 ONNX 浮点模型，以及转换（和/或量化）后的 ONNX 定点模型性能。
+  SDK 目录下的 `spacemit-ort/bin/ onnxruntime_perf_test`工具支持在 `芯片端`快速测试 AI 算法模型的纯推理性能。该工具兼容 ONNX 模型，故您可以很方便的使用它来评测原始 ONNX 浮点模型，以及转换（和/或量化）后的 ONNX 定点模型性能。
 
   ### 6.1.2 使用说明
   ```
@@ -101,10 +101,10 @@
   ## 6.2 应用开发
   ### 6.2.1 AI Support Library
   #### 6.2.1.1 **Demo 简介**
-  当前 Support Library Demo 位于部署工具包中 bianbu - ai - support 目录下，相关说明及示例如下：
+  当前 Support Library Demo 位于部署工具包中 bianbu-ai-support 目录下，相关说明及示例如下：
   ```
-  $ tree - L 3 / opt / spacemit - ai - sdk.v1.1.0 / bianbu - ai - support /
-  / opt / spacemit - ai - sdk.v1.1.0 / bianbu - ai - support /
+  $ tree - L 3 /opt/spacemit-ai-sdk.v1.1.0/bianbu-ai-support/
+  /opt/spacemit-ai-sdk.v1.1.0/bianbu-ai- support/
   ├── bin                 // 预编译好的可执行程序
   │   ├── classification_demo
   │   ├── detection_demo
@@ -152,8 +152,8 @@
   ##### **交叉编译**
   交叉编译主要适用于 PC 端（e.g. x86_64 开发环境），流程（示例）如下：
   ```
-  # 指定 spacemit - ai - sdk 路径
-  $ SDK = ${PATH_TO_SPACEMIT_AI_SDK} # e.g. / opt / spacemit - ai - sdk.v1.1.0
+  # 指定 spacemit-ai-sdk 路径
+  $ SDK = ${PATH_TO_SPACEMIT_AI_SDK} # e.g. / opt / spacemit-ai-sdk.v1.1.0
 
   # 指定交叉编译相关环境变量
   $ CROSS_TOOL = $SDK / spacemit - gcc / bin / riscv64 - unknown - linux - gnu -
@@ -189,8 +189,8 @@
   【提示】上述相关内容已提前预置在 `demo / build.sh`快速编译脚本中。您可以通过编辑 `demo / build.sh`脚本，快速修改相关配置（如：ORT_HOME 等变量）。届时，您可以通过 `bash build.sh`（交叉编译）和 `bash build.sh -- native`（本地编译）命令快速验证 demo 编译。
   ##### **快速编译**
   ```
-  # 一键交叉编译(e.g. spacemit - ai - sdk.v1.1.0 docker 环境)
-  $ cd / opt / spacemit - ai - sdk.v1.1.0 / bianbu - ai - support / demo
+  # 一键交叉编译(e.g. spacemit-ai-sdk.v1.1.0 docker 环境)
+  $ cd / opt / spacemit-ai-sdk.v1.1.0 / bianbu - ai - support / demo
   $ bash build.sh
   ```
   #### 6.2.1.3 **Demo 运行**
