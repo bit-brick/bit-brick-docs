@@ -33,15 +33,15 @@ const sidebars: SidebarsConfig = {
             },
             {
               type: 'doc',
-              id: 'pi-one/getting-started/install',
+              id: 'pi-one/getting-started/install-zh',
             },
             {
               type: 'doc',
-              id: 'pi-one/getting-started/configuring',
+              id: 'pi-one/getting-started/configuring-zh',
             },
             {
               type: 'doc',
-              id: 'pi-one/getting-started/resize-rootfs',
+              id: 'pi-one/getting-started/resize-rootfs-zh',
             },
             
           ],
@@ -49,11 +49,23 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           collapsed: true,
-          label: 'PI one OS',
+          label: 'BitOS',
           items: [
             {
               type: 'doc',
-              id: 'pi-one/pi-one-os/os',
+              id: 'pi-one/pi-one-os/os-intro-zh',
+            },
+            {
+              type: 'doc',
+              id: 'pi-one/pi-one-os/installation-and-upgrade-zh',
+            },
+            {
+              type: 'doc',
+              id: 'pi-one/pi-one-os/connection-zh',
+            },
+            {
+              type: 'doc',
+              id: 'pi-one/pi-one-os/package-management-zh',
             },
           ],
         },
@@ -64,11 +76,23 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'doc',
-              id: 'pi-one/pi-one-linux-kernel/yocto',
+              id: 'pi-one/pi-one-linux-kernel/build-bit-os-zh',
             },
             {
               type: 'doc',
-              id: 'pi-one/pi-one-linux-kernel/ubuntu-build',
+              id: 'pi-one/pi-one-linux-kernel/kernel-build-zh',
+            },
+            {
+              type: 'doc',
+              id: 'pi-one/pi-one-linux-kernel/device-manage-zh',
+            },
+            {
+              type: 'doc',
+              id: 'pi-one/pi-one-linux-kernel/solution-manage-zh',
+            },
+            {
+              type: 'doc',
+              id: 'pi-one/pi-one-linux-kernel/boot-zh',
             },
           ],
         },
@@ -204,20 +228,29 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'doc',
-              id: 'pi-one/pi-one-ml/ml-zh',
+              id: 'pi-one/pi-one-ml/ai-arch-zh',
             },
             {
               type: 'doc',
-              id: 'pi-one/pi-one-ml/go-point',
+              id: 'pi-one/pi-one-ml/tools-overview-zh',
             },
             {
               type: 'doc',
-              id: 'pi-one/pi-one-ml/ml-tensorflow-lite',
+              id: 'pi-one/pi-one-ml/ai-quick-start-zh',
             },
             {
               type: 'doc',
-              id: 'pi-one/pi-one-ml/ml-onnx-zh',
+              id: 'pi-one/pi-one-ml/model-translate-zh',
             },
+            {
+              type: 'doc',
+              id: 'pi-one/pi-one-ml/model-optimization-zh',
+            },
+            {
+              type: 'doc',
+              id: 'pi-one/pi-one-ml/model-simulation-testing-zh',
+            },
+            
           ],
         },
         {
@@ -231,79 +264,9 @@ const sidebars: SidebarsConfig = {
             },
           ],
         },
-        {
-          type: 'category',
-          collapsed: true,
-          label: 'Blog',
-          items: [
-            {
-              type: 'doc',
-              id: 'pi-one/blog/ml/mnist-tensorflow/mnist-tensorflow-1-zh'
-            },
-            {
-              type: 'doc',
-              id: 'pi-one/blog/ml/mnist-tensorflow/mnist-tensorflow-2-zh'
-            }
-          ],
-        },
+        
       ],
-    },
-    {
-      type: 'category',
-      collapsed: true,
-      label: 'RISC-V',
-      items: [
-        {
-          type: 'category',
-          collapsed: true,
-          label: 'Getting Started',
-          items: [
-            {
-              type: 'doc',
-              id: 'risc-v/getting-started/preparation',
-            },
-            {
-              type: 'doc',
-              id: 'risc-v/getting-started/install',
-            },
-            {
-              type: 'doc',
-              id: 'risc-v/getting-started/configuring',
-            },
-            {
-              type: 'doc',
-              id: 'risc-v/getting-started/resize-rootfs',
-            },
-            
-          ],
-        },{
-          type: 'category',
-          collapsed: true,
-          label: 'Bianbu OS',
-          items: [
-            {
-              type: 'doc',
-              id: 'risc-v/bianbu-os/os-intro-zh',
-            },
-            {
-              type: 'doc',
-              id: 'risc-v/bianbu-os/installation-and-upgrade-zh',
-            },
-            {
-              type: 'doc',
-              id: 'risc-v/bianbu-os/connection-zh',
-            },
-            {
-              type: 'doc',
-              id: 'risc-v/bianbu-os/package-management-zh',
-            },
-            
-            
-            
-          ],
-        }
-      ],
-    },
+    }
   ],
    
 };
