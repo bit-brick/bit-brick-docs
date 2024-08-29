@@ -250,6 +250,10 @@ const sidebars: SidebarsConfig = {
               type: 'doc',
               id: 'pi-one/pi-one-ml/model-simulation-testing-zh',
             },
+            {
+              type: 'doc',
+              id: 'pi-one/pi-one-ml/model-deploy-zh',
+            },
             
           ],
         },
