@@ -30,7 +30,9 @@ const CustomHeader = () => (
                       <nav className="site-navigation ast-flex-grow-1 navigation-accessibility site-header-focus-item" id="primary-site-navigation-desktop" aria-label="Site Navigation" itemType="https://schema.org/SiteNavigationElement" itemScope>
                         <div className="main-navigation ast-inline-flex">
                           <ul id="ast-hf-menu-1" className="main-header-menu ast-menu-shadow ast-nav-menu ast-flex submenu-with-border stack-on-mobile">
-                            <li id="menu-item-231" className="menu-item menu-item-type-custom menu-item-object-custom menu-item-231"><a href="https://github.com/bit-brick" className="menu-link">Github</a></li>
+                            <li id="menu-item-547" className="menu-item menu-item-type-post_type menu-item-object-page menu-item-547"><a href="https://www.bit-brick.com/products/" aria-current="page" className="menu-link">Hardware</a></li>
+                            <li id="menu-item-547" className="menu-item menu-item-type-post_type menu-item-object-page menu-item-547"><a href="https://www.bit-brick.com/software/" aria-current="page" className="menu-link">Software</a></li>
+                            {/* <li id="menu-item-231" className="menu-item menu-item-type-custom menu-item-object-custom menu-item-231"><a href="https://github.com/bit-brick" className="menu-link">Github</a></li> */}
                             <li id="menu-item-547" className="menu-item menu-item-type-post_type menu-item-object-page menu-item-547"><a href="https://www.bit-brick.com/blog/" aria-current="page" className="menu-link">News</a></li>
                             <li id="menu-item-525" className="menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-533 current_page_item  menu-item-525"><a href="./" className="menu-link">Documentation</a></li>
                             <li id="menu-item-249" className="menu-item menu-item-type-custom menu-item-object-custom menu-item-249"><a href="https://discourse.bit-brick.com/" className="menu-link">Community</a></li>
