@@ -1,7 +1,16 @@
 // src/components/CustomHeader.js
 import React from 'react';
 
-const CustomHeader = () => (
+const CustomHeader = () => {
+
+  const handleLanguageChange = (event) => {
+    const selectedValue = event.target.value;
+    if (window.location.pathname !== selectedValue) {
+      window.location.href = selectedValue;
+    }
+  }
+
+  return (
   <div className='custom-header'>
     <header className="site-header header-main-layout-1 ast-primary-menu-enabled ast-logo-title-inline ast-hide-custom-menu-mobile ast-builder-menu-toggle-icon ast-mobile-header-inline" id="masthead" itemType="https://schema.org/WPHeader" itemScope itemID="#masthead">
     <div id="ast-desktop-header" data-toggle-type="dropdown">
@@ -43,6 +52,15 @@ const CustomHeader = () => (
                     </div>
                   </div>
                 </div>
+                <aside className="header-widget-area widget-area site-header-focus-item header-widget-area-inner" data-section="sidebar-widgets-header-widget-1" aria-label="Header Widget 1">
+                  <section id="polylang-3" className="widget widget_polylang">
+                    <label className="screen-reader-text" htmlFor="lang_choice_polylang-3">Choose a language</label>
+                    <select name="lang_choice_polylang-3" id="lang_choice_polylang-3" className="pll-switcher-select" onChange={handleLanguageChange}>
+                      <option value="/zh" lang="zh-CN">中文 (中国)</option>
+                      <option value="/" lang="en-US" selected>English</option>
+                    </select>
+                  </section>
+                </aside>
               </div>
             </div>
           </div>
@@ -105,6 +123,7 @@ const CustomHeader = () => (
     </div>
   </header>
   </div>
-);
+  )
+};
 
 export default CustomHeader;

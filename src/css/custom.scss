@@ -553,3 +553,41 @@ a:where(:not(.wp-element-button)){text-decoration:none;}
 }
 
 
+// locale-selector
+/*! CSS Used from: https://www.bit-brick.com/wp-content/themes/astra/assets/css/minified/main.min.css?ver=4.6.11 ; media=all */
+@media all{
+  select{color:inherit;font:inherit;margin:0;}
+  select{text-transform:none;}
+  select{color:#808285;font-weight:400;font-size:100%;margin:0;vertical-align:baseline;}
+  .screen-reader-text{border:0;clip:rect(1px,1px,1px,1px);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px;word-wrap:normal!important;}
+  .screen-reader-text:focus{background-color:#f1f1f1;border-radius:2px;box-shadow:0 0 2px 2px rgba(0,0,0,.6);clip:auto!important;color:#21759b;display:block;font-size:12.25px;font-size:.875rem;height:auto;left:5px;line-height:normal;padding:15px 23px 14px;text-decoration:none;top:5px;width:auto;z-index:100000;}
+  ::selection{color:#fff;background:#0274be;}
+  select{line-height:1;}
+  .widget{margin:0 0 2.8em 0;}
+  .widget:last-child{margin-bottom:0;}
+  .widget select{max-width:100%;}
+  .site-header-section>*{padding:0 10px;}
+  select{color:#666;padding:.75em;height:auto;border-width:1px;border-style:solid;border-color:var(--ast-border-color);border-radius:2px;background:var(--ast-comment-inputs-background);box-shadow:none;box-sizing:border-box;transition:all .2s linear;}
+  select:focus{background-color:#fff;border-color:var(--ast-border-color);box-shadow:none;}
+  }
+  /*! CSS Used from: Embedded */
+  select{font-family:'Inter',sans-serif;font-weight:inherit;font-size:18px;font-size:1rem;line-height:var(--ast-body-line-height,1.65em);}
+  ::selection{background-color:var(--ast-global-color-0);color:#ffffff;}
+  select{font-size:16px;font-style:normal;font-weight:400;line-height:24px;width:100%;padding:12px 16px;border-radius:4px;box-shadow:0px 1px 2px 0px rgba(0,0,0,0.05);color:var(--ast-form-input-text,#475569);}
+  select{height:40px;}
+  select:focus{border-color:#046BD2;box-shadow:none;outline:none;color:var(--ast-form-input-focus-text,#475569);}
+  label{color:#111827;font-size:14px;font-style:normal;font-weight:500;line-height:20px;}
+  select{padding:6px 10px;}
+  ::placeholder{color:var(--ast-form-field-color,#9CA3AF);}
+  .widget{margin-bottom:1.25em;}
+  .header-widget-area[data-section="sidebar-widgets-header-widget-1"]{display:block;}
+  .screen-reader-text{top:0!important;}
+  /*! CSS Used from: https://www.bit-brick.com/wp-content/plugins/elementor/assets/css/common.min.css?ver=3.20.4 ; media=all */
+  @media all{
+  .screen-reader-text{position:absolute;top:-10000em;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);border:0;}
+  }
+  /*! CSS Used from: https://www.bit-brick.com/wp-includes/css/dist/block-library/style.min.css?ver=6.6.1 ; media=all */
+  @media all{
+  .screen-reader-text{border:0;clip:rect(1px,1px,1px,1px);clip-path:inset(50%);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px;word-wrap:normal!important;}
+  .screen-reader-text:focus{background-color:#ddd;clip:auto!important;clip-path:none;color:#444;display:block;font-size:1em;height:auto;left:5px;line-height:normal;padding:15px 23px 14px;text-decoration:none;top:5px;width:auto;z-index:100000;}
+  }
