@@ -2,8 +2,10 @@ import clsx from 'clsx';
 import Heading from '@theme/Heading';
 import styles from './styles.module.css';
 
+import Translate, {translate} from '@docusaurus/Translate';
+
 type FeatureItem = {
-  title: string;
+  title: JSX.Element;
   imageSrc: string;
   description: JSX.Element;
   url: string;
@@ -11,57 +13,57 @@ type FeatureItem = {
 
 const FeatureList: FeatureItem[] = [
   {
-    title: 'Getting started',
+    title: <Translate id='pione.block1.title'>Getting started</Translate>,
     imageSrc: require('@site/static/img/index/icon/gettingstarted.png').default,
-    description: (<>How to get started with your PI ONE</>),
+    description: (<><Translate id='pione.block1.desc'>How to get started with your PI ONE</Translate></>),
     url: "docs/pi-one/getting-started/preparation"
   },
   {
-    title: 'PI ONE OS',
+    title: <Translate id='pione.block2.title'>PI ONE OS</Translate>,
     imageSrc: require('@site/static/img/index/icon/os.png').default,
-    description: (<>The official PI ONE operation system</>),
+    description: (<><Translate id='pione.block1.desc'>The official PI ONE operation system</Translate></>),
     url: "docs/pi-one/pi-one-os/os"
   },
   {
-    title: 'Linux kernel',
+    title: <Translate id='pione.block3.title'>Linux kernel</Translate>,
     imageSrc: require('@site/static/img/index/icon/kernel.png').default,
-    description: (<>How to configure and build your own kernel for PI ONE</>),
+    description: (<><Translate id='pione.block3.desc'>How to configure and build your own kernel for PI ONE</Translate></>),
     url: "docs/pi-one/pi-one-linux-kernel/yocto"
   },
   {
-    title: 'Hardware',
+    title: <Translate id='pione.block4.title'>Hardware</Translate>,
     imageSrc: require('@site/static/img/index/icon/hardware.png').default,
-    description: (<>The information help you to undertand the hardware of PI ONE</>),
+    description: (<><Translate id='pione.block4.desc'>The information help you to undertand the hardware of PI ONE</Translate></>),
     url: "docs/pi-one/pi-one-hardware/hardware-brief"
   },
   {
-    title: 'Software',
+    title: <Translate id='pione.block5.title'>Software</Translate>,
     imageSrc: require('@site/static/img/index/icon/software.png').default,
-    description: (<>The drivers and applications guide for the PI ONE</>),
+    description: (<><Translate id='pione.block5.desc'>The drivers and applications guide for the PI ONE</Translate></>),
     url: "docs/pi-one/pi-one-software/GPIOs-functions"
   },
   {
-    title: 'Datasheets',
+    title: <Translate id='pione.block6.title'>Datasheets</Translate>,
     imageSrc: require('@site/static/img/index/icon/datasheet.png').default,
-    description: (<>PDF-based documention</>),
+    description: (<><Translate id='pione.block6.desc'>PDF-based documention</Translate></>),
     url: "docs/pi-one/datasheets"
   },
   {
-    title: 'Camera software',
+    title: <Translate id='pione.block7.title'>Camera software</Translate>,
     imageSrc: require('@site/static/img/index/icon/cam.png').default,
-    description: (<>Software and libraries for PI ONE camera hardware</>),
+    description: (<><Translate id='pione.block7.desc'>Software and libraries for PI ONE camera hardware</Translate></>),
     url: "docs/pi-one/datasheets"
   },
   {
-    title: 'Machine learning',
+    title: <Translate id='pione.block3.title'>Machine learning</Translate>,
     imageSrc: require('@site/static/img/index/icon/ml.png').default,
-    description: (<>How to use hardware accelation for AI</>),
+    description: (<><Translate id='pione.block8.desc'>How to use hardware accelation for AI</Translate></>),
     url: "docs/pi-one/datasheets"
   },
   {
-    title: 'ROS2',
+    title: <Translate id='pione.block9.title'>ROS2</Translate>,
     imageSrc: require('@site/static/img/index/icon/ros2.png').default,
-    description: (<>Guide to show you how to set up ROS</>),
+    description: (<><Translate id='pione.block9.desc'>Guide to show you how to set up ROS</Translate></>),
     url: "docs/pi-one/datasheets"
   },
 ];
@@ -118,9 +120,15 @@ function Feature({title, imageSrc, description, url}: FeatureItem) {
 function Banner() {
   return (
     <div className={styles.banner}>
-      <div className={styles.title}><h2 className={styles.title1}>Bit-Brick</h2><h2 className={styles.title2}>Documentation</h2></div>
-      <p className={styles.b_desc}>The official documentation for</p>
-      <p className={styles.b_desc}>BIT-BRICK computers and microcontrollers</p>
+      <div className={styles.title}>
+        <h2 className={styles.title1}>Bit-Brick</h2>
+        <h2 className={styles.title2}>
+          <Translate id="banner.title">Documentation</Translate>
+        </h2>
+      </div>
+      <p className={styles.b_desc}>
+        <Translate id="banner.desc">The official documentation for BIT-BRICK computers and microcontrollers</Translate>
+      </p>
     </div>
   );
 }

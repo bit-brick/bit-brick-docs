@@ -1,0 +1,62 @@
+{
+    "banner.title": {
+        "message": "文档"
+    },
+    "banner.desc": { 
+        "message": "BIT-BRICK的官方文档"
+    },
+    "pione.block1.title": {
+        "message": "快速开始"
+    },
+    "pione.block1.desc": {
+        "message": "让你快速入门使用PI ONE"
+    },
+    "pione.block2.title": {
+        "message": "PI ONE OS"
+    },
+    "pione.block2.desc": {
+        "message": "PI ONE 定制的专属系统"
+    },
+    "pione.block3.title": {
+        "message": "Linux Kernel"
+    },
+    "pione.block3.desc": {
+        "message": "快速配置与编译linux kernel"
+    },
+    "pione.block4.title": {
+        "message": "硬件"
+    },
+    "pione.block4.desc": {
+        "message": "带你一起了解PI ONE的硬件部分"
+    },
+    "pione.block5.title": {
+        "message": "软件"
+    },
+    "pione.block5.desc": {
+        "message": "带你一起了解PI ONE的软件部分"
+    },
+    "pione.block6.title": {
+        "message": "规格书"
+    },
+    "pione.block6.desc": {
+        "message": "PDF格式的标准文档"
+    },
+    "pione.block7.title": {
+        "message": "摄像头软件"
+    },
+    "pione.block7.desc": {
+        "message": "PI ONE摄像头的相关软件与库文件"
+    },
+    "pione.block8.title": {
+        "message": "机器学习"
+    },
+    "pione.block8.desc": {
+        "message": "使用硬件来加速你的机器学习软件"
+    },
+    "pione.block9.title": {
+        "message": "ROS2"
+    },
+    "pione.block9.desc": {
+        "message": "教你如何在PI ONE上使用ROS2"
+    }
+}
