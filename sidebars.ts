@@ -75,10 +75,10 @@ const sidebars: SidebarsConfig = {
               type: 'doc',
               id: 'k1/k1-os/docker-zh',
             },
-            // {
-            //   type: 'doc',
-            //   id: 'k1/k1-os/electron-zh',
-            // },
+            {
+              type: 'doc',
+              id: 'k1/k1-os/electron-zh',
+            },
           ],
         },
         {
@@ -120,6 +120,11 @@ const sidebars: SidebarsConfig = {
             },
             {
               type: 'doc',
+              label: 'K1 Processor Brief',
+              id: 'k1/k1-hardware/processor-brief',
+            },
+            {
+              type: 'doc',
               label: 'K1 Audio Hardware Introduction',
               id: 'k1/k1-hardware/audio-hardware-introduction',
             },
@@ -148,11 +153,7 @@ const sidebars: SidebarsConfig = {
               label: 'K1 Power Sequence',
               id: 'k1/k1-hardware/power-sequence',
             },
-            {
-              type: 'doc',
-              label: 'K1 Processor Brief',
-              id: 'k1/k1-hardware/processor-brief',
-            },
+            
             {
               type: 'doc',
               label: 'K1 Display Interface',
