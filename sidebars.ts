@@ -67,6 +67,18 @@ const sidebars: SidebarsConfig = {
               type: 'doc',
               id: 'pi-one/pi-one-os/package-management-zh',
             },
+            {
+              type: 'doc',
+              id: 'pi-one/news/ros2-zh',
+            },
+            {
+              type: 'doc',
+              id: 'pi-one/pi-one-os/docker-zh',
+            },
+            // {
+            //   type: 'doc',
+            //   id: 'pi-one/pi-one-os/electron-zh',
+            // },
           ],
         },
         {
@@ -209,14 +221,7 @@ const sidebars: SidebarsConfig = {
               type: 'doc',
               id: 'pi-one/pi-one-software/wifi-and-bluetooth',
             },
-            {
-              type: 'doc',
-              id: 'pi-one/pi-one-software/ros2',
-            },
-            {
-              type: 'doc',
-              id: 'pi-one/pi-one-software/docker',
-            },
+            
             
             
           ],

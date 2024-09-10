@@ -7,34 +7,22 @@ Docker 自开源后受到广泛的关注和讨论，至今其 GitHub 项目 已�
 Docker 使用 Google 公司推出的 Go 语言 进行开发实现，基于 Linux 内核的 cgroup，namespace，以及 OverlayFS 类的 Union FS 等技术，对进程进行封装隔离，属于 操作系统层面的虚拟化技术。由于隔离的进程独立于宿主和其它的隔离的进程，因此也称其为容器。最初实现是基于 LXC，从 0.7 版本以后开始去除 LXC，转而使用自行开发的 libcontainer，从 1.11 版本开始，则进一步演进为使用 runC 和 containerd。
 
 
-## 1.添加使用 HTTPS 传输的软件包以及 CA 证书
+## 1.安装docker
 ~~~
 sudo apt-get update
-sudo apt-get install \
-     apt-transport-https \
-     ca-certificates \
-     curl \
-     gnupg \
-     lsb-release
-~~~
-## 2.添加软件源的GPG密钥
-~~~
-curl -fsSL https://mirrors.aliyun.com/docker-ce/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-~~~
-## 3.向 sources.list 中添加 Docker 软件源
-~~~
-echo \
-  "deb [arch=arm64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://mirrors.aliyun.com/docker-ce/linux/ubuntu \
-  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-~~~
-## 4.安装docker
-~~~
-sudo apt-get update
-sudo apt-get install docker-ce docker-ce-cli containerd.io
+sudo apt-get install docker.io
 ~~~
 
-## 5.启动docker
+
+## 2.启动docker
 ~~~
 sudo systemctl enable docker
 sudo systemctl start docker
 ~~~
+
+## 3.验证是否成功
+
+~~~
+sudo docker run hello-world
+~~~
+![alt text](/img/pi-one/software/docker.png)
