@@ -16,55 +16,55 @@ const FeatureList: FeatureItem[] = [
     title: <Translate id='pione.block1.title'>Getting started</Translate>,
     imageSrc: require('@site/static/img/index/icon/gettingstarted.png').default,
     description: (<><Translate id='pione.block1.desc'>How to get started with your PI ONE</Translate></>),
-    url: "docs/pi-one/getting-started/preparation"
+    url: "docs/k1/getting-started/preparation"
   },
   {
     title: <Translate id='pione.block2.title'>PI ONE OS</Translate>,
     imageSrc: require('@site/static/img/index/icon/os.png').default,
     description: (<><Translate id='pione.block1.desc'>The official PI ONE operation system</Translate></>),
-    url: "docs/pi-one/pi-one-os/os"
+    url: "docs/k1/k1-os/os"
   },
   {
     title: <Translate id='pione.block3.title'>Linux kernel</Translate>,
     imageSrc: require('@site/static/img/index/icon/kernel.png').default,
     description: (<><Translate id='pione.block3.desc'>How to configure and build your own kernel for PI ONE</Translate></>),
-    url: "docs/pi-one/pi-one-linux-kernel/yocto"
+    url: "docs/k1/k1-linux-kernel/yocto"
   },
   {
     title: <Translate id='pione.block4.title'>Hardware</Translate>,
     imageSrc: require('@site/static/img/index/icon/hardware.png').default,
     description: (<><Translate id='pione.block4.desc'>The information help you to undertand the hardware of PI ONE</Translate></>),
-    url: "docs/pi-one/pi-one-hardware/hardware-brief"
+    url: "docs/k1/k1-hardware/hardware-brief"
   },
   {
     title: <Translate id='pione.block5.title'>Software</Translate>,
     imageSrc: require('@site/static/img/index/icon/software.png').default,
     description: (<><Translate id='pione.block5.desc'>The drivers and applications guide for the PI ONE</Translate></>),
-    url: "docs/pi-one/pi-one-software/GPIOs-functions"
+    url: "docs/k1/k1-software/GPIOs-functions"
   },
   {
     title: <Translate id='pione.block6.title'>Datasheets</Translate>,
     imageSrc: require('@site/static/img/index/icon/datasheet.png').default,
     description: (<><Translate id='pione.block6.desc'>PDF-based documention</Translate></>),
-    url: "docs/pi-one/datasheets"
+    url: "docs/k1/datasheets"
   },
   {
     title: <Translate id='pione.block7.title'>Camera software</Translate>,
     imageSrc: require('@site/static/img/index/icon/cam.png').default,
     description: (<><Translate id='pione.block7.desc'>Software and libraries for PI ONE camera hardware</Translate></>),
-    url: "docs/pi-one/datasheets"
+    url: "docs/k1/datasheets"
   },
   {
     title: <Translate id='pione.block3.title'>Machine learning</Translate>,
     imageSrc: require('@site/static/img/index/icon/ml.png').default,
     description: (<><Translate id='pione.block8.desc'>How to use hardware accelation for AI</Translate></>),
-    url: "docs/pi-one/datasheets"
+    url: "docs/k1/datasheets"
   },
   {
     title: <Translate id='pione.block9.title'>ROS2</Translate>,
     imageSrc: require('@site/static/img/index/icon/ros2.png').default,
     description: (<><Translate id='pione.block9.desc'>Guide to show you how to set up ROS</Translate></>),
-    url: "docs/pi-one/datasheets"
+    url: "docs/k1/datasheets"
   },
 ];
 

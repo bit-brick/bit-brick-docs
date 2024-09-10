@@ -20,7 +20,7 @@ const sidebars: SidebarsConfig = {
     {
       type: 'category',
       collapsed: true,
-      label: 'PI One',
+      label: 'K1',
       items: [
         {
           type: 'category',
@@ -29,19 +29,19 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'doc',
-              id: 'pi-one/getting-started/preparation',
+              id: 'k1/getting-started/preparation',
             },
             {
               type: 'doc',
-              id: 'pi-one/getting-started/install-zh',
+              id: 'k1/getting-started/install-zh',
             },
             {
               type: 'doc',
-              id: 'pi-one/getting-started/configuring-zh',
+              id: 'k1/getting-started/configuring-zh',
             },
             {
               type: 'doc',
-              id: 'pi-one/getting-started/resize-rootfs-zh',
+              id: 'k1/getting-started/resize-rootfs-zh',
             },
             
           ],
@@ -53,173 +53,173 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'doc',
-              id: 'pi-one/pi-one-os/os-intro-zh',
+              id: 'k1/k1-os/os-intro-zh',
             },
             {
               type: 'doc',
-              id: 'pi-one/pi-one-os/installation-and-upgrade-zh',
+              id: 'k1/k1-os/installation-and-upgrade-zh',
             },
             {
               type: 'doc',
-              id: 'pi-one/pi-one-os/connection-zh',
+              id: 'k1/k1-os/connection-zh',
             },
             {
               type: 'doc',
-              id: 'pi-one/pi-one-os/package-management-zh',
+              id: 'k1/k1-os/package-management-zh',
             },
             {
               type: 'doc',
-              id: 'pi-one/news/ros2-zh',
+              id: 'k1/news/ros2-zh',
             },
             {
               type: 'doc',
-              id: 'pi-one/pi-one-os/docker-zh',
+              id: 'k1/k1-os/docker-zh',
             },
             // {
             //   type: 'doc',
-            //   id: 'pi-one/pi-one-os/electron-zh',
+            //   id: 'k1/k1-os/electron-zh',
             // },
           ],
         },
         {
           type: 'category',
           collapsed: true,
-          label: 'PI one linux kernel',
+          label: 'K1 linux kernel',
           items: [
             {
               type: 'doc',
-              id: 'pi-one/pi-one-linux-kernel/build-bit-os-zh',
+              id: 'k1/k1-linux-kernel/build-bit-os-zh',
             },
             {
               type: 'doc',
-              id: 'pi-one/pi-one-linux-kernel/kernel-build-zh',
+              id: 'k1/k1-linux-kernel/kernel-build-zh',
             },
             {
               type: 'doc',
-              id: 'pi-one/pi-one-linux-kernel/device-manage-zh',
+              id: 'k1/k1-linux-kernel/device-manage-zh',
             },
             {
               type: 'doc',
-              id: 'pi-one/pi-one-linux-kernel/solution-manage-zh',
+              id: 'k1/k1-linux-kernel/solution-manage-zh',
             },
             {
               type: 'doc',
-              id: 'pi-one/pi-one-linux-kernel/boot-zh',
+              id: 'k1/k1-linux-kernel/boot-zh',
             },
           ],
         },
         {
           type: 'category',
           collapsed: true,
-          label: 'PI one hardware',
+          label: 'K1 hardware',
           items: [
             {
               type: 'doc',
-              label: 'PI One Hardware Brief',
-              id: 'pi-one/pi-one-hardware/hardware-brief',
+              label: 'K1 Hardware Brief',
+              id: 'k1/k1-hardware/hardware-brief',
             },
             {
               type: 'doc',
-              label: 'PI One Audio Hardware Introduction',
-              id: 'pi-one/pi-one-hardware/audio-hardware-introduction',
+              label: 'K1 Audio Hardware Introduction',
+              id: 'k1/k1-hardware/audio-hardware-introduction',
             },
             {
               type: 'doc',
-              label: 'PI One GPIO And 40 Pin Header',
-              id: 'pi-one/pi-one-hardware/GPIO-and-40-pin-header',
+              label: 'K1 GPIO And 40 Pin Header',
+              id: 'k1/k1-hardware/GPIO-and-40-pin-header',
             },
             {
               type: 'doc',
-              label: 'PI One Hardware Design Resources',
-              id: 'pi-one/pi-one-hardware/hardware-design-resources',
+              label: 'K1 Hardware Design Resources',
+              id: 'k1/k1-hardware/hardware-design-resources',
             },
             {
               type: 'doc',
-              label: 'PI One Camera Interface',
-              id: 'pi-one/pi-one-hardware/camera-interface',
+              label: 'K1 Camera Interface',
+              id: 'k1/k1-hardware/camera-interface',
             },
             {
               type: 'doc',
-              label: 'PI One Lcd Interface',
-              id: 'pi-one/pi-one-hardware/lcd-interface',
+              label: 'K1 Lcd Interface',
+              id: 'k1/k1-hardware/lcd-interface',
             },
             {
               type: 'doc',
-              label: 'PI One Power Sequence',
-              id: 'pi-one/pi-one-hardware/power-sequence',
+              label: 'K1 Power Sequence',
+              id: 'k1/k1-hardware/power-sequence',
             },
             {
               type: 'doc',
-              label: 'PI One Processor Brief',
-              id: 'pi-one/pi-one-hardware/processor-brief',
+              label: 'K1 Processor Brief',
+              id: 'k1/k1-hardware/processor-brief',
             },
             {
               type: 'doc',
-              label: 'PI One Display Interface',
-              id: 'pi-one/pi-one-hardware/display-interface',
+              label: 'K1 Display Interface',
+              id: 'k1/k1-hardware/display-interface',
             }
           ],
         },
         {
           type: 'category',
           collapsed: true,
-          label: 'PI one software',
+          label: 'K1 software',
           items: [
             {
               type: 'doc',
-              id: 'pi-one/pi-one-software/GPIOs-functions',
+              id: 'k1/k1-software/GPIOs-functions',
             },
             {
               type: 'doc',
-              id: 'pi-one/pi-one-software/camera-configuration',
+              id: 'k1/k1-software/camera-configuration',
             },
             {
               type: 'doc',
-              id: 'pi-one/pi-one-software/can-bus-configuration',
+              id: 'k1/k1-software/can-bus-configuration',
             },
             {
               type: 'doc',
-              id: 'pi-one/pi-one-software/display-configuration',
+              id: 'k1/k1-software/display-configuration',
             },
             {
               type: 'doc',
-              id: 'pi-one/pi-one-software/ethernet-configuration',
+              id: 'k1/k1-software/ethernet-configuration',
             },
             {
               type: 'doc',
-              id: 'pi-one/pi-one-software/I2C-configuration',
+              id: 'k1/k1-software/I2C-configuration',
             },
             {
               type: 'doc',
-              id: 'pi-one/pi-one-software/linux-kernel',
+              id: 'k1/k1-software/linux-kernel',
             },
             {
               type: 'doc',
-              id: 'pi-one/pi-one-software/PCIE-configuration',
+              id: 'k1/k1-software/PCIE-configuration',
             },
             {
               type: 'doc',
-              id: 'pi-one/pi-one-software/pwm',
+              id: 'k1/k1-software/pwm',
             },
             {
               type: 'doc',
-              id: 'pi-one/pi-one-software/spi-configuration',
+              id: 'k1/k1-software/spi-configuration',
             },
             {
               type: 'doc',
-              id: 'pi-one/pi-one-software/uart-configuration',
+              id: 'k1/k1-software/uart-configuration',
             },
             {
               type: 'doc',
-              id: 'pi-one/pi-one-software/uboot',
+              id: 'k1/k1-software/uboot',
             },
             {
               type: 'doc',
-              id: 'pi-one/pi-one-software/USB-configuration',
+              id: 'k1/k1-software/USB-configuration',
             },
             {
               type: 'doc',
-              id: 'pi-one/pi-one-software/wifi-and-bluetooth',
+              id: 'k1/k1-software/wifi-and-bluetooth',
             },
             
             
@@ -229,35 +229,35 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           collapsed: true,
-          label: 'PI one Machine Learning',
+          label: 'K1 Machine Learning',
           items: [
             {
               type: 'doc',
-              id: 'pi-one/pi-one-ml/ai-arch-zh',
+              id: 'k1/k1-ml/ai-arch-zh',
             },
             {
               type: 'doc',
-              id: 'pi-one/pi-one-ml/tools-overview-zh',
+              id: 'k1/k1-ml/tools-overview-zh',
             },
             {
               type: 'doc',
-              id: 'pi-one/pi-one-ml/ai-quick-start-zh',
+              id: 'k1/k1-ml/ai-quick-start-zh',
             },
             {
               type: 'doc',
-              id: 'pi-one/pi-one-ml/model-translate-zh',
+              id: 'k1/k1-ml/model-translate-zh',
             },
             {
               type: 'doc',
-              id: 'pi-one/pi-one-ml/model-optimization-zh',
+              id: 'k1/k1-ml/model-optimization-zh',
             },
             {
               type: 'doc',
-              id: 'pi-one/pi-one-ml/model-simulation-testing-zh',
+              id: 'k1/k1-ml/model-simulation-testing-zh',
             },
             {
               type: 'doc',
-              id: 'pi-one/pi-one-ml/model-deploy-zh',
+              id: 'k1/k1-ml/model-deploy-zh',
             },
             
           ],
@@ -269,7 +269,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'doc',
-              id: 'pi-one/datasheets/datasheets',
+              id: 'k1/datasheets/datasheets',
             },
           ],
         },
