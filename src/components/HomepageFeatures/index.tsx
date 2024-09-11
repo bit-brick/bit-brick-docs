@@ -46,7 +46,7 @@ const FeatureList: FeatureItem[] = [
     title: <Translate id='pione.block6.title'>Datasheets</Translate>,
     imageSrc: require('@site/static/img/index/icon/datasheet.png').default,
     description: (<><Translate id='pione.block6.desc'>PDF-based documention</Translate></>),
-    url: "docs/pi-one/datasheets"
+    url: "docs/k1/datasheets"
   },
   {
     title: <Translate id='pione.block7.title'>Camera software</Translate>,
@@ -64,7 +64,7 @@ const FeatureList: FeatureItem[] = [
     title: <Translate id='pione.block9.title'>ROS2</Translate>,
     imageSrc: require('@site/static/img/index/icon/ros2.png').default,
     description: (<><Translate id='pione.block9.desc'>Guide to show you how to set up ROS</Translate></>),
-    url: "docs/pi-one/datasheets"
+    url: "docs/k1/datasheets"
   },
 ];
 
