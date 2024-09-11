@@ -9,6 +9,7 @@ SpacemiT® Key Stone™ K1 is a high-performance and ultra low-power SOC that in
 - Supports full-feature interfaces to enrich more innovatative applications and products.
 - Compatible with mainstream OS to meet the needs of various application scenarios.
 - Meets Industrial grade reliability standards
+   ![front](/img/k1/hardware/processor-brief/k1_cpu.png)
 ## 1.2 Feature Overview
 Application Processor
 - RISC-V SpacemiT® X60™ Dual-Cluster Octa-core processors
