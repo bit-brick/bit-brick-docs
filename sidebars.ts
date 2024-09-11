@@ -115,17 +115,17 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'doc',
-              label: 'K1 Hardware Brief',
+              label: 'K1硬件规格介绍',
               id: 'k1/k1-hardware/hardware-brief',
             },
             {
               type: 'doc',
-              label: 'K1 Processor Brief',
+              label: 'K1应用处理器介绍',
               id: 'k1/k1-hardware/processor-brief',
             },
             {
               type: 'doc',
-              label: 'K1 GPIOs',
+              label: 'K1 GPIO扩展接口说明',
               id: 'k1/k1-hardware/GPIO-and-40-pin-header',
             },
             {
