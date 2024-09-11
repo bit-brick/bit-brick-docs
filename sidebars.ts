@@ -145,6 +145,11 @@ const sidebars: SidebarsConfig = {
             },
             {
               type: 'doc',
+              label: 'K1 硬件资料',
+              id: 'k1/k1-hardware/hardware-file-download',
+            },
+            {
+              type: 'doc',
               label: 'K1 Audio Hardware Introduction',
               id: 'k1/k1-hardware/audio-hardware-introduction',
             },

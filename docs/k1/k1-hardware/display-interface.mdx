@@ -3,10 +3,14 @@
 K1主板支持HDMI和MIPI DSI2接口定义的LCD显示屏作为图形输出接口。
 
 ![图1 处理器显示子系统框图](/img/k1/hardware/display-interface/display_framework.png)
+<div style={{textAlign: 'center'}}>图1 处理器显示子系统框图</div>
+
 
 ## 1.HDMI
 
 高清多媒体接口（High Definition Multimedia Interface，HDMI [1]）是一种全数字化视频和声音发送接口，可以发送未压缩的音频及视频信号。HDMI可用于机顶盒、DVD播放机、个人计算机、电视、游戏主机、综合扩大机、数字音响与电视机等设备。HDMI可以同时发送音频和视频信号，由于音频和视频信号采用同一条线材，大大简化系统线路的安装难度。
+
+![图1 K1板载MIPI DSI接口](/img/k1/hardware/display-interface/k1_hdmi.png)
 
 K1支持HDMI1.4a版本，最大分辨率支持1920*1080@60fps。主要特性如下：
 
@@ -22,6 +26,7 @@ K1支持HDMI1.4a版本，最大分辨率支持1920*1080@60fps。主要特性如�
 - Internal I2C Master, support 100Kbps ~ 400Kbps
 
 ![图2 HDMI 发送框图](/img/k1/hardware/display-interface/hdmi_send_framework.png)
+<div style={{textAlign: 'center'}}>图2 HDMI 发送框图</div>
 
 你可以直接使用标准的HDMI线将K1和显示器连接（如果显示的接口不是HDMI的，你可以购买HDMI转换器，比如HDMI转DP等）
 
@@ -42,7 +47,8 @@ MIPI联盟，即移动产业处理器接口（Mobile Industry Processor Interfac
 [MIPI DSI Specifications](https://www.mipi.org/specifications/dsi)
 
 
-![图3 K1板载MIPI DSI接口](/img/k1/hardware/display-interface/k1_hdmi.png)
+![图3 K1板载MIPI DSI接口](/img/k1/hardware/display-interface/mip_ldc.png)
+<div style={{textAlign: 'center'}}>图3 K1板载MIPI DSI接口</div>
 
 
 K1主板集成了一个支持MIPI DSI的显示接口用来支持屏幕的显示。其特性如下：
