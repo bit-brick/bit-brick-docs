@@ -133,6 +133,11 @@ const sidebars: SidebarsConfig = {
               label: 'K1 M.2接口说明',
               id: 'k1/k1-hardware/m2-interface',
             },
+            // {
+            //   type: 'doc',
+            //   label: 'K1 Camera Interface',
+            //   id: 'k1/k1-hardware/camera-interface',
+            // },
             {
               type: 'doc',
               label: 'K1 Audio Hardware Introduction',
@@ -144,11 +149,7 @@ const sidebars: SidebarsConfig = {
               label: 'K1 Hardware Design Resources',
               id: 'k1/k1-hardware/hardware-design-resources',
             },
-            {
-              type: 'doc',
-              label: 'K1 Camera Interface',
-              id: 'k1/k1-hardware/camera-interface',
-            },
+            
             {
               type: 'doc',
               label: 'K1 Lcd Interface',

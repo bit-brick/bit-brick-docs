@@ -1,4 +1,4 @@
-<!-- # K1摄像头接口说明
+# K1摄像头接口说明
 
 ## Processor MIPI CSI2介绍
 
@@ -49,14 +49,14 @@ K1处理器集成了一个高性能的图像处理器，可以同时支持两路
 ## BIT-BRICK K1摄像头
 
 BIT-BRICK K1板上预留了一个4lane的MIPI CSI2S摄像头接口，其引脚定义如下：
-
-![图1 K1摄像头接口定义](图片链接)
+![图1 K1摄像头接口定义](/img/k1/hardware/camera/camera_io.png)
 
 BIT-BRICK 提供了几款不同规格的摄像头(详情参考bit-brick硬件产品详情页)：
+![图1 K1摄像头接口定义](/img/k1/hardware/camera/bit_brick_camera.png)
 
 用户也可以根据实际的需要自行设计摄像头。已经支持的摄像头传感器如下：
+![图1 K1摄像头接口定义](/img/k1/hardware/camera/support_camera.png)
 
 建议选择上述列表中的传感器，可以减少软件调试的工作量。
 
-(注：图片链接需替换为实际图片的链接地址)
- -->
+
