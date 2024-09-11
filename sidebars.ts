@@ -130,6 +130,11 @@ const sidebars: SidebarsConfig = {
             },
             {
               type: 'doc',
+              label: 'K1 M.2接口说明',
+              id: 'k1/k1-hardware/m2-interface',
+            },
+            {
+              type: 'doc',
               label: 'K1 Audio Hardware Introduction',
               id: 'k1/k1-hardware/audio-hardware-introduction',
             },

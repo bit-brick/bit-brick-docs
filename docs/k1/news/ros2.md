@@ -1,6 +1,6 @@
 # ROS2 Installation
 
-Since the official ROS2 does not provide an installation package for RISC-V based ROS2, it is necessary to compile and install it yourself. The following is the complete process of installing ROS2 on the Pi One.
+Since the official ROS2 does not provide an installation package for RISC-V based ROS2, it is necessary to compile and install it yourself. The following is the complete process of installing ROS2 on the K1.
 
  First,you need AT LEAST 25 GB of hard drive space in your VM to install ROS 2 from source. Make sure that you have the space before continuing.
 ## System setup
