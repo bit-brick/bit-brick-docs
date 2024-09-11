@@ -15,31 +15,31 @@ const FeatureList: FeatureItem[] = [
   {
     title: <Translate id='pione.block1.title'>Getting started</Translate>,
     imageSrc: require('@site/static/img/index/icon/gettingstarted.png').default,
-    description: (<><Translate id='pione.block1.desc'>How to get started with your PI ONE</Translate></>),
+    description: (<><Translate id='pione.block1.desc'>How to get started with your K1</Translate></>),
     url: "docs/pi-one/getting-started/preparation"
   },
   {
-    title: <Translate id='pione.block2.title'>PI ONE OS</Translate>,
+    title: <Translate id='pione.block2.title'>Bit OS</Translate>,
     imageSrc: require('@site/static/img/index/icon/os.png').default,
-    description: (<><Translate id='pione.block1.desc'>The official PI ONE operation system</Translate></>),
-    url: "docs/pi-one/pi-one-os/os"
+    description: (<><Translate id='pione.block1.desc'>The official K1 operation system</Translate></>),
+    url: "docs/pi-one/pi-one-os/os-intro-zh"
   },
   {
     title: <Translate id='pione.block3.title'>Linux kernel</Translate>,
     imageSrc: require('@site/static/img/index/icon/kernel.png').default,
-    description: (<><Translate id='pione.block3.desc'>How to configure and build your own kernel for PI ONE</Translate></>),
-    url: "docs/pi-one/pi-one-linux-kernel/yocto"
+    description: (<><Translate id='pione.block3.desc'>How to configure and build your own kernel for K1</Translate></>),
+    url: "docs/pi-one/pi-one-linux-kernel/build-bit-os-zh"
   },
   {
     title: <Translate id='pione.block4.title'>Hardware</Translate>,
     imageSrc: require('@site/static/img/index/icon/hardware.png').default,
-    description: (<><Translate id='pione.block4.desc'>The information help you to undertand the hardware of PI ONE</Translate></>),
+    description: (<><Translate id='pione.block4.desc'>The information help you to undertand the hardware of K1</Translate></>),
     url: "docs/pi-one/pi-one-hardware/hardware-brief"
   },
   {
     title: <Translate id='pione.block5.title'>Software</Translate>,
     imageSrc: require('@site/static/img/index/icon/software.png').default,
-    description: (<><Translate id='pione.block5.desc'>The drivers and applications guide for the PI ONE</Translate></>),
+    description: (<><Translate id='pione.block5.desc'>The drivers and applications guide for the K1</Translate></>),
     url: "docs/pi-one/pi-one-software/GPIOs-functions"
   },
   {
@@ -51,14 +51,14 @@ const FeatureList: FeatureItem[] = [
   {
     title: <Translate id='pione.block7.title'>Camera software</Translate>,
     imageSrc: require('@site/static/img/index/icon/cam.png').default,
-    description: (<><Translate id='pione.block7.desc'>Software and libraries for PI ONE camera hardware</Translate></>),
+    description: (<><Translate id='pione.block7.desc'>Software and libraries for K1 camera hardware</Translate></>),
     url: "docs/pi-one/datasheets"
   },
   {
     title: <Translate id='pione.block3.title'>Machine learning</Translate>,
     imageSrc: require('@site/static/img/index/icon/ml.png').default,
     description: (<><Translate id='pione.block8.desc'>How to use hardware accelation for AI</Translate></>),
-    url: "docs/pi-one/datasheets"
+    url: "docs/pi-one/pi-one-ml/ai-arch-zh"
   },
   {
     title: <Translate id='pione.block9.title'>ROS2</Translate>,
@@ -70,7 +70,7 @@ const FeatureList: FeatureItem[] = [
 
 const ProductList = [
   {
-    title: 'PI ONE',
+    title: 'K1',
     features: FeatureList,
   },
   {
@@ -79,7 +79,7 @@ const ProductList = [
   },
 ]
 
-let activeProduct = 'PI ONE';
+let activeProduct = 'K1';
 
 function handleClick(title){
   activeProduct = title

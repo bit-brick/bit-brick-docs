@@ -566,7 +566,7 @@ a:where(:not(.wp-element-button)){text-decoration:none;}
   .widget:last-child{margin-bottom:0;}
   .widget select{max-width:100%;}
   .site-header-section>*{padding:0 10px;}
-  select{color:#666;padding:.75em;height:auto;border-width:1px;border-style:solid;border-color:var(--ast-border-color);border-radius:2px;background:var(--ast-comment-inputs-background);box-shadow:none;box-sizing:border-box;transition:all .2s linear;}
+  // select{color:#666;padding:.75em;height:auto;border-width:1px;border-style:solid;border-color:var(--ast-border-color);border-radius:2px;background:var(--ast-comment-inputs-background);box-shadow:none;box-sizing:border-box;transition:all .2s linear;}
   select:focus{background-color:#fff;border-color:var(--ast-border-color);box-shadow:none;}
   }
   /*! CSS Used from: Embedded */
