@@ -46,9 +46,11 @@ K1处理器集成了一个高性能的图像处理器，可以同时支持两路
 更详细的内容可以阅读芯片规格书：
 [ISP Processor Specifications](https://developer.spacemit.com/documentation?token=BWbGwbx7liGW21kq9lucSA6Vnpb)
 
-## BIT-BRICK K1摄像头
+## 2.BIT-BRICK K1摄像头
 
-BIT-BRICK K1板上预留了一个4lane的MIPI CSI2S摄像头接口，其引脚定义如下：
+BIT-BRICK K1板上预留了一个4lane的MIPI CSI2S摄像头接口
+![alt text](/img/k1/hardware/camera/k1_camera.png)
+其引脚定义如下：
 ![图1 K1摄像头接口定义](/img/k1/hardware/camera/camera_io.png)
 
 BIT-BRICK 提供了几款不同规格的摄像头(详情参考bit-brick硬件产品详情页)：

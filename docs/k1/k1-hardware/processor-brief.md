@@ -1,7 +1,7 @@
-# 1. Product Overview
+#  Product Overview
 
 
-## 1.1 Product Introduction
+## 1. Product Introduction
 SpacemiT® Key Stone™ K1 is a high-performance and ultra low-power SOC that integrates Octa RISC-V CPU cores with SpacemiT® Daoyi™ AI computing power deployment. K1 has the following features:
 - Integrates SpacemiT® self-innovate X60™ RISC-V processor core which adheres to the RISC-V 64GCVB architecture and RVA22 standard.
 - Extends 2.0TOPS AI computing power by exploring RISC-V customized instructions to realize CPU AI fusion computing power, and mainstream AI inference frameworks such as TensorFlow Lite, TensorFlow, and ONNX RunTime are supported.
@@ -10,7 +10,7 @@ SpacemiT® Key Stone™ K1 is a high-performance and ultra low-power SOC that in
 - Compatible with mainstream OS to meet the needs of various application scenarios.
 - Meets Industrial grade reliability standards
    ![front](/img/k1/hardware/processor-brief/k1_cpu.png)
-## 1.2 Feature Overview
+## 2. Feature Overview
 Application Processor
 - RISC-V SpacemiT® X60™ Dual-Cluster Octa-core processors
 - Adhere to the RISC-V 64GCVB architecture and RVA22 standard
@@ -145,6 +145,6 @@ Audio
 - Noise suppression and echo cancellation
 General
 - Operation temperature: -40 ~ 85°C
-## 1.3 Block Diagram
+## 3. Block Diagram
 
        ![front](/img/k1/hardware/processor-brief/architecture.png)

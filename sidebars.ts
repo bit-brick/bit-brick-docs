@@ -115,12 +115,12 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'doc',
-              label: 'K1硬件规格介绍',
+              label: 'K1 硬件规格介绍',
               id: 'k1/k1-hardware/hardware-brief',
             },
             {
               type: 'doc',
-              label: 'K1应用处理器介绍',
+              label: 'K1 应用处理器介绍',
               id: 'k1/k1-hardware/processor-brief',
             },
             {
@@ -135,8 +135,13 @@ const sidebars: SidebarsConfig = {
             },
             {
               type: 'doc',
-              label: 'K1摄像头接口说明',
+              label: 'K1 摄像头接口说明',
               id: 'k1/k1-hardware/camera-interface',
+            },
+            {
+              type: 'doc',
+              label: 'K1 显示接口说明',
+              id: 'k1/k1-hardware/display-interface',
             },
             {
               type: 'doc',
@@ -149,23 +154,13 @@ const sidebars: SidebarsConfig = {
               label: 'K1 Hardware Design Resources',
               id: 'k1/k1-hardware/hardware-design-resources',
             },
-            
-            {
-              type: 'doc',
-              label: 'K1 Lcd Interface',
-              id: 'k1/k1-hardware/lcd-interface',
-            },
             {
               type: 'doc',
               label: 'K1 Power Sequence',
               id: 'k1/k1-hardware/power-sequence',
             },
             
-            {
-              type: 'doc',
-              label: 'K1 Display Interface',
-              id: 'k1/k1-hardware/display-interface',
-            }
+            
           ],
         },
         {
