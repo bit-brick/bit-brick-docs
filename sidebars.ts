@@ -125,14 +125,15 @@ const sidebars: SidebarsConfig = {
             },
             {
               type: 'doc',
-              label: 'K1 Audio Hardware Introduction',
-              id: 'k1/k1-hardware/audio-hardware-introduction',
+              label: 'K1 GPIOs',
+              id: 'k1/k1-hardware/GPIO-and-40-pin-header',
             },
             {
               type: 'doc',
-              label: 'K1 GPIO And 40 Pin Header',
-              id: 'k1/k1-hardware/GPIO-and-40-pin-header',
+              label: 'K1 Audio Hardware Introduction',
+              id: 'k1/k1-hardware/audio-hardware-introduction',
             },
+           
             {
               type: 'doc',
               label: 'K1 Hardware Design Resources',
