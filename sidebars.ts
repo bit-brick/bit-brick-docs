@@ -143,20 +143,21 @@ const sidebars: SidebarsConfig = {
               label: 'K1 显示接口说明',
               id: 'k1/k1-hardware/display-interface',
             },
-            {
-              type: 'doc',
-              label: 'K1 硬件资料',
-              id: 'k1/k1-hardware/hardware-file-download',
-            },
+            
             {
               type: 'doc',
               label: 'K1 音频接口说明',
               id: 'k1/k1-hardware/audio-hardware-introduction',
             },
+            // {
+            //   type: 'doc',
+            //   label: 'K1 Power Sequence',
+            //   id: 'k1/k1-hardware/power-sequence',
+            // },
             {
               type: 'doc',
-              label: 'K1 Power Sequence',
-              id: 'k1/k1-hardware/power-sequence',
+              label: 'K1 硬件资料下载',
+              id: 'k1/k1-hardware/hardware-file-download',
             },
             
             
