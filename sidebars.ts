@@ -25,7 +25,7 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           collapsed: true,
-          label: 'Getting Started',
+          label: '入门指南',
           items: [
             {
               type: 'doc',
@@ -84,7 +84,7 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           collapsed: true,
-          label: 'K1 linux kernel',
+          label: '系统与内核',
           items: [
             {
               type: 'doc',
@@ -267,7 +267,7 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           collapsed: true,
-          label: 'Datasheets',
+          label: '数据手册',
           items: [
             {
               type: 'doc',
