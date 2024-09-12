@@ -29,7 +29,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'doc',
-              id: 'k1/getting-started/preparation',
+              id: 'k1/getting-started/preparation-zh',
             },
             {
               type: 'doc',
