@@ -16,7 +16,7 @@ const FeatureList: FeatureItem[] = [
     title: <Translate id='pione.block1.title'>Getting started</Translate>,
     imageSrc: require('@site/static/img/index/icon/gettingstarted.png').default,
     description: (<><Translate id='pione.block1.desc'>How to get started with your K1</Translate></>),
-    url: "docs/k1/getting-started/preparation"
+    url: "docs/k1/getting-started/preparation-zh"
   },
   {
     title: <Translate id='pione.block2.title'>Bit OS</Translate>,
