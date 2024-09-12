@@ -49,7 +49,7 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           collapsed: true,
-          label: 'BitOS',
+          label: 'Bianbu OS',
           items: [
             {
               type: 'doc',
@@ -84,7 +84,7 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           collapsed: true,
-          label: '系统与内核',
+          label: '系统开发指南',
           items: [
             {
               type: 'doc',
@@ -111,7 +111,7 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           collapsed: true,
-          label: 'K1 hardware',
+          label: '硬件开发指南',
           items: [
             {
               type: 'doc',
@@ -166,7 +166,7 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           collapsed: true,
-          label: 'K1 software',
+          label: '软件开发指南',
           items: [
             {
               type: 'doc',
@@ -232,7 +232,7 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           collapsed: true,
-          label: 'K1 Machine Learning',
+          label: '机器学习',
           items: [
             {
               type: 'doc',
