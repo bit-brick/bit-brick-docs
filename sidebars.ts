@@ -150,14 +150,8 @@ const sidebars: SidebarsConfig = {
             },
             {
               type: 'doc',
-              label: 'K1 Audio Hardware Introduction',
+              label: 'K1 音频接口说明',
               id: 'k1/k1-hardware/audio-hardware-introduction',
-            },
-           
-            {
-              type: 'doc',
-              label: 'K1 Hardware Design Resources',
-              id: 'k1/k1-hardware/hardware-design-resources',
             },
             {
               type: 'doc',
