@@ -1,0 +1,89 @@
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# 下载和安装操作系统
+当我们准备好了需要的东西后，接下来我们就可以开始下载和安装操作系统了。
+
+## 1.下载操作系统
+
+Bianbu操作系统
+
+Bianbu OS是BIT-BRICK K1的默认操作系统，它是一个基于Ubuntu社区源码编译的针对RISC-V深度优化的一个操作系统。
+
+下载地址：[Bianbu desktop for SDcard](https://archive.spacemit.com/image/k1/version/bianbu/v1.0.13/bianbu-23.10-desktop-k1-v1.0.13-release-20240816183401.img.zip)
+
+以 img.zip 结尾的固件为 sdcard 固件，解压后可以用 dd 命令或者 balenaEtcher 写入 sdcard。注意此固件不适用于 eMMC。
+
+## 2.安装操作系统
+
+### PC 配置要求
+操作系统：Windows 或 Linux 或 MacOS
+C 盘空间（或 Linux/MacOS 系统 Home 空间）：> 5GB
+
+我们将采用balenaEtcher工具将固件烧录到Micro SD卡中。
+### 安装balenaEtcher
+<Tabs>
+  <TabItem value="apple" label="Windows" default>
+    1. 下载Linux镜像的烧录软件——balenaEtcher，下载地址为
+https://www.balena.io/etcher/
+
+2. 进入balenaEtcher下载页面后，点击绿色的下载按钮会跳到软件下载的地方
+
+![balena_download](/img/k1/getting-started/install/balena_download.png)
+3. 然后可以选择下载balenaEtcher的Portable版本的软件，Portable版本无需安装，双击打开就可以使用
+
+![balena_download](/img/k1/getting-started/install/balena_download1.png)
+
+4. 如果下载的是需要安装版本的balenaEtcher，请先安装再使用。如果下载的Portable版本balenaEtcher，直接双击打开即可，打开后的balenaEtcher界面如下图所示
+
+![balena1](/img/k1/getting-started/install/balenaEtcher_001.png)
+  </TabItem>
+  <TabItem value="orange" label="Linux">
+       
+1. 下载Linux镜像的烧录软件——balenaEtcher，下载地址为
+https://www.balena.io/etcher/
+
+2. 进入balenaEtcher下载页面后，点击绿色的下载按钮会跳到软件下载的地方
+![balena_download](/img/k1/getting-started/install/balena_download.png)
+
+3. 然后可以选择下载balenaEtcher的Portable版本的软件，Portable版本无需安装，双击打开就可以使用
+![balena_download](/img/k1/getting-started/install/balena_download_ubuntu.png)
+
+4. 然后在Ubuntu PC的图形界面双击balenaEtcher-1.14.3-x64.AppImage即可打开balenaEtcher（无需安装），balenaEtcher打开后的界面显示如下图所示
+![balena1](/img/k1/getting-started/install/balenaEtcher_001.png)
+
+  </TabItem>
+  
+</Tabs>
+
+### 使用balenaEtcher烧录镜像
+1. 首先准备一张16GB或更大容量的TF卡，TF卡的传输速度必须为class10级或class10级以上，建议使用闪迪等品牌的TF卡
+
+2. 然后使用读卡器把TF卡插入电脑
+
+3. 找到下载下来的Linux操作系统镜像文件压缩包，以img.zip结尾。
+
+4. 使用balenaEtcher烧录Linux镜像的具体步骤如下所示
+
+    - 首先选择要烧录的Linux镜像文件的路径
+
+    - 然后选择TF卡的盘符
+
+    - 最后点击Flash就会开始烧录Linux镜像到TF卡中
+
+    ![balena1](/img/k1/getting-started/install/balenaEtcher_002.png)
+
+5. balenaEtcher烧录Linux镜像的过程显示的界面如下图所示，另外进度条显示紫色表示正在烧录Linux镜像到TF卡中
+
+ ![balena1_flashing](/img/k1/getting-started/install/balenaEtcher_Flashing.png)
+
+6. Linux镜像烧录完后，balenaEtcher默认还会对烧录到TF卡中的镜像进行校验，确保烧录过程没有出问题。如下图所示，显示绿色的进度条就表示镜像已经烧录完成，balenaEtcher正在对烧录完成的镜像进行校验
+
+![balena1_flashing](/img/k1/getting-started/install/balenaEtcher_Validating.png)
+
+7. 成功烧录完成后balenaEtcher的显示界面如下图所示，如果显示绿色的指示图标说明镜像烧录成功，此时就可以退出balenaEtcher，然后拔出TF卡插入到开发板的TF卡槽中使用了
+
+![balena1_flashing](/img/k1/getting-started/install/balenaEtcher_003.png)
+
+
+
