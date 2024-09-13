@@ -1,17 +1,23 @@
-# Install an operating system
+# 下载和安装操作系统
+当我们准备好了需要的东西后，接下来我们就可以开始下载和安装操作系统了。
 
+## 下载操作系统
 
-## PC 配置要求
-操作系统：Windows 或 Linux 或 MacOS
-C 盘空间（或 Linux/MacOS 系统 Home 空间）：> 5GB
+Bianbu操作系统
 
-## 系统镜像下载地址:  
+Bianbu OS是BIT-BRICK K1的默认操作系统，它是一个基于Ubuntu社区源码编译的针对RISC-V深度优化的一个操作系统。
 
-[BitOS desktop for SDcard](https://archive.spacemit.com/image/k1/version/bianbu/v1.0.13/bianbu-23.10-desktop-k1-v1.0.13-release-20240816183401.img.zip)
+下载地址：[Bianbu desktop for SDcard](https://archive.spacemit.com/image/k1/version/bianbu/v1.0.13/bianbu-23.10-desktop-k1-v1.0.13-release-20240816183401.img.zip)
 
 以 img.zip 结尾的固件为 sdcard 固件，解压后可以用 dd 命令或者 balenaEtcher 写入 sdcard。注意此固件不适用于 eMMC。
 
-## 烧录到SD卡
+## 安装操作系统
+
+### PC 配置要求
+操作系统：Windows 或 Linux 或 MacOS
+C 盘空间（或 Linux/MacOS 系统 Home 空间）：> 5GB
+
+我们将采用balenaEtcher工具将固件烧录到Micro SD卡中。
 
 ## 基于Windows PC将Linux镜像烧写到TF卡的方法
 ### 使用balenaEtcher烧录镜像的方法

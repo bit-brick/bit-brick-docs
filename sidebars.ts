@@ -29,20 +29,19 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'doc',
+              label: '入门指南',
               id: 'k1/getting-started/preparation-zh',
             },
             {
               type: 'doc',
+              label: '下载和安装操作系统',
               id: 'k1/getting-started/install-zh',
             },
             {
               type: 'doc',
+              label: '启动和配置K1',
               id: 'k1/getting-started/configuring-zh',
-            },
-            {
-              type: 'doc',
-              id: 'k1/getting-started/resize-rootfs-zh',
-            },
+            }
             
           ],
         },
