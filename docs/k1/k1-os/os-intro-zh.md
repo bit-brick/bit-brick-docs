@@ -15,7 +15,7 @@ Bainbu OS是进迭时空针对RISC-V架构的处理器进行深度优化的一�
 <div style={{textAlign: 'center'}}>Bainbu Desktop系统界面</div>
 
 
-### Bainbu NAS则是针对网络存储而专门制作的一个固件。
+Bainbu NAS则是针对网络存储而专门制作的一个固件。
 
 
 
