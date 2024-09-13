@@ -19,7 +19,7 @@ Bainbu OS是进迭时空针对RISC-V架构的处理器进行深度优化的一�
 
 
 
-![Bainbu NAS系统界面](/img/k1/os/bianbuos.png)
+![Bainbu NAS系统界面](/img/k1/os/bianbu-nas.png)
 <div style={{textAlign: 'center'}}>Bainbu NAS系统界面</div>
 
 Bianbu OS官方支持BIT-BRICK K1单板电脑以及SSOM-K1核心模块，用户可以直接下载官方固件即可使用。
@@ -27,7 +27,7 @@ Bianbu OS官方支持BIT-BRICK K1单板电脑以及SSOM-K1核心模块，用户�
 ## 2、系统架构
 ![图3 Bianbu系统框架图](/img/k1/os/os-arch.png)
 
-<div style={{textAlign: 'center'}}>图3 Bianbu系统框架图</div>
+<div style={{textAlign: 'center'}}> Bianbu系统框架图</div>
 
 从上图可以看出，Bianbu OS包含的组件包括：
 
