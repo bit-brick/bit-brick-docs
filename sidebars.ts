@@ -52,6 +52,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'doc',
+              label: 'Bainbu OS简介',
               id: 'k1/k1-os/os-intro-zh',
             },
             {
