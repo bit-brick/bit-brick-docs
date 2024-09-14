@@ -170,6 +170,11 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'doc',
+              label: 'GMAC',
+              id: 'k1/k1-software/gmac',
+            },
+            {
+              type: 'doc',
               id: 'k1/k1-software/GPIOs-functions',
             },
             {
