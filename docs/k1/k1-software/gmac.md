@@ -1,4 +1,4 @@
-# GMAC的功能和使用方法
+# K1 GMAC的功能和使用方法
 
 Gmac dts 配置，需要确定以太网使用的 pin 组，phy 复位 gpio，phy 型号及地址。tx phase 和 rx phase 一般采用默认值。
 

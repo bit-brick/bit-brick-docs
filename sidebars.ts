@@ -170,8 +170,12 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'doc',
-              label: 'GMAC',
+              label: 'K1 GMAC',
               id: 'k1/k1-software/gmac',
+            },{
+              type: 'doc',
+              label: 'K1 PCIE',
+              id: 'k1/k1-software/PCIE-configuration',
             },
             {
               type: 'doc',
@@ -201,10 +205,7 @@ const sidebars: SidebarsConfig = {
               type: 'doc',
               id: 'k1/k1-software/linux-kernel',
             },
-            {
-              type: 'doc',
-              id: 'k1/k1-software/PCIE-configuration',
-            },
+            
             {
               type: 'doc',
               id: 'k1/k1-software/pwm',
