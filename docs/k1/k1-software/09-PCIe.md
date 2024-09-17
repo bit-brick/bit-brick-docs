@@ -1,4 +1,4 @@
-# K1 PCIe的功能和使用方法
+介绍PCIe的功能和使用方法。
 
 k1 共有3个PCIe控制器, 支持外接各种PCIe接口设备，包括nvme ssd, sata和wifi等。
 PCIe0和USB3控制器共用一个phy硬件, 不能同时使用。应用方案上一般使用USB3, 故PCIe0较少使用。

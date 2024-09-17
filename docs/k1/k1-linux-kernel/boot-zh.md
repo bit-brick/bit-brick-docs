@@ -1,4 +1,4 @@
-# 启动
+# U-Boot 开发
 
 U-Boot 和 OpenSBI 开发调试指南。
 

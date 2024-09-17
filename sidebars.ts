@@ -92,6 +92,11 @@ const sidebars: SidebarsConfig = {
             },
             {
               type: 'doc',
+              label: 'U-Boot 开发',
+              id: 'k1/k1-linux-kernel/boot-zh',
+            },
+            {
+              type: 'doc',
               id: 'k1/k1-linux-kernel/kernel-build-zh',
             },
             {
@@ -102,10 +107,7 @@ const sidebars: SidebarsConfig = {
               type: 'doc',
               id: 'k1/k1-linux-kernel/solution-manage-zh',
             },
-            {
-              type: 'doc',
-              id: 'k1/k1-linux-kernel/boot-zh',
-            },
+           
           ],
         },
         {
@@ -170,69 +172,84 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'doc',
+              label: 'K1 PINCTRL',
+              id: 'k1/k1-software/PINCTRL',
+            },
+            {
+              type: 'doc',
               label: 'K1 GMAC',
               id: 'k1/k1-software/gmac',
-            },{
+            },
+            {
+              type: 'doc',
+              label: 'K1 GPIO',
+              id: 'k1/k1-software/GPIO',
+            },
+            {
+              type: 'doc',
+              label: 'K1 PWM',
+              id: 'k1/k1-software/PWM',
+            },
+            {
+              type: 'doc',
+              label: 'K1 IR-RX',
+              id: 'k1/k1-software/IR-RX',
+            },
+            {
+              type: 'doc',
+              label: 'K1 UART',
+              id: 'k1/k1-software/UART',
+            },
+            {
+              type: 'doc',
+              label: 'K1 I2C',
+              id: 'k1/k1-software/I2C',
+            },
+            {
+              type: 'doc',
+              label: 'K1 QSPI',
+              id: 'k1/k1-software/QSPI',
+            },
+            {
+              type: 'doc',
+              label: 'K1 SDHC',
+              id: 'k1/k1-software/SDHC',
+            },
+            {
+              type: 'doc',
+              label: 'K1 GMAC',
+              id: 'k1/k1-software/GMAC',
+            },
+            {
+              type: 'doc',
+              label: 'K1 USB',
+              id: 'k1/k1-software/USB',
+            },
+            {
               type: 'doc',
               label: 'K1 PCIE',
-              id: 'k1/k1-software/PCIE-configuration',
+              id: 'k1/k1-software/PCIe',
             },
             {
               type: 'doc',
-              id: 'k1/k1-software/GPIOs-functions',
+              label: 'K1 Camera',
+              id: 'k1/k1-software/Camera',
             },
             {
               type: 'doc',
-              id: 'k1/k1-software/camera-configuration',
+              label: 'K1 DSI',
+              id: 'k1/k1-software/DSI',
             },
             {
               type: 'doc',
-              id: 'k1/k1-software/can-bus-configuration',
+              label: 'K1 HDMI',
+              id: 'k1/k1-software/HDMI',
             },
             {
               type: 'doc',
-              id: 'k1/k1-software/display-configuration',
+              label: 'K1 PMIC',
+              id: 'k1/k1-software/PMIC',
             },
-            {
-              type: 'doc',
-              id: 'k1/k1-software/ethernet-configuration',
-            },
-            {
-              type: 'doc',
-              id: 'k1/k1-software/I2C-configuration',
-            },
-            {
-              type: 'doc',
-              id: 'k1/k1-software/linux-kernel',
-            },
-            
-            {
-              type: 'doc',
-              id: 'k1/k1-software/pwm',
-            },
-            {
-              type: 'doc',
-              id: 'k1/k1-software/spi-configuration',
-            },
-            {
-              type: 'doc',
-              id: 'k1/k1-software/uart-configuration',
-            },
-            {
-              type: 'doc',
-              id: 'k1/k1-software/uboot',
-            },
-            {
-              type: 'doc',
-              id: 'k1/k1-software/USB-configuration',
-            },
-            {
-              type: 'doc',
-              id: 'k1/k1-software/wifi-and-bluetooth',
-            },
-            
-            
-            
           ],
         },
         {
