@@ -57,14 +57,12 @@ const sidebars: SidebarsConfig = {
             },
             {
               type: 'doc',
+              label: '联网与升级',
               id: 'k1/k1-os/installation-and-upgrade-zh',
             },
             {
               type: 'doc',
-              id: 'k1/k1-os/connection-zh',
-            },
-            {
-              type: 'doc',
+              label: '软件包管理',
               id: 'k1/k1-os/package-management-zh',
             },
             {

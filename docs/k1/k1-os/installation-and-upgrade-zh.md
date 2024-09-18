@@ -1,56 +1,47 @@
-# 安装和升级
+# 联网与升级
 
-## 安装
+为了更好的体验Bianbu操作系统，我们强烈建议你使用网络，因为你可以获取更多的应用以及我们发布的最新的操作系统。
 
-BitOS 固件可以通过 Titan Flasher 进行刷机，也可以直接通过 fastboot 命令进行刷机，或者写入 sdcard，系统从 sdcard 启动。
+## 网络连接
 
-### 使用 Titan Flasher 刷机
+Bianbu OS连接网络的方式是非常简单的，它分为有线网络和无线网络两种连接方式。下面分别描述两种网络连接的方式。
 
-以 `.zip`结尾的 zip 固件，适用于 Titan Flasher。
-步骤参考[《刷机工具使用手册》](https://developer.spacemit.com/#/documentation?token=O6wlwlXcoiBZUikVNh2cczhin5d)。
+### 有线网络
 
-### 使用 fastboot 刷机
+有线网络支持DHCP的模式，所以当你插上网线的时候，系统会自己进行网络配置并连接上网络。
 
-以 `.zip`结尾的 zip 固件，解压后可以用 fastboot 刷机。
 
-**前提**：
-- 设备已插上 USB 数据线，连接到 PC；
-- 电脑安装好 fastboot 命令。
 
-**刷机步骤**：
-1. 解压固件；
-2. 下载刷机脚本 `flash-all.zip`，并解压到固件目录；
-3. 进入 fastboot 模式
-    - `reboot fastboot`
-4. 等待设备重启并进入 fastboot 模式：
-5. 运行 `flash-all` 脚本，等待刷机完成；
-    - Linux PC 运行 `flash-all.sh`，注意先赋予可执行权限；
-    - Windows PC 运行 `flash-all.bat`；
-6. 刷机完成，重新上电即可进入系统。
+![有线网络的图](/img/k1/os/eth.png)
 
-### 写入 sdcard，sdcard 启动
+### 无线网络
 
-以 `img.zip`结尾的固件为 sdcard 固件，解压后可以用 dd 命令或者 balenaEtcher 写入 sdcard。注意此固件不适用于 eMMC。
+如果你无法使用有线网络，那你可能需要选择无线网络来连接网络。在使用无线网络之前，请确保你的K1安装了无线网卡。
+当网卡安装上了以后，我们会打开网络连接的图标，选择无线网络。
 
-**步骤**：
-1. 将固件写入 sdcard；
-2. 将 sdcard 插入设备；
-3. 设备上电开机即可启动。
+### 配置的截图
 
-## 升级
+![配置的截图](/img/k1/os/wifi.png)
 
-BitOS Desktop/NAS 支持在线升级。
+当我们发现信号图标出现的时候，说明网络已经连接上，如果信号太弱，你可以考虑天线的位置是否合理。
 
-### 通过命令行
+## 系统升级
 
-```
+为了让你有更好的软件体验，Bianbu OS在持续优化中，进迭时空会定期发布深度优化的系统固件，因此我们强烈建议你定期更新系统。
+
+Bianbu OS支持在线更新，你可以通过两种方式进行更新：
+
+### 命令行方式
+
+我们在控制终端中输入，
+
+```bash
 sudo do-release-upgrade
 ```
-根据提示逐步完成，然后重启。
 
-### 通过软件更新器
+按照提示逐步完成，完成后重启即可。
 
-仅限 BitOS Desktop。
+### 软件更新器更新
 
 1. 设备联网；
 2. 打开“软件更新器”；
@@ -58,3 +49,9 @@ sudo do-release-upgrade
 4. 发现新版本，点击升级；
 5. 根据提示逐步完成；
 6. 重启。
+
+### 截图来说明
+
+![截图来说明](/img/k1/os/package_update.png)
+![截图来说明](/img/k1/os/package_update1.png)
+
