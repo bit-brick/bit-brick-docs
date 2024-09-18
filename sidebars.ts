@@ -257,14 +257,17 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'doc',
+              label: '1.算力架构介绍',
               id: 'k1/k1-ml/ai-arch-zh',
             },
             {
               type: 'doc',
+              label: '2.工具概述',
               id: 'k1/k1-ml/tools-overview-zh',
             },
             {
               type: 'doc',
+              label: '3.快速上手',
               id: 'k1/k1-ml/ai-quick-start-zh',
             },
             {

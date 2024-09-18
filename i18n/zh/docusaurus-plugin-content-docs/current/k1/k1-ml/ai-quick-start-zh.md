@@ -1,9 +1,9 @@
-# 2. 快速上手
+# 3. 快速上手
 本章节主要介绍进迭时空 AI 部署工具的使用流程，以帮助您快速上手。
-## 2.1 开发环境
+## 1 开发环境
 当前，进迭时空为您提供 PC (x86_64) 端 Docker 和本地手动配置两种方式（二选一即可）。
 提示：我们强烈建议您选择 Docker 方式，以避免本地手动安装过程中出现问题。
-### 2.1.1 Docker 环境使用
+### 1.1 Docker 环境使用
 为了简化您的部署流程，进迭时空提供了包含完整开发环境的 Docker 镜像。您可以在相关 Docker 环境中，进行模型转换、量化、测试等工作。因此，您仅需要正确安装 Docker 环境即可。
 Docker 环境安装指南：
 - Mac 安装 Docker（桌面版）
@@ -16,7 +16,7 @@ $ sudo docker -v
 Docker version 24.0.7, build afdd53b
 ~~~
 提示：如果您无 root 权限，请联系您所使用 PC 设备的管理员，将您的用户名添加到 docker 用户组中。届时，您将不再需要 sudo即可执行 docker 相关命令。
-#### 2.1.1.1 获取 Docker 镜像
+#### 1.1.1 获取 Docker 镜像
 
 您可以选择直接从 harbor.spacemit.com的 spacemit-ai项目中，拉取 spacemit-ai-sdk相关镜像（注：x86_64 架构）；也可以选择从 https://archive.spacemit.com/spacemit-ai/spacemit-ai-sdk / 网站手动下载、导入压缩后的镜像文件。
 提示：出于带宽等因素考虑，我们推荐您采用 手动下载相关镜像 的方式。
@@ -32,14 +32,14 @@ latest: Pulling from spacemit-ai/spacemit-ai-sdk
 $ wget https://archive.spacemit.com/spacemit-ai/spacemit-ai-sdk/spacemit-ai-sdk.v1.1.0.x86_64.img.tar.gz --no - check - certificate
 $ sudo docker load -i spacemit-ai-sdk.v1.1.0.x86_64.img.tar.gz
 ~~~
-#### 2.1.1.2 查看 Docker 镜像
+#### 1.1.2 查看 Docker 镜像
 示例：
 ~~~
 $ sudo docker images | grep spacemit-ai-sdk
 REPOSITORY                                       TAG       IMAGE ID        CREATED       SIZE
 harbor.spacemit.com/spacemit-ai/spacemit-ai-sdk  latest    4d239b86f5ea    3 days ago    3.83GB
 ~~~
-#### 2.1.1.3 创建 Docker 容器
+#### 1.1.3 创建 Docker 容器
 创建容器（示例）：
 ~~~
 $ NAME = ai_test # 给您的 docker 容器取个名称
@@ -52,7 +52,7 @@ $ sudo docker ps -a | grep $NAME
 CONTAINER ID   IMAGE                                                   COMMAND        CREATED          STATUS           PORTS    NAMES
 0a35d7feebd9   harbor.spacemit.com/spacemit-ai/spacemit-ai-sdk:latest  "/bin/bash"    2 minutes ago    Up 2 minutes              ai_test
 ~~~
-#### 2.1.1.4 进入 Docker 容器
+#### 1.1.4 进入 Docker 容器
 进入容器（示例）：
 ~~~
 $ sudo docker exec -it $NAME /bin/bash
@@ -66,17 +66,17 @@ Spacemit AI Toolkit(Version: 2024/01/15)
 ~~~
 如您所见，相关输出即为当前 docker 开发环境中，进迭时空 AI 部署工具的版本信息。
 注意：当您第一次调用 spine相关命令（及其子命令）时， spine会自动为您安装必要的依赖包，故需要网络支持（正常情况下，该过程不会占用您太多时间）。
-### 2.1.2 本地环境搭建
-#### 2.1.2.1 环境要求
+### 1.2 本地环境搭建
+#### 1.2.1 环境要求
 操作系统：CentOS8 或者 Ubuntu18.04（及以上）
 提示：如果您不需要在 PC 端仿真测试，CentOS7 或者 Ubuntu16.04 即可满足环境要求。
-#### 2.1.2.2 获取部署工具
+#### 1.2.2 获取部署工具
 SDK 包下载页面：https://archive.spacemit.com/spacemit-ai/spacemit-ai-sdk/
 下载示例（e.g. v1.1.0）：
 ~~~
 $ wget https://archive.spacemit.com/spacemit-ai/spacemit-ai-sdk/spacemit-ai-sdk.v1.1.0.x86_64.tar.gz --no - check - certificate
 ~~~
-#### 2.1.2.3 安装部署工具
+#### 1.2.3 安装部署工具
 解压工具（示例）：
 ~~~
 $ tar xzf spacemit-ai-sdk.v1.1.0.x86_64.tar.gz
@@ -118,7 +118,7 @@ Spacemit AI Toolkit(Version: 2024/01/15)
 ...
 ~~~
 注意：当您第一次调用 spine相关命令（及其子命令）时， spine会自动为您安装必要的依赖包，故需要网络支持（正常情况下，该过程不会占用您太多时间）。
-### 2.1.3 快速验证
+### 1.3 快速验证
 为方便您快速上手进迭时空 AI 部署工具，我们为您准备了 quick_start脚本工具（SDK 根目录下）。您可以通过运行该工具，快速验证并熟悉 AI 模型部署的全流程。
 使用说明（示例）：
 ~~~
@@ -143,7 +143,7 @@ dataset/
             ├── inference.pdiparams
             └── inference.pdmodel
 ~~~
-## 2.2 模型准备
+## 2 模型准备
 以 quick_start 中的 Paddle模型为例（其他框架模型类似，详情参阅 3. 模型转换章节内容），您也可以通过下述命令下载、解压示例模型：
 ~~~
 $ wget https://bj.bcebos.com/paddle2onnx/model_zoo/resnet50.tar.gz && tar xvf resnet50.tar.gz
@@ -154,7 +154,7 @@ resnet50
 
 0 directories, 2 files
 ~~~
-## 2.3 模型转换（和量化）
+## 3 模型转换（和量化）
 spine convert主要负责算法模型的一键转换和量化。以 quick_start脚本工具中的 test_convert_paddle任务为例，在开发环境中，通过执行下述 spine convert paddle命令即可完成模型的一键转换：
 ~~~
 $ spine convert paddle --model_dir resnet50 \
@@ -228,7 +228,7 @@ resnet50
 }
 ~~~
 其中， dataset目录解压自 4. 模型量化章节内容。
-## 2.4 精度验证
+## 4 精度验证
 不同应用场景、领域下的精度评估指标各不相同。以 quick_start中的 Paddle 分类模型为例，在开发环境中执行下述命令，可以在指定测试数据集上，快速对比、验证量化后模型的精度：
 ~~~
 # eval converted onnx model(fp32)
@@ -246,8 +246,8 @@ $ /opt/spacemit-ai-sdk.v1.1.0/spacengine - toolkit/bin/python3 \
 Prec@1 0.750 = 45 / 60
 Prec@5 0.933 = 56 / 60
 ~~~
-## 2.5 仿真测试
-### 2.5.1 测试数据
+## 5 仿真测试
+### 5.1 测试数据
 spine helper test提供创建标准 ONNX 测试数据集功能。以 quick_start中的 test_simulate_paddle_qemu函数及上述 Paddle 模型为例，在开发环境中运行下述命令：
 ~~~
 $ spine helper test --model_path resnet50/inference.onnx --root_path test_data --test_name resnet50 -r 4 -f p2o.DynamicDimension.0:1 --save_output
@@ -275,7 +275,7 @@ test_data/resnet50/
 ~~~
 说明： --model_path指定 ONNX 模型路径， --root_path指定测试数据集根目录， --test_name指定测试用例名称， -r指定测试用例数量， -f指定符号参数对应的 shape ， --save_output指定需要保存 x86 测试输出结果。更多参数细节，可以参阅 5.2.5 数据构建 章节内容。
 
-### 2.5.2 仿真运行
+### 5.2 仿真运行
 spine simulate 提供 PC 端（当前仅限 x86 架构）的模型仿真测试功能。该功能基于 SDK 中预置的 qemu-riscv64 以及 x86_64-riscv64 交叉编译工具，支持标准 ONNX 模型及进迭时空 AI 部署工具量化后的模型，并保证推理结果与
 与 `芯片端`运行结果完全一致。以上述生成的测试数据集为例：
 ```
@@ -293,7 +293,7 @@ Failed Test Cases:
 ```
 【说明】 `spine simulate`封装了 SDK 目录下的 `spacemit - ort/bin/onnx_test_runner`测试工具。如果测试用例目录下存在 `标准`输出结果（e.g. `spine helper test`构造测试数据时，通过 `--save_output`指定保存 x86 输出结果），则 `spine simulate test_data`命令还会对 `芯片端`仿真测试输出结果进行精度比对（默认：相对误差 `1e - 5`，绝对误差 `1e - 5`）。更多参数细节，可以参阅 5.1.2 `spine simulate`章节内容。
 
-## 2.6 性能测试
+## 6 性能测试
 
 SDK 目录下的 `spacemit - ort/bin/onnxruntime_perf_test`工具支持在 `芯片端`快速测试 AI 算法模型的纯推理性能。该工具兼容 ONNX 模型，故您可以很方便的使用它来评测原始 ONNX 浮点模型，以及转换（和/或量化）后的进迭时空定点模型性能。以上述量化后的 Paddle 模型为例，在 `芯片端`执行下述命令：
 ```
@@ -318,7 +318,7 @@ P999 Latency: 0.0912857 s
 ```
 【说明】 `-m times`指定测试模式为固定测试次数， `-r 100`指定测试推理 100 次， `-e spacemit`使能进迭时空后端加速。更多参数细节，可以参阅 6.1 性能测试 章节内容。
 
-## 2.7 应用开发
+## 7 应用开发
 
 Bianbu AI Support Library 是进迭时空自研的上层应用开发支持库，开箱即用，仅需一两行代码就可以轻松集成图像分类、目标检测等 AI 任务。
 
@@ -352,7 +352,7 @@ bbox[ 6] x1y1x2y2: ( 660, 460, 722, 641), score: 0.401, label_text: person
 ```
 【提示】您可以参阅 6.2.1.4 Demo 说明 章节内容，以了解更多现成 Demo 信息。您也可以参阅 6.2.2 AI Engine 章节相关介绍，了解进迭时空 AI 推理引擎的具体使用方式。
 
-## 2.8 常见问题（FAQ）
+## 8 常见问题（FAQ）
 
-### 2.8.1 部署工具有 windows 或 mac 版本吗？
+### 8.1 部署工具有 windows 或 mac 版本吗？
 答：暂时没有，未来可能会提供。
