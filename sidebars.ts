@@ -25,46 +25,44 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           collapsed: true,
-          label: 'Getting Started',
+          label: '入门指南',
           items: [
             {
               type: 'doc',
-              id: 'k1/getting-started/preparation',
+              label: '入门指南',
+              id: 'k1/getting-started/preparation-zh',
             },
             {
               type: 'doc',
+              label: '下载和安装操作系统',
               id: 'k1/getting-started/install-zh',
             },
             {
               type: 'doc',
+              label: '启动和配置K1',
               id: 'k1/getting-started/configuring-zh',
-            },
-            {
-              type: 'doc',
-              id: 'k1/getting-started/resize-rootfs-zh',
-            },
+            }
             
           ],
         },
         {
           type: 'category',
           collapsed: true,
-          label: 'BitOS',
+          label: 'Bianbu OS',
           items: [
             {
               type: 'doc',
+              label: 'Bainbu OS简介',
               id: 'k1/k1-os/os-intro-zh',
             },
             {
               type: 'doc',
+              label: '联网与升级',
               id: 'k1/k1-os/installation-and-upgrade-zh',
             },
             {
               type: 'doc',
-              id: 'k1/k1-os/connection-zh',
-            },
-            {
-              type: 'doc',
+              label: '软件包管理',
               id: 'k1/k1-os/package-management-zh',
             },
             {
@@ -84,11 +82,16 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           collapsed: true,
-          label: 'K1 linux kernel',
+          label: '系统开发指南',
           items: [
             {
               type: 'doc',
               id: 'k1/k1-linux-kernel/build-bit-os-zh',
+            },
+            {
+              type: 'doc',
+              label: 'U-Boot 开发',
+              id: 'k1/k1-linux-kernel/boot-zh',
             },
             {
               type: 'doc',
@@ -102,16 +105,13 @@ const sidebars: SidebarsConfig = {
               type: 'doc',
               id: 'k1/k1-linux-kernel/solution-manage-zh',
             },
-            {
-              type: 'doc',
-              id: 'k1/k1-linux-kernel/boot-zh',
-            },
+           
           ],
         },
         {
           type: 'category',
           collapsed: true,
-          label: 'K1 hardware',
+          label: '硬件开发指南',
           items: [
             {
               type: 'doc',
@@ -143,26 +143,21 @@ const sidebars: SidebarsConfig = {
               label: 'K1 显示接口说明',
               id: 'k1/k1-hardware/display-interface',
             },
+            
             {
               type: 'doc',
-              label: 'K1 硬件资料',
-              id: 'k1/k1-hardware/hardware-file-download',
-            },
-            {
-              type: 'doc',
-              label: 'K1 Audio Hardware Introduction',
+              label: 'K1 音频接口说明',
               id: 'k1/k1-hardware/audio-hardware-introduction',
             },
-           
+            // {
+            //   type: 'doc',
+            //   label: 'K1 Power Sequence',
+            //   id: 'k1/k1-hardware/power-sequence',
+            // },
             {
               type: 'doc',
-              label: 'K1 Hardware Design Resources',
-              id: 'k1/k1-hardware/hardware-design-resources',
-            },
-            {
-              type: 'doc',
-              label: 'K1 Power Sequence',
-              id: 'k1/k1-hardware/power-sequence',
+              label: 'K1 硬件资料下载',
+              id: 'k1/k1-hardware/hardware-file-download',
             },
             
             
@@ -171,84 +166,108 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           collapsed: true,
-          label: 'K1 software',
+          label: '软件开发指南',
           items: [
             {
               type: 'doc',
-              id: 'k1/k1-software/GPIOs-functions',
+              label: 'K1 PINCTRL',
+              id: 'k1/k1-software/PINCTRL',
             },
             {
               type: 'doc',
-              id: 'k1/k1-software/camera-configuration',
+              label: 'K1 GMAC',
+              id: 'k1/k1-software/gmac',
             },
             {
               type: 'doc',
-              id: 'k1/k1-software/can-bus-configuration',
+              label: 'K1 GPIO',
+              id: 'k1/k1-software/GPIO',
             },
             {
               type: 'doc',
-              id: 'k1/k1-software/display-configuration',
+              label: 'K1 PWM',
+              id: 'k1/k1-software/PWM',
             },
             {
               type: 'doc',
-              id: 'k1/k1-software/ethernet-configuration',
+              label: 'K1 IR-RX',
+              id: 'k1/k1-software/IR-RX',
             },
             {
               type: 'doc',
-              id: 'k1/k1-software/I2C-configuration',
+              label: 'K1 UART',
+              id: 'k1/k1-software/UART',
             },
             {
               type: 'doc',
-              id: 'k1/k1-software/linux-kernel',
+              label: 'K1 I2C',
+              id: 'k1/k1-software/I2C',
             },
             {
               type: 'doc',
-              id: 'k1/k1-software/PCIE-configuration',
+              label: 'K1 QSPI',
+              id: 'k1/k1-software/QSPI',
             },
             {
               type: 'doc',
-              id: 'k1/k1-software/pwm',
+              label: 'K1 SDHC',
+              id: 'k1/k1-software/SDHC',
             },
             {
               type: 'doc',
-              id: 'k1/k1-software/spi-configuration',
+              label: 'K1 GMAC',
+              id: 'k1/k1-software/GMAC',
             },
             {
               type: 'doc',
-              id: 'k1/k1-software/uart-configuration',
+              label: 'K1 USB',
+              id: 'k1/k1-software/USB',
             },
             {
               type: 'doc',
-              id: 'k1/k1-software/uboot',
+              label: 'K1 PCIE',
+              id: 'k1/k1-software/PCIe',
             },
             {
               type: 'doc',
-              id: 'k1/k1-software/USB-configuration',
+              label: 'K1 Camera',
+              id: 'k1/k1-software/Camera',
             },
             {
               type: 'doc',
-              id: 'k1/k1-software/wifi-and-bluetooth',
+              label: 'K1 DSI',
+              id: 'k1/k1-software/DSI',
             },
-            
-            
-            
+            {
+              type: 'doc',
+              label: 'K1 HDMI',
+              id: 'k1/k1-software/HDMI',
+            },
+            {
+              type: 'doc',
+              label: 'K1 PMIC',
+              id: 'k1/k1-software/PMIC',
+            },
           ],
         },
         {
           type: 'category',
           collapsed: true,
-          label: 'K1 Machine Learning',
+          label: '机器学习',
           items: [
             {
               type: 'doc',
+              label: '1.算力架构介绍',
               id: 'k1/k1-ml/ai-arch-zh',
             },
             {
               type: 'doc',
+              label: '2.工具概述',
               id: 'k1/k1-ml/tools-overview-zh',
             },
             {
               type: 'doc',
+              label: '3.快速上手',
               id: 'k1/k1-ml/ai-quick-start-zh',
             },
             {
@@ -273,7 +292,7 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           collapsed: true,
-          label: 'Datasheets',
+          label: '数据手册',
           items: [
             {
               type: 'doc',
