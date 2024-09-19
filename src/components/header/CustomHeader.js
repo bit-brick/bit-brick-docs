@@ -5,10 +5,29 @@ const CustomHeader = () => {
 
   const handleLanguageChange = (event) => {
     const selectedValue = event.target.value;
-    if (window.location.pathname !== selectedValue) {
-      window.location.href = selectedValue;
+    console.log(selectedValue);
+    console.log(document.location.pathname);
+    
+    let path = document.location.pathname;
+
+    // 如果选择的是 /zh，且当前路径不包含 /zh，则在路径前添加 /zh
+    if (selectedValue === "/zh" && !path.startsWith("/zh")) {
+      path = "/zh" + path;
     }
-  }
+    
+    // 如果选择的是 /，则移除路径中的 /zh（如果存在）
+    if (selectedValue === "/" && path.startsWith("/zh")) {
+      path = path.replace("/zh", "");
+    }
+
+    console.log(path, 1111111111);
+
+    // 防止页面不必要的刷新
+    if (window.location.pathname !== path) {
+      window.location.href = path;
+    }
+}
+
 
   return (
   <div className='custom-header'>
