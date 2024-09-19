@@ -22,13 +22,13 @@ const FeatureList: FeatureItem[] = [
     title: <Translate id='pione.block2.title'>Bit OS</Translate>,
     imageSrc: require('@site/static/img/index/icon/os.png').default,
     description: (<><Translate id='pione.block1.desc'>The official K1 operation system</Translate></>),
-    url: "docs/pi-one/pi-one-os/os-intro-zh"
+    url: "docs/k1/k1-linux-kernel/build-bit-os-zh"
   },
   {
     title: <Translate id='pione.block3.title'>Linux kernel</Translate>,
     imageSrc: require('@site/static/img/index/icon/kernel.png').default,
     description: (<><Translate id='pione.block3.desc'>How to configure and build your own kernel for K1</Translate></>),
-    url: "docs/pi-one/pi-one-linux-kernel/build-bit-os-zh"
+    url: "/docs/k1/k1-linux-kernel/kernel-build-zh"
   },
   {
     title: <Translate id='pione.block4.title'>Hardware</Translate>,
@@ -40,7 +40,7 @@ const FeatureList: FeatureItem[] = [
     title: <Translate id='pione.block5.title'>Software</Translate>,
     imageSrc: require('@site/static/img/index/icon/software.png').default,
     description: (<><Translate id='pione.block5.desc'>The drivers and applications guide for the K1</Translate></>),
-    url: "docs/pi-one/pi-one-software/GPIOs-functions"
+    url: "docs/k1/k1-software/PINCTRL"
   },
   {
     title: <Translate id='pione.block6.title'>Datasheets</Translate>,
