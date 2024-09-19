@@ -40,7 +40,7 @@ const FeatureList: FeatureItem[] = [
     title: <Translate id='pione.block5.title'>Software</Translate>,
     imageSrc: require('@site/static/img/index/icon/software.png').default,
     description: (<><Translate id='pione.block5.desc'>The drivers and applications guide for the K1</Translate></>),
-    url: "docs/k1/k1-software/GPIOs-functions"
+    url: "docs/k1/k1-software/PINCTRL"
   },
   {
     title: <Translate id='pione.block6.title'>Datasheets</Translate>,
@@ -52,7 +52,7 @@ const FeatureList: FeatureItem[] = [
     title: <Translate id='pione.block7.title'>Camera software</Translate>,
     imageSrc: require('@site/static/img/index/icon/cam.png').default,
     description: (<><Translate id='pione.block7.desc'>Software and libraries for K1 camera hardware</Translate></>),
-    url: "docs/k1/datasheets"
+    url: "docs/k1/k1-hardware/camera-interface"
   },
   {
     title: <Translate id='pione.block3.title'>Machine learning</Translate>,
@@ -64,7 +64,7 @@ const FeatureList: FeatureItem[] = [
     title: <Translate id='pione.block9.title'>ROS2</Translate>,
     imageSrc: require('@site/static/img/index/icon/ros2.png').default,
     description: (<><Translate id='pione.block9.desc'>Guide to show you how to set up ROS</Translate></>),
-    url: "docs/k1/datasheets"
+    url: "docs/k1/news/ros2-zh"
   },
 ];
 
