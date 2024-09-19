@@ -55,7 +55,7 @@ const FeatureList: FeatureItem[] = [
     url: "docs/k1/k1-hardware/camera-interface"
   },
   {
-    title: <Translate id='pione.block3.title'>Machine learning</Translate>,
+    title: <Translate id='pione.block8.title'>Machine learning</Translate>,
     imageSrc: require('@site/static/img/index/icon/ml.png').default,
     description: (<><Translate id='pione.block8.desc'>How to use hardware accelation for AI</Translate></>),
     url: "docs/k1/k1-ml/ai-arch-zh"
