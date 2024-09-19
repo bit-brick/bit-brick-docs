@@ -36,7 +36,7 @@
     "description": "The label for category Data Manual in sidebar tutorialSidebar"
   },
   "sidebar.tutorialSidebar.doc.Getting Started": {
-    "message": "Getting Started",
+    "message": "入门指南",
     "description": "The label for the doc item Getting Started in sidebar tutorialSidebar, linking to the doc k1/getting-started/preparation"
   },
   "sidebar.tutorialSidebar.doc.Downloading and Installing the OS": {
