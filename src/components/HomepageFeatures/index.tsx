@@ -16,7 +16,7 @@ const K1: FeatureItem[] = [
     title: <Translate id='pione.block1.title'>Getting started</Translate>,
     imageSrc: require('@site/static/img/index/icon/gettingstarted.png').default,
     description: (<><Translate id='pione.block1.desc'>How to get started with your K1</Translate></>),
-    url: translate({id:"pione.block1.url", message:"docs/k1/getting-started/preparation"})
+    url: "docs/k1/getting-started/preparation"
   },
   {
     title: <Translate id='pione.block2.title'>Bit OS</Translate>,
@@ -64,7 +64,7 @@ const K1: FeatureItem[] = [
     title: <Translate id='pione.block9.title'>ROS2</Translate>,
     imageSrc: require('@site/static/img/index/icon/ros2.png').default,
     description: (<><Translate id='pione.block9.desc'>Guide to show you how to set up ROS</Translate></>),
-    url: "docs/k1/news/ros2-zh"
+    url: "docs/k1/news/ros2"
   },
 ];
 
