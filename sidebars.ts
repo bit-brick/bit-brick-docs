@@ -89,24 +89,24 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'doc',
-              id: 'k1/k1-linux-kernel/build-bit-os-zh',
+              id: 'k1/k1-linux-kernel/build-bit-os',
             },
             {
               type: 'doc',
               label: 'U-Boot Development',
-              id: 'k1/k1-linux-kernel/boot-zh',
+              id: 'k1/k1-linux-kernel/boot',
             },
             {
               type: 'doc',
-              id: 'k1/k1-linux-kernel/kernel-build-zh',
+              id: 'k1/k1-linux-kernel/kernel-build',
             },
             {
               type: 'doc',
-              id: 'k1/k1-linux-kernel/device-manage-zh',
+              id: 'k1/k1-linux-kernel/device-manage',
             },
             {
               type: 'doc',
-              id: 'k1/k1-linux-kernel/solution-manage-zh',
+              id: 'k1/k1-linux-kernel/solution-manage',
             },
 
           ],
