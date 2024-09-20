@@ -12,7 +12,7 @@ BitOS 软件包遵循 Debian 软件包规范，使用 apt 管理。
 ## 更新软件源
 
 ```
-apt - get update
+apt-get update
 ```
 
 ## 安装软件包
@@ -20,7 +20,7 @@ apt - get update
 例如安装软件包 `hello`：
 
 ```
-apt - get install hello
+apt-get install hello
 ```
 
 ## 更新软件包
@@ -28,7 +28,7 @@ apt - get install hello
 例如更新 `hello`：
 
 ```
-apt - get upgrade hello
+apt-get upgrade hello
 ```
 
 ## 卸载软件包
@@ -36,5 +36,5 @@ apt - get upgrade hello
 例如卸载 `hello`：
 
 ```
-apt - get remove hello
+apt-get remove hello
 ```

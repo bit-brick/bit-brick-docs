@@ -49,7 +49,6 @@ sudo do-release-upgrade
 5. 根据提示逐步完成；
 6. 重启。
 
-### 截图来说明
 
 ![截图来说明](/img/k1/os/package_update.png)
 ![截图来说明](/img/k1/os/package_update1.png)
