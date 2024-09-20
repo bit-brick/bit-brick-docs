@@ -5,9 +5,7 @@ const CustomHeader = () => {
 
   const handleLanguageChange = (event) => {
     const selectedValue = event.target.value;
-    console.log(selectedValue);
-    console.log(document.location.pathname);
-    
+
     let path = document.location.pathname;
 
     // 如果选择的是 /zh，且当前路径不包含 /zh，则在路径前添加 /zh
@@ -15,18 +13,17 @@ const CustomHeader = () => {
       path = "/zh" + path;
     }
     
-    // 如果选择的是 /，则移除路径中的 /zh（如果存在）
+    // 如果选择的是 /，且当前路径以 /zh 开头，则去除 /zh
     if (selectedValue === "/" && path.startsWith("/zh")) {
-      path = path.replace("/zh", "");
+      path = path.replace("/zh", ""); // 去除开头的 /zh
     }
 
-    console.log(path, 1111111111);
-
-    // 防止页面不必要的刷新
+    // 如果路径变了，才重新导航
     if (window.location.pathname !== path) {
       window.location.href = path;
     }
 }
+
 
 
   return (
