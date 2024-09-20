@@ -1,7 +1,19 @@
 // src/components/CustomHeader.js
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 const CustomHeader = () => {
+
+  const [selectedLang, setSelectedLang] = useState('/');
+
+  useEffect(() => {
+    // 检查当前的路径是否包含 '/zh'
+    const path = window.location.pathname;
+    if (path.startsWith('/zh')) {
+      setSelectedLang('/zh');
+    } else {
+      setSelectedLang('/');
+    }
+  }, []);
 
   const handleLanguageChange = (event) => {
     const selectedValue = event.target.value;
@@ -71,9 +83,9 @@ const CustomHeader = () => {
                 <aside className="header-widget-area widget-area site-header-focus-item header-widget-area-inner" data-section="sidebar-widgets-header-widget-1" aria-label="Header Widget 1">
                   <section id="polylang-3" className="widget widget_polylang">
                     <label className="screen-reader-text" htmlFor="lang_choice_polylang-3">Choose a language</label>
-                    <select name="lang_choice_polylang-3" id="lang_choice_polylang-3" className="pll-switcher-select" onChange={handleLanguageChange}>
+                    <select name="lang_choice_polylang-3" id="lang_choice_polylang-3" className="pll-switcher-select" value={selectedLang} onChange={handleLanguageChange}>
                       <option value="/zh" lang="zh-CN">中文 (中国)</option>
-                      <option value="/" lang="en-US" selected>English</option>
+                      <option value="/" lang="en-US">English</option>
                     </select>
                   </section>
                 </aside>
