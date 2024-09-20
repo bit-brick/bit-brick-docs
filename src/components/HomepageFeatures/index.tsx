@@ -11,7 +11,7 @@ type FeatureItem = {
   url: string;
 };
 
-const FeatureList: FeatureItem[] = [
+const K1: FeatureItem[] = [
   {
     title: <Translate id='pione.block1.title'>Getting started</Translate>,
     imageSrc: require('@site/static/img/index/icon/gettingstarted.png').default,
@@ -68,21 +68,66 @@ const FeatureList: FeatureItem[] = [
   },
 ];
 
+const SSOM_K1: FeatureItem[] = [
+  {
+    title: <Translate id='pione.block6.title'>Datasheets</Translate>,
+    imageSrc: require('@site/static/img/index/icon/datasheet.png').default,
+    description: (<><Translate id='pione.block6.desc'>PDF-based documention</Translate></>),
+    url: "docs/k1/datasheets"
+  },
+  {
+    title: <Translate id='pione.block2.title'>Bit OS</Translate>,
+    imageSrc: require('@site/static/img/index/icon/os.png').default,
+    description: (<><Translate id='pione.block1.desc'>The official K1 operation system</Translate></>),
+    url: "docs/k1/k1-os/os-intro"
+  },
+  {
+    title: <Translate id='pione.block3.title'>Linux kernel</Translate>,
+    imageSrc: require('@site/static/img/index/icon/kernel.png').default,
+    description: (<><Translate id='pione.block3.desc'>How to configure and build your own kernel for K1</Translate></>),
+    url: "docs/k1/k1-linux-kernel/build-bit-os-zh"
+  },
+  {
+    title: <Translate id='pione.block4.title'>Hardware</Translate>,
+    imageSrc: require('@site/static/img/index/icon/hardware.png').default,
+    description: (<><Translate id='pione.block4.desc'>The information help you to undertand the hardware of K1</Translate></>),
+    url: "docs/k1/k1-hardware/hardware-brief"
+  },
+  {
+    title: <Translate id='pione.block5.title'>Software</Translate>,
+    imageSrc: require('@site/static/img/index/icon/software.png').default,
+    description: (<><Translate id='pione.block5.desc'>The drivers and applications guide for the K1</Translate></>),
+    url: "docs/k1/k1-software/PINCTRL"
+  }
+];
+
 const ProductList = [
   {
     title: 'K1',
-    features: FeatureList,
+    features: K1,
   },
   {
-    title: 'RISC-V',
-    features: FeatureList
+    title: 'SSOM-K1',
+    features: SSOM_K1
   },
 ]
 
 let activeProduct = 'K1';
+let activeProductList = K1;
 
 function handleClick(title){
   activeProduct = title
+  activeProductList = ProductList.find(item => item.title === title).features
+}
+
+function getCurrentLanguage() {
+  let path = document.location.pathname;
+  if(path.startsWith("/zh")){
+    return "/zh"
+  }
+  else{
+    return ""
+  }
 }
 
 function ProductFilter(){
@@ -104,7 +149,7 @@ function Feature({title, imageSrc, description, url}: FeatureItem) {
     <div className={clsx('col col--4')}>
       <div className={styles.block}>
       <div className="text--center">
-      <a href={url}  rel="noopener noreferrer">
+      <a href={getCurrentLanguage() ? "/zh" + url : url}  rel="noopener noreferrer">
         <img src={imageSrc} className={styles.featureSvg} alt={title} />
       </a>
       </div>
@@ -141,7 +186,7 @@ export default function HomepageFeatures(): JSX.Element {
       <section className={styles.features}>
         <div className="container">
           <div className="row">
-            {FeatureList.map((props, idx) => (
+            {activeProductList.map((props, idx) => (
               <Feature key={idx} {...props} />
             ))}
           </div>
