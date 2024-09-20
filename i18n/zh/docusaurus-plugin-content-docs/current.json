@@ -7,85 +7,105 @@
     "message": "K1",
     "description": "The label for category K1 in sidebar tutorialSidebar"
   },
-  "sidebar.tutorialSidebar.category.入门指南": {
+  "sidebar.tutorialSidebar.category.Getting Started": {
     "message": "入门指南",
-    "description": "The label for category 入门指南 in sidebar tutorialSidebar"
+    "description": "The label for category Getting Started in sidebar tutorialSidebar"
   },
   "sidebar.tutorialSidebar.category.Bianbu OS": {
     "message": "Bianbu OS",
     "description": "The label for category Bianbu OS in sidebar tutorialSidebar"
   },
-  "sidebar.tutorialSidebar.category.系统开发指南": {
+  "sidebar.tutorialSidebar.category.System Development Guide": {
     "message": "系统开发指南",
-    "description": "The label for category 系统开发指南 in sidebar tutorialSidebar"
+    "description": "The label for category System Development Guide in sidebar tutorialSidebar"
   },
-  "sidebar.tutorialSidebar.category.硬件开发指南": {
+  "sidebar.tutorialSidebar.category.Hardware Development Guide": {
     "message": "硬件开发指南",
-    "description": "The label for category 硬件开发指南 in sidebar tutorialSidebar"
+    "description": "The label for category Hardware Development Guide in sidebar tutorialSidebar"
   },
-  "sidebar.tutorialSidebar.category.软件开发指南": {
+  "sidebar.tutorialSidebar.category.Software Development Guide": {
     "message": "软件开发指南",
-    "description": "The label for category 软件开发指南 in sidebar tutorialSidebar"
+    "description": "The label for category Software Development Guide in sidebar tutorialSidebar"
   },
-  "sidebar.tutorialSidebar.category.机器学习": {
+  "sidebar.tutorialSidebar.category.Machine Learning": {
     "message": "机器学习",
-    "description": "The label for category 机器学习 in sidebar tutorialSidebar"
+    "description": "The label for category Machine Learning in sidebar tutorialSidebar"
   },
-  "sidebar.tutorialSidebar.category.数据手册": {
+  "sidebar.tutorialSidebar.category.Data Manual": {
     "message": "数据手册",
-    "description": "The label for category 数据手册 in sidebar tutorialSidebar"
+    "description": "The label for category Data Manual in sidebar tutorialSidebar"
   },
-  "sidebar.tutorialSidebar.doc.入门指南": {
+  "sidebar.tutorialSidebar.doc.Getting Started": {
     "message": "入门指南",
-    "description": "The label for the doc item 入门指南 in sidebar tutorialSidebar, linking to the doc k1/getting-started/preparation-zh"
+    "description": "The label for the doc item Getting Started in sidebar tutorialSidebar, linking to the doc k1/getting-started/preparation"
   },
-  "sidebar.tutorialSidebar.doc.下载和安装操作系统": {
+  "sidebar.tutorialSidebar.doc.Downloading and Installing the OS": {
     "message": "下载和安装操作系统",
-    "description": "The label for the doc item 下载和安装操作系统 in sidebar tutorialSidebar, linking to the doc k1/getting-started/install-zh"
+    "description": "The label for the doc item Downloading and Installing the OS in sidebar tutorialSidebar, linking to the doc k1/getting-started/install"
   },
-  "sidebar.tutorialSidebar.doc.启动和配置K1": {
+  "sidebar.tutorialSidebar.doc.Starting and Configuring K1": {
     "message": "启动和配置K1",
-    "description": "The label for the doc item 启动和配置K1 in sidebar tutorialSidebar, linking to the doc k1/getting-started/configuring-zh"
+    "description": "The label for the doc item Starting and Configuring K1 in sidebar tutorialSidebar, linking to the doc k1/getting-started/configuring"
   },
-  "sidebar.tutorialSidebar.doc.Bainbu OS简介": {
+  "sidebar.tutorialSidebar.doc.Introduction to Bainbu OS": {
     "message": "Bainbu OS简介",
-    "description": "The label for the doc item Bainbu OS简介 in sidebar tutorialSidebar, linking to the doc k1/k1-os/os-intro-zh"
+    "description": "The label for the doc item Introduction to Bainbu OS in sidebar tutorialSidebar, linking to the doc k1/k1-os/os-intro-zh"
   },
-  "sidebar.tutorialSidebar.doc.U-Boot 开发": {
+  "sidebar.tutorialSidebar.doc.Networking and Upgrade": {
+    "message": "联网与升级",
+    "description": "The label for the doc item Networking and Upgrade in sidebar tutorialSidebar, linking to the doc k1/k1-os/installation-and-upgrade-zh"
+  },
+  "sidebar.tutorialSidebar.doc.Package Management": {
+    "message": "包管理",
+    "description": "The label for the doc item Package Management in sidebar tutorialSidebar, linking to the doc k1/k1-os/package-management-zh"
+  },
+  "sidebar.tutorialSidebar.doc.ROS2 Install": {
+    "message": "ROS2 安装",
+    "description": "The label for the doc item ROS2 Install in sidebar tutorialSidebar, linking to the doc k1/news/ros2-zh"
+  },
+  "sidebar.tutorialSidebar.doc.Docker ": {
+    "message": "Docker ",
+    "description": "The label for the doc item Docker  in sidebar tutorialSidebar, linking to the doc k1/k1-os/docker-zh"
+  },
+  "sidebar.tutorialSidebar.doc.Electron Use Guide": {
+    "message": "Electron 使用指南",
+    "description": "The label for the doc item Electron Use Guide in sidebar tutorialSidebar, linking to the doc k1/k1-os/electron-zh"
+  },
+  "sidebar.tutorialSidebar.doc.U-Boot Development": {
     "message": "U-Boot 开发",
-    "description": "The label for the doc item U-Boot 开发 in sidebar tutorialSidebar, linking to the doc k1/k1-linux-kernel/boot-zh"
+    "description": "The label for the doc item U-Boot Development in sidebar tutorialSidebar, linking to the doc k1/k1-linux-kernel/boot-zh"
   },
-  "sidebar.tutorialSidebar.doc.K1 硬件规格介绍": {
+  "sidebar.tutorialSidebar.doc.K1 Hardware Specifications": {
     "message": "K1 硬件规格介绍",
-    "description": "The label for the doc item K1 硬件规格介绍 in sidebar tutorialSidebar, linking to the doc k1/k1-hardware/hardware-brief"
+    "description": "The label for the doc item K1 Hardware Specifications in sidebar tutorialSidebar, linking to the doc k1/k1-hardware/hardware-brief"
   },
-  "sidebar.tutorialSidebar.doc.K1 应用处理器介绍": {
+  "sidebar.tutorialSidebar.doc.K1 Application Processor": {
     "message": "K1 应用处理器介绍",
-    "description": "The label for the doc item K1 应用处理器介绍 in sidebar tutorialSidebar, linking to the doc k1/k1-hardware/processor-brief"
+    "description": "The label for the doc item K1 Application Processor in sidebar tutorialSidebar, linking to the doc k1/k1-hardware/processor-brief"
   },
-  "sidebar.tutorialSidebar.doc.K1 GPIO扩展接口说明": {
+  "sidebar.tutorialSidebar.doc.K1 GPIO Expansion Interface": {
     "message": "K1 GPIO扩展接口说明",
-    "description": "The label for the doc item K1 GPIO扩展接口说明 in sidebar tutorialSidebar, linking to the doc k1/k1-hardware/GPIO-and-40-pin-header"
+    "description": "The label for the doc item K1 GPIO Expansion Interface in sidebar tutorialSidebar, linking to the doc k1/k1-hardware/GPIO-and-40-pin-header"
   },
-  "sidebar.tutorialSidebar.doc.K1 M.2接口说明": {
+  "sidebar.tutorialSidebar.doc.K1 M.2 Interface": {
     "message": "K1 M.2接口说明",
-    "description": "The label for the doc item K1 M.2接口说明 in sidebar tutorialSidebar, linking to the doc k1/k1-hardware/m2-interface"
+    "description": "The label for the doc item K1 M.2 Interface in sidebar tutorialSidebar, linking to the doc k1/k1-hardware/m2-interface"
   },
-  "sidebar.tutorialSidebar.doc.K1 摄像头接口说明": {
+  "sidebar.tutorialSidebar.doc.K1 Camera Interface": {
     "message": "K1 摄像头接口说明",
-    "description": "The label for the doc item K1 摄像头接口说明 in sidebar tutorialSidebar, linking to the doc k1/k1-hardware/camera-interface"
+    "description": "The label for the doc item K1 Camera Interface in sidebar tutorialSidebar, linking to the doc k1/k1-hardware/camera-interface"
   },
-  "sidebar.tutorialSidebar.doc.K1 显示接口说明": {
+  "sidebar.tutorialSidebar.doc.K1 Display Interface": {
     "message": "K1 显示接口说明",
-    "description": "The label for the doc item K1 显示接口说明 in sidebar tutorialSidebar, linking to the doc k1/k1-hardware/display-interface"
+    "description": "The label for the doc item K1 Display Interface in sidebar tutorialSidebar, linking to the doc k1/k1-hardware/display-interface"
   },
-  "sidebar.tutorialSidebar.doc.K1 音频接口说明": {
+  "sidebar.tutorialSidebar.doc.K1 Audio Interface": {
     "message": "K1 音频接口说明",
-    "description": "The label for the doc item K1 音频接口说明 in sidebar tutorialSidebar, linking to the doc k1/k1-hardware/audio-hardware-introduction"
+    "description": "The label for the doc item K1 Audio Interface in sidebar tutorialSidebar, linking to the doc k1/k1-hardware/audio-hardware-introduction"
   },
-  "sidebar.tutorialSidebar.doc.K1 硬件资料下载": {
+  "sidebar.tutorialSidebar.doc.Download of K1 Hardware Documentation": {
     "message": "K1 硬件资料下载",
-    "description": "The label for the doc item K1 硬件资料下载 in sidebar tutorialSidebar, linking to the doc k1/k1-hardware/hardware-file-download"
+    "description": "The label for the doc item Download of K1 Hardware Documentation in sidebar tutorialSidebar, linking to the doc k1/k1-hardware/hardware-file-download"
   },
   "sidebar.tutorialSidebar.doc.K1 PINCTRL": {
     "message": "K1 PINCTRL",
@@ -146,5 +166,33 @@
   "sidebar.tutorialSidebar.doc.K1 PMIC": {
     "message": "K1 PMIC",
     "description": "The label for the doc item K1 PMIC in sidebar tutorialSidebar, linking to the doc k1/k1-software/PMIC"
+  },
+  "sidebar.tutorialSidebar.doc.1. Introduction to Computing Architecture": {
+    "message": "1. 算力架构介绍",
+    "description": "The label for the doc item 1. Introduction to Computing Architecture in sidebar tutorialSidebar, linking to the doc k1/k1-ml/ai-arch-zh"
+  },
+  "sidebar.tutorialSidebar.doc.2. Overview of Tools": {
+    "message": "2. 工具概述",
+    "description": "The label for the doc item 2. Overview of Tools in sidebar tutorialSidebar, linking to the doc k1/k1-ml/tools-overview-zh"
+  },
+  "sidebar.tutorialSidebar.doc.3. Quick Start": {
+    "message": "3. 快速上手",
+    "description": "The label for the doc item 3. Quick Start in sidebar tutorialSidebar, linking to the doc k1/k1-ml/ai-quick-start-zh"
+  },
+  "sidebar.tutorialSidebar.doc.4. Model Translation": {
+    "message": "4. 模型转换",
+    "description": "The label for the doc item 4. Model Translation in sidebar tutorialSidebar, linking to the doc k1/k1-ml/model-translate-zh"
+  },
+  "sidebar.tutorialSidebar.doc.5. Model Optimization": {
+    "message": "5. 模型量化",
+    "description": "The label for the doc item 5. Model Optimization in sidebar tutorialSidebar, linking to the doc k1/k1-ml/model-optimization-zh"
+  },
+  "sidebar.tutorialSidebar.doc.6. Model Simulation and Testing": {
+    "message": "6. 模型模拟和测试",
+    "description": "The label for the doc item 6. Model Simulation and Testing in sidebar tutorialSidebar, linking to the doc k1/k1-ml/model-simulation-testing-zh"
+  },
+  "sidebar.tutorialSidebar.doc.7. Model Deployment": {
+    "message": "7. 模型部署",
+    "description": "The label for the doc item 7. Model Deployment in sidebar tutorialSidebar, linking to the doc k1/k1-ml/model-deploy-zh"
   }
 }
