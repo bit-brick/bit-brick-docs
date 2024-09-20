@@ -9,13 +9,19 @@
     "message": "快速开始"
   },
   "pione.block1.desc": {
-    "message": "让你快速入门使用PI ONE"
+    "message": "让你快速入门使用K1"
+  },
+  "pione.block1.url": {
+    "message": "zh/docs/k1/getting-started/preparation"
   },
   "pione.block2.title": {
-    "message": "PI ONE OS"
+    "message": "Bianbu OS"
   },
   "pione.block2.desc": {
-    "message": "PI ONE 定制的专属系统"
+    "message": "K1 定制的专属系统"
+  },
+  "pione.block2.url": {
+    "message": "zh/docs/k1/k1-os/os-intro"
   },
   "pione.block3.title": {
     "message": "Linux Kernel"
@@ -23,17 +29,26 @@
   "pione.block3.desc": {
     "message": "快速配置与编译linux kernel"
   },
+  "pione.block3.url": {
+    "message": "zh/docs/k1/k1-linux-kernel/build-bit-os-zh"
+  },
   "pione.block4.title": {
     "message": "硬件"
   },
   "pione.block4.desc": {
-    "message": "带你一起了解PI ONE的硬件部分"
+    "message": "带你一起了解K1的硬件部分"
+  },
+  "pione.block4.url": {
+    "message": "zh/docs/k1/k1-hardware/hardware-brief"
   },
   "pione.block5.title": {
     "message": "软件"
   },
   "pione.block5.desc": {
-    "message": "带你一起了解PI ONE的软件部分"
+    "message": "带你一起了解K1的软件部分"
+  },
+  "pione.block5.url": {
+    "message": "zh/docs/k1/k1-software/PINCTRL"
   },
   "pione.block6.title": {
     "message": "规格书"
@@ -41,11 +56,17 @@
   "pione.block6.desc": {
     "message": "PDF格式的标准文档"
   },
+  "pione.block6.url": {
+    "message": "zh/docs/k1/datasheets"
+  },
   "pione.block7.title": {
     "message": "摄像头软件"
   },
   "pione.block7.desc": {
-    "message": "PI ONE摄像头的相关软件与库文件"
+    "message": "K1摄像头的相关软件与库文件"
+  },
+  "pione.block7.url": {
+    "message": "zh/docs/k1/k1-hardware/camera-interface"
   },
   "pione.block8.title": {
     "message": "机器学习"
@@ -53,11 +74,17 @@
   "pione.block8.desc": {
     "message": "使用硬件来加速你的机器学习软件"
   },
+  "pione.block8.url": {
+    "message": "zh/docs/k1/k1-ml/ai-arch-zh"
+  },
   "pione.block9.title": {
     "message": "ROS2"
   },
   "pione.block9.desc": {
-    "message": "教你如何在PI ONE上使用ROS2"
+    "message": "教你如何在K1上使用ROS2"
+  },
+  "pione.block9.url": {
+    "message": "zh/docs/k1/news/ros2-zh"
   },
   "theme.ErrorPageContent.title": {
     "message": "页面已崩溃。",

@@ -1,10 +1,7 @@
-# GPIO 扩展接口
-
-K1预留了一个40Pin的GPIO扩展接口，采用2.54双列直插的座子，方便爱好者们可以根据自己的需求连接外设，扩展出来不同的功能。我们的系统会将这些IO默认设置为一些特定功能，但是用户可以通过软件的重新配置是这些通用的IO具备一些特殊的功能，因为这些IO都是多功能复用的引脚。
-![图1 k1_gpio](/img/k1/hardware/k1_gpio.png)
-
-## 1.引脚定义
-
+# GPIO Extension Interface
+K1 reserves a 40-pin GPIO extension interface, using a 2.54 double-row straight insertion socket, which is convenient for enthusiasts to connect peripherals according to their own needs and expand different functions. Our system will set these IOs to some specific functions by default, but users can reconfigure them through software to make these general-purpose IOs have some special functions, because these IOs are all multi-functional multiplexed pins.
+![Figure 1 k1_gpio](/img/k1/hardware/k1_gpio.png)
+## 1. Pin Definition
 | Pin | Pin Number | Pin Number | Pin |
 |-----|------------|------------|-----|
 | VCC_3.3V | 1 | 2 | VCC_5.0V |
@@ -27,12 +24,9 @@ K1预留了一个40Pin的GPIO扩展接口，采用2.54双列直插的座子，�
 | GPIO3_IO02 | 35 | 36 | GPIO3_IO05 |
 | GPIO3_IO03 | 37 | 38 | GPIO3_IO06 |
 | GND | 39 | 40 | GPIO3_IO07 |
-
-## 2.多功能引脚定义列表
-所有的GPIO都可以设置成通用的输入或者输出，也能通过内核配置成更多功能。下面的表格给我们展示了各个GPIO的扩展功能。
-
-
-| 引脚号 | 功能1 | 功能2 | 功能3 | 功能4 | 功能5 | 功能6 |
+## 2. Multifunctional Pin Definition List
+All GPIOs can be set as general-purpose inputs or outputs, and can also be configured into more functions through the kernel. The following table shows the extended functions of each GPIO.
+| Pin Number | Function 1 | Function 2 | Function 3 | Function 4 | Function 5 | Function 6 |
 |---|---|---|---|---|---|---|
 | 3 | I2C4_SDA | GPIO[52] | R_SPI_RXD | R_UART1_RXD | R_PWM7 |  |
 | 5 | I2C4_SCL | GPIO[51] | R_SPI_TXD | R_UART1_TXD | R_PWM6 |  |
@@ -62,13 +56,8 @@ K1预留了一个40Pin的GPIO扩展接口，采用2.54双列直插的座子，�
 | 37 | GPIO_33 | GMAC1_RX_D2 | UART4_TXD | PWM3 | PCIe1_WAKEN |  |
 | 38 | GPIO_36 | GMAC1_TX_D1 | UART4_RTS_N | PWM6 | PCIe2_WAKEN |  |
 | 40 | GPIO_37 | GMAC1_TX | PWM7 | PCIe2_CLKREQN |  |
-
-## 备注：
-
-### 电压
-
-板子上所有的3.3V，5V和地都是不能配置的，剩下的所有引脚都是3.3V的，也就是说GPIO的输入和输出都是3.3V的，当然这些引脚从芯片端并不是3.3V，而是通过电平转换将所有的IO都转换成3.3V。
-
-### 输入输出
-
-GPIO的高电平设置为3.3V,低电平是0V。
+## Remarks:
+### Voltage
+All 3.3V, 5V, and ground on the board are not configurable, and all remaining pins are 3.3V, that is, the input and output of the GPIO are 3.3V. Of course, these pins are not 3.3V from the chip end, but all IOs are converted to 3.3V through level conversion.
+### Input and Output
+The high level of the GPIO is set to 3.3V, and the low level is 0V.

@@ -53,32 +53,32 @@ const sidebars: SidebarsConfig = {
             {
               type: 'doc',
               label: 'Introduction to Bainbu OS',
-              id: 'k1/k1-os/os-intro-zh',
+              id: 'k1/k1-os/os-intro',
             },
             {
               type: 'doc',
               label: 'Networking and Upgrade',
-              id: 'k1/k1-os/installation-and-upgrade-zh',
+              id: 'k1/k1-os/installation-and-upgrade',
             },
             {
               type: 'doc',
               label: 'Package Management',
-              id: 'k1/k1-os/package-management-zh',
+              id: 'k1/k1-os/package-management',
             },
             {
               type: 'doc',
               label: 'ROS2 Install',
-              id: 'k1/news/ros2-zh',
+              id: 'k1/news/ros2',
             },
             {
               type: 'doc',
               label: 'Docker ',
-              id: 'k1/k1-os/docker-zh',
+              id: 'k1/k1-os/docker',
             },
             {
               type: 'doc',
               label: 'Electron Use Guide',
-              id: 'k1/k1-os/electron-zh',
+              id: 'k1/k1-os/electron',
             },
           ],
         },
@@ -89,24 +89,24 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'doc',
-              id: 'k1/k1-linux-kernel/build-bit-os-zh',
+              id: 'k1/k1-linux-kernel/build-bit-os',
             },
             {
               type: 'doc',
               label: 'U-Boot Development',
-              id: 'k1/k1-linux-kernel/boot-zh',
+              id: 'k1/k1-linux-kernel/boot',
             },
             {
               type: 'doc',
-              id: 'k1/k1-linux-kernel/kernel-build-zh',
+              id: 'k1/k1-linux-kernel/kernel-build',
             },
             {
               type: 'doc',
-              id: 'k1/k1-linux-kernel/device-manage-zh',
+              id: 'k1/k1-linux-kernel/device-manage',
             },
             {
               type: 'doc',
-              id: 'k1/k1-linux-kernel/solution-manage-zh',
+              id: 'k1/k1-linux-kernel/solution-manage',
             },
 
           ],

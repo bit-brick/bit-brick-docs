@@ -1,32 +1,31 @@
-# ROS2 Installation
+# ROS2 安装
+由于ROS2官方没有提供基于risc-v的ROS2的安装包，所以需要自己编译安装。以下就是在K1上安装ROS2的全过程，首先你需要在虚拟机中至少有25GB的硬盘空间来从源代码安装ROS 2。在继续之前，请确保你有足够的空间。
 
-Since the official ROS2 does not provide an installation package for RISC-V based ROS2, it is necessary to compile and install it yourself. The following is the complete process of installing ROS2 on the K1.
-
- First,you need AT LEAST 25 GB of hard drive space in your VM to install ROS 2 from source. Make sure that you have the space before continuing.
-## System setup
-### Set locale
-This is exactly the same as in the official instructions:
-~~~
-locale  # check for UTF-8
+## 系统设置
+### 设置地区
+这与官方说明中的步骤完全相同：
+```bash
+locale  # 检查UTF-8
 
 sudo apt update && sudo apt install locales
 sudo locale-gen en_US en_US.UTF-8
 sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
 export LANG=en_US.UTF-8
 
-locale  # verify settings
-~~~
-### Enable required repositories
-Here things differ a bit. I think we can only do the following:
+locale  # 验证设置
+```
 
-~~~
+### 启用所需的软件库
+这里有些不同。我认为我们只能做以下操作：
+
+```bash
 sudo apt install software-properties-common
 sudo add-apt-repository universe
+```
 
-~~~
-Install dependencies
-Okay, let’s try to install all the stuff required but without using ros-dev-tools. We will use apt and pip:
-~~~
+## 安装依赖
+好的，我们尝试安装所有必需的东西，但不使用ros-dev-tools。我们将使用apt和pip：
+```bash
 sudo apt update && sudo apt upgrade && sudo apt install -y \
     build-essential \
     cmake \
@@ -68,128 +67,132 @@ sudo apt update && sudo apt upgrade && sudo apt install -y \
     systemd \
     vim \
     wget 
-~~~
-DISCLAIMER: Probably we don’t need ALL those dependencies. Feel free to opt out some of them (and share with us :smiley: )
+```
+**注意**：可能我们并不需要所有这些依赖项。你可以随意选择一些不安装（并且和我们分享 ）
 
-There are still some dependencies missing that are not available without ROS 2 repo. Let’s use pip for them:
-~~~
+仍然有一些依赖项在没有ROS 2软件库的情况下是无法获得的。我们使用pip来安装它们：
+```bash
 sudo pip install vcstool \
     rosdep \
     catkin-pkg-modules \
     rosdistro-modules \
     colcon-common-extensions
-~~~
-So far so good. Let’s move to building ROS 2.
-Note:
-If you cannot install these dependencies normally, you can use `apt` to install some of them, but you need to add an `ubuntu-ports` `source.list` first, as shown below:
-/etc/apt/sources.list.d/ubuntu.list
-~~~
-deb http://ports.ubuntu.com/ubuntu-ports/  mantic main restricted universe multiverse
-# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/ mantic main restricted universe multiverse
-deb http://ports.ubuntu.com/ubuntu-ports/  mantic-updates main restricted universe multiverse
-# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/ mantic-updates main restricted universe multiverse
-deb http://ports.ubuntu.com/ubuntu-ports/  mantic-backports main restricted universe multiverse
-# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/ mantic-backports main restricted universe multiverse
+```
+
+到目前为止一切顺利。让我们继续构建ROS 2。
+
+注意：
+如果你不能正常安装这些依赖，可以使用`apt`来安装其中的一些依赖，但需要先添加一个ubuntu ports的`source.list`，如下所示：
+`/etc/apt/sources.list.d/ubuntu.list`
+```bash
+deb http://ports.ubuntu.com/ubuntu-ports/   mantic main restricted universe multiverse
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/  mantic main restricted universe multiverse
+deb http://ports.ubuntu.com/ubuntu-ports/   mantic-updates main restricted universe multiverse
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/  mantic-updates main restricted universe multiverse
+deb http://ports.ubuntu.com/ubuntu-ports/   mantic-backports main restricted universe multiverse
+# deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/  mantic-backports main restricted universe multiverse
 
 # 以下安全更新软件源包含了官方源与镜像站配置，如有需要可自行修改注释切换
-deb http://ports.ubuntu.com/ubuntu-ports/ mantic-security main restricted universe multiverse
-# deb-src http://ports.ubuntu.com/ubuntu-ports/ mantic-security main restricted universe multiverse
+deb http://ports.ubuntu.com/ubuntu-ports/  mantic-security main restricted universe multiverse
+# deb-src http://ports.ubuntu.com/ubuntu-ports/  mantic-security main restricted universe multiverse
 
 # 预发布软件源，不建议启用
-deb http://ports.ubuntu.com/ubuntu-ports/  mantic-proposed main restricted universe multiverse
-# # deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/ mantic-proposed main restricted universe multiverse
+deb http://ports.ubuntu.com/ubuntu-ports/   mantic-proposed main restricted universe multiverse
+# # deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/  mantic-proposed main restricted universe multiverse
 
-~~~
-增加之后我们就有两个源，分别是`bianbu.list`和 `ubuntu.list`
+```
+添加之后我们就有两个源，分别是`bianbu.list`和`ubuntu.list`
 
-然后再使用`apt`命令安装部分pip安装不了依赖:
-~~~
+然后使用`apt`命令安装部分pip安装不了的依赖：
+```bash
 sudo apt-get install python3-catkin-pkg
 sudo apt-get install python3-rosdistro
 sudo apt install vcstool 
-~~~
+```
 
-## Build ROS 2
-### Get ROS 2 code
-The same as in the official docs:
+## 构建ROS 2
+### 获取ROS 2代码
+与官方文档中的步骤相同：
 
-~~~
+```bash
 mkdir -p ~/ros2/ros2_iron/src
 cd ~/ros2/ros2_iron
-vcs import --input https://raw.githubusercontent.com/ros2/ros2/iron/ros2.repos src
-~~~
+vcs import --input https://raw.githubusercontent.com/ros2/ros2/iron/ros2.repos  src
+```
 
-If you encounter the error "Failed to connect to raw.githubusercontent.com port 443 after 13 ms: Connection refused",
-you can refer to https://www.guyuehome.com/37844
-The handling method:
-~~~
+如果你遇到错误 "Failed to connect to raw.githubusercontent.com port 443 after 13 ms: Connection refused"，你可以参考 https://www.guyuehome.com/37844 
+处理方法：
+```bash
 sudo vi /etc/hosts
 #####################
 127.0.0.1	localhost
 127.0.1.1	iron-virtual-machine
-### Add the following resolution
+### 添加以下解析
 185.199.108.133  raw.githubusercontent.com
-~~~
+```
 
-### Install dependencies using rosdep
-Here things start being a bit tricky:
-~~~
+### 使用rosdep安装依赖
+这里开始变得有点棘手：
+```bash
 sudo rosdep init
 rosdep update
 rosdep install -r --from-paths src --ignore-src -y --skip-keys "fastcdr rti-connext-dds-6.0.1 urdfdom_headers"
-~~~
-Take a closer look: I added the -r option to ignore failures. rosdep assumes we have access to the ROS repo and uses apt to install some dependencies. apt will fail finding some dependencies. Thankfully, we could download them using pip previously. In any case, rosdep will print which packages failed, so you can double-check that we installed them using pip previously and that we are good to go.
+```
+仔细看：我添加了 -r 选项来忽略失败。rosdep假设我们有访问ROS库的权限并使用apt来安装一些依赖。apt在寻找一些依赖时会失败。幸运的是，我们之前已经使用pip下载了它们。无论如何，rosdep会打印出失败的软件包，所以你可以在之前使用pip安装过的软件包中进行双重检查，确保我们可以继续进行。
 
-Note: If you’re using a distribution that is based on Ubuntu (like Linux Mint) but does not identify itself as such, you’ll get an error message like Unsupported OS `[bianbu]`. In this case append `--os=ubuntu:jammy` to the above command.
+注意：如果你使用的是基于Ubuntu的发行版（如Linux Mint）但不识别为Ubuntu，你会得到一个错误消息 Unsupported OS `[bianbu]`。在这种情况下，将 `--os=ubuntu:jammy` 附加到上面的命令。
 
-### Build the code in the workspace
-As I previously mentionend, the Mimick library does not provide support for RISC-V 64. However, GitHub user @ziyao233 helped me and opened a PR to fix this 17 (thank you so much!). So, before building the code, we must tweak the mimick_vendor dependency:
-~~~
-vi ~/ros2_iron/src/ros2/mimick_vendor/CMakeLists.txt
-   # Go to line 61 and modify the commit hash to https://github.com/ziyao233/Mimick/tree/ros2-fixed:
-  set(mimick_version "90d02296025f38da2e33c67b02b7fa0c7c7d460c")
-    # Go to line 63 and modify git repo to https://github.com/ziyao233/Mimick:
-    GIT_REPOSITORY https://github.com/ziyao233/Mimick.git
-~~~
-We are now ready to go.
-I’m currently stuck here. If you run the following command:
-~~~
+### 在工作区构建代码
+
+我现在正卡在这里。如果你运行以下命令：
+```bash
 colcon build --symlink-install
-~~~
-It starts building some dependencies… but it will eventually fail with mimick_vendor. In essence, mimick_vendor just tries to compile the Mimick package 4 which does not support RISC-V architectures. However, the original fork of this package has an open PR 5 that DOES provide support for RISC-V. Sadly, it seems that the author is not very active. However, I already opened a few issues asking the maintainers of ROS 2 Mimick to add this functionality.
+```
+它开始构建一些依赖项……但最终会因为mimick_vendor而失败。本质上，mimick_vendor试图编译Mimick包4，该包不支持risc-v架构。然而，这个包的原始分支有一个开放的PR 5确实提供了对RISC-V的支持。遗憾的是，作者似乎不太活跃。不过，我已经开了几个问题，询问ROS 2 Mimick的维护者添加这个功能。
 
-From now, I’ll tweak the ROS dependency list to point to this fork that provides support for RISC-V and see if I can advance in the installation. I’ll keep you updated.
-### Setup environment
-~~~
+从现在开始，我将调整ROS依赖列表指向提供risc-v支持的这个分支，并看看我是否可以继续安装。我会随时更新。
 
+正如我之前提到的，Mimick库不支持risc-v 64架构。但是，GitHub用户@ziyao233帮助了我并打开了一个PR来修复这个问题17（非常感谢！）。因此，在构建代码之前，我们必须调整mimick_vendor依赖项：
+```bash
+vi ~/ros2_iron/src/ros2/mimick_vendor/CMakeLists.txt
+   # 转到第61行，并将提交哈希修改为 https://github.com/ziyao233/Mimick/tree/ros2-fixed： 
+  set(mimick_version "90d02296025f38da2e33c67b02b7fa0c7c7d460c")
+    # 转到第63行，并将git仓库修改为 https://github.com/ziyao233/Mimick： 
+    GIT_REPOSITORY https://github.com/ziyao233/Mimick.git 
+```
+我们现在准备就绪。
+```bash
+colcon build --symlink-install
+```
+
+### 设置环境
+```bash
 source ~/ros2/ros2_iron/install/local_setup.bash
-~~~
+```
 
-## Try some examples
-If you installed ros-foxy-desktop above you can try some examples.
+## 尝试一些示例
+如果你安装了ros-foxy-desktop，你可以尝试一些示例。
 
-In one terminal, source the setup file and then run a C++ talker:
-~~~
+在一个终端中，source setup文件然后运行一个C++ talker：
+```bash
 ros2 run demo_nodes_cpp talker
-~~~
-In another terminal source the setup file and then run a Python listener:
+```
+在另一个终端中source setup文件然后运行一个Python listener：
 
-~~~
+```bash
 ros2 run demo_nodes_py listener
-~~~
-You should see the talker saying that it’s Publishing messages and the listener saying I heard those messages. This verifies both the C++ and Python APIs are working properly. Hooray!
+```
+你应该看到talker说它正在发布消息，listener说它听到了这些消息。这验证了C++和Python API都在正常工作。nice！
 ![ros2_demo](./img/ros1.png)
 ![ros2_demo](./img/ros2.png)
+示例 2：
 
+小海龟仿真示例
+让我们再次尝试ROS中的经典示例——小海龟仿真器。
 
-Example 2:
-
-Little Turtle Simulation Example
-Let's try again the classic example in ROS - the little turtle simulator.
-
-Start two terminals and run the following instructions respectively:
-~~~
+分别在两个终端中运行以下指令：
+```bash
 ros2 run turtlesim turtlesim_node
 ros2 run turtlesim turtle_teleop_key
-~~~
+```
 ![ros2_demo](./img/ros3.png)

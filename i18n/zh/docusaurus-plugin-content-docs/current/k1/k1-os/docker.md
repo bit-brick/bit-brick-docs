@@ -1,34 +1,28 @@
-# Install Docker
-Docker was originally an internal project initiated by Solomon Hykes, the founder of dotCloud, during his time in France. It was an innovation based on dotCloud's years of cloud service technology and was open sourced under the Apache 2.0 license in March 2013. The main project code is maintained on GitHub. The Docker project later joined the Linux Foundation and established the Open Container Initiative (OCI).
-Since its open source, Docker has received widespread attention and discussion. To date, its GitHub project has received over 57,000 stars and over 10,000 forks. Even due to the popularity of the Docker project, at the end of 2013, dotCloud decided to change its name to Docker. Docker was originally developed and implemented on Ubuntu 12.04; Red Hat began supporting Docker from RHEL 6.5; Google also widely used Docker in its PaaS products.
-Docker is developed and implemented using the Go language introduced by Google and is based on technologies such as cgroup, namespace, and OverlayFS-like Union FS of the Linux kernel to encapsulate and isolate processes, belonging to the virtualization technology at the operating system level. Since the isolated processes are independent of the host and other isolated processes, it is also called a container. The initial implementation was based on LXC, and from version 0.7 onwards, LXC was removed and replaced with self-developed libcontainer, and from version 1.11 onwards, it further evolved to use runC and containerd.
-## 1. Add packages for HTTPS transmission and CA certificates
+# 安装Docker
+
+Docker 最初是 dotCloud 公司创始人 Solomon Hykes 在法国期间发起的一个公司内部项目，它是基于 dotCloud 公司多年云服务技术的一次革新，并于 2013 年 3 月以 Apache 2.0 授权协议开源，主要项目代码在 GitHub 上进行维护。Docker 项目后来还加入了 Linux 基金会，并成立推动 开放容器联盟（OCI）。
+
+Docker 自开源后受到广泛的关注和讨论，至今其 GitHub 项目 已经超过 5 万 7 千个星标和一万多个 fork。甚至由于 Docker 项目的火爆，在 2013 年底，dotCloud 公司决定改名为 Docker。Docker 最初是在 Ubuntu 12.04 上开发实现的；Red Hat 则从 RHEL 6.5 开始对 Docker 进行支持；Google 也在其 PaaS 产品中广泛应用 Docker。
+
+Docker 使用 Google 公司推出的 Go 语言 进行开发实现，基于 Linux 内核的 cgroup，namespace，以及 OverlayFS 类的 Union FS 等技术，对进程进行封装隔离，属于 操作系统层面的虚拟化技术。由于隔离的进程独立于宿主和其它的隔离的进程，因此也称其为容器。最初实现是基于 LXC，从 0.7 版本以后开始去除 LXC，转而使用自行开发的 libcontainer，从 1.11 版本开始，则进一步演进为使用 runC 和 containerd。
+
+
+## 1.安装docker
 ~~~
 sudo apt-get update
-sudo apt-get install \
-     apt-transport-https \
-     ca-certificates \
-     curl \
-     gnupg \
-     lsb-release
+sudo apt-get install docker.io
 ~~~
-## 2. Add the GPG key of the software source
-~~~
-curl -fsSL https://mirrors.aliyun.com/docker-ce/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-~~~
-## 3. Add the Docker software source to sources.list
-~~~
-echo \
-  "deb [arch=arm64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://mirrors.aliyun.com/docker-ce/linux/ubuntu \
-  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-~~~
-## 4. Install docker
-~~~
-sudo apt-get update
-sudo apt-get install docker-ce docker-ce-cli containerd.io
-~~~
-## 5. Start docker
+
+
+## 2.启动docker
 ~~~
 sudo systemctl enable docker
 sudo systemctl start docker
 ~~~
+
+## 3.验证是否成功
+
+~~~
+sudo docker run hello-world
+~~~
+![alt text](/img/k1/software/docker.png)

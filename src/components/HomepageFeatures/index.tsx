@@ -64,7 +64,7 @@ const K1: FeatureItem[] = [
     title: <Translate id='pione.block9.title'>ROS2</Translate>,
     imageSrc: require('@site/static/img/index/icon/ros2.png').default,
     description: (<><Translate id='pione.block9.desc'>Guide to show you how to set up ROS</Translate></>),
-    url: "docs/k1/news/ros2-zh"
+    url: "docs/k1/news/ros2"
   },
 ];
 
