@@ -120,16 +120,6 @@ function handleClick(title){
   activeProductList = ProductList.find(item => item.title === title).features
 }
 
-function getCurrentLanguage() {
-  let path = document.location.pathname;
-  if(path.startsWith("/zh")){
-    return "/zh"
-  }
-  else{
-    return ""
-  }
-}
-
 function ProductFilter(){
   return (
     <div className={styles.filter}>
@@ -149,7 +139,7 @@ function Feature({title, imageSrc, description, url}: FeatureItem) {
     <div className={clsx('col col--4')}>
       <div className={styles.block}>
       <div className="text--center">
-      <a href={getCurrentLanguage() ? "/zh" + url : url}  rel="noopener noreferrer">
+      <a href={url}  rel="noopener noreferrer">
         <img src={imageSrc} className={styles.featureSvg} alt={title} />
       </a>
       </div>
