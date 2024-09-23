@@ -1,19 +1,11 @@
-# K1显示接口说明
-
-K1主板支持HDMI和MIPI DSI2接口定义的LCD显示屏作为图形输出接口。
-
-![图1 处理器显示子系统框图](/img/k1/hardware/display-interface/display_framework.png)
-<div style={{textAlign: 'center'}}>图1 处理器显示子系统框图</div>
-
-
-## 1.HDMI
-
-高清多媒体接口（High Definition Multimedia Interface，HDMI [1]）是一种全数字化视频和声音发送接口，可以发送未压缩的音频及视频信号。HDMI可用于机顶盒、DVD播放机、个人计算机、电视、游戏主机、综合扩大机、数字音响与电视机等设备。HDMI可以同时发送音频和视频信号，由于音频和视频信号采用同一条线材，大大简化系统线路的安装难度。
-
-![图1 K1板载MIPI DSI接口](/img/k1/hardware/display-interface/k1_hdmi.png)
-
-K1支持HDMI1.4a版本，最大分辨率支持1920*1080@60fps。主要特性如下：
-
+# K1 Display Interface Description
+The K1 motherboard supports HDMI and MIPI DSI2 interface-defined LCD displays as the graphical output interface.
+![Figure 1 Block Diagram of the Processor Display Subsystem](/img/k1/hardware/display-interface/display_framework.png)
+<div style={{textAlign: 'center'}}>Figure 1 Block Diagram of the Processor Display Subsystem</div>
+## 1. HDMI
+The High Definition Multimedia Interface (HDMI [1]) is a fully digital video and audio transmission interface that can transmit uncompressed audio and video signals. HDMI can be used in set-top boxes, DVD players, personal computers, televisions, game consoles, integrated amplifiers, digital audio systems, and televisions, etc. HDMI can transmit audio and video signals simultaneously, and since the audio and video signals use the same cable, it greatly simplifies the installation difficulty of the system circuit.
+![Figure 1 On-board MIPI DSI Interface of K1](/img/k1/hardware/display-interface/k1_hdmi.png)
+K1 supports the HDMI1.4a version, and the maximum resolution supports 1920*1080@60fps. The main features are as follows:
 - Compliant with HDMI Specification v1.4
 - Physical lane speed: up to 2.4Gbps/lane × 3lane
 - Support resolution: up to 1920*1440@60Hz
@@ -21,38 +13,27 @@ K1支持HDMI1.4a版本，最大分辨率支持1920*1080@60fps。主要特性如�
 - Support RGB, YcbCr4: 2: 2/4: 4: 4 output video
 - Support 8bpc/10bpc/12bpc input and output color depth
 - Support EIA/CEA-861-F video timing and InfoFrame structure
-- Support L-PCM(IEC 60958), 32KHz ~ 192KHz dual channel audio data
+- Support L-PCM (IEC 60958), 32KHz ~ 192KHz dual channel audio data
 - Support Consumer Electronic Control (CEC)
 - Internal I2C Master, support 100Kbps ~ 400Kbps
+![Figure 2 HDMI Transmission Block Diagram](/img/k1/hardware/display-interface/hdmi_send_framework.png)
+<div style={{textAlign: 'center'}}>Figure 2 HDMI Transmission Block Diagram</div>
 
-![图2 HDMI 发送框图](/img/k1/hardware/display-interface/hdmi_send_framework.png)
-<div style={{textAlign: 'center'}}>图2 HDMI 发送框图</div>
+You can directly connect K1 and the display using a standard HDMI cable (if the display interface is not HDMI, you can purchase an HDMI converter, such as HDMI to DP, etc.)
 
-你可以直接使用标准的HDMI线将K1和显示器连接（如果显示的接口不是HDMI的，你可以购买HDMI转换器，比如HDMI转DP等）
+![Figure 2 HDMI Transmission Block Diagram](/img/k1/hardware/display-interface/hdmi_demo.png)
 
-![图2 HDMI 发送框图](/img/k1/hardware/display-interface/hdmi_demo.png)
-
-你可以从以下链接找到更多关于HDMI的详细信息：
+You can find more detailed information about HDMI from the following links:
 
 [HDMI Wikipedia](https://en.wikipedia.org/wiki/HDMI)
-
 [HDMI Official](https://www.hdmi.org/)
-
-## 2.MIPI DSI
-
-MIPI联盟，即移动产业处理器接口（Mobile Industry Processor Interface 简称MIPI）联盟。MIPI（移动产业处理器接口）是MIPI联盟发起的为移动应用处理器制定的开放标准和一个规范。是2003年由ARM，TI，ST，Nokia等公司成立的联盟。MIPI协议被广泛应用于各种嵌入式图像设备中，如智能手机，VR，智能可穿戴设备等。DSI则是处理器与显示模块之间的高速接口。
-
-关于MIPI DSI的详细规范可以参考：
-
+## 2. MIPI DSI
+The MIPI Alliance, namely the Mobile Industry Processor Interface (MIPI for short) Alliance. MIPI (Mobile Industry Processor Interface) is an open standard and specification formulated by the MIPI Alliance for mobile application processors. It is an alliance founded by companies such as ARM, TI, ST, Nokia, etc. in 2003. The MIPI protocol is widely used in various embedded image devices, such as smartphones, VR, smart wearable devices, etc. DSI is a high-speed interface between the processor and the display module.
+For the detailed specifications of MIPI DSI, refer to:
 [MIPI DSI Specifications](https://www.mipi.org/specifications/dsi)
-
-
-![图3 K1板载MIPI DSI接口](/img/k1/hardware/display-interface/mip_ldc.png)
-<div style={{textAlign: 'center'}}>图3 K1板载MIPI DSI接口</div>
-
-
-K1主板集成了一个支持MIPI DSI的显示接口用来支持屏幕的显示。其特性如下：
-
+![Figure 3 On-board MIPI DSI Interface of K1](/img/k1/hardware/display-interface/mip_ldc.png)
+<div style={{textAlign: 'center'}}>Figure 3 On-board MIPI DSI Interface of K1</div>
+The K1 motherboard integrates a display interface supporting MIPI DSI to support screen display. Its features are as follows:
 - Support MIPI Display Serial Interface (DSI) standard
 - Support MIPI DPHY up to 4 data lanes, up to 1200Mbps
 - Support 1 active panel in 1 DPHY link
@@ -63,19 +44,11 @@ K1主板集成了一个支持MIPI DSI的显示接口用来支持屏幕的显示�
 - Support up to 1080p resolution
 - Support command, video, and burst modes
 - Support HS-TX, LP-TX, LP-RX, and LP-CD
-
-## 3.DSI的引脚定义
-
-DSI的引脚定义如下：
-
-![图4 K1 MIPI显示接口定义](/img/k1/hardware/display-interface/display_gpio.png)
-
-从上图中可以看出，这个显示接口中同时增加了I2C和控制引脚的功能，这个主要是用于触摸屏控制。这个在软件部分会描述如何使用这个接口来为系统增加触摸屏的功能。
-
-K1默认支持BIT-BRICK开发的10.1寸显示屏，如果需要支持其他的显示屏，可以按照接口定义将对应的信号对应上，然后根据规格书修改屏的配置文件即可。
-
-## 备注
-
-用户如果想要了解更多的关于芯片端的显示相关的资料，可以参考下面链接：
-
+## 3. Pin Definition of DSI
+The pin definition of DSI is as follows:
+![Figure 4 Definition of K1 MIPI Display Interface](/img/k1/hardware/display-interface/display_gpio.png)
+As can be seen from the above figure, the display interface also adds the functions of I2C and control pins, which are mainly used for touch screen control. This will be described in the software part on how to use this interface to add the touch screen function to the system.
+K1 defaults to supporting the 10.1-inch display developed by BIT-BRICK. If you need to support other displays, you can connect the corresponding signals according to the interface definition, and then modify the configuration file of the screen according to the specification.
+## Remarks
+If users want to learn more about the display-related information at the chip end, they can refer to the following link:
 [Chip Display Documentation](https://developer.spacemit.com/documentation?token=BWbGwbx7liGW21kq9lucSA6Vnpb)

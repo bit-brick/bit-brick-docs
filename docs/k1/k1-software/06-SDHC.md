@@ -1,18 +1,12 @@
-介绍SDHC的功能和使用方法。
-
+Introduction to the Functions and Usage Methods of SDHC.
 ## pinctrl
-
-sdhc 一共有三个 slot，slot1 支持 sd/sdio(1/4 bit)，slot2 支持 sdio/emmc(1/4 bit)，slot3 只支持 emmc(1/4/8 bit)。
-
-方案上一般 slot1 用于 sd，slot2 用于 sdio，slot3 用于 emmc。
-
-sd 和 sdio 都需要配置卡的信号线对应的 pinctl 为 mode0 模式，分别对应 pinctrl_mmc1 和 pinctrl_mmc2。
-
-mmc1 的 pinctl 还有一个 fast 模式，在时钟高于 100M 时需要切换到 pinctrl_mmc1_fast 模式。
-
+There are three slots for sdhc, slot1 supports sd/sdio (1/4 bit), slot2 supports sdio/emmc (1/4 bit), and slot3 only supports emmc (1/4/8 bit).
+In the solution, generally, slot1 is used for sd, slot2 is used for sdio, and slot3 is used for emmc.
+Both sd and sdio need to configure the pinctl of the signal lines of the card to be in mode0 mode, corresponding to pinctrl_mmc1 and pinctrl_mmc2 respectively.
+The pinctl of mmc1 also has a fast mode, and when the clock is higher than 100M, it needs to be switched to the pinctrl_mmc1_fast mode.
 ```c
     pinctrl_mmc1: mmc1_grp {
-        pinctrl-single,pins = <
+        pinctrl - single, pins = <
             K1X_PADCONF(MMC1_DAT3, MUX_MODE0, (EDGE_NONE | PULL_UP | PAD_3V_DS4))         /* mmc1_d3 */
             K1X_PADCONF(MMC1_DAT2, MUX_MODE0, (EDGE_NONE | PULL_UP | PAD_3V_DS4))         /* mmc1_d2 */
             K1X_PADCONF(MMC1_DAT1, MUX_MODE0, (EDGE_NONE | PULL_UP | PAD_3V_DS4))         /* mmc1_d1 */
@@ -21,9 +15,8 @@ mmc1 的 pinctl 还有一个 fast 模式，在时钟高于 100M 时需要切换�
             K1X_PADCONF(MMC1_CLK,  MUX_MODE0, (EDGE_NONE | PULL_DOWN | PAD_3V_DS4))       /* mmc1_clk */
         >;
     };
-
     pinctrl_mmc1_fast: mmc1_fast_grp {
-        pinctrl-single,pins = <
+        pinctrl - single, pins = <
             K1X_PADCONF(MMC1_DAT3, MUX_MODE0, (EDGE_NONE | PULL_UP | PAD_1V8_DS3))         /* mmc1_d3 */
             K1X_PADCONF(MMC1_DAT2, MUX_MODE0, (EDGE_NONE | PULL_UP | PAD_1V8_DS3))         /* mmc1_d2 */
             K1X_PADCONF(MMC1_DAT1, MUX_MODE0, (EDGE_NONE | PULL_UP | PAD_1V8_DS3))         /* mmc1_d1 */
@@ -33,112 +26,94 @@ mmc1 的 pinctl 还有一个 fast 模式，在时钟高于 100M 时需要切换�
         >;
     };
 ```
-
 ## gpio
-
-sd 的检测是通过 gpio 完成的，需要按实际原理图来配置卡检测的 gpio。
-
+The detection of sd is completed through gpio, and the gpio for card detection needs to be configured according to the actual schematic diagram.
 ```c
 &sdhci0 {
-        cd-gpios = <&gpio 80 0>;
-        cd-inverted;
-}；
+        cd - gpios = <&gpio 80 0>;
+        cd - inverted;
+};
 ```
-
-比如方案使用 gpio80 来做卡的检测，还需要配置 gpio80 的 pintcl 功能。
-
+For example, the solution uses gpio80 for card detection, and the pintcl function of gpio80 also needs to be configured.
 ```c
 &pinctrl {
-        pinctrl-single,gpio-range = <
+        pinctrl - single, gpio - range = <
                 &range GPIO_80  1 (MUX_MODE0 | EDGE_NONE | PULL_UP   | PAD_3V_DS4)
         >;
 };
-
 &gpio{
-        gpio-ranges = <
+        gpio - ranges = <
                 &pinctrl 80  GPIO_80  4
         >;
 };
-```
-
-## 电源配置
-
-sd 和 sdio 需要配置两个电源，分别是 vmmc-supply 和 vqmmc-supply，分别对应卡的功能和 io 供电，vqmmc-supply 会根据卡的运行模式动态切换电源，硬件设计上需要确保能支持 3.3v 和 1.8v。
-
-emmc 设计上会保证供电，不需要配置电源。
-
+## Power Configuration
+sd and sdio need to be configured with two power supplies, namely vmmc - supply and vqmmc - supply, which correspond to the function and io power supply of the card respectively. vqmmc - supply will dynamically switch the power supply according to the operating mode of the card. In the hardware design, it needs to ensure that it can support 3.3v and 1.8v.
+The emmc is designed to ensure power supply and does not need to configure the power supply.
 ```c
 &sdhci0 { 
-        vmmc-supply = <&dcdc_4>;
-        vqmmc-supply = <&ldo_1>;
+        vmmc - supply = <&dcdc_4>;
+        vqmmc - supply = <&ldo_1>;
 }；
 ```
-
-## tuning 配置
-
-sd 跑高速模式下需要进行 tuning，不同的硬件版型都需要调整 tx 和 rx 的相关参数。
-
-## dts 配置
-
-sd 的完整方案配置如下：
-
+## tuning Configuration
+sd needs to be tuned when running in high - speed mode, and the relevant parameters of tx and rx need to be adjusted for different hardware versions.
+## dts Configuration
+The complete solution configuration for sd is as follows:
 ```c
 &sdhci0 {
-        pinctrl-names = "default","fast";
-        pinctrl-0 = <&pinctrl_mmc1>;
-        pinctrl-1 = <&pinctrl_mmc1_fast>;
-        bus-width = <4>;
-        cd-gpios = <&gpio 80 0>;
-        cd-inverted;
-        vmmc-supply = <&dcdc_4>;
-        vqmmc-supply = <&ldo_1>;
-        no-mmc;
-        no-sdio;
-        spacemit,sdh-host-caps-disable = <(
+        pinctrl - names = "default", "fast";
+        pinctrl - 0 = <&pinctrl_mmc1>;
+        pinctrl - 1 = <&pinctrl_mmc1_fast>;
+        bus - width = <4>;
+        cd - gpios = <&gpio 80 0>;
+        cd - inverted;
+        vmmc - supply = <&dcdc_4>;
+        vqmmc - supply = <&ldo_1>;
+        no - mmc;
+        no - sdio;
+        spacemit, sdh - host - caps - disable = <(
                         MMC_CAP_UHS_SDR12 |
                         MMC_CAP_UHS_SDR25
                         )>;
-        spacemit,sdh-quirks = <(
+        spacemit, sdh - quirks = <(
                         SDHCI_QUIRK_BROKEN_CARD_DETECTION |
                         SDHCI_QUIRK_INVERTED_WRITE_PROTECT |
                         SDHCI_QUIRK_BROKEN_TIMEOUT_VAL
                         )>;
-        spacemit,sdh-quirks2 = <(
+        spacemit, sdh - quirks2 = <(
                         SDHCI_QUIRK2_PRESET_VALUE_BROKEN |
                         SDHCI_QUIRK2_BROKEN_PHY_MODULE |
                         SDHCI_QUIRK2_SET_AIB_MMC
                         )>;
-        spacemit,aib_mmc1_io_reg = <0xD401E81C>;
-        spacemit,apbc_asfar_reg = <0xD4015050>;
-        spacemit,apbc_assar_reg = <0xD4015054>;
-        spacemit,rx_dline_reg = <0x0>;
-        spacemit,tx_dline_reg = <0x0>;
-        spacemit,tx_delaycode = <0xA0>;
-        spacemit,rx_tuning_limit = <50>;
-        spacemit,sdh-freq = <204800000>;
+        spacemit, aib_mmc1_io_reg = <0xD401E81C>;
+        spacemit, apbc_asfar_reg = <0xD4015050>;
+        spacemit, apbc_assar_reg = <0xD4015054>;
+        spacemit, rx_dline_reg = <0x0>;
+        spacemit, tx_dline_reg = <0x0>;
+        spacemit, tx_delaycode = <0xA0>;
+        spacemit, rx_tuning_limit = <50>;
+        spacemit, sdh - freq = <204800000>;
         status = "okay";
 };
 ```
-
-emmc 的完整方案配置如下：
-
+The complete solution configuration for emmc is as follows:
 ```c
 /* eMMC */
 &sdhci2 {
-        bus-width = <8>;
-        non-removable;
-        mmc-hs400-1_8v;
-        mmc-hs400-enhanced-strobe;
-        no-sd;
-        no-sdio;
-        spacemit,sdh-quirks = <(
+        bus - width = <8>;
+        non - removable;
+        mmc - hs400 - 1_8v;
+        mmc - hs400 - enhanced - strobe;
+        no - sd;
+        no - sdio;
+        spacemit, sdh - quirks = <(
                         SDHCI_QUIRK_BROKEN_CARD_DETECTION |
                         SDHCI_QUIRK_BROKEN_TIMEOUT_VAL
                         )>;
-        spacemit,sdh-quirks2 = <(
+        spacemit, sdh - quirks2 = <(
                         SDHCI_QUIRK2_PRESET_VALUE_BROKEN
                         )>;
-        spacemit,sdh-freq = <375000000>;
+        spacemit, sdh - freq = <375000000>;
         status = "okay";
 };
 ```

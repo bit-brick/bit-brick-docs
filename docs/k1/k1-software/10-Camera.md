@@ -1,61 +1,41 @@
-介绍camera的配置方法。
-
-和 camera 相关的 dts 配置主要分布在以下几个文件（方案间可能会有细微差别）：
-
+Introduction to the configuration method of the camera.
+The dts configurations related to the camera are mainly distributed in the following files (there may be slight differences between schemes):
 ```bash
-路径：arch/riscv/boot/dts/spacemit/k1-x-camera-sensor.dtsi
-作用：各类sensor的配置信息  
-
-路径：arch/riscv/boot/dts/spacemit/k1-x-camera-sdk.dtsi
-作用：ccic、csiphy、isp、vi、cpp的配置信息  
-
-路径：arch/riscv/boot/dts/spacemit/k1-x_pinctrl.dtsi
-作用：camera所依赖的pinctrl配置信息
-
-路径：arch/riscv/boot/dts/spacemit/k1-x_xxx.dts
-作用：不同方案的board相关配置
+Path: arch/riscv/boot/dts/spacemit/k1-x-camera-sensor.dtsi
+Function: Configuration information for various sensors
+Path: arch/riscv/boot/dts/spacemit/k1-x-camera-sdk.dtsi
+Function: Configuration information for ccic, csiphy, isp, vi, and cpp
+Path: arch/riscv/boot/dts/spacemit/k1-x_pinctrl.dtsi
+Function: pinctrl configuration information relied on by the camera
+Path: arch/riscv/boot/dts/spacemit/k1-x_xxx.dts
+Function: Board-related configuration for different schemes
 ```
-
 ## pinctrl
-
-采用 pinctrl 章节方法找到 camera 使用的 pins 组，例如 camera0 可以采用 k1-x_pinctrl.dtsi 中定义的 pinctrl_camera0 组，进行 mclk 引脚的配置。
-
+Use the method in the pinctrl chapter to find the pins group used by the camera. For example, camera0 can use the pinctrl_camera0 group defined in k1 - x_pinctrl.dtsi to configure the mclk pin.
 ## gpio
-
-查看开发板原理图，找到 mipi csi(0/1/2)硬件接口的复位信号 gpio 和上下电信号 gpio，通常至少会有一组 GPIO。假设 mipi csi0 硬件接口复位 gpio 为 gpio 111，上下电信号 gpio 为 gpio 113，且接入为 camera0：imx135 mipi。（建议 camera ID 和 mipi csi 的编号对应）
-
-方案 dts 中 backsensor 使用 gpio 110 如下。
-
+Check the schematic diagram of the development board to find the reset signal gpio and the power-on/off signal gpio of the mipi csi (0/1/2) hardware interface. Usually, there will be at least one group of GPIOs. Assume that the reset gpio of the mipi csi0 hardware interface is gpio 111, and the power-on/off signal gpio is gpio 113, and it is connected to camera0: imx135 mipi. (It is recommended that the camera ID corresponds to the number of the mipi csi.)
+In the scheme dts, the use of gpio 110 by backsensor is as follows.
 ```c
-路径：arch/riscv/boot/dts/spacemit/k1-x_xxx.dts
-
+Path: arch/riscv/boot/dts/spacemit/k1-x_xxx.dts
 /* imx315 */
 &backsensor {
         pwdn-gpios = <&gpio 113 GPIO_ACTIVE_HIGH>;
         reset-gpios = <&gpio 111 GPIO_ACTIVE_HIGH>;
-
         status = "okay";
 };
-
-路径：arch/riscv/boot/dts/spacemit/k1-x-camera-sensor.dtsi
+Path: arch/riscv/boot/dts/spacemit/k1-x-camera-sensor.dtsi
 &soc {
         /* imx315 */
         backsensor: cam_sensor@0 {
                 cell-index = <0>;
-
                 status = "okay";
         };
 };
 ```
-
-pwdn-gpios, reset-gpios 跟 sensor 模组的供电配置有关，sensor 驱动中使用这组配置完成 sensor 的上、下电和 reset 操作。不同的 sensor 模组配置可能不一样，bring up 时需要仔细修改。
-
+pwdn - gpios and reset - gpios are related to the power supply configuration of the sensor module, and this group of configurations is used in the sensor driver to complete the power-on, power-off, and reset operations of the sensor. Different sensor modules may have different configurations, and they need to be carefully modified during bring up.
 ## dts
-
-### sensor 配置
-
-k1-x-camera-sensor.dtsi 内定义的 sensor 配置如下：
-
+### Sensor Configuration
+The sensor configuration defined in k1 - x - camera - sensor.dtsi is as follows:
 ```c
     backsensor: cam_sensor@0 {
             cell-index = <0>;
@@ -64,24 +44,19 @@ k1-x-camera-sensor.dtsi 内定义的 sensor 配置如下：
             compatible = "spacemit,cam-sensor";
             clocks = <&ccu CLK_CAMM0>;
             clock-names = "cam_mclk0";
-
-            /*    该部分内容已经被移动到顶层的dts
+            /*    This part of the content has been moved to the top-level dts
                 afvdd28-supply = <&ldo_12>;
                 avdd28-supply = <&ldo_10>;
                 dvdd12-supply = <&ldo_20>;
                 iovdd18-supply = <&ldo_11>;
                 cam-supply-names = "afvdd28", "avdd28", "dvdd12", "iovdd18";
             */
-    
+
             ......
             status = "okay";
     };
 ```
-
-cell-index 表示整个 sensor 所在的 device ID，这个 device ID 和上层使用的 sensor device ID 完全匹配。
-
-twsi-index 表示 sensor 使用的 I2C core 的 ID，使用前要确保对应的 i2c bus dts 配置已经开启，具体请参阅 i2c 章节。
-
-dphy-index 表示 sensor 使用的 PHY ID。
-
-clocks/clock-names 表示 sensor 使用的 mclk 的时钟源。
+cell - index represents the device ID of the entire sensor, and this device ID exactly matches the sensor device ID used in the upper layer.
+twsi - index represents the ID of the I2C core used by the sensor. Before using it, ensure that the corresponding i2c bus dts configuration has been enabled. For details, please refer to the i2c chapter.
+dphy - index represents the PHY ID used by the sensor.
+clocks/clock - names represent the clock source of the mclk used by the sensor.

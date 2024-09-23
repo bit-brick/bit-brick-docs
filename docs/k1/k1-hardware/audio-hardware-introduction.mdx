@@ -1,21 +1,17 @@
-# K1 音频接口说明
-## 1.硬件组成
-K1音频部分主要由三个方面组成：
+# K1 Audio Interface Description
+## 1. Hardware Components
+The audio part of K1 is mainly composed of three aspects:
+- HDMI audio output
+- 3.5mm standard audio socket
+- Left and right channel microphone input
 
-- HDMI 音频输出
-- 3.5mm标准音频插座
-- 左右声道麦克风输入
+![Figure 1 Schematic Diagram of the Audio Interface](/img/k1/hardware/audio/k1_audio.png)
 
-![图1 音频接口示意图](/img/k1/hardware/audio/k1_audio.png)
-<div style={{textAlign: 'center'}}>图1 音频接口示意图</div>
+<div style={{textAlign: 'center'}}>Figure 1 Schematic Diagram of the Audio Interface</div>
+## 2. Circuit
+Although the processor internally integrates an audio Codec, K1 still adopts the approach of an external Codec in the design. It connects to the ES8326B through the I2S interface to achieve audio input and output.
+The ES8326B chip is an audio decoding chip, mainly used to convert digital audio signals into analog audio signals. It uses a high-performance digital signal processor and a low-power power amplifier to achieve a high-definition music experience and high-quality call requirements. For detailed specifications, refer to the ES8326B section in the data booklet.
 
-## 2.电路
+![Figure 2 Circuit of the Audio Part](/img/k1/hardware/audio/k1_audio_io.png)
 
-虽然处理器内部集成了音频Codec，但是K1在设计的时候依然采用了外部Codec的做法，通过I2S接口跟ES8326B连接，实现音频的输入和输出。
-
- ES8326B芯片是一款音频解码芯片，主要用于将数字音频信号转换成模拟音频信号。它使用了高性能的数字信号处理器和低功耗的功率放大器，能够实现高清晰度 音乐体验和高质量的通话需求。详细的规格书可以参考数据书册中的ES8326B部分。
-
-![图2 音频部分电路](/img/k1/hardware/audio/k1_audio_io.png)
-
-<div style={{textAlign: 'center'}}>图2 音频部分电路</div>
-
+<div style={{textAlign: 'center'}}>Figure 2 Circuit of the Audio Part</div>

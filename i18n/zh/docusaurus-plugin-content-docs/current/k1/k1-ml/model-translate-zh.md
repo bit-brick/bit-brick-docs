@@ -229,7 +229,7 @@ classification/inception_v3_tf2/
 ```
 
 #### 3.1.2.3 使用示例
-【提示】您可以参考 Tensorflow - ONNX(tf2onnx) Getting Started
+【提示】您可以参考 [Tensorflow - ONNX(tf2onnx) Getting Started](https://github.com/onnx/tensorflow-onnx#getting-started])
 
 ### 3.1.3 Paddle 模型
 

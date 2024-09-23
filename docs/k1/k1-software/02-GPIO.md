@@ -1,24 +1,15 @@
-介绍GPIO的功能和使用方法。
-
-方案 gpio 使用分成 3 步。
-
-1. 方案使用的 gpio 描述
-2. 对相应的 pin 进行设置
-3. gpio 的使用
-
-说明:
-
-1. pin 编号在 linux-6.1\include\dt-bindings\pinctrl\k1-x-pinctrl.h 中定义。
-2. pin 配置相同表示一组 pin 设置成 gpio 功能时配置相同，即 mux mode、上下拉、边沿检测、驱动能力配置相同。
-
-## 方案gpio描述
-
-用来描述方案使用的所有gpio。
-
-采用linux gpio框架gpio-ranges属性进行定义。如果某段gpio对应的pin编号也连续，则定义为一组。
-
-上述例子方案dts文件gpio控制器定义
-
+Introduction to the function and usage method of GPIO.
+The usage of the gpio scheme is divided into 3 steps.
+1. Description of the gpio used in the scheme
+2. Setting the corresponding pin
+3. Usage of the gpio
+Note:
+1. The pin number is defined in linux-6.1\include\dt-bindings\pinctrl\k1-x-pinctrl.h.
+2. If the pin configurations are the same, it means that when a group of pins is set as the gpio function, the configurations are the same, including the mux mode, pull-up/down, edge detection, and driving capability configurations.
+## Scheme gpio Description
+Used to describe all the gpio used in the scheme.
+It is defined using the gpio-ranges attribute of the linux gpio framework. If the pin numbers corresponding to a certain segment of gpio are also consecutive, they are defined as a group.
+The definition of the gpio controller in the dts file of the above example scheme is as follows:
 ```c
 &gpio{
         gpio-ranges = <
@@ -36,17 +27,11 @@
         >;
 };
 ```
-
-## gpio pin配置
-
-将方案使用的gpio对应的pin设置成gpio功能，并进行配置(边沿检测/上下拉/驱动能力)。
-
-采用pinctrl-single,gpio-range属性设置。如果存在某段pin编号连续且配置相同，则配置为一组。
-
-pin配置参数参考[pin配置参数](PINCTRL#pin-配置参数)。
-
-例如：
-
+## gpio pin Configuration
+Set the pins corresponding to the gpio used in the scheme as the gpio function and configure them (edge detection/pull-up/down/driving capability).
+It is set using the pinctrl-single,gpio-range attribute. If there is a certain segment of pin numbers that are consecutive and have the same configuration, they are configured as a group.
+The pin configuration parameters refer to [pin configuration parameters](PINCTRL#pin-Configuration Parameters).
+For example:
 ```c
 &pinctrl {
         pinctrl-single,gpio-range = <
@@ -74,11 +59,8 @@ pin配置参数参考[pin配置参数](PINCTRL#pin-配置参数)。
         >;
 };
 ```
-
-## gpio 使用
-
-若方案 eth0 使用 gpio 110 作为 phy 的 reset 信号，则 eth0 使用 gpio 110 如下。
-
+## gpio Usage
+If the scheme eth0 uses gpio 110 as the reset signal of the phy, then the usage of gpio 110 by eth0 is as follows.
 ```c
 &eth0 {
     emac,reset-gpio = <&gpio 110 0>;

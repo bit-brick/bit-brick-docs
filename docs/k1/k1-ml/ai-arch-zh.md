@@ -2,7 +2,7 @@
 
 为了保证 AI 算力的通用性和易用性，进迭时空以标准 RISC-V 核为基础，通过扩展 AI 指令的方式打造了带有 AI 融合算力的 CPU，并把这种具有完整 CPU 功能和强大 AI 算力的融合处理器，命名为智算核。完整的 CPU 功能保证了 AI 算力的通用性及易用性，让智算核可以非常便捷的接入开源生态；另外，处理器遵循 RISCV 社区 IME group 的理念，复用 Vector 寄存器资源进行 AI 计算，以极小的硬件代价就为智算核注入澎湃的 AI 算力。强大的 AI 算力可以给 AI 应用带来 10 倍以上的性能提升。
 
-## 算力构成
+## 1.算力构成
 
 在 AI 计算中，会用到 Scalar 算力，Vector 算力及 Matrix 算力。进迭时空最大限度的遵循 RISC-V 社区标准，仅对 matrix 算力进行了指令扩展。X60 是基于以上架构理念实现的第一代智算核，在该核心中添加了 int8 数据类型的 Matrix 算力。
 
@@ -14,7 +14,7 @@
 - Vector 算力，采用 RISC-V Vector 1.0 标准指令；
 - Matrix 算力，以专用加速指令的方式提供，采用 RISC-V custom-1 的编码空间，操作数和结果保存复用 RVV 的 VPR 寄存器。详细扩展指令描述可以参考我们开源在 github 的指令集手册 [RISC-V IME Extension Spec](https://github.com/space-mit/riscv-ime-extension-spec)。
 
-## 算力参数
+## 2.算力参数
 
 ### 2.1 理论算力
 
