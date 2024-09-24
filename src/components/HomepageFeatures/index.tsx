@@ -28,7 +28,7 @@ const K1: FeatureItem[] = [
     title: <Translate id='pione.block3.title'>Linux kernel</Translate>,
     imageSrc: require('@site/static/img/index/icon/kernel.png').default,
     description: (<><Translate id='pione.block3.desc'>How to configure and build your own kernel for K1</Translate></>),
-    url: "docs/k1/k1-linux-kernel/build-bit-os-zh"
+    url: "docs/k1/k1-linux-kernel/build-bit-os"
   },
   {
     title: <Translate id='pione.block4.title'>Hardware</Translate>,
@@ -58,7 +58,7 @@ const K1: FeatureItem[] = [
     title: <Translate id='pione.block8.title'>Machine learning</Translate>,
     imageSrc: require('@site/static/img/index/icon/ml.png').default,
     description: (<><Translate id='pione.block8.desc'>How to use hardware accelation for AI</Translate></>),
-    url: "docs/k1/k1-ml/ai-arch-zh"
+    url: "docs/k1/k1-ml/ai-arch"
   },
   {
     title: <Translate id='pione.block9.title'>ROS2</Translate>,
@@ -85,7 +85,7 @@ const SSOM_K1: FeatureItem[] = [
     title: <Translate id='pione.block3.title'>Linux kernel</Translate>,
     imageSrc: require('@site/static/img/index/icon/kernel.png').default,
     description: (<><Translate id='pione.block3.desc'>How to configure and build your own kernel for K1</Translate></>),
-    url: "docs/k1/k1-linux-kernel/build-bit-os-zh"
+    url: "docs/k1/k1-linux-kernel/build-bit-os"
   },
   {
     title: <Translate id='pione.block4.title'>Hardware</Translate>,

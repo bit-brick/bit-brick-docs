@@ -1,41 +1,26 @@
-# 算力架构介绍
-
-为了保证 AI 算力的通用性和易用性，进迭时空以标准 RISC-V 核为基础，通过扩展 AI 指令的方式打造了带有 AI 融合算力的 CPU，并把这种具有完整 CPU 功能和强大 AI 算力的融合处理器，命名为智算核。完整的 CPU 功能保证了 AI 算力的通用性及易用性，让智算核可以非常便捷的接入开源生态；另外，处理器遵循 RISCV 社区 IME group 的理念，复用 Vector 寄存器资源进行 AI 计算，以极小的硬件代价就为智算核注入澎湃的 AI 算力。强大的 AI 算力可以给 AI 应用带来 10 倍以上的性能提升。
-
-## 1.算力构成
-
-在 AI 计算中，会用到 Scalar 算力，Vector 算力及 Matrix 算力。进迭时空最大限度的遵循 RISC-V 社区标准，仅对 matrix 算力进行了指令扩展。X60 是基于以上架构理念实现的第一代智算核，在该核心中添加了 int8 数据类型的 Matrix 算力。
-
+# Introduction to Computing Power Architecture
+In order to ensure the universality and ease of use of AI computing power, Spacemit has built a CPU with AI fusion computing power by extending AI instructions based on the standard RISC-V core. This fusion processor with complete CPU functions and powerful AI computing power is named the Intelligent Computing Core. The complete CPU functions ensure the universality and ease of use of AI computing power, allowing the Intelligent Computing Core to be easily integrated into the open-source ecosystem. In addition, the processor follows the concept of the IME group in the RISCV community and reuses the Vector register resources for AI computing, injecting powerful AI computing power into the Intelligent Computing Core at a minimal hardware cost. The powerful AI computing power can bring more than 10 times the performance improvement to AI applications.
+## 1. Composition of Computing Power
+In AI computing, Scalar computing power, Vector computing power, and Matrix computing power will be used. Spacemit follows the RISC-V community standards to the greatest extent and only extends the instructions for matrix computing power. X60 is the first generation of Intelligent Computing Core implemented based on the above architectural concept, and Matrix computing power for the int8 data type is added to this core.
 ![arch](/img/k1/ml/ai_arch.png)
-
-智算核（单 core）算力构成详细描述如下：
-
-- Scalar 算力，采用 RISC-V 64GCB 标准指令；
-- Vector 算力，采用 RISC-V Vector 1.0 标准指令；
-- Matrix 算力，以专用加速指令的方式提供，采用 RISC-V custom-1 的编码空间，操作数和结果保存复用 RVV 的 VPR 寄存器。详细扩展指令描述可以参考我们开源在 github 的指令集手册 [RISC-V IME Extension Spec](https://github.com/space-mit/riscv-ime-extension-spec)。
-
-## 2.算力参数
-
-### 2.1 理论算力
-
-在 X60 智算核中，RISC-V Vector 的位宽为 256 位，其 matrix 及 vector 理论算力展示如下：
-
-- Matrix 算力：
+The detailed description of the computing power composition of the Intelligent Computing Core (single core) is as follows:
+- Scalar computing power, using the RISC-V 64GCB standard instructions;
+- Vector computing power, using the RISC-V Vector 1.0 standard instructions;
+- Matrix computing power, provided in the form of dedicated acceleration instructions, using the RISC-V custom-1 coding space, and the operands and results are saved and reused in the VPR registers of RVV. For a detailed description of the extended instructions, you can refer to the instruction set manual [RISC-V IME Extension Spec](https://github.com/space-mit/riscv-ime-extension-spec) that we open sourced on github.
+## 2. Computing Power Parameters
+### 2.1 Theoretical Computing Power
+In the X60 Intelligent Computing Core, the bit width of the RISC-V Vector is 256 bits, and the theoretical computing power of its matrix and vector is shown as follows:
+- Matrix computing power:
   - 0.5 TOPS/Core (Int8)
   - 2 TOPS/Cluster (Int8)
-- Vector 算力：
+- Vector computing power:
   - 0.128 TOPS/Core (Int8)
   - 0.5 TOPS/Cluster (Int8)
   - 0.064 TOPS/Core (FP16)
   - 0.25 TOPS/Cluster (FP16)
   - 0.032 TOPS/Core (FP32)
-
-### 2.2 算力实测
-
-以开源项目 [cpufp](https://github.com/pigirons/cpufp) 为基础，对 K1 AI CPU 中的 X60 智算核进行测试，实测数据如下：
-
-
-
+### 2.2 Measured Computing Power
+Based on the open-source project [cpufp](https://github.com/pigirons/cpufp), the X60 Intelligent Computing Core in the K1 AI CPU is tested, and the measured data is as follows:
 ```
 $./cpufp --thread_pool=[0]
 Number Threads: 1
@@ -54,7 +39,7 @@ Thread Pool Binding: 0
 | vector          | vfmacc.vf(f64,f64,f64) | 16.679 GFLOPS    |
 | vector          | vfmacc.vv(f64,f64,f64) | 15.985 GFLOPS    |
 ---------------------------------------------------------------
-For cluster 0(with ime extension), 4 cores:
+For cluster 0 (with ime extension), 4 cores:
 $./cpufp --thread_pool=[0-3]
 Number Threads: 4
 Thread Pool Binding: 0 1 2 3
@@ -85,4 +70,3 @@ Thread Pool Binding: 0 1 2 3 4 5 6 7
 | vector          | vfmacc.vf(f64,f64,f64) | 133.42 GFLOPS    |
 | vector          | vfmacc.vv(f64,f64,f64) | 127.86 GFLOPS    |
 ---------------------------------------------------------------
-```

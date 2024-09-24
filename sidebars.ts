@@ -261,37 +261,37 @@ const sidebars: SidebarsConfig = {
             {
               type: 'doc',
               label: '1. Introduction to Computing Architecture',
-              id: 'k1/k1-ml/ai-arch-zh',
+              id: 'k1/k1-ml/ai-arch',
             },
             {
               type: 'doc',
               label: '2. Overview of Tools',
-              id: 'k1/k1-ml/tools-overview-zh',
+              id: 'k1/k1-ml/tools-overview',
             },
             {
               type: 'doc',
               label: '3. Quick Start',
-              id: 'k1/k1-ml/ai-quick-start-zh',
+              id: 'k1/k1-ml/ai-quick-start',
             },
             {
               type: 'doc',
               label: '4. Model Translation',
-              id: 'k1/k1-ml/model-translate-zh',
+              id: 'k1/k1-ml/model-translate',
             },
             {
               type: 'doc',
               label: '5. Model Optimization',
-              id: 'k1/k1-ml/model-optimization-zh',
+              id: 'k1/k1-ml/model-optimization',
             },
             {
               type: 'doc',
               label: '6. Model Simulation and Testing',
-              id: 'k1/k1-ml/model-simulation-testing-zh',
+              id: 'k1/k1-ml/model-simulation-testing',
             },
             {
               type: 'doc',
               label: '7. Model Deployment',
-              id: 'k1/k1-ml/model-deploy-zh',
+              id: 'k1/k1-ml/model-deploy',
             },
 
           ],
