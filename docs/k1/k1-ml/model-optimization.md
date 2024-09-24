@@ -1,34 +1,38 @@
-# 4. 模型量化
+# Model Quantization
 
-本章节主要介绍模型量化工具的使用细节。进迭时空 RISC - V 系列芯片支持直接部署浮点（FP32）模型，但我们强烈建议您将浮点模型进一步量化为定点（INT8）模型。量化后模型的精度损失一般可以控制在 1%以内，但推理性能却可以提升数十倍！
+This chapter mainly introduces the usage details of the model quantization tool. The RISC-V series chips of Jidie Shikong support the direct deployment of floating-point (FP32) models, but we strongly recommend that you further quantize the floating-point model into a fixed-point (INT8) model. The accuracy loss of the quantized model can generally be controlled within 1%, but the inference performance can be improved by dozens of times!
 
-## 4.1 模型量化简介
-XQuant 是基于 PPQ（0.6.6 +）开发的量化工具，集成了已经调整好的适配芯片的量化策略，使用 Json 配置文件调用统一接口实现模型量化。
+## 1 Introduction to Model Quantization
+
+XQuant is a quantization tool developed based on PPQ (0.6.6 +), which integrates the adjusted quantization strategy adapted to the chip and uses the Json configuration file to call the unified interface to implement model quantization.
 
 ![alt text](image-3.png)
-## 4.2 量化工具说明
-当前，模型量化功能已经被集成进 `spine convert`命令中，您可以通过 `-c`或 `--config`选项指定相关量化配置文件路径。
 
-【提示】量化工具安装包位于 SDK 中 `spacengine - wheel/xquant`目录下，您也可以将其安装到指定的 Python 虚拟环境中。安装示例：
+## 2 Description of the Quantization Tool
+
+Currently, the model quantization function has been integrated into the `spine convert` command, and you can specify the path of the relevant quantization configuration file through the `-c` or `--config` option.
+
+【Note】The quantization tool installation package is located in the `spacengine-wheel/xquant` directory in the SDK, and you can also install it in the specified Python virtual environment. 
+
+Installation example:
 ```
-$ python3 -m pip install spacengine - wheel/xquant/xquant - 1.1.0 - py3 - none - any.whl --extra - index - url https://pypi.ngc.nvidia.com
+$ python3 -m pip install spacengine-wheel/xquant/xquant-1.1.0-py3-none-any.whl --extra-index-url https://pypi.ngc.nvidia.com
 ```
+### 2.1 QuickStart
 
-### 4.2.1 QuickStart
-Python Code 以及 Shell 示例在 `xquant_samples`中有源码，以便于快速开始模型量化
+The Python Code and Shell examples have the source code in `xquant_samples` to facilitate a quick start with model quantization
 
-#### Python Code 使用
+#### Python Code Usage
 ```python
 import xquant
-
 demo_json = dict()
-# 以下缺省对demo_json内容的填入
+# The following defaults to filling in the content of demo_json
 demo_json_path = "./demo_json.json"
-# 使用字典的方式
+# Using the dictionary method
 xquant.quantize_onnx_model(demo_json)
-# 使用json文件的方式
+# Using the json file method
 xquant.quantize_onnx_model(demo_json_path)
-# 支持API调用时传入模型路径或模型Proto
+# Supports passing the model path or model Proto when calling the API
 # xquant.quantize_onnx_model("resnet18.json", "/home/share/modelzoo/classification/resnet18/resnet18.onnx")
 # xquant.quantize_onnx_model(
 #    "resnet18.json", "/home/share/modelzoo/classification/resnet18/resnet18.onnx", "resnet18_output.onnx"
@@ -37,18 +41,15 @@ xquant.quantize_onnx_model(demo_json_path)
 # onnx_model = onnx.load("/home/share/modelzoo/classification/resnet18/resnet18.onnx")
 # quantized_onnx_model = xquant.quantize_onnx_model("resnet18.json", onnx_model)
 ```
-
-#### Shell 使用
+#### Shell Usage
 ```
 python -m xquant --config./demo_json.json
-# 指定输入以及输出模型路径
+# Specify the input and output model paths
 # python -m xquant -c./demo_json.json -i demo.onnx -o demo.q.onnx
 ```
-
-### 4.2.2 配置文件说明
-Json 配置示例：
+### 2.2 Description of the Configuration File
+Json configuration example:
 ```json
-{
     "model_parameters": {
         "onnx_model": "",
         "output_prefix": "",
@@ -97,26 +98,27 @@ Json 配置示例：
                 "calibration_type": "default"
             }
         ],
-        "truncate_var_names": ["/Concat_5_output_0", "/Transpose_6_output_0"] "截断模型"
+        "truncate_var_names": ["/Concat_5_output_0", "/Transpose_6_output_0"] "Truncate the model"
     }
-}
 ```
-支持省略的字段：
-|字段名|默认值|可选值|备注|
+Supported omitted fields:
+|Field Name|Default Value|Optional Values|Remarks|
 |---|---|---|---|
-|output_prefix|onnx_model 的去后缀文件名，输出以.q.onnx 结尾|/|/|
-|working_dir|onnx_model 所在的目录|/|/|
-|calibration_step|100|一般建议设置为 100 - 1000 范围|/|
-|calibration_device|cuda|cuda、cpu|系统自动检测|
-|calibration_type|default|default、kl、minmax、percentile、mse|推荐先使用 default，而后是 percentile 或 minmax，如果觉得 default 校准耗时过长，则可以转用 percentile|
-|input_name|从 onnx 模型中读取|/|/|
-|input_shape|从 onnx 模型中读取|需要 shape 为全 int，支持 batch 为符号，并默认填为 1|/|
-|dtype|从 onnx 模型中读取|float32、int8、uint8、int16|当前仅支持 float32|
-|file_type|img|img、npy、raw|只支持读取与 dtype 一致的 raw 数据，即默认为 float32|
-|preprocess_file|None|PT_IMAGENET、IMAGENET|系统预设了两种 IMAGENET 标准预处理，或自定义 py 预处理，"py 文件路径:py 方法名"，sample 中的 resnet18_custom_preprocess.json 有相关示例|
+|output_prefix|The file name of the onnx_model without the suffix, and the output ends with.q.onnx|/|/|
+|working_dir|The directory where the onnx_model is located|/|/|
+|calibration_step|100|It is generally recommended to set it in the range of 100 - 1000|/|
+|calibration_device|cuda|cuda, cpu|Automatically detected by the system|
+|calibration_type|default|default, kl, minmax, percentile, mse|It is recommended to use default first, then percentile or minmax. If you feel that the default calibration takes too long, you can switch to percentile|
+|input_name|Read from the onnx model|/|/|
+|input_shape|Read from the onnx model|The shape needs to be all int, supports batch as a symbol, and is defaulted to 1|/|
+|dtype|Read from the onnx model|float32, int8, uint8, int16|Currently only float32 is supported|
+|file_type|img|img, npy, raw|Only raw data consistent with dtype can be read, that is, float32 by default|
+|preprocess_file|None|PT_IMAGENET, IMAGENET|The system presets two IMAGENET standard preprocessing methods, or you can customize the py preprocessing method, "py file path:py method name", and the relevant example is in resnet18_custom_preprocess.json in the sample|
 
-校准数据列表文件的规则：
-`img_list.txt`每行表示一个校准数据文件路径，可以写相对于 `img_list.txt`所在目录的相对路径，也可以写绝对路径，如果模型是多输入的，请确保每个文件列表的顺序是对应的。
+
+Rules for the calibration data list file:
+Each line in `img_list.txt` represents a path to a calibration data file, which can be a relative path relative to the directory where `img_list.txt` is located, or an absolute path. If the model has multiple inputs, please ensure that the order of each file list is corresponding.
+
 ```
 QuantZoo/Data/Imagenet/Calib/n01440764/ILSVRC2012_val_00002138.JPEG
 QuantZoo/Data/Imagenet/Calib/n01443537/ILSVRC2012_val_00000994.JPEG
@@ -126,25 +128,23 @@ QuantZoo/Data/Imagenet/Calib/n01494475/ILSVRC2012_val_00015545.JPEG
 QuantZoo/Data/Imagenet/Calib/n01496331/ILSVRC2012_val_00008640.JPEG
 ```
 
-preprocess_file 的规则：
-例如这是一个 `custom_preprocess.py`脚本文件，则在配置文件中将 preprocess_file 设为 `custom_preprocess.py:preprocess_impl`指向具体 py 文件的具体方法，如果是多输入的情况，code 差距不大的情况下，可以直接复用自己的预处理方法。
-如下采用的预处理方式，即为 preprocess_file = None 时的预处理，
+Rules for preprocess_file:
+For example, this is a `custom_preprocess.py` script file, then in the configuration file, set preprocess_file to `custom_preprocess.py:preprocess_impl` to point to the specific method in the specific py file. If it is a multi-input situation, and the code difference is not significant, you can directly reuse your own preprocessing method.
+The following preprocessing method is used when preprocess_file = None:
+
 ```python
 from typing import Sequence
 import torch
 import cv2
 import numpy as np
-
 def preprocess_impl(path_list: Sequence[str], input_parametr: dict ) -> torch.Tensor:
     """
-    读取path_list, 并依据input_parametr中的参数预处理, 返回一个torch.Tensor
-
+    Read path_list, preprocess according to the parameters in input_parametr, and return a torch.Tensor
     Args:
-        path_list (Sequence[str]): 一个校准batch的文件列表
-        input_parametr (dict): 等同于配置中的calibration_parameters.input_parametres[idx]
-
+        path_list (Sequence[str]): A file list of a calibration batch
+        input_parametr (dict): Equivalent to calibration_parameters.input_parametres[idx] in the configuration
     Returns:
-        torch.Tensor: 一个batch的校准数据
+        torch.Tensor: A batch of calibration data
     """
     batch_list = []
     mean_value = input_parametr["mean_value"]
@@ -162,8 +162,10 @@ def preprocess_impl(path_list: Sequence[str], input_parametr: dict ) -> torch.Te
     return torch.cat(batch_list, dim=0)
 ```
 
-custom_setting 的规则：
-可参考 samples 中的 mobilenet_v3_small
+Rules for custom_setting:
+
+You can refer to mobilenet_v3_small in the samples
+
 ```json
 "custom_setting": [
     {
@@ -173,12 +175,14 @@ custom_setting 的规则：
      }
   ]
 ```
-工具采用计算图出入边包围子图的方式捕获一个子图并设置自定义量化参数，如下图示例，我们希望将计算图红框中的算子调整为 precision_level = 2 的精度模式，则需要先确定当前子图的所有非常量出入边，即入边为子图内首个 Conv 的输入 n2，Add 的旁支输入 n7，出边为 Add 的输出 y
+
+The tool uses the method of surrounding the subgraph with the in-edge and out-edge of the computation graph to capture a subgraph and set the custom quantization parameters. As shown in the example in the figure below, if we want to adjust the operators in the red box of the computation graph to the precision mode of precision_level = 2, we need to first determine all the non-constant in-edges and out-edges of the current subgraph, that is, the in-edge is the input n2 of the first Conv in the subgraph, and the side input n7 of the Add, and the out-edge is the output y of the Add
 
 ![alt text](image-4.png)
-
 ![alt text](image-5.png)
-即产生如下的配置：
+
+That is, the following configuration is generated:
+
 ```json
 "custom_setting": [
      {
@@ -189,48 +193,50 @@ custom_setting 的规则：
   ]
 ```
 
-truncate_var_names 的规则：
-truncate_var_names 支持将完整的带有后处理层的 ONNX 模型送入量化工具，量化产出模型也会保留后处理结构，但需要使用者指定模型主结构与后处理结构的分离点，即 truncate_var_names
+Rules for truncate_var_names:
+truncate_var_names supports sending the complete ONNX model with the post-processing layer to the quantization tool, and the quantized output model will also retain the post-processing structure, but the user needs to specify the separation point between the main structure and the post-processing structure of the model, that is, truncate_var_names
 
 ![alt text](image-6.png)
 
-例如 yolov6p5_n 模型，只需要指定 Sigmoid、Concat（红框）算子的输出即可将模型二分，只量化上半部分。
+For example, for the yolov6p5_n model, only the outputs of the Sigmoid and Concat (red box) operators need to be specified to divide the model into two parts and only quantize the upper part.
 
-### 4.2.3 量化输出说明
-量化工具执行完毕后，将输出如下两个产物。
-1. ONNX 量化模型：QDQ 格式的 ONNX 量化模型，由推理库解析为相应的量化算子并执行定点推理。
-2. 量化分析文件：开启 analysis_enable 后，将在输出目录下生成量化分析文件，以 markdown 文件形式呈现。
-   
+### 2.3 Description of the Quantization Output
+After the quantization tool is executed, the following two products will be output.
+1. ONNX Quantized Model: The ONNX quantized model in the QDQ format, which is parsed by the inference library into the corresponding quantized operators and performs fixed-point inference.
+2. Quantization Analysis File: After enabling analysis_enable, a quantization analysis file will be generated in the output directory and presented in the form of a markdown file.
+
 ![alt text](image-7.png)
 
-SNR 高于 0.1、Cosine 小于 0.99 的输出将被标记，如果某个模型标记输出过多，则可能产生量化误差，Cosine 低并不一定产生量化误差，SNR 的可信度更高，而上图所示的结果则表明该模型很可能不适合量化，或者需要特别调整量化参数。
+Outputs with SNR higher than 0.1 and Cosine less than 0.99 will be marked. If there are too many marked outputs in a model, it may cause quantization errors. A low Cosine does not necessarily cause quantization errors, and the credibility of SNR is higher. The result shown in the above figure indicates that the model may not be suitable for quantization or requires special adjustment of the quantization parameters.
+### 2.4 Quantization Sample
 
-### 4.2.4 量化 Sample
-为了使用户更加容易上手，我们提供了相应的量化 Sample。
-可见 SDK 包中，spacengine - xquant/xquant_sample.tar.gz
+To make it easier for users to get started, we provide corresponding quantization samples.
+You can see it in the SDK package, spacengine-xquant/xquant_sample.tar.gz
 
-## 4.3 常见问题（FAQ）
-欢迎大家踊跃提问
+## 3 Frequently Asked Questions (FAQ)
 
-### 4.3.1 配置相关
-1. 报错：Calibration input_parametres size should equal to model inputs size.
-答: 当前配置 json 文件中设置的模型输入数量与模型真实的输入数量不一致。
-2. 报错：calibration_type xxx not implemented yet.
-答：量化校准算法不支持，当前仅 default、minmax、percentile、kl、mse。
-3. 报错: file_type xxx not implemented yet.
-答：量化校准数据集的文件格式不支持，当前仅支持图像、Npy、Raw 文件。
-4. 报错: Calibration input xxx finds 0 items.
-答: 校准数据集设置错误或找不到任何有效的校准数据，可能是数据路径错误或文件格式问题。
-5. 报错: truncate graph failed.
-答: 截断模型错误，可能量化配置 json 文件中，模型中 tensor 名称设置错了（不存在或拼写错误）。可以用 netron 打开模型文件，查看/确认目标输入 tensor 名称。也可能是当前设置的 tensor 名称不足以将模型一分为二。
+Everyone is welcome to ask questions
 
-### 4.3.2 精度相关
-1. 示例：量化后模型 PC 端和 `芯片端`推理结果不一致
-答：目前芯片端的算子实现，强调推理效率，可能与 x86 或其他平台有轻微差距，但在算子实现没有明显 bug 的情况下，其批量精度应当与其他平台一致。
-2. 示例：量化后模型 PC 端精度和 `芯片端`实测不一致
-答：一般认为，多平台间合理的批量精度差异在 ±0.5% 以内，如果出现芯片端精度明显降低（>2%）的情况，则大概率是芯片端推理时的计算 bug 导致，请及时向我们反馈。
+### 3.1 Configuration Related
 
-### 4.3.3 性能相关
-1. 示例
-INT8 量化后的 Resnet18 单核 @1.2GHz 时的推理耗时约为 FP32 的 52 倍，38ms vs 1992ms。
-INT8 量化后的 MobileNetV2 单核 @1.2GHz 时的推理耗时约为 FP32 的 9.6 倍，45ms vs 431ms。
+1. Error: Calibration input_parametres size should equal to model inputs size.
+Answer: The number of model inputs set in the current configuration json file is inconsistent with the actual number of model inputs.
+2. Error: calibration_type xxx not implemented yet.
+Answer: The quantization calibration algorithm is not supported. Currently, only default, minmax, percentile, kl, and mse are supported.
+3. Error: file_type xxx not implemented yet.
+Answer: The file format of the quantization calibration dataset is not supported. Currently, only images, Npy, and Raw files are supported.
+4. Error: Calibration input xxx finds 0 items.
+Answer: The calibration dataset is set incorrectly or cannot find any valid calibration data, which may be due to an incorrect data path or file format issue.
+5. Error: truncate graph failed.
+Answer: There is an error in truncating the model. It may be that the tensor name in the model is set incorrectly (does not exist or is misspelled) in the quantization configuration json file. You can open the model file with netron to view/confirm the name of the target input tensor. It may also be that the currently set tensor name is not enough to divide the model into two.
+### 3.2 Accuracy Related
+
+1. Example: The inference results of the quantized model on the PC side and the `chip side` are inconsistent
+Answer: Currently, the operator implementation on the chip side emphasizes inference efficiency and may have a slight gap with the x86 or other platforms. However, in the case of no obvious bugs in the operator implementation, its batch accuracy should be consistent with other platforms.
+2. Example: The measured accuracy on the PC side and the `chip side` after quantization is inconsistent
+Answer: It is generally believed that a reasonable batch accuracy difference between multiple platforms is within ±0.5%. If the accuracy on the chip side is significantly reduced (>2%), it is likely caused by a calculation bug during inference on the chip side. Please feedback to us in time.
+### 3.3 Performance Related
+
+1. Example
+The inference time of INT8 quantized Resnet18 at 1.2GHz per core is about 52 times that of FP32, 38ms vs 1992ms.
+The inference time of INT8 quantized MobileNetV2 at 1.2GHz per core is about 9.6 times that of FP32, 45ms vs 431ms.

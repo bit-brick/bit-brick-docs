@@ -1,12 +1,12 @@
-# 4. 模型量化
+# 模型量化
 
 本章节主要介绍模型量化工具的使用细节。进迭时空 RISC - V 系列芯片支持直接部署浮点（FP32）模型，但我们强烈建议您将浮点模型进一步量化为定点（INT8）模型。量化后模型的精度损失一般可以控制在 1%以内，但推理性能却可以提升数十倍！
 
-## 4.1 模型量化简介
+## 1 模型量化简介
 XQuant 是基于 PPQ（0.6.6 +）开发的量化工具，集成了已经调整好的适配芯片的量化策略，使用 Json 配置文件调用统一接口实现模型量化。
 
 ![alt text](image-3.png)
-## 4.2 量化工具说明
+## 2 量化工具说明
 当前，模型量化功能已经被集成进 `spine convert`命令中，您可以通过 `-c`或 `--config`选项指定相关量化配置文件路径。
 
 【提示】量化工具安装包位于 SDK 中 `spacengine - wheel/xquant`目录下，您也可以将其安装到指定的 Python 虚拟环境中。安装示例：
@@ -14,7 +14,7 @@ XQuant 是基于 PPQ（0.6.6 +）开发的量化工具，集成了已经调整�
 $ python3 -m pip install spacengine - wheel/xquant/xquant - 1.1.0 - py3 - none - any.whl --extra - index - url https://pypi.ngc.nvidia.com
 ```
 
-### 4.2.1 QuickStart
+### 2.1 QuickStart
 Python Code 以及 Shell 示例在 `xquant_samples`中有源码，以便于快速开始模型量化
 
 #### Python Code 使用
@@ -45,7 +45,7 @@ python -m xquant --config./demo_json.json
 # python -m xquant -c./demo_json.json -i demo.onnx -o demo.q.onnx
 ```
 
-### 4.2.2 配置文件说明
+### 2.2 配置文件说明
 Json 配置示例：
 ```json
 {
@@ -196,7 +196,7 @@ truncate_var_names 支持将完整的带有后处理层的 ONNX 模型送入量�
 
 例如 yolov6p5_n 模型，只需要指定 Sigmoid、Concat（红框）算子的输出即可将模型二分，只量化上半部分。
 
-### 4.2.3 量化输出说明
+### 2.3 量化输出说明
 量化工具执行完毕后，将输出如下两个产物。
 1. ONNX 量化模型：QDQ 格式的 ONNX 量化模型，由推理库解析为相应的量化算子并执行定点推理。
 2. 量化分析文件：开启 analysis_enable 后，将在输出目录下生成量化分析文件，以 markdown 文件形式呈现。
@@ -205,14 +205,14 @@ truncate_var_names 支持将完整的带有后处理层的 ONNX 模型送入量�
 
 SNR 高于 0.1、Cosine 小于 0.99 的输出将被标记，如果某个模型标记输出过多，则可能产生量化误差，Cosine 低并不一定产生量化误差，SNR 的可信度更高，而上图所示的结果则表明该模型很可能不适合量化，或者需要特别调整量化参数。
 
-### 4.2.4 量化 Sample
+### 2.4 量化 Sample
 为了使用户更加容易上手，我们提供了相应的量化 Sample。
 可见 SDK 包中，spacengine - xquant/xquant_sample.tar.gz
 
-## 4.3 常见问题（FAQ）
+## 3 常见问题（FAQ）
 欢迎大家踊跃提问
 
-### 4.3.1 配置相关
+### 3.1 配置相关
 1. 报错：Calibration input_parametres size should equal to model inputs size.
 答: 当前配置 json 文件中设置的模型输入数量与模型真实的输入数量不一致。
 2. 报错：calibration_type xxx not implemented yet.
@@ -224,13 +224,13 @@ SNR 高于 0.1、Cosine 小于 0.99 的输出将被标记，如果某个模型�
 5. 报错: truncate graph failed.
 答: 截断模型错误，可能量化配置 json 文件中，模型中 tensor 名称设置错了（不存在或拼写错误）。可以用 netron 打开模型文件，查看/确认目标输入 tensor 名称。也可能是当前设置的 tensor 名称不足以将模型一分为二。
 
-### 4.3.2 精度相关
+### 3.2 精度相关
 1. 示例：量化后模型 PC 端和 `芯片端`推理结果不一致
 答：目前芯片端的算子实现，强调推理效率，可能与 x86 或其他平台有轻微差距，但在算子实现没有明显 bug 的情况下，其批量精度应当与其他平台一致。
 2. 示例：量化后模型 PC 端精度和 `芯片端`实测不一致
 答：一般认为，多平台间合理的批量精度差异在 ±0.5% 以内，如果出现芯片端精度明显降低（>2%）的情况，则大概率是芯片端推理时的计算 bug 导致，请及时向我们反馈。
 
-### 4.3.3 性能相关
+### 3.3 性能相关
 1. 示例
 INT8 量化后的 Resnet18 单核 @1.2GHz 时的推理耗时约为 FP32 的 52 倍，38ms vs 1992ms。
 INT8 量化后的 MobileNetV2 单核 @1.2GHz 时的推理耗时约为 FP32 的 9.6 倍，45ms vs 431ms。

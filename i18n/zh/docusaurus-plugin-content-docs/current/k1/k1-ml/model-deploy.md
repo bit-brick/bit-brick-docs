@@ -1,10 +1,10 @@
-# 6. 模型部署
+# 模型部署
 
-  ## 6.1 性能测试
+  ## 1 性能测试
   **【提示】**在正式部署 AI 模型前，我们强烈建议您先在 `芯片端`进行相关模型的性能测试，以确保当前模型的推理性能符合预期。
   SDK 目录下的 `spacemit-ort/bin/ onnxruntime_perf_test`工具支持在 `芯片端`快速测试 AI 算法模型的纯推理性能。该工具兼容 ONNX 模型，故您可以很方便的使用它来评测原始 ONNX 浮点模型，以及转换（和/或量化）后的 ONNX 定点模型性能。
 
-  ### 6.1.2 使用说明
+  ### 1.2 使用说明
   ```
   $ onnxruntime_perf_test - h
   perf_test [options...] model_path [result_file]
@@ -46,7 +46,7 @@
           - h: help
   ```
 
-  ### 6.1.2 参数说明
+  ### 1.2 参数说明
 
   |参数|必要/可选|默认值|说明|
   |----|----|----|----|
@@ -79,9 +79,9 @@
   |- Z|可选|无|禁止线程在运行期间空转，以减少 CPU 利用率|
   |- h, -- help|可选|无|打印使用说明|
 
-  ### 6.1.3 使用示例
+  ### 1.3 使用示例
   以 onnxruntime / test / testdata / abs_free_dimensions.onnx模型为例：
-  #### 6.1.3.1. **随机测试数据**
+  #### 1.3.1. **随机测试数据**
   固定测试次数 100，随机生成 10 组测试数据，并且固定随机种子为 1、随机测试数据最大 6、随机测试数据最小 2
   ```
   $ MODEL = abs_free_dimensions.onnx
@@ -98,9 +98,9 @@
  ...
   ```
 
-  ## 6.2 应用开发
-  ### 6.2.1 AI Support Library
-  #### 6.2.1.1 **Demo 简介**
+  ## 2 应用开发
+  ### 2.1 AI Support Library
+  #### 2.1.1 **Demo 简介**
   当前 Support Library Demo 位于部署工具包中 bianbu-ai-support 目录下，相关说明及示例如下：
   ```
   $ tree - L 3 /opt/spacemit-ai-sdk.v1.1.0/bianbu-ai-support/
@@ -148,7 +148,7 @@
 
   16 directories, 24 files
   ```
-  #### 6.2.1.2 **Demo 编译**
+  #### 2.1.2 **Demo 编译**
   ##### **交叉编译**
   交叉编译主要适用于 PC 端（e.g. x86_64 开发环境），流程（示例）如下：
   ```
@@ -193,7 +193,7 @@
   $ cd / opt / spacemit-ai-sdk.v1.1.0 / bianbu - ai - support / demo
   $ bash build.sh
   ```
-  #### 6.2.1.3 **Demo 运行**
+  #### 2.1.3 **Demo 运行**
   - **仿真配置**
   对于交叉编译后的 demo 程序，您可以使用部署工具中预置的 `qemu - riscv64`工具，实现 PC 端的仿真运行。相关配置如下：
   ```
@@ -220,7 +220,7 @@
   [INF0] Run:bld / classificat ion_demo data / mode ls / squeezenet1.1 - 7.onnx data / mode ls / synset.txt data / imgs / dog.jpg open tcm device failed(- 1) Enable spacemit ep now tcm heck param err--->fun:tcmmalloc_sync + line:164Classfy result:n02113023 Pembroke, Pembroke Welsh corgi [INFO] Smoke test with object detection task... [INF0] Run: bld / detection_demo data / mode s / nanodet - plus - m_320.onnx data / models / coco.txt data / imgs / person.jpg resulto.jpg open t
   ~~~
 
-  #### 6.2.1.4 Demo 说明
+  #### 2.1.4 Demo 说明
 - classification_demo
   
 单张图片图像分类 demo，输入单张图片路径，输出图像的类别。
@@ -347,7 +347,7 @@ tracker_stream_demo [-h <resize_height>] [-w <resize_width>] [-f] <detection_con
 |-h|可选|320|缩放后高度大小|
 |-f|可选|无|水平翻转|
 
-#### 6.2.1.5 环境变量说明
+#### 2.1.5 环境变量说明
 |环境变量名称|备注|
 |---|---|
 |SUPPORT_SHOW|(stream demo) -1 表示不显示|
@@ -359,11 +359,11 @@ tracker_stream_demo [-h <resize_height>] [-w <resize_width>] [-f] <detection_con
 |SUPPORT_DISABLE_SPACEMIT_EP|1 表示禁用 spacemit - ep|
 |SUPPORT_OPENCV_THREAD_NUM|opencv（>= 4.x）使用的线程数|
 
-### 6.2.2 AI Engine
-#### 6.2.2.1 简介
+### 2.2 AI Engine
+#### 2.2.1 简介
 SpacemiT - ORT 包含 ONNXRuntime 基础推理框架（v1.15.1）与 SpaceMITExecutionProvider 加速后端（后简称 EP），其使用方法与公版 ONNXRuntime 几乎一致。
 
-#### 6.2.2.2 QuickStart
+#### 2.2.2 QuickStart
 - C & C++
 ```
 #include <onnxruntime_cxx_api.h> 
@@ -417,7 +417,7 @@ ref_outputs = ref_session.run(output_names, {input_name: input_tensor})
 # outputs 与 ref_outputs 的误差一般在 1e - 5 以内
 ```
 
-#### 6.2.2.3 Custom Operators plugins
+#### 2.2.3 Custom Operators plugins
 使用原生 onnxruntime 的扩展自定义算子的方式，原文可参考
 https://onnxruntime.ai/docs/reference/operators/add - custom - op.html
 ```
@@ -449,7 +449,7 @@ domain.Add(&TestCustomOp());
 session_options.Add(domain);
 ```
 
-#### 6.2.2.4 Operator Accelerate List
+#### 2.2.4 Operator Accelerate List
 |Op Type|Domain|Version|Attributes|Type|Notes|schema|
 |---|---|---|---|---|---|---|
 |Conv|ai.onnx|1、11|kernel_shape：限制二维|T：tensor(float) | tensor(float16)|QLinearConv|com.microsoft|1|kernel_shape：限制二维|T1：tensor(int8) | tensor(int16)\nT2：tensor(int8)\nT3：tensor(int8) | tensor(int16)\nT4：tensor(int32) | tensor(float)|tensor(int16)是内部扩展的算子，由 QDQ 格式解析；权重量化仅支持对称量化|https://github.com/microsoft/onnxruntime/blob/main/docs/ContribOperators.md#com.microsoft.QLinearConv|
@@ -479,14 +479,14 @@ session_options.Add(domain);
 |LayerNormalization|ai.onnx\ncom.microsoft|17\n1|T：tensor(float)|
 |Gelu|com.microsoft|1|T：tensor(float)|
 
-#### 6.2.2.5 Inference Sample
+#### 2.2.5 Inference Sample
 为了使用户更加容易上手，我们提供了相应的推理 Sample。
 可见 SDK 包中，spacemit - ort/samples 路径。
 
-## 6.3 常见问题（FAQ）
+## 3 常见问题（FAQ）
 欢迎大家踊跃提问
 
-### 6.3.1 如何查看模型推理的 profiling 信息？
+### 3.1 如何查看模型推理的 profiling 信息？
 可以参考原版说明。
 https://onnxruntime.ai/docs/performance/tune - performance/profiling - tools.html
 ```
@@ -509,7 +509,7 @@ SessionOptionsSpaceMITEnvInit(session_options, provider_options);
 Ort::Session session(env, net_param_path, session_options);
 ```
 
-### 6.3.2 如何保存模型运行时逐层结果？
+### 3.2 如何保存模型运行时逐层结果？
 ONNX 模型节点输出 Tensor 的 dump 功能，由一系列环境变量控制，此处给出可能使用到的常用环境变量解释。
 | 环境变量名                                      | 含义                                  | 取值                              |
 |------------------------------------------------|---------------------------------------|-----------------------------------|
@@ -586,12 +586,12 @@ Output 0 Name: PPQ_Operation_149
 ```
 在`./dump_dir`目录中获得指定节点类型的所有输出，以 tensorproto 格式存放
 
-### 6.3.3 如何设置多线程以及多线程亲和性？
+### 3.3 如何设置多线程以及多线程亲和性？
 可参考原版文档设置线程亲和性，因为架构特殊性，0 - 3 号线程无法手动设置亲和性，由 ep 自行管理。
 https://onnxruntime.ai/docs/performance/tune - performance/threading.html#set - intra - op - thread - affinity
 
-### 6.3.4 是否需要关注 Tensor 的 Layout 内存排布？
+### 3.4 是否需要关注 Tensor 的 Layout 内存排布？
 推理库完全沿用 ONNXRuntime 对于 Tensor 的定义，即 NCHW 与 shape 描述一致的内存布局。
 
-### 6.3.5 输入 QLinear 算子的模型
+### 3.5 输入 QLinear 算子的模型
 ONNX 算子集合内有一些公版的 QLinear 算子，在静态 shape 的情况下，可以直接使用，而在其他情况下，尽量使用 QDQ 格式的量化模型 

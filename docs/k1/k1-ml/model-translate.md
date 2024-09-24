@@ -1,34 +1,31 @@
-# 3. 模型转换
+# Model Conversion
+This chapter mainly introduces the usage details of the model conversion tool. During the conversion process, the tool will complete the processes of model format conversion, structure optimization, and calibration quantization (if you also specify the model quantization configuration file). After the conversion is completed, the tool will output a model that can run on the "chip end" of Spacemit.
 
-本章节主要介绍模型转换工具的使用细节。转换期间，工具会完成模型的格式转换、结构优化以及校准量化（如果您还指定了模型量化配置文件）等流程。转换完成后，工具将输出一个可以在进迭时空`芯片端`运行的模型。
+[Note]
+The suffix of the Spacemit model file (currently) is `.onnx`, which is compatible with the standard ONNX format model;
 
-【说明】
-（当前）进迭时空模型文件后缀名为`.onnx`，兼容标准 ONNX 格式模型；
-如果您还指定了模型量化配置文件，那您还将得到一个量化后的模型文件。
-
-## 3.1 使用说明
+If you also specify the model quantization configuration file, you will also get a quantized model file.
+## 1 Usage Instructions
 ```
 $ spine convert -h
 usage: spine convert [-h] {onnx,tf1,tf2,paddle,caffe}...
-
 positional arguments:
   {onnx,tf1,tf2,paddle,caffe}
-
 optional arguments:
   -h, --help            show this help message and exit
 ```
-转换工具目前预置了 ONNX、TensorFlow、Paddle、Caffe 四种框架的模型格式转换支持。由于进迭时空 AI 推理引擎兼容 ONNX 模型格式（opset >= 7），故对于 Pytorch、MXNet 等其他框架下的模型，您可以通过先将模型转换成 ONNX 格式，再调用转换工具（详情可以参阅 3.1.5 其他模型 章节内容）。
+The conversion tool currently predefines support for model format conversion from four frameworks: ONNX, TensorFlow, Paddle, and Caffe. Since the Spacemit AI inference engine is compatible with the ONNX model format (opset >= 7), for models in other frameworks such as Pytorch and MXNet, you can first convert the model to the ONNX format and then call the conversion tool (for details, refer to the content in Section 3.1.5 Other Models).
 
-### 3.1.1 ONNX 模型
-除模型量化外，转换工具针对 ONNX 模型还提供了子图提取、shape 修改、模型文件检查等功能。
+### 1.1 ONNX Model
 
-#### 3.1.1.1 使用说明
+In addition to model quantization, the conversion tool also provides functions such as subgraph extraction, shape modification, and model file checking for ONNX models.
+
+#### 1.1.1 Usage Instructions
 ```
 $ spine convert onnx -h
 usage: spine convert onnx [-h] --input INPUT --output OUTPUT [--checker] [--onnxsim] [--verbose] [--inputs INPUTS] [--outputs OUTPUTS]
                             [--free_dim_param FREE_DIM_PARAM [FREE_DIM_PARAM...]]
                             [--free_dim_denotation FREE_DIM_DENOTATION [FREE_DIM_DENOTATION...]] [--config CONFIG]
-
 optional arguments:
   -h, --help            show this help message and exit
   --input INPUT         input onnx model path
@@ -46,53 +43,59 @@ optional arguments:
   --config CONFIG, -c CONFIG
                         config file path for calibration
 ```
-
-#### 3.1.1.2 参数说明
-|参数|必要/可选|默认值|说明|
+#### 1.1.2 Parameter Description
+|Parameter|Necessary/Optional|Default Value|Description|
 |---|---|---|---|
-|-h, --help|可选|无|打印使用说明|
-|--input|必要|无|输入模型路径|
-|--output|必要|无|输出模型路径|
-|--checker|可选|False|使能模型检查|
-|--onnxsim|可选|False|使能 onnxsim（https://github.com/daquexian/onnx-simplifier）优化模型|
-|--verbose, -v|可选|0|使能调试信息|
-|--inputs|可选|None|重新指定模型输入节点及 shape（可选），格式示例：input_1[n1,n2],input2[n3,n4],...|
-|--outputs|可选|None|重新指定模型输出节点及 shape（可选），格式示例：input_1[n1,n2],input2[n3,n4],...|
-|-f, --free_dim_param|可选|None|重新指定某些输入数据 shape，格式示例：dimension_name:override_value [...]|
-|-F, --free_dim_denotation|可选|None|重新指定某些输入数据 shape，格式示例：dimension_den0tation:override_value [...]|
-|--config, -c|可选|None|模型校准配置文件路径（详情参阅 4. 模型量化 章节）|
+|-h, --help|Optional|None|Print the usage instructions|
+|--input|Necessary|None|Input model path|
+|--output|Necessary|None|Output model path|
+|--checker|Optional|False|Enable model checking|
+|--onnxsim|Optional|False|Enable onnxsim (https://github.com/daquexian/onnx-simplifier) to optimize the model|
+|--verbose, -v|Optional|0|Enable debugging information|
+|--inputs|Optional|None|Reassign the model input nodes and shapes (optional), format example: input_1[n1,n2],input2[n3,n4],...|
+|--outputs|Optional|None|Reassign the model output nodes and shapes (optional), format example: input_1[n1,n2],input2[n3,n4],...|
+|-f, --free_dim_param|Optional|None|Reassign the shape of certain input data, format example: dimension_name:override_value [...]|
+|-F, --free_dim_denotation|Optional|None|Reassign the shape of certain input data, format example: dimension_den0tation:override_value [...]|
+|--config, -c|Optional|None|Path of the model calibration configuration file (refer to Chapter  Model Quantization for details)|
 
-#### 3.1.1.3 使用示例
-- 3.1.1.3.1 提取模型 backbone
-示例模型：https://github.com/onnx/models/blob/main/validated/vision/object_detection_segmentation/yolov3/model/yolov3-12.onnx
+#### 1.1.3 Usage Example
+
+- 1.1.3.1 Extract the model backbone
+Example model: https://github.com/onnx/models/blob/main/validated/vision/object_detection_segmentation/yolov3/model/yolov3-12.onnx
 ```
 $ spine convert onnx --input yolov3-12.onnx \
                       --output yolov3-12-backbone.onnx \
                       --inputs input_1 \
                       --outputs Transpose__467:0,Transpose__469:0,Transpose__472:0
 ```
-【提示】您可以通过 Netron 可视化工具，查看需要提取的网络的输入输出名称（及 shape）。
 
-- 3.1.1.3.2 修改模型输入 shape
-`spine convert onnx`当前提供了两种方式来修改模型的输入和/或输出 shape 信息：
-    - 通过`--inputs`和/或`--outputs`（适用于模型输入或输出个数较少场景）
+[Note] You can use the Netron visualization tool to view the input and output names (and shapes) of the network you need to extract.
+
+- 1.1.3.2 Modify the model input shape
+`spine convert onnx` currently provides two ways to modify the input and/or output shape information of the model:
+    - Through `--inputs` and/or `--outputs` (suitable for scenarios where the model has fewer inputs or outputs)
 ```
 $ spine convert onnx --input yolov3-12.onnx \
                       --output yolov3-12-1x3x416x416.onnx \
                       --inputs input_1[1,3,416,416],image_shape[1,2]
 ```
-【注意】通过`--inputs`和/或`--outputs`修改 shape 信息时，如果模型有多个输入（或输出），则您需要显示指定全部输入（或输出）的 shape 信息（即使其中某些输入或输出的 shape 信息您并没有修改）。否则，`spine convert onnx`会理解为您想要提取模型中指定的网络结构。
-    - 通过`-f, --free_dim_param`和/或`-F, --free_dim_denotation`（适用于模型输入或输出存在符号参数场景）
-示例模型 abs_free_dimensions.onnx 链接：https://github.com/microsoft/onnxruntime/blob/v1.15.1/onnxruntime/test/testdata/abs_free_dimensions.onnx
+
+[Note] When modifying the shape information through `--inputs` and/or `--outputs`, if the model has multiple inputs (or outputs), you need to explicitly specify the shape information of all inputs (or outputs) (even if you do not modify the shape information of some inputs or outputs). Otherwise, `spine convert onnx` will understand that you want to extract the specified network structure in the model.
+    - Through `-f, --free_dim_param` and/or `-F, --free_dim_denotation` (suitable for scenarios where the model input or output has symbolic parameters)
+Example model abs_free_dimensions.onnx link: https://github.com/microsoft/onnxruntime/blob/v1.15.1/onnxruntime/test/testdata/abs_free_dimensions.onnx
+
 ```
 $ spine convert onnx --input yolov3-12.onnx --output yolov3-12-1x3x416x416.onnx -f unk__577:416 unk__578:416
 $ spine convert onnx --input abs_free_dimensions.onnx -f Dim1:2 -F DATA_CHANNEL:3
 ```
-【注意】通过`-f, --free_dim_param`和/或`-F, --free_dim_denotation`修改 shape 信息时，您需要先通过 Netron 可视化工具或辅助功能指令`spine helper info`确定需要修改的目标`符号参数`（e.g. 👆 “unk__577” 和 “unk__578”）。如果 shape 信息中不存在`符号参数`，您可以选择通过`--inputs`和/或`--outputs`方式修改 shape 信息。
 
-附：`符号参数`说明
-- 模型输入或输出 shape 信息存在`符号参数`：
+[Note] When modifying the shape information through `-f, --free_dim_param` and/or `-F, --free_dim_denotation`, you need to first determine the target `symbolic parameter` (e.g. 👆 "unk__577" and "unk__578") through the Netron visualization tool or the auxiliary function command `spine helper info`. If there is no `symbolic parameter` in the shape information, you can choose to modify the shape information through `--inputs` and/or `--outputs`.
+Attached: Explanation of `symbolic parameter`
+
+- The model input or output shape information has `symbolic parameter`:
+  
 ```
+
 ion_segmentation>yolov3>model >yolov3-12.onnx 口 X MODEL PROPERTIES X
 format ONNXv5
 producer keras2onnx 1.5.1
@@ -112,14 +115,14 @@ dimi
 dim_param:"Dim2" denotation:"DATA CHANNEL" -F,-free_dim_denotation
 dim 
 dim value:5
-1
 Total number of input;1
 input_1 name: input_1
 tensor: float32[unk576,3,unk577,unk578]
 image_shape name: image_shape
 tensor.float32[unk_579,2]
 ```
-- 模型输入或输出 shape 信息不存在`符号参数`：
+- The model input or output shape information does not have `symbolic parameter`:
+  
 ```
 _segmentation>tiny-yolov3>model>tiny-yolov3-.. 口 X X
 MODEL PROPERTIES
@@ -134,11 +137,9 @@ type { tensor_type { elem_type:1
 shape
 dim
 dim param:"N"
-}
 dim { dim value:3
 dim
 3 dim 0
-P
 name:"image shape"
 type
 input_1 name: input_1
@@ -146,11 +147,10 @@ tensor: float32[N,3,?,?]
 image_shape name: image_shape
 tensor: float32[N,2]
 ```
+### 1.2 TensorFlow Model
+#### 1.2.1 Usage Instructions
 
-### 3.1.2 Tensorflow 模型
-
-#### 3.1.2.1 使用说明
-以 tf2 为例（tf1 类似）：
+Take tf2 as an example (tf1 is similar):
 ```
 $ spine convert tf2 -h
 usage: spine convert tf2 [-h] [--input INPUT] [--graphdef GRAPHDEF] [--saved-model SAVED_MODEL] [--tag TAG] [--signature_def SIGNATURE_DEF]
@@ -161,7 +161,6 @@ usage: spine convert tf2 [-h] [--input INPUT] [--graphdef GRAPHDEF] [--saved-mod
                            [--load_op_libraries LOAD_OP_LIBRARIES] [--continue_on_error] [--verbose] [--debug]
                            [--output_frozen_graph OUTPUT_FROZEN_GRAPH] [--inputs-as-nchw INPUTS_AS_NCHW] [--outputs-as-nchw OUTPUTS_AS_NCHW]
                            [--config CONFIG]
-
 optional arguments:
   -h, --help            show this help message and exit
   --input INPUT         input from graphdef
@@ -212,14 +211,14 @@ optional arguments:
   --config CONFIG, -c CONFIG
                         config file path for calibration
 ```
+#### 1.2.2 Parameter Description
 
-#### 3.1.2.2 参数说明
--c, --config : 模型校准配置文件路径（详情参阅 4. 模型量化 章节）
-其余参数同 Tensorflow - ONNX(tf2onnx) Parameters
+-c, --config: Path of the model calibration configuration file (refer to Chapter  Model Quantization for details)
 
-【注意事项】:
-- `--input`参数同`--graphdef`，输入模型文件名后缀通常为`pb`
-- `--saved - model`对应的输入为文件夹，参考示例：
+The remaining parameters are the same as Tensorflow - ONNX(tf2onnx) Parameters
+[Precautions]:
+- The `--input` parameter is the same as `--graphdef`, and the suffix of the input model file name is usually `pb`
+- The input corresponding to `--saved - model` is a folder, refer to the example:
 ```
 classification/inception_v3_tf2/
 ├── saved_model.pb
@@ -227,13 +226,13 @@ classification/inception_v3_tf2/
     ├── variables.data - 00000 - of - 00001
     └── variables.index
 ```
+#### 1.2.3 Usage Example
 
-#### 3.1.2.3 使用示例
-【提示】您可以参考 [Tensorflow - ONNX(tf2onnx) Getting Started](https://github.com/onnx/tensorflow-onnx#getting-started])
+[Note] You can refer to [Tensorflow - ONNX(tf2onnx) Getting Started](https://github.com/onnx/tensorflow-onnx#getting-started])
 
-### 3.1.3 Paddle 模型
+### 1.3 Paddle model
 
-#### 3.1.3.1 使用说明
+#### 1.3.1 Usage instructions
 ```
 $ spine convert paddle -h
 usage: spine convert paddle [-h] --model_dir MODEL_DIR [--model_filename MODEL_FILENAME] [--params_filename PARAMS_FILENAME] --save_file SAVE_FILE
@@ -244,43 +243,44 @@ usage: spine convert paddle [-h] --model_dir MODEL_DIR [--model_filename MODEL_F
 optional arguments:
   -h, --help            show this help message and exit
   --model_dir MODEL_DIR, -m MODEL_DIR
-                        PaddlePaddle model directory, if params stored in single file, you need define '--model_filename' and 'params_filename'.
+                        PaddlePaddle model directory. If params are stored in a single file, you need to define '--model_filename' and 'params_filename'.
   --model_filename MODEL_FILENAME, -mf MODEL_FILENAME
-                        PaddlePaddle model's network file name, which under directory seted by --model_dir
+                        PaddlePaddle model's network file name, which is under the directory set by --model_dir.
   --params_filename PARAMS_FILENAME, -pf PARAMS_FILENAME
-                        PaddlePaddle model's param file name(param files combined in single file), which under directory seted by --model_dir.
+                        PaddlePaddle model's param file name (param files combined in a single file), which is under the directory set by --model_dir.
   --save_file SAVE_FILE, -s SAVE_FILE
-                        file path to save onnx model
+                        file path to save the onnx model.
   --opset_version OPSET_VERSION, -ov OPSET_VERSION
-                        set onnx opset version to export
+                        set the onnx opset version for export.
   --input_shape_dict INPUT_SHAPE_DICT, -isd INPUT_SHAPE_DICT
-                        define input shapes, e.g --input_shape_dict="{'image':[1, 3, 608, 608]}" or--input_shape_dict="{'image':[1, 3, 608, 608], 'im_shape': [1, 2],
-                       'scale_factor': [1, 2]}"
+                        define input shapes, e.g., --input_shape_dict="{'image':[1, 3, 608, 608]}" or --input_shape_dict="{'image':[1, 3, 608, 608], 'im_shape': [1, 2],
+                        'scale_factor': [1, 2]}".
   --enable_dev_version ENABLE_DEV_VERSION
-                        whether to use new version of Paddle2ONNX which is under developing, default True
+                        whether to use the new version of Paddle2ONNX which is under development. Default is True.
   --enable_onnx_checker ENABLE_ONNX_CHECKER
-                        whether check onnx model validity, default True
+                        whether to check the onnx model validity. Default is True.
   --enable_paddle_fallback ENABLE_PADDLE_FALLBACK
-                        whether use PaddleFallback for custom op, default is False
-  --version, -v         get version of paddle2onnx
+                        whether to use PaddleFallback for custom ops. Default is False.
+  --version, -v         get the version of paddle2onnx.
   --output_names OUTPUT_NAMES, -on OUTPUT_NAMES
-                        define output names, e.g --output_names="["output1"]" or --output_names="["output1", "output2", "output3"]" or
-                        --output_names="{"Paddleoutput":"Onnxoutput"}"
+                        define output names, e.g., --output_names="["output1"]" or --output_names="["output1", "output2", "output3"]" or
+                        --output_names="{"Paddleoutput":"Onnxoutput"}".
   --enable_auto_update_opset ENABLE_AUTO_UPDATE_OPSET
-                        whether enable auto_update_opset, default is True
+                        whether to enable auto_update_opset. Default is True.
   --external_filename EXTERNAL_FILENAME
                         The filename of external_data when the model is bigger than 2G.
   --config CONFIG, -c CONFIG
-                        config
+                        config.
 
-                        config file path for calibration
+                        config file path for calibration.
 ```
 
-#### 3.1.3.2 参数说明
--c, --config : 模型校准配置文件路径（详情参阅 4. 模型量化 章节）
-其余参数同 Paddle2ONNX Parameters
+#### 1.3.2 Parameter descriptions
 
-#### 3.1.3.3 使用示例
+-c, --config: The path of the model calibration configuration file (for details, refer to Chapter Model Quantization).
+Other parameters are the same as Paddle2ONNX Parameters.
+
+#### 1.3.3 Usage example
 ```
 # download and extract paddle test model
 $ wget https://bj.bcebos.com/paddle2onnx/model_zoo/mobilenetv3.tar.gz && tar xvf mobilenetv3.tar.gz
@@ -293,11 +293,11 @@ $ spine convert paddle --model_dir mobilenetv3 \
                         --enable_dev_version True
 ```
 
-### 3.1.4 Caffe 模型
+### 1.4 Caffe model
 
-【提示】当前仅保证对标准 Caffe ( GitHub ) 模型的转换支持。
+【Note】Currently, only the conversion support for standard Caffe (GitHub) models is guaranteed.
 
-#### 3.1.4.1 使用说明
+#### 1.4.1 Usage instructions
 ```
 $ spine convert caffe -h
 usage: spine convert caffe [-h] --input INPUT --output OUTPUT [--verbose]
@@ -305,23 +305,23 @@ usage: spine convert caffe [-h] --input INPUT --output OUTPUT [--verbose]
 
 optional arguments:
   -h, --help            show this help message and exit
-  --input INPUT         input caffe model path(basename)
-  --output OUTPUT       output jdsk model path
-  --verbose, -v         verbose message, option is additive
+  --input INPUT         input caffe model path (basename).
+  --output OUTPUT       output jdsk model path.
+  --verbose, -v         verbose message, option is additive.
   --config CONFIG, -c CONFIG
-                        config file path for calibration
+                        config file path for calibration.
 ```
 
-#### 3.1.4.2 参数说明
-|参数|必要/可选|默认值|说明|
+#### 1.4.2 Parameter descriptions
+|Parameter|Necessary/Optional|Default value|Description|
 |---|---|---|---|
-|-h, --help|可选|无|打印使用说明|
-|--input|必要|无|输入模型路径（不含后缀名，默认会加载相应的.caffemodel 和.prototxt 文件）|
-|--output|必要|无|输出模型路径|
-|--verbose, -v|可选|0|使能调试信息|
-|--config, -c|可选|None|模型校准配置文件路径（详情参阅 4. 模型量化 章节）|
+|-h, --help|Optional|None|Print usage instructions.|
+|--input|Necessary|None|Input model path (without the suffix name. By default, the corresponding.caffemodel and.prototxt files will be loaded).|
+|--output|Necessary|None|Output model path.|
+|--verbose, -v|Optional|0|Enable debug information.|
+|--config, -c|Optional|None|The path of the model calibration configuration file (for details, refer to Chapter  Model Quantization).|
 
-#### 3.1.4.3 使用示例
+#### 1.4.3 Usage example
 ```
 # download caffe test model
 $ wget http://dl.caffe.berkeleyvision.org/bvlc_alexnet.caffemodel
@@ -331,17 +331,20 @@ $ wget https://github.com/BVLC/caffe/blob/master/models/bvlc_alexnet/deploy.prot
 $ spine convert caffe --input bvlc_alexnet --output bvlc_alexnet.onnx -v
 ```
 
-### 3.1.5 其他模型
-由于进迭时空 AI 推理引擎兼容 ONNX 模型格式（opset >= 7），故对于 Pytorch、MXNet 等其他框架下的模型，您可以通过先将模型转换成 ONNX 格式，再调用转换工具：
-- Pytorch_to_Onnx 教程示例
-- MXNet_to_Onnx 教程示例
-- Cntk_to_Onnx 教程示例
+### 1.5 Other models
+Since the AI inference engine of Jidispace is compatible with the ONNX model format (opset >= 7), for models under other frameworks such as Pytorch and MXNet, you can first convert the model into the ONNX format and then call the conversion tool:
 
-## 3.2 自定义算子
-### 3.2.1 ONNX 模型
-请参阅 6. 模型部署 中，`AI 推理引擎` 相关使用介绍。
+- Pytorch_to_Onnx tutorial example
+- MXNet_to_Onnx tutorial example
+- Cntk_to_Onnx tutorial example
 
-### 3.2.2 其他模型
-对于其他框架下的模型，我们建议您先将模型转换成 ONNX 模型格式，然后参照 3.2.1 ONNX 模型 章节处理。
+## 2 Custom operators
+### 2.1 ONNX model
 
-## 3.3 常见问题（FAQ）
+Please refer to the relevant usage introduction of `AI inference engine` in Chapter 6. Model Deployment.
+
+### 2.2 Other models
+
+For models under other frameworks, we recommend that you first convert the model into the ONNX model format and then refer to Chapter 3.2.1 ONNX model for processing.
+
+## 3 Frequently Asked Questions (FAQ)

@@ -167,32 +167,32 @@
     "message": "K1 PMIC",
     "description": "The label for the doc item K1 PMIC in sidebar tutorialSidebar, linking to the doc k1/k1-software/PMIC"
   },
-  "sidebar.tutorialSidebar.doc.1. Introduction to Computing Architecture": {
-    "message": "1. 算力架构介绍",
+  "sidebar.tutorialSidebar.doc.Introduction to Computing Architecture": {
+    "message": "算力架构介绍",
     "description": "The label for the doc item 1. Introduction to Computing Architecture in sidebar tutorialSidebar, linking to the doc k1/k1-ml/ai-arch-zh"
   },
-  "sidebar.tutorialSidebar.doc.2. Overview of Tools": {
-    "message": "2. 工具概述",
+  "sidebar.tutorialSidebar.doc.Overview of Tools": {
+    "message": "工具概述",
     "description": "The label for the doc item 2. Overview of Tools in sidebar tutorialSidebar, linking to the doc k1/k1-ml/tools-overview-zh"
   },
-  "sidebar.tutorialSidebar.doc.3. Quick Start": {
-    "message": "3. 快速上手",
+  "sidebar.tutorialSidebar.doc.Quick Start": {
+    "message": "快速上手",
     "description": "The label for the doc item 3. Quick Start in sidebar tutorialSidebar, linking to the doc k1/k1-ml/ai-quick-start-zh"
   },
-  "sidebar.tutorialSidebar.doc.4. Model Translation": {
-    "message": "4. 模型转换",
+  "sidebar.tutorialSidebar.doc.Model Translation": {
+    "message": "模型转换",
     "description": "The label for the doc item 4. Model Translation in sidebar tutorialSidebar, linking to the doc k1/k1-ml/model-translate-zh"
   },
-  "sidebar.tutorialSidebar.doc.5. Model Optimization": {
-    "message": "5. 模型量化",
+  "sidebar.tutorialSidebar.doc.Model Optimization": {
+    "message": "模型量化",
     "description": "The label for the doc item 5. Model Optimization in sidebar tutorialSidebar, linking to the doc k1/k1-ml/model-optimization-zh"
   },
-  "sidebar.tutorialSidebar.doc.6. Model Simulation and Testing": {
-    "message": "6. 模型模拟和测试",
+  "sidebar.tutorialSidebar.doc.Model Simulation and Testing": {
+    "message": "模型模拟和测试",
     "description": "The label for the doc item 6. Model Simulation and Testing in sidebar tutorialSidebar, linking to the doc k1/k1-ml/model-simulation-testing-zh"
   },
-  "sidebar.tutorialSidebar.doc.7. Model Deployment": {
-    "message": "7. 模型部署",
+  "sidebar.tutorialSidebar.doc.Model Deployment": {
+    "message": "模型部署",
     "description": "The label for the doc item 7. Model Deployment in sidebar tutorialSidebar, linking to the doc k1/k1-ml/model-deploy-zh"
   }
 }

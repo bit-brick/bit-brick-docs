@@ -1,16 +1,15 @@
-# 5. 仿真测试
+# Simulation Testing
+This chapter mainly introduces the usage details of the model simulation testing tool. Through simulation testing, you can simulate the running situation of the model on the Jidie Shikong chip on the PC side (currently limited to the x86 architecture), so as to quickly verify the function and performance of the model.
 
-本章节主要介绍模型仿真测试工具的使用细节。通过仿真测试，您可以在 PC 端（当前仅限 x86 架构）模拟模型在进迭时空芯片上的运行情况，从而快速验证模型的功能和性能。
+## 1 Tool Introduction
 
-## 5.1 工具介绍
-`spine simulate`提供 PC 端（当前仅限 x86 架构）的模型仿真测试功能。该功能基于 SDK 中预置的`qemu - riscv64`以及`x86_64 - riscv64`交叉编译工具，支持标准 ONNX 模型及进迭时空 AI 部署工具量化后的模型，并保证推理结果与`芯片端`运行结果完全一致。
+`spine simulate` provides the model simulation testing function on the PC side (currently limited to the x86 architecture). This function is based on the `qemu - riscv64` and `x86_64 - riscv64` cross - compilation tools pre-installed in the SDK, supports standard ONNX models and the models quantified by the Jidie Shikong AI deployment tool, and ensures that the inference results are exactly the same as the running results on the `chip side`.
+### 1.1 Usage Instructions
 
-### 5.1.1 使用说明
 ```
 $ spine simulate -h
 usage: spine simulate [-h] [--model_path MODEL_PATH] [--root_path ROOT_PATH] [--test_name TEST_NAME] [--output_dir OUTPUT_DIR] [--save_output]
                        [--inputs INPUTS] [--outputs OUTPUTS] [--verbose]
-
 optional arguments:
   -h, --help            show this help message and exit
   --model_path MODEL_PATH, -m MODEL_PATH
@@ -28,30 +27,31 @@ optional arguments:
                         output tensor names with shapes(option)
   --verbose, -v         verbose message, option is additive
 ```
+### 1.2 Parameter Description
 
-### 5.1.2 参数说明
-|参数|必要/可选|默认值|说明|
+|Parameter|Necessary/Optional|Default Value|Description|
 |---|---|---|---|
-|-h, --help|可选|无|打印使用说明|
-|--model_path, -m|必要|无|模型路径|
-|--root_path, -r|必要|无|测试数据集根目录|
-|--test_name, -t|必要|无|测试用例名称|
-|--output_dir, -o|可选|无|测试数据输出目录（若未指定，则默认在`--root_path`下创建以`--test_name`命名的子目录）|
-|--save_output, -s|可选|False|是否保存 x86 测试输出结果|
-|--inputs, -i|可选|None|重新指定模型输入节点及 shape（可选），格式示例：input_1[n1,n2],input2[n3,n4],...|
-|--outputs, -e|可选|None|重新指定模型输出节点及 shape（可选），格式示例：input_1[n1,n2],input2[n3,n4],...|
-|--verbose, -v|可选|0|使能调试信息|
+|-h, --help|Optional|None|Print the usage instructions|
+|--model_path, -m|Necessary|None|Model path|
+|--root_path, -r|Necessary|None|Root directory of the test dataset|
+|--test_name, -t|Necessary|None|Test case name|
+|--output_dir, -o|Optional|None|Output directory of the test data (if not specified, a subdirectory named `--test_name` will be created under `--root_path` by default)|
+|--save_output, -s|Optional|False|Whether to save the x86 test output results|
+|--inputs, -i|Optional|None|Re-specify the model input nodes and shapes (optional), format example: input_1[n1,n2],input2[n3,n4],...|
+|--outputs, -e|Optional|None|Re-specify the model output nodes and shapes (optional), format example: input_1[n1,n2],input2[n3,n4],...|
+|--verbose, -v|Optional|0|Enable debugging information|
 
-## 5.2 测试数据
-`spine helper test`提供创建标准 ONNX 测试数据集功能。
+## 2 Test Data
 
-### 5.2.1 使用说明
+`spine helper test` provides the function of creating a standard ONNX test dataset.
+
+### 2.1 Usage Instructions
+
 ```
 $ spine helper test -h
 usage: spine helper test [-h] [--model_path MODEL_PATH] [--root_path ROOT_PATH] [--test_name TEST_NAME] [--output_dir OUTPUT_DIR] [--save_output]
                          [--inputs INPUTS] [--outputs OUTPUTS] [--verbose] [--count COUNT] [--shape SHAPE]
                          [--input_names INPUT_NAMES [INPUT_NAMES...]] [--output_names OUTPUT_NAMES [OUTPUT_NAMES...]]
-
 optional arguments:
   -h, --help            show this help message and exit
   --model_path MODEL_PATH, -m MODEL_PATH
@@ -77,26 +77,28 @@ optional arguments:
   --output_names OUTPUT_NAMES [OUTPUT_NAMES...], -on OUTPUT_NAMES [OUTPUT_NAMES...]
                         output names
 ```
+### 2.2 Parameter Description
 
-### 5.2.2 参数说明
-|参数|必要/可选|默认值|说明|
+|Parameter|Necessary/Optional|Default Value|Description|
 |---|---|---|---|
-|-h, --help|可选|无|打印使用说明|
-|--model_path, -m|必要|无|模型路径|
-|--root_path, -r|必要|无|测试数据集根目录|
-|--test_name, -t|必要|无|测试用例名称|
-|--output_dir, -o|可选|无|测试数据输出目录（若未指定，则默认在`--root_path`下创建以`--test_name`命名的子目录）|
-|--save_output, -s|可选|False|是否保存 x86 测试输出结果|
-|--inputs, -i|可选|None|重新指定模型输入节点及 shape（可选），格式示例：input_1[n1,n2],input2[n3,n4],...|
-|--outputs, -e|可选|None|重新指定模型输出节点及 shape（可选），格式示例：input_1[n1,n2],input2[n3,n4],...|
-|--verbose, -v|可选|0|使能调试信息|
-|--count, -c|可选|1|测试用例数量|
-|--shape, -f|可选|无|符号参数对应的`shape`，格式示例：p2o.DynamicDimension.0:1|
-|--input_names, -in|可选|无|输入节点名称列表|
-|--output_names, -on|可选|无|输出节点名称列表|
+|-h, --help|Optional|None|Print the usage instructions|
+|--model_path, -m|Necessary|None|Model path|
+|--root_path, -r|Necessary|None|Root directory of the test dataset|
+|--test_name, -t|Necessary|None|Test case name|
+|--output_dir, -o|Optional|None|Output directory of the test data (if not specified, a subdirectory named `--test_name` will be created under `--root_path` by default)|
+|--save_output, -s|Optional|False|Whether to save the x86 test output results|
+|--inputs, -i|Optional|None|Re-specify the model input nodes and shapes (optional), format example: input_1[n1,n2],input2[n3,n4],...|
+|--outputs, -e|Optional|None|Re-specify the model output nodes and shapes (optional), format example: input_1[n1,n2],input2[n3,n4],...|
+|--verbose, -v|Optional|0|Enable debugging information|
+|--count, -c|Optional|1|Number of test cases|
+|--shape, -f|Optional|None|The `shape` corresponding to the symbolic parameter, format example: p2o.DynamicDimension.0:1|
+|--input_names, -in|Optional|None|List of input node names|
+|--output_names, -on|Optional|None|List of output node names|
 
-### 5.2.3 数据构建
-以`quick_start`中的`test_simulate_paddle_qemu`函数及上述 Paddle 模型为例，在开发环境中运行下述命令：
+### 2.3 Data Construction
+
+Taking the `test_simulate_paddle_qemu` function in `quick_start` and the above Paddle model as an example, run the following command in the development environment:
+
 ```
 $ spine helper test --model_path resnet50/inference.onnx --root_path test_data --test_name resnet50 -r 4 -f p2o.DynamicDimension.0:1 --save_output
 [INFO] create random test data under /home/workspace/test_data/resnet50/test_data_set_0 done
@@ -118,14 +120,13 @@ test_data/resnet50/
 └── test_data_set_3
     ├── input_0.pb
     └── output_0.pb
-
 4 directories, 9 files
 ```
+**Note**: `--model_path` specifies the ONNX model path, `--root_path` specifies the root directory of the test dataset, `--test_name` specifies the test case name, `-r` specifies the number of test cases, `-f` specifies the `shape` corresponding to the symbolic parameter, and `--save_output` specifies the need to save the x86 test output results.
 
-**说明**：`--model_path`指定 ONNX 模型路径，`--root_path`指定测试数据集根目录，`--test_name`指定测试用例名称，`-r`指定测试用例数量，`-f`指定符号参数对应的`shape`，`--save_output`指定需要保存 x86 测试输出结果。
+## 3 Simulation Running
 
-## 5.3 仿真运行
-以上述生成的测试数据集为例：
+Taking the generated test dataset as an example:
 ```
 $ spine simulate test_data/resnet50/
 result:
@@ -139,9 +140,9 @@ result:
                 Failed:
 Failed Test Cases:
 ```
+**Note**: `spine simulate` encapsulates the `spacemit - ort/bin/onnx_test_runner` testing tool under the SDK directory. If there are `standard` output results in the test case directory (e.g., when constructing the test data with `spine helper test`, the x86 output results are saved by specifying `--save_output`), the `spine simulate test_data` command will also perform accuracy comparison on the simulation test output results of the `chip side` (default: relative error `1e - 5`, absolute error `1e - 5`). For more parameter details, please refer to the content of the 5.1.2 `spine simulate` section.
 
-**说明**：`spine simulate`封装了 SDK 目录下的`spacemit - ort/bin/onnx_test_runner`测试工具。如果测试用例目录下存在`标准`输出结果（e.g. `spine helper test`构造测试数据时，通过`--save_output`指定保存 x86 输出结果），则`spine simulate test_data`命令还会对`芯片端`仿真测试输出结果进行精度比对（默认：相对误差`1e - 5`，绝对误差`1e - 5`）。更多参数细节，可以参阅 5.1.2 `spine simulate`章节内容。
+## 4 Frequently Asked Questions (FAQ)
 
-## 5.4 常见问题（FAQ）
-1. 示例：仿真测试时出现错误或异常
-答：请检查模型路径、测试数据集根目录、测试用例名称等参数是否正确设置，以及测试数据集是否完整。如果问题仍然存在，请提供详细的错误信息，以便我们更好地帮助您解决问题。
+1. Example: Errors or exceptions occur during simulation testing
+Answer: Please check whether the parameters such as the model path, the root directory of the test dataset, and the test case name are set correctly, and whether the test dataset is complete. If the problem still exists, please provide detailed error information so that we can better help you solve the problem.
