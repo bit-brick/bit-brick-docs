@@ -1,5 +1,5 @@
 # Bianbu Operating System
-## Introduction to Bainbu OS
+## 1.Introduction to Bainbu OS
 Bainbu OS is an operating system deeply optimized by Jinder Time Space for RISC-V architecture processors. It is built based on the source code of the Ubuntu community. Currently, it is divided into the following two versions:
 - Bainbu Desktop
 - Bainbu NAS
@@ -70,7 +70,10 @@ OpenSBI is the implementation of the supervisor program interface for RISC - V a
 ## 3. Firmware Version and Download
 - Latest Version: v1.0.15.
 - Download Path: [Bianbu OS Firmware](https://archive.spacemit.com/image/k1/version/bianbu/)
+ 
 Among them:
+
 - *.img.zip is the sdcard firmware, which can be written to the sdcard using the dd command or balenaEtcher after decompression.
 - *.zip is suitable for Titan Flasher. For flashing, refer to the user manual of the flashing tool, or decompress it and use fastboot to flash.
+  
 The password for the firmware root user: bianbu.

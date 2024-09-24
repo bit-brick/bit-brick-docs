@@ -2,7 +2,7 @@
 ## Software Packages
 BitOS software packages follow the Debian software package specification and are managed using apt.
 ## Software Sources
-The software source, that is, the BitOS software package source: http://archive.spacemit.com/bianbu-ports/
+The BitOS software package source: http://archive.spacemit.com/bianbu-ports/
 ## Updating the Software Source
 ```
 apt-get update

@@ -51,7 +51,7 @@
     "message": "Bainbu OS简介",
     "description": "The label for the doc item Introduction to Bainbu OS in sidebar tutorialSidebar, linking to the doc k1/k1-os/os-intro-zh"
   },
-  "sidebar.tutorialSidebar.doc.Networking and Upgrade": {
+  "sidebar.tutorialSidebar.doc.Networking and Upgrading": {
     "message": "联网与升级",
     "description": "The label for the doc item Networking and Upgrade in sidebar tutorialSidebar, linking to the doc k1/k1-os/installation-and-upgrade-zh"
   },
@@ -59,7 +59,7 @@
     "message": "包管理",
     "description": "The label for the doc item Package Management in sidebar tutorialSidebar, linking to the doc k1/k1-os/package-management-zh"
   },
-  "sidebar.tutorialSidebar.doc.ROS2 Install": {
+  "sidebar.tutorialSidebar.doc.ROS2 Installation": {
     "message": "ROS2 安装",
     "description": "The label for the doc item ROS2 Install in sidebar tutorialSidebar, linking to the doc k1/news/ros2-zh"
   },

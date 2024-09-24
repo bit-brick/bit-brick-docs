@@ -16,21 +16,37 @@ buildroot-ext/configs/spacemit_k1_defconfig
 buildroot-ext/board/spacemit/k1/env_k1-x.txt
 ```
 **bsp-src/uboot-2022.10/arch/riscv/dts/`<board>`.dts**
+
 The dts of the device in u-boot.
+
 **bsp-src/uboot-2022.10/arch/riscv/dts/Makefile**
+
 The Makefile of the dts of the device in u-boot.
+
 **bsp-src/uboot-2022.10/board/spacemit/k1-x/configs/uboot_fdt.its**
+
 The configuration file of the u-boot FIT Image.
+
 **bsp-src/uboot-2022.10/include/configs/k1-x.h**
+
 The configuration of the K1 chip in u-boot.
+
 **bsp-src/linux-6.1/arch/riscv/boot/dts/spacemit/`<board>`.dts**
+
 The dts of the device in the kernel.
+
 **bsp-src/linux-6.1/arch/riscv/boot/dts/spacemit/Makefile**
+
 The Makefile of the dts of the device in the kernel.
+
 **buildroot-ext/configs/spacemit_k1_defconfig**
+
 The configuration of buildroot.
+
 **buildroot-ext/board/spacemit/k1/env_k1-x.txt**
+
 The env of u-boot.
+
 ## Adding a New Device
 If the new device is modified based on DEB1, in order to quickly bring up and verify the functions, it can be modified based on the configuration of DEB1. Usually, only the following configuration files need to be modified:
 ```shell

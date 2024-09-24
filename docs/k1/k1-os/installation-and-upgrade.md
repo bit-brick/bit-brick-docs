@@ -1,4 +1,4 @@
-# Networking and Upgrade
+# Networking and Upgrading
 To better experience the Bianbu operating system, we strongly recommend that you use the network, as you can access more applications and the latest operating system we release.
 ## Network Connection
 The way Bianbu OS connects to the network is very simple. It is divided into two connection methods: wired network and wireless network. The following describes the two network connection methods separately.
@@ -27,6 +27,7 @@ Follow the prompts to complete step by step, and restart after completion.
 4. Discover the new version, click Upgrade;
 5. Complete step by step according to the prompts;
 6. Restart.
-### Screenshots for Illustration
+
+
 ![Screenshots for Illustration](/img/k1/os/package_update.png)
 ![Screenshots for Illustration](/img/k1/os/package_update1.png)

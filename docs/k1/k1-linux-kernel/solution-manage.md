@@ -17,31 +17,51 @@ bsp-src/uboot-2022.10/configs/k1_defconfig
 bsp-src/linux-6.1/arch/riscv/configs/k1_defconfig
 ```
 **buildroot-ext/board/spacemit/k1/partition_*.json**
+
 Partition configuration files:
 - `partition_2M.json`: for 2MB flash
 - `partition_universal.json`: for high-capacity flash, such as eMMC, sdcard, SSD
+  
 **buildroot-ext/board/spacemit/k1/env_k1-x.txt**
+
 u-boot environment variables, which can be customized to start parameters.
+
 **buildroot-ext/board/spacemit/k1/bianbu.bmp**
+
 u-boot startup logo:
 - Format: BMP
 - Resolution: less than or equal to the screen resolution
 - Bit depth: 32
+  
 **buildroot-ext/board/spacemit/k1/dracut.conf**
+
 The configuration file of Dracut, which is a tool for making the initramfs image.
+
 **buildroot-ext/board/spacemit/k1/target_overlay**
+
 As the name suggests, this directory is an overlay of the target directory.
+
 **buildroot-ext/configs/spacemit_k1_defconfig**
+
 The configuration file of Buildroot.
+
 **bsp-src/opensbi/platform/generic/configs/k1_defconfig**
+
 The configuration file of opensbi.
+
 **bsp-src/uboot-2022.10/configs/k1_defconfig**
+
 The configuration file of u-boot.
+
 **bsp-src/linux-6.1/arch/riscv/configs/k1_defconfig**
+
 The configuration file of the kernel.
+
 ## Default Partition Configuration
+
 Try not to modify the partition configuration before `bootfs` to avoid hard code in the boot code, which may cause the system to fail to boot properly after modification.
 ### eMMC Partition Configuration
+
 Configure according to the `partitions` array in the `partition_universal.json` file, where `bootinfo` and `fsbl` are located in the boot0 partition of the eMMC.
 The configuration of the eMMC boot0 partition is as follows:
 ```

@@ -71,7 +71,8 @@ To compile modules outside the kernel source tree, taking rtl8852bs as an exampl
 cd /path/to/rtl8852bs
 make -j$(nproc) -C ~/linux-6.6 M=/path/to/rtl8852bs modules
 ```
-- `/path/to/rtl8852bs`要替换成您的路径
+- `/path/to/rtl8852bs`You need to replace it with your own path.
+
 Cleaning command:
 ```shell
 make -j$(nproc) -C ~/linux-6.6 M=/path/to/rtl8852bs clean
@@ -142,7 +143,8 @@ Then compile the module, such as rtl8852bs:
 cd /path/to/rtl8852bs
 make -j$(nproc) -C /lib/modules/`uname -r`/build M=/path/to/rtl8852bs modules
 ```
-- `/path/to/rtl8852bs`要替换成您的路径
+- `/path/to/rtl8852bs`You need to replace it with your own path.
+
 Cleaning command:
 ```shell
 make -j$(nproc) -C /lib/modules/`uname -r`/build M=/path/to/rtl8852bs clean

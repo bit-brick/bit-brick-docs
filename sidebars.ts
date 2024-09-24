@@ -57,7 +57,7 @@ const sidebars: SidebarsConfig = {
             },
             {
               type: 'doc',
-              label: 'Networking and Upgrade',
+              label: 'Networking and Upgrading',
               id: 'k1/k1-os/installation-and-upgrade',
             },
             {
@@ -67,7 +67,7 @@ const sidebars: SidebarsConfig = {
             },
             {
               type: 'doc',
-              label: 'ROS2 Install',
+              label: 'ROS2 Installation',
               id: 'k1/news/ros2',
             },
             {

@@ -21,6 +21,8 @@ After opening, the interface is as follows:
 After opening the Disk Utility, you can select the TF card, and then you can see the usage of the TF card capacity.
 The above picture shows the situation of the TF card after burning the Linux desktop version system. It can be seen that although the total capacity of the TF card is 64GB (shown as 29.72GiB in GParted), the rootfs partition is actually only allocated 8.81GiB. We allocate the remaining space to the rootfs partition.
 Select the partition, right-click and choose resize, adjust it to the size you want, and execute it.
+
 ![gparted1](/img/k1/software/resize/gpart1.png)
 ![gparted1](/img/k1/software/resize/gpart2.png)
+
 Now you can enjoy the bianbu os!!

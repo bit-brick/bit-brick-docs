@@ -4,14 +4,21 @@ import TabItem from '@theme/TabItem';
 # Downloading and Installing the Operating System
 When we have prepared the necessary items, we can start downloading and installing the operating system.
 ## 1. Downloading the Operating System
-Bianbu Operating System
+
 Bianbu OS is the default operating system for BIT-BRICK K1. It is an operating system deeply optimized for RISC-V based on the Ubuntu community source code compilation.
+
 Download address: [Bianbu desktop for SDcard](https://archive.spacemit.com/image/k1/version/bianbu/v1.0.13/bianbu-23.10-desktop-k1-v1.0.13-release-20240816183401.img.zip)
-The firmware ending with img.zip is the sdcard firmware, which can be written to the sdcard using the dd command or balenaEtcher after decompression. Note that this firmware is not suitable for eMMC.
+
+The firmware ending with img.zip is the sdcard firmware, which can be written to the sdcard using the dd command or balenaEtcher after decompression. 
+
+:::note 
+that this firmware is not suitable for eMMC.
+:::
 ## 2. Installing the Operating System
 ### PC Configuration Requirements
-Operating System: Windows or Linux or MacOS
+Operating System: Windows or Linux or MacOS       
 C Drive Space (or Linux/MacOS System Home Space): > 5GB
+
 We will use the balenaEtcher tool to burn the firmware to the Micro SD card.
 ### Installing balenaEtcher
 
@@ -26,6 +33,7 @@ https://www.balena.io/etcher/
 3. Then you can choose to download the Portable version of the balenaEtcher software. The Portable version does not require installation and can be used by double-clicking to open it.
 
 ![balena_download](/img/k1/getting-started/install/balena_download1.png)
+
 4. If the installed version of balenaEtcher is downloaded, please install it before using it. If the Portable version of balenaEtcher is downloaded, just double-click to open it. The interface of balenaEtcher after opening is shown in the following figure
 
 ![balena1](/img/k1/getting-started/install/balenaEtcher_001.png)
@@ -35,9 +43,13 @@ https://www.balena.io/etcher/
 1. Download the burning software for the Linux image - balenaEtcher, and the download address is
 https://www.balena.io/etcher/
 2. After entering the balenaEtcher download page, clicking the green download button will jump to the software download location
+
 ![balena_download](/img/k1/getting-started/install/balena_download.png)
+
 3. Then you can choose to download the Portable version of the balenaEtcher software. The Portable version does not require installation and can be used by double-clicking to open it.
+
 ![balena_download](/img/k1/getting-started/install/balena_download_ubuntu.png)
+
 4. Then double-click balenaEtcher-1.14.3-x64.AppImage in the graphical interface of the Ubuntu PC to open balenaEtcher (no installation required). The interface displayed after opening balenaEtcher is shown in the following figure
 ![balena1](/img/k1/getting-started/install/balenaEtcher_001.png)
   </TabItem>
@@ -53,7 +65,7 @@ https://www.balena.io/etcher/
     - Then, select the drive letter of the TF card.
     - Finally, click Flash to start burning the Linux image to the TF card.
     
-   ![balena1](/img/k1/getting-started/install/balenaEtcher_002.png)
+![balena1](/img/k1/getting-started/install/balenaEtcher_002.png)
    
 5. The interface displayed during the process of burning the Linux image by balenaEtcher is shown in the following figure. In addition, the progress bar showing purple indicates that the Linux image is being burned to the TF card.
 

@@ -16,7 +16,6 @@ locale  # 验证设置
 ```
 
 ### 启用所需的软件库
-这里有些不同。我认为我们只能做以下操作：
 
 ```bash
 sudo apt install software-properties-common
@@ -112,7 +111,7 @@ sudo apt install vcstool
 
 ## 构建ROS 2
 ### 获取ROS 2代码
-与官方文档中的步骤相同：
+与[官方文档](https://docs.ros.org/en/foxy/Installation/Ubuntu-Install-Debians.html)中的步骤相同：
 
 ```bash
 mkdir -p ~/ros2/ros2_iron/src
@@ -152,7 +151,7 @@ colcon build --symlink-install
 
 从现在开始，我将调整ROS依赖列表指向提供risc-v支持的这个分支，并看看我是否可以继续安装。我会随时更新。
 
-正如我之前提到的，Mimick库不支持risc-v 64架构。但是，GitHub用户@ziyao233帮助了我并打开了一个PR来修复这个问题17（非常感谢！）。因此，在构建代码之前，我们必须调整mimick_vendor依赖项：
+正如我之前提到的，Mimick库不支持risc-v 64架构。但是，GitHub用户@ziyao233帮助了我并打开了[一个PR](https://github.com/ros2/Mimick/pull/31)来修复这个问题（非常感谢！）。因此，在构建代码之前，我们必须调整mimick_vendor依赖项：
 ```bash
 vi ~/ros2_iron/src/ros2/mimick_vendor/CMakeLists.txt
    # 转到第61行，并将提交哈希修改为 https://github.com/ziyao233/Mimick/tree/ros2-fixed： 

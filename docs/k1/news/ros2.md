@@ -2,10 +2,10 @@
 
 Since the official ROS2 does not provide an installation package for RISC-V based ROS2, it is necessary to compile and install it yourself. The following is the complete process of installing ROS2 on the K1.
 
- First,you need AT LEAST 25 GB of hard drive space in your VM to install ROS 2 from source. Make sure that you have the space before continuing.
+ First,you need at least 25 GB of hard drive space to install ROS 2 from source. Make sure that you have the space before continuing.
 ## System setup
 ### Set locale
-This is exactly the same as in the official instructions:
+This is exactly the same as in the [official instructions](https://docs.ros.org/en/foxy/Installation/Ubuntu-Install-Debians.html):
 ~~~
 locale  # check for UTF-8
 
@@ -17,7 +17,6 @@ export LANG=en_US.UTF-8
 locale  # verify settings
 ~~~
 ### Enable required repositories
-Here things differ a bit. I think we can only do the following:
 
 ~~~
 sudo apt install software-properties-common
@@ -80,9 +79,11 @@ sudo pip install vcstool \
     colcon-common-extensions
 ~~~
 So far so good. Let’s move to building ROS 2.
+
 Note:
 If you cannot install these dependencies normally, you can use `apt` to install some of them, but you need to add an `ubuntu-ports` `source.list` first, as shown below:
 /etc/apt/sources.list.d/ubuntu.list
+
 ~~~
 deb http://ports.ubuntu.com/ubuntu-ports/  mantic main restricted universe multiverse
 # deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/ mantic main restricted universe multiverse
@@ -100,9 +101,10 @@ deb http://ports.ubuntu.com/ubuntu-ports/  mantic-proposed main restricted unive
 # # deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu-ports/ mantic-proposed main restricted universe multiverse
 
 ~~~
-增加之后我们就有两个源，分别是`bianbu.list`和 `ubuntu.list`
+After adding them, we will have two sources: `bianbu.list` and `ubuntu.list`.
 
-然后再使用`apt`命令安装部分pip安装不了依赖:
+Then, use the `apt` command to install dependencies that cannot be installed via pip.
+
 ~~~
 sudo apt-get install python3-catkin-pkg
 sudo apt-get install python3-rosdistro
@@ -138,12 +140,12 @@ sudo rosdep init
 rosdep update
 rosdep install -r --from-paths src --ignore-src -y --skip-keys "fastcdr rti-connext-dds-6.0.1 urdfdom_headers"
 ~~~
-Take a closer look: I added the -r option to ignore failures. rosdep assumes we have access to the ROS repo and uses apt to install some dependencies. apt will fail finding some dependencies. Thankfully, we could download them using pip previously. In any case, rosdep will print which packages failed, so you can double-check that we installed them using pip previously and that we are good to go.
+Take a closer look: I added the `-r` option to ignore failures. `rosdep` assumes we have access to the ROS repo and uses `apt` to install some dependencies. `apt` will fail finding some dependencies. Thankfully, we could download them using `pip` previously. In any case, `rosdep` will print which packages failed, so you can double-check that we installed them using pip previously and that we are good to go.
 
 Note: If you’re using a distribution that is based on Ubuntu (like Linux Mint) but does not identify itself as such, you’ll get an error message like Unsupported OS `[bianbu]`. In this case append `--os=ubuntu:jammy` to the above command.
 
 ### Build the code in the workspace
-As I previously mentionend, the Mimick library does not provide support for RISC-V 64. However, GitHub user @ziyao233 helped me and opened a PR to fix this 17 (thank you so much!). So, before building the code, we must tweak the mimick_vendor dependency:
+As I previously mentionend, the Mimick library does not provide support for RISC-V 64. However, GitHub user @ziyao233 helped me and opened a [PR to fix this](https://github.com/ros2/Mimick/pull/31)  (thank you so much!). So, before building the code, we must tweak the mimick_vendor dependency:
 ~~~
 vi ~/ros2_iron/src/ros2/mimick_vendor/CMakeLists.txt
    # Go to line 61 and modify the commit hash to https://github.com/ziyao233/Mimick/tree/ros2-fixed:
@@ -152,7 +154,7 @@ vi ~/ros2_iron/src/ros2/mimick_vendor/CMakeLists.txt
     GIT_REPOSITORY https://github.com/ziyao233/Mimick.git
 ~~~
 We are now ready to go.
-I’m currently stuck here. If you run the following command:
+
 ~~~
 colcon build --symlink-install
 ~~~
@@ -168,6 +170,8 @@ source ~/ros2/ros2_iron/install/local_setup.bash
 ## Try some examples
 If you installed ros-foxy-desktop above you can try some examples.
 
+Example 1:
+
 In one terminal, source the setup file and then run a C++ talker:
 ~~~
 ros2 run demo_nodes_cpp talker
@@ -178,6 +182,7 @@ In another terminal source the setup file and then run a Python listener:
 ros2 run demo_nodes_py listener
 ~~~
 You should see the talker saying that it’s Publishing messages and the listener saying I heard those messages. This verifies both the C++ and Python APIs are working properly. Hooray!
+
 ![ros2_demo](./img/ros1.png)
 ![ros2_demo](./img/ros2.png)
 
@@ -185,6 +190,7 @@ You should see the talker saying that it’s Publishing messages and the listene
 Example 2:
 
 Little Turtle Simulation Example
+
 Let's try again the classic example in ROS - the little turtle simulator.
 
 Start two terminals and run the following instructions respectively:
