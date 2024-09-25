@@ -5,6 +5,8 @@ K1预留了一个40Pin的GPIO扩展接口，采用2.54双列直插的座子，�
 
 ## 1.引脚定义
 
+![front](/img/k1/hardware/gpio/gpio_function.jpg)
+<!-- 
 | Pin | Pin Number | Pin Number | Pin |
 |-----|------------|------------|-----|
 | VCC_3.3V | 1 | 2 | VCC_5.0V |
@@ -26,7 +28,7 @@ K1预留了一个40Pin的GPIO扩展接口，采用2.54双列直插的座子，�
 | GPIO3_IO01 | 33 | 34 | GND |
 | GPIO3_IO02 | 35 | 36 | GPIO3_IO05 |
 | GPIO3_IO03 | 37 | 38 | GPIO3_IO06 |
-| GND | 39 | 40 | GPIO3_IO07 |
+| GND | 39 | 40 | GPIO3_IO07 | -->
 
 ## 2.多功能引脚定义列表
 所有的GPIO都可以设置成通用的输入或者输出，也能通过内核配置成更多功能。下面的表格给我们展示了各个GPIO的扩展功能。

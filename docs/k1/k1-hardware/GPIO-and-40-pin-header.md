@@ -2,7 +2,9 @@
 K1 reserves a 40-pin GPIO extension interface, using a 2.54 double-row straight insertion socket, which is convenient for enthusiasts to connect peripherals according to their own needs and expand different functions. Our system will set these IOs to some specific functions by default, but users can reconfigure them through software to make these general-purpose IOs have some special functions, because these IOs are all multi-functional multiplexed pins.
 ![Figure 1 k1_gpio](/img/k1/hardware/k1_gpio.png)
 ## 1. Pin Definition
-| Pin | Pin Number | Pin Number | Pin |
+![front](/img/k1/hardware/gpio/gpio_function.jpg)
+
+<!-- | Pin | Pin Number | Pin Number | Pin |
 |-----|------------|------------|-----|
 | VCC_3.3V | 1 | 2 | VCC_5.0V |
 | I2C4_SDA | 3 | 4 | VCC_5.0V |
@@ -23,9 +25,10 @@ K1 reserves a 40-pin GPIO extension interface, using a 2.54 double-row straight 
 | GPIO3_IO01 | 33 | 34 | GND |
 | GPIO3_IO02 | 35 | 36 | GPIO3_IO05 |
 | GPIO3_IO03 | 37 | 38 | GPIO3_IO06 |
-| GND | 39 | 40 | GPIO3_IO07 |
+| GND | 39 | 40 | GPIO3_IO07 | -->
 ## 2. Multifunctional Pin Definition List
 All GPIOs can be set as general-purpose inputs or outputs, and can also be configured into more functions through the kernel. The following table shows the extended functions of each GPIO.
+
 | Pin Number | Function 1 | Function 2 | Function 3 | Function 4 | Function 5 | Function 6 |
 |---|---|---|---|---|---|---|
 | 3 | I2C4_SDA | GPIO[52] | R_SPI_RXD | R_UART1_RXD | R_PWM7 |  |
