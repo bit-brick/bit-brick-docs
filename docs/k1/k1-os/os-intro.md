@@ -5,7 +5,7 @@ Bainbu OS is an operating system deeply optimized by Jinder Time Space for RISC-
 - Bainbu NAS
 The Desktop version is similar to common Linux distributions, such as Ubuntu or Debian.
 
-![Bainbu Desktop System Interface](/img/k1/os/bianbuos.png)
+![Bainbu Desktop System Interface](/img/k1/os/bianbuos-en.png)
 
 <div style={{textAlign: 'center'}}>Bainbu Desktop System Interface</div>
 Bainbu NAS is a firmware specially made for network storage.
