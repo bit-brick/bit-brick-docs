@@ -9,7 +9,9 @@ The Desktop version is similar to common Linux distributions, such as Ubuntu or 
 
 <div style={{textAlign: 'center'}}>Bainbu Desktop System Interface</div>
 Bainbu NAS is a firmware specially made for network storage.
-![Bainbu NAS System Interface](/img/k1/os/bianbu-nas.png)
+
+![Bainbu NAS System Interface](/img/k1/os/bianbu-nas-en.png)
+
 <div style={{textAlign: 'center'}}>Bainbu NAS System Interface</div>
 Bianbu OS officially supports the BIT-BRICK K1 single-board computer and the SSOM-K1 core module. Users can directly download the official firmware for use.
 
