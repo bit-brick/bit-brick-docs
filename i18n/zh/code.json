@@ -1,4 +1,22 @@
 {
+  "menu.software":{
+    "message": "软件"
+  },
+  "menu.hardware":{
+    "message": "硬件"
+  },
+  "menu.news":{
+    "message": "博客"
+  },
+  "menu.document":{
+    "message": "文档"
+  },
+  "menu.community":{
+    "message": "社区"
+  },
+  "menu.about":{
+    "message": "关于我们"
+  },
   "banner.title": {
     "message": "文档"
   },
