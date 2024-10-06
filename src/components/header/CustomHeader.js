@@ -1,5 +1,7 @@
 // src/components/CustomHeader.js
 import React, { useEffect, useState } from 'react';
+import Translate, {translate} from '@docusaurus/Translate';
+
 
 const CustomHeader = () => {
 
@@ -49,10 +51,10 @@ const CustomHeader = () => {
               <div className="site-header-primary-section-left site-header-section ast-flex site-header-section-left">
                 <div className="ast-builder-layout-element ast-flex site-header-focus-item" data-section="title_tagline">
                   <div className="site-branding ast-site-identity" itemType="https://schema.org/Organization" itemScope>
-                    <span className="site-logo-img"><a href="https://www.bit-brick.com/" className="custom-logo-link" rel="home"><img fetchPriority="high" width="283" height="278" src="https://www.bit-brick.com/wp-content/uploads/2024/08/cropped-1723805857491-64x64.png" className="custom-logo" alt="BIT-BRICK" decoding="async" /></a></span>
+                    <span className="site-logo-img"><a hhref={selectedLang == '/zh' ? "https://www.bit-brick.com/zh":"https://www.bit-brick.com/"} className="custom-logo-link" rel="home"><img fetchPriority="high" width="283" height="278" src="https://www.bit-brick.com/wp-content/uploads/2024/08/cropped-1723805857491-64x64.png" className="custom-logo" alt="BIT-BRICK" decoding="async" /></a></span>
                     <div className="ast-site-title-wrap">
                       <span className="site-title" itemProp="name">
-                        <a href="https://www.bit-brick.com/" rel="home" itemProp="url">
+                        <a href={selectedLang == '/zh' ? "https://www.bit-brick.com/zh":"https://www.bit-brick.com/"} rel="home" itemProp="url">
                           BIT-BRICK
                         </a>
                       </span>
@@ -67,13 +69,13 @@ const CustomHeader = () => {
                       <nav className="site-navigation ast-flex-grow-1 navigation-accessibility site-header-focus-item" id="primary-site-navigation-desktop" aria-label="Site Navigation" itemType="https://schema.org/SiteNavigationElement" itemScope>
                         <div className="main-navigation ast-inline-flex">
                           <ul id="ast-hf-menu-1" className="main-header-menu ast-menu-shadow ast-nav-menu ast-flex submenu-with-border stack-on-mobile">
-                            <li id="menu-item-547" className="menu-item menu-item-type-post_type menu-item-object-page menu-item-547"><a href="https://www.bit-brick.com/products/" aria-current="page" className="menu-link">Hardware</a></li>
-                            <li id="menu-item-547" className="menu-item menu-item-type-post_type menu-item-object-page menu-item-547"><a href="https://www.bit-brick.com/software/" aria-current="page" className="menu-link">Software</a></li>
+                            <li id="menu-item-547" className="menu-item menu-item-type-post_type menu-item-object-page menu-item-547"><a href={selectedLang == '/zh' ? "https://www.bit-brick.com/zh/软件/":"https://www.bit-brick.com/software/"} aria-current="page" className="menu-link"><Translate id='menu.software'>Software</Translate></a></li>
+                            <li id="menu-item-547" className="menu-item menu-item-type-post_type menu-item-object-page menu-item-547"><a href={selectedLang == '/zh' ? "https://www.bit-brick.com/zh/硬件/":"https://www.bit-brick.com/products/"} aria-current="page" className="menu-link"><Translate id='menu.hardware'>Hardware</Translate></a></li>
                             {/* <li id="menu-item-231" className="menu-item menu-item-type-custom menu-item-object-custom menu-item-231"><a href="https://github.com/bit-brick" className="menu-link">Github</a></li> */}
-                            <li id="menu-item-547" className="menu-item menu-item-type-post_type menu-item-object-page menu-item-547"><a href="https://www.bit-brick.com/blog/" aria-current="page" className="menu-link">News</a></li>
-                            <li id="menu-item-525" className="menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-533 current_page_item  menu-item-525"><a href="https://docs.bit-brick.com/" className="menu-link">Documentation</a></li>
-                            <li id="menu-item-249" className="menu-item menu-item-type-custom menu-item-object-custom menu-item-249"><a href="https://discourse.bit-brick.com/" className="menu-link">Community</a></li>
-                            <li id="menu-item-98" className="menu-item menu-item-type-post_type menu-item-object-page menu-item-98"><a href="https://www.bit-brick.com/about-us/" className="menu-link">About us</a></li>
+                            <li id="menu-item-547" className="menu-item menu-item-type-post_type menu-item-object-page menu-item-547"><a href={selectedLang == '/zh' ? "https://www.bit-brick.com/zh/博客/":"https://www.bit-brick.com/blog/"} aria-current="page" className="menu-link"><Translate id='menu.news'>News</Translate></a></li>
+                            <li id="menu-item-525" className="menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-533 current_page_item  menu-item-525"><a href={selectedLang == '/zh' ? "/zh":"/"} className="menu-link"><Translate id='menu.document'>Documentation</Translate></a></li>
+                            <li id="menu-item-249" className="menu-item menu-item-type-custom menu-item-object-custom menu-item-249"><a href="https://discourse.bit-brick.com/" className="menu-link"><Translate id='menu.community'>Community</Translate></a></li>
+                            <li id="menu-item-98" className="menu-item menu-item-type-post_type menu-item-object-page menu-item-98"><a href={selectedLang == '/zh' ? "https://www.bit-brick.com/zh/关于我们/":"https://www.bit-brick.com/about-us/"} className="menu-link"><Translate id='menu.about'>About us</Translate></a></li>
                           </ul>
                         </div>
                       </nav>
