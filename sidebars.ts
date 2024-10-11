@@ -77,8 +77,18 @@ const sidebars: SidebarsConfig = {
             },
             {
               type: 'doc',
-              label: 'Electron Use Guide',
+              label: 'JavaScript Use Guide',
               id: 'k1/k1-os/electron',
+            },
+            {
+              type: 'doc',
+              label: 'Python Use Guide',
+              id: 'k1/k1-os/python',
+            },
+            {
+              type: 'doc',
+              label: 'Perf Usage Note',
+              id: 'k1/k1-os/perf',
             },
           ],
         },
@@ -175,11 +185,6 @@ const sidebars: SidebarsConfig = {
               type: 'doc',
               label: 'K1 PINCTRL',
               id: 'k1/k1-software/PINCTRL',
-            },
-            {
-              type: 'doc',
-              label: 'K1 GMAC',
-              id: 'k1/k1-software/gmac',
             },
             {
               type: 'doc',

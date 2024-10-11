@@ -21,7 +21,7 @@ const K1: FeatureItem[] = [
   {
     title: <Translate id='pione.block2.title'>Bianbu OS</Translate>,
     imageSrc: require('@site/static/img/index/icon/os.png').default,
-    description: (<><Translate id='pione.block1.desc'>The official K1 operation system</Translate></>),
+    description: (<><Translate id='pione.block2.desc'>The official K1 operation system</Translate></>),
     url: "docs/k1/k1-os/os-intro"
   },
   {

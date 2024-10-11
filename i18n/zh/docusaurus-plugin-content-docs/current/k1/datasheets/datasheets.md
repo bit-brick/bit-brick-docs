@@ -19,3 +19,7 @@ BIT-BRICK收集并整理了产品相关的资料，方便大家快速查找需�
 - [MIPI CSI2规范](#)
 - [MIPI DSI2规范](#)
 
+## 3.RISC-V
+- [RISC-V开放架构设计之道 The RISC-V Reader](https://github.com/bit-brick/datasheets/blob/main/RISC-V%E5%BC%80%E6%94%BE%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E4%B9%8B%E9%81%93%20The%20RISC-V%20Reader.pdf)
+- [riscv-spec-20191213](https://github.com/bit-brick/datasheets/blob/main/riscv-spec-20191213.pdf)
+
