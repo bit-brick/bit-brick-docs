@@ -18,7 +18,7 @@ The current support for perf on RISC-V is related to the following software/hard
 
 Their relationship is as follows:
 
-![Linux perf framework on RISC-V](/img/k1/software/perf-framework-riscv.png)
+![Linux perf framework on RISC-V](/img/k1/os/perf-framework-riscv.png)
 
 However, even if all the above are supported in software/hardware, perf users still need to pay attention to:
 
@@ -168,7 +168,7 @@ On X60, the sampling functions in perf (including but not limited to `record`, `
 
 - After running `perf record`, executing `perf report` for the generated `perf.data`, the error "The perf.data data has no samples!" occurs:
 
-  ![perf record error - no samples](/img/k1/software/perf-record-error-no-samples.png)
+  ![perf record error - no samples](/img/k1/os/perf-record-error-no-samples.png)
 
 - There is no output when executing `perf top`.
 
@@ -180,11 +180,11 @@ The sampling functions in perf rely on the counters to provide overflow interrup
 
 But for the counter CSRs, `mcycle` and `minstret`, used by `cycles` and `instructions` events, neither of their overflow interrupts is defined in Sscofpmf Extension. X60 doesn't have any additional processing for this. So sampling for the two events doesn't work.
 
-![overflow interrupt of mcycle & minstret not defined in Sscofpmf](/img/k1/software/perf-framework-sscofpmf-cycle-instret.png)
+![overflow interrupt of mcycle & minstret not defined in Sscofpmf](/img/k1/os/perf-framework-sscofpmf-cycle-instret.png)
 
 In most cases, if without `-e` option to specify events, perf will use `cycles` event by default. **Therefore, it is expected that there is no output or result samples are 0 by default when using perf sampling on X60. We can use `-e` option to specify other events and then we will find it works**. For example:
 
-![perf record for branches event](/img/k1/software/perf-record-branches.png)
+![perf record for branches event](/img/k1/os/perf-record-branches.png)
 
 Consider to use the following events as an alternative to `cycles` and `instructions` events when using perf sampling to analyse performance on X60:
 
@@ -232,15 +232,15 @@ When **using the perf tool complied from this source code**, users can use the n
 
 Take the following content in X60 `cache.json` as an example:
 
-![X60 perf pmu-events cache.json](/img/k1/software/perf-pmu-events-json-cache-l1d.png)
+![X60 perf pmu-events cache.json](/img/k1/os/perf-pmu-events-json-cache-l1d.png)
 
 - `EventName` is the name can be used in perf `-e` option.
 - `EventCode` corresponds to the HPM event code (usually described in the hardware user manual).
 
 We can find these names in `perf list` (If the result of `perf list` is too long, we can only list the events related to the keyword, such as `perf list l1`):
 
-![X60 perf list - L1D events](/img/k1/software/perf-pmu-events-list-cache-l1d.png)
+![X60 perf list - L1D events](/img/k1/os/perf-pmu-events-list-cache-l1d.png)
 
 This name can be used directly in `-e` option. For example:
 
-![perf pmu-events example](/img/k1/software/perf-pmu-events-example.png)
+![perf pmu-events example](/img/k1/os/perf-pmu-events-example.png)

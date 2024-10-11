@@ -18,7 +18,7 @@ sidebar_position: 7
 
 它们的关系如下：
 
-![Linux perf framework on RISC-V](/img/k1/software/perf-framework-riscv.png)
+![Linux perf framework on RISC-V](/img/k1/os/perf-framework-riscv.png)
 
 但即使软/硬件上全都支持了以上内容，仍存在以下事项需 perf 的使用者关注：
 
@@ -168,7 +168,7 @@ pmu {
 
 - 执行 `perf record` 后，对生成的 `perf.data` 使用 `perf report` 时，报错 “The perf.data data has no samples!”。如下图：
 
-  ![perf record error - no samples](/img/k1/software/perf-record-error-no-samples.png)
+  ![perf record error - no samples](/img/k1/os/perf-record-error-no-samples.png)
 
 - 执行 `perf top` 无输出。
 
@@ -180,11 +180,11 @@ perf 的 `record` 、 `top` 等采样功能，若要统计硬件事件，需要�
 
 但对于 `cycles` 和 `instructions` 这两个事件所用的 counter CSR —— `mcycle` 和 `minstret` ，Sscofpmf 没有定义它们的 overflow interrupt，而 X60 也没有对此额外处理，因此这些需要采样的 perf 功能对这两个事件无效：
 
-![overflow interrupt of mcycle & minstret not defined in Sscofpmf](/img/k1/software/perf-framework-sscofpmf-cycle-instret.png)
+![overflow interrupt of mcycle & minstret not defined in Sscofpmf](/img/k1/os/perf-framework-sscofpmf-cycle-instret.png)
 
 大多数情况下，若不使用 `-e` 参数手动指定事件，perf 会默认统计 `cycles` 事件。 **因此在 X60 中，需要采样的 perf 功能默认无输出或统计结果的 samples 为 0 是正常的，并非表示 perf 不可用，只需用 `-e` 参数指定其他事件即可。** 例如：
 
-![perf record for branches event](/img/k1/software/perf-record-branches.png)
+![perf record for branches event](/img/k1/os/perf-record-branches.png)
 
 在 X60 中使用采样功能统计性能时，可考虑使用以下事件作为 `cycles` 和 `instructions` 的替代：
 
@@ -232,15 +232,15 @@ spacemit/x60
 
 以 X60 `cache.json` 中的部分内容为例：
 
-![X60 perf pmu-events cache.json](/img/k1/software/perf-pmu-events-json-cache-l1d.png)
+![X60 perf pmu-events cache.json](/img/k1/os/perf-pmu-events-json-cache-l1d.png)
 
 - `EventName` 是可在 perf `-e` 参数中使用的名字。
 - `EventCode` 对应于硬件手册中该 HPM 事件的编号。
 
 在 `perf list` 中可看到对应的名字（若 `perf list` 结果太长，可只列出与关键字相关的事件，例如 `perf list l1` ）：
 
-![X60 perf list - L1D events](/img/k1/software/perf-pmu-events-list-cache-l1d.png)
+![X60 perf list - L1D events](/img/k1/os/perf-pmu-events-list-cache-l1d.png)
 
 该名字可直接用在 `-e` 参数中，如：
 
-![perf pmu-events example](/img/k1/software/perf-pmu-events-example.png)
+![perf pmu-events example](/img/k1/os/perf-pmu-events-example.png)
