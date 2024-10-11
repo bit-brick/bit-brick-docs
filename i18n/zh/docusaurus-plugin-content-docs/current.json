@@ -67,9 +67,13 @@
     "message": "Docker ",
     "description": "The label for the doc item Docker  in sidebar tutorialSidebar, linking to the doc k1/k1-os/docker-zh"
   },
-  "sidebar.tutorialSidebar.doc.Electron Use Guide": {
-    "message": "Electron 使用指南",
-    "description": "The label for the doc item Electron Use Guide in sidebar tutorialSidebar, linking to the doc k1/k1-os/electron-zh"
+  "sidebar.tutorialSidebar.doc.JavaScript Use Guide": {
+    "message": "JavaScript 使用指南",
+    "description": "The label for the doc item JavaScript Use Guide in sidebar tutorialSidebar, linking to the doc k1/k1-os/electron-zh"
+  },
+  "sidebar.tutorialSidebar.doc.Python Use Guide": {
+    "message": "Python 使用指南",
+    "description": "The label for the doc item Python Use Guide in sidebar tutorialSidebar, linking to the doc k1/k1-os/electron-zh"
   },
   "sidebar.tutorialSidebar.doc.U-Boot Development": {
     "message": "U-Boot 开发",
