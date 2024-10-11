@@ -85,6 +85,11 @@ const sidebars: SidebarsConfig = {
               label: 'Python Use Guide',
               id: 'k1/k1-os/python',
             },
+            {
+              type: 'doc',
+              label: 'Perf Usage Note',
+              id: 'k1/k1-os/perf',
+            },
           ],
         },
         {

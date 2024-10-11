@@ -75,6 +75,10 @@
     "message": "Python 使用指南",
     "description": "The label for the doc item Python Use Guide in sidebar tutorialSidebar, linking to the doc k1/k1-os/electron-zh"
   },
+  "sidebar.tutorialSidebar.doc.Perf Usage Note": {
+    "message": "Perf 使用注意事项",
+    "description": "The label for the doc item Perf Usage Note in sidebar tutorialSidebar, linking to the doc k1/k1-os/electron-zh"
+  },
   "sidebar.tutorialSidebar.doc.U-Boot Development": {
     "message": "U-Boot 开发",
     "description": "The label for the doc item U-Boot Development in sidebar tutorialSidebar, linking to the doc k1/k1-linux-kernel/boot-zh"
