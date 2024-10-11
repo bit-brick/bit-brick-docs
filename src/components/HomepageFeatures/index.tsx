@@ -19,7 +19,7 @@ const K1: FeatureItem[] = [
     url: "docs/k1/getting-started/preparation"
   },
   {
-    title: <Translate id='pione.block2.title'>Bit OS</Translate>,
+    title: <Translate id='pione.block2.title'>Bianbu OS</Translate>,
     imageSrc: require('@site/static/img/index/icon/os.png').default,
     description: (<><Translate id='pione.block1.desc'>The official K1 operation system</Translate></>),
     url: "docs/k1/k1-os/os-intro"
@@ -76,7 +76,7 @@ const SSOM_K1: FeatureItem[] = [
     url: "docs/k1/datasheets"
   },
   {
-    title: <Translate id='pione.block2.title'>Bit OS</Translate>,
+    title: <Translate id='pione.block2.title'>Bianbu OS</Translate>,
     imageSrc: require('@site/static/img/index/icon/os.png').default,
     description: (<><Translate id='pione.block1.desc'>The official K1 operation system</Translate></>),
     url: "docs/k1/k1-os/os-intro"

@@ -1,7 +1,23 @@
 // src/components/CustomFooter.js
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import Translate, {translate} from '@docusaurus/Translate';
 
-const CustomFooter = () => (
+const CustomFooter = () => {
+
+  const [selectedLang, setSelectedLang] = useState('/');
+
+  useEffect(() => {
+    // 检查当前的路径是否包含 '/zh'
+    const path = window.location.pathname;
+    if (path.startsWith('/zh')) {
+      setSelectedLang('/zh');
+    } else {
+      setSelectedLang('/');
+    }
+  }, []);
+  
+  
+  return(
   <div className='custom-footer'>
     <footer className="site-footer" id="colophon" itemtype="https://schema.org/WPFooter" itemscope="itemscope" itemid="#colophon">
       <div className="site-above-footer-wrap ast-builder-grid-row-container site-footer-focus-item ast-builder-grid-row-4-equal ast-builder-grid-row-tablet-4-equal ast-builder-grid-row-mobile-full ast-footer-row-inline ast-footer-row-tablet-stack ast-footer-row-mobile-stack" data-section="section-above-footer-builder">
@@ -34,11 +50,13 @@ const CustomFooter = () => (
                 <section id="block-10" className="widget widget_block">
                   <h5 className="wp-block-heading has-text-align-left has-medium-font-size">About Bit-Brick</h5>
                 </section><section id="block-12" className="widget widget_block">
-                  <div className="wp-block-group is-layout-constrained wp-block-group-is-layout-constrained"><div className="widget widget_nav_menu"><nav className="menu-%e4%b8%bb%e8%a6%81-container" aria-label="Menu"><ul id="menu-%e4%b8%bb%e8%a6%81" className="menu"><li className="menu-item menu-item-type-custom menu-item-object-custom menu-item-231"><a href="https://github.com/bit-brick" className="menu-link">Github</a></li>
-                    <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-547"><a href="https://www.bit-brick.com/blog/" className="menu-link">News</a></li>
-                    <li className="menu-item menu-item-type-custom menu-item-object-custom menu-item-631"><a href="http://bit-brick.github.io/bit-brick-docs/" className="menu-link">Documentation</a></li>
-                    <li className="menu-item menu-item-type-custom menu-item-object-custom menu-item-249"><a href="https://discourse.bit-brick.com/" className="menu-link">Community</a></li>
-                    <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-98"><a href="https://www.bit-brick.com/about-us/" className="menu-link">About us</a></li>
+                  <div className="wp-block-group is-layout-constrained wp-block-group-is-layout-constrained"><div className="widget widget_nav_menu"><nav className="menu-%e4%b8%bb%e8%a6%81-container" aria-label="Menu"><ul id="menu-%e4%b8%bb%e8%a6%81" className="menu">
+                    <li className="menu-item menu-item-type-custom menu-item-object-custom menu-item-231"><a href={selectedLang == '/zh' ? "https://www.bit-brick.com/zh/软件/":"https://www.bit-brick.com/software/"} className="menu-link"><Translate id='menu.software'>Software</Translate></a></li>
+                    <li className="menu-item menu-item-type-custom menu-item-object-custom menu-item-231"><a href={selectedLang == '/zh' ? "https://www.bit-brick.com/zh/硬件/":"https://www.bit-brick.com/products/"} className="menu-link"><Translate id='menu.hardware'>Hardware</Translate></a></li>
+                    <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-547"><a href={selectedLang == '/zh' ? "https://www.bit-brick.com/zh/博客/":"https://www.bit-brick.com/blog/"} className="menu-link"><Translate id='menu.news'>News</Translate></a></li>
+                    <li className="menu-item menu-item-type-custom menu-item-object-custom menu-item-631"><a href={selectedLang == '/zh' ? "/zh":"/"} className="menu-link"><Translate id='menu.document'>Documentation</Translate></a></li>
+                    <li className="menu-item menu-item-type-custom menu-item-object-custom menu-item-249"><a href="https://discourse.bit-brick.com/" className="menu-link"><Translate id='menu.community'>Community</Translate></a></li>
+                    <li className="menu-item menu-item-type-post_type menu-item-object-page menu-item-98"><a href={selectedLang == '/zh' ? "https://www.bit-brick.com/zh/关于我们/":"https://www.bit-brick.com/about-us/"} className="menu-link"><Translate id='menu.about'>About us</Translate></a></li>
                   </ul></nav></div></div>
                 </section>		</aside>
             </div>
@@ -46,33 +64,37 @@ const CustomFooter = () => (
               <aside className="footer-widget-area widget-area site-footer-focus-item footer-widget-area-inner" data-section="sidebar-widgets-footer-widget-3" aria-label="Footer Widget 3">
                 <section id="block-62" className="widget widget_block">
                   <h5 className="wp-block-heading has-medium-font-size">Hardware</h5>
-                </section><section id="nav_menu-7" className="widget widget_nav_menu"><nav className="menu-hardware-container" aria-label="Menu"><ul id="menu-hardware" className="menu"><li id="menu-item-1487" className="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-1487"><a href="/" aria-current="page" className="menu-link">Single board computer</a></li>
-                  <li id="menu-item-1488" className="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-1488"><a href="/" aria-current="page" className="menu-link">Modules</a></li>
-                  <li id="menu-item-1489" className="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-1489"><a href="/" aria-current="page" className="menu-link">Accessory</a></li>
-                  <li id="menu-item-1490" className="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-1490"><a href="/" aria-current="page" className="menu-link">Cases</a></li>
-                  <li id="menu-item-1491" className="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-1491"><a href="/" aria-current="page" className="menu-link">Camera and Display</a></li>
+                </section><section id="nav_menu-7" className="widget widget_nav_menu"><nav className="menu-hardware-container" aria-label="Menu"><ul id="menu-hardware" className="menu">
+                  <li id="menu-item-1487" className="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-1487"><a href={selectedLang == '/zh' ? "https://www.bit-brick.com/zh/硬件/":"https://www.bit-brick.com/products/"} aria-current="page" className="menu-link"><Translate id='product.cate1'>Single board computer</Translate></a></li>
+                  <li id="menu-item-1488" className="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-1488"><a href={selectedLang == '/zh' ? "https://www.bit-brick.com/zh/硬件/":"https://www.bit-brick.com/products/"} aria-current="page" className="menu-link"><Translate id='product.cate2'>Modules</Translate></a></li>
+                  <li id="menu-item-1489" className="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-1489"><a href={selectedLang == '/zh' ? "https://www.bit-brick.com/zh/硬件/":"https://www.bit-brick.com/products/"} aria-current="page" className="menu-link"><Translate id='product.cate3'>Accessory</Translate></a></li>
+                  <li id="menu-item-1490" className="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-1490"><a href={selectedLang == '/zh' ? "https://www.bit-brick.com/zh/硬件/":"https://www.bit-brick.com/products/"} aria-current="page" className="menu-link"><Translate id='product.cate4'>Cases</Translate></a></li>
+                  <li id="menu-item-1491" className="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-1491"><a href={selectedLang == '/zh' ? "https://www.bit-brick.com/zh/硬件/":"https://www.bit-brick.com/products/"} aria-current="page" className="menu-link"><Translate id='product.cate5'>Camera and Display</Translate></a></li>
                 </ul></nav></section><section id="block-63" className="widget widget_block">
                   <h5 className="wp-block-heading has-medium-font-size">Software</h5>
-                </section><section id="nav_menu-8" className="widget widget_nav_menu"><nav className="menu-software-container" aria-label="Menu"><ul id="menu-software" className="menu"><li id="menu-item-1492" className="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-1492"><a href="/" aria-current="page" className="menu-link">BitOS</a></li>
-                  <li id="menu-item-1493" className="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-1493"><a href="/" aria-current="page" className="menu-link">Machine learning</a></li>
-                  <li id="menu-item-1494" className="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-1494"><a href="/" aria-current="page" className="menu-link">Yocto</a></li>
-                  <li id="menu-item-1495" className="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-1495"><a href="/" aria-current="page" className="menu-link">Debian</a></li>
+                </section><section id="nav_menu-8" className="widget widget_nav_menu"><nav className="menu-software-container" aria-label="Menu"><ul id="menu-software" className="menu">
+                  <li id="menu-item-1492" className="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-1492"><a href={selectedLang == '/zh' ? "/zh/docs/k1/k1-os/os-intro":"/docs/k1/k1-os/os-intro"} aria-current="page" className="menu-link">Bianbu OS</a></li>
+                  <li id="menu-item-1493" className="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-1493"><a href={selectedLang == '/zh' ? "/zh/docs/k1/k1-ml/ai-arch":"/docs/k1/k1-ml/ai-arch"} aria-current="page" className="menu-link"><Translate id='footer.url1'>Machine learning</Translate></a></li>
+                  <li id="menu-item-1494" className="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-1494"><a href={selectedLang == '/zh' ? "/zh":"/"} aria-current="page" className="menu-link">Yocto</a></li>
+                  <li id="menu-item-1495" className="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-1495"><a href={selectedLang == '/zh' ? "/zh":"/"} aria-current="page" className="menu-link">Debian</a></li>
                 </ul></nav></section>		</aside>
             </div>
             <div className="site-footer-above-section-4 site-footer-section site-footer-section-4">
               <aside className="footer-widget-area widget-area site-footer-focus-item footer-widget-area-inner" data-section="sidebar-widgets-footer-widget-4" aria-label="Footer Widget 4">
                 <section id="block-37" className="widget widget_block">
                   <h5 className="wp-block-heading has-text-align-left has-medium-font-size">Documentation</h5>
-                </section><section id="nav_menu-3" className="widget widget_nav_menu"><nav className="menu-documentation-container" aria-label="Menu"><ul id="menu-documentation" className="menu"><li id="menu-item-383" className="menu-item menu-item-type-custom menu-item-object-custom menu-item-383"><a href="https://bit-brick-doc.readthedocs.io/" className="menu-link">Pi one product brief</a></li>
-                  <li id="menu-item-384" className="menu-item menu-item-type-custom menu-item-object-custom menu-item-384"><a href="https://bit-brick-doc.readthedocs.io/" className="menu-link">Pi one mechanical drawing</a></li>
-                  <li id="menu-item-385" className="menu-item menu-item-type-custom menu-item-object-custom menu-item-385"><a href="https://bit-brick-doc.readthedocs.io/" className="menu-link">Pi one getting start documentation</a></li>
-                  <li id="menu-item-386" className="menu-item menu-item-type-custom menu-item-object-custom menu-item-386"><a href="https://bit-brick-doc.readthedocs.io/" className="menu-link">Pi one peripherals documentation</a></li>
+                </section><section id="nav_menu-3" className="widget widget_nav_menu"><nav className="menu-documentation-container" aria-label="Menu"><ul id="menu-documentation" className="menu">
+                  <li id="menu-item-383" className="menu-item menu-item-type-custom menu-item-object-custom menu-item-383"><a href={selectedLang == '/zh' ? "/zh/docs/k1/getting-started/preparation":"/docs/k1/getting-started/preparation"} className="menu-link"><Translate id='footer.url2'>K1 getting started</Translate></a></li>
+                  <li id="menu-item-384" className="menu-item menu-item-type-custom menu-item-object-custom menu-item-384"><a href={selectedLang == '/zh' ? "/zh/docs/k1/k1-os/os-intro":"/docs/k1/k1-os/os-intro"} className="menu-link"><Translate id='footer.url3'>K1 operation system</Translate></a></li>
+                  <li id="menu-item-385" className="menu-item menu-item-type-custom menu-item-object-custom menu-item-385"><a href={selectedLang == '/zh' ? "/zh/docs/k1/k1-linux-kernel/build-bit-os":"/docs/k1/k1-linux-kernel/build-bit-os"} className="menu-link"><Translate id='footer.url4'>K1 Linux kernel</Translate></a></li>
+                  <li id="menu-item-386" className="menu-item menu-item-type-custom menu-item-object-custom menu-item-386"><a href={selectedLang == '/zh' ? "/zh/docs/k1/k1-hardware/hardware-brief":"/docs/k1/k1-hardware/hardware-brief"} className="menu-link"><Translate id='footer.url5'>K1 hardware guide</Translate></a></li>
                 </ul></nav></section><section id="block-60" className="widget widget_block">
-                  <h5 className="wp-block-heading has-medium-font-size">Comunity</h5>
-                </section><section id="nav_menu-5" className="widget widget_nav_menu"><nav className="menu-downloads-container" aria-label="Menu"><ul id="menu-downloads" className="menu"><li id="menu-item-388" className="menu-item menu-item-type-custom menu-item-object-custom menu-item-388"><a href="https://bit-brick-doc.readthedocs.io/" className="menu-link">Pi one circuit diagram files</a></li>
-                  <li id="menu-item-389" className="menu-item menu-item-type-custom menu-item-object-custom menu-item-389"><a href="https://bit-brick-doc.readthedocs.io/" className="menu-link">Pi one layout files</a></li>
-                  <li id="menu-item-390" className="menu-item menu-item-type-custom menu-item-object-custom menu-item-390"><a href="https://bit-brick-doc.readthedocs.io/" className="menu-link">Pi one pre-comfiled images</a></li>
-                  <li id="menu-item-391" className="menu-item menu-item-type-custom menu-item-object-custom menu-item-391"><a href="https://bit-brick-doc.readthedocs.io/" className="menu-link">Pi one source code download</a></li>
+                  <h5 className="wp-block-heading has-medium-font-size">Downloads</h5>
+                </section><section id="nav_menu-5" className="widget widget_nav_menu"><nav className="menu-downloads-container" aria-label="Menu"><ul id="menu-downloads" className="menu">
+                  <li id="menu-item-388" className="menu-item menu-item-type-custom menu-item-object-custom menu-item-388"><a href="https://github.com/bit-brick" className="menu-link"><Translate id='footer.url6'>K1 circuit diagram files</Translate></a></li>
+                  <li id="menu-item-389" className="menu-item menu-item-type-custom menu-item-object-custom menu-item-389"><a href="https://github.com/bit-brick" className="menu-link"><Translate id='footer.url7'>K1 layout files</Translate></a></li>
+                  <li id="menu-item-390" className="menu-item menu-item-type-custom menu-item-object-custom menu-item-390"><a href="https://github.com/bit-brick" className="menu-link"><Translate id='footer.url8'>K1 pre-comfiled images</Translate></a></li>
+                  <li id="menu-item-391" className="menu-item menu-item-type-custom menu-item-object-custom menu-item-391"><a href="https://github.com/bit-brick" className="menu-link"><Translate id='footer.url9'>K1 source code download</Translate></a></li>
                 </ul></nav></section>		</aside>
             </div>
           </div>
@@ -84,7 +106,7 @@ const CustomFooter = () => (
           <div className="ast-builder-footer-grid-columns site-below-footer-inner-wrap ast-builder-grid-row">
             <div className="site-footer-below-section-1 site-footer-section site-footer-section-1">
               <div className="ast-builder-layout-element ast-flex site-footer-focus-item ast-footer-copyright" data-section="section-footer-builder">
-                <div className="ast-footer-copyright"><p style={{ textAlign: "center" }}><strong>Copyright © 2024 BIT-BRICK</strong></p>
+                <div className="ast-footer-copyright"><p style={{ textAlign: "center" }}><strong>Copyright © 2024 BIT-BRICK | 粤ICP备17085705号-4</strong></p>
                 </div>			</div>
             </div>
           </div>
@@ -93,6 +115,6 @@ const CustomFooter = () => (
       </div>
     </footer>
   </div>
-);
-
+)
+}
 export default CustomFooter;

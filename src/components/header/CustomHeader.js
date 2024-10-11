@@ -36,7 +36,7 @@ const CustomHeader = () => {
     if (window.location.pathname !== path) {
       window.location.href = path;
     }
-}
+  }
 
 
 

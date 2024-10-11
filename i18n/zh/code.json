@@ -1,4 +1,46 @@
 {
+  "footer.url1":{
+    "message": "机器学习"
+  },
+  "footer.url2":{
+    "message": "K1 入门指南"
+  },
+  "footer.url3":{
+    "message": "K1 操作系统"
+  },
+  "footer.url4":{
+    "message": "K1 Linux内核"
+  },
+  "footer.url5":{
+    "message": "K1 硬件指南"
+  },
+  "footer.url6":{
+    "message": "K1 电路图文件"
+  },
+  "footer.url7":{
+    "message": "K1 Layout文件"
+  },
+  "footer.url8":{
+    "message": "K1 预编译镜像"
+  },
+  "footer.url9":{
+    "message": "K1 源代码"
+  },
+  "product.cate1":{
+    "message": "单板电脑"
+  },
+  "product.cate2":{
+    "message": "模块"
+  },
+  "product.cate3":{
+    "message": "外设"
+  },
+  "product.cate4":{
+    "message": "保护壳"
+  },
+  "product.cate5":{
+    "message": "摄像头与显示器"
+  },
   "menu.software":{
     "message": "软件"
   },
