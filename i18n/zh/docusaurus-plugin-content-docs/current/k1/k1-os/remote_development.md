@@ -31,7 +31,7 @@ info  Session server listening on ~/.local/share/code-server/code-server-ipc.soc
 
 在任何电脑、平板上打开浏览器，访问`http://IP:PORT`，即可打开远程的文件夹和文件。
 
-![code-server](/img/k1/os/vscode.png)
+![code](/img/k1/os/vscode.png)
 
 已知问题：
 

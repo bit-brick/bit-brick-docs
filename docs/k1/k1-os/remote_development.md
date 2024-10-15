@@ -31,7 +31,7 @@ info  Session server listening on ~/.local/share/code-server/code-server-ipc.soc
 
 Open a browser on any computer or tablet and visit `http://IP:PORT` to open remote folders and files.
 
-![code-server](/img/k1/os/vscode.png)
+![code](/img/k1/os/vscode.png)
 
 Known issues:
 
