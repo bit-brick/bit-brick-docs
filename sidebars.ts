@@ -87,6 +87,11 @@ const sidebars: SidebarsConfig = {
             },
             {
               type: 'doc',
+              label: 'Remote Development',
+              id: 'k1/k1-os/remote_development',
+            },
+            {
+              type: 'doc',
               label: 'Perf Usage Note',
               id: 'k1/k1-os/perf',
             },

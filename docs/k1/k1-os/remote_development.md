@@ -1,0 +1,47 @@
+---
+sidebar_position: 5
+---
+
+# Remote Development
+
+
+
+## VS Code in the browser
+
+Deploy [code-server](https://github.com/coder/code-server) to use VS Code remotely in a browser.
+
+Install `code-server` on Bianbu：
+
+```shell
+sudo apt-get install code-server
+```
+
+Run `code-server`，replacing `IP` with your machine's IP address:
+
+```shell
+code-server --host IP --port PORT
+```
+
+Note that if `IP` is not specified, it defaults to localhost and can only be accessed from the local browser. `PORT`  is usually optional. When you see the following information, it means `code-server` has started successfully.
+
+```
+info HTTP server listening on http://IP:PORT/
+info  Session server listening on ~/.local/share/code-server/code-server-ipc.sock
+```
+
+Open a browser on any computer or tablet and visit `http://IP:PORT` to open remote folders and files.
+
+![code-server]((/img/k1/os/vscode.png))
+
+Known issues:
+
+- Not all extensions work properly
+
+## VSCodium Open Remote - SSH
+
+[VSCodium](https://vscodium.com/) is an open-source version of VS Code. The extension [Open Remote - SSH](https://open-vsx.org/extension/jeanp413/open-remote-ssh) supports remote development.
+
+1. Install VSCodium, refer to the [official guide](https://vscodium.com/#install)
+2. Open VSCodium, go to the extensions page, search for `Open Remote - SSH`, and install it.
+3. Open the remote explorer to connect to an SSH Target.
+4. Once connected, you can open remote folders and files.
