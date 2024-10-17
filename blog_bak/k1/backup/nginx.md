@@ -72,12 +72,14 @@ Next, open the configuration file. The default configuration file already contai
 http {
     server {
     }
+}
 ~~~
 In general, the configuration file can include several server blocks, which are distinguished by the ports they listen on and the server names. Once Nginx decides which process will handle a request, it tests the URI specified in the request header according to the parameters of the directives defined within the block. serverlocationserver
 Add the following location block to the server block:
 ~~~
 location / {
     root /data/www;
+}
 ~~~
 This location block specifies the " " prefix compared to the URI in the request. For a matching request, the URI will be added to the path specified by the root directive (i.e., to /data/www) to form the path of the requested file on the local file system. If there are multiple matching location blocks, Nginx will choose the one with the longest prefix. The above location block provides the shortest prefix of length 1, so it will be used only when all other location blocks fail to provide a match.
 Next, add a second location block:
@@ -95,9 +97,9 @@ server {
         root /data/www;
     }
     location /images/ {
-        root /
-data;
+        root /data;
     }
+}
 ~~~
 This is already a working configuration for a server that listens on the standard port 80 and can be accessed on the local computer as http://localhost/. To respond to requests starting with /images/, the server will send files from the /data/images directory. For example, to respond to the request http://localhost/images/example.png, Nginx will send the /data/images/example.png file. If the file does not exist, Nginx will send a 404 error response. Requests whose URIs do not start with /images/ will be mapped to the /data/www directory. For example, to respond to the request http://localhost/some/example.html, Nnginx will send the /data/www/some/example.html file.
 To apply the new configuration, start Nginx (if it is not already started) or send the reload signal to Nginx's master process by executing the following command:
@@ -114,6 +116,7 @@ server {
     root /data/up1;
     location / {
     }
+}
 ~~~
 This will be a simple server that listens on port 8080 (previously, the listen directive was not specified because the standard port 80 was used) and maps all requests to the /data/up1 directory on the local file system. Create this directory and put an index.html file into it. Note that the root directive is placed in the server context. When the block selected to serve a request does not contain its own root directive, the root directive in the server context is used.
 Next, use the server configuration from the previous section and modify it to make it a proxy server configuration. In the first location block, put the proxy_pass directive together with the protocol, name, and port of the proxy server specified in the parameters (in our case, http://localhost:8080):
@@ -125,11 +128,13 @@ server {
     location /images/ {
         root /data;
     }
+}
 ~~~
 We will modify the second location block, which currently maps requests with the /images/ prefix to files in the /data/images directory, to make it match requests for images with typical file extensions. The modified location block is as follows:
 ~~~
 location ~ \.(gif|jpg|png)$ {
     root /data/images;
+}
 ~~~
 The parameter is a regular expression that matches all URIs ending with.gif,.jpg, or.png. The regular expression should be preceded by ~. The corresponding requests will be mapped to the /data/images directory.
 When Nginx selects a location block to serve a request, it first checks the location of the specified prefix, remembers the longest prefix, and then checks the regular expression. If it matches the regular expression, Nginx will choose this location, otherwise, it will choose the one remembered before.
@@ -142,6 +147,7 @@ server {
     location ~ \.(gif|jpg|png)$ {
         root /data/images;
     }
+}
 ~~~
 This server will filter requests ending with.gif,.jpg, or.png and map them to the /data/images directory (by adding the URI to the root directive's parameters), and send all other requests to the proxy server configured above.
 To apply the new configuration, send the reload signal to Nginx as described in the previous section.
@@ -161,5 +167,6 @@ server {
     location ~ \.(gif|jpg|png)$ {
         root /data/images;
     }
+}
 ~~~
 This will set a server that routes all requests except static image requests to a proxy server running via the FastCGI protocol at localhost:9000.
