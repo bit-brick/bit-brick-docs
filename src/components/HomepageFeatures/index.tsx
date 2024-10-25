@@ -156,10 +156,7 @@ function Banner() {
   return (
     <div className={styles.banner}>
       <div className={styles.title}>
-        <h2 className={styles.title1}>Bit-Brick</h2>
-        <h2 className={styles.title2}>
-          <Translate id="banner.title">Documentation</Translate>
-        </h2>
+        <h2 className={styles.title1}>Bit-Brick <Translate id="banner.title">Documentation</Translate></h2>
       </div>
       <p className={styles.b_desc}>
         <Translate id="banner.desc">The official documentation for BIT-BRICK computers and microcontrollers</Translate>
