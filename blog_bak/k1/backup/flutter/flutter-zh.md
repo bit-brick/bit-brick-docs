@@ -1,6 +1,6 @@
 # 在K1上使用Flutter
 
-Flutter是Google开源的应用开发框架， 只要一套代码兼顾Android、iOS、Web、Windows、macOS和Linux六个平台。 Flutter编译为原生机器代码，助力提升应用的流畅度并实现优美的动画效果。 [10]Flutter由Dart语言强力驱动，助力高效构建全平台应用。 
+Flutter是Google开源的应用开发框架， 只要一套代码兼顾Android、iOS、Web、Windows、macOS和Linux六个平台。 Flutter编译为原生机器代码，助力提升应用的流畅度并实现优美的动画效果。 Flutter由Dart语言强力驱动，助力高效构建全平台应用。 
 
 ## 编译安装Flutter
 
