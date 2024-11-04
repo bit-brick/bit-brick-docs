@@ -229,7 +229,7 @@ const sidebars: SidebarsConfig = {
             {
               type: 'doc',
               label: 'K1 GMAC',
-              id: 'k1/k1-software/GMAC',
+              id: 'k1/k1-software/gmac',
             },
             {
               type: 'doc',
