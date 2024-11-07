@@ -7,7 +7,7 @@ Published Sep 2024
 BIT-BRICK IS THE TRADEMARK OF BIT BRICK LTD. ANYONE WANT TO USE THIS SHOULD GET THE PERMISSION FROM BIT BRICK COMPANY.
 
 ---
-BIT-BRICK K1 is a single-board computer based on the RISC-V application processor of Jinder Time Space. The motherboard integrates large-capacity high-speed memory, Gigabit Ethernet, high-definition digital display interface, USB3.0 and USB2.0 interfaces, supports dual NVME solid-state drive interfaces, and supports a rich variety of bus interface expansions. K1 is suitable for the different requirements of different people for learning computing technology.
+BIT-BRICK K1 is a single-board computer based on the RISC-V application processor of SpacemiT. The motherboard integrates large-capacity high-speed memory, Gigabit Ethernet, high-definition digital display interface, USB3.0 and USB2.0 interfaces, supports dual NVME solid-state drive interfaces, and supports a rich variety of bus interface expansions. K1 is suitable for the different requirements of different people for learning computing technology.
 ## 1. Overview
 ![front](/img/k1/hardware/font.png)
 ![front](/img/k1/hardware/back.png)
