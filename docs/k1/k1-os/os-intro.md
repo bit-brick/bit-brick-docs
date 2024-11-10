@@ -1,6 +1,6 @@
 # Bianbu Operating System
 ## 1.Introduction to Bainbu OS
-Bainbu OS is an operating system deeply optimized by Jinder Time Space for RISC-V architecture processors. It is built based on the source code of the Ubuntu community. Currently, it is divided into the following two versions:
+Bainbu OS is an operating system deeply optimized by spacemiT Space for RISC-V architecture processors. It is built based on the source code of the Ubuntu community. Currently, it is divided into the following two versions:
 - Bainbu Desktop
 - Bainbu NAS
 The Desktop version is similar to common Linux distributions, such as Ubuntu or Debian.
@@ -48,7 +48,7 @@ As can be seen from the above figure, the components included in Bianbu OS are:
 - Library
   - OpenCV (with RVV Accelerated)
   - OpenSSL (with Hardware Accelerated)
-  - MPP, Jinder Time Space's multimedia processing platform, providing C API and samples
+  - MPP, spacemiT Space's multimedia processing platform, providing C API and samples
   - Mesa 3D
   - OpenGLES/Vulkan/OpenCL
 - Kernel Layer
