@@ -87,6 +87,11 @@ const sidebars: SidebarsConfig = {
             },
             {
               type: 'doc',
+              label: 'QT Use Guide',
+              id: 'k1/k1-os/qt',
+            },
+            {
+              type: 'doc',
               label: 'Remote Development',
               id: 'k1/k1-os/remote_development',
             },

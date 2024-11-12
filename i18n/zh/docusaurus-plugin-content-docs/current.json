@@ -74,6 +74,10 @@
   "sidebar.tutorialSidebar.doc.Python Use Guide": {
     "message": "Python 使用指南",
     "description": "The label for the doc item Python Use Guide in sidebar tutorialSidebar, linking to the doc k1/k1-os/electron-zh"
+  }, 
+  "sidebar.tutorialSidebar.doc.QT Use Guide": {
+    "message": "QT 使用指南",
+    "description": "The label for the doc item QT Use Guide in sidebar tutorialSidebar, linking to the doc k1/k1-os/electron-zh"
   },
   "sidebar.tutorialSidebar.doc.Remote Development": {
     "message": "远程开发",
