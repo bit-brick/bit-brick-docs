@@ -44,7 +44,7 @@ The eth0 configuration in the scheme dts is as follows:
 ```
 ## tx phase and rx phase
 The default value of tx - phase is 90, and the rx - phase is 73.
-The tx - phase and rx - phase may need to be adjusted for different boards. If the eth0 port can be up, but cannot obtain an IP address, contact Jindi Shikong to adjust the tx - phase and rx - phase.
+The tx - phase and rx - phase may need to be adjusted for different boards. If the eth0 port can be up, but cannot obtain an IP address, contact Spacemit to adjust the tx - phase and rx - phase.
 ```c
 &eth0 {
     tx - phase = <90>;

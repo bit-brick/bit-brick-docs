@@ -1,10 +1,10 @@
 # Quick Start
-This chapter mainly introduces the usage process of the Jidie Shikong AI deployment tool to help you get started quickly.
+This chapter mainly introduces the usage process of the Spacemit AI deployment tool to help you get started quickly.
 ## 1. Development Environment
-Currently, Jidie Shikong provides you with two options for the PC (x86_64) side: Docker and local manual configuration (choose one of them).
+Currently, Spacemit provides you with two options for the PC (x86_64) side: Docker and local manual configuration (choose one of them).
 Note: We strongly recommend that you choose the Docker method to avoid problems during the local manual installation process.
 ### 1.1 Using the Docker Environment
-To simplify your deployment process, Jidie Shikong provides a Docker image with a complete development environment. You can perform model conversion, quantization, testing, and other tasks in the relevant Docker environment. Therefore, you only need to correctly install the Docker environment.
+To simplify your deployment process, Spacemit provides a Docker image with a complete development environment. You can perform model conversion, quantization, testing, and other tasks in the relevant Docker environment. Therefore, you only need to correctly install the Docker environment.
 Docker Environment Installation Guide:
 - Install Docker on Mac (Desktop Version)
 - Install Docker on Windows (Desktop Version)
@@ -44,7 +44,7 @@ Creating a Container (Example):
 $ NAME = ai_test # Give a name to your docker container
 $ sudo docker run -itd --name $NAME --net = host harbor.spacemit.com/spacemit-ai/spacemit-ai-sdk:latest /bin/bash
 ~~~
-Note: If you plan to mount the host directory to the container `(e.g. parameter -v <host directory:container directory>)`, please avoid the /opt directory (the preset folder path of the current Jidie Shikong AI deployment tool).
+Note: If you plan to mount the host directory to the container `(e.g. parameter -v <host directory:container directory>)`, please avoid the /opt directory (the preset folder path of the current Spacemit AI deployment tool).
 Viewing the Container (Example):
 ~~~
 $ sudo docker ps -a | grep $NAME
@@ -63,7 +63,7 @@ root@xxx:/home/workspace# spine
 Spacemit AI Toolkit(Version: 2024/01/15)
 ...
 ~~~
-As you can see, the relevant output is the version information of the Jidie Shikong AI deployment tool in the current docker development environment.
+As you can see, the relevant output is the version information of the Spacemit AI deployment tool in the current docker development environment.
 Note: When you call the spine related commands (and its subcommands) for the first time, spine will automatically install the necessary dependency packages for you, so network support is required (normally, this process will not take up too much of your time).
 ### 1.2 Setting up the Local Environment
 #### 1.2.1 Environmental Requirements
@@ -103,7 +103,7 @@ Installing Dependencies (Example):
 ~~~
 $ bash install.sh
 ~~~
-Note: You may need root privileges to execute the installation of related dependent software. If you cannot obtain the relevant permissions, you can contact the administrator of the device you are currently using to assist in the installation, or use the AI deployment tool docker image provided by Jidie Shikong (see the content of Section 2.1 Using the Docker Environment).
+Note: You may need root privileges to execute the installation of related dependent software. If you cannot obtain the relevant permissions, you can contact the administrator of the device you are currently using to assist in the installation, or use the AI deployment tool docker image provided by Spacemit (see the content of Section 2.1 Using the Docker Environment).
 Importing the Tool (Example):
 ~~~
 # cd spacemit-ai-sdk.v1.1.0
@@ -118,7 +118,7 @@ Spacemit AI Toolkit(Version: 2024/01/15)
 ~~~
 Note: When you call the spine related commands (and its subcommands) for the first time, spine will automatically install the necessary dependency packages for you, so network support is required (normally, this process will not take up too much of your time).
 ### 1.3 Quick Verification
-To facilitate your quick start with the Jidie Shikong AI deployment tool, we have prepared the quick_start script tool (under the root directory of the SDK) for you. You can quickly verify and familiarize yourself with the entire process of AI model deployment by running this tool.
+To facilitate your quick start with the Spacemit AI deployment tool, we have prepared the quick_start script tool (under the root directory of the SDK) for you. You can quickly verify and familiarize yourself with the entire process of AI model deployment by running this tool.
 Usage Instructions (Example):
 ~~~
 $ quick_start
@@ -270,7 +270,7 @@ test_data/resnet50/
 ~~~
 Note: --model_path specifies the path of the ONNX model, --root_path specifies the root directory of the test dataset, --test_name specifies the name of the test case, -r specifies the number of test cases, -f specifies the shape corresponding to the symbolic parameter, and --save_output specifies the need to save the x86 test output results. For more details about the parameters, please refer to the content of the 5.2.5 Data Construction chapter.
 ### 5.2 Simulation Running
-spine simulate provides the model simulation testing function on the PC side (currently only for the x86 architecture). This function is based on the qemu-riscv64 and x86_64-riscv64 cross-compilation tools pre-installed in the SDK, and supports the standard ONNX model and the model quantified by the Jintie Space-Time AI deployment tool, and ensures that the inference result is completely consistent with the running result on the `chip side`. Taking the generated test dataset as an example:
+spine simulate provides the model simulation testing function on the PC side (currently only for the x86 architecture). This function is based on the qemu-riscv64 and x86_64-riscv64 cross-compilation tools pre-installed in the SDK, and supports the standard ONNX model and the model quantified by the Spacemit AI deployment tool, and ensures that the inference result is completely consistent with the running result on the `chip side`. Taking the generated test dataset as an example:
 ```
 $ spine simulate test_data/resnet50/
 result:
@@ -286,7 +286,7 @@ Failed Test Cases:
 ```
 [Note] `spine simulate` encapsulates the `spacemit - ort/bin/onnx_test_runner` test tool under the SDK directory. If there are `standard` output results in the test case directory (e.g., when `spine helper test` constructs the test data, the x86 output results are saved by specifying `--save_output`), then the `spine simulate test_data` command will also perform accuracy comparison on the simulation test output results on the `chip side` (default: relative error `1e - 5`, absolute error `1e - 5`). For more details about the parameters, please refer to the content of the 5.1.2 `spine simulate` chapter.
 ## 6 Performance Testing
-The `spacemit - ort/bin/onnxruntime_perf_test` tool under the SDK directory supports quickly testing the pure inference performance of the AI algorithm model on the `chip side`. This tool is compatible with ONNX models, so you can easily use it to evaluate the performance of the original ONNX floating-point model and the Jintie Space-Time fixed-point model after conversion (and/or quantization). Taking the above quantized Paddle model as an example, execute the following command on the `chip side`:
+The `spacemit - ort/bin/onnxruntime_perf_test` tool under the SDK directory supports quickly testing the pure inference performance of the AI algorithm model on the `chip side`. This tool is compatible with ONNX models, so you can easily use it to evaluate the performance of the original ONNX floating-point model and the Spacemit fixed-point model after conversion (and/or quantization). Taking the above quantized Paddle model as an example, execute the following command on the `chip side`:
 ```
 bianbu@k1:~/desktop$ onnxruntime_perf_test inference.q.onnx -m times -r 100 -e spacemit
 using SpaceMITExecutionProvider 
@@ -307,9 +307,9 @@ P95 Latency: 0.0837052 s
 P99 Latency: 0.0912857 s
 P999 Latency: 0.0912857 s
 ```
-[Note] `-m times` specifies the test mode as a fixed number of tests, `-r 100` specifies 100 inferences for the test, and `-e spacemit` enables the Jintie Space-Time backend acceleration. For more details about the parameters, please refer to the content of the 6.1 Performance Testing chapter.
+[Note] `-m times` specifies the test mode as a fixed number of tests, `-r 100` specifies 100 inferences for the test, and `-e spacemit` enables the Spacemit backend acceleration. For more details about the parameters, please refer to the content of the 6.1 Performance Testing chapter.
 ## 7 Application Development
-The Bianbu AI Support Library is an upper-layer application development support library independently developed by Jintie Space-Time, which is ready to use and only requires one or two lines of code to easily integrate AI tasks such as image classification and object detection.
+The Bianbu AI Support Library is an upper-layer application development support library independently developed by Spacemit, which is ready to use and only requires one or two lines of code to easily integrate AI tasks such as image classification and object detection.
 ### Demo Compilation and Running Example
 ```
 # One-click cross-compilation
@@ -337,7 +337,7 @@ bbox[ 4] x1y1x2y2: ( 459, 447, 551, 707), score: 0.462, label_text: person
 bbox[ 5] x1y1x2y2: ( 689, 468, 745, 601), score: 0.430, label_text: person
 bbox[ 6] x1y1x2y2: ( 660, 460, 722, 641), score: 0.401, label_text: person
 ```
-[Hint] You can refer to the content of the 6.2.1.4 Demo Description chapter to learn more about the existing Demo information. You can also refer to the relevant introduction in the 6.2.2 AI Engine chapter to learn about the specific usage of the Jintie Space-Time AI inference engine.
+[Hint] You can refer to the content of the 6.2.1.4 Demo Description chapter to learn more about the existing Demo information. You can also refer to the relevant introduction in the 6.2.2 AI Engine chapter to learn about the specific usage of the Spacemit AI inference engine.
 ## 8 Frequently Asked Questions (FAQ)
 ### 8.1 Does the deployment tool have a Windows or Mac version?
 Answer: Not for the moment, but it may be provided in the future.

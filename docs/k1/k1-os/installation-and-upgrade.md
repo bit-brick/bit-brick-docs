@@ -12,7 +12,7 @@ When the network card is installed, we will open the icon of network connection 
 ![Screenshot of Configuration](/img/k1/os/wifi.png)
 When we find that the signal icon appears, it means that the network is connected. If the signal is too weak, you can consider whether the position of the antenna is reasonable.
 ## System Upgrade
-To give you a better software experience, Bianbu OS is continuously optimized, and spacemiT Space will regularly release deeply optimized system firmware. Therefore, we strongly recommend that you update the system regularly.
+To give you a better software experience, Bianbu OS is continuously optimized, and Spacemit will regularly release deeply optimized system firmware. Therefore, we strongly recommend that you update the system regularly.
 Bianbu OS supports online updates, and you can update it in two ways:
 ### Command Line Method
 We enter in the control terminal,

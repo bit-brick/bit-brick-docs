@@ -1,6 +1,6 @@
 # Bianbu Operating System
 ## 1.Introduction to Bainbu OS
-Bainbu OS is an operating system deeply optimized by spacemiT Space for RISC-V architecture processors. It is built based on the source code of the Ubuntu community. Currently, it is divided into the following two versions:
+Bainbu OS is an operating system deeply optimized by Spacemit  for RISC-V architecture processors. It is built based on the source code of the Ubuntu community. Currently, it is divided into the following two versions:
 - Bainbu Desktop
 - Bainbu NAS
 The Desktop version is similar to common Linux distributions, such as Ubuntu or Debian.

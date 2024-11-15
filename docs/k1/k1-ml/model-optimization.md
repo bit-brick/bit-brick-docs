@@ -1,6 +1,6 @@
 # Model Quantization
 
-This chapter mainly introduces the usage details of the model quantization tool. The RISC-V series chips of Jidie Shikong support the direct deployment of floating-point (FP32) models, but we strongly recommend that you further quantize the floating-point model into a fixed-point (INT8) model. The accuracy loss of the quantized model can generally be controlled within 1%, but the inference performance can be improved by dozens of times!
+This chapter mainly introduces the usage details of the model quantization tool. The RISC-V series chips of Spacemit support the direct deployment of floating-point (FP32) models, but we strongly recommend that you further quantize the floating-point model into a fixed-point (INT8) model. The accuracy loss of the quantized model can generally be controlled within 1%, but the inference performance can be improved by dozens of times!
 
 ## 1 Introduction to Model Quantization
 

@@ -1,9 +1,9 @@
 # Simulation Testing
-This chapter mainly introduces the usage details of the model simulation testing tool. Through simulation testing, you can simulate the running situation of the model on the Jidie Shikong chip on the PC side (currently limited to the x86 architecture), so as to quickly verify the function and performance of the model.
+This chapter mainly introduces the usage details of the model simulation testing tool. Through simulation testing, you can simulate the running situation of the model on the Spacemit chip on the PC side (currently limited to the x86 architecture), so as to quickly verify the function and performance of the model.
 
 ## 1 Tool Introduction
 
-`spine simulate` provides the model simulation testing function on the PC side (currently limited to the x86 architecture). This function is based on the `qemu - riscv64` and `x86_64 - riscv64` cross - compilation tools pre-installed in the SDK, supports standard ONNX models and the models quantified by the Jidie Shikong AI deployment tool, and ensures that the inference results are exactly the same as the running results on the `chip side`.
+`spine simulate` provides the model simulation testing function on the PC side (currently limited to the x86 architecture). This function is based on the `qemu - riscv64` and `x86_64 - riscv64` cross - compilation tools pre-installed in the SDK, supports standard ONNX models and the models quantified by the Spacemit AI deployment tool, and ensures that the inference results are exactly the same as the running results on the `chip side`.
 ### 1.1 Usage Instructions
 
 ```
