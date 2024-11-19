@@ -59,6 +59,15 @@
   "menu.about":{
     "message": "关于我们"
   },
+  "footer.followus":{
+    "message": "关注我们"
+  },
+  "footer.aboutbitbrick":{
+    "message": "关于Bit-Brick"
+  },
+  "footer.download":{
+    "message": "下载"
+  },
   "banner.title": {
     "message": "文档"
   },
