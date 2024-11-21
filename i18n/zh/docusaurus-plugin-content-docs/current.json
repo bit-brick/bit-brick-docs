@@ -87,6 +87,18 @@
     "message": "Perf 使用注意事项",
     "description": "The label for the doc item Perf Usage Note in sidebar tutorialSidebar, linking to the doc k1/k1-os/electron-zh"
   },
+  "sidebar.tutorialSidebar.doc.Development Guide": {
+    "message": "开发指南",
+    "description": "The label for the doc item Development Guide in sidebar tutorialSidebar, linking to the doc k1/k1-os/electron-zh"
+  },
+  "sidebar.tutorialSidebar.doc.System Integration": {
+    "message": "系统集成",
+    "description": "The label for the doc item System Integration in sidebar tutorialSidebar, linking to the doc k1/k1-os/electron-zh"
+  },
+  "sidebar.tutorialSidebar.doc.Bianbu 2.0 ROOTFS Creation Guide": {
+    "message": "Bianbu 2.0 ROOTFS 制作指南",
+    "description": "The label for the doc item Bianbu 2.0 ROOTFS Creation Guide in sidebar tutorialSidebar, linking to the doc k1/k1-os/electron-zh"
+  },
   "sidebar.tutorialSidebar.doc.U-Boot Development": {
     "message": "U-Boot 开发",
     "description": "The label for the doc item U-Boot Development in sidebar tutorialSidebar, linking to the doc k1/k1-linux-kernel/boot-zh"

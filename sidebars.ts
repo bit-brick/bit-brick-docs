@@ -66,39 +66,55 @@ const sidebars: SidebarsConfig = {
               id: 'k1/k1-os/package-management',
             },
             {
-              type: 'doc',
-              label: 'ROS2 Installation',
-              id: 'k1/news/ros2',
+              type: 'category',
+              collapsed: true,
+              label: 'Development Guide',
+              items: [{
+                type: 'doc',
+                label: 'ROS2 Installation',
+                id: 'k1/news/ros2',
+              },
+              {
+                type: 'doc',
+                label: 'Docker ',
+                id: 'k1/k1-os/software/docker',
+              },
+              {
+                type: 'doc',
+                label: 'JavaScript Use Guide',
+                id: 'k1/k1-os/software/electron',
+              },
+              {
+                type: 'doc',
+                label: 'Python Use Guide',
+                id: 'k1/k1-os/software/python',
+              },
+              {
+                type: 'doc',
+                label: 'QT Use Guide',
+                id: 'k1/k1-os/software/qt',
+              },
+              {
+                type: 'doc',
+                label: 'Remote Development',
+                id: 'k1/k1-os/software/remote_development',
+              },
+              {
+                type: 'doc',
+                label: 'Perf Usage Note',
+                id: 'k1/k1-os/software/perf',
+              },]
             },
             {
-              type: 'doc',
-              label: 'Docker ',
-              id: 'k1/k1-os/docker',
-            },
-            {
-              type: 'doc',
-              label: 'JavaScript Use Guide',
-              id: 'k1/k1-os/electron',
-            },
-            {
-              type: 'doc',
-              label: 'Python Use Guide',
-              id: 'k1/k1-os/python',
-            },
-            {
-              type: 'doc',
-              label: 'QT Use Guide',
-              id: 'k1/k1-os/qt',
-            },
-            {
-              type: 'doc',
-              label: 'Remote Development',
-              id: 'k1/k1-os/remote_development',
-            },
-            {
-              type: 'doc',
-              label: 'Perf Usage Note',
-              id: 'k1/k1-os/perf',
+              type: 'category',
+              collapsed: true,
+              label: 'System Integration',
+              items: [{
+                type: 'doc',
+                label: 'Bianbu 2.0 ROOTFS Creation Guide',
+                id: 'k1/k1-os/rootfs/bianbu_2.0_rootfs_create',
+              },
+            ]
             },
           ],
         },
