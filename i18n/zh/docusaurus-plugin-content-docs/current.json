@@ -87,11 +87,11 @@
     "message": "Perf 使用注意事项",
     "description": "The label for the doc item Perf Usage Note in sidebar tutorialSidebar, linking to the doc k1/k1-os/electron-zh"
   },
-  "sidebar.tutorialSidebar.doc.Development Guide": {
+  "sidebar.tutorialSidebar.category.Development Guide": {
     "message": "开发指南",
     "description": "The label for the doc item Development Guide in sidebar tutorialSidebar, linking to the doc k1/k1-os/electron-zh"
   },
-  "sidebar.tutorialSidebar.doc.System Integration": {
+  "sidebar.tutorialSidebar.category.System Integration": {
     "message": "系统集成",
     "description": "The label for the doc item System Integration in sidebar tutorialSidebar, linking to the doc k1/k1-os/electron-zh"
   },
