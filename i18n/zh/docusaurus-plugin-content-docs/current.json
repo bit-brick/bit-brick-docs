@@ -49,7 +49,7 @@
   },
   "sidebar.tutorialSidebar.doc.Introduction to Bainbu OS": {
     "message": "Bainbu OS简介",
-    "description": "The label for the doc item Introduction to Bainbu OS in sidebar tutorialSidebar, linking to the doc k1/k1-os/os-intro-zh"
+    "description": "The label for the doc item Introduction to Bainbu OS in sidebar tutorialSidebar, linking to the doc k1/k1-os/desktop/os-intro-zh"
   },
   "sidebar.tutorialSidebar.doc.Networking and Upgrading": {
     "message": "联网与升级",
