@@ -1,0 +1,8 @@
+{
+  "label": "Docker服务",
+  "position": 5,
+  "link": {
+    "type": "generated-index",
+    "description": "介绍 Docker 服务的设置、陈列已移植的 Docker 镜像、介绍主流 Docker 应用的部署。"
+  }
+}

@@ -79,19 +79,50 @@ const sidebars: SidebarsConfig = {
               items: [
                 {
                   type: 'doc',
-                  label: 'Introduction to Bainbu OS',
-                  id: 'k1/k1-os/desktop/os-intro',
+                  id: 'k1/k1-os/nas/README',
                 },
                 {
                   type: 'doc',
-                  label: 'Networking and Upgrading',
-                  id: 'k1/k1-os/desktop/installation-and-upgrade',
+                  id: 'k1/k1-os/nas/login',
                 },
                 {
                   type: 'doc',
-                  label: 'Package Management',
-                  id: 'k1/k1-os/desktop/package-management',
+                  id: 'k1/k1-os/nas/base_setup',
                 },
+                {
+                  type: 'doc',
+                  id: 'k1/k1-os/nas/shared_services_setup',
+                },
+                {
+                  type: 'category',
+                  collapsed: true,
+                  label: 'Docker Service',
+                  items: [
+                    {
+                      type: 'doc',
+                      id: 'k1/k1-os/nas/docker_setup/applications',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'k1/k1-os/nas/docker_setup/docker-compose',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'k1/k1-os/nas/docker_setup/nextcloud',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'k1/k1-os/nas/docker_setup/kodbox',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'k1/k1-os/nas/docker_setup/frigate',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'k1/k1-os/nas/docker_setup/immich',
+                    },
+                  ]},
               ]
             },
             {
