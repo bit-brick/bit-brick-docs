@@ -51,19 +51,48 @@ const sidebars: SidebarsConfig = {
           label: 'Bianbu OS',
           items: [
             {
-              type: 'doc',
-              label: 'Introduction to Bainbu OS',
-              id: 'k1/k1-os/os-intro',
+              type: 'category',
+              collapsed: true,
+              label: 'Desktop',
+              items: [
+                {
+                  type: 'doc',
+                  label: 'Introduction to Bainbu OS',
+                  id: 'k1/k1-os/desktop/os-intro',
+                },
+                {
+                  type: 'doc',
+                  label: 'Networking and Upgrading',
+                  id: 'k1/k1-os/desktop/installation-and-upgrade',
+                },
+                {
+                  type: 'doc',
+                  label: 'Package Management',
+                  id: 'k1/k1-os/desktop/package-management',
+                },
+              ]
             },
             {
-              type: 'doc',
-              label: 'Networking and Upgrading',
-              id: 'k1/k1-os/installation-and-upgrade',
-            },
-            {
-              type: 'doc',
-              label: 'Package Management',
-              id: 'k1/k1-os/package-management',
+              type: 'category',
+              collapsed: true,
+              label: 'NAS',
+              items: [
+                {
+                  type: 'doc',
+                  label: 'Introduction to Bainbu OS',
+                  id: 'k1/k1-os/desktop/os-intro',
+                },
+                {
+                  type: 'doc',
+                  label: 'Networking and Upgrading',
+                  id: 'k1/k1-os/desktop/installation-and-upgrade',
+                },
+                {
+                  type: 'doc',
+                  label: 'Package Management',
+                  id: 'k1/k1-os/desktop/package-management',
+                },
+              ]
             },
             {
               type: 'category',
@@ -124,26 +153,63 @@ const sidebars: SidebarsConfig = {
           label: 'System Development Guide',
           items: [
             {
-              type: 'doc',
-              id: 'k1/k1-linux-kernel/build-bit-os',
-            },
+              type: 'category',
+              collapsed: true,
+              label: 'Bianbu Linux',
+              items: [
+                {
+                  type: 'doc',
+                  id: 'k1/k1-bianbu-linux/bianbu-linux/bianbu-linux-intro',
+                },
+                {
+                  type: 'doc',
+                  id: 'k1/k1-bianbu-linux/bianbu-linux/build-bit-os',
+                },
+                {
+                  type: 'doc',
+                  label: 'U-Boot Development',
+                  id: 'k1/k1-bianbu-linux/bianbu-linux/boot',
+                },
+                {
+                  type: 'doc',
+                  id: 'k1/k1-bianbu-linux/bianbu-linux/kernel-build',
+                },
+                {
+                  type: 'doc',
+                  id: 'k1/k1-bianbu-linux/bianbu-linux/device-manage',
+                },
+                {
+                  type: 'doc',
+                  id: 'k1/k1-bianbu-linux/bianbu-linux/solution-manage',
+                },
+              ]
+            }, 
             {
-              type: 'doc',
-              label: 'U-Boot Development',
-              id: 'k1/k1-linux-kernel/boot',
-            },
-            {
-              type: 'doc',
-              id: 'k1/k1-linux-kernel/kernel-build',
-            },
-            {
-              type: 'doc',
-              id: 'k1/k1-linux-kernel/device-manage',
-            },
-            {
-              type: 'doc',
-              id: 'k1/k1-linux-kernel/solution-manage',
-            },
+              type: 'category',
+              collapsed: true,
+              label: 'OpenWrt',
+              items: [
+                {
+                  type: 'doc',
+                  id: 'k1/k1-bianbu-linux/openwrt/openwrt_intro',
+                },
+                {
+                  type: 'doc',
+                  id: 'k1/k1-bianbu-linux/openwrt/openwrt_quickstart',
+                },
+                {
+                  type: 'doc',
+                  id: 'k1/k1-bianbu-linux/openwrt/openwrt_device_management',
+                },
+                {
+                  type: 'doc',
+                  id: 'k1/k1-bianbu-linux/openwrt/openwrt_solution_management',
+                },
+                
+              ]
+            },   
+
+            
 
           ],
         },

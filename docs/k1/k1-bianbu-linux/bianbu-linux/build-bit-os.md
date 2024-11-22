@@ -1,7 +1,7 @@
 ---
 sidebar_position: 2
 ---
-# Downloading and Compiling Bianbu OS
+# Downloading and Compiling 
 ## Development Environment
 ### Hardware Configuration
 Recommended configuration:

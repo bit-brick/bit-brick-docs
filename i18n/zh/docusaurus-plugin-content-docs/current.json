@@ -101,7 +101,7 @@
   },
   "sidebar.tutorialSidebar.doc.U-Boot Development": {
     "message": "U-Boot 开发",
-    "description": "The label for the doc item U-Boot Development in sidebar tutorialSidebar, linking to the doc k1/k1-linux-kernel/boot-zh"
+    "description": "The label for the doc item U-Boot Development in sidebar tutorialSidebar, linking to the doc k1/k1-bianbu-linux/bianbu-linux/boot-zh"
   },
   "sidebar.tutorialSidebar.doc.K1 Hardware Specifications": {
     "message": "K1 硬件规格介绍",

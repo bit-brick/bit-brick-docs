@@ -2,7 +2,7 @@
 sidebar_position: 2
 ---
 
-# 下载和编译Bianbu OS
+# 下载和编译Bianbu Linux
 
 ## 开发环境
 
@@ -40,14 +40,14 @@ sudo pip3 install pyyaml
 
 Bianbu Linux代码托管在Gitee上，下载前先参考[这篇文档](https://gitee.com/help/articles/4191)设置SSH Keys。
 
-下载代码，例如下载`bl-v1.0.y`分支：
+下载代码，例如下载`bl-v2.0.y`分支：
 
 ```shell
-mkdir ~/bianbu-linux
-cd ~/bianbu-linux
-repo init -u git@gitee.com:bianbu-linux/manifests.git -b main -m bl-v1.0.y.xml
+mkdir ~/bianbu-linux-2.0
+cd ~/bianbu-linux-2.0
+repo init -u git@gitee.com:bianbu-linux/manifests.git -b main -m bl-v2.0.y.xml
 repo sync
-repo start bl-v1.0.y --all
+repo start bl-v2.0.y --all
 ```
 
 推荐提前下载buildroot依赖的第三方软件包，并在团队内部分发，避免主服务器网络拥塞。
@@ -60,7 +60,7 @@ wget -c -r -nv -np -nH -R "index.html*" http://archive.spacemit.com/buildroot/dl
 
 ```shell
 ├── bsp-src               # 存放linux kernel、uboot、opensbi源码
-│   ├── linux-6.1
+│   ├── linux-6.6
 │   ├── opensbi
 │   └── uboot-2022.10
 ├── buildroot             # buildroot主目录
