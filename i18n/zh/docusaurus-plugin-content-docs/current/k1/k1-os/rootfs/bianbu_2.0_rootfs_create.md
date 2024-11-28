@@ -174,6 +174,11 @@ NAS:
 chroot $TARGET_ROOTFS /bin/bash -c "DEBIAN_FRONTEND=noninteractive apt-get -y --allow-downgrades install bianbu-nas"
 ```
 
+提示：完成全部包的安装后可以执行如下命令清理一下缓存，以减少最终固件的大小
+~~~shell
+chroot $TARGET_ROOTFS /bin/bash -c "DEBIAN_FRONTEND=noninteractive apt-get clean"
+~~~
+
 ## 通用配置
 
 #### 配置地区
@@ -219,6 +224,8 @@ network:
     renderer: networkd
     ethernets:
         end0:
+            dhcp4: true
+        end1:
             dhcp4: true
 EOF
 chroot $TARGET_ROOTFS /bin/bash -c "chmod 600 /etc/netplan/01-netcfg.yaml"

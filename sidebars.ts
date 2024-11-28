@@ -421,6 +421,10 @@ const sidebars: SidebarsConfig = {
               label: 'Model Deployment',
               id: 'k1/k1-ml/model-deploy',
             },
+            {
+              type: 'doc',
+              id: 'k1/k1-ml/llm-deploy',
+            },
 
           ],
         },

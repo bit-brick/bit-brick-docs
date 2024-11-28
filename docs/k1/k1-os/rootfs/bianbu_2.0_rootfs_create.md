@@ -175,6 +175,12 @@ NAS:
 chroot $TARGET_ROOTFS /bin/bash -c "DEBIAN_FRONTEND=noninteractive apt-get -y --allow-downgrades install bianbu-nas"
 ```
 
+Tip: After installing all packages, you can run the following command to clean up the cache and reduce the final firmware size.
+
+~~~shell
+chroot $TARGET_ROOTFS /bin/bash -c "DEBIAN_FRONTEND=noninteractive apt-get clean"
+~~~
+
 ## General Configuration
 
 #### Configure Locale
@@ -220,6 +226,8 @@ network:
     renderer: networkd
     ethernets:
         end0:
+            dhcp4: true
+        end1:
             dhcp4: true
 EOF
 chroot $TARGET_ROOTFS /bin/bash -c "chmod 600 /etc/netplan/01-netcfg.yaml"
