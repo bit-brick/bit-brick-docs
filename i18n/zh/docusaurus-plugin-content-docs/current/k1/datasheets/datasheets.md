@@ -3,12 +3,11 @@
 BIT-BRICK收集并整理了产品相关的资料，方便大家快速查找需要的内容。
 
 ## 1. 芯片规格书
-
 - [BIT-BRICK K1&SSOM-K1处理器规格书](#)
 - [BIT-BRICK K1&SSOM-K1 LPDDR4X数据手册](#)
-- [SSOM-K1 EMMC FLASH数据书册](#)
-- [ES8326B数据手册](#)
-- [RTL8211F数据手册](#)
+- [SSOM-K1 EMMC FLASH数据书册](https://github.com/bit-brick/datasheets/blob/main/datasheet/SSOM-K1%20EMMC%20FLASH.PDF)
+- [ES8326B数据手册](https://github.com/bit-brick/datasheets/blob/main/datasheet/ES8326%20PB.pdf)
+- [RTL8211F数据手册](https://github.com/bit-brick/datasheets/blob/main/datasheet/RTL8211F%20Data%20Manual.PDF)
 
 ## 2. 总线协议
 
