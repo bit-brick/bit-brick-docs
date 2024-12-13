@@ -91,7 +91,7 @@ const CustomFooter = () => {
                 </section><section id="nav_menu-5" className="widget widget_nav_menu"><nav className="menu-downloads-container" aria-label="Menu"><ul id="menu-downloads" className="menu">
                   <li id="menu-item-388" className="menu-item menu-item-type-custom menu-item-object-custom menu-item-388"><a href="https://github.com/bit-brick/datasheets/blob/main/K1_SBC/K1_circuit_diagram.zip" className="menu-link"><Translate id='footer.url6'>K1 circuit diagram files</Translate></a></li>
                   <li id="menu-item-389" className="menu-item menu-item-type-custom menu-item-object-custom menu-item-389"><a href="https://github.com/bit-brick/datasheets/blob/main/K1_SBC/K1_Layout.zip" className="menu-link"><Translate id='footer.url7'>K1 layout files</Translate></a></li>
-                  <li id="menu-item-390" className="menu-item menu-item-type-custom menu-item-object-custom menu-item-390"><a href="https://archive.spacemit.com/image/k1/version/bianbu/v2.0.2/" className="menu-link"><Translate id='footer.url8'>K1 pre-comfiled images</Translate></a></li>
+                  <li id="menu-item-390" className="menu-item menu-item-type-custom menu-item-object-custom menu-item-390"><a href="https://archive.spacemit.com/image/k1/version/bianbu" className="menu-link"><Translate id='footer.url8'>K1 pre-comfiled images</Translate></a></li>
                   <li id="menu-item-391" className="menu-item menu-item-type-custom menu-item-object-custom menu-item-391"><a href="https://gitee.com/bianbu-linux" className="menu-link"><Translate id='footer.url9'>K1 source code download</Translate></a></li>
                 </ul></nav></section>		</aside>
             </div>
