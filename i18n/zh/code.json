@@ -14,6 +14,15 @@
   "footer.url5":{
     "message": "K1 硬件指南"
   },
+  "footer.url5_1":{
+    "message": "K1 软件开发指南"
+  },
+  "footer.url5_2":{
+    "message": "K1 机器学习"
+  },
+  "footer.url5_3":{
+    "message": "K1 数据手册"
+  },
   "footer.url6":{
     "message": "K1 电路图文件"
   },
