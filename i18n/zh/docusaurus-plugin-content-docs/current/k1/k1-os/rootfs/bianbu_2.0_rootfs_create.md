@@ -119,7 +119,7 @@ docker ce 安装可参考 [https://docs.docker.com/engine/install/](https://docs
 
    ```shell
    export REPO="archive.spacemit.com/bianbu"
-   export VERSION="v2.0.2"
+   export VERSION="v2.0.4"
    ```
 
 2. 配置 bianbu.sources

@@ -62,6 +62,10 @@ const sidebars: SidebarsConfig = {
                 },
                 {
                   type: 'doc',
+                  id: 'k1/k1-os/desktop/bianbu_desktop_2.0',
+                },
+                {
+                  type: 'doc',
                   label: 'Networking and Upgrading',
                   id: 'k1/k1-os/desktop/installation-and-upgrade',
                 },
