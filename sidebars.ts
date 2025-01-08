@@ -57,7 +57,7 @@ const sidebars: SidebarsConfig = {
               items: [
                 {
                   type: 'doc',
-                  label: 'Introduction to Bainbu OS',
+                  label: 'Introduction to Bianbu OS',
                   id: 'k1/k1-os/desktop/os-intro',
                 },
                 {

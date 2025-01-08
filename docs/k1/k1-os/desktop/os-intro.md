@@ -1,18 +1,18 @@
 # Bianbu Operating System
-## 1.Introduction to Bainbu OS
-Bainbu OS is an operating system deeply optimized by Spacemit  for RISC-V architecture processors. It is built based on the source code of the Ubuntu community. Currently, it is divided into the following two versions:
-- Bainbu Desktop
-- Bainbu NAS
+## 1.Introduction to Bianbu OS
+Bianbu OS is an operating system deeply optimized by Spacemit  for RISC-V architecture processors. It is built based on the source code of the Ubuntu community. Currently, it is divided into the following two versions:
+- Bianbu Desktop
+- Bianbu NAS
 The Desktop version is similar to common Linux distributions, such as Ubuntu or Debian.
 
-![Bainbu Desktop System Interface](/img/k1/os/bianbuos-en.png)
+![Bianbu Desktop System Interface](/img/k1/os/bianbuos-en.png)
 
-<div style={{textAlign: 'center'}}>Bainbu Desktop System Interface</div>
-Bainbu NAS is a firmware specially made for network storage.
+<div style={{textAlign: 'center'}}>Bianbu Desktop System Interface</div>
+Bianbu NAS is a firmware specially made for network storage.
 
-![Bainbu NAS System Interface](/img/k1/os/bianbu-nas-en.png)
+![Bianbu NAS System Interface](/img/k1/os/bianbu-nas-en.png)
 
-<div style={{textAlign: 'center'}}>Bainbu NAS System Interface</div>
+<div style={{textAlign: 'center'}}>Bianbu NAS System Interface</div>
 Bianbu OS officially supports the BIT-BRICK K1 single-board computer and the SSOM-K1 core module. Users can directly download the official firmware for use.
 
 ## 2. System Architecture

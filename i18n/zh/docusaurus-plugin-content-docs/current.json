@@ -47,9 +47,9 @@
     "message": "启动和配置K1",
     "description": "The label for the doc item Starting and Configuring K1 in sidebar tutorialSidebar, linking to the doc k1/getting-started/configuring"
   },
-  "sidebar.tutorialSidebar.doc.Introduction to Bainbu OS": {
-    "message": "Bainbu OS简介",
-    "description": "The label for the doc item Introduction to Bainbu OS in sidebar tutorialSidebar, linking to the doc k1/k1-os/desktop/os-intro-zh"
+  "sidebar.tutorialSidebar.doc.Introduction to Bianbu OS": {
+    "message": "Bianbu OS简介",
+    "description": "The label for the doc item Introduction to Bianbu OS in sidebar tutorialSidebar, linking to the doc k1/k1-os/desktop/os-intro-zh"
   },
   "sidebar.tutorialSidebar.doc.Networking and Upgrading": {
     "message": "联网与升级",

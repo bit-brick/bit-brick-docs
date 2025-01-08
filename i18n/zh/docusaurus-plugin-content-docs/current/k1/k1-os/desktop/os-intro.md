@@ -1,26 +1,26 @@
 # Bianbu操作系统
 
-## Bainbu OS简介
+## Bianbu OS简介
 
-Bainbu OS是进迭时空针对RISC-V架构的处理器进行深度优化的一个操作系统，该系统基于Ubuntu社区源码构建。目前分为下面两个版本：
+Bianbu OS是进迭时空针对RISC-V架构的处理器进行深度优化的一个操作系统，该系统基于Ubuntu社区源码构建。目前分为下面两个版本：
 
-- Bainbu Desktop
-- Bainbu NAS
+- Bianbu Desktop
+- Bianbu NAS
 
 其中Desktop版本类似于Linux的常见发行版，比如Ubuntu或者Debian等。
 
 
 
-![Bainbu Desktop系统界面](/img/k1/os/bianbuos.png)
-<div style={{textAlign: 'center'}}>Bainbu Desktop系统界面</div>
+![Bianbu Desktop系统界面](/img/k1/os/bianbuos.png)
+<div style={{textAlign: 'center'}}>Bianbu Desktop系统界面</div>
 
 
-Bainbu NAS则是针对网络存储而专门制作的一个固件。
+Bianbu NAS则是针对网络存储而专门制作的一个固件。
 
 
 
-![Bainbu NAS系统界面](/img/k1/os/bianbu-nas.png)
-<div style={{textAlign: 'center'}}>Bainbu NAS系统界面</div>
+![Bianbu NAS系统界面](/img/k1/os/bianbu-nas.png)
+<div style={{textAlign: 'center'}}>Bianbu NAS系统界面</div>
 
 Bianbu OS官方支持BIT-BRICK K1单板电脑以及SSOM-K1核心模块，用户可以直接下载官方固件即可使用。
 
