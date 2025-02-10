@@ -15,6 +15,7 @@ The pin definitions are as follows:
 ## M.2 Interface on the K1 Board
 The K1 board integrates three M.2 interfaces, as shown in the following figure:
 ![Schematic Diagram of the M.2 Interface](/img/k1/hardware/m2/k1_m2.png)
+![Schematic Diagram of the M.2 Interface](/img/k1/hardware/m2/k1_m2_1.png)
 Among them, M.2 SLOT 1 and 2 are standard M.2 KEY-M interface definitions, which can directly support solid-state drives with the NVME interface. The length of the solid-state drive can be 2280.
 Users can choose SSDs with the mainstream NVME interface. The installation method is shown in the following figure:
 ![Schematic Diagram of SSD Installation](/img/k1/hardware/m2/kingston_ssd.png)

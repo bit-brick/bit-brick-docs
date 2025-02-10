@@ -25,6 +25,7 @@ M.2是由 PCI-SIG 和 SATA-IO 标准组织所开发，PCI-SIG M.2 和 SATA Rev. 
 K1板载集成三个M.2的接口,如下图所示
 
 ![M.2接口示意图](/img/k1/hardware/m2/k1_m2.png)
+![M.2接口示意图](/img/k1/hardware/m2/k1_m2_1.png)
 
 其中M.2 SLOT 1和2是标准的M.2 KEY-M接口定义，可以直接支持NVME接口的固态硬盘.固态硬盘长度可以选择2280的固态硬盘。
 
