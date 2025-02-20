@@ -443,6 +443,38 @@ const sidebars: SidebarsConfig = {
             },
           ],
         },
+        {
+          type: 'category',
+          collapsed: true,
+          label: 'OpenHarmony',
+          items: [
+            {
+              type: 'doc',
+              id: 'k1/openharmony/oh_build',
+            },
+            {
+              type: 'doc',
+              id: 'k1/openharmony/oh_solution_add',
+            },
+            {
+              type: 'doc',
+              id: 'k1/openharmony/oh_system_op',
+            },
+            {
+              type: 'doc',
+              id: 'k1/openharmony/oh_system_debug',
+            },
+            {
+              type: 'doc',
+              id: 'k1/openharmony/oh_driver_dev',
+            },
+            {
+              type: 'doc',
+              id: 'k1/openharmony/oh_ota',
+            },
+            
+          ],
+        },
 
       ],
     }
