@@ -115,7 +115,7 @@ drwxr-xr-x 6 fuqiang dc-sw-users       4096 Oct 26 18:06 ..
 
 ```bash
 cd oh5
-./build.sh --product-name **xxx **--ccache --prebuilt-sdk
+./build.sh --product-name xxx --ccache --prebuilt-sdk
 ```
 
 进行版本编译。其中，xxx 代表产品方案，目前支持的产品方案包括：
@@ -128,7 +128,7 @@ cd oh5
 例如，要编译 musepaper 的固件，使用如下命令：
 
 ```bash
-./build.sh --product-name musepaper** **--ccache --prebuilt-sdk
+./build.sh --product-name musepaper --ccache --prebuilt-sdk
 ```
 
 ## 常用构建参数说明
@@ -155,7 +155,7 @@ cd oh5
 # 生成烧录 img
 
 ```bash
-./build/gen_zip.sh **xxx**
+./build/gen_zip.sh xxx
 ```
 
 其中，xxx 代表产品方案，目前支持的产品方案包括：
