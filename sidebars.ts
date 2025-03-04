@@ -341,80 +341,149 @@ const sidebars: SidebarsConfig = {
           label: 'Software Development Guide',
           items: [
             {
-              type: 'doc',
-              label: 'K1 PINCTRL',
-              id: 'k1/k1-software/PINCTRL',
+              type: 'category',
+              collapsed: true,
+              label: 'Peripheral Driver',
+              items: [
+                {
+                  type: 'doc',
+                  label: 'K1 PINCTRL',
+                  id: 'k1/k1-software/peripheral_driver/PINCTRL',
+                },
+                {
+                  type: 'doc',
+                  label: 'K1 GPIO',
+                  id: 'k1/k1-software/peripheral_driver/GPIO',
+                },
+                {
+                  type: 'doc',
+                  label: 'K1 PWM',
+                  id: 'k1/k1-software/peripheral_driver/PWM',
+                },
+                {
+                  type: 'doc',
+                  label: 'K1 IR-RX',
+                  id: 'k1/k1-software/peripheral_driver/IR-RX',
+                },
+                {
+                  type: 'doc',
+                  label: 'K1 UART',
+                  id: 'k1/k1-software/peripheral_driver/UART',
+                },
+                {
+                  type: 'doc',
+                  label: 'K1 I2C',
+                  id: 'k1/k1-software/peripheral_driver/I2C',
+                },
+                {
+                  type: 'doc',
+                  label: 'K1 QSPI',
+                  id: 'k1/k1-software/peripheral_driver/QSPI',
+                },
+                {
+                  type: 'doc',
+                  label: 'K1 SDHC',
+                  id: 'k1/k1-software/peripheral_driver/SDHC',
+                },
+                {
+                  type: 'doc',
+                  label: 'K1 GMAC',
+                  id: 'k1/k1-software/peripheral_driver/gmac',
+                },
+                {
+                  type: 'doc',
+                  label: 'K1 USB',
+                  id: 'k1/k1-software/peripheral_driver/USB',
+                },
+                {
+                  type: 'doc',
+                  label: 'K1 PCIE',
+                  id: 'k1/k1-software/peripheral_driver/PCIe',
+                },
+                {
+                  type: 'doc',
+                  label: 'K1 Camera',
+                  id: 'k1/k1-software/peripheral_driver/Camera',
+                },
+                {
+                  type: 'doc',
+                  label: 'K1 DSI',
+                  id: 'k1/k1-software/peripheral_driver/DSI',
+                },
+                {
+                  type: 'doc',
+                  label: 'K1 HDMI',
+                  id: 'k1/k1-software/peripheral_driver/HDMI',
+                },
+                {
+                  type: 'doc',
+                  label: 'K1 PMIC',
+                  id: 'k1/k1-software/peripheral_driver/PMIC',
+                },
+              ]
             },
             {
-              type: 'doc',
-              label: 'K1 GPIO',
-              id: 'k1/k1-software/GPIO',
+              type: 'category',
+              collapsed: true,
+              label: 'Media',
+              items: [
+                {
+                  type: 'doc',
+                  id: 'k1/k1-software/media/mpp',
+                },
+                {
+                  type: 'doc',
+                  id: 'k1/k1-software/media/gstreamer_user_guide',
+                },
+              ]
             },
             {
-              type: 'doc',
-              label: 'K1 PWM',
-              id: 'k1/k1-software/PWM',
-            },
-            {
-              type: 'doc',
-              label: 'K1 IR-RX',
-              id: 'k1/k1-software/IR-RX',
-            },
-            {
-              type: 'doc',
-              label: 'K1 UART',
-              id: 'k1/k1-software/UART',
-            },
-            {
-              type: 'doc',
-              label: 'K1 I2C',
-              id: 'k1/k1-software/I2C',
-            },
-            {
-              type: 'doc',
-              label: 'K1 QSPI',
-              id: 'k1/k1-software/QSPI',
-            },
-            {
-              type: 'doc',
-              label: 'K1 SDHC',
-              id: 'k1/k1-software/SDHC',
-            },
-            {
-              type: 'doc',
-              label: 'K1 GMAC',
-              id: 'k1/k1-software/gmac',
-            },
-            {
-              type: 'doc',
-              label: 'K1 USB',
-              id: 'k1/k1-software/USB',
-            },
-            {
-              type: 'doc',
-              label: 'K1 PCIE',
-              id: 'k1/k1-software/PCIe',
-            },
-            {
-              type: 'doc',
-              label: 'K1 Camera',
-              id: 'k1/k1-software/Camera',
-            },
-            {
-              type: 'doc',
-              label: 'K1 DSI',
-              id: 'k1/k1-software/DSI',
-            },
-            {
-              type: 'doc',
-              label: 'K1 HDMI',
-              id: 'k1/k1-software/HDMI',
-            },
-            {
-              type: 'doc',
-              label: 'K1 PMIC',
-              id: 'k1/k1-software/PMIC',
-            },
+                type: 'category',
+                collapsed: true,
+                label: 'Graphics Development',
+                items: [
+                  {
+                    type: 'doc',
+                    id: 'k1/k1-software/graphics/AMD_graphics_card_adaptation_reference',
+                  },
+                  {
+                    type: 'doc',
+                    id: 'k1/k1-software/graphics/graphics_driver_framework',
+                  },
+                  {
+                    type: 'doc',
+                    id: 'k1/k1-software/graphics/graphics_programming_guide',
+                  },
+                  {
+                    type: 'doc',
+                    id: 'k1/k1-software/graphics/openCL_programming_guide',
+                  },
+  
+                  {
+                    type: 'doc',
+                    id: 'k1/k1-software/graphics/panel_porting_guide',
+                  },
+                ]},
+                {
+                  type: 'category',
+                  collapsed: true,
+                  label: 'Camera Development',
+                  items: [
+                    {
+                      type: 'doc',
+                      id: 'k1/k1-software/camera/camera_development_guide',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'k1/k1-software/camera/isp_api_development_guide',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'k1/k1-software/camera/isp_pq_tools_user_guide',
+                    },
+                  ]},
+
+
           ],
         },
         {
