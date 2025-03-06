@@ -223,22 +223,22 @@
     "message": "模型部署",
     "description": "The label for the doc item 7. Model Deployment in sidebar tutorialSidebar, linking to the doc k1/k1-ml/model-deploy-zh"
   },
-  "sidebar.tutorialSidebar.doc.Peripheral Driver": {
+  "sidebar.tutorialSidebar.category.Peripheral Driver": {
     "message": "外设驱动",
     "description": " "
   }
   ,
-  "sidebar.tutorialSidebar.doc.Media": {
+  "sidebar.tutorialSidebar.category.Media": {
     "message": "多媒体",
     "description": " "
   }
   ,
-  "sidebar.tutorialSidebar.doc.Graphics Development": {
+  "sidebar.tutorialSidebar.category.Graphics Development": {
     "message": "图形编程",
     "description": " "
   }
   ,
-  "sidebar.tutorialSidebar.doc.Camera Development": {
+  "sidebar.tutorialSidebar.category.Camera Development": {
     "message": "相机开发",
     "description": " "
   }
