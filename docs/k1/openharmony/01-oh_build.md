@@ -222,7 +222,7 @@ index 44950b5c2..5b1f2b30c 100644
 
 ### --prebuilt-sdk
 
-在执行完整编译前先编译 SDK，并整理拷贝 SDK 到 `prebuilts/ohos-sdk`，build.sh 支持通过参数 `sdk_platform=xxx` 指定 SDK 的运行平台，支持 mac/win/linux/ohos/default，default 在 linux 主机下为{windows,linux,ohos}，在 mac 主机下为{mac}
+在执行完整编译前先编译 SDK，并整理拷贝 SDK 到 `prebuilts/ohos-sdk`，build.sh 支持通过参数 `sdk_platform=xxx` 指定 SDK 的运行平台，支持 mac/win/linux/ohos/default，default 在 linux 主机下为{`windows`,`linux`,`ohos`}，在 mac 主机下为{mac}
 
 例如：
 
