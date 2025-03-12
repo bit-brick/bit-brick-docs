@@ -10,769 +10,763 @@ sidebar_position: 2
 | ----------------- | ------------------ | --------------- | ---------------------- |
 | 1.0      | 2024-8-29 | lizhirong  | Initial draft |
 
-## SDK API 接口说明
+## SDK API Interface Description
 
 ### ISP API
 
-本节介绍 ISP 模块 API 使用方法，描述的 API 都是 ISP SDK 面向应用的，分为系统控制 API、图像效果设置 API 和 tuning 相关的 API，详细解释了相关的参数数据结构、错误码和返回值。主要面向 ISP 效果相关的 tuning 和算法工程师，以及图像相关相关的 setting 功能开发的应用工程师。
+This section introduces the usage of ISP module APIs. The described APIs are ISP SDK APIs for applications, divided into system control APIs, image effect setting APIs, and tuning-related APIs. It explains the relevant parameter data structures, error codes, and return values in detail. It is mainly aimed at tuning and algorithm engineers related to ISP effects, as well as application engineers developing image-related setting functions.
 
-#### 系统控制 API
+#### System Control API
 
-系统控制 API 如下：
+The system control APIs are as follows:
 
-- ASR_ISP_Construct：构造 ISP pipeline 上下文环境接口。
-- ASR_ISP_Destruct：析构 ISP pipeline 上下文环境接口。
-- ASR_ISP_GetFwFrameInfoSize()：获取 ISP firmware frameinfo 结构体大小接口。
-- ASR_ISP_RegSensorCallBack：向 ISP pipeline 注册 sensor 回调函数接口。
-- ASR_ISP_UnRegSensorCallBack：从 ISP pipeline 注销 sensor 回调函数接口。
-- ASR_ISP_RegAfMotorCallBack：向 ISP pipeline 注册 sensor 马达回调函数接口。
-- ASR_ISP_EnableOfflineMode：使能 ISP pipeline 的 Offline 模式接口。
-- ASR_ISP_SetPubAttr：设置 ISP pipeline 公共属性接口。
-- ASR_ISP_SetTuningParams：设置 ISP pipeline tuning 相关参数接口。
-- ASR_ISP_SetChHwPipeID：设置 ISP pipeline channel 工作的真实硬件 pipe ID 接口。
-- ASR_ISP_Init：初始化 ISP pipeline。
-- ASR_ISP_DeInit：撤销 ISP pipeline 的初始化。
-- ASR_ISP_EnablePDAF：使能 ISP pipeline 的 PDAF。
-- ASR_ISP_SetFps：设置该 pipeline 上 sensor/ISP 工作的帧率。
-- ASR_ISP_SetFrameinfoCallback：设置 ISP pipeline frameinfo 的回调。
-- ASR_ISP_QueueFrameinfoBuffer：设置 ISP pipeline frameinfo buffer 的入队列。
-- ASR_ISP_FlushFrameinfoBuffer：清除 ISP pipeline 上的 frameinfo buffer。
-- ASR_ISP_Streamon：streamon ISP pipeline。
-- ASR_ISP_Streamoff：streamoff ISP pipeline。
-- ASR_ISP_TriggerRawCapture：触发 ISP pipeline 进行 Raw 拍照流程。
-- ASR_ISP_ReInitPreviewChannel：重新初始化预览 channel。
-- ASR_ISP_NotifyOnceHDRRawCapture：通知 ISP pipeline 进入一次 HDR Raw 拍照流程。
-- ASR_ISP_UpdateNoneZslStreamAeParams：更新 sensor 相关 AE 的参数。
+- ASR_ISP_Construct: Construct the ISP pipeline context environment interface.
+- ASR_ISP_Destruct: Destruct the ISP pipeline context environment interface.
+- ASR_ISP_GetFwFrameInfoSize(): Get the size of the ISP firmware frameinfo structure interface.
+- ASR_ISP_RegSensorCallBack: Register the sensor callback function to the ISP pipeline interface.
+- ASR_ISP_UnRegSensorCallBack: Unregister the sensor callback function from the ISP pipeline interface.
+- ASR_ISP_RegAfMotorCallBack: Register the sensor motor callback function to the ISP pipeline interface.
+- ASR_ISP_EnableOfflineMode: Enable the offline mode of the ISP pipeline interface.
+- ASR_ISP_SetPubAttr: Set the public attributes of the ISP pipeline interface.
+- ASR_ISP_SetTuningParams: Set the tuning-related parameters of the ISP pipeline interface.
+- ASR_ISP_SetChHwPipeID: Set the real hardware pipe ID of the ISP pipeline channel interface.
+- ASR_ISP_Init: Initialize the ISP pipeline.
+- ASR_ISP_DeInit: Deinitialize the ISP pipeline.
+- ASR_ISP_EnablePDAF: Enable the PDAF of the ISP pipeline.
+- ASR_ISP_SetFps: Set the frame rate of the sensor/ISP working on the pipeline.
+- ASR_ISP_SetFrameinfoCallback: Set the frameinfo callback of the ISP pipeline.
+- ASR_ISP_QueueFrameinfoBuffer: Queue the frameinfo buffer of the ISP pipeline.
+- ASR_ISP_FlushFrameinfoBuffer: Clear the frameinfo buffer on the ISP pipeline.
+- ASR_ISP_Streamon: Streamon the ISP pipeline.
+- ASR_ISP_Streamoff: Streamoff the ISP pipeline.
+- ASR_ISP_TriggerRawCapture: Trigger the ISP pipeline to perform the Raw capture process.
+- ASR_ISP_ReInitPreviewChannel: Reinitialize the preview channel.
+- ASR_ISP_NotifyOnceHDRRawCapture: Notify the ISP pipeline to enter a single HDR Raw capture process.
+- ASR_ISP_UpdateNoneZslStreamAeParams: Update the AE parameters related to the sensor.
 
 ##### ASR_ISP_Construct
 
-【描述】
+[Description]
 
-构造 ISP pipeline 上下文环境。
+Construct the ISP pipeline context environment.
 
-【语法】
+[Syntax]
 
 int ASR_ISP_Construct(uint32_t pipelineID);
 
-【参数】
+[Parameters]
 
-| 参数名称   | 描述               | 输入/输出 |
-| ------------------- | --------------------------- | ------------------ |
-| pipelineID | ISP pipeline 的 ID | 输入      |
+| Parameter Name | Description               | Input/Output |
+| --------------- | ------------------------- | ------------ |
+| pipelineID      | ISP pipeline ID           | Input        |
 
-【返回值】
+[Return Value]
 
-| 参数名称 | 描述             |
-| ----------------- | ------------------------- |
-| 0        | 成功             |
-| 非 0     | 失败，值为错误码 |
+| Parameter Name | Description             |
+| --------------- | ----------------------- |
+| 0               | Success                 |
+| Non-zero        | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：spm_cam_isp.h
-- 库文件：libisp.so
+- Header file: spm_cam_isp.h
+- Library file: libisp.so
 
-【注意】
+[Note]
 
-- 如 2.2.1 所述，输入参数 pipelineID 描述的是个虚拟的 pipeline，对应的是 ISPfirmware，一个 pipelineID 对应一个 firmware。
+- As described in 2.2.1, the input parameter pipelineID describes a virtual pipeline corresponding to the ISP firmware. One pipelineID corresponds to one firmware.
 
 ##### ASR_ISP_Destruct
 
-【描述】
+[Description]
 
-析构 ISP pipeline 上下文环境。
+Destruct the ISP pipeline context environment.
 
-【语法】
+[Syntax]
 
-int ASR_ISP_Destruct (uint32_t pipelineID);
+int ASR_ISP_Destruct(uint32_t pipelineID);
 
-【参数】
+[Parameters]
 
-| 参数名称   | 描述               | 输入/输出 |
-| ------------------- | --------------------------- | ------------------ |
-| pipelineID | ISP pipeline 的 ID | 输入      |
+| Parameter Name | Description               | Input/Output |
+| --------------- | ------------------------- | ------------ |
+| pipelineID      | ISP pipeline ID           | Input        |
 
-【返回值】
+[Return Value]
 
-| 参数名称 | 描述             |
-| ----------------- | ------------------------- |
-| 0        | 成功             |
-| 非 0     | 失败，值为错误码 |
+| Parameter Name | Description             |
+| --------------- | ----------------------- |
+| 0               | Success                 |
+| Non-zero        | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：spm_cam_isp.h
-- 库文件：libisp.so
+- Header file: spm_cam_isp.h
+- Library file: libisp.so
 
 ##### ASR_ISP_GetFwFrameInfoSize
 
-【描述】
+[Description]
 
-获取 ISP Firmware frameinfo 结构体的大小。
+Get the size of the ISP Firmware frameinfo structure.
 
-【语法】
+[Syntax]
 
-int ASR_ISP_GetFwFrameInfoSize ();
+int ASR_ISP_GetFwFrameInfoSize();
 
-【参数】
+[Parameters]
 
-无。
+None.
 
-【返回值】
+[Return Value]
 
-| 参数名称 | 描述             |
-| ----------------- | ------------------------- |
-| &gt;0       | 结构体大小       |
-| &lt;0       | 失败，值为错误码 |
+| Parameter Name | Description             |
+| --------------- | ----------------------- |
+| >0              | Structure size          |
+| <0              | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：spm_cam_isp.h
-- 库文件：libisp.so
+- Header file: spm_cam_isp.h
+- Library file: libisp.so
 
 ##### ASR_ISP_RegSensorCallBack
 
-【描述】
+[Description]
 
-向 ISP pipeline 注册 sensor 的回调函数。
+Register the sensor callback function to the ISP pipeline.
 
-【语法】
+[Syntax]
 
-IntASR_ISP_RegSensorCallBack(uint32_tpipelineID,ISP_SENSOR_ATTR_S *pstSensorInfo, ISP_SENSOR_REGISTER_S *pstRegister);
+Int ASR_ISP_RegSensorCallBack(uint32_t pipelineID, ISP_SENSOR_ATTR_S *pstSensorInfo, ISP_SENSOR_REGISTER_S *pstRegister);
 
-【参数】
+[Parameters]
 
-| 参数名称      | 描述                             | 输入/输出 |
-| ---------------------- | ----------------------------------------- | ------------------ |
-| pipelineID    | ISP pipeline 的 ID               | 输入      |
-| pstSensorInfo | 注册 sensor 的属性               | 输入      |
-| pstRegister   | 注册 sensor 的回调函数结构体指针 | 输入      |
+| Parameter Name  | Description                             | Input/Output |
+| ---------------- | --------------------------------------- | ------------ |
+| pipelineID       | ISP pipeline ID                         | Input        |
+| pstSensorInfo    | Attributes of the registered sensor     | Input        |
+| pstRegister      | Pointer to the structure of the registered sensor callback function | Input        |
 
-【返回值】
+[Return Value]
 
-| 参数名称 | 描述             |
-| ----------------- | ------------------------- |
-| 0        | 成功             |
-| 非 0     | 失败，值为错误码 |
+| Parameter Name | Description             |
+| --------------- | ----------------------- |
+| 0               | Success                 |
+| Non-zero        | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：spm_cam_isp.h、spm_isp_sensor_comm.h
-- 库文件：libisp.so、libcam_sensors.so
+- Header file: spm_cam_isp.h, spm_isp_sensor_comm.h
+- Library file: libisp.so, libcam_sensors.so
 
 ##### ASR_ISP_UnRegSensorCallBack
 
-【描述】
+[Description]
 
-向 ISP pipeline 注销 sensor 的回调函数。
+Unregister the sensor callback function from the ISP pipeline.
 
-【语法】
+[Syntax]
 
-IntASR_ISP_UnRegSensorCallBack(uint32_tpipelineID,ISP_SENSOR_ATTR_S *pstSensorInfo);
+Int ASR_ISP_UnRegSensorCallBack(uint32_t pipelineID, ISP_SENSOR_ATTR_S *pstSensorInfo);
 
-【参数】
+[Parameters]
 
-| 参数名称      | 描述               | 输入/输出 |
-| ---------------------- | --------------------------- | ------------------ |
-| pipelineID    | ISP pipeline 的 ID | 输入      |
-| pstSensorInfo | 注册 sensor 的属性 | 输入      |
+| Parameter Name  | Description               | Input/Output |
+| ---------------- | ------------------------- | ------------ |
+| pipelineID       | ISP pipeline ID           | Input        |
+| pstSensorInfo    | Attributes of the registered sensor | Input        |
 
-【返回值】
+[Return Value]
 
-| 参数名称 | 描述             |
-| ----------------- | ------------------------- |
-| 0        | 成功             |
-| 非 0     | 失败，值为错误码 |
+| Parameter Name | Description             |
+| --------------- | ----------------------- |
+| 0               | Success                 |
+| Non-zero        | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：spm_cam_isp.h、spm_isp_sensor_comm.h
-- 库文件：libisp.so
+- Header file: spm_cam_isp.h, spm_isp_sensor_comm.h
+- Library file: libisp.so
 
 ##### ASR_ISP_RegAfMotorCallBack
 
-【描述】
+[Description]
 
-向 ISP pipeline 注册 sensor 马达的回调函数。
+Register the sensor motor callback function to the ISP pipeline.
 
-【语法】
+[Syntax]
 
-IntASR_ISP_RegAfMotorCallBack(uint32_tpipelineID,ISP_AF_MOTOR_REGISTER_S *pstAfRegister);
+Int ASR_ISP_RegAfMotorCallBack(uint32_t pipelineID, ISP_AF_MOTOR_REGISTER_S *pstAfRegister);
 
-【参数】
+[Parameters]
 
-| 参数名称      | 描述                                 | 输入/输出 |
-| ---------------------- | --------------------------------------------- | ------------------ |
-| pipelineID    | ISP pipeline 的 ID                   | 输入      |
-| pstAfRegister | 注册 sensor 马达的回调函数结构体指针 | 输入      |
+| Parameter Name  | Description                                 | Input/Output |
+| ---------------- | ------------------------------------------- | ------------ |
+| pipelineID       | ISP pipeline ID                             | Input        |
+| pstAfRegister    | Pointer to the structure of the registered sensor motor callback function | Input        |
 
-【返回值】
+[Return Value]
 
-| 参数名称 | 描述             |
-| ----------------- | ------------------------- |
-| 0        | 成功             |
-| 非 0     | 失败，值为错误码 |
+| Parameter Name | Description             |
+| --------------- | ----------------------- |
+| 0               | Success                 |
+| Non-zero        | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：spm_cam_isp.h、spm_isp_sensor_comm.h
-- 库文件：libisp.so
+- Header file: spm_cam_isp.h, spm_isp_sensor_comm.h
+- Library file: libisp.so
 
 ##### ASR_ISP_EnableOfflineMode
 
-【描述】
+[Description]
 
-操作 ISP pipeline offline 模式接口，使能 offline 模式指 ISP 的输入 stream 来自 DDR 而非 sensor， 由 VI 模块从 DDR 读取数据。
+Enable the offline mode of the ISP pipeline interface. Enabling offline mode means that the input stream of the ISP comes from DDR instead of the sensor, and the VI module reads data from DDR.
 
-【语法】
+[Syntax]
 
-IntASR_ISP_EnableOfflineMode(uint32_tpipelineID,uint32_tenable,const ISP_OFFLINE_ATTR_S *pstOfflineAttr);
+Int ASR_ISP_EnableOfflineMode(uint32_t pipelineID, uint32_t enable, const ISP_OFFLINE_ATTR_S *pstOfflineAttr);
 
-【参数】
+[Parameters]
 
-| 参数名称       | 描述                              | 输入/输出 |
-| ----------------------- | ------------------------------------------ | ------------------ |
-| pipelineID     | ISP pipeline 的 ID                | 输入      |
-| enable         | 使能/关闭 offline 模式            | 输入      |
-| pstOfflineAttr | 指向 Offline 模式属性结构体得指针 | 输入      |
+| Parameter Name   | Description                              | Input/Output |
+| ----------------- | ---------------------------------------- | ------------ |
+| pipelineID        | ISP pipeline ID                          | Input        |
+| enable            | Enable/disable offline mode              | Input        |
+| pstOfflineAttr    | Pointer to the structure of offline mode attributes | Input        |
 
-【返回值】
+[Return Value]
 
-| 参数名称 | 描述             |
-| ----------------- | ------------------------- |
-| 0        | 成功             |
-| 非 0     | 失败，值为错误码 |
+| Parameter Name | Description             |
+| --------------- | ----------------------- |
+| 0               | Success                 |
+| Non-zero        | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：spm_cam_isp.h、spm_isp_comm.h
-- 库文件：libisp.so
+- Header file: spm_cam_isp.h, spm_isp_comm.h
+- Library file: libisp.so
 
-【注意】
+[Note]
 
-- 使能 offline 模式时，sensor 以及马达的 callback 不需要注册，即使注册了，ISP 也不会使用。
-- 特殊的拍照场景中 offline pipeline 的处理不需要使用该函数。
+- When enabling offline mode, the callbacks of the sensor and motor do not need to be registered. Even if registered, the ISP will not use them.
+- The processing of the offline pipeline in special capture scenarios does not need to use this function.
 
 ##### ASR_ISP_SetPubAttr
 
-【描述】
+[Description]
 
-设置 ISP pipeline 上 channel 的公共属性。
+Set the public attributes of the ISP pipeline channel.
 
-【语法】
+[Syntax]
 
-int ASR_ISP_SetPubAttr(uint32_t pipelineID, uint32_t channelID, const ISP_PUB_ATTR_S
+int ASR_ISP_SetPubAttr(uint32_t pipelineID, uint32_t channelID, const ISP_PUB_ATTR_S *pstPubAttr);
 
- *pstPubAttr);
+[Parameters]
 
-【参数】
+| Parameter Name | Description                              | Input/Output |
+| --------------- | ---------------------------------------- | ------------ |
+| pipelineID      | ISP pipeline ID                          | Input        |
+| channelID       | ISP pipeline channel ID                  | Input        |
+| pstPubAttr      | Pointer to the structure of ISP pipeline public attributes | Input        |
 
-| 参数名称   | 描述                              | 输入/输出 |
-| ------------------- | ------------------------------------------ | ------------------ |
-| pipelineID | ISP pipeline ID 号                | 输入      |
-| channelID  | ISP pipeline channel 的 ID        | 输入      |
-| pstPubAttr | ISP pipeline 的公共属性结构体指针 | 输入      |
+[Return Value]
 
-【返回值】
+| Parameter Name | Description             |
+| --------------- | ----------------------- |
+| 0               | Success                 |
+| Non-zero        | Failure, value is error code |
 
-| 参数名称 | 描述             |
-| ----------------- | ------------------------- |
-| 0        | 成功             |
-| 非 0     | 失败，值为错误码 |
+[Requirements]
 
-【需求】
-
-- 头文件：spm_cam_isp.h、spm_isp_comm.h
-- 库文件：libisp.so
+- Header file: spm_cam_isp.h, spm_isp_comm.h
+- Library file: libisp.so
 
 ##### ASR_ISP_SetTuningParams
 
-【描述】
+[Description]
 
-设置 ISP pipeline 上 tuning 相关的属性。为了支持算法开发调试方便，ISP 初始化的 tuning 参数会由两个部分决定：
+Set the tuning-related attributes of the ISP pipeline. To support algorithm development and debugging, the tuning parameters initialized by the ISP are determined by two parts:
 
-1. 先从 sensor 那边获取（事先将 tuning 好的文件转换成代码）设置；
-2. 如果此接口告诉 ISP 当前有 tuning file 存在，ISP 会以该文件优先，覆盖之前设置的参数；否则不会执行任何操作。
+1. First, get the settings from the sensor (convert the pre-tuned file into code);
+2. If this interface tells the ISP that there is a tuning file, the ISP will prioritize this file and override the previously set parameters; otherwise, it will not perform any operations.
 
-【语法】
+[Syntax]
 
-intASR_ISP_SetTuningParams(uint32_tpipelineID,ISP_TUNING_ATTRS_S *pstTuningAttr);
+int ASR_ISP_SetTuningParams(uint32_t pipelineID, ISP_TUNING_ATTRS_S *pstTuningAttr);
 
-【参数】
+[Parameters]
 
-| 参数名称      | 描述                                  | 输入/输出 |
-| ---------------------- | ---------------------------------------------- | ------------------ |
-| pipelineID    | ISP pipeline ID 号                    | 输入      |
-| pstTuningAttr | ISP pipeline 的 tuning 属性结构体指针 | 输入      |
+| Parameter Name  | Description                                  | Input/Output |
+| ---------------- | -------------------------------------------- | ------------ |
+| pipelineID       | ISP pipeline ID                              | Input        |
+| pstTuningAttr    | Pointer to the structure of ISP pipeline tuning attributes | Input        |
 
-【返回值】
+[Return Value]
 
-| 参数名称 | 描述             |
-| ----------------- | ------------------------- |
-| 0        | 成功             |
-| 非 0     | 失败，值为错误码 |
+| Parameter Name | Description             |
+| --------------- | ----------------------- |
+| 0               | Success                 |
+| Non-zero        | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：spm_cam_isp.h、spm_isp_comm.h
-- 库文件：libisp.so
+- Header file: spm_cam_isp.h, spm_isp_comm.h
+- Library file: libisp.so
 
-【注意】
+[Note]
 
-- 调用该接口之前，ASR_ISP_RegSensorCallBack 或者 ASR_ISP_EnableOfflineMode 需要先调用。
+- Before calling this interface, ASR_ISP_RegSensorCallBack or ASR_ISP_EnableOfflineMode needs to be called first.
 
 ##### ASR_ISP_SetChHwPipeID
 
-【描述】
+[Description]
 
-设置 ISP pipeline 的 channel 实际工作的硬件 pipe ID。
+Set the actual working hardware pipe ID of the ISP pipeline channel.
 
-【语法】
+[Syntax]
 
 int ASR_ISP_SetChHwPipeID(uint32_t pipelineID, uint32_t channelID, uint32_t hwPipeID);
 
-【参数】
+[Parameters]
 
-| 参数名称   | 描述                       | 输入/输出 |
-| ------------------- | ----------------------------------- | ------------------ |
-| pipelineID | ISP pipeline ID 号         | 输入      |
-| channelID  | ISP pipeline channel 的 ID | 输入      |
-| hwPipeID   | 实际硬件 pipe ID           | 输入      |
+| Parameter Name | Description                       | Input/Output |
+| --------------- | --------------------------------- | ------------ |
+| pipelineID      | ISP pipeline ID                   | Input        |
+| channelID       | ISP pipeline channel ID           | Input        |
+| hwPipeID        | Actual hardware pipe ID           | Input        |
 
-【返回值】
+[Return Value]
 
-| 参数名称 | 描述             |
-| ----------------- | ------------------------- |
-| 0        | 成功             |
-| 非 0     | 失败，值为错误码 |
+| Parameter Name | Description             |
+| --------------- | ----------------------- |
+| 0               | Success                 |
+| Non-zero        | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：spm_cam_isp.h、spm_isp_comm.h
-- 库文件：libisp.so
+- Header file: spm_cam_isp.h, spm_isp_comm.h
+- Library file: libisp.so
 
-【注意】
+[Note]
 
-- 该接口要在 ASR_ISP_Init 之前调用，否则 ISP channel 以默认的 channel ID（硬件 pipe0） 开始运行。
-- 参考 2.2.1 节的描述，输入参数 pipelineID 对应的是 ISPfirmware，channelID 对应的是工作模式 preview 或 capture，hwPipeID 对应的是 ISP 硬件 pipelineID。对于特殊的拍照场景，可以用一套 firmware 管理 2 个硬件 pipeline 工作在不同的模式下，这样保证 2 个硬件 pipeline 的图像效果保持一致。
+- This interface should be called before ASR_ISP_Init; otherwise, the ISP channel will start running with the default channel ID (hardware pipe0).
+- Refer to the description in section 2.2.1, the input parameter pipelineID corresponds to the ISP firmware, channelID corresponds to the working mode preview or capture, and hwPipeID corresponds to the ISP hardware pipelineID. For special capture scenarios, a set of firmware can manage two hardware pipelines working in different modes, ensuring that the image effects of the two hardware pipelines are consistent.
 
 ##### ASR_ISP_Init
 
-【描述】
+[Description]
 
-以之前设置的参数，初始化 ISPpipeline，经过初始化后，第一帧的所有参数已经 ready，原则上不建议在该接口后再设置初始化的参数，因为不会在第一帧生效，而会在第二帧生效。
+Initialize the ISP pipeline with the previously set parameters. After initialization, all parameters of the first frame are ready. In principle, it is not recommended to set initialization parameters after this interface, as they will not take effect in the first frame but will take effect in the second frame.
 
-【语法】
+[Syntax]
 
 int ASR_ISP_Init(uint32_t pipelineID);
 
-【参数】
+[Parameters]
 
-| 参数名称   | 描述               | 输入/输出 |
-| ------------------- | --------------------------- | ------------------ |
-| pipelineID | ISP pipeline ID 号 | 输入      |
+| Parameter Name | Description               | Input/Output |
+| --------------- | ------------------------- | ------------ |
+| pipelineID      | ISP pipeline ID           | Input        |
 
-【返回值】
+[Return Value]
 
-| 参数名称 | 描述             |
-| ----------------- | ------------------------- |
-| 0        | 成功             |
-| 非 0     | 失败，值为错误码 |
+| Parameter Name | Description             |
+| --------------- | ----------------------- |
+| 0               | Success                 |
+| Non-zero        | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：spm_cam_isp.h、spm_isp_comm.h
-- 库文件：libisp.so
+- Header file: spm_cam_isp.h, spm_isp_comm.h
+- Library file: libisp.so
 
 ##### ASR_ISP_DeInit
 
-【描述】
+[Description]
 
-撤销 ISP pipeline 的初始化，清除所有设置在该 pipeline 上的效果参数，注册的一些 callback 是不会清除的。
+Deinitialize the ISP pipeline, clearing all effect parameters set on the pipeline. Registered callbacks will not be cleared.
 
-【语法】
+[Syntax]
 
-int ASR_ISP_ DeInit (uint32_t pipelineID);
+int ASR_ISP_DeInit(uint32_t pipelineID);
 
-【参数】
+[Parameters]
 
-| 参数名称   | 描述               | 输入/输出 |
-| ------------------- | --------------------------- | ------------------ |
-| pipelineID | ISP pipeline ID 号 | 输入      |
+| Parameter Name | Description               | Input/Output |
+| --------------- | ------------------------- | ------------ |
+| pipelineID      | ISP pipeline ID           | Input        |
 
-【返回值】
+[Return Value]
 
-| 参数名称 | 描述             |
-| ----------------- | ------------------------- |
-| 0        | 成功             |
-| 非 0     | 失败，值为错误码 |
+| Parameter Name | Description             |
+| --------------- | ----------------------- |
+| 0               | Success                 |
+| Non-zero        | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：spm_cam_isp.h、spm_isp_comm.h
-- 库文件：libisp.so
+- Header file: spm_cam_isp.h, spm_isp_comm.h
+- Library file: libisp.so
 
 ##### ASR_ISP_EnablePDAF
 
-【描述】
+[Description]
 
-使能/关闭 ISP pipeline 的 PDAF 功能。
+Enable/disable the PDAF function of the ISP pipeline.
 
-【语法】
+[Syntax]
 
 int ASR_ISP_EnablePDAF(uint32_t pipelineID, uint32_t enable);
 
-【参数】
+[Parameters]
 
-| 参数名称   | 描述                       | 输入/输出 |
-| ------------------- | ----------------------------------- | ------------------ |
-| pipelineID | ISP pipeline ID 号         | 输入      |
-| enable     | 使能或者关闭 PDAF 的标识位 | 输入      |
+| Parameter Name | Description                       | Input/Output |
+| --------------- | --------------------------------- | ------------ |
+| pipelineID      | ISP pipeline ID                   | Input        |
+| enable          | Flag to enable or disable PDAF    | Input        |
 
-【返回值】
+[Return Value]
 
-| 参数名称 | 描述             |
-| ----------------- | ------------------------- |
-| 0        | 成功             |
-| 非 0     | 失败，值为错误码 |
+| Parameter Name | Description             |
+| --------------- | ----------------------- |
+| 0               | Success                 |
+| Non-zero        | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：spm_cam_isp.h、spm_isp_comm.h
-- 库文件：libisp.so
+- Header file: spm_cam_isp.h, spm_isp_comm.h
+- Library file: libisp.so
 
-【注意】
+[Note]
 
-- 必须在 ASR_ISP_Init 之后调用。
+- Must be called after ASR_ISP_Init.
 
 ##### ASR_ISP_SetFps
 
-【描述】
+[Description]
 
-设置 ISPpipeline 的帧率，ISP 支持动态帧率，如果需要以特定的帧率运行，请将 fminFps 和 fmaxFps 设置成一样的值。该接口可以在 ASR_ISP_Init 之前或者 ISP 运行期间设置，前者设置后，第一帧便以设置的帧率运行。
+Set the frame rate of the ISP pipeline. The ISP supports dynamic frame rates. If you need to run at a specific frame rate, set fminFps and fmaxFps to the same value. This interface can be set before ASR_ISP_Init or during ISP operation. If set before, the first frame will run at the set frame rate.
 
-【语法】
+[Syntax]
 
 int ASR_ISP_SetFps(uint32_t pipelineID, float fminFps, float fmaxFps);
 
-【参数】
+[Parameters]
 
-| 参数名称   | 描述               | 输入/输出 |
-| ------------------- | --------------------------- | ------------------ |
-| pipelineID | ISP pipeline ID 号 | 输入      |
-| fminFps    | 最小帧率           | 输入      |
-| FmaxFps    | 最大帧率           | 输入      |
+| Parameter Name | Description               | Input/Output |
+| --------------- | ------------------------- | ------------ |
+| pipelineID      | ISP pipeline ID           | Input        |
+| fminFps         | Minimum frame rate        | Input        |
+| fmaxFps         | Maximum frame rate        | Input        |
 
-【返回值】
+[Return Value]
 
-| 参数名称 | 描述             |
-| ----------------- | ------------------------- |
-| 0        | 成功             |
-| 非 0     | 失败，值为错误码 |
+| Parameter Name | Description             |
+| --------------- | ----------------------- |
+| 0               | Success                 |
+| Non-zero        | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：spm_cam_isp.h、spm_isp_comm.h
-- 库文件：libisp.so
+- Header file: spm_cam_isp.h, spm_isp_comm.h
+- Library file: libisp.so
 
 ##### ASR_ISP_SetFrameinfoCallback
 
-【描述】
+[Description]
 
-设置 ISP pipeline 的通知获取 frameinfo 回调函数，ISP 在更新每帧 frameinfo 时，通过该 callback 将 frameinfo 送至 user。
+Set the callback function to get frameinfo notifications from the ISP pipeline. The ISP sends the frameinfo to the user through this callback when updating each frame's frameinfo.
 
-【语法】
+[Syntax]
 
 int ASR_ISP_SetFrameinfoCallback(uint32_t pipelineID, GetFrameInfoCallBack callback);
 
-【参数】
+[Parameters]
 
-| 参数名称   | 描述                           | 输入/输出 |
-| ------------------- | --------------------------------------- | ------------------ |
-| pipelineID | ISP pipeline 的 ID             | 输入      |
-| callback   | User 获取 frameinfo 的回调函数 | 输入      |
+| Parameter Name | Description                           | Input/Output |
+| --------------- | ------------------------------------- | ------------ |
+| pipelineID      | ISP pipeline ID                       | Input        |
+| callback        | Callback function for user to get frameinfo | Input        |
 
-【返回值】
+[Return Value]
 
-| 参数名称 | 描述             |
-| ----------------- | ------------------------- |
-| 0        | 成功             |
-| 非 0     | 失败，值为错误码 |
+| Parameter Name | Description             |
+| --------------- | ----------------------- |
+| 0               | Success                 |
+| Non-zero        | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：spm_cam_isp.h、spm_isp_comm.h
-- 库文件：libisp.so
+- Header file: spm_cam_isp.h, spm_isp_comm.h
+- Library file: libisp.so
 
 ##### ASR_ISP_QueueFrameinfoBuffer
 
-【描述】
+[Description]
 
-ISP pipeline 的 frameinfo buffer 入队列函数，ISP 内部以队列的形式使用 frameinfo buffer，先进先出。
+Queue the frameinfo buffer of the ISP pipeline. The ISP internally uses the frameinfo buffer in a queue, first in, first out.
 
-【语法】
+[Syntax]
 
-intASR_ISP_QueueFrameinfoBuffer(uint32_tpipelineID,IMAGE_BUFFER_S
+int ASR_ISP_QueueFrameinfoBuffer(uint32_t pipelineID, IMAGE_BUFFER_S *pFrameInfoBuf);
 
- *pFrameInfoBuf);
+[Parameters]
 
-【参数】
+| Parameter Name  | Description                | Input/Output |
+| ---------------- | -------------------------- | ------------ |
+| pipelineID       | ISP pipeline ID            | Input        |
+| pFrameInfoBuf    | FrameInfo buffer           | Input        |
 
-| 参数名称      | 描述                | 输入/输出 |
-| ---------------------- | ---------------------------- | ------------------ |
-| pipelineID    | ISP pipeline 的 ID  | 输入      |
-| pFrameInfoBuf | FrameInfo 的 buffer | 输入      |
+[Return Value]
 
-【返回值】
+| Parameter Name | Description             |
+| --------------- | ----------------------- |
+| 0               | Success                 |
+| Non-zero        | Failure, value is error code |
 
-| 参数名称 | 描述             |
-| ----------------- | ------------------------- |
-| 0        | 成功             |
-| 非 0     | 失败，值为错误码 |
+[Requirements]
 
-【需求】
+- Header file: spm_cam_isp.h, cam_module_interface.h
+- Library file: libisp.so
 
-- 头文件：spm_cam_isp.h、cam_module_interface.h
-- 库文件：libisp.so
+[Note]
 
-【注意】
-
-- 输入参数 pFrameInfoBuf 指针会被 SDK 直接使用。所以应用层应当保证该指针所指向的内存空间不能被释放，直到注册的回调函数被调用。
+- The input parameter pFrameInfoBuf pointer will be directly used by the SDK. Therefore, the application layer should ensure that the memory space pointed to by this pointer cannot be released until the registered callback function is called.
 
 ##### ASR_ISP_FlushFrameinfoBuffer
 
-【描述】
+[Description]
 
-清除 ISP pipeline 上的 frameinfo buffer 队列，被清除的 buffer 通过设置的回调返还。
+Clear the frameinfo buffer queue on the ISP pipeline. The cleared buffer is returned through the set callback.
 
-【语法】
+[Syntax]
 
 int ASR_ISP_FlushFrameinfoBuffer(uint32_t pipelineID);
 
-【参数】
+[Parameters]
 
-| 参数名称   | 描述                  | 输入/输出 |
-| ------------------- | ------------------------------ | ------------------ |
-| pipelineID | ISP 的 pipeline ID 号 | 输入      |
+| Parameter Name | Description                  | Input/Output |
+| --------------- | ---------------------------- | ------------ |
+| pipelineID      | ISP pipeline ID              | Input        |
 
-【返回值】
+[Return Value]
 
-| 参数名称 | 描述             |
-| ----------------- | ------------------------- |
-| 0        | 成功             |
-| 非 0     | 失败，值为错误码 |
+| Parameter Name | Description             |
+| --------------- | ----------------------- |
+| 0               | Success                 |
+| Non-zero        | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：spm_cam_isp.h、spm_isp_comm.h
-- 库文件：libisp.so
+- Header file: spm_cam_isp.h, spm_isp_comm.h
+- Library file: libisp.so
 
-【注意】
+[Note]
 
-- Flush 出去的 buffer 不要再入队列，容易引发死锁问题。
+- Do not queue the flushed buffer again, as it may cause deadlock issues.
 
 ##### ASR_ISP_Streamon
 
-【描述】
+[Description]
 
-运行 ISP pipeline，sensor 的 streamon 要在此接口后面。
+Run the ISP pipeline. The sensor's streamon should be after this interface.
 
-【语法】
+[Syntax]
 
 int ASR_ISP_Streamon(uint32_t pipelineID);
 
-【参数】
+[Parameters]
 
-| 参数名称   | 描述               | 输入/输出 |
-| ------------------- | --------------------------- | ------------------ |
-| pipelineID | ISP pipeline ID 号 | 输入      |
+| Parameter Name | Description               | Input/Output |
+| --------------- | ------------------------- | ------------ |
+| pipelineID      | ISP pipeline ID           | Input        |
 
-【返回值】
+[Return Value]
 
-| 参数名称 | 描述             |
-| ----------------- | ------------------------- |
-| 0        | 成功             |
-| 非 0     | 失败，值为错误码 |
+| Parameter Name | Description             |
+| --------------- | ----------------------- |
+| 0               | Success                 |
+| Non-zero        | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：spm_cam_isp.h、spm_isp_comm.h
-- 库文件：libisp.so
+- Header file: spm_cam_isp.h, spm_isp_comm.h
+- Library file: libisp.so
 
-【注意】
+[Note]
 
-- 要在 ASR_ISP_Init 之后调用。
-- 在此之前不要先打开 sensor。
+- Must be called after ASR_ISP_Init.
+- Do not turn on the sensor before this.
 
 ##### ASR_ISP_Streamoff
 
-【描述】
+[Description]
 
-停止 ISP pipeline 的运行。
+Stop the ISP pipeline.
 
-【语法】
+[Syntax]
 
 int ASR_ISP_Streamoff(uint32_t pipelineID);
 
-【参数】
+[Parameters]
 
-| 参数名称   | 描述               | 输入/输出 |
-| ------------------- | --------------------------- | ------------------ |
-| pipelineID | ISP pipeline 的 ID | 输入      |
+| Parameter Name | Description               | Input/Output |
+| --------------- | ------------------------- | ------------ |
+| pipelineID      | ISP pipeline ID           | Input        |
 
-【返回值】
+[Return Value]
 
-| 参数名称 | 描述             |
-| ----------------- | ------------------------- |
-| 0        | 成功             |
-| 非 0     | 失败，值为错误码 |
+| Parameter Name | Description             |
+| --------------- | ----------------------- |
+| 0               | Success                 |
+| Non-zero        | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：spm_cam_isp.h、spm_isp_comm.h
-- 库文件：libisp.so
+- Header file: spm_cam_isp.h, spm_isp_comm.h
+- Library file: libisp.so
 
-【注意】
+[Note]
 
-- 要在 ASR_ISP_Streamon 之后调用。
+- Must be called after ASR_ISP_Streamon.
 
 ##### ASR_ISP_TriggerRawCapture
 
-【描述】
+[Description]
 
-触发 ISP pipeline 进行一次特殊的拍照场景处理流程，如果当前正在进行拍照，此时会触发失败。
+Trigger the ISP pipeline to perform a special capture process. If a capture is currently in progress, the trigger will fail.
 
-【语法】
+[Syntax]
 
 int ASR_ISP_TriggerRawCapture(uint32_t pipelineID, IMAGE_BUFFER_S *pFrameInfoBuf, uint32_t hdrCapture);
 
-【参数】
+[Parameters]
 
-| 参数名称           | 描述                                                                                                                            | 输入/输出 |
-| --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |
-| pipelineID         | ISP pipeline 的 ID                                                                                                              | 输入      |
-| pFrameInfoBuf  | 当前 RAW 图对应的 frameinfo buffer，该 frameinfo 应该和拍照时预览帧的 framei nfo 一样，否则拍照的图像质量有可能和预览不一样 | 输入      |
-| hdrCapture         | 是否是 hdr 拍照的标志位，本系统 HDR 拍照暂时只支持在 RAW 域合成的 HDR 拍照                                                  | 输入      |
+| Parameter Name  | Description                                                                                                                            | Input/Output |
+| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
+| pipelineID       | ISP pipeline ID                                                                                                                        | Input        |
+| pFrameInfoBuf    | Frameinfo buffer corresponding to the current RAW image. This frameinfo should be the same as the frameinfo of the preview frame during capture; otherwise, the image quality of the capture may differ from the preview. | Input        |
+| hdrCapture       | Flag indicating whether it is an HDR capture. The system currently only supports HDR capture in the RAW domain.                        | Input        |
 
-【返回值】
+[Return Value]
 
-| 参数名称 | 描述             |
-| ----------------- | ------------------------- |
-| 0        | 成功             |
-| 非 0     | 失败，值为错误码 |
+| Parameter Name | Description             |
+| --------------- | ----------------------- |
+| 0               | Success                 |
+| Non-zero        | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：spm_cam_isp.h、cam_module_interface.h
-- 库文件：libisp.so
+- Header file: spm_cam_isp.h, cam_module_interface.h
+- Library file: libisp.so
 
-【注意】
+[Note]
 
-- 该接口只能在 ISP 运行期间调用。
+- This interface can only be called during ISP operation.
 
 ##### ASR_ISP_ReInitPreviewChannel
 
-【描述】
+[Description]
 
-重新初始化 ISP pipeline 的预览 channel。在某些场景下，会停止某个 pipeline 的预览，进行复用硬件 pipe，在恢复该预览时，需要调用此接口，用来达到断流前后画面效果一致。
+Reinitialize the preview channel of the ISP pipeline. In some scenarios, the preview of a pipeline will be stopped to reuse the hardware pipe. When restoring the preview, this interface needs to be called to ensure consistent image effects before and after the stream interruption.
 
-【语法】
+[Syntax]
 
 int ASR_ISP_ReInitPreviewChannel(uint32_t pipelineID, IMAGE_BUFFER_S *pFrameInfoBuf);
 
-【参数】
+[Parameters]
 
-| 参数名称      | 描述                              | 输入/输出 |
-| ---------------------- | ------------------------------------------ | ------------------ |
-| pipelineID    | ISP pipeline 的 ID                | 输入      |
-| pFrameInfoBuf | 需要恢复场景时的 frameinfo buffer | 输入      |
+| Parameter Name  | Description                              | Input/Output |
+| ---------------- | ---------------------------------------- | ------------ |
+| pipelineID       | ISP pipeline ID                          | Input        |
+| pFrameInfoBuf    | Frameinfo buffer for restoring the scene | Input        |
 
-【返回值】
+[Return Value]
 
-| 参数名称 | 描述             |
-| ----------------- | ------------------------- |
-| 0        | 成功             |
-| 非 0     | 失败，值为错误码 |
+| Parameter Name | Description             |
+| --------------- | ----------------------- |
+| 0               | Success                 |
+| Non-zero        | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：spm_cam_isp.h、cam_module_interface.h
-- 库文件：libisp.so
+- Header file: spm_cam_isp.h, cam_module_interface.h
+- Library file: libisp.so
 
 ##### ASR_ISP_NotifyOnceHDRRawCapture
 
-【描述】
+[Description]
 
-通知 ISP pipeline 进行一次 HDR Raw 拍照流程，ISP 返回 HDR 第一帧有效 Raw frame ID，目前 HDR Raw 图顺序是正常曝光，长曝光和短曝光。
+Notify the ISP pipeline to perform a single HDR Raw capture process. The ISP returns the first valid Raw frame ID of the HDR. Currently, the order of HDR Raw images is normal exposure, long exposure, and short exposure.
 
-【语法】
+[Syntax]
 
-int ASR_ISP_NotifyOnceHDRRawCapture(uint32_t pipelineID, uint32_t ZSLCapture, int32_t
+int ASR_ISP_NotifyOnceHDRRawCapture(uint32_t pipelineID, uint32_t ZSLCapture, int32_t *startFrameID);
 
- *startFrameID);
+[Parameters]
 
-【参数】
+| Parameter Name  | Description                               | Input/Output |
+| ---------------- | ----------------------------------------- | ------------ |
+| pipelineID       | ISP pipeline ID                           | Input        |
+| ZSLCapture       | Flag indicating whether it is a ZSL HDR capture | Input        |
+| startFrameID     | Pointer to store the first valid HDR Raw frame ID | Output       |
 
-| 参数名称     | 描述                               | 输入/输出 |
-| --------------------- | ------------------------------------------- | ------------------ |
-| pipelineID   | ISP pipeline 的 ID                 | 输入      |
-| ZSLCapture   | 是否是 ZSL HDR 拍照的标志位        | 输入      |
-| startFrameID | 存放第一帧有效 HDR Raw 的 frame ID | 输出      |
+[Return Value]
 
-【返回值】
+| Parameter Name | Description             |
+| --------------- | ----------------------- |
+| 0               | Success                 |
+| Non-zero        | Failure, value is error code |
 
-| 参数名称 | 描述             |
-| ----------------- | ------------------------- |
-| 0        | 成功             |
-| 非 0     | 失败，值为错误码 |
+[Requirements]
 
-【需求】
+- Header file: spm_cam_isp.h
+- Library file: libisp.so
 
-- 头文件：spm_cam_isp.h
-- 库文件：libisp.so
+[Note]
 
-【注意】
-
-- 该接口只能在 ISP 运行期间调用。
+- This interface can only be called during ISP operation.
 
 ##### ASR_ISP_UpdateNoneZslStreamAeParams
 
-【描述】
+[Description]
 
-更新 ISP pipeline 上 sensor AE 相关的参数，该接口只有在 pipeline 断流后再重新开流时有用，用来保持 sensor 在断流前后状态一致。
+Update the AE parameters related to the sensor on the ISP pipeline. This interface is only useful when the pipeline is re-streamed after being stopped, to maintain the sensor's state consistency before and after the stream interruption.
 
-【语法】
+[Syntax]
 
-int ASR_ISP_UpdateNoneZslStreamAeParams(uint32_tpipelineID,IMAGE_BUFFER_S *pFrameInfoBuf,int backPreview, int updateSnsReg);
+int ASR_ISP_UpdateNoneZslStreamAeParams(uint32_t pipelineID, IMAGE_BUFFER_S *pFrameInfoBuf, int backPreview, int updateSnsReg);
 
-【参数】
+[Parameters]
 
-| 参数名称      | 描述                                                                                          | 输入/输出 |
-| ---------------------- | ------------------------------------------------------------------------------------------------------ | ------------------ |
-| pipelineID    | ISP pipeline 的 ID                                                                            | 输入      |
-| pFrameInfoBuf | 需要更新状态对应的 frameinfo                                                                  | 输入      |
-| backPreview   | 是否切换预览标志位                                                                            | 输入      |
-| updateSnsReg  | 是否需要更新 sensor 的 AE 寄存器，在 se nsor 重新 config 后，需要使能该标志位；否则可以不需要 | 输入  |
+| Parameter Name  | Description                                                                                          | Input/Output |
+| ---------------- | ---------------------------------------------------------------------------------------------------- | ------------ |
+| pipelineID       | ISP pipeline ID                                                                                      | Input        |
+| pFrameInfoBuf    | Frameinfo corresponding to the state to be updated                                                   | Input        |
+| backPreview      | Flag indicating whether to switch to preview                                                         | Input        |
+| updateSnsReg     | Flag indicating whether to update the sensor's AE register. If the sensor is reconfigured, this flag needs to be enabled; otherwise, it may not be needed. | Input        |
 
-【返回值】
+[Return Value]
 
-| 返回值 | 描述                 |
-| --------------- | ----------------------------- |
-| 0      | 成功。               |
-| 非 0   | 失败，其值为错误码。 |
+| Return Value | Description                 |
+| ------------- | --------------------------- |
+| 0             | Success                     |
+| Non-zero      | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：spm_cam_isp.h、cam_module_interface.h
-- 库文件：libisp.so
+- Header file: spm_cam_isp.h, cam_module_interface.h
+- Library file: libisp.so
 
-#### 效果设置 API
+#### Image Effect Setting API
 
-本小节描述的 API 是用来帮助使用者设置一些和图像效果有关的 setting。在本软件中，图像效果的设置通过 command 的形式使用，这些 command 由统一接口对外提供 API：
+This section describes the APIs used to help users set some image effect-related settings. In this software, image effect settings are used in the form of commands, and these commands are provided to the outside through a unified interface API:
 
-- ASR_ISP_SetEffectParams：设置 ISP pipeline 相关效果参数接口。
+- ASR_ISP_SetEffectParams: Set the effect parameters of the ISP pipeline interface.
 
-ISP 支持的效果 command 如下：
+The effect commands supported by the ISP are as follows:
 
 - ISP_EFFECT_CMD_S_AE_MODE
 - ISP_EFFECT_CMD_S_AWB_MODE
@@ -801,1013 +795,1011 @@ ISP 支持的效果 command 如下：
 
 ##### ASR_ISP_SetEffectParams
 
-【描述】
+[Description]
 
-设置 ISP 图像效果接口。
+Set the image effect parameters of the ISP.
 
-【语法】
+[Syntax]
 
 int ASR_ISP_SetEffectParams(uint32_t pipelineID, uint32_t effectCmd, void *pData, int dataSize);
 
-【参数】
+[Parameters]
 
-| 参数名称   | 描述                       | 输入/输出 |
-| ------------------- | ----------------------------------- | ------------------ |
-| pipelineID | ISP pipeline ID            | 输入      |
-| effectCmd  | 效果参数命令               | 输入      |
-| pData      | 指向此效果参数结构体的指针 | 输入      |
-| dataSize   | 此效果参数结构体的大小     | 输入      |
+| Parameter Name | Description                       | Input/Output |
+| --------------- | --------------------------------- | ------------ |
+| pipelineID      | ISP pipeline ID                   | Input        |
+| effectCmd       | Effect parameter command          | Input        |
+| pData           | Pointer to the structure of this effect parameter | Input        |
+| dataSize        | Size of this effect parameter structure | Input        |
 
-【返回值】
+[Return Value]
 
-| 参数名称 | 描述             |
-| ----------------- | ------------------------- |
-| 0        | 成功             |
-| 非 0     | 失败，值为错误码 |
+| Parameter Name | Description             |
+| --------------- | ----------------------- |
+| 0               | Success                 |
+| Non-zero        | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：spm_cam_isp.h
-- 库文件：libisp.so
+- Header file: spm_cam_isp.h
+- Library file: libisp.so
 
-##### 效果 command 介绍
+##### Effect Command Introduction
 
 1. **ISP_EFFECT_CMD_S_AE_MODE**
 
-设置图像曝光模式的命令，对应参数类型是结构体 asrISP_AE_INFO_S。
+Set the image exposure mode command. The corresponding parameter type is the structure asrISP_AE_INFO_S.
 
 1. **ISP_EFFECT_CMD_S_AWB_MODE**
 
-设置图像白平衡模式的命令，对应参数类型是结构体 asrISP_AWB_INFO_S。
+Set the image white balance mode command. The corresponding parameter type is the structure asrISP_AWB_INFO_S.
 
 1. **ISP_EFFECT_CMD_S_AF_MODE**
 
-设置图像对焦模式的命令，对应参数类型是结构体 asrISP_AF_INFO_S。
+Set the image focus mode command. The corresponding parameter type is the structure asrISP_AF_INFO_S.
 
 1. **ISP_EFFECT_CMD_S_TRIGGER_AF**
 
-触发图像对焦的命令，对应参数类型是 int32_t，1 表示触发，0 表示取消。
+Trigger the image focus command. The corresponding parameter type is int32_t, where 1 means trigger and 0 means cancel.
 
 1. **ISP_EFFECT_CMD_S_ANTIFLICKER_MODE**
 
-设置图像 flicker 模式的命令，对应参数类型是 int32_t，该参数的值由枚举 asrISP_ANTIFLICKE R_MODE_E 定义。
+Set the image flicker mode command. The corresponding parameter type is int32_t, and the value is defined by the enumeration asrISP_ANTIFLICKER_MODE_E.
 
 1. **ISP_EFFECT_CMD_S_LSC_MODE**
 
-设置图像 lens shading 模式的命令，对应参数类型是结构体 asrISP_LSC_INFO_S。
+Set the image lens shading mode command. The corresponding parameter type is the structure asrISP_LSC_INFO_S.
 
 1. **ISP_EFFECT_CMD_S_CCM_MODE**
 
-设置图像 CCM 模式的命令，对应参数类型是结构体 asrISP_CCM_INFO_S。
+Set the image CCM mode command. The corresponding parameter type is the structure asrISP_CCM_INFO_S.
 
 1. **ISP_EFFECT_CMD_S_AECOMPENSATION**
 
-设置图像曝光补偿模式的命令，对应参数类型是 int32_t，数值目前支持[-6,6]。
+Set the image exposure compensation mode command. The corresponding parameter type is int32_t, and the value currently supports [-6, 6].
 
 1. **ISP_EFFECT_CMD_S_METERING_MODE**
 
-设置图像测光模式的命令，对应参数类型是结构体 asrISP_METERING_INFO_S。
+Set the image metering mode command. The corresponding parameter type is the structure asrISP_METERING_INFO_S.
 
 1. **ISP_EFFECT_CMD_S_ZOOM_RATIO_IN_Q8**
 
-设置图像缩放比例的命令，对应参数类型是 int32_t，单位是 Q8。
+Set the image zoom ratio command. The corresponding parameter type is int32_t, and the unit is Q8.
 
 1. **ISP_EFFECT_CMD_S_SENSITIVITY_MODE**
 
-设置图像 ISO 模式的命令，对应参数类型是结构体 asrISP_SENSITIVITY_INFO_S，支持 auto 和 manual 模式。
+Set the image ISO mode command. The corresponding parameter type is the structure asrISP_SENSITIVITY_INFO_S, supporting auto and manual modes.
 
 1. **ISP_EFFECT_CMD_S_SENSOR_EXPOSURE_MODE**
 
-设置图像 Sensor 曝光模式的命令，这个命令和 ISP_EFFECT_CMD_S_AE_MODE 的区别是： 该命令只能设置曝光信息，而后者可以设置曝光和增益信息；对应参数类型是结构体 asr ISP_SENSOR_EXPOSURE_INFO_S，支持 auto 和 manual 模式。
+Set the image sensor exposure mode command. The difference between this command and ISP_EFFECT_CMD_S_AE_MODE is that this command can only set exposure information, while the latter can set both exposure and gain information. The corresponding parameter type is the structure asrISP_SENSOR_EXPOSURE_INFO_S, supporting auto and manual modes.
 
-这两个 command 以及 ISP_EFFECT_CMD_S_SENSITIVITY_MODE 的关系如下图所示。
+The relationship between these two commands and ISP_EFFECT_CMD_S_SENSITIVITY_MODE is shown in the table below.
 
 | AE MODE                | SENSITIVITY AUTO | SENSITIVITY MANUAL |
 | ------------------------------- | ------------------------- | --------------------------- |
 | SENSOR EXPOSURE AUTO   | Auto             | Auto               |
 | SENSOR EXPOSURE MANUAL | Auto             | Manual             |
 
-如表中所示，SENSITIVITY_MODE_MANUAL 是在 Auto Exposure 时，固定增益，曝光由算法根据场景自动计算；而 SENSOR_EXPOSURE_MODE_MANUAL 是在 Auto Exposure 时，固定曝光时间，增益由算法根据场景自动计算。
+As shown in the table, SENSITIVITY_MODE_MANUAL is to fix the gain in Auto Exposure mode, and the exposure is automatically calculated by the algorithm according to the scene; while SENSOR_EXPOSURE_MODE_MANUAL is to fix the exposure time in Auto Exposure mode, and the gain is automatically calculated by the algorithm according to the scene.
 
 1. **ISP_EFFECT_CMD_S_TRIGGER_AE_QUICK_RESPONSE**
 
-触发算法 AE 快速收敛一次的命令，对应参数类型是 int32_t，1 表示触发，0 表示取消。该命令只会触发一次，算法等 AE 快速收敛后会清除此状态，一般用于 touch 场景。
+Trigger the algorithm AE quick convergence command. The corresponding parameter type is int32_t, where 1 means trigger and 0 means cancel. This command will only trigger once, and the algorithm will clear this state after AE quick convergence, generally used in touch scenarios.
 
 1. **ISP_EFFECT_CMD_S_AECOMPENSATION_STEP**
 
-设置 ISP 曝光补偿 step 的值，对应参数类型是 float。设置后曝光补偿每次按照这个 step 进行调整，默认值为 1/3。
+Set the value of the ISP exposure compensation step. The corresponding parameter type is float. After setting, the exposure compensation is adjusted according to this step each time, and the default value is 1/3.
 
 1. **ISP_EFFECT_CMD_S_AE_SCENE_MODE**
 
-设置 ISPAE 的场景模式，对应参数类型是 int32_t，值由枚举 asrISP_AE_SCENE_MODE_E 定义。ISP 支持的模式有普通和人脸模式，在人脸模式下，AE 的收敛速度比普通模式下快。
+Set the ISP AE scene mode. The corresponding parameter type is int32_t, and the value is defined by the enumeration asrISP_AE_SCENE_MODE_E. The ISP supports normal and face modes. In face mode, the AE convergence speed is faster than in normal mode.
 
 1. **ISP_EFFECT_CMD_S_FILTER_MODE**
 
-设置 ISP 颜色滤镜模式，对应参数类型是 int32_t，值由枚举 asrISP_COLOR_FILTER_MODE_ E 定义。目前支持普通和黑白两种模式，默认工作再普通模式下。
+Set the ISP color filter mode. The corresponding parameter type is int32_t, and the value is defined by the enumeration asrISP_COLOR_FILTER_MODE_E. Currently, it supports normal and black and white modes, and the default is normal mode.
 
 1. **ISP_EFFECT_CMD_S_YUV_RANGE**
 
-设置 ISP 的 yuv range，对应参数类型是 int32_t，值由枚举 asrISP_YUV_RANGE_E 定义。目前支持 full（y:0~255, uv:0~255）和 compress（y:16~235, uv:16~240）两种模式。
+Set the YUV range of the ISP. The corresponding parameter type is int32_t, and the value is defined by the enumeration asrISP_YUV_RANGE_E. Currently, it supports full (y:0~255, uv:0~255) and compress (y:16~235, uv:16~240) modes.
 
 1. **ISP_EFFECT_CMD_S_SOLID_COLOR_MODE**
 
-设置 ISP 纯色模式，对应参数类型是 int32_t，值由枚举 asrISP_SOLID_COLOR_MODE_E 定义。目前仅支持纯黑色模式，默认关闭此模式。
+Set the ISP solid color mode. The corresponding parameter type is int32_t, and the value is defined by the enumeration asrISP_SOLID_COLOR_MODE_E. Currently, only the pure black mode is supported, and this mode is turned off by default.
 
 1. **ISP_EFFECT_CMD_G_AF_MODE**
 
-获取 ISP 当前 AF 模式的命令，对应参数类型是结构体 asrISP_AF_INFO_S。
+Get the current AF mode command of the ISP. The corresponding parameter type is the structure asrISP_AF_INFO_S.
 
 1. **ISP_EFFECT_CMD_G_ANTIFLICKER_MODE**
 
-获取 ISP 当前 antiflicker 模式的命令，对应参数类型是 int32_t，该参数的值由枚举 asrISP_ANTIF LICKER_MODE_E 定义。
+Get the current antiflicker mode command of the ISP. The corresponding parameter type is int32_t, and the value is defined by the enumeration asrISP_ANTIFLICKER_MODE_E.
 
 1. **ISP_EFFECT_CMD_G_METERING_MODE**
 
-获取 ISP 当前测光模式的命令，对应参数类型是结构体 asrISP_METERING_INFO_S。
+Get the current metering mode command of the ISP. The corresponding parameter type is the structure asrISP_METERING_INFO_S.
 
 1. **ISP_EFFECT_CMD_G_AF_MOTOR_RANGE**
 
-获取对焦马达移动的范围（最小值和最大值），对应参数类型是结构体 asrISP_RANGE_S。
+Get the range of the focus motor movement (minimum and maximum values). The corresponding parameter type is the structure asrISP_RANGE_S.
 
 1. **ISP_EFFECT_CMD_G_AE_MODE**
 
-获取当前 ISP 的 AE 模式，对应参数类型是结构体 ISP_AE_INFO_S。
+Get the current AE mode of the ISP. The corresponding parameter type is the structure ISP_AE_INFO_S.
 
 1. **ISP_EFFECT_CMD_G_AWB_MODE**
 
-获取当前 ISP 的 AWB 模式，对应参数类型是结构体 ISP_AWB_INFO_S。
+Get the current AWB mode of the ISP. The corresponding parameter type is the structure ISP_AWB_INFO_S.
 
-#### tuning 相关 API
+#### Tuning-related API
 
-本小节描述的 API 用来帮助 tuning 工程师调节更具体、更细节的参数，ASR 发布的 tuning 工具也是使用该小节相关的 API。
+This section describes the APIs used to help tuning engineers adjust more specific and detailed parameters. The tuning tools released by ASR also use the APIs related to this section.
 
-tuning 相关 API 如下：
+The tuning-related APIs are as follows:
 
-- ASR_ISP_SetFwPara：设置 ISP pipeline 上 Firmware 的参数。
-- ASR_ISP_GetFWPara：获取 ISP pipeline 上 Firmware 的参数。
-- ASR_ISP_SetRegister：设置指定寄存器值。
-- ASR_ISP_GetRegister：获取指定寄存器值。
-- ASR_ISP_LoadSettingFile：加载 ISP pipeline 上 Firmware 的 setting file。
-- ASR_ISP_SaveSettingFile：保存 ISP pipeline 上 Firmware 的 setting file。
+- ASR_ISP_SetFwPara: Set the parameters of the ISP pipeline firmware.
+- ASR_ISP_GetFWPara: Get the parameters of the ISP pipeline firmware.
+- ASR_ISP_SetRegister: Set the value of the specified register.
+- ASR_ISP_GetRegister: Get the value of the specified register.
+- ASR_ISP_LoadSettingFile: Load the setting file of the ISP pipeline firmware.
+- ASR_ISP_SaveSettingFile: Save the setting file of the ISP pipeline firmware.
 
 ##### ASR_ISP_SetFwPara
 
-【描述】
+[Description]
 
-设置 ISP Firmware 参数。
+Set the ISP firmware parameters.
 
-【语法】
+[Syntax]
 
-int ASR_ISP_SetFwPara(uint32_t pipelineID, const char *paramter, const char *name, uint32_t row, uint32_t column, int value);
+int ASR_ISP_SetFwPara(uint32_t pipelineID, const char *parameter, const char *name, uint32_t row, uint32_t column, int value);
 
-【参数】
+[Parameters]
 
-| 参数名称   | 描述               | 输入/输出 |
-| ------------------- | --------------------------- | ------------------ |
-| pipelineID | ISP pipeline 的 ID | 输入      |
-| paramter   | ISP 子模块 name    | 输入      |
-| name       | 参数 name          | 输入      |
-| row        | 行号               | 输入      |
-| column     | 列号               | 输入      |
-| value      | 值                 | 输入      |
+| Parameter Name | Description               | Input/Output |
+| --------------- | ------------------------- | ------------ |
+| pipelineID      | ISP pipeline ID           | Input        |
+| parameter       | ISP submodule name        | Input        |
+| name            | Parameter name            | Input        |
+| row             | Row number                | Input        |
+| column          | Column number             | Input        |
+| value           | Value                     | Input        |
 
-【返回值】
+[Return Value]
 
-| 参数名称 | 描述             |
-| ----------------- | ------------------------- |
-| 0        | 成功             |
-| 非 0     | 失败，值为错误码 |
+| Parameter Name | Description             |
+| --------------- | ----------------------- |
+| 0               | Success                 |
+| Non-zero        | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：spm_cam_isp.h
-- 库文件：libisp.so
+- Header file: spm_cam_isp.h
+- Library file: libisp.so
 
-【注意】无
+[Note] None
 
 ##### ASR_ISP_GetFWPara
 
-【描述】
+[Description]
 
-获取 ISP Firmware 参数。
+Get the ISP firmware parameters.
 
-【语法】
+[Syntax]
 
-int ASR_ISP_GetFWPara(uint32_t pipelineID, const char *paramter, const char *name, uint32_t row, uint32_t column, int *pValue);
+int ASR_ISP_GetFWPara(uint32_t pipelineID, const char *parameter, const char *name, uint32_t row, uint32_t column, int *pValue);
 
-【参数】
+[Parameters]
 
-| 参数名称   | 描述               | 输入/输出 |
-| ------------------- | --------------------------- | ------------------ |
-| pipelineID | ISP pipeline 的 ID | 输入      |
-| paramter   | ISP 子模块 name    | 输入      |
-| name       | 参数 name          | 输入      |
-| row        | 行号               | 输入      |
-| column     | 列号               | 输入      |
-| value      | 值                 | 输出      |
+| Parameter Name | Description               | Input/Output |
+| --------------- | ------------------------- | ------------ |
+| pipelineID      | ISP pipeline ID           | Input        |
+| parameter       | ISP submodule name        | Input        |
+| name            | Parameter name            | Input        |
+| row             | Row number                | Input        |
+| column          | Column number             | Input        |
+| value           | Value                     | Output       |
 
-【返回值】
+[Return Value]
 
-| 参数名称 | 描述                      |
-| ----------------- | ---------------------------------- |
-| -1       | 输入 check error          |
-| 0        | 不能找到指定参数          |
-| &gt;0       | 成功，返回获取的值 number |
+| Parameter Name | Description                      |
+| --------------- | -------------------------------- |
+| -1              | Input check error                |
+| 0               | Cannot find the specified parameter |
+| >0              | Success, returns the number of obtained values |
 
-【需求】
+[Requirements]
 
-- 头文件：spm_cam_isp.h
-- 库文件：libisp.so
+- Header file: spm_cam_isp.h
+- Library file: libisp.so
 
-【注意】无
+[Note] None
 
 ##### ASR_ISP_SetRegister
 
-【描述】
+[Description]
 
-设置指定寄存器值。
+Set the value of the specified register.
 
-【语法】
+[Syntax]
 
 int ASR_ISP_SetRegister(uint32_t addr, uint32_t value, uint32_t mask);
 
-【参数】
+[Parameters]
 
-| 参数名称 | 描述        | 输入/输出 |
-| ----------------- | -------------------- | ------------------ |
-| addr     | 寄存器地址  | 输入      |
-| value    | 寄存器值    | 输入      |
-| mask     | 寄存器 mask | 输入      |
+| Parameter Name | Description        | Input/Output |
+| --------------- | ------------------ | ------------ |
+| addr            | Register address   | Input        |
+| value           | Register value     | Input        |
+| mask            | Register mask      | Input        |
 
-【返回值】
+[Return Value]
 
-| 参数名称 | 描述             |
-| ----------------- | ------------------------- |
-| 0        | 成功             |
-| 非 0     | 失败，值为错误码 |
+| Parameter Name | Description             |
+| --------------- | ----------------------- |
+| 0               | Success                 |
+| Non-zero        | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：spm_cam_isp.h
-- 库文件：libisp.so
+- Header file: spm_cam_isp.h
+- Library file: libisp.so
 
-【注意】无
+[Note] None
 
 ##### ASR_ISP_GetRegister
 
-【描述】
+[Description]
 
-获取指定寄存器值。
+Get the value of the specified register.
 
-【语法】
+[Syntax]
 
 int ASR_ISP_GetRegister(uint32_t addr, int *pValue);
 
-【参数】
+[Parameters]
 
-| 参数名称 | 描述       | 输入/输出 |
-| ----------------- | ------------------- | ------------------ |
-| addr     | 寄存器地址 | 输入      |
-| pValue   | 寄存器值   | 输出      |
+| Parameter Name | Description       | Input/Output |
+| --------------- | ----------------- | ------------ |
+| addr            | Register address  | Input        |
+| pValue          | Register value    | Output       |
 
-【返回值】
+[Return Value]
 
-| 参数名称 | 描述             |
-| ----------------- | ------------------------- |
-| 0        | 成功             |
-| 非 0     | 失败，值为错误码 |
+| Parameter Name | Description             |
+| --------------- | ----------------------- |
+| 0               | Success                 |
+| Non-zero        | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：spm_cam_isp.h
-- 库文件：libisp.so
+- Header file: spm_cam_isp.h
+- Library file: libisp.so
 
-【注意】无
+[Note] None
 
 ##### ASR_ISP_LoadSettingFile
 
-【描述】
+[Description]
 
-加载 ISP Firmware setting file。
+Load the ISP firmware setting file.
 
-【语法】
+[Syntax]
 
 int ASR_ISP_LoadSettingFile(uint32_t pipelineID, const char *pFileName);
 
-【参数】
+[Parameters]
 
-| 参数名称   | 描述                     | 输入/输出 |
-| ------------------- | --------------------------------- | ------------------ |
-| pipelineID | ISP pipeline 的 ID       | 输入      |
-| pFileName  | 参数文件名，包含绝对路径 | 输入      |
+| Parameter Name | Description                     | Input/Output |
+| --------------- | ------------------------------- | ------------ |
+| pipelineID      | ISP pipeline ID                 | Input        |
+| pFileName       | Parameter file name, including the absolute path | Input        |
 
-【返回值】
+[Return Value]
 
-| 参数名称 | 描述             |
-| ----------------- | ------------------------- |
-| 0        | 成功             |
-| 非 0     | 失败，值为错误码 |
+| Parameter Name | Description             |
+| --------------- | ----------------------- |
+| 0               | Success                 |
+| Non-zero        | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：spm_cam_isp.h
-- 库文件：libisp.so
+- Header file: spm_cam_isp.h
+- Library file: libisp.so
 
-【注意】无
+[Note] None
 
 ##### ASR_ISP_SaveSettingFile
 
-【描述】
+[Description]
 
-保存 ISP Firmware setting file。
+Save the ISP firmware setting file.
 
-【语法】
+[Syntax]
 
 int ASR_ISP_SaveSettingFile(uint32_t pipelineID, const char *pFileName);
 
-【参数】
+[Parameters]
 
-| 参数名称   | 描述                     | 输入/输出 |
-| ------------------- | --------------------------------- | ------------------ |
-| pipelineID | ISP pipeline 的 ID       | 输入      |
-| pFileName  | 参数文件名，包含绝对路径 | 输入      |
+| Parameter Name | Description                     | Input/Output |
+| --------------- | ------------------------------- | ------------ |
+| pipelineID      | ISP pipeline ID                 | Input        |
+| pFileName       | Parameter file name, including the absolute path | Input        |
 
-【返回值】
+[Return Value]
 
-| 参数名称 | 描述             |
-| ----------------- | ------------------------- |
-| 0        | 成功             |
-| 非 0     | 失败，值为错误码 |
+| Parameter Name | Description             |
+| --------------- | ----------------------- |
+| 0               | Success                 |
+| Non-zero        | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：spm_cam_isp.h
-- 库文件：libisp.so
+- Header file: spm_cam_isp.h
+- Library file: libisp.so
 
-【注意】无
+[Note] None
 
-#### 主要 API 使用流程
+#### Main API Usage Process
 
-本小节主要描述系统控制 API 的使用流程，总共分为一下几个阶段：构造、注册、设置、初始化、streamon、streamoff、反初始化、析构。
+This section mainly describes the usage process of the system control API, which is divided into the following stages: construction, registration, setting, initialization, streamon, streamoff, deinitialization, and destruction.
 
-第一步构造 ISPpipeline 的上下文环境；
+The first step is to construct the context environment of the ISP pipeline;
 
-第二步注册，向 ISP pipeline 注册 sensor 的回调函数、对焦马达的回调函数以及 frameinfo 的回调函数；
+The second step is registration, registering the sensor callback function, focus motor callback function, and frameinfo callback function to the ISP pipeline;
 
-第三步设置，设置 ISP pipeline 的图像公共属性、tuning 相关的属性、channel 工作的实际硬件 pipe ID、帧率、是否使能 offline 模式、frameinfobuffer 入队列；
+The third step is setting, setting the public attributes of the ISP pipeline, tuning-related attributes, the actual working hardware pipe ID of the channel, frame rate, whether to enable offline mode, and frameinfo buffer queue;
 
-第四步初始化，根据以上步骤设置的信息，初始化 ISP pipeline；
+The fourth step is initialization, initializing the ISP pipeline based on the information set in the previous steps;
 
-第五步，streamon ISP pipeline，进入工作状态。
+The fifth step is to streamon the ISP pipeline and enter the working state.
 
-若要停止并退出 ISP 时，进入第六步，streamoff ISP pipeline，退出工作状态；
+If you want to stop and exit the ISP, proceed to the sixth step, streamoff the ISP pipeline, and exit the working state;
 
-第七步反初始化，除之前注册的回调外，清除设置的参数等信息；
+The seventh step is deinitialization, clearing the set parameters and other information except for the previously registered callbacks;
 
-第八步析构 ISPpipeline 的上下文环境。
+The eighth step is to destruct the context environment of the ISP pipeline.
 
-具体流程如图 3-1 所示，以上流程面向 pipeline，ISP 软件能同时支持两个 pipeline 一起工作，如果需要启动另个 pipeline，流程类似，但是需要注意实际工作的硬件 pipe ID，因为有时分复用。
+The specific process is shown in Figure 3-1. The above process is for the pipeline. The ISP software can support two pipelines working together at the same time. If you need to start another pipeline, the process is similar, but you need to pay attention to the actual working hardware pipe ID, as it may be reused.
 
-#### 数据类型
+#### Data Types
 
-#### 错误码
+#### Error Codes
 
-| 错误代码 | 宏定义                    | 描述           |
-| ----------------- | ---------------------------------- | ----------------------- |
-| -22      | ASR_ERR_ISP_ILLEGAL_PARAM | 参数非法       |
-| -17      | ASR_ERR_ISP_EXIST         | 资源已经存在   |
-| -19      | ASR_ERR_ISP_NOTEXIST      | 资源不存在     |
-| -22      | ASR_ERR_ISP_NULL_PTR      | 空指针         |
-| -1       | ASR_ERR_ISP_NOT_SUPPORT   | 操作当前不支持 |
-| -1       | ASR_ERR_ISP_NOT_PERM      | 操作不允许     |
-| -12      | ASR_ERR_ISP_NOMEM         | 内存不足       |
-| -14      | ASR_ERR_ISP_BADADDR       | 无效的地址     |
-| -16      | ASR_ERR_ISP_BUSY          | 系统正忙       |
+| Error Code | Macro Definition            | Description       |
+| ---------- | --------------------------- | ----------------- |
+| -22        | ASR_ERR_ISP_ILLEGAL_PARAM   | Illegal parameter |
+| -17        | ASR_ERR_ISP_EXIST           | Resource already exists |
+| -19        | ASR_ERR_ISP_NOTEXIST        | Resource does not exist |
+| -22        | ASR_ERR_ISP_NULL_PTR        | Null pointer      |
+| -1         | ASR_ERR_ISP_NOT_SUPPORT     | Operation not supported |
+| -1         | ASR_ERR_ISP_NOT_PERM        | Operation not allowed |
+| -12        | ASR_ERR_ISP_NOMEM           | Insufficient memory |
+| -14        | ASR_ERR_ISP_BADADDR         | Invalid address   |
+| -16        | ASR_ERR_ISP_BUSY            | System is busy    |
 
 ### VI API
 
-本节介绍 ASR MARS11-ISP VI 模块 API 使用方法，描述的 API 都是 VI SDK 面向应用的，并详细解释了相关的参数数据结构和返回值。
+This section introduces the usage of ASR MARS11-ISP VI module APIs. The described APIs are VI SDK APIs for applications and explain the relevant parameter data structures and return values in detail.
 
 #### API
 
-VI 模块提供以下 API：
+The VI module provides the following APIs:
 
-- ASR_VI_SetDevAttr：设置 VI Device 的属性。
-- ASR_VI_GetDevAttr：获取 VI Device 的属性。
-- ASR_VI_EnableDev：使能 VI Device。
-- ASR_VI_DisableDev：关闭 VI Device。
-- ASR_VI_SetChnAttr：设置 VI Channel 的属性。
-- ASR_VI_GetChnAttr：获取 VI Channel 的属性。
-- ASR_VI_SetCallback：设置上层的 Callback 函数到 VI Device。
-- ASR_VI_EnableChn：使能 VI channel。
-- ASR_VI_DisableChn：关闭 VI channel。
-- ASR_VI_Init：初始化 VI 模块资源。
-- ASR_VI_Deinit：释放 VI 模块资源。
-- ASR_VI_SetBayerReadAttr：设置 offline 读取 Bayer raw 的属性。
-- ASR_VI_GetBayerReadAttr：获取 offline 读取 Bayer raw 的属性。
-- ASR_VI_EnableBayerRead：使能 offline Bayer raw 读取。
-- ASR_VI_DisableBayerRead：关闭 offline Bayer raw 读取。
-- ASR_VI_EnableBayerDump：使能 Bayer Dump。
-- ASR_VI_DisableBayerDump：关闭 Bayer Dump。
-- ASR_VI_ChnQueueBuffer: 向 channel 压入 buffer。
+- ASR_VI_SetDevAttr: Set the attributes of the VI device.
+- ASR_VI_GetDevAttr: Get the attributes of the VI device.
+- ASR_VI_EnableDev: Enable the VI device.
+- ASR_VI_DisableDev: Disable the VI device.
+- ASR_VI_SetChnAttr: Set the attributes of the VI channel.
+- ASR_VI_GetChnAttr: Get the attributes of the VI channel.
+- ASR_VI_SetCallback: Set the upper layer's callback function to the VI device.
+- ASR_VI_EnableChn: Enable the VI channel.
+- ASR_VI_DisableChn: Disable the VI channel.
+- ASR_VI_Init: Initialize the VI module resources.
+- ASR_VI_Deinit: Release the VI module resources.
+- ASR_VI_SetBayerReadAttr: Set the attributes for offline reading of Bayer raw.
+- ASR_VI_GetBayerReadAttr: Get the attributes for offline reading of Bayer raw.
+- ASR_VI_EnableBayerRead: Enable offline Bayer raw reading.
+- ASR_VI_DisableBayerRead: Disable offline Bayer raw reading.
+- ASR_VI_EnableBayerDump: Enable Bayer Dump.
+- ASR_VI_DisableBayerDump: Disable Bayer Dump.
+- ASR_VI_ChnQueueBuffer: Queue the buffer to the channel.
 
 ##### ASR_VI_SetDevAttr
 
-【描述】
+[Description]
 
-设置 VI 设备属性。基本设备属性默认了部分芯片配置,满足绝大部分的 sensor 对接要求。
+Set the attributes of the VI device. The basic device attributes default to some chip configurations, meeting the requirements of most sensor connections.
 
-【语法】
+[Syntax]
 
-int32_t ASR_VI_SetDevAttr(uint32_t nDev, VI_DEV_ATTR_S *pstDevAttr)
+int32_t ASR_VI_SetDevAttr(uint32_t nDev, VI_DEV_ATTR_S *pstDevAttr);
 
-【参数】
+[Parameters]
 
-| 参数名称   | 描述                                           | 输入/输出 |
-| ------------------- | ------------------------------------------------------- | ------------------ |
-| nDev       | VI 设备号 取值范围：[0, VIU_MAX_DEV_NUM)。 | 输入      |
-| pstDevAttr | VI 设备属性指针。静态属性。                    | 输入      |
+| Parameter Name | Description                                           | Input/Output |
+| --------------- | ----------------------------------------------------- | ------------ |
+| nDev            | VI device number. Range: [0, VIU_MAX_DEV_NUM).        | Input        |
+| pstDevAttr      | Pointer to the VI device attributes. Static attributes. | Input        |
 
-【返回值】
+[Return Value]
 
-| 返回值 | 描述                |
-| --------------- | ---------------------------- |
-| 0      | 成功。              |
-| 非 0   | 失败,其值为错误码。 |
+| Return Value | Description                |
+| ------------- | -------------------------- |
+| 0             | Success                    |
+| Non-zero      | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：spm_comm_vi.h、spm_cam_vi.h
-- 库文件：libvi.so
+- Header file: spm_comm_vi.h, spm_cam_vi.h
+- Library file: libvi.so
 
-【注意】
+[Note]
 
-- 不支持更改设备与通道的绑定关系。
-- 在调用前要保证 VI 设备处于禁用状态。如果 VI 设备已处于使能状态,可以使用
-- ASR_CAM_VI_DisableDev 来禁用设备。
+- Changing the binding relationship between the device and the channel is not supported.
+- Before calling, ensure that the VI device is in a disabled state. If the VI device is already enabled, you can use ASR_CAM_VI_DisableDev to disable the device.
 
 ##### ASR_VI_GetDevAttr
 
-【描述】
+[Description]
 
-获取 VI 设备属性。
+Get the attributes of the VI device.
 
-【语法】
+[Syntax]
 
-int32_t ASR_VI_GetDevAttr(uint32_t nDev, VI_DEV_ATTR_S *pstDevAttr)
+int32_t ASR_VI_GetDevAttr(uint32_t nDev, VI_DEV_ATTR_S *pstDevAttr);
 
-【参数】
+[Parameters]
 
-| 参数名称   | 描述                                          | 输入/输出 |
-| ------------------- | ------------------------------------------------------ | ------------------ |
-| nDev       | VI 设备号。 取值范围:[0, VIU_MAX_DEV_NUM) | 输入      |
-| pstDevAttr | VI 设备属性指针。                             | 输出      |
+| Parameter Name | Description                                          | Input/Output |
+| --------------- | ---------------------------------------------------- | ------------ |
+| nDev            | VI device number. Range: [0, VIU_MAX_DEV_NUM).       | Input        |
+| pstDevAttr      | Pointer to the VI device attributes.                 | Output       |
 
-【返回值】
+[Return Value]
 
-| 返回值 | 描述                |
-| --------------- | ---------------------------- |
-| 0      | 成功。              |
-| 非 0   | 失败,其值为错误码。 |
+| Return Value | Description                |
+| ------------- | -------------------------- |
+| 0             | Success                    |
+| Non-zero      | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：spm_comm_vi.h、spm_cam_vi.h
-- 库文件：libvi.so
+- Header file: spm_comm_vi.h, spm_cam_vi.h
+- Library file: libvi.so
 
 ##### ASR_VI_EnableDev
 
-【描述】
+[Description]
 
-启用 VI 设备。
+Enable the VI device.
 
-【语法】
+[Syntax]
 
 int32_t ASR_VI_EnableDev(uint32_t nDev);
 
-【参数】
+[Parameters]
 
-| 参数名称 | 描述                                            | 输入/输出 |
-| ----------------- | -------------------------------------------------------- | ------------------ |
-| nDev     | VI 设备号。 取值范围:[0, VIU_MAX_DEV_NUM)。 | 输入      |
+| Parameter Name | Description                                          | Input/Output |
+| --------------- | ---------------------------------------------------- | ------------ |
+| nDev            | VI device number. Range: [0, VIU_MAX_DEV_NUM).       | Input        |
 
-【返回值】
+[Return Value]
 
-| 返回值 | 描述                |
-| --------------- | ---------------------------- |
-| 0      | 成功。              |
-| 非 0   | 失败,其值为错误码。 |
+| Return Value | Description                |
+| ------------- | -------------------------- |
+| 0             | Success                    |
+| Non-zero      | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：spm_comm_vi.h、spm_cam_vi.h
-- 库文件：libvi.so
+- Header file: spm_comm_vi.h, spm_cam_vi.h
+- Library file: libvi.so
 
-【注意】
+[Note]
 
-- 启用前必须已经设置设备属性，否则返回失败。
-- 可重复启用，不返回失败。
+- The device attributes must be set before enabling; otherwise, it will return failure.
+- Repeated enabling is supported and will not return failure.
 
 ##### ASR_VI_DisableDev
 
-【描述】
+[Description]
 
-禁用 VI 设备。
+Disable the VI device.
 
-【语法】
+[Syntax]
 
 int32_t ASR_VI_DisableDev(uint32_t nDev);
 
-【参数】
+[Parameters]
 
-| 参数名称 | 描述                                            | 输入/输出 |
-| ----------------- | -------------------------------------------------------- | ------------------ |
-| nDev     | VI 设备号。 取值范围:[0, VIU_MAX_DEV_NUM)。 | 输入      |
+| Parameter Name | Description                                          | Input/Output |
+| --------------- | ---------------------------------------------------- | ------------ |
+| nDev            | VI device number. Range: [0, VIU_MAX_DEV_NUM).       | Input        |
 
-【返回值】
+[Return Value]
 
-| 返回值 | 描述                |
-| --------------- | ---------------------------- |
-| 0      | 成功。              |
-| 非 0   | 失败,其值为错误码。 |
+| Return Value | Description                |
+| ------------- | -------------------------- |
+| 0             | Success                    |
+| Non-zero      | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：spm_comm_vi.h、spm_cam_vi.h
-- 库文件：libvi.so
+- Header file: spm_comm_vi.h, spm_cam_vi.h
+- Library file: libvi.so
 
-【注意】
+[Note]
 
-- 必须先禁用所有与该 VI 设备绑定的 VI 通道后，才能禁用 VI 设备。
-- 可重复禁用，不返回失败。
+- All VI channels bound to the VI device must be disabled before disabling the VI device.
+- Repeated disabling is supported and will not return failure.
 
 ##### ASR_VI_FlushDev
 
-【描述】
+[Description]
 
-将已压入 VI 设备中的 Buffer flush 出去。
+Flush the buffers queued in the VI device.
 
-【语法】
+[Syntax]
 
 int32_t ASR_VI_FlushDev(uint32_t nDev);
 
-【参数】
+[Parameters]
 
-| 参数名称 | 描述                                            | 输入/输出 |
-| ----------------- | -------------------------------------------------------- | ------------------ |
-| nDev     | VI 设备号。 取值范围:[0, VIU_MAX_DEV_NUM)。 | 输入      |
+| Parameter Name | Description                                          | Input/Output |
+| --------------- | ---------------------------------------------------- | ------------ |
+| nDev            | VI device number. Range: [0, VIU_MAX_DEV_NUM).       | Input        |
 
-【返回值】
+[Return Value]
 
-| 返回值 | 描述                |
-| --------------- | ---------------------------- |
-| 0      | 成功。              |
-| 非 0   | 失败,其值为错误码。 |
+| Return Value | Description                |
+| ------------- | -------------------------- |
+| 0             | Success                    |
+| Non-zero      | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：spm_comm_vi.h、spm_cam_vi.h
-- 库文件：libvi.so
+- Header file: spm_comm_vi.h, spm_cam_vi.h
+- Library file: libvi.so
 
 ##### ASR_VI_SetChnAttr
 
-【描述】
+[Description]
 
-设置 VI 通道属性。
+Set the attributes of the VI channel.
 
-【语法】
+[Syntax]
 
 int32_t ASR_VI_SetChnAttr(uint32_t nChn, VI_CHN_ATTR_S *pstAttr);
 
-【参数】
+[Parameters]
 
-| 参数名称 | 描述                                          | 输入/输出 |
-| ----------------- | ------------------------------------------------------ | ------------------ |
-| nChn     | VI 通道号。 取值范围:[0, VIU_MAX_CHN_NUM) | 输入      |
-| pstAttr  | VI 通道属性指针。静态属性。                   | 输入      |
+| Parameter Name | Description                                          | Input/Output |
+| --------------- | ---------------------------------------------------- | ------------ |
+| nChn            | VI channel number. Range: [0, VIU_MAX_CHN_NUM).      | Input        |
+| pstAttr         | Pointer to the VI channel attributes. Static attributes. | Input        |
 
-【返回值】
+[Return Value]
 
-| 返回值 | 描述                |
-| --------------- | ---------------------------- |
-| 0      | 成功。              |
-| 非 0   | 失败,其值为错误码。 |
+| Return Value | Description                |
+| ------------- | -------------------------- |
+| 0             | Success                    |
+| Non-zero      | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：spm_comm_vi.h、spm_cam_vi.h
-- 库文件：libvi.so
+- Header file: spm_comm_vi.h, spm_cam_vi.h
+- Library file: libvi.so
 
-【注意】
+[Note]
 
-- 必须先设置设备属性才能设置通道属性，否则会返回失败。
-- 通道必须处于 Disable 状态才能设置通道属性。
+- The device attributes must be set before setting the channel attributes; otherwise, it will return failure.
+- The channel must be in a disabled state to set the channel attributes.
 
 ##### ASR_VI_GetChnAttr
 
-【描述】
+[Description]
 
-获取 VI 通道属性。
+Get the attributes of the VI channel.
 
-【语法】
+[Syntax]
 
 int32_t ASR_VI_GetChnAttr(uint32_t nChn, VI_CHN_ATTR_S *pstAttr);
 
-【参数】
+[Parameters]
 
-| 参数名称 | 描述                                          | 输入/输出 |
-| ----------------- | ------------------------------------------------------ | ------------------ |
-| nChn     | VI 通道号。 取值范围:[0, VIU_MAX_CHN_NUM) | 输入      |
-| pstAttr  | VI 通道属性指针。静态属性。                   | 输出      |
+| Parameter Name | Description                                          | Input/Output |
+| --------------- | ---------------------------------------------------- | ------------ |
+| nChn            | VI channel number. Range: [0, VIU_MAX_CHN_NUM).      | Input        |
+| pstAttr         | Pointer to the VI channel attributes. Static attributes. | Output       |
 
-【返回值】
+[Return Value]
 
-| 返回值 | 描述                |
-| --------------- | ---------------------------- |
-| 0      | 成功。              |
-| 非 0   | 失败,其值为错误码。 |
+| Return Value | Description                |
+| ------------- | -------------------------- |
+| 0             | Success                    |
+| Non-zero      | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：spm_comm_vi.h、spm_cam_vi.h
-- 库文件：libvi.so
+- Header file: spm_comm_vi.h, spm_cam_vi.h
+- Library file: libvi.so
 
-【注意】
+[Note]
 
-- 必须先设置通道属性再获取属性,否则将返回失败。
+- The channel attributes must be set before getting the attributes; otherwise, it will return failure.
 
 ##### ASR_VI_EnableChn
 
-【描述】
+[Description]
 
-启用 VI 通道。
+Enable the VI channel.
 
-【语法】
+[Syntax]
 
 int32_t ASR_VI_EnableChn(uint32_t nChn);
 
-【参数】
+[Parameters]
 
-| 参数名称 | 描述                                          | 输入/输出 |
-| ----------------- | ------------------------------------------------------ | ------------------ |
-| nChn     | VI 通道号。 取值范围:[0, VIU_MAX_CHN_NUM) | 输入      |
+| Parameter Name | Description                                          | Input/Output |
+| --------------- | ---------------------------------------------------- | ------------ |
+| nChn            | VI channel number. Range: [0, VIU_MAX_CHN_NUM).      | Input        |
 
-【返回值】
+[Return Value]
 
-| 返回值 | 描述                |
-| --------------- | ---------------------------- |
-| 0      | 成功。              |
-| 非 0   | 失败,其值为错误码。 |
+| Return Value | Description                |
+| ------------- | -------------------------- |
+| 0             | Success                    |
+| Non-zero      | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：spm_comm_vi.h、spm_cam_vi.h
-- 库文件：libvi.so
+- Header file: spm_comm_vi.h, spm_cam_vi.h
+- Library file: libvi.so
 
-【注意】
+[Note]
 
-- 必须先设置通道属性，且通道所绑定的 VI 设备必须使能。
-- 可重复启用 VI 通道，不返回失败。
+- The channel attributes must be set, and the VI device bound to the channel must be enabled.
+- Repeated enabling of the VI channel is supported and will not return failure.
 
 ##### ASR_VI_DisableChn
 
-【描述】
+[Description]
 
-禁用 VI 通道。
+Disable the VI channel.
 
-【语法】
+[Syntax]
 
 int32_t ASR_VI_DisableChn(uint32_t nChn);
 
-【参数】
+[Parameters]
 
-| 参数名称 | 描述                                          | 输入/输出 |
-| ----------------- | ------------------------------------------------------ | ------------------ |
-| nChn     | VI 通道号。 取值范围:[0, VIU_MAX_CHN_NUM) | 输入      |
+| Parameter Name | Description                                          | Input/Output |
+| --------------- | ---------------------------------------------------- | ------------ |
+| nChn            | VI channel number. Range: [0, VIU_MAX_CHN_NUM).      | Input        |
 
-【返回值】
+[Return Value]
 
-| 返回值 | 描述                |
-| --------------- | ---------------------------- |
-| 0      | 成功。              |
-| 非 0   | 失败,其值为错误码。 |
+| Return Value | Description                |
+| ------------- | -------------------------- |
+| 0             | Success                    |
+| Non-zero      | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：spm_comm_vi.h、spm_cam_vi.h
-- 库文件：libvi.so
+- Header file: spm_comm_vi.h, spm_cam_vi.h
+- Library file: libvi.so
 
-【注意】
+[Note]
 
-- 可重复禁用 VI 通道，不返回失败。
+- Repeated disabling of the VI channel is supported and will not return failure.
 
 ##### ASR_VI_SetCallback
 
-【描述】
+[Description]
 
-设置 frame buffer 轮转用的 callback。
+Set the frame buffer rotation callback.
 
-【语法】
+[Syntax]
 
-int32_tASR_VI_SetCallback(uint32_tnChn,int32_t( *callback)(uint32_tnChn, VI_IMAGE_BUFFER_S *vi_buffer));
+int32_t ASR_VI_SetCallback(uint32_t nChn, int32_t (*callback)(uint32_t nChn, VI_IMAGE_BUFFER_S *vi_buffer));
 
-【参数】
+[Parameters]
 
-| 参数名称 | 描述                                          | 输入/输出 |
-| ----------------- | ------------------------------------------------------ | ------------------ |
-| nChn     | VI 通道号。 取值范围:[0, VIU_MAX_CHN_NUM) | 输入      |
-| callback | 回调函数指针                                  | 输入      |
+| Parameter Name | Description                                          | Input/Output |
+| --------------- | ---------------------------------------------------- | ------------ |
+| nChn            | VI channel number. Range: [0, VIU_MAX_CHN_NUM).      | Input        |
+| callback        | Pointer to the callback function                     | Input        |
 
-【返回值】
+[Return Value]
 
-| 返回值 | 描述                |
-| --------------- | ---------------------------- |
-| 0      | 成功。              |
-| 非 0   | 失败,其值为错误码。 |
+| Return Value | Description                |
+| ------------- | -------------------------- |
+| 0             | Success                    |
+| Non-zero      | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：spm_comm_vi.h、spm_cam_vi.h
-- 库文件：libvi.so
+- Header file: spm_comm_vi.h, spm_cam_vi.h
+- Library file: libvi.so
 
-【注意】
+[Note]
 
-- 在 ASR_VI_EnalbeChn 之前调用。
+- Call before ASR_VI_EnableChn.
 
 ##### ASR_VI_SetBayerReadAttr
 
-【描述】
+[Description]
 
-设置 offline 处理 raw 读入属性。
+Set the attributes for offline processing of raw reading.
 
-【语法】
+[Syntax]
 
-int32_tASR_VI_SetBayerReadAttr(uint32_tnDev,constVI_BAYER_READ_ATTR_S *pstBayerReadAttr);
+int32_t ASR_VI_SetBayerReadAttr(uint32_t nDev, const VI_BAYER_READ_ATTR_S *pstBayerReadAttr);
 
-【参数】
+[Parameters]
 
-| 参数名称         | 描述                                          | 输入/输出 |
-| ------------------------- | ------------------------------------------------------ | ------------------ |
-| nDev             | VI 设备号。 取值范围:[0, VIU_MAX_DEV_NUM) | 输入      |
-| pstBayerReadAttr | Bayer 读取属性结构体指针。                    | 输入      |
+| Parameter Name         | Description                                          | Input/Output |
+| ----------------------- | ---------------------------------------------------- | ------------ |
+| nDev                    | VI device number. Range: [0, VIU_MAX_DEV_NUM).       | Input        |
+| pstBayerReadAttr        | Pointer to the Bayer read attributes structure.      | Input        |
 
-【返回值】
+[Return Value]
 
-| 返回值 | 描述                |
-| --------------- | ---------------------------- |
-| 0      | 成功。              |
-| 非 0   | 失败,其值为错误码。 |
+| Return Value | Description                |
+| ------------- | -------------------------- |
+| 0             | Success                    |
+| Non-zero      | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：spm_comm_vi.h、spm_cam_vi.h
-- 库文件：libvi.so
+- Header file: spm_comm_vi.h, spm_cam_vi.h
+- Library file: libvi.so
 
 ##### ASR_VI_GetBayerReadAttr
 
-【描述】
+[Description]
 
-获取 offline 处理 raw 读入属性。
+Get the attributes for offline processing of raw reading.
 
-【语法】
+[Syntax]
 
-int32_TASR_VI_GetBayerReadAttr(uint32_tnDev,constVI_BAYER_READ_ATTR_S *pstBayerReadAttr);
+int32_t ASR_VI_GetBayerReadAttr(uint32_t nDev, const VI_BAYER_READ_ATTR_S *pstBayerReadAttr);
 
-【参数】
+[Parameters]
 
-| 参数名称         | 描述                                          | 输入/输出 |
-| ------------------------- | ------------------------------------------------------ | ------------------ |
-| nDev             | VI 设备号。 取值范围:[0, VIU_MAX_DEV_NUM) | 输入      |
-| pstBayerReadAttr | Bayer 读取属性结构体指针。                    | 输出      |
+| Parameter Name         | Description                                          | Input/Output |
+| ----------------------- | ---------------------------------------------------- | ------------ |
+| nDev                    | VI device number. Range: [0, VIU_MAX_DEV_NUM).       | Input        |
+| pstBayerReadAttr        | Pointer to the Bayer read attributes structure.      | Output       |
 
-【返回值】
+[Return Value]
 
-| 返回值 | 描述                |
-| --------------- | ---------------------------- |
-| 0      | 成功。              |
-| 非 0   | 失败,其值为错误码。 |
+| Return Value | Description                |
+| ------------- | -------------------------- |
+| 0             | Success                    |
+| Non-zero      | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：spm_comm_vi.h、spm_cam_vi.h
-- 库文件：libvi.so
+- Header file: spm_comm_vi.h, spm_cam_vi.h
+- Library file: libvi.so
 
 ##### ASR_VI_EnableBayerRead
 
-【描述】
+[Description]
 
-使能 offline 处理。
+Enable offline processing.
 
-【语法】
+[Syntax]
 
-int32_t ASR_VI_EnableBayerRead (uint32_t nDev);
+int32_t ASR_VI_EnableBayerRead(uint32_t nDev);
 
-【参数】
+[Parameters]
 
-| 参数名称 | 描述                                          | 输入/输出 |
-| ----------------- | ------------------------------------------------------ | ------------------ |
-| nDev     | VI 设备号。 取值范围:[0, VIU_MAX_DEV_NUM) | 输入      |
+| Parameter Name | Description                                          | Input/Output |
+| --------------- | ---------------------------------------------------- | ------------ |
+| nDev            | VI device number. Range: [0, VIU_MAX_DEV_NUM).       | Input        |
 
-【返回值】
+[Return Value]
 
-| 返回值 | 描述                |
-| --------------- | ---------------------------- |
-| 0      | 成功。              |
-| 非 0   | 失败,其值为错误码。 |
+| Return Value | Description                |
+| ------------- | -------------------------- |
+| 0             | Success                    |
+| Non-zero      | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：spm_comm_vi.h、spm_cam_vi.h
-- 库文件：libvi.so
+- Header file: spm_comm_vi.h, spm_cam_vi.h
+- Library file: libvi.so
 
 ##### ASR_VI_DisableBayerRead
 
-【描述】
+[Description]
 
-关闭 offline 处理。
+Disable offline processing.
 
-【语法】
+[Syntax]
 
-int32_t ASR_VI_DisableBayerRead (uint32_t nDev);
+int32_t ASR_VI_DisableBayerRead(uint32_t nDev);
 
-【参数】
+[Parameters]
 
-| 参数名称 | 描述                                          | 输入/输出 |
-| ----------------- | ------------------------------------------------------ | ------------------ |
-| nDev     | VI 设备号。 取值范围:[0, VIU_MAX_DEV_NUM) | 输入      |
+| Parameter Name | Description                                          | Input/Output |
+| --------------- | ---------------------------------------------------- | ------------ |
+| nDev            | VI device number. Range: [0, VIU_MAX_DEV_NUM).       | Input        |
 
-【返回值】
+[Return Value]
 
-| 返回值 | 描述                |
-| --------------- | ---------------------------- |
-| 0      | 成功。              |
-| 非 0   | 失败,其值为错误码。 |
+| Return Value | Description                |
+| ------------- | -------------------------- |
+| 0             | Success                    |
+| Non-zero      | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：spm_comm_vi.h、spm_cam_vi.h
-- 库文件：libvi.so
+- Header file: spm_comm_vi.h, spm_cam_vi.h
+- Library file: libvi.so
 
 ##### ASR_VI_EnableBayerDump
 
-【描述】
+[Description]
 
-使能获取 RAW DATA。
+Enable RAW DATA acquisition.
 
-【语法】
+[Syntax]
 
 int32_t ASR_VI_EnableBayerDump(uint32_t nDev);
 
-【参数】
+[Parameters]
 
-| 参数名称 | 描述                                          | 输入/输出 |
-| ----------------- | ------------------------------------------------------ | ------------------ |
-| nDev     | VI 设备号。 取值范围:[0, VIU_MAX_DEV_NUM) | 输入      |
+| Parameter Name | Description                                          | Input/Output |
+| --------------- | ---------------------------------------------------- | ------------ |
+| nDev            | VI device number. Range: [0, VIU_MAX_DEV_NUM).       | Input        |
 
-【返回值】
+[Return Value]
 
-| 返回值 | 描述                |
-| --------------- | ---------------------------- |
-| 0      | 成功。              |
-| 非 0   | 失败,其值为错误码。 |
+| Return Value | Description                |
+| ------------- | -------------------------- |
+| 0             | Success                    |
+| Non-zero      | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：spm_comm_vi.h、spm_cam_vi.h
-- 库文件：libvi.so
+- Header file: spm_comm_vi.h, spm_cam_vi.h
+- Library file: libvi.so
 
-【注意】
+[Note]
 
-- 保存 RAW 数据的宽高与 DEV 的 设置宽高一致。
-- 可通过 VIU_GET_RAW_CHN 获取 RAW Dump 通道的起始通道号。
+- The width and height of the saved RAW data are consistent with the settings of the DEV.
+- The starting channel number of the RAW Dump channel can be obtained through VIU_GET_RAW_CHN.
 
 ##### ASR_VI_DisableBayerDump
 
-【描述】
+[Description]
 
-关闭获取 RAW DATA。
+Disable RAW DATA acquisition.
 
-【语法】
+[Syntax]
 
 int32_t ASR_VI_DisableBayerDump(uint32_t nDev);
 
-【参数】
+[Parameters]
 
-| 参数名称 | 描述                                          | 输入/输出 |
-| ----------------- | ------------------------------------------------------ | ------------------ |
-| nDev     | VI 设备号。 取值范围:[0, VIU_MAX_DEV_NUM) | 输入      |
+| Parameter Name | Description                                          | Input/Output |
+| --------------- | ---------------------------------------------------- | ------------ |
+| nDev            | VI device number. Range: [0, VIU_MAX_DEV_NUM).       | Input        |
 
-【返回值】
+[Return Value]
 
-| 返回值 | 描述                |
-| --------------- | ---------------------------- |
-| 0      | 成功。              |
-| 非 0   | 失败,其值为错误码。 |
+| Return Value | Description                |
+| ------------- | -------------------------- |
+| 0             | Success                    |
+| Non-zero      | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：spm_comm_vi.h、spm_cam_vi.h
-- 库文件：libvi.so
+- Header file: spm_comm_vi.h, spm_cam_vi.h
+- Library file: libvi.so
 
 ##### ASR_VI_ChnQueueBuffer
 
-【描述】
+[Description]
 
-向 channel 压入 buffer。
+Queue the buffer to the channel.
 
-【语法】
+[Syntax]
 
-int32_t ASR_VI_ChnQueueBuffer (uint32_t nChn, IMAGE_BUFFER_S *camBuf);
+int32_t ASR_VI_ChnQueueBuffer(uint32_t nChn, IMAGE_BUFFER_S *camBuf);
 
-【参数】
+[Parameters]
 
-| 参数名称 | 描述                                     | 输入/输出 |
-| ----------------- | ------------------------------------------------- | ------------------ |
-| nChn     | VI 通道号。 取值范围:[0, VI_CHN_CNT) | 输入      |
-| camBuf   | Buffer 指针                              | 输入      |
+| Parameter Name | Description                                     | Input/Output |
+| --------------- | ----------------------------------------------- | ------------ |
+| nChn            | VI channel number. Range: [0, VI_CHN_CNT).      | Input        |
+| camBuf          | Pointer to the buffer                          | Input        |
 
-【返回值】
+[Return Value]
 
-| 返回值 | 描述                |
-| --------------- | ---------------------------- |
-| 0      | 成功。              |
-| 非 0   | 失败,其值为错误码。 |
+| Return Value | Description                |
+| ------------- | -------------------------- |
+| 0             | Success                    |
+| Non-zero      | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：spm_comm_vi.h、spm_cam_vi.h
-- 库文件：libvi.so
+- Header file: spm_comm_vi.h, spm_cam_vi.h
+- Library file: libvi.so
 
-【注意】
+[Note]
 
-- 输入参数 camBuf 指针会被 SDK 直接使用。所以应用层应当保证该指针所指向的内存空间不能被释放，直到注册的回调函数被调用。
+- The input parameter camBuf pointer will be directly used by the SDK. Therefore, the application layer should ensure that the memory space pointed to by this pointer cannot be released until the registered callback function is called.
 
 ##### ASR_VI_Init
 
-【描述】
+[Description]
 
-VI 模块初始化。
+Initialize the VI module.
 
-【语法】
+[Syntax]
 
-int32_t ASR_VI_Init (void);
+int32_t ASR_VI_Init(void);
 
-【参数】
+[Parameters]
 
-| 参数名称 | 描述 | 输入/输出 |
-| ----------------- | ------------- | ------------------ |
-| 无       |               |                    |
+| Parameter Name | Description | Input/Output |
+| --------------- | ----------- | ------------ |
+| None            |             |              |
 
-【返回值】
+[Return Value]
 
-| 返回值 | 描述                |
-| --------------- | ---------------------------- |
-| 0      | 成功。              |
-| 非 0   | 失败,其值为错误码。 |
+| Return Value | Description                |
+| ------------- | -------------------------- |
+| 0             | Success                    |
+| Non-zero      | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-头文件：spm_comm_vi.h、spm_cam_vi.h
-
-库文件：libvi.so
+- Header file: spm_comm_vi.h, spm_cam_vi.h
+- Library file: libvi.so
 
 ##### ASR_VI_Deinit
 
-【描述】
+[Description]
 
-VI 模块反初始化。
+Deinitialize the VI module.
 
-【语法】
+[Syntax]
 
-int32_t ASR_VI_Deinit (void);
+int32_t ASR_VI_Deinit(void);
 
-【参数】
+[Parameters]
 
-| 参数名称 | 描述 | 输入/输出 |
-| ----------------- | ------------- | ------------------ |
-| 无       |               |                    |
+| Parameter Name | Description | Input/Output |
+| --------------- | ----------- | ------------ |
+| None            |             |              |
 
-【返回值】
+[Return Value]
 
-| 返回值 | 描述                |
-| --------------- | ---------------------------- |
-| 0      | 成功。              |
-| 非 0   | 失败,其值为错误码。 |
+| Return Value | Description                |
+| ------------- | -------------------------- |
+| 0             | Success                    |
+| Non-zero      | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：spm_comm_vi.h、spm_cam_vi.h
-- 库文件：libvi.so
+- Header file: spm_comm_vi.h, spm_cam_vi.h
+- Library file: libvi.so
 
-#### 数据类型
+#### Data Types
 
 ##### VI_DEV_ATTR_S
 
-【说明】
+[Description]
 
-定义视频输入设备的属性。
+Define the attributes of the video input device.
 
-【定义】
+[Definition]
 
 ```java
 typedef struct asrVI_DEV_ATTR_S { 
@@ -1821,26 +1813,26 @@ typedef struct asrVI_DEV_ATTR_S {
 } VI_DEV_ATTR_S;
 ```
 
-【成员】
+[Members]
 
-| 成员名称         | 描述                                                                                                                               |
-| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| enWorkMode       | CAM_VI_WORK_MODE_ONLINE, CAM_VI_WORK_MODE_RAWDUMP, CAM_VI_WORK_MODE_OFFLINE,                                                       |
-| enRawType        | CAM_SENSOR_RAWTYPE_RAW8, CAM_SENSOR_RAWTYPE_RAW10, CAM_SENSOR_RAWTYPE_RAW12, CAM_SENSOR_RAWTYPE_RAW14, CAM_SENSOR_RAWTYPE_INVALID, |
-| Width            | VI 设备可设置要捕获图像的宽。捕获图像的最小宽与最大宽度：[VIU_DEV_MIN_WIDTH, VIU_DEV_MAX_WIDTH]                                    |
-| Height           | VI 设备可设置要捕获图像的高。捕获图像的最小高与最大高度：[VIU_DEV_MIN_HEIGHT, VIU_DEV_MAX_HEIGHT]                                  |
-| bindSensorIdx    | VI 设备绑定的 sensor id。[0, 2]                                                                                                    |
-| bOfflineSlice    | Offline 是否是拍照模式                                                                                                             |
-| mipi_lane_num    | Sensor mipi 接口的 lane 个数                                                                                                       |
-| bCapture2Preview | 是否是拍照回预览                                                                                                                   |
+| Member Name         | Description                                                                                                                               |
+| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| enWorkMode          | CAM_VI_WORK_MODE_ONLINE, CAM_VI_WORK_MODE_RAWDUMP, CAM_VI_WORK_MODE_OFFLINE,                                                              |
+| enRawType           | CAM_SENSOR_RAWTYPE_RAW8, CAM_SENSOR_RAWTYPE_RAW10, CAM_SENSOR_RAWTYPE_RAW12, CAM_SENSOR_RAWTYPE_RAW14, CAM_SENSOR_RAWTYPE_INVALID,         |
+| width               | The width of the image to be captured by the VI device. The minimum and maximum width of the captured image: [VIU_DEV_MIN_WIDTH, VIU_DEV_MAX_WIDTH] |
+| height              | The height of the image to be captured by the VI device. The minimum and maximum height of the captured image: [VIU_DEV_MIN_HEIGHT, VIU_DEV_MAX_HEIGHT] |
+| bindSensorIdx       | The sensor ID bound to the VI device. [0, 2]                                                                                              |
+| bOfflineSlice       | Whether offline is in capture mode                                                                                                        |
+| mipi_lane_num       | The number of lanes of the sensor mipi interface                                                                                          |
+| bCapture2Preview    | Whether it is capture to preview                                                                                                          |
 
 ##### VI_CHN_ATTR_S
 
-【说明】
+[Description]
 
-定义 VI 通道属性。
+Define the attributes of the VI channel.
 
-【定义】
+[Definition]
 
 ```java
 typedef struct asrVI_CHN_ATTR_S { 
@@ -1850,21 +1842,21 @@ typedef struct asrVI_CHN_ATTR_S {
 } VI_CHN_ATTR_S;
 ```
 
-【成员】
+[Members]
 
-| 成员名称    | 描述             |
-| -------------------- | ------------------------- |
-| enPixFormat | Channel 输出格式 |
-| Width       | 输出图像宽       |
-| Height      | 输出图像高       |
+| Member Name    | Description             |
+| --------------- | ----------------------- |
+| enPixFormat     | Channel output format   |
+| width           | Output image width      |
+| height          | Output image height     |
 
 ##### VI_BAYER_READ_ATTR_S
 
-【说明】
+[Description]
 
-定义 offline raw 读入属性。
+Define the attributes for offline raw reading.
 
-【定义】
+[Definition]
 
 ```java
 typedef struct asrVI_BAYER_READ_ATTR_S {
@@ -1873,48 +1865,48 @@ typedef struct asrVI_BAYER_READ_ATTR_S {
 } VI_BAYER_READ_ATTR_S;
 ```
 
-【成员】
+[Members]
 
-| 成员名称   | 描述                                  |
-| ------------------- | ---------------------------------------------- |
-| bGenTiming | 是否由 VI 自动产生固定帧率的读入时序  |
-| s32FrmRate | 如果 bGenTiming 为 true，表示帧率大小 |
+| Member Name   | Description                                  |
+| --------------- | -------------------------------------------- |
+| bGenTiming      | Whether the VI automatically generates a fixed frame rate read timing |
+| s32FrmRate      | If bGenTiming is true, it indicates the frame rate size |
 
 ##### VI_IMAGE_BUFFER_S
 
-【说明】
+[Description]
 
-定义 VI channel 的 buffer 回调函数中 buffer 的结构体。
+Define the buffer structure in the callback function of the VI channel buffer.
 
-【定义】
+[Definition]
 
 ```java
-Typedef struct asrVI_IMAGE_BUFFER_S { 
+typedef struct asrVI_IMAGE_BUFFER_S { 
     IMAGE_BUFFER_S *buffer;
-    Bool bValid;
-    Bool bCloseDown;
-    Uint64_t timestamp; 
-    Uint32_t frameId;
+    bool bValid;
+    bool bCloseDown;
+    uint64_t timestamp; 
+    uint32_t frameId;
 } VI_IMAGE_BUFFER_S;
 ```
 
-【成员】
+[Members]
 
-| 成员名称    | 描述                                                                                                |
-| -------------------- | ------------------------------------------------------------------------------------------------------------ |
-| Buffer      | 指向 buffer 内存的结构体指针                                                                        |
-| bValid  | 表示当前帧内容是否有效，无效时，上层应用应该丢弃当前帧                                              |
-| bCloseDown  | RAW DATA channel 专用，RAW DATA channel 做 disable 操作前需要先收到 buffer 回调中的 bCloseDown 信号 |
-| timeStamp   | 表示当前帧的时间戳                                                                                  |
-| frameId     | 表示当前帧的帧号，从 0 开始计数                                                                     |
+| Member Name    | Description                                                                                                |
+| --------------- | ---------------------------------------------------------------------------------------------------------- |
+| buffer          | Pointer to the buffer memory structure                                                                     |
+| bValid          | Indicates whether the current frame content is valid. If invalid, the upper application should discard the current frame |
+| bCloseDown      | RAW DATA channel specific. Before performing the disable operation on the RAW DATA channel, the bCloseDown signal in the buffer callback needs to be received |
+| timestamp       | Indicates the timestamp of the current frame                                                               |
+| frameId         | Indicates the frame number of the current frame, starting from 0                                           |
 
 ##### VIU_GET_RAW_CHN
 
-【说明】
+[Description]
 
-定义获取 RAW DATA 的通道号。
+Define the channel number for obtaining RAW DATA.
 
-【定义】
+[Definition]
 
 ```java
 #define VIU_GET_RAW_CHN(ViDev, RawChn) do{
@@ -1924,11 +1916,11 @@ Typedef struct asrVI_IMAGE_BUFFER_S {
 
 ##### VIU_MAX_CHN_NUM
 
-【说明】
+[Description]
 
-定义 VI 通道的最大个数。
+Define the maximum number of VI channels.
 
-【定义】
+[Definition]
 
 ```java
 #define VIU_MAX_CHN_NUM (VIU_MAX_PHYCHN_NUM)
@@ -1936,11 +1928,11 @@ Typedef struct asrVI_IMAGE_BUFFER_S {
 
 ##### VIU_MAX_PHYCHN_NUM
 
-【说明】
+[Description]
 
-定义 VI 物理通道的最大个数。
+Define the maximum number of VI physical channels.
 
-【定义】
+[Definition]
 
 ```java
 #define VIU_MAX_PHYCHN_NUM 2
@@ -1948,11 +1940,11 @@ Typedef struct asrVI_IMAGE_BUFFER_S {
 
 ##### VIU_MAX_RAWCHN_NUM
 
-【说明】
+[Description]
 
-定义获取 RAW DATA 通道的最大个数。
+Define the maximum number of RAW DATA channels.
 
-【定义】
+[Definition]
 
 ```java
 #define VIU_MAX_RAWCHN_NUM 2
@@ -1960,11 +1952,11 @@ Typedef struct asrVI_IMAGE_BUFFER_S {
 
 ##### VIU_MAX_DEV_NUM
 
-【说明】
+[Description]
 
-定义视频输入设备的最大个数。
+Define the maximum number of video input devices.
 
-【定义】
+[Definition]
 
 ```java
 #define VIU_MAX_DEV_NUM 2
@@ -1972,11 +1964,11 @@ Typedef struct asrVI_IMAGE_BUFFER_S {
 
 ##### VIU_DEV_MIN_WIDTH
 
-【说明】
+[Description]
 
-VI 设备捕获图像的最小宽度。
+The minimum width of the image captured by the VI device.
 
-【定义】
+[Definition]
 
 ```java
 #define VIU_DEV_MIN_WIDTH 256
@@ -1984,11 +1976,11 @@ VI 设备捕获图像的最小宽度。
 
 ##### VIU_DEV_MIN_HEIGHT
 
-【说明】
+[Description]
 
-VI 设备捕获图像的最小高度。
+The minimum height of the image captured by the VI device.
 
-【定义】
+[Definition]
 
 ```java
 #define VIU_DEV_MIN_HEIGHT 144
@@ -1996,11 +1988,11 @@ VI 设备捕获图像的最小高度。
 
 ##### VIU_DEV_MAX_WIDTH
 
-【说明】
+[Description]
 
-VI 设备捕获图像的最大宽度。
+The maximum width of the image captured by the VI device.
 
-【定义】
+[Definition]
 
 ```java
 #define VIU_DEV_MAX_WIDTH 2688
@@ -2008,11 +2000,11 @@ VI 设备捕获图像的最大宽度。
 
 ##### VIU_DEV_MAX_HEIGHT
 
-【说明】
+[Description]
 
-VI 设备捕获图像的最大高度。
+The maximum height of the image captured by the VI device.
 
-【定义】
+[Definition]
 
 ```java
 #define VIU_DEV_MAX_HEIGHT 1944
@@ -2020,11 +2012,11 @@ VI 设备捕获图像的最大高度。
 
 ##### VIU_CHN_MIN_WIDTH
 
-【说明】
+[Description]
 
-VI 物理通道支持的最小宽度。
+The minimum width supported by the VI physical channel.
 
-【定义】
+[Definition]
 
 ```java
 #define VIU_CHN_MIN_WIDTH VIU_DEV_MIN_WIDTH
@@ -2032,11 +2024,11 @@ VI 物理通道支持的最小宽度。
 
 ##### VIU_CHN_MIN_HEIGHT
 
-【说明】
+[Description]
 
-VI 物理通道支持的最小高度。
+The minimum height supported by the VI physical channel.
 
-【定义】
+[Definition]
 
 ```java
 #define VIU_CHN_MIN_HEIGHT VIU_DEV_MIN_HEIGHT
@@ -2044,11 +2036,11 @@ VI 物理通道支持的最小高度。
 
 ##### VIU_CHN_MAX_WIDTH
 
-【说明】
+[Description]
 
-VI 物理通道支持的最大宽度。
+The maximum width supported by the VI physical channel.
 
-【定义】
+[Definition]
 
 ```java
 #define VIU_CHN_MAX_WIDTH VIU_DEV_MAX_WIDTH
@@ -2056,11 +2048,11 @@ VI 物理通道支持的最大宽度。
 
 ##### VIU_CHN_MAX_HEIGHT
 
-【说明】
+[Description]
 
-VI 物理通道支持的最大高度。
+The maximum height supported by the VI physical channel.
 
-【定义】
+[Definition]
 
 ```java
 #define VIU_CHN_MAX_HEIGHT VIU_DEV_MAX_HEIGHT
@@ -2068,781 +2060,779 @@ VI 物理通道支持的最大高度。
 
 ### CPP API
 
-本节介绍 ASR MARS11-ISP CPP 模块 API 使用方法，描述的 API 都是 CPP SDK 面向应用的，并详细解释了相关的参数数据结构、错误码和返回值。
+This section introduces the usage of ASR MARS11-ISP CPP module APIs. The described APIs are CPP SDK APIs for applications and explain the relevant parameter data structures, error codes, and return values in detail.
 
 #### API
 
-CPP 模块为用户提供以下 API：
+The CPP module provides the following APIs:
 
-- cam_cpp_create_grp：创建一个 cam cpp 模块 group。
-- cam_cpp_destroy_grp：销毁一个 cam cpp 模块 group。
-- cam_cpp_start_grp：启用 cam cpp 模块。
-- cam_cpp_stop_grp：禁用 cam cpp 模块。
-- cam_cpp_post_buffer：用户向 CPP 发送数据。
-- cam_cpp_set_callback：用户设置回调函数。
-- cam_cpp_get_grp_attr：获取 CPP Group 属性
-- cam_cpp_set_grp_attr：设置 CPP Group 属性
-- cam_cpp_get_tuning_param：获取 CPP Group 的 tuning 参数。
-- cam_cpp_set_tuning_param：设置 CPP Group 的 tuning 参数。
-- cam_cpp_load_settingfile：tuning 调试接口，加载 firmware setting file。
-- cam_cpp_save_settingfile：tuning 调试接口，保存 frimware setting file。
-- cam_cpp_read_fw：tuning 调试接口，获取 CPP Group Firmware 模块的参数。
-- cam_cpp_write_fw：tuning 调试接口，设置 CPP Group Firmware 模块的参数。
-- cam_cpp_read_reg：tuning 调试接口，获取 CPP Hardware 的寄存器值。
-- cam_cpp_write_reg：tuning 调试接口，设置 CPP Hardware 的寄存器值。
-- cam_cpp_dump_frame：保存 group 的输出和相应输入图像到指定目录。
+- cam_cpp_create_grp: Create a cam cpp module group.
+- cam_cpp_destroy_grp: Destroy a cam cpp module group.
+- cam_cpp_start_grp: Enable the cam cpp module.
+- cam_cpp_stop_grp: Disable the cam cpp module.
+- cam_cpp_post_buffer: Send data to the CPP.
+- cam_cpp_set_callback: Set the callback function.
+- cam_cpp_get_grp_attr: Get the CPP Group attributes.
+- cam_cpp_set_grp_attr: Set the CPP Group attributes.
+- cam_cpp_get_tuning_param: Get the tuning parameters of the CPP Group.
+- cam_cpp_set_tuning_param: Set the tuning parameters of the CPP Group.
+- cam_cpp_load_settingfile: Tuning debugging interface, load the firmware setting file.
+- cam_cpp_save_settingfile: Tuning debugging interface, save the firmware setting file.
+- cam_cpp_read_fw: Tuning debugging interface, get the parameters of the CPP Group Firmware module.
+- cam_cpp_write_fw: Tuning debugging interface, set the parameters of the CPP Group Firmware module.
+- cam_cpp_read_reg: Tuning debugging interface, get the register value of the CPP Hardware.
+- cam_cpp_write_reg: Tuning debugging interface, set the register value of the CPP Hardware.
+- cam_cpp_dump_frame: Save the output and corresponding input images of the group to the specified directory.
 
 ##### cam_cpp_create_grp
 
-【描述】
+[Description]
 
-创建一个 cam cpp 模块 group。
+Create a cam cpp module group.
 
-【语法】
+[Syntax]
 
 int32_t cam_cpp_create_grp(uint32_t grpId);
 
-【参数】
+[Parameters]
 
-| 参数名称 | 描述                                            | 输入/输出 |
-| ----------------- | -------------------------------------------------------- | ------------------ |
-| grpId    | CPP group ID 取值范围：[0, CPP_GRP_MAX_NUM) | 输入      |
+| Parameter Name | Description                                            | Input/Output |
+| --------------- | ------------------------------------------------------ | ------------ |
+| grpId           | CPP group ID. Range: [0, CPP_GRP_MAX_NUM).             | Input        |
 
-【返回值】
+[Return Value]
 
-| 参数名称 | 描述             |
-| ----------------- | ------------------------- |
-| 0        | 成功             |
-| 非 0     | 失败，值为错误码 |
+| Parameter Name | Description             |
+| --------------- | ----------------------- |
+| 0               | Success                 |
+| Non-zero        | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：cam_cpp.h
-- 库文件：libcpp.so
+- Header file: cam_cpp.h
+- Library file: libcpp.so
 
-【注意】
+[Note]
 
-- 不支持重复创建。
+- Repeated creation is not supported.
 
-【关联操作】
+[Related Operations]
 
 cam_cpp_destroy_grp
 
 ##### cam_cpp_destroy_grp
 
-【描述】
+[Description]
 
-销毁一个 cam cpp 模块 group。
+Destroy a cam cpp module group.
 
-【语法】
+[Syntax]
 
 int32_t cam_cpp_destroy_grp(uint32_t grpId);
 
-【参数】
+[Parameters]
 
-| 参数名称 | 描述                                            | 输入/输出 |
-| ----------------- | -------------------------------------------------------- | ------------------ |
-| grpId    | CPP group ID 取值范围：[0, CPP_GRP_MAX_NUM) | 输入      |
+| Parameter Name | Description                                            | Input/Output |
+| --------------- | ------------------------------------------------------ | ------------ |
+| grpId           | CPP group ID. Range: [0, CPP_GRP_MAX_NUM).             | Input        |
 
-【返回值】
+[Return Value]
 
-| 参数名称 | 描述             |
-| ----------------- | ------------------------- |
-| 0        | 成功             |
-| 非 0     | 失败，值为错误码 |
+| Parameter Name | Description             |
+| --------------- | ----------------------- |
+| 0               | Success                 |
+| Non-zero        | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：cam_cpp.h
-- 库文件：libcpp.so
+- Header file: cam_cpp.h
+- Library file: libcpp.so
 
-【注意】
+[Note]
 
-- CPP group 必须已创建。
-- 调用此接口之前，必须先调用 cam_cpp_stop_grp 禁用此 group。
-- 调用此接口时，会一直等待此 group 当前任务处理结束才会真正销毁。
+- The CPP group must be created.
+- Before calling this interface, cam_cpp_stop_grp must be called to disable the group.
+- When calling this interface, it will wait until the current task of the group is completed before it is truly destroyed.
 
-【关联操作】
+[Related Operations]
 
 cam_cpp_create_grp
 
 ##### cam_cpp_start_grp
 
-【描述】
+[Description]
 
-启动 cam cpp 模块。
+Enable the cam cpp module.
 
-【语法】
+[Syntax]
 
 int32_t cam_cpp_start_grp(uint32_t grpId);
 
-【参数】
+[Parameters]
 
-| 参数名称 | 描述                                            | 输入/输出 |
-| ----------------- | -------------------------------------------------------- | ------------------ |
-| grpId    | CPP group ID 取值范围：[0, CPP_GRP_MAX_NUM) | 输入      |
+| Parameter Name | Description                                            | Input/Output |
+| --------------- | ------------------------------------------------------ | ------------ |
+| grpId           | CPP group ID. Range: [0, CPP_GRP_MAX_NUM).             | Input        |
 
-【返回值】
+[Return Value]
 
-| 参数名称 | 描述             |
-| ----------------- | ------------------------- |
-| 0        | 成功             |
-| 非 0     | 失败，值为错误码 |
+| Parameter Name | Description             |
+| --------------- | ----------------------- |
+| 0               | Success                 |
+| Non-zero        | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：cam_cpp.h
-- 库文件：libcpp.so
+- Header file: cam_cpp.h
+- Library file: libcpp.so
 
-【注意】
+[Note]
 
-- 不支持重复创建。
-- 重复调用该函数设置同一个 group 时返回成功。
+- Repeated creation is not supported.
+- Repeatedly calling this function to set the same group will return success.
 
-【关联操作】
+[Related Operations]
 
 cam_cpp_stop_grp
 
 ##### cam_cpp_stop_grp
 
-【描述】
+[Description]
 
-禁用 cam cpp 模块 group。
+Disable the cam cpp module group.
 
-【语法】
+[Syntax]
 
 int32_t cam_cpp_stop_grp(uint32_t grpId);
 
-【参数】
+[Parameters]
 
-| 参数名称 | 描述                                            | 输入/输出 |
-| ----------------- | -------------------------------------------------------- | ------------------ |
-| grpId    | CPP group ID 取值范围：[0, CPP_GRP_MAX_NUM) | 输入      |
+| Parameter Name | Description                                            | Input/Output |
+| --------------- | ------------------------------------------------------ | ------------ |
+| grpId           | CPP group ID. Range: [0, CPP_GRP_MAX_NUM).             | Input        |
 
-【返回值】
+[Return Value]
 
-| 参数名称 | 描述             |
-| ----------------- | ------------------------- |
-| 0        | 成功             |
-| 非 0     | 失败，值为错误码 |
+| Parameter Name | Description             |
+| --------------- | ----------------------- |
+| 0               | Success                 |
+| Non-zero        | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：cam_cpp.h
-- 库文件：libcpp.so
+- Header file: cam_cpp.h
+- Library file: libcpp.so
 
-【注意】
+[Note]
 
-- 不支持重复创建。
-- 重复调用该函数设置同一个 group 时返回成功。
-- 通过 cam_cpp_post_buffer 接口发送给 cpp group 的 buffer, 会在 stop 的过程中 return。
+- Repeated creation is not supported.
+- Repeatedly calling this function to set the same group will return success.
+- The buffer sent to the cpp group through the cam_cpp_post_buffer interface will be returned during the stop process.
 
-【关联操作】
+[Related Operations]
 
 cam_cpp_start_grp
 
 ##### cam_cpp_post_buffer
 
-【描述】
+[Description]
 
-用户向 CPP 模块发送一帧图像数据。
+Send a frame of image data to the CPP module.
 
-【语法】
+[Syntax]
 
 int32_t cam_cpp_post_buffer(uint32_t grpId, const IMAGE_BUFFER_S *inputBuf, const IMAGE_BUFFER_S *outputBuf, int32_t frameId, FRAME_INFO_S *frameInfo);
 
-【参数】
+[Parameters]
 
-| 参数名称  | 描述                                             | 输入/输出 |
-| ------------------ | --------------------------------------------------------- | ------------------ |
-| grpId     | CPP group ID 取值范围：[0, CPP_GRP_MAX_NUM)  | 输入      |
-| inputBuf  | 输入图像的信息 具体描述请参见 IMAGE_BUFFER_S | 输入      |
-| outputBuf | 输出图像的信息 具体描述请参见 IMAGE_BUFFER_S | 输出      |
-| frameInfo | 具体描述请参见 FRAME_INFO_S                      | 输入      |
+| Parameter Name  | Description                                             | Input/Output |
+| ---------------- | ------------------------------------------------------- | ------------ |
+| grpId            | CPP group ID. Range: [0, CPP_GRP_MAX_NUM).              | Input        |
+| inputBuf         | Information of the input image. See IMAGE_BUFFER_S for details. | Input        |
+| outputBuf        | Information of the output image. See IMAGE_BUFFER_S for details. | Output       |
+| frameInfo        | See FRAME_INFO_S for details.                           | Input        |
 
-【返回值】
+[Return Value]
 
-| 参数名称 | 描述             |
-| ----------------- | ------------------------- |
-| 0        | 成功             |
-| 非 0     | 失败，值为错误码 |
+| Parameter Name | Description             |
+| --------------- | ----------------------- |
+| 0               | Success                 |
+| Non-zero        | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：cam_cpp.h、cam_module_interface.h
-- 库文件：libcpp.so
+- Header file: cam_cpp.h, cam_module_interface.h
+- Library file: libcpp.so
 
-【注意】
+[Note]
 
-- group 必须已创建。
+- The group must be created.
 
-【关联操作】
+[Related Operations]
 
 cam_cpp_ReturnBuffer
 
 ##### cam_cpp_set_callback
 
-【描述】
+[Description]
 
-用户设置回调函数。
+Set the callback function.
 
-【语法】
+[Syntax]
 
 int32_t cam_cpp_set_callback(uint32_t grpId, CppCallback callback);
 
-【参数】
+[Parameters]
 
-| 参数名称 | 描述                                            | 输入/输出 |
-| ----------------- | -------------------------------------------------------- | ------------------ |
-| grpId    | CPP group ID 取值范围：[0, CPP_GRP_MAX_NUM) | 输入      |
-| callback | 当模块处理完毕，输出图像准备好了之后调用此接口  | 输入      |
+| Parameter Name | Description                                            | Input/Output |
+| --------------- | ------------------------------------------------------ | ------------ |
+| grpId           | CPP group ID. Range: [0, CPP_GRP_MAX_NUM).             | Input        |
+| callback        | When the module processing is completed and the output image is ready, this interface is called. | Input        |
 
-【返回值】
+[Return Value]
 
-| 参数名称 | 描述             |
-| ----------------- | ------------------------- |
-| 0        | 成功             |
-| 非 0     | 失败，值为错误码 |
+| Parameter Name | Description             |
+| --------------- | ----------------------- |
+| 0               | Success                 |
+| Non-zero        | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：cam_cpp.h
-- 库文件：libcpp.so
+- Header file: cam_cpp.h
+- Library file: libcpp.so
 
-【注意】
+[Note]
 
-- group 必须已创建。
+- The group must be created.
 
-【关联操作】
+[Related Operations]
 
 cam_cpp_ReturnBuffer
 
 ##### cam_cpp_get_grp_attr
 
-【描述】
+[Description]
 
-获取 CPP group 属性。
+Get the CPP group attributes.
 
-【语法】
+[Syntax]
 
 int32_t cam_cpp_get_grp_attr(uint32_t grpId, CPP_GRP_ATTR_S *attr);
 
-【参数】
+[Parameters]
 
-| 参数名称 | 描述                                            | 输入/输出 |
-| ----------------- | -------------------------------------------------------- | ------------------ |
-| grpId    | CPP group ID 取值范围：[0, CPP_GRP_MAX_NUM) | 输入      |
-| attr     | CPP group 属性指针                              | 输出      |
+| Parameter Name | Description                                            | Input/Output |
+| --------------- | ------------------------------------------------------ | ------------ |
+| grpId           | CPP group ID. Range: [0, CPP_GRP_MAX_NUM).             | Input        |
+| attr            | Pointer to the CPP group attributes.                   | Output       |
 
-【返回值】
+[Return Value]
 
-| 参数名称 | 描述             |
-| ----------------- | ------------------------- |
-| 0        | 成功             |
-| 非 0     | 失败，值为错误码 |
+| Parameter Name | Description             |
+| --------------- | ----------------------- |
+| 0               | Success                 |
+| Non-zero        | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：cam_cpp.h
-- 库文件：libcpp.so
+- Header file: cam_cpp.h
+- Library file: libcpp.so
 
-【注意】
+[Note]
 
-- Group 必须已经创建。
-- Group 属性必须合法，其中静态属性不可动态设置，具体请参见 CPP_GRP_ATTR_S。
+- The group must be created.
+- The group attributes must be legal. Static attributes cannot be dynamically set. See CPP_GRP_ATTR_S for details.
 
-【关联操作】
+[Related Operations]
 
 cam_cpp_set_grp_attr
 
 ##### cam_cpp_set_grp_attr
 
-【描述】
+[Description]
 
-设置 CPP group 属性。
+Set the CPP group attributes.
 
-【语法】
+[Syntax]
 
 int32_t cam_cpp_set_grp_attr(uint32_t grpId, const CPP_GRP_ATTR_S *attr);
 
-【参数】
+[Parameters]
 
-| 参数名称 | 描述                                            | 输入/输出 |
-| ----------------- | -------------------------------------------------------- | ------------------ |
-| grpId    | CPP group ID 取值范围：[0, CPP_GRP_MAX_NUM) | 输入      |
-| attr     | CPP group 属性指针                              | 输入      |
+| Parameter Name | Description                                            | Input/Output |
+| --------------- | ------------------------------------------------------ | ------------ |
+| grpId           | CPP group ID. Range: [0, CPP_GRP_MAX_NUM).             | Input        |
+| attr            | Pointer to the CPP group attributes.                   | Input        |
 
-【返回值】
+[Return Value]
 
-| 参数名称 | 描述             |
-| ----------------- | ------------------------- |
-| 0        | 成功             |
-| 非 0     | 失败，值为错误码 |
+| Parameter Name | Description             |
+| --------------- | ----------------------- |
+| 0               | Success                 |
+| Non-zero        | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：cam_cpp.h
-- 库文件：libcpp.so
+- Header file: cam_cpp.h
+- Library file: libcpp.so
 
-【注意】
+[Note]
 
-- Group 必须已经创建。
-- Group 属性必须合法，其中静态属性不可动态设置，具体请参见 CPP_GRP_ATTR_S。
+- The group must be created.
+- The group attributes must be legal. Static attributes cannot be dynamically set. See CPP_GRP_ATTR_S for details.
 
-【关联操作】
+[Related Operations]
 
 cam_cpp_get_grp_attr
 
 ##### cam_cpp_get_tuning_param
 
-【描述】
+[Description]
 
-获取 CPP Group 的 tuning 参数。
+Get the tuning parameters of the CPP Group.
 
-【语法】
+[Syntax]
 
 int32_t cam_cpp_get_tuning_param(uint32_t grpId, cpp_tuning_params_t *tuningParam);
 
-【参数】
+[Parameters]
 
-| 参数名称    | 描述                                            | 输入/输出 |
-| -------------------- | -------------------------------------------------------- | ------------------ |
-| grpId       | CPP group ID 取值范围：[0, CPP_GRP_MAX_NUM) | 输入      |
-| tuningParam | 模块 tuning 参数指针                            | 输出      |
+| Parameter Name    | Description                                            | Input/Output |
+| ------------------ | ------------------------------------------------------ | ------------ |
+| grpId              | CPP group ID. Range: [0, CPP_GRP_MAX_NUM).             | Input        |
+| tuningParam        | Pointer to the module tuning parameters.               | Output       |
 
-【返回值】
+[Return Value]
 
-| 参数名称 | 描述             |
-| ----------------- | ------------------------- |
-| 0        | 成功             |
-| 非 0     | 失败，值为错误码 |
+| Parameter Name | Description             |
+| --------------- | ----------------------- |
+| 0               | Success                 |
+| Non-zero        | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：cam_cpp.h、CPPGlobalDefine.h
-- 库文件：libcpp.so
+- Header file: cam_cpp.h, CPPGlobalDefine.h
+- Library file: libcpp.so
 
-【注意】
+[Note]
 
-- Group 必须已经创建。
+- The group must be created.
 
-【关联操作】
+[Related Operations]
 
 cam_cpp_set_tuning_param
 
 ##### cam_cpp_set_tuning_param
 
-【描述】
+[Description]
 
-设置 CPP Group 的 tuning 参数。
+Set the tuning parameters of the CPP Group.
 
-【语法】
+[Syntax]
 
 int32_t cam_cpp_set_tuning_param(uint32_t grpId, cpp_tuning_params_t *tuningParam);
 
-【参数】
+[Parameters]
 
-| 参数名称    | 描述                                            | 输入/输出 |
-| -------------------- | -------------------------------------------------------- | ------------------ |
-| grpId       | CPP group ID 取值范围：[0, CPP_GRP_MAX_NUM) | 输入      |
-| tuningParam | 模块 tuning 参数指针                            | 输入      |
+| Parameter Name    | Description                                            | Input/Output |
+| ------------------ | ------------------------------------------------------ | ------------ |
+| grpId              | CPP group ID. Range: [0, CPP_GRP_MAX_NUM).             | Input        |
+| tuningParam        | Pointer to the module tuning parameters.               | Input        |
 
-【返回值】
+[Return Value]
 
-| 参数名称 | 描述             |
-| ----------------- | ------------------------- |
-| 0        | 成功             |
-| 非 0     | 失败，值为错误码 |
+| Parameter Name | Description             |
+| --------------- | ----------------------- |
+| 0               | Success                 |
+| Non-zero        | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：cam_cpp.h、CPPGlobalDefine.h
-- 库文件：libcpp.so
+- Header file: cam_cpp.h, CPPGlobalDefine.h
+- Library file: libcpp.so
 
-【注意】
+[Note]
 
-- Group 必须已经创建。
+- The group must be created.
 
-【关联操作】
+[Related Operations]
 
 cam_cpp_get_tuning_param
 
 ##### cam_cpp_load_settingfile
 
-【描述】
+[Description]
 
-Tuning 调试接口，加载 firmware setting file。
+Tuning debugging interface, load the firmware setting file.
 
-【语法】
+[Syntax]
 
 int32_t cam_cpp_load_settingfile(uint32_t grpId, const char *fileName);
 
-【参数】
+[Parameters]
 
-| 参数名称 | 描述                                            | 输入/输出 |
-| ----------------- | -------------------------------------------------------- | ------------------ |
-| grpId    | CPP group ID 取值范围：[0, CPP_GRP_MAX_NUM) | 输入      |
-| fileName | cpp firmware 配置文件路径指针                   | 输入      |
+| Parameter Name | Description                                            | Input/Output |
+| --------------- | ------------------------------------------------------ | ------------ |
+| grpId           | CPP group ID. Range: [0, CPP_GRP_MAX_NUM).             | Input        |
+| fileName        | Pointer to the cpp firmware configuration file path.   | Input        |
 
-【返回值】
+[Return Value]
 
-| 参数名称 | 描述             |
-| ----------------- | ------------------------- |
-| 0        | 成功             |
-| 非 0     | 失败，值为错误码 |
+| Parameter Name | Description             |
+| --------------- | ----------------------- |
+| 0               | Success                 |
+| Non-zero        | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：cam_cpp.h
-- 库文件：libcpp.so
+- Header file: cam_cpp.h
+- Library file: libcpp.so
 
-【注意】
+[Note]
 
-- Group 必须已经创建。
+- The group must be created.
 
-【关联操作】
+[Related Operations]
 
 cam_cpp_save_settingfile
 
 ##### cam_cpp_save_settingfile
 
-【描述】
+[Description]
 
-Tuning 调试接口，保存 firmware setting file。
+Tuning debugging interface, save the firmware setting file.
 
-【语法】
+[Syntax]
 
 int32_t cam_cpp_save_settingfile(uint32_t grpId, const char *fileName);
 
-【参数】
+[Parameters]
 
-| 参数名称 | 描述                                            | 输入/输出 |
-| ----------------- | -------------------------------------------------------- | ------------------ |
-| grpId    | CPP group ID 取值范围：[0, CPP_GRP_MAX_NUM) | 输入      |
-| fileName | cpp firmware 配置文件路径指针                   | 输入      |
+| Parameter Name | Description                                            | Input/Output |
+| --------------- | ------------------------------------------------------ | ------------ |
+| grpId           | CPP group ID. Range: [0, CPP_GRP_MAX_NUM).             | Input        |
+| fileName        | Pointer to the cpp firmware configuration file path.   | Input        |
 
-【返回值】
+[Return Value]
 
-| 参数名称 | 描述             |
-| ----------------- | ------------------------- |
-| 0        | 成功             |
-| 非 0     | 失败，值为错误码 |
+| Parameter Name | Description             |
+| --------------- | ----------------------- |
+| 0               | Success                 |
+| Non-zero        | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：cam_cpp.h
-- 库文件：libcpp.so
+- Header file: cam_cpp.h
+- Library file: libcpp.so
 
-【注意】
+[Note]
 
-- Group 必须已经创建。
+- The group must be created.
 
-【关联操作】
+[Related Operations]
 
 cam_cpp_load_settingfile
 
 ##### cam_cpp_read_fw
 
-【描述】
+[Description]
 
-Tuning 调试接口，获取 CPP Group Firmware 模块的参数。
+Tuning debugging interface, get the parameters of the CPP Group Firmware module.
 
-【语法】
+[Syntax]
 
 int32_t cam_cpp_read_fw(uint32_t grpId, const char *filter, const char *param, uint32_t row, uint32_t column, int32_t *pVal);
 
-【参数】
+[Parameters]
 
-| 参数名称 | 描述                                            | 输入/输出 |
-| ----------------- | -------------------------------------------------------- | ------------------ |
-| grpId    | CPP group ID 取值范围：[0, CPP_GRP_MAX_NUM) | 输入      |
-| filter   | Firmware Filter 名指针                          | 输入      |
-| param    | Firmware Paramter 名指针                        | 输入      |
-| row      | Firmware Paramter 元素的行偏移                  | 输入      |
-| column   | Firmware Paramter 元素的列偏移                  | 输入      |
-| pVal     | Firmware Paramter 元素的列表指针                | 输出      |
+| Parameter Name | Description                                            | Input/Output |
+| --------------- | ------------------------------------------------------ | ------------ |
+| grpId           | CPP group ID. Range: [0, CPP_GRP_MAX_NUM).             | Input        |
+| filter          | Pointer to the Firmware Filter name.                   | Input        |
+| param           | Pointer to the Firmware Parameter name.                | Input        |
+| row             | Row offset of the Firmware Parameter element.          | Input        |
+| column          | Column offset of the Firmware Parameter element.       | Input        |
+| pVal            | Pointer to the list of Firmware Parameter elements.    | Output       |
 
-【返回值】
+[Return Value]
 
-| 参数名称        | 描述                                                             |
-| ------------------------ | ------------------------------------------------------------------------- |
-| -1              | 失败. 检查输入参数名。                                           |
-| 0               | 失败. 没有获取到参数数值。                                       |
-| Positive values | 成功.表示获取参数的元素个数. 1 表示单个元素, &gt;1 表示多个元素 |
+| Parameter Name        | Description                                                             |
+| ---------------------- | ----------------------------------------------------------------------- |
+| -1                     | Failure. Check the input parameter name.                                |
+| 0                      | Failure. No parameter value obtained.                                   |
+| Positive values        | Success. Indicates the number of parameter elements obtained. 1 means a single element, >1 means multiple elements |
 
-【需求】
+[Requirements]
 
-- 头文件：cam_cpp.h
-  - 库文件：libcpp.so
+- Header file: cam_cpp.h
+- Library file: libcpp.so
 
-【注意】
+[Note]
 
-- Group 必须已经创建。
+- The group must be created.
 
-【关联操作】
+[Related Operations]
 
 cam_cpp_write_fw
 
 ##### cam_cpp_write_fw
 
-【描述】
+[Description]
 
-Tuning 调试接口，设置 CPP Group Firmware 模块的参数。
+Tuning debugging interface, set the parameters of the CPP Group Firmware module.
 
-【语法】
+[Syntax]
 
-int32_tcam_cpp_write_fw(uint32_tgrpId,constchar *pFilterName,constchar
+int32_t cam_cpp_write_fw(uint32_t grpId, const char *filterName, const char *paramName, uint32_t row, uint32_t column, int32_t val);
 
- *pParamName, uint32_t row, uint32_t column, int32_t val);
+[Parameters]
 
-【参数】
+| Parameter Name | Description                                            | Input/Output |
+| --------------- | ------------------------------------------------------ | ------------ |
+| grpId           | CPP group ID. Range: [0, CPP_GRP_MAX_NUM).             | Input        |
+| filterName      | Pointer to the Firmware Filter name.                   | Input        |
+| paramName       | Pointer to the Firmware Parameter name.                | Input        |
+| row             | Row offset of the Firmware Parameter element.          | Input        |
+| column          | Column offset of the Firmware Parameter element.       | Input        |
+| val             | Value of the Firmware Parameter element.               | Input        |
 
-| 参数名称 | 描述                                            | 输入/输出 |
-| ----------------- | -------------------------------------------------------- | ------------------ |
-| grpId    | CPP group ID 取值范围：[0, CPP_GRP_MAX_NUM) | 输入      |
-| filter   | Firmware Filter 名指针                          | 输入      |
-| param    | Firmware Paramter 名指针                        | 输入      |
-| row      | Firmware Paramter 元素的行偏移                  | 输入      |
-| column   | Firmware Paramter 元素的列偏移                  | 输入      |
-| s32Val   | Firmware Paramter 元素值                        | 输入      |
+[Return Value]
 
-【返回值】
+| Parameter Name | Description             |
+| --------------- | ----------------------- |
+| 0               | Success                 |
+| Non-zero        | Failure, value is error code |
 
-| 参数名称 | 描述             |
-| ----------------- | ------------------------- |
-| 0        | 成功             |
-| 非 0     | 失败，值为错误码 |
+[Requirements]
 
-【需求】
+- Header file: cam_cpp.h
+- Library file: libcpp.so
 
-- 头文件：cam_cpp.h
-- 库文件：libcpp.so
+[Note]
 
-【注意】
+- The group must be created.
 
-- Group 必须已经创建。
-
-【关联操作】
+[Related Operations]
 
 cam_cpp_read_fw
 
 ##### cam_cpp_read_reg
 
-【描述】
+[Description]
 
-Tuning 调试接口，获取 CPP Hardware 寄存器值。
+Tuning debugging interface, get the register value of the CPP Hardware.
 
-【语法】
+[Syntax]
 
 int32_t cam_cpp_read_reg(uint32_t addr, uint32_t *val);
 
-【参数】
+[Parameters]
 
-| 参数名称 | 描述           | 输入/输出 |
-| ----------------- | ----------------------- | ------------------ |
-| addr     | 硬件寄存器地址 | 输入      |
-| val      | 硬件寄存器值   | 输出      |
+| Parameter Name | Description           | Input/Output |
+| --------------- | --------------------- | ------------ |
+| addr            | Hardware register address | Input        |
+| val             | Hardware register value   | Output       |
 
-【返回值】
+[Return Value]
 
-| 参数名称 | 描述             |
-| ----------------- | ------------------------- |
-| 0        | 成功             |
-| 非 0     | 失败，值为错误码 |
+| Parameter Name | Description             |
+| --------------- | ----------------------- |
+| 0               | Success                 |
+| Non-zero        | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：cam_cpp.h
-- 库文件：libcpp.so
+- Header file: cam_cpp.h
+- Library file: libcpp.so
 
-【注意】
+[Note]
 
-- Group 必须已经创建。
-- 只有一套硬件寄存器资源，并且低 16-bit 指定地址偏移。
+- The group must be created.
+- There is only one set of hardware register resources, and the lower 16-bit specifies the address offset.
 
-【关联操作】
+[Related Operations]
 
 cam_cpp_write_reg
 
 ##### cam_cpp_write_reg
 
-【描述】
+[Description]
 
-Tuning 调试接口，设置 CPP Hardware 寄存器值。
+Tuning debugging interface, set the register value of the CPP Hardware.
 
-【语法】
+[Syntax]
 
 int32_t cam_cpp_write_reg(uint32_t addr, uint32_t val, uint32_t mask);
 
-【参数】
+[Parameters]
 
-| 参数名称 | 描述            | 输入/输出 |
-| ----------------- | ------------------------ | ------------------ |
-| addr     | 硬件寄存器地址  | 输入      |
-| val      | 硬件寄存器值    | 输入      |
-| mask     | 硬件寄存器 mask | 输入      |
+| Parameter Name | Description            | Input/Output |
+| --------------- | ---------------------- | ------------ |
+| addr            | Hardware register address | Input        |
+| val             | Hardware register value   | Input        |
+| mask            | Hardware register mask    | Input        |
 
-【返回值】
+[Return Value]
 
-| 参数名称 | 描述             |
-| ----------------- | ------------------------- |
-| 0        | 成功             |
-| 非 0     | 失败，值为错误码 |
+| Parameter Name | Description             |
+| --------------- | ----------------------- |
+| 0               | Success                 |
+| Non-zero        | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：cam_cpp.h
-- 库文件：libcpp.so
+- Header file: cam_cpp.h
+- Library file: libcpp.so
 
-【注意】
+[Note]
 
-- Group 必须已经创建。
-- 只有一套硬件寄存器资源，并且低 16-bit 指定地址偏移。
+- The group must be created.
+- There is only one set of hardware register resources, and the lower 16-bit specifies the address offset.
 
-【关联操作】
+[Related Operations]
 
 cam_cpp_read_reg
 
 ##### cam_cpp_dump_frame
 
-【描述】
+[Description]
 
-保存 group 指定帧数的输入输出图像到指定目录。
+Save the specified number of frames of input and output images of the group to the specified directory.
 
-【语法】
+[Syntax]
 
 int32_t cam_cpp_dump_frame(uint32_t grpId, const char *path, uint32_t count);
 
-【参数】
+[Parameters]
 
-| 参数名称 | 描述                                            | 输入/输出 |
-| ----------------- | -------------------------------------------------------- | ------------------ |
-| grpId    | CPP group ID 取值范围：[0, CPP_GRP_MAX_NUM) | 输入      |
-| path     | 指定 dump 目录，不能为 NULL                     | 输入      |
-| count    | 指定需要连续 dump 的帧数。                      | 输入      |
+| Parameter Name | Description                                            | Input/Output |
+| --------------- | ------------------------------------------------------ | ------------ |
+| grpId           | CPP group ID. Range: [0, CPP_GRP_MAX_NUM).             | Input        |
+| path            | Specified dump directory, cannot be NULL               | Input        |
+| count           | Specified number of consecutive frames to dump.        | Input        |
 
-【返回值】
+[Return Value]
 
-| 参数名称 | 描述             |
-| ----------------- | ------------------------- |
-| 0        | 成功             |
-| 非 0     | 失败，值为错误码 |
+| Parameter Name | Description             |
+| --------------- | ----------------------- |
+| 0               | Success                 |
+| Non-zero        | Failure, value is error code |
 
-【需求】
+[Requirements]
 
-- 头文件：cam_cpp.h
-- 库文件：libcpp.so
+- Header file: cam_cpp.h
+- Library file: libcpp.so
 
-【注意】
+[Note]
 
-- Group 必须已经创建。
-- 该 API 为异步操作，返回成功后连续 dump 该时刻起的连续 count 帧数，当指定帧数未 dump 结束时，再次调用该接口会中断上一次的操作并开始当前操作。
+- The group must be created.
+- This API is an asynchronous operation. After returning success, it continuously dumps the specified number of frames from that moment. If the specified number of frames has not been dumped, calling this interface again will interrupt the previous operation and start the current operation.
 
-【关联操作】无
+[Related Operations] None
 
-#### 数据类型
+#### Data Types
 
-CPP 模块相关数据类型定义如下：
+The data types related to the CPP module are defined as follows:
 
-- CPP_GRP_MAX_NUM：定义 CPP GROUP 的最大个数。
-- CPP_MIN_IMAGE_WIDTH：定义 CPP 图像的最小宽度。
-- CPP_MIN_IMAGE_HEIGHT：定义 CPP 图像的最小高度。
-- CPP_MAX_IMAGE_WIDTH：定义 CPP 图像的最大宽度。
-- CPP_MAX_IMAGE_HEIGHT：定义 CPP 图像的最大高度。
-- CPP_GRP：定义 CPP 组号。
-- CPP_MOD_ID_E：定义 CPP 子模块 ID。
-- CPP_GRP_ATTR_S：定义 CPP GROUP 属性。
-- CPP_GRP_NR_ATTR_S：定义 CPP GROUP 的 NR 属性。
-- CPP_GRP_EE_ATTR_S：定义 CPP GROUP 的 EE 属性。
-- CPP_GRP_TNR_ATTR_S：定义 CPP GROUP 的 TNR 属性。
+- CPP_GRP_MAX_NUM: Define the maximum number of CPP GROUPs.
+- CPP_MIN_IMAGE_WIDTH: Define the minimum width of CPP images.
+- CPP_MIN_IMAGE_HEIGHT: Define the minimum height of CPP images.
+- CPP_MAX_IMAGE_WIDTH: Define the maximum width of CPP images.
+- CPP_MAX_IMAGE_HEIGHT: Define the maximum height of CPP images.
+- CPP_GRP: Define the CPP group number.
+- CPP_MOD_ID_E: Define the CPP submodule ID.
+- CPP_GRP_ATTR_S: Define the attributes of the CPP GROUP.
+- CPP_GRP_NR_ATTR_S: Define the NR attributes of the CPP GROUP.
+- CPP_GRP_EE_ATTR_S: Define the EE attributes of the CPP GROUP.
+- CPP_GRP_TNR_ATTR_S: Define the TNR attributes of the CPP GROUP.
 
 ##### CPP_GRP_MAX_NUM
 
-【说明】
+[Description]
 
-定义 CPP Group 的最大个数。
+Define the maximum number of CPP GROUPs.
 
-【定义】
+[Definition]
 
 #define CPP_GRP_MAX_NUM (16)
 
-【成员变量】无
+[Members] None
 
-【注意】无
+[Note] None
 
-【相关类型及数据结构】无
+[Related Types and Data Structures] None
 
 ##### CPP_MIN_IMAGE_WIDTH
 
-【说明】
+[Description]
 
-定义 CPP 模块支持图像的最小宽度。
+Define the minimum width of CPP images.
 
-【定义】
+[Definition]
 
 #define CPP_MIN_IMAGE_WIDTH (480)
 
-【成员变量】无
+[Members] None
 
-【注意】无
+[Note] None
 
-【相关类型及数据结构】无
+[Related Types and Data Structures] None
 
 ##### CPP_MIN_IMAGE_HEIGHT
 
-【说明】
+[Description]
 
-定义 CPP 图像支持的最小高度。
+Define the minimum height of CPP images.
 
-【定义】
+[Definition]
 
 #define CPP_MIN_IMAGE_HEIGHT (288)
 
-【成员变量】无
+[Members] None
 
-【注意】无
+[Note] None
 
-【相关类型及数据结构】无
+[Related Types and Data Structures] None
 
 ##### CPP_MAX_IMAGE_WIDTH
 
-【说明】
+[Description]
 
-定义 CPP 图像支持的最大宽度。
+Define the maximum width of CPP images.
 
-【定义】
+[Definition]
 
 #define CPP_MAX_IMAGE_WIDTH (4224)
 
-【成员变量】无
+[Members] None
 
-【注意】无
+[Note] None
 
-【相关类型及数据结构】无
+[Related Types and Data Structures] None
 
 ##### CPP_MAX_IMAGE_HEIGHT
 
-【说明】
+[Description]
 
-定义 CPP 图像的最大高度。
+Define the maximum height of CPP images.
 
-【定义】
+[Definition]
 
 #define CPP_MAX_IMAGE_HEIGHT (3136)
 
-【成员变量】无
+[Members] None
 
-【注意】无
+[Note] None
 
-【相关类型及数据结构】无
+[Related Types and Data Structures] None
 
 ##### CPP_MOD_ID_E
 
-【说明】
+[Description]
 
-定义 CPP 子模块 ID。
+Define the CPP submodule ID.
 
-【定义】
+[Definition]
 
 ```java
 typedef enum { 
@@ -2851,19 +2841,19 @@ typedef enum {
 } CPP_MOD_ID_E
 ```
 
-【成员变量】无
+[Members] None
 
-【注意】无
+[Note] None
 
-【相关类型及数据结构】无
+[Related Types and Data Structures] None
 
 ##### CPP_GRP_ATTR_S
 
-【说明】
+[Description]
 
-定义 CPP Group 的属性。
+Define the attributes of the CPP GROUP.
 
-【定义】
+[Definition]
 
 ```java
 typedef struct asrCPP_GRP_ATTR_S { 
@@ -2874,29 +2864,29 @@ typedef struct asrCPP_GRP_ATTR_S {
 } CPP_GRP_ATTR_S;
 ```
 
-【成员变量】
+[Members]
 
-| 变量         | 说明                                                                                                                                                                                                          |
-| --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| width height | 输入图像的尺寸 宽度的有效范围：[CPP_MIN_IMAGE_WIDTH, CPP_MAX_IMAGE_WIDTH] 高度的有效范围：[CPP_MIN_IMAGE_HEIGHT, CPP_MAX_IMAGE_HEIGHT] 这是静态属性。也就是说，group 创建之后设置，不能动态修改。 |
-| format       | 输出图像的格式 这是静态属性。也就是说，group 创建之后设置，不能动态修改。                                                                                                                                 |
-| mode         | 工作模式                                                                                                                                                                                                      |
+| Variable         | Description                                                                                                                                                                                                          |
+| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| width height     | The size of the input image. The valid range of width: [CPP_MIN_IMAGE_WIDTH, CPP_MAX_IMAGE_WIDTH]. The valid range of height: [CPP_MIN_IMAGE_HEIGHT, CPP_MAX_IMAGE_HEIGHT]. This is a static attribute. That is, it is set after the group is created and cannot be dynamically modified. |
+| format           | The format of the output image. This is a static attribute. That is, it is set after the group is created and cannot be dynamically modified.                                                                                                                                 |
+| mode             | Working mode                                                                                                                                                                                                      |
 
-【注意】
+[Note]
 
-- 输入图像尺寸必须根据 CPP 工作的实际宽度和高度配置。根据输入图像尺寸分配 TNR KGain buffer 和输出图像 buffer。输入图像格式只支持 YUV 数据。
+- The input image size must be configured according to the actual width and height of the CPP work. Allocate TNR KGain buffer and output image buffer according to the input image size. The input image format only supports YUV data.
 
-【相关类型及数据结构】
+[Related Types and Data Structures]
 
 PIXEL_FORMAT_E CPP_GRP_WORKMODE_E
 
 ##### CPP_GRP_WORKMODE_E
 
-【说明】
+[Description]
 
-定义 CPP Group 的工作模式。
+Define the working mode of the CPP GROUP.
 
-【定义】
+[Definition]
 
 ```java
 typedef enum { 
@@ -2906,132 +2896,130 @@ typedef enum {
 } CPP_GRP_WORKMODE_E;
 ```
 
-【成员变量】
+[Members]
 
-| 成员名称           | 描述                                    |
-| --------------------------- | ------------------------------------------------ |
-| CPP_GRP_FRAME_MODE | 数据按照整帧处理，硬件处理优先级高      |
-| CPP_GRP_SLICE_MODE | 数据划分成 slice 处理，硬件处理优先级低 |
+| Member Name           | Description                                    |
+| --------------------- | ---------------------------------------------- |
+| CPP_GRP_FRAME_MODE    | Data is processed as a whole frame, with high hardware processing priority      |
+| CPP_GRP_SLICE_MODE    | Data is divided into slices for processing, with low hardware processing priority |
 
-【注意】无
+[Note] None
 
-【相关类型及数据结构】无
+[Related Types and Data Structures] None
 
-#### 错误码
+#### Error Codes
 
-参考 standard C library 头文件 errno.h
+Refer to the standard C library header file errno.h
 
 ### tuningtools API
 
-本节介绍 ASR MARS11-ISP tuningtools 模块 API 使用方法，并详细解释了相关的参数数据结构和返回值。
+This section introduces the usage of ASR MARS11-ISP tuningtools module APIs and explains the relevant parameter data structures and return values in detail.
 
 #### API
 
-tuningtools 为用户提供以下 API：
+tuningtools provides the following APIs:
 
-- ASR_TuningAssistant_Create：创建一个 tuning Assistant。
-- ASR_TuningAssistant_Destroy：销毁一个 tuning Assistant。
+- ASR_TuningAssistant_Create: Create a tuning Assistant.
+- ASR_TuningAssistant_Destroy: Destroy a tuning Assistant.
 
 ##### ASR_TuningAssistant_Create
 
-【描述】
+[Description]
 
-创建一个 tuningtool Assistant。
+Create a tuningtool Assistant.
 
-【语法】
+[Syntax]
 
-ASR_TUNING_ASSISTANT_HANDLE
+ASR_TUNING_ASSISTANT_HANDLE ASR_TuningAssistant_Create(const ASR_TUNING_ASSISTANT_TRIGGER_S *trigger);
 
-ASR_TuningAssistant_Create(const ASR_TUNING_ASSISTANT_TRIGGER_S *trigger);
+[Parameters]
 
-【参数】
+| Parameter Name | Description                      | Input/Output |
+| --------------- | -------------------------------- | ------------ |
+| trigger          | Tuning assistant configuration parameters | Input        |
 
-| 参数名称 | 描述                      | 输入/输出 |
-| ----------------- | ---------------------------------- | ------------------ |
-| trigger  | tuning assistant 配置参数 | 输入      |
+[Return Value]
 
-【返回值】
+| Parameter Name | Description                             |
+| --------------- | --------------------------------------- |
+| Non-NULL        | Success, returns the assistant handle pointer |
+| NULL            | Failure                                 |
 
-| 参数名称 | 描述                             |
-| ----------------- | ----------------------------------------- |
-| 非 NULL  | 成功，返回 assistant handle 指针 |
-| NULL     | 失败                             |
+[Requirements]
 
-【需求】
+- Header file: asr_cam_tuning_assistant.h
+- Library file: libtuningtools.so
 
-- 头文件：asr_cam_tuning_assistant.h
-- 库文件：libtuningtools.so
+[Note]
 
-【注意】
+- Repeated creation is not supported.
+- The structure ASR_TUNING_ASSISTANT_TRIGGER_S is described in the next section of data types.
 
-- 不支持重复创建。
-- ASR_TUNING_ASSISTANT_TRIGGER_S 结构参见下一节数据类型描述。
-
-【关联操作】
+[Related Operations]
 
 ASR_TuningAssistant_Destroy
 
 ##### ASR_TuningAssistant_Destroy
 
-【描述】
+[Description]
 
-销毁一个 tuningtool Assistant。
+Destroy a tuningtool Assistant.
 
-【语法】
+[Syntax]
 
 bool ASR_TuningAssistant_Destroy(ASR_TUNING_ASSISTANT_HANDLE handle);
 
-【参数】
+[Parameters]
 
-| 参数名称 | 描述                                                                            | 输入/输出 |
-| ----------------- | ---------------------------------------------------------------------------------------- | ------------------ |
-| handle   | 待销毁 tuningassistant 结构指针，必须是 ASR_TuningAssistant_Create 的返回值 | 输入      |
+| Parameter Name | Description                                                                            | Input/Output |
+| --------------- | -------------------------------------------------------------------------------------- | ------------ |
+| handle          | Pointer to the tuning assistant structure to be destroyed, must be the return value of ASR_TuningAssistant_Create | Input        |
 
-【返回值】
+[Return Value]
 
-| 参数名称 | 描述 |
-| ----------------- | ------------- |
-| true     | 成功 |
-| false    | 失败 |
+| Parameter Name | Description |
+| --------------- | ----------- |
+| true            | Success     |
+| false           | Failure     |
 
-【需求】
+[Requirements]
 
-- 头文件：asr_cam_tuning_assistant.h
-- 库文件：libtuningtools.so
+- Header file: asr_cam_tuning_assistant.h
+- Library file: libtuningtools.so
 
-【注意】
+[Note]
 
-- 不支持重复销毁。
+- Repeated destruction is not supported.
 
-【关联操作】
+[Related Operations]
 
 ASR_TuningAssistant_Create
 
-#### 数据类型
+#### Data Types
 
 ##### ASR_TUNING_ASSISTANT_HANDLE
 
-【说明】
+[Description]
 
-定义 tuning assistant handler 指针。
+Define the tuning assistant handler pointer.
 
-【定义】
+[Definition]
 
 typedef void *ASR_TUNING_ASSISTANT_HANDLE;
 
-【成员】无
+[Members] None
 
-【注意】无
+[Note] None
 
-【相关类型及数据结构】无
+[Related Types and Data Structures] None
 
 ##### TUNING_MODULE_TYPE_E
 
-【说明】
+[Description]
 
-定义可支持的 tuning 模块类型。
+Define the types of tuning modules that can be supported.
 
-【定义】
+[Definition]
 
 ```java
 typedef enum TUNING_MODULE_TYPE { 
@@ -3042,26 +3030,26 @@ typedef enum TUNING_MODULE_TYPE {
 } TUNING_MODULE_TYPE_E;
 ```
 
-【成员】
+[Members]
 
-| 成员名称                | 描述                         |
-| -------------------------------- | ------------------------------------- |
-| TUNING_MODULE_TYPE_ISP  | ISP 模块类型                 |
-| TUNING_MODULE_TYPE_CPP  | CPP 模块类型                 |
-| TUNING_MODULE_TYPE_ALGO | 算法模块类型（用户无需关心） |
-| TUNING_MODULE_TYPE_MAX  | 可 tuning 的模块类型数最大值 |
+| Member Name                | Description                         |
+| -------------------------- | ----------------------------------- |
+| TUNING_MODULE_TYPE_ISP     | ISP module type                     |
+| TUNING_MODULE_TYPE_CPP     | CPP module type                     |
+| TUNING_MODULE_TYPE_ALGO    | Algorithm module type (users do not need to care) |
+| TUNING_MODULE_TYPE_MAX     | The maximum number of module types that can be tuned |
 
-【注意】无
+[Note] None
 
-【相关类型及数据结构】无
+[Related Types and Data Structures] None
 
 ##### TUNING_BUFFER_S
 
-【说明】
+[Description]
 
-定义 tuning 模块打开 dump raw 图功能时用到的 buffer 结构。
+Define the buffer structure used when the tuning module opens the dump raw image function.
 
-【定义】
+[Definition]
 
 ```java
 typedef struct TUNING_BUFFER { 
@@ -3071,27 +3059,27 @@ typedef struct TUNING_BUFFER {
 } TUNING_BUFFER_S, *TUNING_BUFFER_S_PTR;
 ```
 
-【成员】
+[Members]
 
-| 成员名称 | 描述                 |
-| ----------------- | ----------------------------- |
-| frameId  | 图像帧号             |
-| length   | 图像 buffer 长度     |
-| virAddr  | 图像 buffer 起始地址 |
+| Member Name | Description                 |
+| --------------- | ------------------------- |
+| frameId         | Image frame number        |
+| length          | Image buffer length       |
+| virAddr         | Starting address of the image buffer |
 
-【注意】
+[Note]
 
-跟 ASR_TUNING_ASSISTANT_TRIGGER_S 配合使用，用于 StartDumpRaw 的入参之一
+Used with ASR_TUNING_ASSISTANT_TRIGGER_S for the StartDumpRaw input parameter.
 
-【相关类型及数据结构】无
+[Related Types and Data Structures] None
 
 ##### TUNING_MODULE_OBJECT_S
 
-【说明】
+[Description]
 
-定义待 tuning 的单个模块实体的基本信息。
+Define the basic information of a single module entity to be tuned.
 
-【定义】
+[Definition]
 
 ```java
 typedef struct TUNING_MODULE_OBJECT { 
@@ -3108,55 +3096,55 @@ typedef struct TUNING_MODULE_OBJECT {
 } TUNING_MODULE_OBJECT_S, *TUNING_MODULE_OBJECT_S_PTR;
 ```
 
-【成员】
+[Members]
 
-| 成员名称              | 描述                                                                                                           |
-| ------------------------------ | ----------------------------------------------------------------------------------------------------------------------- |
-| type                  | 待 tuning 模块的类型                                                                                           |
-| moduleHandle          | 待 tuning 模块的 handle 指针，算法模块使用 对于 ISP 和 CPP 类型无需关注，tuningtools 内部实现              |
-| groupId               | 待 tuning 模块的组号 对于 ISP 类型， 取值范围[0, 1] 对于 CPP 类型，取值范围[0, 15]                     |
-| dumpRaw               | 是否支持 dump RAW 图像数据                                                                                     |
-| name                  | 待 tuning 模块的名称                                                                                           |
-| loadSettingFile       | 对于算法模块，为 load setting file 的回调 对于 ISP 和 CPP， 无需关注，tuningtools 内部实现                 |
-| saveSettingFile       | 对于算法模块，为 save setting file 的回调 对于 ISP 和 CPP， 无需关注，tuningtools 内部实现                 |
-| saveFilterSettingFile | 对于算法模块，为 save 某个特定 filter setting file 的回调 对于 ISP 和 CPP， 无需关注，tuningtools 内部实现 |
-| readFirmware          | 对于算法模块，为读取某个特定 filter 值的回调 对于 ISP 和 CPP， 无需关注，tuningtools 内部实现              |
-| writeFirmware         | 对于算法模块，为设置某个特定 filter 值的回调 对于 ISP 和 CPP， 无需关注，tuningtools 内部实现              |
+| Member Name              | Description                                                                                                           |
+| ------------------------ | --------------------------------------------------------------------------------------------------------------------- |
+| type                     | Type of the module to be tuned                                                                                         |
+| moduleHandle             | Handle pointer of the module to be tuned, used by the algorithm module. For ISP and CPP types, it is not necessary to care, as it is implemented internally by tuningtools. |
+| groupId                  | Group number of the module to be tuned. For ISP type, the range is [0, 1]. For CPP type, the range is [0, 15].         |
+| dumpRaw                  | Whether to support dumping RAW image data                                                                              |
+| name                     | Name of the module to be tuned                                                                                         |
+| loadSettingFile          | For the algorithm module, it is the callback for loading the setting file. For ISP and CPP, it is not necessary to care, as it is implemented internally by tuningtools. |
+| saveSettingFile          | For the algorithm module, it is the callback for saving the setting file. For ISP and CPP, it is not necessary to care, as it is implemented internally by tuningtools. |
+| saveFilterSettingFile    | For the algorithm module, it is the callback for saving a specific filter setting file. For ISP and CPP, it is not necessary to care, as it is implemented internally by tuningtools. |
+| readFirmware             | For the algorithm module, it is the callback for reading a specific filter value. For ISP and CPP, it is not necessary to care, as it is implemented internally by tuningtools. |
+| writeFirmware            | For the algorithm module, it is the callback for setting a specific filter value. For ISP and CPP, it is not necessary to care, as it is implemented internally by tuningtools. |
 
-【注意】
+[Note]
 
-tuning ISP 和 CPP 时，重点关注 type，groupId, name 即可。dumpRaw 一般设置为 0。
+When tuning ISP and CPP, focus on type, groupId, and name. dumpRaw is generally set to 0.
 
-【相关类型及数据结构】无
+[Related Types and Data Structures] None
 
 ##### ASR_TUNING_ASSISTANT_TRIGGER
 
-【说明】
+[Description]
 
-定义待 tuning 的所有模块合集的基础回调。
+Define the basic callback of all modules to be tuned.
 
-【定义】
+[Definition]
 
 ```java
 typedef struct ASR_TUNING_ASSISTANT_TRIGGER { 
     uint32_t (*GetModuleCount)();
     int32_t (*GetModules)(uint32_t moduleCount, TUNING_MODULE_OBJECT_S *modules); 
-    int32_t(*StartDumpRaw)(TUNING_MODULE_TYPE_Etype,uint32_tgroupId,uint32_t frameCount, TUNING_BUFFER_S *frames);
+    int32_t(*StartDumpRaw)(TUNING_MODULE_TYPE_E type, uint32_t groupId, uint32_t frameCount, TUNING_BUFFER_S *frames);
     int32_t (*EndDumpRaw)(TUNING_MODULE_TYPE_E type, uint32_t groupId);
 } ASR_TUNING_ASSISTANT_TRIGGER_S, *ASR_TUNING_ASSISTANT_TRIGGER_S_PTR;
 ```
 
-【成员】
+[Members]
 
-| 成员名称       | 描述                                                                                              |
-| ----------------------- | ---------------------------------------------------------------------------------------------------------- |
-| GetModuleCount | 返回需要 tuning 的模块总数                                                                        |
-| GetModules     | 获取 moduleCount 个待 tuning 的模块列表（放在入参 modules 数组中）， 并返回实际上获取到的模块个数 |
-| StartDumpRaw   | 开始 rawdump 的回调，不推荐使用                                                                   |
-| EndDumpRaw     | 结束 rawdump 的回调，不推荐使用                                                                   |
+| Member Name       | Description                                                                                              |
+| ----------------- | -------------------------------------------------------------------------------------------------------- |
+| GetModuleCount    | Return the total number of modules to be tuned                                                           |
+| GetModules        | Get the list of modules to be tuned with moduleCount (placed in the input parameter modules array) and return the actual number of modules obtained |
+| StartDumpRaw      | Callback to start raw dump, not recommended for use                                                      |
+| EndDumpRaw        | Callback to end raw dump, not recommended for use                                                        |
 
-【注意】
+[Note]
 
-tuningISP 和 CPP 时，TUNING_MODULE_OBJECT_S 的成员应依据真实使用的 ISP 和 CPP groupId 而定，可以参考 demo/online_pipeline_test.c 中 tuning_server_init()的用法。
+When tuning ISP and CPP, the members of TUNING_MODULE_OBJECT_S should be based on the actual ISP and CPP groupId used. You can refer to the usage of tuning_server_init() in demo/online_pipeline_test.c.
 
-【相关类型及数据结构】无
+[Related Types and Data Structures] None

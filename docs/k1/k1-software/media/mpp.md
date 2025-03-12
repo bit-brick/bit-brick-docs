@@ -6,179 +6,178 @@ toc_max_heading_level: 5
 
 # MPP
 
-MPP (Multimedia Processing Platform，多媒体处理平台)开发指南。
+MPP (Multimedia Processing Platform) Development Guide.
 
-## 1. 概述
+## 1. Overview
 
-### 1.1 编写目的
+### 1.1 Purpose
 
-主要介绍 SpacemiT 的多媒体相关的框架层次结构，开放 API 接口等，方便开发者快速上手或者二次开发。
+This document primarily introduces the framework hierarchy and open API interfaces related to multimedia in SpacemiT, facilitating developers to quickly get started or perform secondary development.
 
-### 1.2 适用范围
+### 1.2 Scope
 
-适用于 SpacemiT 的 K1 系列 SOC。
+Applicable to SpacemiT's K1 series SOC.
 
-### 1.3 相关人员
+### 1.3 Target Audience
 
-- 应用开发工程师
-- 多媒体中间件开发及维护工程师
+- Application Development Engineers
+- Multimedia Middleware Development and Maintenance Engineers
 
-### 1.4 文档结构
+### 1.4 Document Structure
 
-该文档首先介绍了多媒体整体框架结构及其简要说明，然后分别对 MPP 模块，VPU 模块，JPU 模块，ISP/CPP/MIPI-CSI 模块等进行详细的说明。
+This document first introduces the overall multimedia framework structure and its brief description, followed by detailed explanations of the MPP module, VPU module, JPU module, ISP/CPP/MIPI-CSI module, etc.
 
-## 2 多媒体整体框架
+## 2 Multimedia Framework
 
-### 2.1 框架层次图及说明
+### 2.1 Framework Hierarchy Diagram and Description
 
 ![](static/M5mAbw911oDOp2xFEtHc2lNnned.png)
 
-从框架结构上看分 4 层，从上到下依次为：
+The framework is divided into 4 layers, from top to bottom:
 
-- **APP层**：包括第三方 APP 和自研 APP，第三方 APP 基本上是通过 GStreamer 和 FFmpeg 等开源框架来实现视频的编解码，例如 Bianbu 默认集成的 mpv 播放器，还有我们常用的 Video（totem）等，自研 APP 目前主要是我们提供的对接 API 的参考 demo 或者 test。
-  - **mpv**：Bianbu 桌面系统默认本地播放器，对接了 K1 硬件解码器，支持 H.264/HEVC/VP8/VP9/MPEG-4/MPEG-2/MJPEG 等多种格式的硬件解码，最高支持到 4K60 视频的播放。
-  - **totem**：Ubuntu 桌面系统默认本地播放器，对接了 K1 硬件解码器，支持 H.264/HEVC/VP8/VP9/MPEG-4/MPEG-2/MJPEG 等多种格式的硬件解码，目前最高支持到 4K30 视频的播放。
-  - **cheese**：Bianbu/Ubuntu 桌面系统默认的 camera 应用，支持预览，拍照，录像等功能，目前已经对接了 K1 的硬件编解码器，实现 1080P30 流畅预览录像。
-  - **chromium**：Bianbu 桌面系统默认浏览器，对接了 K1 的硬件解码器，支持 H.264/HEVC 等多种格式的硬件解码，最高支持到 4K30 视频的播放。
-  - **kodi**：开发者和发烧友常用的开源播放器，对接了 K1 的硬件解码器，H.264/HEVC/VP8/VP9 等多种格式的硬件解码，最高支持 4K60 视频的播放。
-  - **v2d-test**：V2D 模块的测试程序，也可以作为参考 demo，V2D 模块主要是进行非压缩图像的格式转换，旋转，缩放等操作。
-  - **mvx-player**：VPU 模块的测试程序，也可以作为参考 demo，通过命令行进行视频的编解码操作，输出以文件的形式保存。
-  - **jpu-test**：JPU 模块的测试程序，也可以作为参考 demo，通过命令行进行视频的编解码操作，输出以文件的形式保存，JPU 模块主要进行 JPEG 图像的编解码操作。
-  - **camera-test**：CAMERA 通路的测试程序，也可以作为参考 demo，通过命令行进行图像的采集，该测试程序主要是针对 K1 的 CPP-ISP-MIPICSI 模块提供的 API，不包括 USB camera，USB camera 请使用 v4l-utils 等开源标准测试程序。
-- **开源多媒体框架层（FRAMEWORK）**：常见的就是 GStreamer，FFmpeg，GStreamer 和 FFmpeg 是完整的多媒体解决方案，全面包含了 muxer/demuxer/decoder/encoder/display 的各种实现，是可以直接使用的开源框架。这一层，我们实现了多个插件通过 MPP 把硬件编解码库对接上。
-  - **FFmpeg**：FFmpeg 对接了 K1 的硬件编解码器，支持 H.264/HEVC/VP8/VP9/MPEG-4/MPEG-2/MJPEG 等多种格式的硬件解码，最高支持到 4K60 视频的播放，同时支持 AV_PIX_FMT_DRM_PRIME 和 AV_PIX_FMT_NV12 的输出像素格式，支持 H.264/H.265/VP8/VP9/MJPEG 等多种格式的硬件编码，最高支持到 4K30 的编码。
-  - **Gstreamer**：Gstreamer 对接了 K1 的硬件编解码器，支持 H.264/HEVC/VP8/VP9/MPEG-4/MPEG-2/MJPEG 等多种格式的硬件解码，最高支持到 4K30 视频的播放，支持 H.264/H.265/VP8/VP9/MJPEG 等多种格式的硬件编码，最高支持到 1080P60 的编码。
-  - **Openmax IL**：编解码适配中
-- **MPP**：对上提供统一多媒体 API，对下动态加载不同平台的编解码库插件来调用编解码库。
-- **Driver & Library**：IP 厂商提供的驱动和 API 动态库。
+- **APP Layer**: Includes third-party apps and self-developed apps. Third-party apps generally use open-source frameworks like GStreamer and FFmpeg for video encoding and decoding. For example, the default mpv player in Bianbu and commonly used Video (totem). Self-developed apps currently include reference demos or tests provided by us that interface with the API.
+  - **mpv**: Default local player in the Bianbu desktop system, interfaced with K1 hardware decoder, supports hardware decoding of H.264/HEVC/VP8/VP9/MPEG-4/MPEG-2/MJPEG, etc., up to 4K60 video playback.
+  - **totem**: Default local player in the Ubuntu desktop system, interfaced with K1 hardware decoder, supports hardware decoding of H.264/HEVC/VP8/VP9/MPEG-4/MPEG-2/MJPEG, etc., currently up to 4K30 video playback.
+  - **cheese**: Default camera app in the Bianbu/Ubuntu desktop system, supports preview, photo capture, and video recording, currently interfaced with K1 hardware encoder/decoder, enabling smooth 1080P30 preview and recording.
+  - **chromium**: Default browser in the Bianbu desktop system, interfaced with K1 hardware decoder, supports hardware decoding of H.264/HEVC, etc., up to 4K30 video playback.
+  - **kodi**: Open-source player commonly used by developers and enthusiasts, interfaced with K1 hardware decoder, supports hardware decoding of H.264/HEVC/VP8/VP9, etc., up to 4K60 video playback.
+  - **v2d-test**: Test program for the V2D module, also serves as a reference demo. The V2D module mainly performs non-compressed image format conversion, rotation, scaling, etc.
+  - **mvx-player**: Test program for the VPU module, also serves as a reference demo, performs video encoding and decoding via command line, output saved as files.
+  - **jpu-test**: Test program for the JPU module, also serves as a reference demo, performs video encoding and decoding via command line, output saved as files. The JPU module mainly performs JPEG image encoding and decoding.
+  - **camera-test**: Test program for the CAMERA pathway, also serves as a reference demo, performs image capture via command line. This test program is mainly for the API provided by K1's CPP-ISP-MIPICSI module, excluding USB cameras. For USB cameras, please use open-source standard test programs like v4l-utils.
+- **Open Source Multimedia Framework Layer (FRAMEWORK)**: Commonly includes GStreamer and FFmpeg. GStreamer and FFmpeg are comprehensive multimedia solutions, including muxer/demuxer/decoder/encoder/display implementations, and can be used directly as open-source frameworks. In this layer, we have implemented multiple plugins to interface with the hardware encoding/decoding library via MPP.
+  - **FFmpeg**: Interfaced with K1 hardware encoder/decoder, supports hardware decoding of H.264/HEVC/VP8/VP9/MPEG-4/MPEG-2/MJPEG, etc., up to 4K60 video playback, supports AV_PIX_FMT_DRM_PRIME and AV_PIX_FMT_NV12 output pixel formats, supports hardware encoding of H.264/H.265/VP8/VP9/MJPEG, etc., up to 4K30 encoding.
+  - **Gstreamer**: Interfaced with K1 hardware encoder/decoder, supports hardware decoding of H.264/HEVC/VP8/VP9/MPEG-4/MPEG-2/MJPEG, etc., up to 4K30 video playback, supports hardware encoding of H.264/H.265/VP8/VP9/MJPEG, etc., up to 1080P60 encoding.
+  - **Openmax IL**: Encoding/decoding adaptation in progress.
+- **MPP**: Provides a unified multimedia API to the upper layer and dynamically loads different platform encoding/decoding library plugins to call the encoding/decoding library.
+- **Driver & Library**: Drivers and API dynamic libraries provided by IP vendors.
 
-### 2.2 概念术语
+### 2.2 Terminology
 
-- **VPU**：（Video Processing Unit，视频处理单元）具有视频编解码功能的硬件，能够提高编解码效率并减少 CPU 负荷，K1 的 VPU 基于标准 V4L2 框架实现，支持 H.264/HEVC/VP8/VP9/MJPEG/MPEG4 等格式的解码和 H.264/HEVC/VP8/VP9/MJPEG 等格式的编码。
-- **V2D**：K1 提供的图像处理硬件模块，支持图像格式转换，缩放，裁剪等功能。
-- **JPU**：（Jpeg Processing Unit）进行 Jpeg 图像编解码的硬件，能够提高 Jpeg 的编解码效率并减少 CPU 负荷。
-- **ISP**：图像处理模块，用于处理传感器输出的图像信号，经过一系列数字图像处理算法达到预期的图像效果。
-- **CPP**：图像后处理模块，用于离线处理 ISP 输出的 NV12 数据，金字塔式多层分时处理，主要功能包括：镜头畸变矫正、空域和时域降噪、频域降噪、边沿增强等。
-- **RVV**：基于 RISC-V 核心指令集架构的一种向量扩展。向量扩展的目的是在指令级别实现对数据的并行操作,以加速计算过程，类似 ARM 的 neon。
-- **MPP**：（Multimedia Processing Platform）多媒体处理平台。
-- **Gstreamer**：一个开源的多媒体框架，用于构建流媒体应用程序和处理音频/视频数据。它提供了一套库和工具，可以用来创建、处理和播放各种多媒体流，包括音频、视频、流媒体等。gstreamer 支持多种编解码器和格式，可以在不同平台上运行，是一个灵活且功能强大的多媒体处理框架。
-- **FFmpeg**：开源的跨平台音视频处理工具，它可以用来录制、转换和流式传输音视频内容，以及进行音视频编辑和处理。它支持多种音视频格式和编解码器，可以在不同的操作系统上运行，包括 Windows、Mac 和 Linux。FFmpeg 是一个功能强大且灵活的工具，被广泛应用于多媒体处理领域。
-- **V4L2**：Video for Linux 2 的缩写，是一个用于 Linux 系统的视频采集和输出设备的驱动程序接口。它提供了一种统一的方式来访问视频设备，包括摄像头、视频采集卡和其他视频输入/输出设备。V4L2 接口允许用户程序通过统一的 API 来控制和使用视频设备，从而实现视频的采集、处理和显示。这使得在 Linux 系统上开发视频应用程序变得更加简单和灵活。
-- **ALSA**：Advanced Linux Sound Architecture（高级 Linux 音频架构）的缩写，是 Linux 系统上用于处理音频和音频设备的软件架构。它提供了一个统一的音频接口，使得应用程序可以与音频硬件进行通信，支持多种音频设备和音频格式，并提供了低延迟和高质量的音频处理功能。ALSA 还提供了一组工具和库，用于配置和管理音频设备，以及编写音频应用程序。ALSA 已经成为 Linux 系统上主流的音频架构，被广泛应用于各种 Linux 发行版中。
+- **VPU**: (Video Processing Unit) Hardware with video encoding/decoding capabilities, improving encoding/decoding efficiency and reducing CPU load. K1's VPU is based on the standard V4L2 framework, supporting decoding of H.264/HEVC/VP8/VP9/MJPEG/MPEG4 and encoding of H.264/HEVC/VP8/VP9/MJPEG.
+- **V2D**: Image processing hardware module provided by K1, supporting image format conversion, scaling, cropping, etc.
+- **JPU**: (Jpeg Processing Unit) Hardware for JPEG image encoding/decoding, improving JPEG encoding/decoding efficiency and reducing CPU load.
+- **ISP**: Image processing module, processing image signals output by sensors, achieving desired image effects through a series of digital image processing algorithms.
+- **CPP**: Image post-processing module, offline processing NV12 data output by ISP, pyramid multi-layer time-sharing processing, including lens distortion correction, spatial and temporal noise reduction, frequency domain noise reduction, edge enhancement, etc.
+- **RVV**: Vector extension based on the RISC-V core instruction set architecture. The purpose of vector extension is to achieve parallel data operations at the instruction level to accelerate computation, similar to ARM's neon.
+- **MPP**: (Multimedia Processing Platform) Multimedia processing platform.
+- **Gstreamer**: An open-source multimedia framework for building streaming media applications and processing audio/video data. It provides a set of libraries and tools for creating, processing, and playing various multimedia streams, including audio, video, and streaming media. Gstreamer supports multiple codecs and formats and can run on different platforms, making it a flexible and powerful multimedia processing framework.
+- **FFmpeg**: Open-source cross-platform audio/video processing tool, used for recording, converting, and streaming audio/video content, as well as audio/video editing and processing. It supports multiple audio/video formats and codecs and can run on different operating systems, including Windows, Mac, and Linux. FFmpeg is a powerful and flexible tool widely used in multimedia processing.
+- **V4L2**: Abbreviation for Video for Linux 2, a driver interface for video capture and output devices on Linux systems. It provides a unified way to access video devices, including cameras, video capture cards, and other video input/output devices. The V4L2 interface allows user programs to control and use video devices through a unified API, enabling video capture, processing, and display. This makes developing video applications on Linux systems simpler and more flexible.
+- **ALSA**: Abbreviation for Advanced Linux Sound Architecture, a software architecture for handling audio and audio devices on Linux systems. It provides a unified audio interface, allowing applications to communicate with audio hardware, supporting multiple audio devices and formats, and providing low-latency and high-quality audio processing. ALSA also provides a set of tools and libraries for configuring and managing audio devices, as well as writing audio applications. ALSA has become the mainstream audio architecture on Linux systems and is widely used in various Linux distributions.
 
 ## 3 MPP
 
-### 3.1 模块介绍
+### 3.1 Module Introduction
 
-#### 3.1.1 背景介绍
+#### 3.1.1 Background
 
-MPP(Multimedia Processing Platform，多媒体处理平台)属于自研操作系统 Bianbu，其目的是封装多平台硬件编解码的使用差异，提供统一的 API 供开发者使用。
+MPP (Multimedia Processing Platform) is part of the self-developed operating system Bianbu, aiming to encapsulate the usage differences of hardware encoding/decoding across multiple platforms and provide a unified API for developers.
 
-#### 3.1.2 概念术语
+#### 3.1.2 Terminology
 
-- **MPP(Multimedia Processing Platform)**：多媒体处理平台。
-- **MPI(Multimedia Processing Interface)**：多媒体处理平台提供给上层的 API 调用。
-- **MPP AL**: 抽象层，对不同 IP，不同 SOC，不同方案的多媒体接口进行抽象。
-- **Packet**：数据包，主要表示经过压缩后的数据，即解码前或者编码后的数据，如 H.264/H.265 的视频流。
-- **Frame**：数据帧，主要表示未经压缩的数据，即解码后或者编码前的数据，如 YUV420 的图像。
+- **MPP (Multimedia Processing Platform)**: Multimedia processing platform.
+- **MPI (Multimedia Processing Interface)**: API provided by the multimedia processing platform for upper-layer calls.
+- **MPP AL**: Abstraction layer, abstracting multimedia interfaces for different IPs, SOCs, and solutions.
+- **Packet**: Data packet, mainly representing compressed data, i.e., data before decoding or after encoding, such as H.264/H.265 video streams.
+- **Frame**: Data frame, mainly representing uncompressed data, i.e., data after decoding or before encoding, such as YUV420 images.
 
-#### 3.1.3 模块功能
+#### 3.1.3 Module Functions
 
-目前 MPP 主要包含下面几个部分：
+Currently, MPP mainly includes the following parts:
 
-- **VDEC**: 视频解码子模块及开放 API，主要用于各种数据流 packet 的解码。
-- **VENC**: 视频编码子模块及开放 API，主要用于 RGB/YUV 数据帧 frame 的编码。
-- **G2D**: 2D 图形处理加速子模块及开放 API，主要进行数据帧 frame 的格式转换，缩放，旋转，裁剪等操作。
-- **BIND 系统**：支持多模块动态绑定。
-- **AL(Abstract Layer)**: 支持多平台。
-- **VI**: 视频输入子模块及开放 API，目前仅支持文件输入及标准 V4L2 输入。
-- **VO**: 视频输出子模块及开放 API，目前仅支持文件输出及 SDL2 视频输出。
+- **VDEC**: Video decoding submodule and open API, mainly used for decoding various data stream packets.
+- **VENC**: Video encoding submodule and open API, mainly used for encoding RGB/YUV data frames.
+- **G2D**: 2D graphics processing acceleration submodule and open API, mainly performing format conversion, scaling, rotation, cropping, etc., on data frames.
+- **BIND System**: Supports dynamic binding of multiple modules.
+- **AL (Abstract Layer)**: Supports multiple platforms.
+- **VI**: Video input submodule and open API, currently only supports file input and standard V4L2 input.
+- **VO**: Video output submodule and open API, currently only supports file output and SDL2 video output.
 
-未包含部分：
+Excluded parts:
 
-- **AI/AO**: 音频的输入输出，走标准的 pipewire->alsa-lib->alsa driver。
-- **AENC/ADEC**: 纯软件实现，Gstreamer/FFmpeg 等开源框架都有全面支持，暂不支持。
+- **AI/AO**: Audio input/output, handled by standard pipewire->alsa-lib->alsa driver.
+- **AENC/ADEC**: Pure software implementation, fully supported by open-source frameworks like GStreamer/FFmpeg, currently not supported.
 
-#### 3.1.4 配置说明
+#### 3.1.4 Configuration Instructions
 
-##### 3.1.4.1 调试配置
+##### 3.1.4.1 Debug Configuration
 
-- **MPP_PRINT_BUFFER**：环境变量，默认 0，配置成 1 后能够实时打印 buffer 状态。
-- **MPP_SAVE_OUTPUT_BUFFER**：环境变量，默认 0，配置成 1 后能够保存解码后的 YUV buffer，YUV buffer 较大，会导致播放卡顿并且保存文件会占用较大空间，请注意。
-- **MPP_SAVE_OUTPUT_BUFFER_PATH**：环境变量，用于配置输出 YUV 的文件路径，默认/home/bianbu/output.yuv，MPP_SAVE_OUTPUT_BUFFER 开启后才生效。
-- **MPP_FRINT_UNFREE_PACKET**：环境变量，默认 0，配置成 1 后能够实时打印 packet 的申请释放情况
-- **MPP_FRINT_UNFREE_FRAME**：环境变量，默认 0，配置成 1 后能够实时打印 frame 的申请释放情况
-- **MPP_FRINT_UNFREE_DMABUF**：环境变量，默认 0，配置成 1 后能够实时打印 dmabuf 的申请释放情况
+- **MPP_PRINT_BUFFER**: Environment variable, default 0, set to 1 to print buffer status in real-time.
+- **MPP_SAVE_OUTPUT_BUFFER**: Environment variable, default 0, set to 1 to save decoded YUV buffer. YUV buffer is large, may cause playback lag and occupy significant storage space, please note.
+- **MPP_SAVE_OUTPUT_BUFFER_PATH**: Environment variable, used to configure the output YUV file path, default /home/bianbu/output.yuv, effective only when MPP_SAVE_OUTPUT_BUFFER is enabled.
+- **MPP_FRINT_UNFREE_PACKET**: Environment variable, default 0, set to 1 to print packet allocation and release status in real-time.
+- **MPP_FRINT_UNFREE_FRAME**: Environment variable, default 0, set to 1 to print frame allocation and release status in real-time.
+- **MPP_FRINT_UNFREE_DMABUF**: Environment variable, default 0, set to 1 to print dmabuf allocation and release status in real-time.
 
-使用示例：
+Usage example:
 
 ```shell
-#需要实时打印buffer状态
+# Need to print buffer status in real-time
 export MPP_PRINT_BUFFER=1
 
-#需要保存解码后的YUV数据到/mnt/a.yuv
+# Need to save decoded YUV data to /mnt/a.yuv
 export MPP_SAVE_OUTPUT_BUFFER=1
 export MPP_SAVE_OUTPUT_BUFFER_PATH=/mnt/a.yuv
 ```
 
-##### 3.1.4.2 参数配置
+##### 3.1.4.2 Parameter Configuration
 
-暂未提供配置参数
+No configuration parameters provided yet.
 
-#### 3.1.5 源码
+#### 3.1.5 Source Code
 
-##### 3.1.5.1 源码位置
+##### 3.1.5.1 Source Code Location
 
-MPP 的源码位置位于：
+MPP source code is located at:
 
 ```shell
 bianbu-linux/package-src/mpp
 ```
 
-##### 3.1.5.2 源码编译
+##### 3.1.5.2 Source Code Compilation
 
-bianbu-linux 方案中默认已经开启了编译，如果需要修改代码后需要重新编译，执行：
+The bianbu-linux solution has compilation enabled by default. If code modifications are needed, recompile by executing:
 
 ```shell
 make mpp-rebuild
 ```
 
-##### 3.1.5.3 源码结构
+##### 3.1.5.3 Source Code Structure
 
-MPP 的源码结构及简要说明如下（源码结构做了精简）：
-
+MPP source code structure and brief description (simplified):
 ```shell
-|-- al                               ；AL(Abstract Layer)层代码，对接各平台功能模块或者驱动
+|-- al                               ; AL (Abstract Layer) code, interfaces with platform-specific modules or drivers
 |   |-- CMakeLists.txt
 |   |-- include
-|   |   |-- al_interface_base.h      ；AL层接口基类
-|   |   |-- al_interface_dec.h       ；AL层解码接口基类，继承于base
-|   |   |-- al_interface_enc.h       ；AL层编码接口基类，继承于base
-|   |   |-- al_interface_g2d.h       ；AL层图像转换接口基类，继承于base
-|   |   |-- al_interface_vi.h        ；AL层视频输入接口基类，继承于base
-|   |   `-- al_interface_vo.h        ；AL层视频输出接口基类，继承于base
-|   |-- vcodec                       ；对接多平台的编解码模块或者驱动
-|   |   |-- chipmedia                ；对接chipmedia IP的编解码器
+|   |   |-- al_interface_base.h      ; AL layer interface base class
+|   |   |-- al_interface_dec.h       ; AL layer decoding interface base class, inherits from base
+|   |   |-- al_interface_enc.h       ; AL layer encoding interface base class, inherits from base
+|   |   |-- al_interface_g2d.h       ; AL layer image conversion interface base class, inherits from base
+|   |   |-- al_interface_vi.h        ; AL layer video input interface base class, inherits from base
+|   |   `-- al_interface_vo.h        ; AL layer video output interface base class, inherits from base
+|   |-- vcodec                       ; Interfaces with multi-platform codec modules or drivers
+|   |   |-- chipmedia                ; Interfaces with chipmedia IP codecs
 |   |   |   |-- CMakeLists.txt
-|   |   |   `-- starfive             ；对接starfive的编解码器API（暂未实现）
+|   |   |   `-- starfive             ; Interfaces with starfive codec API (not yet implemented)
 |   |   |       |-- sfdec_plugin.c
 |   |   |       `-- sfenc_plugin.c
 |   |   |-- CMakeLists.txt
-|   |   |-- debug                    ；虚拟解码插件，输出简单纯色图，用于debug
+|   |   |-- debug                    ; Virtual decoding plugin, outputs simple solid color images for debugging
 |   |   |   |-- CMakeLists.txt
 |   |   |   `-- fake_dec_plugin.c
-|   |   |-- ffmpeg                   ；对接ffmpeg软件编解码，用于debug
+|   |   |-- ffmpeg                   ; Interfaces with ffmpeg software codec for debugging
 |   |   |   |-- CMakeLists.txt
 |   |   |   |-- ffmpegdec.c
 |   |   |   |-- ffmpegenc.c
 |   |   |   `-- ffmpegswscale.c
 |   |   |-- k1
 |   |   |   |-- CMakeLists.txt
-|   |   |   `-- jpu                  ；对接K1的Jpu编解码（暂未实现）
+|   |   |   `-- jpu                  ; Interfaces with K1 Jpu codec (not yet implemented)
 |   |   |       |-- include
 |   |   |       |-- jpudec.c
 |   |   |       `-- jpuenc.c
-|   |   |-- openh264                 ；对接openh264软件编解码库，用于debug
+|   |   |-- openh264                 ; Interfaces with openh264 software codec library for debugging
 |   |   |   |-- CMakeLists.txt
 |   |   |   |-- include
 |   |   |   |   `-- wels
@@ -189,7 +188,7 @@ MPP 的源码结构及简要说明如下（源码结构做了精简）：
 |   |   |   |-- openh264dec.cpp
 |   |   |   |-- openh264enc.cpp
 |   |   |   `-- README.md
-|   |   |-- openmax                  ；对接openmax
+|   |   |-- openmax                  ; Interfaces with openmax
 |   |   |   |-- CMakeLists.txt
 |   |   |   |-- include
 |   |   |   |   |-- khronos
@@ -210,12 +209,12 @@ MPP 的源码结构及简要说明如下（源码结构做了精简）：
 |   |   |   |   |   `-- OMX_Video.h
 |   |   |   |   |-- sfomxil_find_dec_library.h
 |   |   |   |   `-- sfomxil_find_enc_library.h
-|   |   |   `-- starfive             ；对接starfive的openmaxIL层视频编解码
+|   |   |   `-- starfive             ; Interfaces with starfive openmaxIL layer video codec
 |   |   |       |-- sfomxil_dec_plugin.c
 |   |   |       `-- sfomxil_enc_plugin.c
-|   |   |-- v4l2                     ；对接V4L2编解码
+|   |   |-- v4l2                     ; Interfaces with V4L2 codec
 |   |   |   |-- CMakeLists.txt
-|   |   |   |-- linlonv5v7           ；对接linlonv5v7编解码（K1）
+|   |   |   |-- linlonv5v7           ; Interfaces with linlonv5v7 codec (K1)
 |   |   |   |   |-- include
 |   |   |   |   |   |-- linlonv5v7_buffer.h
 |   |   |   |   |   |-- linlonv5v7_codec.h
@@ -227,15 +226,12 @@ MPP 的源码结构及简要说明如下（源码结构做了精简）：
 |   |   |   |   |-- linlonv5v7_dec.c
 |   |   |   |   |-- linlonv5v7_enc.c
 |   |   |   |   `-- linlonv5v7_port.c
-|   |   |   `-- standard
-|   |   |       |-- v4l2dec.c
-|   |   |       `-- v4l2enc.c
-|   |   `-- verisilicon              ；对接verisilicon编解码（未实现）
+|   |   `-- verisilicon              ; Interfaces with verisilicon codec (not implemented)
 |   |       |-- CMakeLists.txt
 |   |       `-- vc8000.c
-|   |-- vi                           ；对接多平台视频输入模块或者驱动
+|   |-- vi                           ; Interfaces with multi-platform video input modules or drivers
 |   |   |-- CMakeLists.txt
-|   |   |-- file                     ；视频通过File输入
+|   |   |-- file                     ; Video input through File
 |   |   |   |-- include
 |   |   |   |   |-- defaultparse.h
 |   |   |   |   |-- h264parse.h
@@ -249,18 +245,18 @@ MPP 的源码结构及简要说明如下（源码结构做了精简）：
 |   |   |   |   |-- mjpegparse.c
 |   |   |   |   `-- parse.c
 |   |   |   `-- vi_file.c
-|   |   |-- k1                       ；视频通过K1的ISP输入，暂未实现
+|   |   |-- k1                       ; Video input through K1 ISP, not yet implemented
 |   |   |   `-- cam
 |   |   |       |-- include
 |   |   |       `-- vi_k1_cam.c
-|   |   `-- v4l2                     ；视频通过标准V4L2输入
+|   |   `-- v4l2                     ; Video input through standard V4L2
 |   |       |-- include
 |   |       `-- vi_v4l2.c
-|   |-- vo                           ；对接多平台视频输出模块或者驱动
+|   |-- vo                           ; Interfaces with multi-platform video output modules or drivers
 |   |   |-- CMakeLists.txt
-|   |   |-- file                     ；视频输出到File
+|   |   |-- file                     ; Video output to File
 |   |   |   `-- vo_file.c
-|   |   `-- sdl2                     ；视频通过SDL2输出
+|   |   `-- sdl2                     ; Video output through SDL2
 |   |       |-- include
 |   |       |   |-- begin_code.h
 |   |       |   |-- close_code.h
@@ -268,16 +264,16 @@ MPP 的源码结构及简要说明如下（源码结构做了精简）：
 |   |       |   |-- SDL_atomic.h
 |   |       |   `-- SDL_vulkan.h
 |   |       `-- vo_sdl2.c
-|   `-- vps                          ；对接多平台视频处理模块或者驱动
+|   `-- vps                          ; Interfaces with multi-platform video processing modules or drivers
 |       |-- CMakeLists.txt
 |       `-- k1
 |           |-- CMakeLists.txt
-|           `-- v2d                  ；对接K1的v2d模块，实现基本框架
+|           `-- v2d                  ; Interfaces with K1 v2d module, implements basic framework
 |               |-- include
 |               |   |-- asr_v2d_api.h
 |               |   `-- asr_v2d_type.h
 |               `-- v2d.c
-|-- cmake                            ；查找系统模块
+|-- cmake                            ; Finds system modules
 |   `-- modules
 |       |-- Findlibavcodec.cmake
 |       |-- Findlibopenh264.cmake
@@ -286,7 +282,7 @@ MPP 的源码结构及简要说明如下（源码结构做了精简）：
 |       `-- Findlibsf-omx-il.cmake
 |-- CMakeLists.txt
 |-- compile_install_completely.sh
-|-- debian                           ；deb包构建目录
+|-- debian                           ; deb package build directory
 |   |-- bianbu.conf
 |   |-- changelog
 |   |-- compat
@@ -303,28 +299,28 @@ MPP 的源码结构及简要说明如下（源码结构做了精简）：
 |   |           `-- rules.d
 |   |               `-- 99-video.rules
 |   `-- watch
-|-- doc                              ；一些文档
+|-- doc                              ; Documentation
 |   |-- C_naming_conventions.md
 |   `-- MPP Module Design Document V0.1.pdf
 |-- do_test.sh
 |-- format.sh
-|-- include                          ；API头文件
-|   |-- data.h                       ；MppData数据基类
-|   |-- dataqueue.h                  ；数据队列管理API
-|   |-- dmabufwrapper.h              ；dmabuf管理API
-|   |-- frame.h                      ；frame帧管理API
-|   |-- g2d.h                        ；图像处理API
-|   |-- packet.h                     ；packet包管理API
-|   |-- para.h                       ；参数结构体
+|-- include                          ; API header files
+|   |-- data.h                       ; MppData base class
+|   |-- dataqueue.h                  ; Data queue management API
+|   |-- dmabufwrapper.h              ; dmabuf management API
+|   |-- frame.h                      ; Frame management API
+|   |-- g2d.h                        ; Image processing API
+|   |-- packet.h                     ; Packet management API
+|   |-- para.h                       ; Parameter structures
 |   |-- processflow.h
-|   |-- ringbuffer.h                 ；环形buffer管理API
-|   |-- sys.h                        ；SYS相关API
-|   |-- vdec.h                       ；视频解码API
-|   `-- venc.h                       ；视频解码API
-|   |-- vi.h                         ；视频输入API
-|   `-- vo.h                         ；视频输出API
+|   |-- ringbuffer.h                 ; Ring buffer management API
+|   |-- sys.h                        ; SYS related API
+|   |-- vdec.h                       ; Video decoding API
+|   `-- venc.h                       ; Video encoding API
+|   |-- vi.h                         ; Video input API
+|   `-- vo.h                         ; Video output API
 |-- LICENSE
-|-- mpi                              ；API接口实现
+|-- mpi                              ; API interface implementation
 |   |-- CMakeLists.txt
 |   |-- g2d.c
 |   |-- include
@@ -340,7 +336,7 @@ MPP 的源码结构及简要说明如下（源码结构做了精简）：
 |-- pkgconfig
 |   `-- spacemit_mpp.pc.cmake
 |-- remove_space_end_of_line.sh
-|-- test                             ；测试程序，测试脚本，测试文件等
+|-- test                             ; Test programs, test scripts, test files, etc.
 |   |-- CMakeLists.txt
 |   |-- g2d_test.c
 |   |-- include
@@ -372,12 +368,12 @@ MPP 的源码结构及简要说明如下（源码结构做了精简）：
 |-- thirdparty
 |   |-- ffmpeg_compile_install.md
 |   `-- openh264_compile_install.md
-`-- utils                            ；utils
+`-- utils                            ; Utilities
     |-- CMakeLists.txt
-    |-- dataqueue.c                  ；数据队列实现
-    |-- dmabufwrapper.c              ；dmabuf管理实现
+    |-- dataqueue.c                  ; Data queue implementation
+    |-- dmabufwrapper.c              ; dmabuf management implementation
     |-- env.c
-    |-- frame.c                      ；frame管理实现
+    |-- frame.c                      ; frame management implementation
     |-- include
     |   |-- env.h
     |   |-- log.h
@@ -392,47 +388,47 @@ MPP 的源码结构及简要说明如下（源码结构做了精简）：
     |   `-- linux
     |       |-- os_env.c
     |       `-- os_log.c
-    |-- packet.c                     ；packet管理实现
+    |-- packet.c                     ; packet management implementation
     |-- resolution_utils.c
     |-- ringbuffer.c
     |-- utils.c
     `-- v4l2_utils.c
 ```
 
-### 3.2 MPP 框架结构图
+### 3.2 MPP Framework Structure Diagram
 
 ![](static/IjzAbsjbyoMgXkx1Cq5cUMNLnYe.png)
 
-从框架结构上，主要分 2 层，如下：
+From the framework structure, it is mainly divided into 2 layers, as follows:
 
-- **MPI**：接口层，主要包含对上层的 API 及其实现
-- **MPP AL**：抽象层，屏蔽不同平台和硬件的差异
+- **MPI**: Interface layer, mainly includes the API and its implementation for the upper layer
+- **MPP AL**: Abstraction layer, shielding the differences between different platforms and hardware
 
-从功能上来看，分为：
+From the functional perspective, it is divided into:
 
-- **MPI**：接口层
-- **MPP AL**：抽象层
-- **TESTS**：测试程序，测试用例及测试流
-- **UTILS**：工具包，基础功能实现，包括 PACKET/FRAME 管理，日志输出，环境变量读写等
-- **SYS**：主要实现动态加载插件和 BIND 系统
+- **MPI**: Interface layer
+- **MPP AL**: Abstraction layer
+- **TESTS**: Test programs, test cases, and test streams
+- **UTILS**: Utility package, basic function implementation, including PACKET/FRAME management, log output, environment variable reading and writing, etc.
+- **SYS**: Mainly implements dynamic loading of plugins and BIND system
 
-### 3.3 关键流程
+### 3.3 Key Processes
 
-#### 3.3.1 解码流程
+#### 3.3.1 Decoding Process
 
 ![](static/JI81bbaDyo42MaxuLJUcFGtynkP.png)
 
-#### 3.3.2 编码流程
+#### 3.3.2 Encoding Process
 
 ![](static/OeWFbJXHDo1o4px5ftTcniJynve.png)
 
-### 3.4 数据结构
+### 3.4 Data Structures
 
-#### 3.4.1 通用数据结构
+#### 3.4.1 General Data Structures
 
 ##### 3.4.1.1 enum MppModuleType
 
-该枚举类型定义了支持的插件类型，可以通过该枚举来选择插件，AUTO 表示按照默认优先级来选择插件（逻辑未完善），K1 上编解码一般选择 CODEC_V4L2_LINLONV5V7。
+This enumeration type defines the supported plugin types, which can be used to select plugins through this enumeration. AUTO indicates selecting plugins according to the default priority (logic not yet complete). On K1, encoding and decoding generally choose CODEC_V4L2_LINLONV5V7.
 
 ```c
 /***
@@ -582,7 +578,7 @@ typedef enum _MppModuleType {
 } MppModuleType;
 ```
 
-代码中通过下面接口来动态加载特定编解码器的插件库。
+The code dynamically loads the plugin library of a specific codec through the following interface.
 
 ```c
 /**
@@ -595,7 +591,7 @@ typedef enum _MppModuleType {
 
 ##### 3.4.1.2 enum MppCodingType
 
-该枚举类型定义了支持的编码格式，包含解码器和编码器支持的所有格式，每种编解码器可能只支持其中的部分类型，比如 openh264 仅支持 H264 的编码和解码。
+This enumeration type defines the supported coding formats, including all formats supported by decoders and encoders. Each codec may only support some of these types, for example, openh264 only supports H264 encoding and decoding.
 
 ```c
 typedef enum _MppCodingType {
@@ -639,7 +635,7 @@ typedef enum _MppCodingType {
 } MppCodingType;
 ```
 
-需要特别指出的是：每一种编解码器有自己定义的格式类型，需要进行格式的转换，下面是 ffmpeg 的格式对应示例：
+It should be particularly noted that each codec has its own defined format types, which need to be converted. Below is an example of ffmpeg format mapping:
 
 ```c
 #define CODING_TYPE_MAPPING_DEFINE(Type, format)  \
@@ -698,7 +694,7 @@ CODING_TYPE_MAPPING_CONVERT(FFMpegDec, ffmpegdec, enum AVCodecID)
 
 ##### 3.4.1.3 enum MppPixelFormat
 
-该枚举类型定义了支持的像素格式，包含解码器和编码器支持的所有格式，每种编解码器可能只支持其中的部分类型。
+This enumeration type defines the supported pixel formats, including all formats supported by decoders and encoders. Each codec may only support some of these types.
 
 ```c
 /***
@@ -835,7 +831,7 @@ typedef enum _MppPixelFormat {
 } MppPixelFormat;
 ```
 
-需要特别指出的是：每一种编解码器有自己定义的格式类型，需要进行格式的对应，下面是 ffmpeg 的格式对应示例：
+It should be particularly noted that each codec has its own defined format types, which need to be mapped. Below is an example of ffmpeg format mapping:
 
 ```c
 #define PIXEL_FORMAT_MAPPING_DEFINE(Type, format)  \
@@ -892,7 +888,7 @@ PIXEL_FORMAT_MAPPING_CONVERT(FFMpegDec, ffmpegdec, enum AVPixelFormat)
 
 ##### 3.4.1.4 struct MppData
 
-数据类型基类，MppPacket 和 MppFrame 继承于 MppData。
+Base class for data types, MppPacket and MppFrame inherit from MppData.
 
 ```c
 /*
@@ -948,7 +944,7 @@ typedef struct _MppData {
 
 ##### 3.4.1.5 enum MppReturnValue
 
-MPP 返回值：
+MPP return values:
 
 ```c
 typedef enum _MppReturnValue {
@@ -1006,24 +1002,24 @@ typedef enum _MppReturnValue {
 
 ```
 
-#### 3.4.2 解码数据结构
+#### 3.4.2 Decoding Data Structures
 
 ##### 3.4.2.1 struct MppVdecCtx
 
-视频解码器上下文，通过 VDEC_CreateChannel 和 VDEC_Init 进行创建和初始化。
+Video decoder context, created and initialized through VDEC_CreateChannel and VDEC_Init.
 
 ```c
 typedef struct _MppVdecCtx {
-  MppProcessNode pNode;        ；用于bind系统的pipeline的创建
-  MppModuleType eCodecType;    ；选择的解码插件
-  MppModule *pModule;          ；解码插件动态库的上下文
-  MppVdecPara stVdecPara;      ；解码参数集
+  MppProcessNode pNode;        // Used for creating pipeline in the bind system
+  MppModuleType eCodecType;    // Selected decoder plugin
+  MppModule *pModule;          // Context of the decoder plugin dynamic library
+  MppVdecPara stVdecPara;      // Decoder parameter set
 } MppVdecCtx;
 ```
 
 ##### 3.4.2.2 struct MppVdecPara
 
-解码器参数结构体。
+Decoder parameter structure.
 
 ```c
 /***
@@ -1033,63 +1029,63 @@ typedef struct _MppVdecPara {
   /***
    * set to MPP
    */
-  MppCodingType eCodingType;                   ；视频编码格式
-  S32 nProfile;                                ；视频编码的profile
+  MppCodingType eCodingType;                   // Video coding format
+  S32 nProfile;                                // Video coding profile
 
   /***
    * read from MPP
    */
-  MppFrameBufferType eFrameBufferType;         ；frame帧的buffer类型
-  MppDataTransmissinMode eDataTransmissinMode; ；输入输出buffer的传输类型
+  MppFrameBufferType eFrameBufferType;         // Frame buffer type
+  MppDataTransmissinMode eDataTransmissinMode; // Transmission type of input/output buffer
 
   /***
    * set to MPP
    */
-  S32 nWidth;                                  ；视频宽
-  S32 nHeight;                                 ；视频高
-  S32 nStride;                                 ；视频对齐宽度
-  S32 nScale;                                  ；视频缩放比例
+  S32 nWidth;                                  // Video width
+  S32 nHeight;                                 // Video height
+  S32 nStride;                                 // Video stride alignment
+  S32 nScale;                                  // Video scale ratio
 
   /***
    * Horizontal downscale ratio, [1, 256]
    * set to MPP
    */
-  S32 nHorizonScaleDownRatio;                  ；视频水平缩放比例
+  S32 nHorizonScaleDownRatio;                  // Horizontal downscale ratio
 
   /***
    * Vertical downscale ratio, [1, 128]
    * set to MPP
    */
-  S32 nVerticalScaleDownRatio;                 ；视频垂直缩放比例
+  S32 nVerticalScaleDownRatio;                 // Vertical downscale ratio
 
   /***
    * Downscaled frame width in pixels
    * set to MPP
    */
-  S32 nHorizonScaleDownFrameWidth;             ；视频水平缩放宽度
+  S32 nHorizonScaleDownFrameWidth;             // Downscaled frame width
 
   /***
    * Downscaled frame height in pixels
    * set to MPP
    */
-  S32 nVerticalScaleDownFrameHeight;           ；视频垂直缩放高度
+  S32 nVerticalScaleDownFrameHeight;           // Downscaled frame height
 
   /***
    * 0, 90, 180, 270
    * set to MPP
    */
-  S32 nRotateDegree;                           ；视频旋转角度
-  S32 bThumbnailMode;                          ；暂未使用
-  BOOL bIsInterlaced;                          ；是否i源
+  S32 nRotateDegree;                           // Video rotation angle
+  S32 bThumbnailMode;                          // Not used
+  BOOL bIsInterlaced;                          // Interlaced source
   BOOL bIsFrameReordering;
   BOOL bIgnoreStreamHeaders;
-  MppPixelFormat eOutputPixelFormat;           ；输出像素格式
+  MppPixelFormat eOutputPixelFormat;           // Output pixel format
   BOOL bNoBFrames;
   BOOL bDisable3D;
   BOOL bSupportMaf;
   BOOL bDispErrorFrame;
-  BOOL bInputBlockModeEnable;                  ；bitstreem输入是否开启block模式
-  BOOL bOutputBlockModeEnable;                 ；frame输出是否开启block模式
+  BOOL bInputBlockModeEnable;                  // Enable block mode for bitstream input
+  BOOL bOutputBlockModeEnable;                 // Enable block mode for frame output
 
   /***
    * read from MPP
@@ -1114,24 +1110,24 @@ typedef struct _MppVdecPara {
 } MppVdecPara;
 ```
 
-#### 3.4.3 编码数据结构
+#### 3.4.3 Encoding Data Structures
 
 ##### 3.4.3.1 struct MppVencCtx
 
-视频编码器上下文，通过 VENC_CreateChannel 和 VENC_Init 进行创建和初始化。
+Video encoder context, created and initialized through VENC_CreateChannel and VENC_Init.
 
 ```c
 typedef struct _MppVencCtx {
-  MppProcessNode pNode;        ；用于bind系统的pipeline的创建
-  MppModuleType eCodecType;    ；选择的编码插件
-  MppVencPara stVencPara;      ；编码参数集
-  MppModule *pModule;          ；编码插件动态库的上下文
+  MppProcessNode pNode;        // Used for creating pipeline in the bind system
+  MppModuleType eCodecType;    // Selected encoder plugin
+  MppVencPara stVencPara;      // Encoder parameter set
+  MppModule *pModule;          // Context of the encoder plugin dynamic library
 } MppVencCtx;
 ```
 
 ##### 3.4.3.2 struct MppVencPara
 
-编码器参数结构体。
+Encoder parameter structure.
 
 ```c
 /***
@@ -1141,89 +1137,89 @@ typedef struct _MppVencPara {
   /***
    * set to MPP
    */
-  MppCodingType eCodingType;                   ；视频编码格式
-  MppPixelFormat PixelFormat;                  ；输入frame的像素格式
+  MppCodingType eCodingType;                   // Video coding format
+  MppPixelFormat PixelFormat;                  // Input frame pixel format
 
   /***
    * read from MPP
    */
-  MppFrameBufferType eFrameBufferType;         ；frame帧的buffer类型
-  MppDataTransmissinMode eDataTransmissinMode; ；输入输出buffer的传输类型
+  MppFrameBufferType eFrameBufferType;         // Frame buffer type
+  MppDataTransmissinMode eDataTransmissinMode; // Transmission type of input/output buffer
 
   /***
    * set to MPP
    */
-  S32 nWidth;                                  ；视频宽
-  S32 nHeight;                                 ；视频高
-  S32 nStride;                                 ；视频对齐宽度
-  S32 nBitrate;                                ；视频码率
-  S32 nFrameRate;                              ；视频帧率
+  S32 nWidth;                                  // Video width
+  S32 nHeight;                                 // Video height
+  S32 nStride;                                 // Video stride alignment
+  S32 nBitrate;                                // Video bitrate
+  S32 nFrameRate;                              // Video frame rate
 } MppVencPara;
 ```
 
-#### 3.4.4 G2D 数据结构
+#### 3.4.4 G2D Data Structures
 
 ##### 3.4.4.1 struct MppG2dCtx
 
-图像处理器上下文。
+Image processor context.
 
 ```c
 typedef struct _MppG2dCtx {
-  MppProcessNode pNode;         ；用于bind系统的pipeline的创建
-  MppModuleType eCodecType;     ；选择的图像处理插件
-  MppModule *pModule;           ；图像处理插件动态库的上下文
-  MppG2dPara stG2dPara;         ；图像处理参数集
+  MppProcessNode pNode;         // Used for creating pipeline in the bind system
+  MppModuleType eCodecType;     // Selected image processing plugin
+  MppModule *pModule;           // Context of the image processing plugin dynamic library
+  MppG2dPara stG2dPara;         // Image processing parameter set
 } MppG2dCtx;
 ```
 
-##### 3.4.4.2 MppG2dPara（待完善）
+##### 3.4.4.2 MppG2dPara (to be completed)
 
 ```c
 typedef struct _MppG2dPara {
   /***
    * read from MPP
    */
-  MppFrameBufferType eInputFrameBufferType;     ；输入frame帧的buffer类型
-  MppFrameBufferType eOutputFrameBufferType;    ；输出frame帧的buffer类型
-  MppDataTransmissinMode eDataTransmissinMode;  ；输入输出buffer的传输类型
+  MppFrameBufferType eInputFrameBufferType;     // Input frame buffer type
+  MppFrameBufferType eOutputFrameBufferType;    // Output frame buffer type
+  MppDataTransmissinMode eDataTransmissinMode;  // Transmission type of input/output buffer
 
   /***
    * set to MPP
    */
-  MppG2dCmd eG2dCmd;                            ；处理命令
-  MppPixelFormat eInputPixelFormat;             ；输入frame帧的像素格式
-  MppPixelFormat eOutputPixelFormat;            ；输出frame帧的像素格式
-  S32 nInputBufFd;                              ；输入frame帧的fd
-  S32 nOutputBufFd;                             ；输出frame帧的fd
-  S32 nInputWidth;                              ；输入frame帧的宽
-  S32 nInputHeight;                             ；输入frame帧的高
-  S32 nOutputWidth;                             ；输出frame帧的宽
-  S32 nOutputHeight;                            ；输出frame帧的高
-  S32 nInputBufSize;                            ；输入frame帧的size
-  S32 nOutputBufSize;                           ；输出frrame帧的size
+  MppG2dCmd eG2dCmd;                            // Processing command
+  MppPixelFormat eInputPixelFormat;             // Input frame pixel format
+  MppPixelFormat eOutputPixelFormat;            // Output frame pixel format
+  S32 nInputBufFd;                              // Input frame buffer fd
+  S32 nOutputBufFd;                             // Output frame buffer fd
+  S32 nInputWidth;                              // Input frame width
+  S32 nInputHeight;                             // Input frame height
+  S32 nOutputWidth;                             // Output frame width
+  S32 nOutputHeight;                            // Output frame height
+  S32 nInputBufSize;                            // Input frame buffer size
+  S32 nOutputBufSize;                           // Output frame buffer size
   union {
-    MppG2dFillColorPara sFillColorPara;         ；颜色填充参数
-    MppG2dCopyPara sCopyPara;                   ；复制参数
-    MppG2dScalePara sScalePara;                 ；缩放参数
-    MppG2dRotatePara sRotatePara;               ；旋转参数
+    MppG2dFillColorPara sFillColorPara;         // Fill color parameters
+    MppG2dCopyPara sCopyPara;                   // Copy parameters
+    MppG2dScalePara sScalePara;                 // Scale parameters
+    MppG2dRotatePara sRotatePara;               // Rotate parameters
     MppG2dMaskPara sMaskPara;
     MppG2dDrawPara sDrawPara;
   };
 } MppG2dPara;
 ```
 
-#### 3.4.5 VI 数据结构
+#### 3.4.5 VI Data Structures
 
 ##### 3.4.5.1 struct MppViCtx
 
-视频输入上下文。
+Video input context.
 
 ```c
 typedef struct _MppViCtx {
-  MppProcessNode pNode;         ；用于bind系统的pipeline的创建
-  MppModuleType eViType;        ；选择的视频输入插件
-  MppModule *pModule;           ；视频输入插件动态库的上下文
-  MppViPara stViPara;           ；视频输入参数集
+  MppProcessNode pNode;         // Used for creating pipeline in the bind system
+  MppModuleType eViType;        // Selected video input plugin
+  MppModule *pModule;           // Context of the video input plugin dynamic library
+  MppViPara stViPara;           // Video input parameter set
 } MppViCtx;
 ```
 
@@ -1231,47 +1227,47 @@ typedef struct _MppViCtx {
 
 ```c
 typedef struct _MppViPara {
-  MppFrameBufferType eFrameBufferType;          ；输入frame帧的buffer类型
-  MppDataTransmissinMode eDataTransmissinMode;  ；输入输出buffer的传输类型
+  MppFrameBufferType eFrameBufferType;          // Input frame buffer type
+  MppDataTransmissinMode eDataTransmissinMode;  // Transmission type of input/output buffer
   BOOL bIsFrame;
 
   /***
    * for frame
    */
-  MppPixelFormat ePixelFormat;                  ；输入frame的像素格式
-  S32 nWidth;                                   ；输入frame的宽
-  S32 nHeight;                                  ；输入frame的高
-  S32 nStride;                                  ；输入frame的水平对齐宽度
+  MppPixelFormat ePixelFormat;                  // Input frame pixel format
+  S32 nWidth;                                   // Input frame width
+  S32 nHeight;                                  // Input frame height
+  S32 nStride;                                  // Input frame stride alignment
 
   /***
    * for packet
    */
-  MppCodingType eCodingType;                    ；输入packet的视频编码格式
+  MppCodingType eCodingType;                    // Input packet video coding format
 
   /***
    * for vi v4l2
    */
-  S32 nBufferNum;                               ；申请的buffer数量
-  U8* pVideoDeviceName;                         ；V4L2的设备节点
+  S32 nBufferNum;                               // Number of buffers to request
+  U8* pVideoDeviceName;                         // V4L2 device node
   /***
    * for vi file
    */
-  U8* pInputFileName;                           ；输入文件的路径
+  U8* pInputFileName;                           // Input file path
 } MppViPara;
 ```
 
-#### 3.4.6 VO 数据结构
+#### 3.4.6 VO Data Structures
 
 ##### 3.4.6.1 struct MppVoCtx
 
-视频输入上下文。
+Video output context.
 
 ```c
 typedef struct _MppVoCtx {
-  MppProcessNode pNode;         ；用于bind系统的pipeline的创建
-  MppModuleType eVoType;        ；选择的视频输出插件
-  MppModule *pModule;           ；视频输出插件动态库的上下文
-  MppVoPara stVoPara;           ；视频输出参数集
+  MppProcessNode pNode;         // Used for creating pipeline in the bind system
+  MppModuleType eVoType;        // Selected video output plugin
+  MppModule *pModule;           // Context of the video output plugin dynamic library
+  MppVoPara stVoPara;           // Video output parameter set
 } MppVoCtx;
 ```
 
@@ -1279,30 +1275,30 @@ typedef struct _MppVoCtx {
 
 ```c
 typedef struct _MppVoPara {
-  MppFrameBufferType eFrameBufferType;          ；输出frame帧的buffer类型
-  MppDataTransmissinMode eDataTransmissinMode;  ；输入输出buffer的传输类型
+  MppFrameBufferType eFrameBufferType;          // Output frame buffer type
+  MppDataTransmissinMode eDataTransmissinMode;  // Transmission type of input/output buffer
   BOOL bIsFrame;
 
   /***
    * for frame
    */
-  MppPixelFormat ePixelFormat;                  ；输出frame的像素格式
-  S32 nWidth;                                   ；输出frame的宽
-  S32 nHeight;                                  ；输出frame的高
-  S32 nStride;                                  ；输出frame的水平对齐宽度
+  MppPixelFormat ePixelFormat;                  // Output frame pixel format
+  S32 nWidth;                                   // Output frame width
+  S32 nHeight;                                  // Output frame height
+  S32 nStride;                                  // Output frame stride alignment
 
   /***
    * for vo file
    */
-  U8* pOutputFileName;                          ；输出文件的路径
+  U8* pOutputFileName;                          // Output file path
 } MppVoPara;
 ```
 
-#### 3.4.7 SYS 数据结构（待完善）
+#### 3.4.7 SYS Data Structures (to be completed)
 
 ##### 3.4.7.1 struct MppProcessFlowCtx
 
-BIND 系统 pipeline 上下文。
+BIND system pipeline context.
 
 ```c
 /***
@@ -1330,7 +1326,7 @@ typedef struct _MppProcessFlowCtx {
 
 ##### 3.4.7.2 struct MppProcessNode
 
-BIND 系统 pipeline 的每一个 node 节点的定义。
+Definition of each node in the BIND system pipeline.
 
 ```c
 /***
@@ -1348,7 +1344,7 @@ typedef struct _MppProcessNode {
 
 ##### 3.4.7.3 struct MppOps
 
-接口抽象。
+Interface abstraction.
 
 ```c
 /***
@@ -1382,7 +1378,7 @@ typedef struct _MppOps {
 
 ##### 3.4.7.4 struct MppProcessNodeType
 
-该枚举定义了 node 节点的类型。
+This enumeration defines the types of nodes in the pipeline.
 
 ```c
 /***
@@ -1407,7 +1403,7 @@ typedef enum _MppProcessNodeType {
 } MppProcessNodeType;
 ```
 
-#### 3.4.8 内部关键数据结构
+#### 3.4.8 Key Internal Data Structures
 
 ##### 3.4.8.1 struct MppFrame
 
@@ -1416,29 +1412,29 @@ struct _MppFrame {
   /**
    * parent class
    */
-  MppData eBaseData;              ；MppData基类
+  MppData eBaseData;              // MppData base class
 
   /**
    * video parameter
    */
-  MppPixelFormat ePixelFormat;    ；视频的像素格式
-  S32 nWidth;                     ；视频的宽
-  S32 nHeight;                    ；视频的高
-  S32 nLineStride;                ；视频的对齐宽度
-  S32 nFrameRate;                 ；视频的帧率
+  MppPixelFormat ePixelFormat;    // Pixel format of the video
+  S32 nWidth;                     // Width of the video
+  S32 nHeight;                    // Height of the video
+  S32 nLineStride;                // Aligned width of the video
+  S32 nFrameRate;                 // Frame rate of the video
 
   /**
    * frame parameter
    */
-  S64 nPts;                       ；frame的pts
-  BOOL bEos;                      ；frame的eos flag
-  MppFrameBufferType eBufferType; ；frame帧的buffer类型
-  S32 nDataUsedNum;               ；planner的数量
-  S32 nID;                        ；frame的ID
-  U8 *pData0;                     ；planner0的地址
-  U8 *pData1;                     ；planner1的地址
-  U8 *pData2;                     ；planner2的地址
-  U8 *pData3;                     ；planner3的地址
+  S64 nPts;                       // PTS of the frame
+  BOOL bEos;                      // EOS flag of the frame
+  MppFrameBufferType eBufferType; // Frame buffer type
+  S32 nDataUsedNum;               // Number of planners
+  S32 nID;                        // ID of the frame
+  U8 *pData0;                     // Address of planner0
+  U8 *pData1;                     // Address of planner1
+  U8 *pData2;                     // Address of planner2
+  U8 *pData3;                     // Address of planner3
   void *pMetaData;
   S32 nFd[MPP_MAX_PLANES];
   U32 refCount;
@@ -1448,7 +1444,6 @@ struct _MppFrame {
   BOOL bEnableUnfreeFrameDebug;
 };
 ```
-
 ##### 3.4.8.2 struct MppPacket
 
 ```c
@@ -1456,28 +1451,28 @@ struct _MppPacket {
   /**
    * parent class
    */
-  MppData eBaseData;              ；MppData基类
+  MppData eBaseData;              // MppData base class
 
   /**
    * video parameter
    */
-  MppPixelFormat ePixelFormat;    ；视频的像素格式
-  S32 nWidth;                     ；视频的宽
-  S32 nHeight;                    ；视频的高
-  S32 nLineStride;                ；视频的对齐宽度
-  S32 nFrameRate;                 ；视频的帧率
+  MppPixelFormat ePixelFormat;    // Pixel format of the video
+  S32 nWidth;                     // Width of the video
+  S32 nHeight;                    // Height of the video
+  S32 nLineStride;                // Aligned width of the video
+  S32 nFrameRate;                 // Frame rate of the video
 
   /**
    * packet parameter
    */
-  U8 *pData;                      ；packet的地址
+  U8 *pData;                      // Address of the packet
   S32 nTotalSize;  // total size that PACKET_Alloc
   S32 nLength;     // data length, nLength <= nTotalSize
   void *pMetaData;
-  S32 nID;                        ；packet的ID
-  S64 nPts;                       ；packet的pts
-  S64 nDts;                       ；packet的dts
-  BOOL bEos;                      ；packet的eos flag
+  S32 nID;                        // ID of the packet
+  S64 nPts;                       // PTS of the packet
+  S64 nDts;                       // DTS of the packet
+  BOOL bEos;                      // EOS flag of the packet
 
   // environment variable
   BOOL bEnableUnfreePacketDebug;
@@ -1516,101 +1511,101 @@ struct _ALViBaseContext {
   ALBaseContext stAlBaseContext;
 ```
 
-### 3.5 接口说明
+### 3.5 Interface Description
 
-#### 3.5.1 外部接口
+#### 3.5.1 External Interfaces
 
 ##### 3.5.1.1 VDEC
 
-| 接口                    | 说明               | 参数                                                         | 返回值                    |
+| Interface               | Description        | Parameters                                                   | Return Value              |
 | ----------------------- | ------------------ | ------------------------------------------------------------ | ------------------------- |
-| VDEC_CreateChannel      | 创建解码器         | 无                                                           | MppVdecCtx*：解码器上下文 |
-| VDEC_Init               | 初始化解码器       | MppVdecCtx *ctx：解码器上下文                                | 0：成功 非0：错误码       |
-| VDEC_SetParam           | 设置解码器参数     | MppVdecCtx *ctx：解码器上下文                                | 0：成功 非0：错误码       |
-| VDEC_GetParam           | 获取解码器参数     | MppVdecCtx *ctx：解码器上下文 MppVdecPara **stVdecPara：参数 | 0：成功 非0：错误码       |
-| VDEC_GetDefaultParam    | 获取默认解码器参数 | MppVdecCtx *ctx：解码器上下文                                | 0：成功 非0：错误码       |
-| VDEC_Decode             | 传送码流给解码器   | MppVdecCtx *ctx：解码器上下文 MppData *sink_data：buffer     | 0：成功 非0：错误码       |
-| VDEC_RequestOutputFrame | 获取解码帧         | MppVdecCtx *ctx：解码器上下文 MppData *src_data：解码出来的帧 | 0：成功 非0：错误码       |
-| VDEC_ReturnOutputFrame  | 归还解码帧         | MppVdecCtx *ctx：解码器上下文 MppData *src_data：解码出来的帧 | 0：成功 非0：错误码       |
-| VDEC_DestroyChannel     | 销毁解码器         | MppVdecCtx *ctx：解码器上下文                                | 0：成功 非0：错误码       |
-| VDEC_ResetChannel       | 重置解码器         | MppVdecCtx *ctx：解码器上下文                                | 0：成功 非0：错误码       |
+| VDEC_CreateChannel      | Create decoder     | None                                                         | MppVdecCtx*: Decoder context |
+| VDEC_Init               | Initialize decoder | MppVdecCtx *ctx: Decoder context                             | 0: Success, Non-zero: Error code |
+| VDEC_SetParam           | Set decoder parameters | MppVdecCtx *ctx: Decoder context                             | 0: Success, Non-zero: Error code |
+| VDEC_GetParam           | Get decoder parameters | MppVdecCtx *ctx: Decoder context, MppVdecPara **stVdecPara: Parameters | 0: Success, Non-zero: Error code |
+| VDEC_GetDefaultParam    | Get default decoder parameters | MppVdecCtx *ctx: Decoder context                             | 0: Success, Non-zero: Error code |
+| VDEC_Decode             | Send stream to decoder | MppVdecCtx *ctx: Decoder context, MppData *sink_data: Buffer | 0: Success, Non-zero: Error code |
+| VDEC_RequestOutputFrame | Get decoded frame  | MppVdecCtx *ctx: Decoder context, MppData *src_data: Decoded frame | 0: Success, Non-zero: Error code |
+| VDEC_ReturnOutputFrame  | Return decoded frame | MppVdecCtx *ctx: Decoder context, MppData *src_data: Decoded frame | 0: Success, Non-zero: Error code |
+| VDEC_DestroyChannel     | Destroy decoder    | MppVdecCtx *ctx: Decoder context                             | 0: Success, Non-zero: Error code |
+| VDEC_ResetChannel       | Reset decoder      | MppVdecCtx *ctx: Decoder context                             | 0: Success, Non-zero: Error code |
 
 ##### 3.5.1.2 VENC
 
-| 接口                       | 说明                 | 参数                                                         | 返回值                    |
+| Interface                  | Description          | Parameters                                                   | Return Value              |
 | -------------------------- | -------------------- | ------------------------------------------------------------ | ------------------------- |
-| VENC_CreateChannel         | 创建编码器           | 无                                                           | MppVencCtx*：编码器上下文 |
-| VENC_Init                  | 初始化编码器         | MppVencCtx *ctx：编码器上下文                                | 0：成功 非0：错误码       |
-| VENC_SetParam              | 设置编码器参数       | MppVencCtx *ctx：编码器上下文 MppVencPara *para：编码器参数  | 0：成功 非0：错误码       |
-| VENC_GetParam              | 获取编码器参数       | MppVencCtx *ctx：编码器上下文 MppVencPara *para：编码器参数  | 0：成功 非0：错误码       |
-| VENC_SendInputFrame        | 向编码器送帧         | MppVencCtx *ctx：编码器上下文 MppData *sink_data：编码帧     | 0：成功 非0：错误码       |
-| VENC_ReturnInputFrame      | 向编码器回收帧       | MppVencCtx *ctx：编码器上下文 MppData *sink_data：编码帧     | 0：成功 非0：错误码       |
-| VENC_GetOutputStreamBuffer | 获取编码后码流       | MppVencCtx *ctx：编码器上下文 MppData *src_data：编码出来的码流 | 0：成功 非0：错误码       |
-| VENC_DestroyChannel        | 销毁编码器           | MppVencCtx *ctx：编码器上下文                                | 0：成功 非0：错误码       |
-| VENC_ResetChannel          | 重置编码器           | MppVencCtx *ctx：编码器上下文                                | 0：成功 非0：错误码       |
-| VENC_Flush                 | 刷掉编码器内部buffer | MppVencCtx *ctx：编码器上下文                                | 0：成功 非0：错误码       |
+| VENC_CreateChannel         | Create encoder       | None                                                         | MppVencCtx*: Encoder context |
+| VENC_Init                  | Initialize encoder   | MppVencCtx *ctx: Encoder context                             | 0: Success, Non-zero: Error code |
+| VENC_SetParam              | Set encoder parameters | MppVencCtx *ctx: Encoder context, MppVencPara *para: Encoder parameters | 0: Success, Non-zero: Error code |
+| VENC_GetParam              | Get encoder parameters | MppVencCtx *ctx: Encoder context, MppVencPara *para: Encoder parameters | 0: Success, Non-zero: Error code |
+| VENC_SendInputFrame        | Send frame to encoder | MppVencCtx *ctx: Encoder context, MppData *sink_data: Encoding frame | 0: Success, Non-zero: Error code |
+| VENC_ReturnInputFrame      | Return frame to encoder | MppVencCtx *ctx: Encoder context, MppData *sink_data: Encoding frame | 0: Success, Non-zero: Error code |
+| VENC_GetOutputStreamBuffer | Get encoded stream   | MppVencCtx *ctx: Encoder context, MppData *src_data: Encoded stream | 0: Success, Non-zero: Error code |
+| VENC_DestroyChannel        | Destroy encoder      | MppVencCtx *ctx: Encoder context                             | 0: Success, Non-zero: Error code |
+| VENC_ResetChannel          | Reset encoder        | MppVencCtx *ctx: Encoder context                             | 0: Success, Non-zero: Error code |
+| VENC_Flush                 | Flush encoder buffer | MppVencCtx *ctx: Encoder context                             | 0: Success, Non-zero: Error code |
 
-##### 3.5.1.3 G2D（待完善）
+##### 3.5.1.3 G2D (To be completed)
 
-| 接口                   | 说明           | 参数                                                   | 返回值                |
-| ---------------------- | -------------- | ------------------------------------------------------ | --------------------- |
-| G2D_CreateChannel      | 创建G2D        | 无                                                     | MppG2dCtx*：G2D上下文 |
-| G2D_Init               | 初始化G2D      | MppG2dCtx *ctx：G2D上下文                              | 0：成功 非0：错误码   |
-| G2D_SetParam           | 设置G2D参数    | MppG2dCtx*ctx：G2D上下文 MppG2dPara *para：G2D参数     | 0：成功 非0：错误码   |
-| G2D_GetParam           | 获取G2D参数    | MppG2dCtx*ctx：G2D上下文 MppG2dPara *para：G2D参数     | 0：成功 非0：错误码   |
-| G2D_SendInputFrame     | 传送待处理帧   | MppG2dCtx*ctx：G2D上下文 MppData *sink_data：待处理帧  | 0：成功 非0：错误码   |
-| G2D_ReturnInputFrame   | 归还待处理帧帧 | MppG2dCtx*ctx：G2D上下文 MppData *sink_data：待处理帧  | 0：成功 非0：错误码   |
-| G2D_RequestOutputFrame | 获取处理后的帧 | MppG2dCtx*ctx：G2D上下文 MppData *src_data：处理后的帧 | 0：成功 非0：错误码   |
-| G2D_ReturnOutputFrame  | 释放处理后的帧 | MppG2dCtx*ctx：G2D上下文 MppData *src_data：处理后的帧 | 0：成功 非0：错误码   |
-| G2D_DestoryChannel     | 销毁G2D        | MppG2dCtx*ctx：G2D上下文                               | 0：成功 非0：错误码   |
+| Interface               | Description        | Parameters                                                   | Return Value              |
+| ----------------------- | ------------------ | ------------------------------------------------------------ | ------------------------- |
+| G2D_CreateChannel       | Create G2D         | None                                                         | MppG2dCtx*: G2D context   |
+| G2D_Init                | Initialize G2D     | MppG2dCtx *ctx: G2D context                                  | 0: Success, Non-zero: Error code |
+| G2D_SetParam            | Set G2D parameters | MppG2dCtx *ctx: G2D context, MppG2dPara *para: G2D parameters | 0: Success, Non-zero: Error code |
+| G2D_GetParam            | Get G2D parameters | MppG2dCtx *ctx: G2D context, MppG2dPara *para: G2D parameters | 0: Success, Non-zero: Error code |
+| G2D_SendInputFrame      | Send frame to G2D  | MppG2dCtx *ctx: G2D context, MppData *sink_data: Frame to be processed | 0: Success, Non-zero: Error code |
+| G2D_ReturnInputFrame    | Return frame to G2D | MppG2dCtx *ctx: G2D context, MppData *sink_data: Frame to be processed | 0: Success, Non-zero: Error code |
+| G2D_RequestOutputFrame  | Get processed frame | MppG2dCtx *ctx: G2D context, MppData *src_data: Processed frame | 0: Success, Non-zero: Error code |
+| G2D_ReturnOutputFrame   | Release processed frame | MppG2dCtx *ctx: G2D context, MppData *src_data: Processed frame | 0: Success, Non-zero: Error code |
+| G2D_DestoryChannel      | Destroy G2D        | MppG2dCtx *ctx: G2D context                                  | 0: Success, Non-zero: Error code |
 
 ##### 3.5.1.4 VI
 
-| 接口                 | 说明         | 参数                                                | 返回值              |
-| -------------------- | ------------ | --------------------------------------------------- | ------------------- |
-| VI_CreateChannel     | 创建VI       | 无                                                  | MppViCtx*：VI上下文 |
-| VI_Init              | 初始化VI     | MppViCtx *ctx：VI上下文                             | 0：成功 非0：错误码 |
-| VI_SetParam          | 设置VI参数   | MppViCtx *ctx：VI上下文 MppViPara *para：VI参数     | 0：成功 非0：错误码 |
-| VI_GetParam          | 获取VI参数   | MppViCtx *ctx：VI上下文 MppViPara *para：VI参数     | 0：成功 非0：错误码 |
-| VI_RequestOutputData | 获取输入数据 | MppViCtx *ctx：VI上下文 MppData *src_data：输入数据 | 0：成功 非0：错误码 |
-| VI_ReturnOutputData  | 释放输入数据 | MppViCtx *ctx：VI上下文 MppData *src_data：输入数据 | 0：成功 非0：错误码 |
-| VI_DestoryChannel    | 销毁VI       | MppViCtx *ctx：VI上下文                             | 0：成功 非0：错误码 |
+| Interface               | Description        | Parameters                                                   | Return Value              |
+| ----------------------- | ------------------ | ------------------------------------------------------------ | ------------------------- |
+| VI_CreateChannel        | Create VI          | None                                                         | MppViCtx*: VI context     |
+| VI_Init                 | Initialize VI      | MppViCtx *ctx: VI context                                    | 0: Success, Non-zero: Error code |
+| VI_SetParam             | Set VI parameters  | MppViCtx *ctx: VI context, MppViPara *para: VI parameters    | 0: Success, Non-zero: Error code |
+| VI_GetParam             | Get VI parameters  | MppViCtx *ctx: VI context, MppViPara *para: VI parameters    | 0: Success, Non-zero: Error code |
+| VI_RequestOutputData    | Get input data     | MppViCtx *ctx: VI context, MppData *src_data: Input data     | 0: Success, Non-zero: Error code |
+| VI_ReturnOutputData     | Release input data | MppViCtx *ctx: VI context, MppData *src_data: Input data     | 0: Success, Non-zero: Error code |
+| VI_DestoryChannel       | Destroy VI         | MppViCtx *ctx: VI context                                    | 0: Success, Non-zero: Error code |
 
 ##### 3.5.1.5 VO
 
-| 接口              | 说明       | 参数                                                 | 返回值                     |
-| ----------------- | ---------- | ---------------------------------------------------- | -------------------------- |
-| VO_CreateChannel  | 创建VO     | 无                                                   | MppVoCtx *：图像处理上下文 |
-| VO_Init           | 初始化VI   | MppVoCtx *ctx：编码器上下文                          | 0：成功 非0：错误码        |
-| VO_SetParam       | 设置VI参数 | MppVoCtx *ctx：VO上下文 MppVoPara *para：VO参数      | 0：成功 非0：错误码        |
-| VO_GetParam       | 获取VI参数 | MppVoCtx *ctx：VO上下文 MppVoPara **para：VO参数     | 0：成功 非0：错误码        |
-| VO_Process        | 输出数据   | MppVoCtx *ctx：VO上下文 MppData *sink_data：输出数据 | 0：成功 非0：错误码        |
-| VO_DestoryChannel | 销毁VO     | MppVoCtx *ctx：VO上下文                              | 0：成功 非0：错误码        |
+| Interface               | Description        | Parameters                                                   | Return Value              |
+| ----------------------- | ------------------ | ------------------------------------------------------------ | ------------------------- |
+| VO_CreateChannel        | Create VO          | None                                                         | MppVoCtx*: VO context     |
+| VO_Init                 | Initialize VO      | MppVoCtx *ctx: VO context                                    | 0: Success, Non-zero: Error code |
+| VO_SetParam             | Set VO parameters  | MppVoCtx *ctx: VO context, MppVoPara *para: VO parameters    | 0: Success, Non-zero: Error code |
+| VO_GetParam             | Get VO parameters  | MppVoCtx *ctx: VO context, MppVoPara **para: VO parameters   | 0: Success, Non-zero: Error code |
+| VO_Process              | Output data        | MppVoCtx *ctx: VO context, MppData *sink_data: Output data   | 0: Success, Non-zero: Error code |
+| VO_DestoryChannel       | Destroy VO         | MppVoCtx *ctx: VO context                                    | 0: Success, Non-zero: Error code |
 
 ##### 3.5.1.6 SYS
 
-| 接口           | 说明                       | 参数                                                         | 返回值                         |
-| -------------- | -------------------------- | ------------------------------------------------------------ | ------------------------------ |
-| SYS_GetVersion | 获取MPP版本号              | MppVersion *version：MPP版本号                               | 0：成功 非0：错误码            |
-| SYS_CreateFlow | 创建BIND flow              | 无                                                           | MppProcessFlowCtx*：flow上下文 |
-| SYS_CreateNode | 创建BIND node（节点）      | MppProcessNodeType type：节点类型                            | MppProcessNode*：node上下文    |
-| SYS_Init       | 初始化BIND flow            | MppProcessFlowCtx *ctx：flow上下文                           | 无                             |
-| SYS_Destory    | 销毁BIND flow              | MppProcessFlowCtx *ctx：flow上下文                           | 无                             |
-| SYS_Bind       | 数据源绑定数据接收者       | MppProcessFlowCtx *ctx：flow上下文 MppProcessNode *src_ctx：数据源 MppProcessNode *sink_ctx：数据接受者 | 0：成功 非0：错误码            |
-| SYS_UnBind     | 解绑所有数据源和数据接收者 | MppProcessFlowCtx *ctx：flow上下文                           | 无                             |
-| SYS_Handledata | 处理数据                   | MppProcessFlowCtx *ctx：flow上下文 MppData *sink_data：待处理数据 | 无                             |
-| SYS_Getresult  | 返回结果                   | MppProcessFlowCtx *ctx：flow上下文 MppData *src_data：处理完成的数据 | 无                             |
+| Interface           | Description                | Parameters                                                   | Return Value              |
+| ------------------- | -------------------------- | ------------------------------------------------------------ | ------------------------- |
+| SYS_GetVersion      | Get MPP version            | MppVersion *version: MPP version                             | 0: Success, Non-zero: Error code |
+| SYS_CreateFlow      | Create BIND flow           | None                                                         | MppProcessFlowCtx*: Flow context |
+| SYS_CreateNode      | Create BIND node           | MppProcessNodeType type: Node type                           | MppProcessNode*: Node context |
+| SYS_Init            | Initialize BIND flow       | MppProcessFlowCtx *ctx: Flow context                         | None                       |
+| SYS_Destory         | Destroy BIND flow          | MppProcessFlowCtx *ctx: Flow context                         | None                       |
+| SYS_Bind            | Bind data source to receiver | MppProcessFlowCtx *ctx: Flow context, MppProcessNode *src_ctx: Data source, MppProcessNode *sink_ctx: Data receiver | 0: Success, Non-zero: Error code |
+| SYS_UnBind          | Unbind all data sources and receivers | MppProcessFlowCtx *ctx: Flow context                         | None                       |
+| SYS_Handledata      | Process data               | MppProcessFlowCtx *ctx: Flow context, MppData *sink_data: Data to be processed | None                       |
+| SYS_Getresult       | Return result              | MppProcessFlowCtx *ctx: Flow context, MppData *src_data: Processed data | None                       |
 
 
-### 3.6 测试程序
+### 3.6 Test Programs
 
-#### 3.6.1 单路解码测试（vi_file_vdec_vo_test）
+#### 3.6.1 Single-channel Decoding Test (vi_file_vdec_vo_test)
 
 ```shell
 VI(file) --> VDEC(linlonv5v7) --> VO(file or sdl2)
 ```
 
-##### 3.6.1.1 测试程序使用说明
+##### 3.6.1.1 Test Program Usage Instructions
 
 ```shell
 bianbu@k1:~$ vi_file_vdec_vo_test -H
@@ -1723,32 +1718,32 @@ Usage:
 55       PIXEL_FORMAT_BGR_444
 ```
 
-使用 LINLONV5V7 解码器将文件中读取的 H.264 码流 input.264 解码为 NV12 的 output.yuv，输出到文件，如下：
+Use the LINLONV5V7 decoder to decode the H.264 stream input.264 read from the file to NV12 output.yuv, and output to a file, as follows:
 
 ```shell
 vdec_test -i input.264 -m 203,9,102 -c 2 -f 4 -o output.yuv
 
 // -m 203,9,102
-// 203 表示 VI_FILE
-// 9 表示 CODEC_V4L2_LINLONV5V7
-// 102 表示 VO_FILE
+// 203 means VI_FILE
+// 9 means CODEC_V4L2_LINLONV5V7
+// 102 means VO_FILE
 ```
 
-##### 3.6.1.2 测试程序代码流程
+##### 3.6.1.2 Test Program Code Flow
 
-测试程序代码流程比较简单，这里不赘述，可自行查看源码，位置在：
+The test program code flow is relatively simple and will not be elaborated here. You can check the source code yourself at:
 
 ```shell
 mpp/test/vi_file_vdec_vo_test.c
 ```
 
-#### 3.6.2 编码测试（vi_file_venc_sync_userptr_vo_file_test）
+#### 3.6.2 Encoding Test (vi_file_venc_sync_userptr_vo_file_test)
 
 ```shell
 VI(file) --> VENC(linlonv5v7) --> VO(file)
 ```
 
-##### 3.6.2.1 测试程序使用说明
+##### 3.6.2.1 Test Program Usage Instructions
 
 ```shell
 bianbu@k1:~$ vi_file_venc_sync_userptr_vo_file_test -H
@@ -1861,32 +1856,31 @@ Usage:
 55       PIXEL_FORMAT_BGR_444
 ```
 
-使用 LINLONV5V7 编码器将文件输入的 NV12 的 input.yuv(1280×720)编码为 H.264 码流 output.264，保存到文件，如下：
+Use the LINLONV5V7 encoder to encode the NV12 input.yuv (1280×720) read from the file to H.264 stream output.264, and save to a file, as follows:
 
 ```shell
 vi_file_venc_sync_userptr_vo_file_test -i input.yuv -m 293,9,102 -c 2 -f 4 -w 1280 -h 720 -o output.264
 
 // -m 203,9,102
-// 203 表示 VI_FILE
-// 9 表示 CODEC_V4L2_LINLONV5V7
-// 102 表示 VO_FILE
+// 203 means VI_FILE
+// 9 means CODEC_V4L2_LINLONV5V7
+// 102 means VO_FILE
 ```
+##### 3.6.2.2 Test Program Code Flow
 
-##### 3.6.2.2 测试程序代码流程
-
-测试程序代码流程比较简单，这里不赘述，可自行查看源码，位置在：
+The test program code flow is relatively simple and will not be elaborated here. You can check the source code yourself at:
 
 ```shell
 mpp/test/vi_file_venc_sync_userptr_vo_file_test.c
 ```
 
-#### 3.6.3 解码后编码测试（vi_file_vdec_venc_sync_userptr_vo_file_test）
+#### 3.6.3 Decoding and Encoding Test (vi_file_vdec_venc_sync_userptr_vo_file_test)
 
 ```shell
 VI(file) --> VDEC(linlonv5v7) --> VENC(linlonv5v7) --> VO(file)
 ```
 
-##### 3.6.3.1 测试程序使用说明
+##### 3.6.3.1 Test Program Usage Instructions
 
 ```shell
 bianbu@k1:~$ vi_file_vdec_venc_sync_userptr_vo_file_test -H
@@ -1999,183 +1993,183 @@ Usage:
 55       PIXEL_FORMAT_BGR_444
 ```
 
-使用 LINLONV5V7 编解码器将文件读取的 H.264 的 input.264(1280×720)先解码为 NV12，后编码为 H.264 码流 output.264，如下：
+Use the LINLONV5V7 codec to decode the H.264 input.264 (1280×720) read from the file to NV12, then encode it to H.264 stream output.264, as follows:
 
 ```shell
 vi_file_vdec_venc_sync_userptr_vo_file_test -i input.264 -m 203,9,9,102 -c 2 -f 4 -w 1280 -h 720 -o output.264
 
 // -m 203,9,9,102
-// 203 表示 VI_FILE
-// 9 表示 CODEC_V4L2_LINLONV5V7
-// 102 表示 VO_FILE
+// 203 means VI_FILE
+// 9 means CODEC_V4L2_LINLONV5V7
+// 102 means VO_FILE
 ```
 
-##### 3.6.3.2 测试程序代码流程
+##### 3.6.3.2 Test Program Code Flow
 
-测试程序代码流程比较简单，这里不赘述，可自行查看源码，位置在：
+The test program code flow is relatively simple and will not be elaborated here. You can check the source code yourself at:
 
 ```shell
 mpp/test/vi_file_vdec_venc_sync_userptr_vo_file_test.c
 ```
 
-### 3.7 硬解支持与验证方法
+### 3.7 Hardware Decoding Support and Verification Methods
 
-#### 3.7.1 Bianbu 桌面系统
+#### 3.7.1 Bianbu Desktop System
 
-##### 3.7.1.1 mpv 播放器
+##### 3.7.1.1 mpv Player
 
-mpv 支持 H.264/HEVC/VP8/VP9/MJPEG/MPEG4 等格式的硬件解码，最高支持到 4K60fps，验证方法如下：
+mpv supports hardware decoding of H.264/HEVC/VP8/VP9/MJPEG/MPEG4 and other formats, up to 4K60fps. The verification methods are as follows:
 
-- 桌面系统中找到要播放的片源，鼠标右键，选择 mpv 播放
-- 终端中，使用命令行播放
+- Find the source to play in the desktop system, right-click, and select mpv to play
+- In the terminal, use the command line to play
 
 ```
 mpv  xxx.mp4
-mpv -fs xxx.mp4  //全屏播放
-mpv --loop xxx.mp4  //循环播放
+mpv -fs xxx.mp4  //fullscreen playback
+mpv --loop xxx.mp4  //loop playback
 ```
 
-##### 3.7.1.2 totem 播放器
+##### 3.7.1.2 totem Player
 
-totem 支持 H.264/HEVC/VP8/VP9/MJPEG 等格式的硬件解码，目前最高支持到 4K30fps，验证方法如下：
+totem supports hardware decoding of H.264/HEVC/VP8/VP9/MJPEG and other formats, currently up to 4K30fps. The verification methods are as follows:
 
-- 桌面系统中找到要播放的片源，鼠标右键，选择 totem 播放
-- 终端中，使用命令行播放
+- Find the source to play in the desktop system, right-click, and select totem to play
+- In the terminal, use the command line to play
 
 ```
 totem  xxx.mp4
 ```
 
-##### 3.7.1.3 chromium 浏览器
+##### 3.7.1.3 chromium Browser
 
-chromium 目前支持 H.264/HEVC 等格式的硬件解码，目前最高支持到 4K30fps，验证方法如下：
+chromium currently supports hardware decoding of H.264/HEVC and other formats, currently up to 4K30fps. The verification methods are as follows:
 
-- 打开 chromium，播放 Bilibili 的片源
-- 打开 chromium，播放优酷的片源
-- 打开 chromium，播放新浪体育的片源
-- 打开 chromium，播放其他视频网站片源
+- Open chromium and play the source on Bilibili
+- Open chromium and play the source on Youku
+- Open chromium and play the source on Sina Sports
+- Open chromium and play the source on other video websites
 
-##### 3.7.1.4 kodi 播放器
+##### 3.7.1.4 kodi Player
 
-kodi 支持 H.264/HEVC/VP8/VP9 等格式的硬件解码，最高支持到 4K60fps，验证方法如下：
+kodi supports hardware decoding of H.264/HEVC/VP8/VP9 and other formats, up to 4K60fps. The verification methods are as follows:
 
-- 打开 kodi，选择要播放的片源，点击播放即可。
+- Open kodi, select the source to play, and click play.
 
-##### 3.7.1.5 ffplay 命令行
+##### 3.7.1.5 ffplay Command Line
 
 ```
-ffplay -codec:v h264_stcodec xxx.mp4(H.264视频编码)
-ffplay -codec:v hevc_stcodec xxx.mp4(HEVC视频编码)
+ffplay -codec:v h264_stcodec xxx.mp4 (H.264 video encoding)
+ffplay -codec:v hevc_stcodec xxx.mp4 (HEVC video encoding)
 ...
 ```
 
-##### 3.7.1.6 Gstreamer 命令行
+##### 3.7.1.6 Gstreamer Command Line
 
 ```
-gst-launch-1.0 playbin uri=file:///path/to/some/media/file.mp4 (H.264视频编码)
-gst-launch-1.0 playbin uri=file:///path/to/some/media/file.mp4 (HEVC视频编码)
+gst-launch-1.0 playbin uri=file:///path/to/some/media/file.mp4 (H.264 video encoding)
+gst-launch-1.0 playbin uri=file:///path/to/some/media/file.mp4 (HEVC video encoding)
 ```
 
-#### 3.7.2 Bianbu Linux 系统
+#### 3.7.2 Bianbu Linux System
 
 ##### 3.7.2.1 FFmpeg
 
 ```
-ffplay -codec:v h264_stcodec xxx.mp4(H.264视频编码)
-ffplay -codec:v hevc_stcodec xxx.mp4(HEVC视频编码)
+ffplay -codec:v h264_stcodec xxx.mp4 (H.264 video encoding)
+ffplay -codec:v hevc_stcodec xxx.mp4 (HEVC video encoding)
 ...
 ```
 
 ##### 3.7.2.2 Gstreamer
 
 ```sql
-gst-launch-1.0 playbin uri=file:///path/to/some/media/file.mp4 (H.264视频编码)
-gst-launch-1.0 playbin uri=file:///path/to/some/media/file.mp4 (HEVC视频编码)
+gst-launch-1.0 playbin uri=file:///path/to/some/media/file.mp4 (H.264 video encoding)
+gst-launch-1.0 playbin uri=file:///path/to/some/media/file.mp4 (HEVC video encoding)
 ```
 
 ## 4. VPU
 
-K1 的 VPU 是基于标准的 V4L2 接口实现，并提供了完整的测试程序供参考。
+K1's VPU is implemented based on the standard V4L2 interface and provides a complete set of test programs for reference.
 
-### 4.1 规格
+### 4.1 Specifications
 
-#### 4.1.1 解码规格（2cores@819MHz）
+#### 4.1.1 Decoding Specifications (2cores@819MHz)
 
-| 格式  | profile                   | 最大分辨率 | 最大码率 | 规格        | 多路规格        |
-| ----- | ------------------------- | ---------- | -------- | ----------- | --------------- |
-| HEVC  | Main/Main10               | 4096×4096  | 200Mbps  | 4k@60fps    | 8路 1080P@30fps |
-| H.264 | BP/MP/HP/High10           | 4096×4096  | 200Mbps  | 4k@60fps    | 8路 1080P@30fps |
-| VP8   | /                         | 2048×2048  | 100Mbps  | 1080p@60fps | 2路 1080P@30fps |
-| VP9   | Profile0/Profile 2 10-bit | 4096×4096  | 120Mbps  | 4k@30fps    | 4路 1080P@30fps |
-| JPEG  | Baseline sequential       | 8192×8192  | 80Mbps   | 4k@30fps    | 4路 1080P@30fps |
-| VC-1  | SP/MP/AP                  | 2048×4096  | 80Mbps   | 1080p@60fps | 2路 1080P@30fps |
-| MPEG4 | SP/ASP                    | 2048×2048  | 40Mbps   | 1080p@60fps | 2路 1080P@30fps |
-| MPEG2 | MP                        | 4096×4096  | 40Mbps   | 1080p@60fps | 2路 1080P@30fps |
+| Format | profile                   | Maximum Resolution | Maximum Bitrate | Specification | Multi-channel Specification |
+| ------ | ------------------------- | ------------------ | --------------- | ------------- | --------------------------- |
+| HEVC   | Main/Main10               | 4096×4096          | 200Mbps         | 4k@60fps      | 8 channels 1080P@30fps      |
+| H.264  | BP/MP/HP/High10           | 4096×4096          | 200Mbps         | 4k@60fps      | 8 channels 1080P@30fps      |
+| VP8    | /                         | 2048×2048          | 100Mbps         | 1080p@60fps   | 2 channels 1080P@30fps      |
+| VP9    | Profile0/Profile 2 10-bit | 4096×4096          | 120Mbps         | 4k@30fps      | 4 channels 1080P@30fps      |
+| JPEG   | Baseline sequential       | 8192×8192          | 80Mbps          | 4k@30fps      | 4 channels 1080P@30fps      |
+| VC-1   | SP/MP/AP                  | 2048×4096          | 80Mbps          | 1080p@60fps   | 2 channels 1080P@30fps      |
+| MPEG4  | SP/ASP                    | 2048×2048          | 40Mbps          | 1080p@60fps   | 2 channels 1080P@30fps      |
+| MPEG2  | MP                        | 4096×4096          | 40Mbps          | 1080p@60fps   | 2 channels 1080P@30fps      |
 
-### 4.1.2 编码规格（2cores@819MHz）
+### 4.1.2 Encoding Specifications (2cores@819MHz)
 
-| 格式  | profile                   | 最大分辨率 | 最大码率 | 规格        | 多路规格        |
-| ----- | ------------------------- | ---------- | -------- | ----------- | --------------- |
-| HEVC  | Main/Main10               | 4096×4096  | 200Mbps  | 4k@30fps    | 4路 1080P@30fps |
-| H.264 | BP/MP/HP/High10           | 4096×4096  | 200Mbps  | 4k@30fps    | 4路 1080P@30fps |
-| VP8   | /                         | 2048×2048  | 100Mbps  | 1080p@60fps | 2路 1080P@30fps |
-| VP9   | Profile0/Profile 2 10-bit | 4096×4096  | 200Mbps  | 4k@30fps    | 4路 1080P@30fps |
-| JPEG  | Baseline sequential       | 8192×8192  | 200Mbps  | 4k@30fps    | 4路 1080P@30fps |
+| Format | profile                   | Maximum Resolution | Maximum Bitrate | Specification | Multi-channel Specification |
+| ------ | ------------------------- | ------------------ | --------------- | ------------- | --------------------------- |
+| HEVC   | Main/Main10               | 4096×4096          | 200Mbps         | 4k@30fps      | 4 channels 1080P@30fps      |
+| H.264  | BP/MP/HP/High10           | 4096×4096          | 200Mbps         | 4k@30fps      | 4 channels 1080P@30fps      |
+| VP8    | /                         | 2048×2048          | 100Mbps         | 1080p@60fps   | 2 channels 1080P@30fps      |
+| VP9    | Profile0/Profile 2 10-bit | 4096×4096          | 200Mbps         | 4k@30fps      | 4 channels 1080P@30fps      |
+| JPEG   | Baseline sequential       | 8192×8192          | 200Mbps         | 4k@30fps      | 4 channels 1080P@30fps      |
 
 
-### 4.2 VPU 测试程序
+### 4.2 VPU Test Programs
 
-#### 4.2.1 概述
+#### 4.2.1 Overview
 
-k1x-vpu-test 是一套用于测试验证 K1 芯片的 VPU（Video Processing Unit，负责视频的编解码工作）功能性能的程序集，也可以作为客户开发自己的应用程序（需要对接 VPU 进行硬件编解码）的参考。
+k1x-vpu-test is a set of programs for testing and verifying the VPU (Video Processing Unit, responsible for video encoding and decoding) functionality and performance of the K1 chip. It can also serve as a reference for customers developing their own applications (requiring hardware encoding and decoding via VPU).
 
-#### 4.2.2 安装说明
+#### 4.2.2 Installation Instructions
 
-##### 4.2.2.1 Bianbu 桌面系统
+##### 4.2.2.1 Bianbu Desktop System
 
-源中已经集成了 k1x-vpu-test，直接使用 apt 命令来安装即可。
+k1x-vpu-test is already integrated into the source, and can be installed directly using the apt command.
 
 ```shell
 sudo apt update
 sudo apt install k1x-vpu-test
 ```
 
-##### 4.2.2.2 Bianbu Linux 系统
+##### 4.2.2.2 Bianbu Linux System
 
-2 种方法将 k1x-vpu-test 集成到系统中：
+There are 2 ways to integrate k1x-vpu-test into the system:
 
-- 在编译 img 的时候，将 k1x-vpu-test 的编译集成选项打开（默认已经打开），这样，编译的 img 中默认就有 k1x-vpu-test 相关的测试程序
-- 如果编译 img 的时候，没有打开 k1x-vpu-test 的编译集成选项，img 中没有 k1x-vpu-test 相关的测试程序，只能手动编译 k1x-vpu-test，然后将生成的 bin 拷贝到系统的/usr/bin/目录中来使用，具体包括哪些 bin，下面有说明
+- When compiling the img, enable the compilation integration option for k1x-vpu-test (enabled by default), so the compiled img will have the k1x-vpu-test related test programs by default.
+- If the compilation integration option for k1x-vpu-test was not enabled when compiling the img, the img will not have the k1x-vpu-test related test programs. In this case, you need to manually compile k1x-vpu-test and copy the generated bin to the /usr/bin/ directory of the system for use. The specific bins are explained below.
 
-#### 4.2.3 使用说明
+#### 4.2.3 Usage Instructions
 
-k1x-vpu-test 的测试程序集中主要包含下面几个测试程序：
+The k1x-vpu-test test program set mainly includes the following test programs:
 
-- **mvx_decoder**：用于单路视频码流的解码测试
-- **mvx_decoder_multi**：用于多路视频码流的解码测试（多路视频码流必须为同一个视频）
-- **mvx_encoder**：用于单路视频流的视频编码测试
-- **mvx_encoder_multi**：用于多路 YUV 流的视频编码测试（多路 YUV 流必须为同一个流）
-- **mvx_logd**：用于抓取 firmware 的 log 分析定位问题
+- **mvx_decoder**: Used for single-channel video stream decoding tests
+- **mvx_decoder_multi**: Used for multi-channel video stream decoding tests (multi-channel video streams must be the same video)
+- **mvx_encoder**: Used for single-channel video stream encoding tests
+- **mvx_encoder_multi**: Used for multi-channel YUV stream encoding tests (multi-channel YUV streams must be the same stream)
+- **mvx_logd**: Used to capture firmware logs for analysis and troubleshooting
 
 ##### 4.2.3.1 mvx_decoder
 
-一些基本用法
+Some basic usage
 
 ```shell
-//将input.264的H.264视频流（带startcode）解码为output.yuv
-//-f raw ： 表示视频裸流
-//输入码流的编码格式默认为H.264
-//输出YUV数据的像素格式默认为YUV420P
+//Decode the H.264 video stream of input.264 (with startcode) to output.yuv
+//-f raw: indicates raw video stream
+//The encoding format of the input stream defaults to H.264
+//The pixel format of the output YUV data defaults to YUV420P
 mvx_decoder -f raw /mnt/streams/input.264 /mnt/test/output.yuv
 
-//将input.264的H.264视频流（带startcode）解码为output.yuv，output.yuv的像素格式为NV12
+//Decode the H.264 video stream of input.264 (with startcode) to output.yuv, with the pixel format of output.yuv as NV12
 mvx_decoder -f raw -o yuv420_nv12 /mnt/streams/input.264 /mnt/test/output.yuv
 
-//将input.265的HEVC视频流（带startcode）解码为output.yuv
+//Decode the HEVC video stream of input.265 (with startcode) to output.yuv
 mvx_decoder -f raw -i hevc /mnt/streams/input.265 /mnt/test/output.yuv
 ```
 
-参数说明
+Parameter explanation
 
 ```shell
 usage: ./mvx_decoder [optional] [positional]
@@ -2262,76 +2256,22 @@ optional arguments:
     --tiled
         Use tiles for AFBC formats.
         Default: disabled
-    --preload
-        preload the input stream to memory.
-        the size for input file should be less than 15MBytes.
-        Default: 0
-    --fw_timeout
-        timeout value[secs] for watchdog timeout. range: 5~60.
-        Default: 5
-    --profiling
-        enable profiling for bandwidth statistics . 0:disable; 1:enable.
-        Default: 0
-```
-
-##### 4.2.3.2 mvx_decoder_multi
-
-一些基本用法
-
-```shell
-//将input.264的H.264视频流（带startcode）解码为output.yuv，同时4路解码并行
-//输入码流的编码格式默认为H.264
-//输出YUV数据的像素格式默认为YUV420P
-mvx_decoder_multi -n 4 /mnt/streams/input.264 /mnt/test/output.yuv
-
-//将input.265的HEVC视频流（带startcode）解码为output.yuv，4路同时进行，output.yuv的像素格式为NV21
-mvx_decoder_multi -n 4 -i hevc -o yuv420_nv21 /mnt/streams/input.265 /mnt/test/output.yuv
-```
-
-参数说明
-
-```shell
-usage: ./mvx_decoder_multi [optional] [positional]
-
-positional arguments:
-    input
-        Input file.
-    output
-        Output file.
-
-optional arguments:
-    --dev
-        Device.
-        Default: /dev/video0
-    -i, --inputformat
-        Pixel format.
-        Default: h264
-    -o, --outputformat
-        Output pixel format.
-        Default: yuv420
-    -s, --stride
-        Stride alignment.
-        Default: 1
-    -n, --nsessions
-        Number of sessions.
-        Default: 1
-```
 
 ##### 4.2.3.3 mvx_encoder
 
-一些基本用法
+Some basic usage
 
 ```shell
-//将input.yuv的YUV420P流编码为output.264的H.264视频流（带startcode）
-//输入YUV流的像素格式默认为YUV420P
-//输出视频流的编码格式默认为H.264
+//Encode the YUV420P stream of input.yuv to H.264 video stream of output.264 (with startcode)
+//The pixel format of the input YUV stream defaults to YUV420P
+//The encoding format of the output video stream defaults to H.264
 mvx_encoder -f raw -w 1280 -h 720 /mnt/streams/input.yuv /mnt/test/output.264
 
-//将input.yuv的NV21流编码为output.265的HEVC视频流(带startcode)
+//Encode the NV21 stream of input.yuv to HEVC video stream of output.265 (with startcode)
 mvx_encoder -f raw -w 1280 -h 720 -i yuv420_nv21 -o hevc /mnt/streams/input.yuv /mnt/test/output.265
 ```
 
-参数说明
+Parameter explanation
 
 ```shell
 usage: ./mvx_encoder [optional] [positional]
@@ -2545,20 +2485,19 @@ optional arguments:
         enable profiling for bandwidth statistics . 0:disable; 1:enable.
         Default: 0
 ```
-
 ##### 4.2.3.4 mvx_encoder_multi
 
-一些基本用法
+Some basic usage
 
 ```shell
-//将input.yuv的YUV420P流编码为output.264的H.264视频流（带startcode），4路同时进行
+//Encode the YUV420P stream of input.yuv to H.264 video stream of output.264 (with startcode), 4 channels simultaneously
 mvx_encoder_multi -n 4 -w 1280 -h 720 /mnt/streams/input.yuv /mnt/test/output.264
 
-//将input.yuv的NV21流编码为output.265的HEVC视频流(带startcode)，4路同时进行
+//Encode the NV21 stream of input.yuv to HEVC video stream of output.265 (with startcode), 4 channels simultaneously
 mvx_encoder_multi -n 4 -w 1280 -h 720 -i yuv420_nv21 -o hevc /mnt/streams/input.yuv /mnt/test/output.265
 ```
 
-参数说明
+Parameter explanation
 
 ```shell
 usage: ./mvx_encoder_multi [optional] [positional]
@@ -2589,7 +2528,7 @@ optional arguments:
         Stride alignment.
         Default: 720
     -f, --frames
-        Specfied frame count to be processed.
+        Specified frame count to be processed.
         Default: 0
     -n, --nsessions
         Number of sessions.
@@ -2598,20 +2537,20 @@ optional arguments:
 
 ##### 4.2.3.5 mvx_logd
 
-一些基本用法
+Some basic usage
 
 ```shell
-//挂载debugfs，保存fw的log到文件
+//Mount debugfs, save fw log to file
 mount -t debugfs none /sys/kernel/debug
-//清除之前的log
+//Clear previous log
 mvx_logd -C
-//设置好保存路径
+//Set save path
 mvx_logd -d -f text xxx.log
-//开始播放视频
-//查看xxx.log
+//Start playing video
+//Check xxx.log
 ```
 
-参数说明
+Parameter explanation
 
 ```shell
 Usage: ./mvx_logd [OPTIONS] [DST]
@@ -2652,51 +2591,51 @@ Example:
     # mvx_logd -t -1 fw.log
 ```
 
-#### 4.2.4 代码结构
+#### 4.2.4 Code Structure
 
-k1x-vpu-test 的代码位置在：
+The code location for k1x-vpu-test is:
 
 ```shell
 package-src/k1x-vpu-test
 ```
 
-代码结构及简要说明如下：
+The code structure and brief description are as follows:
 
 ```shell
-|-- CMakeLists.txt                //cmake构建脚本
-|-- debian                        //deb包构建的相关配置和脚本
-|-- format.sh                     //代码风格格式化脚本，Google风格进行格式化
-|-- include                       //重要头文件
+|-- CMakeLists.txt                //cmake build script
+|-- debian                        //deb package build related configurations and scripts
+|-- format.sh                     //code style formatting script, formatted in Google style
+|-- include                       //important header files
 |   |-- fw_v2
 |   |   `-- mve_protocol_def.h    
 |   |-- md5.h
 |   |-- mvx_argparse.h
 |   |-- mvx_list.h
 |   |-- mvx_log_ram.h
-|   `-- mvx-v4l2-controls.h       //VPU驱动的附加API
+|   `-- mvx-v4l2-controls.h       //additional API for VPU driver
 |-- test
 |   |-- coverage
-|   |-- md5                                 //md5相关的API与实现
+|   |-- md5                                 //md5 related API and implementation
 |   |   |-- CMakeLists.txt
 |   |   |-- md5.c
 |   |   `-- md5.h
-|   |-- mvx_player                          //测试程序集实现代码
+|   |-- mvx_player                          //test program implementation code
 |   |   |-- CMakeLists.txt
-|   |   |-- dmabufheap                      //dmabuf管理相关API与实现
+|   |   |-- dmabufheap                      //dmabuf management related API and implementation
 |   |   |   |-- BufferAllocator.cpp
 |   |   |   |-- BufferAllocator.h
 |   |   |   |-- BufferAllocatorWrapper.cpp
 |   |   |   |-- BufferAllocatorWrapper.h
 |   |   |   `-- dmabufheap-defs.h
-|   |   |-- mvx_decoder.cpp                 //mvx_decoder实现
-|   |   |-- mvx_decoder_multi.cpp           //mvx_decoder_multi实现
-|   |   |-- mvx_encoder.cpp                 //mvx_encoder实现
-|   |   |-- mvx_encoder_gen.cpp             //mvx_encoder_gen实现
-|   |   |-- mvx_encoder_multi.cpp           //mvx_encoder_multi实现
-|   |   |-- mvx_info.cpp                    //mvx_info实现
-|   |   |-- mvx_player.cpp                  //核心逻辑封装实现
-|   |   |-- mvx_player.hpp                  //核心逻辑封装API
-|   |   `-- reader                          //码流读取API与实现
+|   |   |-- mvx_decoder.cpp                 //mvx_decoder implementation
+|   |   |-- mvx_decoder_multi.cpp           //mvx_decoder_multi implementation
+|   |   |-- mvx_encoder.cpp                 //mvx_encoder implementation
+|   |   |-- mvx_encoder_gen.cpp             //mvx_encoder_gen implementation
+|   |   |-- mvx_encoder_multi.cpp           //mvx_encoder_multi implementation
+|   |   |-- mvx_info.cpp                    //mvx_info implementation
+|   |   |-- mvx_player.cpp                  //core logic encapsulation implementation
+|   |   |-- mvx_player.hpp                  //core logic encapsulation API
+|   |   `-- reader                          //stream reading API and implementation
 |   |       |-- parser.h
 |   |       `-- read_util.h
 |   |-- userptr
@@ -2708,12 +2647,12 @@ package-src/k1x-vpu-test
 |       |-- mvx_argparse.h
 |       `-- mvx_list.h
 `-- tools
-    |-- logd                                //logd实现，抓取VPU的firmware的log
+    |-- logd                                //logd implementation, capture VPU firmware log
     |   |-- CMakeLists.txt
     |   |-- mvx_logd.cpp
     |   |-- mvx_logd_fwif_v2.cpp
     |   `-- mvx_logd.hpp
-    `-- securevideo                         //用于安全视频的测试（未验证使用）
+    `-- securevideo                         //used for secure video testing (not verified)
         |-- 50-mvx.rules
         |-- mvx_securehelper.cpp
         |-- mvx_secureplayer.cpp
@@ -2722,17 +2661,17 @@ package-src/k1x-vpu-test
 
 ```
 
-#### 4.2.5 编译说明
+#### 4.2.5 Compilation Instructions
 
-Bianbu 桌面系统
+Bianbu Desktop System
 
 ```shell
 cd k1x-vpu-test
-sudo apt-get build-dep k1x-vpu-test    #安装依赖
+sudo apt-get build-dep k1x-vpu-test    #install dependencies
 dpkg-buildpackage -us -uc -nc -b -j32
 ```
 
-Bianbu Linux 系统
+Bianbu Linux System
 
 ```shell
 cd k1x-vpu-test
@@ -2743,18 +2682,18 @@ make
 make install
 ```
 
-#### 4.2.6 调试说明
+#### 4.2.6 Debugging Instructions
 
-##### 4.2.6.1 Log 添加
+##### 4.2.6.1 Adding Logs
 
-使用 printf 或者 fprintf 来添加 log，重新编译安装即可生效
+Use printf or fprintf to add logs, recompile and install to take effect.
 
-##### 4.2.6.2 解码成功 log
+##### 4.2.6.2 Successful Decoding Log
 
-###### 4.2.6.2.1 单路解码
+###### 4.2.6.2.1 Single-channel Decoding
 
 ```shell
-/mnt/tool # ./mvx_decoder -f raw /mnt/streams/h264dec/Zhling_1280x720.264 /mnt/test/output.yuv  //输入命令
+/mnt/tool # ./mvx_decoder -f raw /mnt/streams/h264dec/Zhling_1280x720.264 /mnt/test/output.yuv  //input command
 
 Opening '/dev/video0'.
 Enumerate frame size. index=0, pixel_format=32314d59, min_width=2, max_width=8192, step_width=2, min_height=2, max_height=8192, step_height=2
@@ -2769,11 +2708,11 @@ Query: type=2, index=4, sequence=0, timestamp={0, 0}, flags=4000, bytesused=0, l
 Query: type=2, index=5, sequence=0, timestamp={0, 0}, flags=4000, bytesused=0, length=1048576
 Request buffers. type=9, count=1, memory=4
 Query: type=9, index=0, sequence=0, timestamp={0, 0}, flags=4000, num_planes=3, bytesused=[0, 0, 0], length=[1, 1, 1], offset=[0, 0, 0]
-//申请输入输出buffer
+//Request input and output buffers
 
 Stream on 2
 Stream on 9
-//输入输出开流
+//Start input and output streams
 
 Event. type=5.
 source changed. should reset output stream.
@@ -2786,10 +2725,10 @@ Query: type=9, index=1, sequence=0, timestamp={0, 0}, flags=4000, num_planes=3, 
 Query: type=9, index=2, sequence=0, timestamp={0, 0}, flags=4000, num_planes=3, bytesused=[0, 0, 0], length=[921600, 230400, 230400], offset=[0, 0, 0]
 Query: type=9, index=3, sequence=0, timestamp={0, 0}, flags=4000, num_planes=3, bytesused=[0, 0, 0], length=[921600, 230400, 230400], offset=[0, 0, 0]
 Stream on 9
-//收到分辨率改变消息，关闭输出流，重新申请输出buffer，开启输出流
+//Received resolution change message, close output stream, re-request output buffers, start output stream
 
 -----Decoder. set timestart_us: 15432355548 us---------
-//开始解码
+//Start decoding
 
 Capture EOS.
 -----[Test Result] MVX Decode Done. frames_processed: 18, cost time: 16604176 us.
@@ -2798,20 +2737,20 @@ Stream off 9
 -----[Test Result] MVX Decode PASS. Average Framerate: 1.08.
 Total size 26265600
 Closing fd 5.
-//解码完成，输出信息，退出
+//Decoding completed, output information, exit
 ```
 
-###### 4.2.6.2.2 多路解码
+###### 4.2.6.2.2 Multi-channel Decoding
 
 ```shell
 /mnt/tool # ./mvx_decoder_multi -n 4 /mnt/streams/h264dec/foreman_128x64.264 /mnt/test/output.yuv
-//命令
+//command
 
 -----Decoder. set timestart_us: 16076598695 us---------
 -----Decoder. set timestart_us: 16076606348 us---------
 -----Decoder. set timestart_us: 16076569259 us---------
 -----Decoder. set timestart_us: 16076788196 us---------
-//开始解码
+//Start decoding
 
 -----[Test Result] MVX Decode Done. frames_processed: 2, cost time: 148367 us.
 -----[Test Result] MVX Decode Done. frames_processed: 2, cost time: 250563 us.
@@ -2821,16 +2760,16 @@ Total size 36864
 Total size 36864
 Total size 36864
 Total size 36864
-//解码完成，输出信息，退出
+//Decoding completed, output information, exit
 ```
 
-##### 4.2.6.3 编码成功 log
+##### 4.2.6.3 Successful Encoding Log
 
-###### 4.2.6.3.1 单路编码
+###### 4.2.6.3.1 Single-channel Encoding
 
 ```shell
 /mnt/tool # ./mvx_encoder -f raw -w 1280 -h 720 /mnt/streams/yuv/zhling_1280x720.yuv /mnt/test/output.264
-//命令
+//command
 
 Opening '/dev/video0'.
 setEncFramerate( 1966080 )
@@ -2852,14 +2791,14 @@ Query: type=9, index=5, sequence=0, timestamp={0, 0}, flags=4000, num_planes=1, 
 Query: type=9, index=6, sequence=0, timestamp={0, 0}, flags=4000, num_planes=1, bytesused=[0], length=[921600], offset=[0]
 Query: type=9, index=7, sequence=0, timestamp={0, 0}, flags=4000, num_planes=1, bytesused=[0], length=[921600], offset=[0]
 Query: type=9, index=8, sequence=0, timestamp={0, 0}, flags=4000, num_planes=1, bytesused=[0], length=[921600], offset=[0]
-//申请输入输出buffer
+//Request input and output buffers
 
 Stream on 10
 Stream on 9
-//输入输出开流
+//Start input and output streams
 
 -----Encoder. set timestart_us: 15823672258 us---------
-//开始编码
+//Start encoding
 
 Capture EOS.
 -----[Test Result] MVX Encode Done. frames_processed: 19, cost time: 28493385 us.
@@ -2868,20 +2807,19 @@ Stream off 9
 -----[Test Result] MVX Encode PASS. Average Framerate: 0.67.
 Total size 140165
 Closing fd 5.
-//编码完成，输出信息，退出
+//Encoding completed, output information, exit
 ```
-
-###### 4.2.6.3.2 多路编码
+###### 4.2.6.3.2 Multi-channel Encoding
 
 ```shell
 /mnt/tool # ./mvx_encoder_multi -n 4 -w 128 -h 64 /mnt/streams/yuv/foreman_128x64_3frames.yuv /mnt/test/output.264
-//命令
+//command
 
 -----Encoder. set timestart_us: 16243183563 us---------
 -----Encoder. set timestart_us: 16243458316 us---------
 -----Encoder. set timestart_us: 16243756086 us---------
 -----Encoder. set timestart_us: 16244053547 us---------
-//开始编码
+//start encoding
 
 -----[Test Result] MVX Encode Done. frames_processed: 3, cost time: 634710 us.
 -----[Test Result] MVX Encode Done. frames_processed: 3, cost time: 952320 us.
@@ -2891,63 +2829,63 @@ Total size 1618
 Total size 1618
 Total size 1618
 Total size 1618
-//编码完成，输出信息，退出
+//encoding completed, output information, exit
 ```
 
 ## 5. JPU
 
-K1 的 JPU 提供了完整的测试程序供参考。
+K1's JPU provides a complete set of test programs for reference.
 
-### 5.1 规格（待补充）
+### 5.1 Specifications (to be supplemented)
 
-### 5.2 JPU 测试程序
+### 5.2 JPU Test Programs
 
-#### 5.2.1 概述
+#### 5.2.1 Overview
 
-k1x-jpu 内部封装了给应用层的 API，同时基于该 API 集成一套用于测试验证 K1 芯片的 JPU（Jpeg Processing Unit，负责视频的编解码工作）功能的程序集，也可以作为客户开发自己的应用程序（需要对接 VPU 进行硬件编解码）的参考。
+k1x-jpu internally encapsulates the API for the application layer and integrates a set of programs for testing and verifying the JPU (Jpeg Processing Unit, responsible for video encoding and decoding) functionality of the K1 chip. It can also serve as a reference for customers developing their own applications (requiring hardware encoding and decoding via VPU).
 
-#### 5.2.2 安装说明
+#### 5.2.2 Installation Instructions
 
-##### 5.2.2.1 Bianbu 桌面系统
+##### 5.2.2.1 Bianbu Desktop System
 
-源中已经集成了 k1x-jpu，直接使用 apt 命令来安装即可。
+k1x-jpu is already integrated into the source, and can be installed directly using the apt command.
 
 ```shell
 sudo apt update
 sudo apt install k1x-jpu
 ```
 
-##### 5.2.2.2 Bianbu Linux 系统
+##### 5.2.2.2 Bianbu Linux System
 
-2 种方法将 k1x-jpu 集成到系统中：
+There are 2 ways to integrate k1x-jpu into the system:
 
-- 在编译 img 的时候，将 k1x-vpu-test 的编译集成选项打开**（默认已经打开）**，这样，编译的 img 中默认就有 k1x-jpu 相关的测试程序
-- 如果编译 img 的时候，没有打开 k1x-jpu 的编译集成选项，img 中没有 k1x-jpu 相关的测试程序，只能手动编译 k1x-jpu，然后将生成的 bin 拷贝到系统的/usr/bin/目录中来使用，具体包括 bin，下面有说明
+- When compiling the img, enable the compilation integration option for k1x-vpu-test **(enabled by default)**, so the compiled img will have the k1x-jpu related test programs by default.
+- If the compilation integration option for k1x-jpu was not enabled when compiling the img, the img will not have the k1x-jpu related test programs. In this case, you need to manually compile k1x-jpu and copy the generated bin to the /usr/bin/ directory of the system for use. The specific bins are explained below.
 
-#### 5.2.3 使用说明
+#### 5.2.3 Usage Instructions
 
-k1x-jpu 的测试程序集中主要包含下面几个测试程序：
+The k1x-jpu test program set mainly includes the following test programs:
 
-- **jpu_dec_test**：用于 JPEG 的解码测试
-- **jpu_enc_test**：用于 JPEG 的编码测试
-- **libjpu.so**：JPU 的 API 封装库
+- **jpu_dec_test**: Used for JPEG decoding tests
+- **jpu_enc_test**: Used for JPEG encoding tests
+- **libjpu.so**: JPU API encapsulation library
 
 ##### 5.2.3.1 jpu_dec_test
 
-###### 5.2.3.1.1 一些基本用法
+###### 5.2.3.1.1 Some Basic Usage
 
 ```shell
-//将input.jpeg解码为output.yuv
+//Decode input.jpeg to output.yuv
 ./jpu_dec_test --input=input.jpeg   --output=output.yuv
 
-//将input.jpeg解码为output.yuv，output.yuv的像素格式为NV12
+//Decode input.jpeg to output.yuv, with output.yuv pixel format as NV12
 ./jpu_dec_test --input=input.jpeg   --output=output.yuv --subsample=420 --ordering=nv12
 
-//将input.jpeg解码为output.yuv，output.yuv的像素格式为YUYV
+//Decode input.jpeg to output.yuv, with output.yuv pixel format as YUYV
 ./jpu_dec_test --input=input.jpeg   --output=output.yuv --subsample=422 --ordering=yuyv
 ```
 
-###### 5.2.3.1.2 参数说明
+###### 5.2.3.1.2 Parameter Explanation
 
 ```shell
 bianbu@k1:~$ jpu_dec_test -h
@@ -2962,33 +2900,32 @@ bianbu@k1:~$ jpu_dec_test -h
 [JPU/6261] --frame-endian=ENDIAN   pixel endianness of 16bit input source. refer to datasheet Chapter 4.
 [JPU/6261] --pixelj=JUSTIFICATION  16bit-pixel justification. 0(default) - msb justified, 1 - lsb justified in little-endianness
 [JPU/6261] --bs-size=SIZE          bitstream buffer size in byte
-[JPU/6261] --roi=x,y,w,h           ROI region（未适配）
+[JPU/6261] --roi=x,y,w,h           ROI region (not adapted)
 [JPU/6261] --subsample             conversion sub-sample(ignore case): NONE, 420, 422, 444
-[JPU/6261] --ordering              conversion ordering(ingore-case): NONE, NV12, NV21, YUYV, YVYU, UYVY, VYUY, AYUV
+[JPU/6261] --ordering              conversion ordering(ignore-case): NONE, NV12, NV21, YUYV, YVYU, UYVY, VYUY, AYUV
 [JPU/6261]                         NONE - planar format
 [JPU/6261]                         NV12, NV21 - semi-planar format for all the subsamples.
 [JPU/6261]                                      If subsample isn't defined or is none, the sub-sample depends on jpeg information
 [JPU/6261]                                      The subsample 440 can be converted to the semi-planar format. It means that the encoded sub-sample should be 440.
 [JPU/6261]                         YUVV..VYUY - packed format. subsample be ignored.
 [JPU/6261]                         AYUV       - packed format. subsample be ignored.
-[JPU/6261] --rotation              0, 90, 180, 270(未适配)
-[JPU/6261] --mirror                0(none), 1(V), 2(H), 3(VH)（未适配）
-[JPU/6261] --scaleH                Horizontal downscale: 0(none), 1(1/2), 2(1/4), 3(1/8)（未适配）
-[JPU/6261] --scaleV                Vertical downscale  : 0(none), 1(1/2), 2(1/4), 3(1/8)（未适配）
+[JPU/6261] --rotation              0, 90, 180, 270 (not adapted)
+[JPU/6261] --mirror                0(none), 1(V), 2(H), 3(VH) (not adapted)
+[JPU/6261] --scaleH                Horizontal downscale: 0(none), 1(1/2), 2(1/4), 3(1/8) (not adapted)
+[JPU/6261] --scaleV                Vertical downscale  : 0(none), 1(1/2), 2(1/4), 3(1/8) (not adapted)
 [JPU/6261] --profiling             0: performance output will not be printed 1:print performance output 
 [JPU/6261] --loop_count            loop count
 ```
 
 ##### 5.2.3.2 jpu_enc_test
 
-###### 5.2.3.2.1 一些基本用法
+###### 5.2.3.2.1 Some Basic Usage
 
 ```shell
-//将input.yuv编码为quality为10的output.jpeg,使用enc.cfg中的配置
+//Encode input.yuv to output.jpeg with quality 10, using enc.cfg configuration
 ./jpu_enc_test --cfg-dir=xxx --yuv-dir=xxx --input=enc.cfg --output=output.jpeg --profiling=1 --loop_count=1 --quality=10
 
-
-//env.cfg的配置参考如下：
+//Reference configuration for enc.cfg:
 ;-----------------------------------------------------------------
 ; Configuration File for MJPEG BP @ Encoder
 ;
@@ -2996,7 +2933,7 @@ bianbu@k1:~$ jpu_dec_test -h
 ; If a line begins with ;, the line is treated as a comment-line.
 ;-----------------------------------------------------------------
 ;----------------------------
-; Sequence PARAMETERs
+; Sequence PARAMETERS
 ;----------------------------
 ; source YUV image file
 YUV_SRC_IMG                  output.yuv
@@ -3008,7 +2945,7 @@ PICTURE_HEIGHT               720
 FRAME_NUMBER_ENCODED         1
                             ; number of frames to be encoded (#>0)
 ;---------------------------------------
-; MJPEG Encodeing PARAMETERs
+; MJPEG Encoding PARAMETERS
 ;---------------------------------------
 VERSION_ID                  3
 RESTART_INTERVAL            0
@@ -3016,7 +2953,7 @@ IMG_FORMAT                  0
                             ; Source Format (0 : 4:2:0, 1 : 4:2:2, 2 : 4:4:0, 3 : 4:4:4, 4 : 4:0:0)
 ```
 
-###### 5.2.3.2.2 参数说明
+###### 5.2.3.2.2 Parameter Explanation
 
 ```shell
 bianbu@k1:~$ jpu_enc_test -h
@@ -3033,19 +2970,19 @@ bianbu@k1:~$ jpu_enc_test -h
 [JPU/6272] --quality=PERCENTAGE    quality factor(1..100)
 ```
 
-#### 5.2.4 代码结构
+#### 5.2.4 Code Structure
 
-k1x-jpu 的代码位置在：
+The code location for k1x-jpu is:
 
 ```shell
 package-src/k1x-jpu
 ```
 
-代码结构及简要说明如下：
+The code structure and brief description are as follows:
 
 ```shell
-|-- CMakeLists.txt                //cmake构建脚本
-|-- debian                        //deb包构建的相关配置和脚本
+|-- CMakeLists.txt                //cmake build script
+|-- debian                        //deb package build related configurations and scripts
 |   |-- bianbu.conf
 |   |-- changelog
 |   |-- compat
@@ -3084,13 +3021,13 @@ package-src/k1x-jpu
 |   |-- mm.h
 |   `-- regdefine.h
 |-- sample
-|   |-- dmabufheap                           //dmabuf分配管理
+|   |-- dmabufheap                           //dmabuf allocation management
 |   |   |-- BufferAllocator.cpp
 |   |   |-- BufferAllocator.h
 |   |   |-- BufferAllocatorWrapper.cpp
 |   |   |-- BufferAllocatorWrapper.h
 |   |   `-- dmabufheap-defs.h
-|   |-- helper                               //一些utils
+|   |-- helper                               //some utils
 |   |   |-- bitstreamfeeder.c
 |   |   |-- bitstreamwriter.c
 |   |   |-- bsfeeder_fixedsize_impl.c
@@ -3104,8 +3041,8 @@ package-src/k1x-jpu
 |   |   |-- platform.h
 |   |   |-- yuv_feeder.c
 |   |   `-- yuv_feeder.h
-|   |-- main_dec_test.c                      //解码测试程序实现
-|   `-- main_enc_test.c                      //编码测试程序实现
+|   |-- main_dec_test.c                      //decoding test program implementation
+|   `-- main_enc_test.c                      //encoding test program implementation
 `-- usr
     `-- lib
         `-- systemd
@@ -3113,17 +3050,17 @@ package-src/k1x-jpu
                 `-- jpu.service
 ```
 
-#### 5.2.5 编译说明
+#### 5.2.5 Compilation Instructions
 
-Bianbu 桌面系统
+Bianbu Desktop System
 
-```shll
+```shell
 cd k1x-jpu
-sudo apt-get build-dep k1x-jpu    #安装依赖
+sudo apt-get build-dep k1x-jpu    #install dependencies
 dpkg-buildpackage -us -uc -nc -b -j32
 ```
 
-Bianbu Linux 系统
+Bianbu Linux System
 
 ```shell
 cd k1x-jpu
@@ -3136,163 +3073,162 @@ make install
 
 ## 6. CPP & ISP & MIPI-CSI
 
-K1 的 CPP&ISP&MIPI-CSI 是基于标准的 V4L2 接口实现，并提供了完整的测试程序供参考。
+K1's CPP&ISP&MIPI-CSI is implemented based on the standard V4L2 interface and provides a complete set of test programs for reference.
 
-### 6.1 规格
+### 6.1 Specifications
 
 **MIPI CSI (CSI-2 V1.1) 4lane (x2)**
 
 - 4 Lane + 4 Lane mode
 - 4 Lane + 2 Lane mode
-- 4 Lane + 4 Lane + 2 Lane mode（triple sensor）
-- DPHY V1.1，Up to 1.5Gbps/lane
-- Support RAW8/RAW10/RAW12/RAW14 and legacy yuv420 8-bit、yuv420 8-bit input foramt
+- 4 Lane + 4 Lane + 2 Lane mode (triple sensor)
+- DPHY V1.1, Up to 1.5Gbps/lane
+- Support RAW8/RAW10/RAW12/RAW14 and legacy yuv420 8-bit, yuv420 8-bit input format
 
-**ISP 介绍**：图像信号处理器，用于处理传感器输出的图像信号，经过一系列数字图像处理算法达到预期的图像效果处理。包括坏点校正、镜头阴影校正、降噪、相位补偿与矫正、背光补偿、色彩增强等处理。
+**ISP Introduction**: Image signal processor, used to process image signals output by sensors, achieving desired image effects through a series of digital image processing algorithms. Includes bad pixel correction, lens shading correction, noise reduction, phase compensation and correction, backlight compensation, color enhancement, etc.
 
-- 支持两路 pipeline（时分复用），能同时处理两路 stream，stream 的来源可以是 sensor 或者从 ddr 读取。
-- 每路 pipeline 输出的最大图像为 1920x1080。
-- 两路 pipeline 同时工作时，每个 pipeline 在没有开启 PDAF（相位对焦）时输入的图像最大 size 为 4748x8188；在开启 PDAF 时输入的图像最大 size 为 3264x8188。
-- 只有一路 pipeline 工作时，在没有开启 PDAF（相位对焦）时输入的图像最大 size 为 9496x8188；在开启 PDAF 时输入的图像最大 size 为 6528x8188。
-- 输入宽高都需要是 4 的倍数。
+- Supports two pipelines (time-division multiplexing), can process two streams simultaneously, the source of the stream can be a sensor or read from DDR.
+- The maximum image output by each pipeline is 1920x1080.
+- When both pipelines are working simultaneously, the maximum size of the input image for each pipeline is 4748x8188 without PDAF (phase detection autofocus); with PDAF, the maximum size is 3264x8188.
+- When only one pipeline is working, the maximum size of the input image is 9496x8188 without PDAF; with PDAF, the maximum size is 6528x8188.
+- The input width and height need to be multiples of 4.
 
-**CPP 介绍**：图像后处理模块，用于离线处理 ISP 输出的 NV12，金字塔式多层分时处理，主要功能包括：镜头畸变矫正、空域和时域降噪、频域降噪、边沿增强等。
+**CPP Introduction**: Image post-processing module, used for offline processing of NV12 output by ISP, pyramid multi-layer time-sharing processing, including lens distortion correction, spatial and temporal noise reduction, frequency domain noise reduction, edge enhancement, etc.
 
-- 输入支持 NV12_DWT 格式、输出支持 NV12_DWT、FBC_DWT 格式数据。NV12_DWT 格式 Buffer 是由标准的 NV12 Buffer 和 ASR 私有的 DWT Buffer 组成。
-- 图像支持的最大高度：3136
-- 图像支持的最大宽度：4224
-- 图像支持的最小高度：288
-- 图像支持的最小宽度：480
-- 输入、输出 size 一致
+- Supports NV12_DWT format input, supports NV12_DWT, FBC_DWT format data output. NV12_DWT format buffer consists of a standard NV12 buffer and an ASR private DWT buffer.
+- Maximum supported image height: 3136
+- Maximum supported image width: 4224
+- Minimum supported image height: 288
+- Minimum supported image width: 480
+- Input and output sizes are consistent
 
-### 6.2 流程框图
+### 6.2 Flowchart
 
-#### 6.2.1 ISP online 整体流程
+#### 6.2.1 ISP Online Overall Process
 
-ISP online 时模块连接如下：
+When ISP is online, the module connection is as follows:
 
 ```shell
 sensor –> VI_DEV -> ISP_FW –> VI_CHN -> DDR -> CPP
 ```
 
-编写代码时，需要先配置 sensor, VI, ISP, CPP 各个模块，注册各个模块 buffer 回调，然后依次 streamon ISP 和 sensor。sensor 开始出流后，ISP 图像处理过程中会发生中断，各模块进行中断处理后调用模块回调处理 buffer；当程序退出时，建议先停止 vi，再停止 sensor，再依次执行 CPP, ISP, VI 的反初始化配置，并释放使用的 buffer。软件流程图如下：
+When writing code, you need to configure the sensor, VI, ISP, and CPP modules, register the buffer callbacks for each module, and then stream on ISP and sensor in sequence. After the sensor starts streaming, interrupts will occur during the ISP image processing, and each module will handle the interrupts and call the module callback to process the buffer. When the program exits, it is recommended to stop vi first, then stop the sensor, and then perform the deinitialization configuration of CPP, ISP, and VI in sequence, and release the used buffers. The software flowchart is as follows:
 
 ![](static/OEBwb8QzxoIrKBxEcoqcsywknFe.png)
 
-Figure - 5 ISP online 整体流程图
+Figure - 5 ISP Online Overall Flowchart
 
-**buffer 轮转：**
+**Buffer Rotation:**
 
-streamon 之前，准备好输入输出 buffer，并将输出 buffer queue 进各个模块 buffer list，
+Before streamon, prepare the input and output buffers and queue the output buffers into the buffer list of each module.
 
-streamon 之后，输出 buffer list ready 之后调用各个模块对应的 buffer callback，
+After streamon, when the output buffer list is ready, call the corresponding buffer callback of each module.
 
-buffer callback 由用户实现，负责获取 buffer 数据并将 done buffer 再次 queue 入模块。
+The buffer callback is implemented by the user, responsible for obtaining the buffer data and queueing the done buffer back into the module.
 
-#### 6.2.2 ISP offline 整体流程
+#### 6.2.2 ISP Offline Overall Process
 
-ISP offline 时模块连接如下：
+When ISP is offline, the module connection is as follows:
 
 ```shell
 DDR -> VI_DEV -> ISP_FW –> VI_CHN -> DDR -> CPP
 ```
 
-跟 ISP online 相比，ISP 从 DDR 读取输入数据，所以除了数据源配置和 buffer 回调方面有所差异，其他部分流程基本一样。下图展示的是 offline 模式下的 ISP capture mode 流程：
+Compared with ISP online, ISP reads input data from DDR, so there are differences in data source configuration and buffer callback, while other parts of the process are basically the same. The following figure shows the ISP capture mode process in offline mode:
 
 ![](static/PEhLbGTjconnrpx2ZvBcBkUenoh.png)
 
-### 6.3 测试程序使用说明
+### 6.3 Test Program Usage Instructions
 
-#### 6.3.1 概述
+#### 6.3.1 Overview
 
-k1x-cam 是一套用于测试验证 K1 芯片的 MIPI CSI + ASR ISP/CPP 功能的程序集，也可以作为客户开发自己的应用程序（需要熟悉了解 API 的使用说明）的参考。
+k1x-cam is a set of programs for testing and verifying the MIPI CSI + ASR ISP/CPP functionality of the K1 chip. It can also serve as a reference for customers developing their own applications (requiring familiarity with the API usage instructions).
 
-#### 6.3.2 安装说明
+#### 6.3.2 Installation Instructions
 
-##### 6.3.2.1 Bianbu 桌面系统
+##### 6.3.2.1 Bianbu Desktop System
 
-源中已经集成了 k1x-cam，直接使用 apt 命令来安装即可。
+k1x-cam is already integrated into the source, and can be installed directly using the apt command.
 
 ```shell
 sudo apt update
 sudo apt install k1x-cam
 ```
 
-##### 6.3.2.2 Bianbu Linux 系统
+##### 6.3.2.2 Bianbu Linux System
 
 TODO
 
-#### 6.3.3 使用说明
+#### 6.3.3 Usage Instructions
 
-k1x-cam 的测试程序集中主要包含下面几个测试程序：
+The k1x-cam test program set mainly includes the following test programs:
 
-- **cam-test**：用于单路 pipeline，双路 pipeline，单 raw pipeline，单 cpp 处理等测试验证
-- **cam_sensors_test**：用于简单的 sensor detect -> init -> stream on 流程调试验证
+- **cam-test**: Used for single pipeline, dual pipeline, single raw pipeline, single cpp processing, etc.
+- **cam_sensors_test**: Used for simple sensor detect -> init -> stream on process debugging and verification
 
 ##### 6.3.3.1 cam-test
 
-一些基本用法
+Some Basic Usage
 
 ```shell
-使用实例：cam-test <file.json>
+Usage example: cam-test <file.json>
 
-//单pipeline在线测试：imx135(4208x3120@30fps raw10 4lane) –> ISP -> DDR(1080p@30fps) -> CPP
-命令：cam-test demo/cfgs/0/camtest_sensor0_mode0.json
+//Single pipeline online test: imx135(4208x3120@30fps raw10 4lane) –> ISP -> DDR(1080p@30fps) -> CPP
+Command: cam-test demo/cfgs/0/camtest_sensor0_mode0.json
 
-//单pipeline在线测试：imx135(4208x2416@30fps raw10 4lane) –> ISP -> DDR(1080p@30fps) -> CPP
-命令：cam-test demo/cfgs/0/camtest_sensor0_mode1.json
+//Single pipeline online test: imx135(4208x2416@30fps raw10 4lane) –> ISP -> DDR(1080p@30fps) -> CPP
+Command: cam-test demo/cfgs/0/camtest_sensor0_mode1.json
 
-//单pipeline在线测试：imx135(2104x1560@30fps raw10 4lane) –> ISP -> DDR(1080p@30fps) -> CPP
-命令：cam-test demo/cfgs/0/camtest_sensor0_mode2.json
+//Single pipeline online test: imx135(2104x1560@30fps raw10 4lane) –> ISP -> DDR(1080p@30fps) -> CPP
+Command: cam-test demo/cfgs/0/camtest_sensor0_mode2.json
 
-//单pipeline在线测试：imx135(2104x1560@30fps raw10 4lane) –> ISP -> DDR(1080p@30fps) -> CPP
-命令：cam-test demo/cfgs/0/camtest_sensor0_mode2.json
+//Single pipeline online test: imx135(2104x1560@30fps raw10 4lane) –> ISP -> DDR(1080p@30fps) -> CPP
+Command: cam-test demo/cfgs/0/camtest_sensor0_mode2.json
 
-//双pipeline capture测试：imx135(2104x1560@30fps raw10 4lane) –> ISP -> DDR(1080p@30fps) -> CPP
-命令：cam-test demo/cfgs/2/camtest_sensor0_mode0.json
+//Dual pipeline capture test: imx135(2104x1560@30fps raw10 4lane) –> ISP -> DDR(1080p@30fps) -> CPP
+Command: cam-test demo/cfgs/2/camtest_sensor0_mode0.json
 
-//only raw dump pipeline测试：imx135(4208x3120@30fps raw10 4lane) –> ISP（VI） -> DDR
-命令：cam-test demo/cfgs/3/camtest_sensor0_mode0.json
+//Only raw dump pipeline test: imx135(4208x3120@30fps raw10 4lane) –> ISP (VI) -> DDR
+Command: cam-test demo/cfgs/3/camtest_sensor0_mode0.json
 
-//only isp online pipeline测试：imx135 –> ISP -> DDR（NV12）
-命令：cam-test demo/cfgs/4/camtest_sensor0_mode0_nv12.json
+//Only isp online pipeline test: imx135 –> ISP -> DDR (NV12)
+Command: cam-test demo/cfgs/4/camtest_sensor0_mode0_nv12.json
 
-//only isp online pipeline测试：imx135 –> ISP -> DDR（p010）
-命令：cam-test demo/cfgs/4/camtest_sensor0_mode0_p010.json
+//Only isp online pipeline test: imx135 –> ISP -> DDR (p010)
+Command: cam-test demo/cfgs/4/camtest_sensor0_mode0_p010.json
 
-//only isp online pipeline测试：imx135 –> ISP -> DDR（p210）
-命令：cam-test demo/cfgs/4/camtest_sensor0_mode0_p210.json
+//Only isp online pipeline test: imx135 –> ISP -> DDR (p210)
+Command: cam-test demo/cfgs/4/camtest_sensor0_mode0_p210.json
 
-//only isp online pipeline测试：imx135 –> ISP -> DDR（rgb565）
-命令：cam-test demo/cfgs/4/camtest_sensor0_mode0_rgb565.json
+//Only isp online pipeline test: imx135 –> ISP -> DDR (rgb565)
+Command: cam-test demo/cfgs/4/camtest_sensor0_mode0_rgb565.json
 
-//only isp online pipeline测试：imx135 –> ISP -> DDR（rgb888）
-命令：cam-test demo/cfgs/4/camtest_sensor0_mode0_rgb888.json
+//Only isp online pipeline test: imx135 –> ISP -> DDR (rgb888)
+Command: cam-test demo/cfgs/4/camtest_sensor0_mode0_rgb888.json
 
-//only isp online pipeline测试：imx135 –> ISP -> DDR（y210）
-命令：cam-test demo/cfgs/4/camtest_sensor0_mode0_y210.json
+//Only isp online pipeline test: imx135 –> ISP -> DDR (y210)
+Command: cam-test demo/cfgs/4/camtest_sensor0_mode0_y210.json
 
-//双pipeline online测试：imx135+gc2375h –> ISP -> DDR -> CPP
-命令：cam-test demo/cfgs/1/camtest_main_aux.json
-
+//Dual pipeline online test: imx135+gc2375h –> ISP -> DDR -> CPP
+Command: cam-test demo/cfgs/1/camtest_main_aux.json
 ```
 
-##### 6.3.3.2 JSON 参数说明
+##### 6.3.3.2 JSON Parameter Explanation
 
-以 sdktest_main_aux.json 为例进行说明：
+Taking sdktest_main_aux.json as an example:
 
 ```shell
 {
-    "tuning_server_enable":1, //用于isp tunning服务使能，在only isp online、单pipeline online、双pipeline online测试有效
-    "show_fps":1,    //统计从0~120帧的平均帧率
-    "auto_run": 1,    //自动测试，没有用户交互过程
+    "tuning_server_enable":1, //Enable ISP tuning service, effective in only isp online, single pipeline online, dual pipeline online tests
+    "show_fps":1,    //Calculate the average frame rate from 0 to 120 frames
+    "auto_run": 1,    //Automatic test, no user interaction process
 
-    "cpp_node": [    //CPP模块
+    "cpp_node": [    //CPP module
             {
                     "name": "cpp0",    //cpp group0
                     "enable": 1,
                     "format":"NV12",
-                    "src_from_file": 0,    //如果ISP和cpp都enable了，cpp的输入就来自ISP输出
+                    "src_from_file": 0,    //If both ISP and cpp are enabled, the input of cpp comes from the output of ISP
 
                     "src_path":"/tmp/cpp_case_in_data/1920x1080/",
                     "size_width":1920,
@@ -3310,74 +3246,72 @@ k1x-cam 的测试程序集中主要包含下面几个测试程序：
             },
         ],
 
-    "isp_node":[    //ISP模块，1个ISP可以接入两路video stream input
+    "isp_node":[    //ISP module, 1 ISP can access two video stream inputs
             {
-                    "name": "isp0",    //isp0在线模式工作，输出1080p@30fps NV12
+                    "name": "isp0",    //isp0 works in online mode, output 1080p@30fps NV12
                     "enable": 1,
                     "work_mode":"online",
                     "format":"NV12",
                     "out_width":1920,
                     "out_height":1080,
 
-                    "sensor_name":"imx135_asr",    //imx135对应/dev/cam_sensor0，工作在模式0
+                    "sensor_name":"imx135_asr",    //imx135 corresponds to /dev/cam_sensor0, working in mode 0
                     "sensor_id" : 0,
                     "sensor_work_mode":0,
                     "fps":30,
 
-                    "src_file":"/tmp/1920x1080_raw12_long_packed.vrf",    //不生效(使用在其他模式)
-                    "bit_depth": 12,    //不生效
-                    "in_width":1920,    //不生效
-                    "in_height":1080,    //不生效
+                    "src_file":"/tmp/1920x1080_raw12_long_packed.vrf",    //Not effective (used in other modes)
+                    "bit_depth": 12,    //Not effective
+                    "in_width":1920,    //Not effective
+                    "in_height":1080,    //Not effective
 
             },
             {
-                    "name": "isp1",    //isp1在线模式工作，输出1600x1200@30fps NV12
+                    "name": "isp1",    //isp1 works in online mode, output 1600x1200@30fps NV12
                     "enable": 1,
                     "work_mode":"online",
                     "format":"NV12",
                     "out_width":1600,
                     "out_height":1200,
 
-                    "src_file":"/tmp/1920x1080_raw12_long_packed.vrf",    //不生效
-                    "bit_depth": 12,    //不生效
-                    "in_width":1920,    //不生效
-                    "in_height":1080,    //不生效
+                    "src_file":"/tmp/1920x1080_raw12_long_packed.vrf",    //Not effective
+                    "bit_depth": 12,    //Not effective
+                    "in_width":1920,    //Not effective
+                    "in_height":1080,    //Not effective
 
-                    "sensor_name":"gc2375h_asr",    //gc2375h对应/dev/cam_sensor1，工作在模式0
+                    "sensor_name":"gc2375h_asr",    //gc2375h corresponds to /dev/cam_sensor1, working in mode 0
                     "sensor_id" : 1,
                     "sensor_work_mode":0,
                     "fps":30,
             },
     ]
 }
-
 ```
 
-json 参数更详细的作用，可以分析 config.c 和 online_pipeline_test.c/main.c 的具体应用场景。
+For more detailed explanations of JSON parameters, you can analyze the specific application scenarios in config.c and online_pipeline_test.c/main.c.
 
 ##### 6.3.3.3 cam_sensors_test
 
-一些基本用法
+Some Basic Usage
 
 ```shell
-使用示例：cam_sensors_test [devId] [sensors_name]
-
+Usage example: cam_sensors_test [devId] [sensors_name]
 ```
 
-输入执行命令后，在交互终端输入 s 字符后进行开流动作，如果没有报错。可以验证流程 sensor detect -> init -> stream on 基本正常。
+After entering the execution command, input the character 's' in the interactive terminal to perform the stream on action. If there is no error, you can verify that the sensor detect -> init -> stream on process is basically normal.
 
-### 6.4 SENSOR 调试
+### 6.4 SENSOR Debugging
 
-详见“K1 Camera 快速启动指南”。
+See "K1 Camera Quick Start Guide".
 
-### 6.5 ISP 效果调试
+### 6.5 ISP Effect Debugging
 
-ISP 效果调试可能需要使用到的工具包括：调试工具（Tuning Tool）、定标插件（Calibration Plugins）、图像分析工具（VRF viewer），平台调试辅助等。
+ISP effect debugging may require the use of tools including: debugging tools (Tuning Tool), calibration plugins (Calibration Plugins), image analysis tools (VRF viewer), platform debugging assistance, etc.
 
-详见“K1 ISP 效果调试指南”。
+See "K1 ISP Effect Debugging Guide".
 
-### 6.6 API 使用说明
+### 6.6 API Usage Instructions
 
-描述的 API 都是 ISP SDK 面向应用的，分为系统控制 API、图像效果设置 API 和 tuning 相关的 API，详细解释了相关的参数数据结构、错误码和返回值。主要面向 ISP 效果相关的 tuning 和算法工程师，以及图像相关相关的 setting 功能开发的应用工程师。
+The described APIs are ISP SDK application-oriented, divided into system control APIs, image effect setting APIs, and tuning-related APIs. They provide detailed explanations of related parameter data structures, error codes, and return values. They are mainly aimed at tuning and algorithm engineers related to ISP effects, as well as application engineers developing image-related setting functions.
 
-详见“K1 ISP API 开发指南”。
+See "K1 ISP API Development Guide".
