@@ -544,6 +544,26 @@ const sidebars: SidebarsConfig = {
             },
           ],
         },
+        {
+          type: 'category',
+          collapsed: true,
+          label: 'Tools',
+          items: [
+            {
+              type: 'doc',
+              id: 'k1/tools/titan',
+            },
+            {
+              type: 'doc',
+              id: 'k1/tools/cross_compiling',
+            },
+            {
+              type: 'doc',
+              id: 'k1/tools/jtad_debug',
+            }
+
+          ],
+        },
         
 
       ],

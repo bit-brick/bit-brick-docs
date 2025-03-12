@@ -1,4 +1,7 @@
-# K1 JOH5.0 下载编译烧录说明
+# K1 OH5.0 下载编译烧录说明
+
+
+
 
 # 环境准备
 
@@ -111,11 +114,13 @@ drwxr-xr-x 6 fuqiang dc-sw-users       4096 Oct 26 18:06 ..
 
 # 完整编译
 
+## 编译流程说明
+
 进入源码根目录，执行
 
 ```bash
 cd oh5
-./build.sh --product-name xxx --ccache --prebuilt-sdk
+./build.sh --product-name **xxx **--ccache --prebuilt-sdk
 ```
 
 进行版本编译。其中，xxx 代表产品方案，目前支持的产品方案包括：
@@ -124,12 +129,85 @@ cd oh5
 - musepaper
 - musepaper2
 - musepapermini4g
+- musecard
+- musepi
+- musebook
 
 例如，要编译 musepaper 的固件，使用如下命令：
 
 ```bash
 ./build.sh --product-name musepaper --ccache --prebuilt-sdk
 ```
+
+## 编译卡启动固件
+
+系统默认编译出来的是非卡启动固件，一般是 emmc 启动固件（MUSEBook 是 nor+ssd 启动固件），这些固件烧录到 tf 卡上，是无法启动的，需要对源码进行修改，再按照上面的说明进行编译，才能编译出正常的卡启动固件。源码修改方法如下（以 MUSEPi 为例）：
+
+1. 在板级配置目录搜索 `d4281000`
+
+```
+fuqiang@snode:~/workspace/oh5/device/board/spacemit/musepi$ grep -r d4281000 ./
+./ramdisk_res/fstab.required:/dev/block/platform/soc/d4281000.sdh/by-name/system                /usr            ext4    ro,barrier=1                    wait,required
+./ramdisk_res/fstab.required:/dev/block/platform/soc/d4281000.sdh/by-name/vendor                /vendor         ext4    ro,barrier=1                    wait,required
+./ramdisk_res/fstab.required:/dev/block/platform/soc/d4281000.sdh/by-name/userdata              /data           ext4    nosuid,nodev,noatime,barrier=1,data=ordered,noauto_da_alloc wait,reservedsize=1073741824
+./ramdisk_res/fstab.required:/dev/block/platform/soc/d4281000.sdh/by-name/misc               /misc           none    none                            wait,required
+./updater/config/init.cfg:                "wait /dev/block/platform/soc/d4281000.sdh/by-name",
+./updater/config/init.cfg:                "symlink /dev/block/platform/soc/d4281000.sdh/by-name /dev/block/by-name"
+./updater/config/fstab.updater:/dev/block/platform/soc/d4281000.sdh/by-name/system              /system         ext4    ro,barrier=1                    wait
+./updater/config/fstab.updater:/dev/block/platform/soc/d4281000.sdh/by-name/vendor              /vendor         ext4    ro,barrier=1                    wait
+./updater/config/fstab.updater:/dev/block/platform/soc/d4281000.sdh/by-name/userdata            /data           ext4    discard,noatime,nosuid,nodev wait,check,fileencryption=software,quota
+./updater/config/fstab.updater:/dev/block/platform/soc/d4281000.sdh/by-name/misc               /misc           none    none                            wait
+./cfg/init.musepi.cfg:                "symlink /dev/block/platform/soc/d4281000.sdh/by-name /dev/block/by-name"
+./cfg/fstab.musepi:/dev/block/platform/soc/d4281000.sdh/by-name/system          /usr            ext4    ro,barrier=1                    wait,required
+./cfg/fstab.musepi:/dev/block/platform/soc/d4281000.sdh/by-name/vendor          /vendor         ext4    ro,barrier=1                    wait,required
+./cfg/fstab.musepi:/dev/block/platform/soc/d4281000.sdh/by-name/sys_prod                /sys_prod       ext4    ro,barrier=1                    wait
+./cfg/fstab.musepi:/dev/block/platform/soc/d4281000.sdh/by-name/chip_prod               /chip_prod      ext4    ro,barrier=1                    wait
+./cfg/fstab.musepi:/dev/block/platform/soc/d4281000.sdh/by-name/userdata                /data           ext4    nosuid,nodev,noatime,barrier=1,data=ordered,noauto_da_alloc wait,reservedsize=104857600
+./cfg/fstab.musepi:/dev/block/platform/soc/d4281000.sdh/by-name/userdisk        /storage        ext4    rw,barrier=1
+./cfg/fstab.musepi:/dev/block/platform/soc/d4281000.sdh/by-name/misc               /misc           none    none                            wait,required
+./kernel/boot/bootfs/env_k1-x.txt:default_boot_device=soc/d4281000.sdh
+
+```
+
+1. 将所有的 `d4281000` 修改为 `d4280000`
+2. 重新编译固件
+
+## MIPI-DSI vs HDMI
+
+目前 `OpenHarmony` 一个固件仅支持 1 种显示输出，如果需要切换输出设备，需要修改代码，重新编译固件，主要修改的文件为板子对应的 `dts` 文件，我们以 `MUSE Pi` 为例进行说明，`MUSE Pi` 默认使用 `MIPI-DSI` 输出，如果要改成 HDMI 输出，需要修改 `kernel/linux/spacemit_kernel-6.6/arch/riscv/boot/dts/spacemit/k1-x_MUSE-Pi.dts` 文件，如下所示，将和 `MIPI-DSI` 相关的 3 个配置关闭即可。
+
+```
+index 44950b5c2..5b1f2b30c 100644
+--- a/arch/riscv/boot/dts/spacemit/k1-x_MUSE-Pi.dts
++++ b/arch/riscv/boot/dts/spacemit/k1-x_MUSE-Pi.dts
+@@ -200,11 +200,11 @@ &dpu_online2_dsi {
+        spacemit-dpu-escclk = <76800000>;
+        dsi_1v2-supply = <&ldo_5>;
+        vin-supply-names = "dsi_1v2";
+-       status = "okay";
++       status = "disabled";
+ };
+
+ &dsi2 {
+-       status = "okay";
++       status = "disabled";
+
+        panel2: panel2@0 {
+                status = "ok";
+@@ -220,7 +220,7 @@ panel2: panel2@0 {
+ };
+
+ &lcds {
+-       status = "okay";
++       status = "disabled";
+ };
+
+ &dpu_online2_hdmi {
+```
+
+相反的，如果要切换到 `MIPI-DSI` 输出，则打开上面的 3 个配置。
+
+配置修改完成后，重新编译固件。
 
 ## 常用构建参数说明
 
@@ -144,7 +222,7 @@ cd oh5
 
 ### --prebuilt-sdk
 
-在执行完整编译前先编译 SDK，并整理拷贝 SDK 到 `prebuilts/ohos-sdk`，build.sh 支持通过参数 `sdk_platform=xxx` 指定 SDK 的运行平台，支持 mac/win/linux/ohos/default，default 在 linux 主机下为`{windows,linux,ohos}`，在 mac 主机下为`{mac}`
+在执行完整编译前先编译 SDK，并整理拷贝 SDK 到 `prebuilts/ohos-sdk`，build.sh 支持通过参数 `sdk_platform=xxx` 指定 SDK 的运行平台，支持 mac/win/linux/ohos/default，default 在 linux 主机下为{windows,linux,ohos}，在 mac 主机下为{mac}
 
 例如：
 
@@ -155,7 +233,7 @@ cd oh5
 # 生成烧录 img
 
 ```bash
-./build/gen_zip.sh xxx
+./build/gen_zip.sh **xxx**
 ```
 
 其中，xxx 代表产品方案，目前支持的产品方案包括：
@@ -164,6 +242,9 @@ cd oh5
 - musepaper
 - musepaper2
 - musepapermini4g
+- musecard
+- musepi
+- musebook
 
 生成的可烧录的 img 在
 
@@ -282,5 +363,6 @@ ninja -w dupbuild=warn -C out/musepaper libomxvpu_dec -j8
 ```
 
 # FAQ
+
 
 引用自[进迭时空开发者文档](https://developer.spacemit.com/documentation?token=OQRQwIzlAiPAxikkNSJcKvFJnQf)
