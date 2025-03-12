@@ -8,11 +8,6 @@ sidebar_position: 1
 
 K1 仅支持 MIPI 类型接口，使用 Spacemit camera 驱动框架。
 
-## Revision History
-
-| Revision | Date      | Author | Description   |
-| ----------------- | ------------------ | --------------- | ---------------------- |
-| 1.0      | 2024-8-29 | lizhirong  | Initial draft |
 
 ## Camera 快速点亮导览
 

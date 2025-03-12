@@ -8,11 +8,6 @@ This guide mainly introduces the quick start development of the Camera module on
 
 K1 only supports MIPI interface and uses the Spacemit camera driver framework.
 
-## Revision History
-
-| Revision | Date      | Author | Description   |
-| ----------------- | ------------------ | --------------- | ---------------------- |
-| 1.0      | 2024-8-29 | lizhirong  | Initial draft |
 
 ## Quick Start Guide for Camera
 

@@ -1,11 +1,5 @@
 # Gstreamer 用户使用指南
 
-## Revision History
-
-| Revision | Date      | Author | Description   |
-| ----------------- | ------------------ | --------------- | ---------------------- |
-| 1.0      | 2025-1-10 | lizhirong  | Initial draft |
-
 ## GStreamer 介绍
 
 GStreamer 是一个开源的多媒体框架。该框架基于插件进行设计，所有的插件都能够被链接到任意的已经定义了的数据流管道中。

@@ -4,12 +4,6 @@ sidebar_position: 3
 
 # ISP PQ Tool User Guide
 
-## Revision History
-
-| Revision | Date       | Author    | Description                                                                                             |
-|----------|------------|-----------|---------------------------------------------------------------------------------------------------------|
-| 1.0      | 2024/07/09 | Zhirongli | Initial drift                                                                                           |
-| 1.1      | 2024/10/08 | Zhirongli | 更新部分参数描述;新增AEM运动检测;更新CCM插件功能;更新AWB插件功能;版本匹配AsrlspToolV3.2.0.0 |
 
 ## 简介
 

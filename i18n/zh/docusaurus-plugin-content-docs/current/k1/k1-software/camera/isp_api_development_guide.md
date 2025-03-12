@@ -4,11 +4,6 @@ sidebar_position: 2
 
 # ISP API 开发指南
 
-## Revision History
-
-| Revision | Date      | Author | Description   |
-| ----------------- | ------------------ | --------------- | ---------------------- |
-| 1.0      | 2024-8-29 | lizhirong  | Initial draft |
 
 ## SDK API 接口说明
 

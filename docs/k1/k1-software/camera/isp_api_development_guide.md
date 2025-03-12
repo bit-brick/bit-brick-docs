@@ -4,11 +4,7 @@ sidebar_position: 2
 
 # ISP API Development Guide
 
-## Revision History
 
-| Revision | Date      | Author | Description   |
-| ----------------- | ------------------ | --------------- | ---------------------- |
-| 1.0      | 2024-8-29 | lizhirong  | Initial draft |
 
 ## SDK API Interface Description
 
@@ -122,8 +118,8 @@ None.
 
 | Parameter Name | Description             |
 | --------------- | ----------------------- |
-| >0              | Structure size          |
-| <0              | Failure, value is error code |
+| &gt;0              | Structure size          |
+| &lt;0              | Failure, value is error code |
 
 [Requirements]
 

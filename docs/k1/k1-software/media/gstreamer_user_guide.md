@@ -1,8 +1,6 @@
 # Gstreamer User Guide
 
-## Revision History
 
-| Revision | Date      | Author | Description   |
 | ----------------- | ------------------ | --------------- | ---------------------- |
 | 1.0      | 2025-1-10 | lizhirong  | Initial draft |
 
