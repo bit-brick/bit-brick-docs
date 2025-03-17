@@ -35,20 +35,61 @@ sudo pip3 install pyyaml
 ```
 
 ## 下载
+### 准备工作
 
-使用repo（版本 >= 2.41）下载完整SDK。如果没有repo，参考[Git Repo 镜像使用帮助](https://mirrors.tuna.tsinghua.edu.cn/help/git-repo/)安装。
+Bianbu Linux代码托管在 Gitee 上，包含若干个仓库，使用 repo 管理，下载前需：
 
-Bianbu Linux代码托管在Gitee上，下载前先参考[这篇文档](https://gitee.com/help/articles/4191)设置SSH Keys。
+1. 下载前先参考[这篇文档](https://gitee.com/help/articles/4191)设置SSH Keys。
 
-下载代码，例如下载`bl-v2.0.y`分支：
+2. 使用 `repo --version` 确认版本和repo源，要求repo（版本 >= 2.41）和tsinghua源下载完整SDK，否则下载过程会异常。
+
 
 ```shell
-mkdir ~/bianbu-linux-2.0
-cd ~/bianbu-linux-2.0
-repo init -u git@gitee.com:bianbu-linux/manifests.git -b main -m bl-v2.0.y.xml
-repo sync
-repo start bl-v2.0.y --all
+repo --version
+repo version v2.48
+       (from https://mirrors.tuna.tsinghua.edu.cn/git/git-repo)
+       (tracking refs/heads/stable)
+       (Mon, 7 Oct 2024 18:44:19 +0000)
+repo launcher version 2.50
+       (from /usr/bin/repo)
+       (currently at 2.48)
+repo User-Agent git-repo/2.48 (Linux) git/2.25.1 Python/3.8.10
+git 2.25.1
+git User-Agent git/2.25.1 (Linux) git-repo/2.48
+Python 3.8.10 (default, Nov  7 2024, 13:10:47)
+[GCC 9.4.0]
+OS Linux 5.4.0-196-generic (#216-Ubuntu SMP Thu Aug 29 13:26:53 UTC 2024)
+CPU x86_64 (x86_64)
+Bug reports: https://issues.gerritcodereview.com/issues/new?component=1370071
 ```
+
+如果不满足版本要求或者非tsinghua源，参考[Git Repo 镜像使用帮助](https://mirrors.tuna.tsinghua.edu.cn/help/git-repo/)安装。
+
+
+### 版本分支
+
+[manifests](https://gitee.com/bianbu-linux/manifests) 仓库的 main 分支定义了不同版本的 manifest.xml，xml 文件指定了各仓库的路径和分支。
+
+| 版本 | manifest.xml | 分支 |
+| ---- | ------------- | ------------ |
+| v1.0 | bl-v1.0.y.xml | bl-v1.0.y    |
+| v2.0 | bl-v2.0.y.xml | bl-v2.0.y    |
+| v2.1 | k1-bl-v2.1.y.xml | k1-bl-v2.1.y |
+
+
+### 下载代码
+
+例如下载 2.1 版本的代码：
+
+```shell
+mkdir ~/bianbu-linux-2.1
+cd ~/bianbu-linux-2.1
+repo init -u git@gitee.com:bianbu-linux/manifests.git -b main -m k1-bl-v2.1.y.xml
+repo sync
+repo start k1-bl-v2.1.y --all
+```
+
+如需下载其他分支，通过 `-m` 指定不同的 manifest.xml 即可。
 
 推荐提前下载buildroot依赖的第三方软件包，并在团队内部分发，避免主服务器网络拥塞。
 
@@ -82,7 +123,7 @@ wget -c -r -nv -np -nH -R "index.html*" http://archive.spacemit.com/buildroot/dl
 
 ## 交叉编译
 
-### 首次完整编译
+### Bianbu Linux 2.x 首次完整编译
 
 首次编译，建议使用`make envconfig`完整编译。
 
@@ -94,31 +135,30 @@ wget -c -r -nv -np -nH -R "index.html*" http://archive.spacemit.com/buildroot/dl
 cd ~/bianbu-linux
 make envconfig
 Available configs in buildroot-ext/configs/:
-  1. spacemit_k1_defconfig
+  1. spacemit_k1_upstream_defconfig
   2. spacemit_k1_minimal_defconfig
   3. spacemit_k1_plt_defconfig
-  4. spacemit_k1_v2_defconfig
+  4. spacemit_k1_rt_defconfig
+  5. spacemit_k1_v2_defconfig
 
 
-your choice (1-4): 
+your choice (1-5): 
+
 ```
-
-编译Bianbu Linux 1.0版本，输入`1`，然后回车即开始编译。
-
-编译Bianbu Linux 2.0版本，输入`4`。
+编译Bianbu Linux 2.x版本，输入`5`，然后回车即开始编译。
 
 编译过程可能需要下载一些第三方软件包，具体耗时和网络环境相关。如果提前下载buildroot依赖的第三方软件包，推荐硬件配置编译耗时约为1小时。
 
 编译完成，可以看到：
 
 ```shell
-Images successfully packed into /home/username/bianbu-linux/output/k1/images/bianbu-linux-k1.zip
+Images successfully packed into /home/username/bianbu-linux/output/k1_v2/images/bianbu-linux-k1_v2.zip
 
 
 Generating sdcard.img...................................
-INFO: cmd: "mkdir -p "/home/username/bianbu-linux/output/k1/build/genimage.tmp"" (stderr):
-INFO: cmd: "rm -rf "/home/username/bianbu-linux/output/k1/build/genimage.tmp"/*" (stderr):
-INFO: cmd: "mkdir -p "/home/username/bianbu-linux/output/k1/images"" (stderr):
+INFO: cmd: "mkdir -p "/home/username/bianbu-linux/output/k1_v2/build/genimage.tmp"" (stderr):
+INFO: cmd: "rm -rf "/home/username/bianbu-linux/output/k1_v2/build/genimage.tmp"/*" (stderr):
+INFO: cmd: "mkdir -p "/home/username/bianbu-linux/output/k1_v2/images"" (stderr):
 INFO: hdimage(sdcard.img): adding partition 'bootinfo' from 'factory/bootinfo_sd.bin' ...
 INFO: hdimage(sdcard.img): adding partition 'fsbl' (in MBR) from 'factory/FSBL.bin' ...
 INFO: hdimage(sdcard.img): adding partition 'env' (in MBR) from 'env.bin' ...
@@ -133,14 +173,56 @@ INFO: hdimage(sdcard.img): adding partition '[GPT backup]' ...
 INFO: hdimage(sdcard.img): writing GPT
 INFO: hdimage(sdcard.img): writing protective MBR
 INFO: hdimage(sdcard.img): writing MBR
-Successfully generated at /home/username/work/bianbu-linux/output/k1/images/bianbu-linux-k1-sdcard.img
+Successfully generated at /home/username/work/bianbu-linux/output/k1_v2/images/bianbu-linux-k1_v2-sdcard.img
 ```
 
-其中`bianbu-linux-k1.zip`适用于Titan Flasher，或者解压后用fastboot刷机；`bianbu-linux-k1-sdcard.img`为sdcard固件，解压后可以用dd命令或者[balenaEtcher](https://etcher.balena.io/)写入sdcard。
+其中`bianbu-linux-k1_v2.zip`适用于Titan Flasher，或者解压后用fastboot刷机；`bianbu-linux-k1_v2-sdcard.img`为sdcard固件，解压后可以用dd命令或者[balenaEtcher](https://etcher.balena.io/)写入sdcard。
 
-> Titan Flasher使用指南：[刷机工具使用指南](https://developer.spacemit.com/#/documentation?token=O6wlwlXcoiBZUikVNh2cczhin5d)
+
+> Titan Flasher使用指南：[刷机工具使用指南](../../tools/titan.md)
 
 固件默认用户名：`root`，密码：`bianbu`。
+
+### Bianbu PREEMPT_RT Linux 首次完整编译
+
+首次编译，建议使用`make envconfig`完整编译。
+
+修改了`buildroot-ext/configs/spacemit_<solution>_defconfig`，要使用`make envconfig`编译。
+
+其他情况，使用`make`编译即可。
+
+```shell
+cd ~/bianbu-linux
+make envconfig
+Available configs in buildroot-ext/configs/:
+  1. spacemit_k1_defconfig
+  2. spacemit_k1_upstream_defconfig
+  3. spacemit_k1_minimal_defconfig
+  4. spacemit_k1_plt_defconfig
+  5. spacemit_k1_rt_defconfig
+  6. spacemit_k1_v2_defconfig
+
+
+your choice (1-6): 
+
+```
+
+Bianbu Linux 2.0支持实时Linux(PREEMPT_RT)内核编译，输入`5`,然后回车即开始编译，首次编译过程中会自动打上PREEMPT_RT补丁
+
+```shell
+buildroot-ext/configs//spacemit_k1_rt_defconfig
+Patching linux with PREEMPT_RT patch
+Applying rt-linux-support.patch using patch:
+...
+```
+
+编译完成，可以看到：
+
+```shell
+Images successfully packed into /home/username/bianbu-linux/output/k1_rt/images/bianbu-linux-k1_rt.zip
+...
+Successfully generated at /home/username/work/bianbu-linux/output/k1_rt/images/bianbu-linux-k1_rt-sdcard.img
+```
 
 ### 配置
 
@@ -152,7 +234,7 @@ Successfully generated at /home/username/work/bianbu-linux/output/k1/images/bian
 make menuconfig
 ```
 
-保存配置，默认保存到`buildroot-ext/configs/spacemit_k1_defconfig`：
+保存配置，默认保存到`buildroot-ext/configs/spacemit_k1_v2_defconfig`：
 
 ```shell
 make savedefconfig
@@ -166,7 +248,7 @@ make savedefconfig
 make linux-menuconfig
 ```
 
-保存配置，默认保存到`bsp-src/linux-6.1/arch/riscv/configs/k1_defconfig`：
+保存配置，默认保存到`bsp-src/linux-6.6/arch/riscv/configs/k1_defconfig`：
 
 ```shell
 make linux-update-defconfig
@@ -185,6 +267,10 @@ make uboot-menuconfig
 ```shell
 make uboot-update-defconfig
 ```
+
+### 再次完整编译
+
+如果已经使用`make envconfig`完整编译，可以直接使用`make`再次完整编译。
 
 ### 编译指定包
 
@@ -213,72 +299,47 @@ make uboot-rebuild
 make
 ```
 
-### 单独编译
+## 单独编译
 
 交叉编译器下载地址：`http://archive.spacemit.com/toolchain/`，解压即可使用。
+
+例如`spacemit-toolchain-linux-glibc-x86_64-v1.0.0.tar.xz`：
+
+```shell
+sudo tar -Jxf /path/to/spacemit-toolchain-linux-glibc-x86_64-v1.0.0.tar.xz -C /opt
+```
 
 设置环境变量：
 
 ```shell
-export PATH=/path/to/spacemit-toolchain-linux-glibc-x86_64-v0.3.3/bin:$PATH
+export PATH=/opt/spacemit-toolchain-linux-glibc-x86_64-v0.3.3/bin:$PATH
 export CROSS_COMPILE=riscv64-unknown-linux-gnu-
 export ARCH=riscv
 ```
 
-#### 编译opensbi
+### 编译 opensbi
 
 ```shell
-cd /path/to/opensbi
+cd bsp-src/opensbi
 make -j$(nproc) PLATFORM_DEFCONFIG=k1_defconfig PLATFORM=generic
 ```
 
-#### 编译u-boot
+编译最终生成 `platform/generic/firmware/fw_dynamic.itb`。
+
+### 编译 u-boot
 
 ```shell
-cd /path/to/uboot-2022.10
+cd bsp-src/uboot-2022.10
 make k1_defconfig
 make -j$(nproc)
 ```
 
-编译会根据`board/spacemit/k1-x/k1-x.env`生成`u-boot-env-default.bin`，对应分区表`env`分区的镜像。
-
-#### 编译linux
-
-```shell
-cd /path/to/linux-6.1
-make k1_defconfig
-LOCALVERSION="" make -j$(nproc)
-```
-
-## 本地编译
-
-将opensbi、u-boot或linux代码下载到Bianbu Desktop，即可本地编译。
-
-### 编译opensbi
-
-```shell
-cd /path/to/opensbi
-make -j$(nproc) PLATFORM_DEFCONFIG=k1_defconfig PLATFORM=generic
-```
-
-将`platform/generic/firmware/fw_dynamic.itb`用fastboot写入opensbi分区即可。
-
-### 编译u-boot
-
-```shell
-cd /path/to/uboot-2022.10
-make k1_defconfig
-make -j$(nproc)
-```
-
-将`FSBL.bin`、`u-boot-env-default.bin`和`u-boot.itb`用fastboot写入对应分区即可。
+编译会根据 `board/spacemit/k1-x/k1-x.env` 生成 `u-boot-env-default.bin`，对应分区表 `env` 分区的镜像，以及生成 `FSBL.bin` 和 `u-boot.itb`。
 
 ### 编译linux
 
 ```shell
-cd /path/to/linux-6.1
+cd bsp-src/linux-6.6
 make k1_defconfig
 LOCALVERSION="" make -j$(nproc)
 ```
-
-将`arch/riscv/boot/Image.gz.itb`和`arch/riscv/boot/dts/spacemit/*.dtb`替换`bootfs`分区对应文件即可。
