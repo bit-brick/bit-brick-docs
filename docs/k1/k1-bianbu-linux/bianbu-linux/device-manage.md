@@ -224,3 +224,419 @@ The SDK also supports reading the following information from the EEPROM:
 Among them, the MAC Address will be updated to the dtb as the physical address of the network card.
 ### Number Writing Tool
 Under development.
+
+
+
+
+
+
+
+### k1-x_bit-brick.dtb的生成
+因为官方的u-boot源码中没有添加我们的k1-x_bit-brick.dtb，所以我们需要自己按照上述步骤添加。
+需要修改的文件有以下几个
+
+```shell
+bsp-src/uboot-2022.10/arch/riscv/dts/k1-x_bit-brick.dts
+bsp-src/uboot-2022.10/arch/riscv/dts/Makefile
+bsp-src/uboot-2022.10/board/spacemit/k1-x/configs/uboot_fdt.its
+buildroot-ext/configs/spacemit_k1_defconfig
+```
+
+1、添加`bsp-src/uboot-2022.10/arch/riscv/dts/k1-x_bit-brick.dts`文件
+```
+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
+/* Copyright (c) 2023 Spacemit, Inc */
+
+/dts-v1/;
+
+#include "k1-x.dtsi"
+#include "k1-x_pinctrl.dtsi"
+#include "k1-x_spm8821.dtsi"
+
+/ {
+	model = "bit-brick K1 board";
+
+	aliases {
+		efuse_power = &ldo_31;
+	};
+
+	memory@0 {
+		device_type = "memory";
+		reg = <0x00000000 0x00000000 0x00000000 0x80000000>;
+	};
+
+	chosen {
+		bootargs = "earlycon=sbi console=ttyS0,115200 debug loglevel=8,initcall_debug=1 rdinit=/init.tmp";
+		stdout-path = "serial0:115200n8";
+	};
+	usb1hub: usb1hub {
+		compatible = "spacemit,usb-hub";
+		vbus-gpios = <&gpio 127 0>;	/* for usb2 hub output vbus */
+		status = "okay";
+	};
+	usb2hub: usb2hub {
+		compatible = "spacemit,usb-hub";
+		vbus-gpios = <&gpio 123 0>;	/* for usb2 hub output vbus */
+		status = "okay";
+	};
+
+	usb3hub: usb3hub {
+		compatible = "spacemit,usb-hub";
+		vbus-gpios = <&gpio 79 0>;	/* gpio_79 for usb3 pwren */
+		status = "okay";
+	};
+
+};
+
+&cpus {
+	timebase-frequency = <24000000>;
+};
+
+&uart0 {
+	status = "okay";
+};
+
+&i2c0 {
+	status = "disabled";
+};
+
+&i2c1 {
+	status = "disabled";
+};
+
+&i2c2 {
+	#address-cells = <1>;
+	#size-cells = <0>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_i2c2_0>;
+	status = "okay";
+
+	eeprom@50{
+		compatible = "atmel,24c02";
+		reg = <0x50>;
+		vin-supply-names = "eeprom_1v8";
+		status = "okay";
+	};
+};
+
+&i2c3 {
+	status = "disabled";
+};
+
+&i2c4 {
+	clock-frequency = <400000>;
+	status = "okay";
+};
+
+&i2c5 {
+	status = "disabled";
+};
+
+&i2c6 {
+	status = "disabled";
+};
+
+&i2c7 {
+	status = "disabled";
+};
+
+&pinctrl {
+	pinctrl-single,gpio-range = <
+		&range GPIO_49  2 (MUX_MODE0 | EDGE_NONE | PULL_UP   | PAD_3V_DS4)
+		&range GPIO_58  1 (MUX_MODE0 | EDGE_NONE | PULL_DOWN | PAD_1V8_DS2)
+		&range GPIO_63  1 (MUX_MODE0 | EDGE_NONE | PULL_DOWN | PAD_1V8_DS2)
+		&range GPIO_64  1 (MUX_MODE1 | EDGE_NONE | PULL_DOWN | PAD_1V8_DS2)
+		&range GPIO_65  1 (MUX_MODE0 | EDGE_NONE | PULL_UP   | PAD_1V8_DS2)
+		&range GPIO_66  2 (MUX_MODE0 | EDGE_NONE | PULL_DOWN | PAD_1V8_DS2)
+		&range PRI_TDI  2 (MUX_MODE1 | EDGE_NONE | PULL_UP   | PAD_1V8_DS2)
+		&range PRI_TCK  1 (MUX_MODE1 | EDGE_NONE | PULL_DOWN | PAD_1V8_DS2)
+		&range PRI_TDO  1 (MUX_MODE1 | EDGE_NONE | PULL_UP   | PAD_1V8_DS2)
+		&range GPIO_74  1 (MUX_MODE0 | EDGE_NONE | PULL_UP   | PAD_1V8_DS2)
+		&range GPIO_79  1 (MUX_MODE0 | EDGE_NONE | PULL_UP   | PAD_1V8_DS2)
+		&range GPIO_80  1 (MUX_MODE0 | EDGE_NONE | PULL_UP   | PAD_3V_DS4)
+		&range GPIO_81  3 (MUX_MODE0 | EDGE_NONE | PULL_UP   | PAD_1V8_DS2)
+		&range GPIO_90  1 (MUX_MODE0 | EDGE_NONE | PULL_DOWN | PAD_1V8_DS2)
+		&range GPIO_91  2 (MUX_MODE0 | EDGE_NONE | PULL_UP   | PAD_1V8_DS2)
+		&range DVL0     2 (MUX_MODE1 | EDGE_NONE | PULL_DOWN | PAD_1V8_DS2)
+		&range DVL1     1 (MUX_MODE1 | EDGE_NONE | PULL_DOWN | PAD_1V8_DS0)
+		&range GPIO_110 1 (MUX_MODE0 | EDGE_NONE | PULL_DOWN | PAD_1V8_DS2)
+		&range GPIO_114 1 (MUX_MODE0 | EDGE_NONE | PULL_DOWN | PAD_1V8_DS2)
+		&range GPIO_115 2 (MUX_MODE0 | EDGE_NONE | PULL_DOWN | PAD_1V8_DS2)
+		&range GPIO_123 1 (MUX_MODE0 | EDGE_NONE | PULL_DOWN | PAD_1V8_DS0)
+		&range GPIO_124 1 (MUX_MODE0 | EDGE_NONE | PULL_UP   | PAD_1V8_DS2)
+		&range GPIO_125 3 (MUX_MODE0 | EDGE_NONE | PULL_DOWN | PAD_1V8_DS2)
+		&range GPIO_127 1 (MUX_MODE0 | EDGE_NONE | PULL_UP   | PAD_1V8_DS2)
+	>;
+
+	usbp1_vbus: usbp1_vbus {
+		pinctrl-single,pins =<
+			K1X_PADCONF(GPIO_66, MUX_MODE0, (EDGE_NONE | PULL_UP | PAD_1V8_DS2))    /* drive_vbus1_iso */
+		>;
+	};
+
+	gpio80_pmx_func0: gpio80_pmx_func0 {
+		pinctrl-single,pins = <
+			K1X_PADCONF(GPIO_80, MUX_MODE0, (EDGE_BOTH | PULL_UP | PAD_3V_DS4))  /* mmc cd */
+		>;
+	};
+};
+
+&gpio{
+	gpio-ranges = <
+		&pinctrl 49 GPIO_49 2
+		&pinctrl 58 GPIO_58 1
+		&pinctrl 63 GPIO_63 1
+		&pinctrl 65 GPIO_65 3
+		&pinctrl 70 PRI_TDI 4
+		&pinctrl 74 GPIO_74 1
+		&pinctrl 79 GPIO_79 1
+		&pinctrl 80 GPIO_80 4
+		&pinctrl 90 GPIO_90 3
+		&pinctrl 96 DVL0 2
+		&pinctrl 110 GPIO_110 1
+		&pinctrl 114 GPIO_114 3
+		&pinctrl 123 GPIO_123 5
+		&pinctrl 127 GPIO_127 1
+	>;
+};
+
+&udc {
+	status = "okay";
+};
+
+//&usbphy1 {
+//	status = "okay";
+//};
+
+//&ehci1 {
+//	vbus-supply = <&usb2hub>;
+//	status = "okay";
+//};
+
+&usb2phy {
+	status = "okay";
+};
+
+&combphy {
+	status = "okay";
+};
+
+&usbdrd3 {
+	status = "okay";
+	vbus-supply = <&usb3hub>;
+	dwc3@c0a00000 {
+		dr_mode = "host";
+		phy_type = "utmi";
+		snps,dis_enblslpm_quirk;
+		snps,dis_u2_susphy_quirk;
+		snps,dis_u3_susphy_quirk;
+		snps,dis-del-phy-power-chg-quirk;
+		snps,dis-tx-ipgap-linecheck-quirk;
+	};
+};
+&sdhci0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_mmc1 &gpio80_pmx_func0>;
+	bus-width = <4>;
+	cd-gpios = <&gpio 80 0>;
+	cd-inverted;
+	cap-sd-highspeed;
+	sdh-phy-module = <0>;
+	clk-src-freq = <204800000>;
+	status = "okay";
+};
+
+/* eMMC */
+&sdhci2 {
+	bus-width = <8>;
+	non-removable;
+	mmc-hs400-1_8v;
+	mmc-hs400-enhanced-strobe;
+	sdh-phy-module = <1>;
+	clk-src-freq = <375000000>;
+	status = "okay";
+};
+
+&eth0 {
+	status = "okay";
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_gmac0>;
+
+	phy-reset-pin = <110>;
+
+	clk_tuning_enable;
+	clk-tuning-by-delayline;
+	tx-phase = <90>;
+	rx-phase = <73>;
+
+	phy-mode = "rgmii";
+	phy-addr = <1>;
+	phy-handle = <&rgmii>;
+
+	ref-clock-from-phy;
+
+	mdio {
+		#address-cells = <0x1>;
+		#size-cells = <0x0>;
+		rgmii: phy@0 {
+			compatible = "ethernet-phy-id001c.c916";
+			device_type = "ethernet-phy";
+			reg = <0x1>;
+		};
+	};
+};
+
+&pcie0_rc {
+	status = "disabled";
+};
+
+&pcie1_rc {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_pcie1_3>;
+	status = "okay";
+};
+
+&qspi {
+	status = "okay";
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_qspi>;
+
+	flash@0 {
+		compatible = "jedec,spi-nor";
+		reg = <0>;
+		spi-max-frequency = <26500000>;
+		m25p,fast-read;
+		broken-flash-reset;
+		status = "okay";
+	};
+};
+
+&efuse {
+	status = "okay";
+};
+
+&dpu {
+	status = "okay";
+};
+
+&hdmi {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_hdmi_0>;
+	status = "okay";
+};
+
+&mipi_dsi {
+	status = "disabled";
+};
+
+&panel {
+	dcp-gpios = <&gpio 82 0>;
+	dcn-gpios = <&gpio 83 0>;
+	bl-gpios = <&gpio 44 0>;
+	reset-gpios = <&gpio 81 0>;
+	status = "disabled";
+};
+```
+
+2、Makefile 和 uboot_fdt.its 的改动如下
+
+``` diff
+diff --git a/arch/riscv/dts/Makefile b/arch/riscv/dts/Makefile
+index 9edfa62c..03842f7c 100644
+--- a/arch/riscv/dts/Makefile
++++ b/arch/riscv/dts/Makefile
+@@ -15,7 +15,7 @@ dtb-$(CONFIG_TARGET_SPACEMIT_K1X) += k1-x_evb.dtb k1-x_deb2.dtb k1-x_deb1.dtb k1
+                                     k1-x_lpi3a.dtb k1-x_MUSE-Card.dtb k1-x_MUSE-Paper.dtb \
+                                     k1-x_MUSE-Paper-mini-4g.dtb k1-x_baton-camera.dtb \
+                                     k1-x_FusionOne.dtb k1-x_orangepi-rv2.dtb k1-x_ZT001H.dtb \
+-                                    k
+1-x_uav.dtb k1-x_MUSE-Paper2.dtb
++                                    k
+1-x_uav.dtb k1-x_MUSE-Paper2.dtb k1-x_
+bit-brick.dtb
+ 
+ include $(srctree)/scripts/Makefile.d
+ts
+ 
+diff --git a/board/spacemit/k1-x/confi
+gs/uboot_fdt.its b/board/spacemit/k1-x
+/configs/uboot_fdt.its
+index 3b90918b..1bb2691b 100644
+--- a/board/spacemit/k1-x/configs/uboo
+t_fdt.its
++++ b/board/spacemit/k1-x/configs/uboo
+t_fdt.its
+@@ -199,6 +199,15 @@
+                                algo =
+ "crc32";
+                        };
+                };
++               fdt_21 {
++                       description = 
+"k1-x_bit-brick";
++                       type = "flat_d
+t";
++                       compression = 
+"none";
++                       data = /incbin
+/("../dtb/k1-x_bit-brick.dtb");
++                       hash-1 {
++                               algo =
+ "crc32";
++                       };
++               };
+        };
+        configurations {
+@@ -303,5 +312,10 @@
+                        loadables = "uboot";
+                        fdt = "fdt_20";
+                };
++               conf_21 {
++                       description = "k1-x_bit-brick";
++                       loadables = "uboot";
++                       fdt = "fdt_21";
++               };
+        };
+ };
+```
+
+3、buildroot-ext/configs/spacemit_k1_defconfig 的修改如下
+```diff
+diff --git a/configs/spacemit_k1_v2_defconfig b/configs/spacemit_k1_v2_defconfig
+index ffbf9e9..565c6de 100644
+--- a/configs/spacemit_k1_v2_defconfig
++++ b/configs/spacemit_k1_v2_defconfig
+@@ -39,7 +39,7 @@ BR2_LINUX_KERNEL_IMAGE_TARGET_CUSTOM=y
+ BR2_LINUX_KERNEL_IMAGE_TARGET_NAME="Image"
+ BR2_LINUX_KERNEL_IMAGE_NAME="Image"
+ BR2_LINUX_KERNEL_DTS_SUPPORT=y
+-BR2_LINUX_KERNEL_INTREE_DTS_NAME="spacemit/k1-x_deb1 spacemit/k1-x_deb2 spacemit/k1-x_evb spacemit/k1-x_hs450 spacemit/k1-x_kx312 spacemit/k1-x_mingo spacemit/k1-x_MUSE-N1 spacemit/k1-x_MUSE-Pi spacemit/k1-x_MINI-PC spacemit/k1-x_MUSE-Book spacemit/k1-x_MUSE-Paper spacemit/k1-x_MUSE-Card spacemit/k1-x_milkv-jupiter spacemit/m1-x_milkv-jupiter spacemit/k1-x_lpi3a spacemit/k1-x_MUSE-Paper-mini-4g spacemit/k1-x_baton-camera spacemit/k1-x_FusionOne spacemit/k1-x_uav spacemit/k1-x_orangepi-rv2 spacemit/k1-x_ZT001H spacemit/k1-x_MUSE-Paper2"
++BR2_LINUX_KERNEL_INTREE_DTS_NAME="spacemit/k1-x_deb1 spacemit/k1-x_deb2 spacemit/k1-x_evb spacemit/k1-x_hs450 spacemit/k1-x_kx312 spacemit/k1-x_mingo spacemit/k1-x_MUSE-N1 spacemit/k1-x_MUSE-Pi spacemit/k1-x_MINI-PC spacemit/k1-x_MUSE-Book spacemit/k1-x_MUSE-Paper spacemit/k1-x_MUSE-Card spacemit/k1-x_milkv-jupiter spacemit/m1-x_milkv-jupiter spacemit/k1-x_lpi3a spacemit/k1-x_MUSE-Paper-mini-4g spacemit/k1-x_baton-camera spacemit/k1-x_FusionOne spacemit/k1-x_uav spacemit/k1-x_orangepi-rv2 spacemit/k1-x_ZT001H spacemit/k1-x_MUSE-Paper2 spacemit/k1-x_bit-brick"
+ BR2_PACKAGE_LINUX_TOOLS_GPIO=y
+ BR2_PACKAGE_LINUX_TOOLS_PERF=y
+ BR2_PACKAGE_LINUX_TOOLS_PERF_SCRIPTS=y
+```
+
+修改之后删除已编译的uboot文件，路径在 ./output/k1_v2/build/uboot-custom 下；
+再重新编译
+```
+make evnconfig
+## 选择5
+make
+```
+编译完成后即可得到一个带k1-x_bit-brick.dtb的固件。
+
+可用如下命令查看是否生成了k1-x_bit-brick.dtb。
+~~~
+ls ./output/k1_v2/images/bootfs
+bianbu.bmp             k1-x_FusionOne.dtb      k1-x_MUSE-N1.dtb
+env_k1-x.txt           k1-x_hs450.dtb          k1-x_MUSE-Paper2.dtb
+Image                  k1-x_kx312.dtb          k1-x_MUSE-Paper.dtb
+initramfs-generic.img  k1-x_lpi3a.dtb          k1-x_MUSE-Paper-mini-4g.dtb
+k1-x_baton-camera.dtb  k1-x_milkv-jupiter.dtb  k1-x_MUSE-Pi.dtb
+k1-x_bit-brick.dtb     k1-x_mingo.dtb          k1-x_orangepi-rv2.dtb
+k1-x_deb1.dtb          k1-x_MINI-PC.dtb        k1-x_uav.dtb
+k1-x_deb2.dtb          k1-x_MUSE-Book.dtb      k1-x_ZT001H.dtb
+k1-x_evb.dtb           k1-x_MUSE-Card.dtb      m1-x_milkv-jupiter.dtb
+
+~~~
