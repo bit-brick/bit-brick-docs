@@ -161,7 +161,7 @@ bsp-src/uboot-2022.10/arch/riscv/dts/k1-x_deb1.dts
 - `atmel,24c02`
 ### Adding a New EEPROM
 1. Modify `bsp-src/uboot-2022.10/arch/riscv/dts/k1-x_spl.dts` to update the I2C address of the EEPROM, for example, the new address is `0xA0`.
-   ```c
+   ``` diff
    @@ -121,7 +121,7 @@
     		eeprom@50{
     			compatible = "atmel,24c02";
@@ -173,7 +173,7 @@ bsp-src/uboot-2022.10/arch/riscv/dts/k1-x_deb1.dts
     			#size-cells = <1>;
    ```
 2. Modify `bsp-src/uboot-2022.10/arch/riscv/dts/k1-x_deb1.dts` to add the configuration of the new EEPROM.
-   ```c
+   ``` diff
    @@ -60,9 +60,9 @@
     	pinctrl-0 = <&pinctrl_i2c2_0>;
     	status = "okay";
@@ -242,7 +242,8 @@ buildroot-ext/configs/spacemit_k1_defconfig
 ```
 
 1、 add `bsp-src/uboot-2022.10/arch/riscv/dts/k1-x_bit-brick.dts` file
-```
+
+``` c
 // SPDX-License-Identifier: (GPL-2.0 OR MIT)
 /* Copyright (c) 2023 Spacemit, Inc */
 

@@ -197,7 +197,7 @@ bsp-src/uboot-2022.10/arch/riscv/dts/k1-x_deb1.dts
 
 1. 修改`bsp-src/uboot-2022.10/arch/riscv/dts/k1-x_spl.dts`，更新EEPROM的I2C地址，例如新地址为`0xA0`。
 
-   ```c
+   ``` diff
    @@ -121,7 +121,7 @@
     		eeprom@50{
     			compatible = "atmel,24c02";
@@ -211,7 +211,7 @@ bsp-src/uboot-2022.10/arch/riscv/dts/k1-x_deb1.dts
 
 2. 修改`bsp-src/uboot-2022.10/arch/riscv/dts/k1-x_deb1.dts`，添加新EEPROM的配置。
 
-   ```c
+   ``` diff
    @@ -60,9 +60,9 @@
     	pinctrl-0 = <&pinctrl_i2c2_0>;
     	status = "okay";
@@ -295,7 +295,7 @@ buildroot-ext/configs/spacemit_k1_defconfig
 ```
 
 1、添加`bsp-src/uboot-2022.10/arch/riscv/dts/k1-x_bit-brick.dts`文件
-```
+``` c
 // SPDX-License-Identifier: (GPL-2.0 OR MIT)
 /* Copyright (c) 2023 Spacemit, Inc */
 
