@@ -230,10 +230,9 @@ Under development.
 
 
 
-
-### k1-x_bit-brick.dtb的生成
-因为官方的u-boot源码中没有添加我们的k1-x_bit-brick.dtb，所以我们需要自己按照上述步骤添加。
-需要修改的文件有以下几个
+### Generating k1-x_bit-brick.dtb
+Since the official u-boot source code does not include our k1-x_bit-brick.dtb, we need to add it ourselves following the steps above.
+The files that need to be modified are as follows:
 
 ```shell
 bsp-src/uboot-2022.10/arch/riscv/dts/k1-x_bit-brick.dts
@@ -242,7 +241,7 @@ bsp-src/uboot-2022.10/board/spacemit/k1-x/configs/uboot_fdt.its
 buildroot-ext/configs/spacemit_k1_defconfig
 ```
 
-1、添加`bsp-src/uboot-2022.10/arch/riscv/dts/k1-x_bit-brick.dts`文件
+1、 add `bsp-src/uboot-2022.10/arch/riscv/dts/k1-x_bit-brick.dts` file
 ```
 // SPDX-License-Identifier: (GPL-2.0 OR MIT)
 /* Copyright (c) 2023 Spacemit, Inc */
@@ -538,69 +537,56 @@ buildroot-ext/configs/spacemit_k1_defconfig
 };
 ```
 
-2、Makefile 和 uboot_fdt.its 的改动如下
-
-``` diff
+2. The modifications to `Makefile` and `uboot_fdt.its` are as follows:
+```diff
 diff --git a/arch/riscv/dts/Makefile b/arch/riscv/dts/Makefile
 index 9edfa62c..03842f7c 100644
 --- a/arch/riscv/dts/Makefile
 +++ b/arch/riscv/dts/Makefile
 @@ -15,7 +15,7 @@ dtb-$(CONFIG_TARGET_SPACEMIT_K1X) += k1-x_evb.dtb k1-x_deb2.dtb k1-x_deb1.dtb k1
-                                     k1-x_lpi3a.dtb k1-x_MUSE-Card.dtb k1-x_MUSE-Paper.dtb \
-                                     k1-x_MUSE-Paper-mini-4g.dtb k1-x_baton-camera.dtb \
-                                     k1-x_FusionOne.dtb k1-x_orangepi-rv2.dtb k1-x_ZT001H.dtb \
--                                    k
-1-x_uav.dtb k1-x_MUSE-Paper2.dtb
-+                                    k
-1-x_uav.dtb k1-x_MUSE-Paper2.dtb k1-x_
-bit-brick.dtb
+									 k1-x_lpi3a.dtb k1-x_MUSE-Card.dtb k1-x_MUSE-Paper.dtb \
+									 k1-x_MUSE-Paper-mini-4g.dtb k1-x_baton-camera.dtb \
+									 k1-x_FusionOne.dtb k1-x_orangepi-rv2.dtb k1-x_ZT001H.dtb \
+-                                    k1-x_uav.dtb k1-x_MUSE-Paper2.dtb
++                                    k1-x_uav.dtb k1-x_MUSE-Paper2.dtb k1-x_bit-brick.dtb
  
- include $(srctree)/scripts/Makefile.d
-ts
+ include $(srctree)/scripts/Makefile.dts
  
-diff --git a/board/spacemit/k1-x/confi
-gs/uboot_fdt.its b/board/spacemit/k1-x
-/configs/uboot_fdt.its
+diff --git a/board/spacemit/k1-x/configs/uboot_fdt.its b/board/spacemit/k1-x/configs/uboot_fdt.its
 index 3b90918b..1bb2691b 100644
---- a/board/spacemit/k1-x/configs/uboo
-t_fdt.its
-+++ b/board/spacemit/k1-x/configs/uboo
-t_fdt.its
+--- a/board/spacemit/k1-x/configs/uboot_fdt.its
++++ b/board/spacemit/k1-x/configs/uboot_fdt.its
 @@ -199,6 +199,15 @@
-                                algo =
- "crc32";
-                        };
-                };
+								algo = "crc32";
+						};
+				};
 +               fdt_21 {
-+                       description = 
-"k1-x_bit-brick";
-+                       type = "flat_d
-t";
-+                       compression = 
-"none";
-+                       data = /incbin
-/("../dtb/k1-x_bit-brick.dtb");
++                       description = "k1-x_bit-brick";
++                       type = "flat_dt";
++                       compression = "none";
++                       data = /incbin/("../dtb/k1-x_bit-brick.dtb");
 +                       hash-1 {
-+                               algo =
- "crc32";
++                               algo = "crc32";
 +                       };
 +               };
-        };
-        configurations {
+		};
+ 
+		configurations {
 @@ -303,5 +312,10 @@
-                        loadables = "uboot";
-                        fdt = "fdt_20";
-                };
+						loadables = "uboot";
+						fdt = "fdt_20";
+				};
 +               conf_21 {
 +                       description = "k1-x_bit-brick";
 +                       loadables = "uboot";
 +                       fdt = "fdt_21";
 +               };
-        };
+		};
  };
 ```
 
-3、buildroot-ext/configs/spacemit_k1_defconfig 的修改如下
+
+3. The modifications to `buildroot-ext/configs/spacemit_k1_defconfig` are as follows:
 ```diff
 diff --git a/configs/spacemit_k1_v2_defconfig b/configs/spacemit_k1_v2_defconfig
 index ffbf9e9..565c6de 100644
@@ -616,17 +602,16 @@ index ffbf9e9..565c6de 100644
  BR2_PACKAGE_LINUX_TOOLS_PERF=y
  BR2_PACKAGE_LINUX_TOOLS_PERF_SCRIPTS=y
 ```
-
-修改之后删除已编译的uboot文件，路径在 ./output/k1_v2/build/uboot-custom 下；
-再重新编译
-```
+After modification, delete the compiled uboot files located at `./output/k1_v2/build/uboot-custom`;
+Then recompile:
+```bash
 make evnconfig
-## 选择5
+## Select 5
 make
 ```
-编译完成后即可得到一个带k1-x_bit-brick.dtb的固件。
+After compilation, you will get a firmware with `k1-x_bit-brick.dtb`.
 
-可用如下命令查看是否生成了k1-x_bit-brick.dtb。
+You can use the following command to check if `k1-x_bit-brick.dtb` has been generated.
 ~~~
 ls ./output/k1_v2/images/bootfs
 bianbu.bmp             k1-x_FusionOne.dtb      k1-x_MUSE-N1.dtb

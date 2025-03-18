@@ -592,7 +592,7 @@ buildroot-ext/configs/spacemit_k1_defconfig
 
 2、Makefile 和 uboot_fdt.its 的改动如下
 
-``` diff
+```diff
 diff --git a/arch/riscv/dts/Makefile b/arch/riscv/dts/Makefile
 index 9edfa62c..03842f7c 100644
 --- a/arch/riscv/dts/Makefile
@@ -601,43 +601,30 @@ index 9edfa62c..03842f7c 100644
                                      k1-x_lpi3a.dtb k1-x_MUSE-Card.dtb k1-x_MUSE-Paper.dtb \
                                      k1-x_MUSE-Paper-mini-4g.dtb k1-x_baton-camera.dtb \
                                      k1-x_FusionOne.dtb k1-x_orangepi-rv2.dtb k1-x_ZT001H.dtb \
--                                    k
-1-x_uav.dtb k1-x_MUSE-Paper2.dtb
-+                                    k
-1-x_uav.dtb k1-x_MUSE-Paper2.dtb k1-x_
-bit-brick.dtb
+-                                    k1-x_uav.dtb k1-x_MUSE-Paper2.dtb
++                                    k1-x_uav.dtb k1-x_MUSE-Paper2.dtb k1-x_bit-brick.dtb
  
- include $(srctree)/scripts/Makefile.d
-ts
+ include $(srctree)/scripts/Makefile.dts
  
-diff --git a/board/spacemit/k1-x/confi
-gs/uboot_fdt.its b/board/spacemit/k1-x
-/configs/uboot_fdt.its
+diff --git a/board/spacemit/k1-x/configs/uboot_fdt.its b/board/spacemit/k1-x/configs/uboot_fdt.its
 index 3b90918b..1bb2691b 100644
---- a/board/spacemit/k1-x/configs/uboo
-t_fdt.its
-+++ b/board/spacemit/k1-x/configs/uboo
-t_fdt.its
+--- a/board/spacemit/k1-x/configs/uboot_fdt.its
++++ b/board/spacemit/k1-x/configs/uboot_fdt.its
 @@ -199,6 +199,15 @@
-                                algo =
- "crc32";
+                                algo = "crc32";
                         };
                 };
 +               fdt_21 {
-+                       description = 
-"k1-x_bit-brick";
-+                       type = "flat_d
-t";
-+                       compression = 
-"none";
-+                       data = /incbin
-/("../dtb/k1-x_bit-brick.dtb");
++                       description = "k1-x_bit-brick";
++                       type = "flat_dt";
++                       compression = "none";
++                       data = /incbin/("../dtb/k1-x_bit-brick.dtb");
 +                       hash-1 {
-+                               algo =
- "crc32";
++                               algo = "crc32";
 +                       };
 +               };
         };
+ 
         configurations {
 @@ -303,5 +312,10 @@
                         loadables = "uboot";

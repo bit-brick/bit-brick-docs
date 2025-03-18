@@ -61,6 +61,42 @@ const config: Config = {
       } satisfies Preset.Options,
     ],
   ],
+  themeConfig: {
+    prism: {
+      theme: prismThemes.github,
+      darkTheme: prismThemes.dracula,
+      additionalLanguages: [
+        // 核心语言
+        'diff',          // Git差异高亮
+        'bash',          // Shell脚本
+        'powershell',    // PowerShell
+        'python',       // Python
+        'java',         // Java
+        'c',            // C
+        'cpp',          // C++
+        'csharp',       // C#
+        'go',           // Golang
+        'ruby',         // Ruby
+        'php',          // PHP
+        'swift',        // Swift
+        'kotlin',       // Kotlin
+        'rust',         // Rust
+        
+        // 前端相关
+        'javascript',
+        'typescript',
+        'jsx',          // React JSX
+        'tsx',          // React TSX
+        'css',
+        'scss',
+        'sass',
+        'less',
+        
+        
+        
+      ],
+    },
+  } satisfies Preset.ThemeConfig,
 
   // themeConfig: {
   //   // Replace with your project's social card
