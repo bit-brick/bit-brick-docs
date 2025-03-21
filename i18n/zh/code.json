@@ -164,6 +164,18 @@
   "pione.block9.url": {
     "message": "zh/docs/k1/news/ros2-zh"
   },
+  "k1pro.block1.title": {
+    "message": "快速开始"
+  },
+  "k1pro.block1.desc": {
+    "message": "让你快速入门使用K1-Pro"
+  },
+  "k1pro.block2.title": {
+    "message": "操作系统"
+  },
+  "k1pro.block2.desc": {
+    "message": "K1-Pro 定制的专属系统"
+  },
   "theme.ErrorPageContent.title": {
     "message": "页面已崩溃。",
     "description": "The title of the fallback page when the page crashed"

@@ -68,18 +68,18 @@ const K1: FeatureItem[] = [
   },
 ];
 
-const SSOM_K1: FeatureItem[] = [
+const K1_Pro: FeatureItem[] = [
   {
-    title: <Translate id='pione.block6.title'>Datasheets</Translate>,
-    imageSrc: require('@site/static/img/index/icon/datasheet.png').default,
-    description: (<><Translate id='pione.block6.desc'>PDF-based documention</Translate></>),
-    url: "docs/k1/datasheets"
+    title: <Translate id='k1pro.block1.title'>Getting started</Translate>,
+    imageSrc: require('@site/static/img/index/icon/gettingstarted.png').default,
+    description: (<><Translate id='k1pro.block1.desc'>How to get started with your K1-Pro</Translate></>),
+    url: "docs/k1_pro/getting-started/preparation"
   },
   {
-    title: <Translate id='pione.block2.title'>Bianbu OS</Translate>,
+    title: <Translate id='k1pro.block2.title'> OS</Translate>,
     imageSrc: require('@site/static/img/index/icon/os.png').default,
-    description: (<><Translate id='pione.block1.desc'>The official K1 operation system</Translate></>),
-    url: "docs/k1/k1-os/desktop/os-intro"
+    description: (<><Translate id='k1pro.block2.desc'>The official K1-Pro operation system</Translate></>),
+    url: "docs/k1_pro/os/debian/os-intro"
   },
   {
     title: <Translate id='pione.block3.title'>Linux kernel</Translate>,
@@ -107,8 +107,8 @@ const ProductList = [
     features: K1,
   },
   {
-    title: 'SSOM-K1',
-    features: SSOM_K1
+    title: 'K1-Pro',
+    features: K1_Pro,
   },
 ]
 
