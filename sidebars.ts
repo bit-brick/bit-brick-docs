@@ -587,12 +587,12 @@ const sidebars: SidebarsConfig = {
             {
               type: 'doc',
               label: 'Downloading and Installing the OS',
-              id: 'k1/getting-started/install',
+              id: 'k1_pro/getting-started/install',
             },
             {
               type: 'doc',
               label: 'Starting and Configuring K1',
-              id: 'k1/getting-started/configuring',
+              id: 'k1_pro/getting-started/configuring',
             }
 
           ],
