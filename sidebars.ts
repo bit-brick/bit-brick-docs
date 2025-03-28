@@ -601,119 +601,53 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           collapsed: true,
-          label: 'System Development Guide',
-          items: [
-            {
-              type: 'category',
-              collapsed: true,
-              label: 'Bianbu Linux',
-              items: [
-                {
-                  type: 'doc',
-                  id: 'k1/k1-bianbu-linux/bianbu-linux/bianbu-linux-intro',
-                },
-                {
-                  type: 'doc',
-                  id: 'k1/k1-bianbu-linux/bianbu-linux/build-bit-os',
-                },
-                {
-                  type: 'doc',
-                  label: 'U-Boot Development',
-                  id: 'k1/k1-bianbu-linux/bianbu-linux/boot',
-                },
-                {
-                  type: 'doc',
-                  id: 'k1/k1-bianbu-linux/bianbu-linux/kernel-build',
-                },
-                {
-                  type: 'doc',
-                  id: 'k1/k1-bianbu-linux/bianbu-linux/device-manage',
-                },
-                {
-                  type: 'doc',
-                  id: 'k1/k1-bianbu-linux/bianbu-linux/solution-manage',
-                },
-              ]
-            }, 
-            {
-              type: 'category',
-              collapsed: true,
-              label: 'OpenWrt',
-              items: [
-                {
-                  type: 'doc',
-                  id: 'k1/k1-bianbu-linux/openwrt/openwrt_intro',
-                },
-                {
-                  type: 'doc',
-                  id: 'k1/k1-bianbu-linux/openwrt/openwrt_quickstart',
-                },
-                {
-                  type: 'doc',
-                  id: 'k1/k1-bianbu-linux/openwrt/openwrt_device_management',
-                },
-                {
-                  type: 'doc',
-                  id: 'k1/k1-bianbu-linux/openwrt/openwrt_solution_management',
-                },
-                
-              ]
-            },   
-
-            
-
-          ],
-        },
-        {
-          type: 'category',
-          collapsed: true,
           label: 'Hardware Development Guide',
           items: [
             {
               type: 'doc',
-              label: 'K1 Hardware Specifications',
-              id: 'k1/k1-hardware/hardware-brief',
+              label: 'K1 Pro Hardware Specifications',
+              id: 'k1_pro/k1_pro-hardware/hardware-brief',
             },
             {
               type: 'doc',
-              label: 'K1 Application Processor',
-              id: 'k1/k1-hardware/processor-brief',
+              label: 'K1 Pro Application Processor',
+              id: 'k1_pro/k1_pro-hardware/processor-brief',
             },
             {
               type: 'doc',
-              label: 'K1 GPIO Expansion Interface',
-              id: 'k1/k1-hardware/GPIO-and-40-pin-header',
+              label: 'K1 Pro GPIO Expansion Interface',
+              id: 'k1_pro/k1_pro-hardware/GPIO-and-40-pin-header',
             },
             {
               type: 'doc',
-              label: 'K1 M.2 Interface',
-              id: 'k1/k1-hardware/m2-interface',
+              label: 'K1 Pro M.2 Interface',
+              id: 'k1_pro/k1_pro-hardware/m2-interface',
             },
             {
               type: 'doc',
-              label: 'K1 Camera Interface',
-              id: 'k1/k1-hardware/camera-interface',
+              label: 'K1 Pro Camera Interface',
+              id: 'k1_pro/k1_pro-hardware/camera-interface',
             },
             {
               type: 'doc',
-              label: 'K1 Display Interface',
-              id: 'k1/k1-hardware/display-interface',
+              label: 'K1 Pro Display Interface',
+              id: 'k1_pro/k1_pro-hardware/display-interface',
             },
 
             {
               type: 'doc',
-              label: 'K1 Audio Interface',
-              id: 'k1/k1-hardware/audio-hardware-introduction',
+              label: 'K1 Pro Audio Interface',
+              id: 'k1_pro/k1_pro-hardware/audio-hardware-introduction',
             },
             // {
             //   type: 'doc',
             //   label: 'K1 Power Sequence',
-            //   id: 'k1/k1-hardware/power-sequence',
+            //   id: 'k1_pro/k1_pro-hardware/power-sequence',
             // },
             {
               type: 'doc',
-              label: 'Download of K1 Hardware Documentation',
-              id: 'k1/k1-hardware/hardware-file-download',
+              label: 'Download of K1 Pro Hardware Documentation',
+              id: 'k1_pro/k1_pro-hardware/hardware-file-download',
             },
 
 
@@ -731,78 +665,78 @@ const sidebars: SidebarsConfig = {
               items: [
                 {
                   type: 'doc',
-                  label: 'K1 PINCTRL',
-                  id: 'k1/k1-software/peripheral_driver/PINCTRL',
+                  label: 'K1 Pro PINCTRL',
+                  id: 'k1_pro/k1_pro-software/peripheral_driver/PINCTRL',
                 },
                 {
                   type: 'doc',
-                  label: 'K1 GPIO',
-                  id: 'k1/k1-software/peripheral_driver/GPIO',
+                  label: 'K1 Pro GPIO',
+                  id: 'k1_pro/k1_pro-software/peripheral_driver/GPIO',
                 },
                 {
                   type: 'doc',
-                  label: 'K1 PWM',
-                  id: 'k1/k1-software/peripheral_driver/PWM',
+                  label: 'K1 Pro PWM',
+                  id: 'k1_pro/k1_pro-software/peripheral_driver/PWM',
                 },
                 {
                   type: 'doc',
-                  label: 'K1 IR-RX',
-                  id: 'k1/k1-software/peripheral_driver/IR-RX',
+                  label: 'K1 Pro IR-RX',
+                  id: 'k1_pro/k1_pro-software/peripheral_driver/IR-RX',
                 },
                 {
                   type: 'doc',
-                  label: 'K1 UART',
-                  id: 'k1/k1-software/peripheral_driver/UART',
+                  label: 'K1 Pro UART',
+                  id: 'k1_pro/k1_pro-software/peripheral_driver/UART',
                 },
                 {
                   type: 'doc',
-                  label: 'K1 I2C',
-                  id: 'k1/k1-software/peripheral_driver/I2C',
+                  label: 'K1 Pro I2C',
+                  id: 'k1_pro/k1_pro-software/peripheral_driver/I2C',
                 },
                 {
                   type: 'doc',
-                  label: 'K1 QSPI',
-                  id: 'k1/k1-software/peripheral_driver/QSPI',
+                  label: 'K1 Pro QSPI',
+                  id: 'k1_pro/k1_pro-software/peripheral_driver/QSPI',
                 },
                 {
                   type: 'doc',
-                  label: 'K1 SDHC',
-                  id: 'k1/k1-software/peripheral_driver/SDHC',
+                  label: 'K1 Pro SDHC',
+                  id: 'k1_pro/k1_pro-software/peripheral_driver/SDHC',
                 },
                 {
                   type: 'doc',
-                  label: 'K1 GMAC',
-                  id: 'k1/k1-software/peripheral_driver/gmac',
+                  label: 'K1 Pro GMAC',
+                  id: 'k1_pro/k1_pro-software/peripheral_driver/gmac',
                 },
                 {
                   type: 'doc',
-                  label: 'K1 USB',
-                  id: 'k1/k1-software/peripheral_driver/USB',
+                  label: 'K1 Pro USB',
+                  id: 'k1_pro/k1_pro-software/peripheral_driver/USB',
                 },
                 {
                   type: 'doc',
-                  label: 'K1 PCIE',
-                  id: 'k1/k1-software/peripheral_driver/PCIe',
+                  label: 'K1 Pro PCIE',
+                  id: 'k1_pro/k1_pro-software/peripheral_driver/PCIe',
                 },
                 {
                   type: 'doc',
-                  label: 'K1 Camera',
-                  id: 'k1/k1-software/peripheral_driver/Camera',
+                  label: 'K1 Pro Camera',
+                  id: 'k1_pro/k1_pro-software/peripheral_driver/Camera',
                 },
                 {
                   type: 'doc',
-                  label: 'K1 DSI',
-                  id: 'k1/k1-software/peripheral_driver/DSI',
+                  label: 'K1 Pro DSI',
+                  id: 'k1_pro/k1_pro-software/peripheral_driver/DSI',
                 },
                 {
                   type: 'doc',
-                  label: 'K1 HDMI',
-                  id: 'k1/k1-software/peripheral_driver/HDMI',
+                  label: 'K1 Pro HDMI',
+                  id: 'k1_pro/k1_pro-software/peripheral_driver/HDMI',
                 },
                 {
                   type: 'doc',
-                  label: 'K1 PMIC',
-                  id: 'k1/k1-software/peripheral_driver/PMIC',
+                  label: 'K1 Pro PMIC',
+                  id: 'k1_pro/k1_pro-software/peripheral_driver/PMIC',
                 },
               ]
             },
@@ -878,7 +812,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'doc',
-              id: 'k1/datasheets/datasheets',
+              id: 'k1_pro/datasheets/datasheets',
             },
           ],
         },

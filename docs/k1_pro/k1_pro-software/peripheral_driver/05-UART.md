@@ -1,0 +1,106 @@
+# Module Introduction
+UART is a universal serial data bus used for asynchronous communication. This bus enables two-way communication and can achieve full-duplex transmission and reception.
+### Functional Introduction
+![alt text](./static/uart.png)
+The kernel implements the console through UART, and some peripherals such as Bluetooth can communicate with the main control through UART.
+The K1 platform supports 9 UART devices. After configuring and enabling UART as needed, connect peripherals for use.
+### Source Code Structure Introduction
+The UART controller driver code is under the drivers/tty/serial directory:
+```
+drivers/tty/serial
+|--serial_core.c        # Kernel UART framework interface code
+|--pxa_k1x.c        # K1 UART driver
+```
+# Key Features
+### Features
+| Feature |
+| :-----|
+| Supports hardware flow control (uart2, uart3) |
+| Supports DMA transfer mode |
+| Supports interrupt mode |
+| Supports RS485/RS232 serial port protocol |
+| Supports 64B RX/TX fifo |
+| The K1 platform supports 9 configurable UARTs |
+### Performance Parameters
+- The baud rate can support up to 3M.
+# Configuration Introduction
+It mainly includes driver enable configuration and DTS configuration.
+### CONFIG Configuration
+CONFIG_SERIAL_PXA_SPACEMIT_K1X=y
+This is the CONFIG configuration of the K1 UART driver.
+```
+Symbol: SERIAL_PXA_SPACEMIT_K1X [=y]
+Device Drivers
+    -> Character devices
+        -> Serial drivers
+            -> PXA serial driver (<choice> [=y])
+                -> Spacemit PXA driver support (SERIAL_PXA_SPACEMIT_K1X [=y])
+```
+### DTS Configuration
+Since the usage and configuration methods of the 9 UARTs are similar, here we take uart2 as an example.
+#### Pinctrl
+You can view arch/riscv/boot/dts/spacemit/k1-x_pinctrl.dtsi in the Linux repository and refer to the configured UART node configuration as follows:
+```dts
+    pinctrl_uart2: uart2_grp {
+        pinctrl-single,pins =<
+            K1X_PADCONF(GPIO_21, MUX_MODE1, (EDGE_NONE | PULL_UP | PAD_1V8_DS2))    /* uart2_txd */
+            K1X_PADCONF(GPIO_22, MUX_MODE1, (EDGE_NONE | PULL_UP | PAD_1V8_DS2))    /* uart2_rxd */
+            K1X_PADCONF(GPIO_23, MUX_MODE1, (EDGE_NONE | PULL_UP | PAD_1V8_DS2))    /* uart2_cts_n */
+            K1X_PADCONF(GPIO_24, MUX_MODE1, (EDGE_NONE | PULL_UP | PAD_1V8_DS2))    /* uart2_rts_n */
+        >;
+    };
+```
+#### DTSI Configuration Example
+Configure the base address and clock reset resources of the UART controller in DTSI. Normally, there is no need to change it.
+```dts
+    uart2: uart@d4017100 {
+        compatible = "spacemit,pxa-uart";
+        reg = <0x0 0xd4017100 0x0 0x100>;
+        interrupt-parent = <&intc>;
+        interrupts = <44>;
+        clocks = <&ccu CLK_UART2>, <&ccu CLK_SLOW_UART>;
+        clock-names = "func", "gate";
+        clk-fpga = <14750000>;
+        resets = <&reset RESET_UART2>;
+        /*dmas = <&pdma0 DMA_UART2_RX 1
+                &pdma0 DMA_UART2_TX 1>;
+        dma-names = "rx", "tx";*/
+        power-domains = <&power K1X_PMU_BUS_PWR_DOMAIN>;
+        clk,pm-runtime,no-sleep;
+        cpuidle,pm-runtime,sleep;
+        interconnects = <&dram_range4>;
+        interconnect-names = "dma-mem";
+        status = "disabled";
+    }
+```
+#### DTS Configuration Example
+The complete DTS configuration is as follows:
+```dts
+    &uart2 {
+        pinctrl-names = "default";
+        pinctrl-0 = <&pinctrl_uart2>;
+        status = "okay";
+    };
+```
+# Interface Description
+### Test Introduction
+The UART test can be completed in loopback mode by connecting the TX of this device to the RX signal.
+```
+Program implementation idea:
+1. Take uart3 as an example. After the DTS configuration of uart3 is opened, first confirm whether /dev/ttyS2 exists. If it exists, the uart3 is loaded successfully.
+2. Open the ttyS3 node, set the baud rate, set the stop bit, parity bit and other attributes.
+3. Send data. The data is transferred from the TX FIFO to the RX FIFO through the external loopback. Read the information received by ttyS3 and compare it with the sent data. If they are the same, the UART function is considered normal.
+```
+### API Introduction
+The K1 UART driver implements interfaces such as sending data, setting the transfer mode, and setting the parity bit, and registers them into the UART framework.
+Commonly used:
+```
+static void serial_pxa_start_tx(struct uart_port *port)
+This interface implements the function of starting UART transmission (interrupt mode).
+static void serial_pxa_set_mctrl(struct uart_port *port, unsigned int mctrl)
+This interface implements the function of setting the UART transfer mode.
+static void serial_pxa_set_termios(struct uart_port *port, struct ktermios *termios,
+                           const struct ktermios *old)
+This interface implements the function of setting the UART stop bit, parity bit and other attributes.
+```
+# FAQ

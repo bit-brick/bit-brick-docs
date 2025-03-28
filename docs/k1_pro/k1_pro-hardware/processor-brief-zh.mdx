@@ -1,0 +1,109 @@
+# K1 系列 RISC - V AI CPU
+- **版权声明**：© 2024 SPACEMIT. All rights reserved. | www.spacemit.com
+- **产品简介**：
+    - K1 系列是 8 核 64 位 RISC - V AI CPU，以 RISC - V 开源指令集为基础，致力打造更通用、更高能效的 AI 处理器平台，推动全球开源、开放的 AI 算力生态建设。
+    - K1 系列 AI CPU 主要应用在单板计算机、网络存储、云电脑、智能机器人、工业控制、边缘计算机等领域。
+- **卓越的 CPU 性能**：
+    - 8 核 RISC - V AI CPU，提供 50KDMIPS CPU 算力和 2.0TOPS 原生 AI 算力，单核 CPU 算力是 ARM A55 的 130%以上。
+- **强大的向量算力**：
+    - 支持 RVA22 Profile、256bit RVV 1.0 标准的 RISC - V CPU，提供 2 倍于 Neon 的 SIMD 并行处理算力，向量性能是 ARM NEON 的 150%以上。
+- **通用的 AI 算力**：
+    - 以 CPU 核融合方式提供原生 AI 算力，实现与所有主流 AI 生态的快速对接。
+- **领先的算力能效**：
+    - RISC - V 架构的精简和卓越的微架构设计，同负载场景功耗只有 ARM 芯片的 80%。
+- **丰富的 IO 能力**：
+    - 集成多套 PCIe、USB、GMAC、SPI 等接口，提供全面的外设连接选型。
+- **符合工业级标准**：
+    - CPU 在 - 40°C ~ 85°C 的环境温度下仍能提供稳定可靠的持续算力输出，满足工业应用的苛刻环境需求。
+- **K1 SERIES RISC - V AI CPU 特性**：
+    - **处理器**：
+        - K1 是八核 X60™ 智算处理器。
+        - 八级双发按序流水线。
+        - 支持 256 - bit RVV1.0 标准。
+        - CPU 融合 2.0 TOPS AI 算力。
+        - 八核共享 1MB L2 Cache。
+        - **RISC - V 融合 AI 技术**：
+            - X60™ 扩展 16 条 AI 指令，包含矩阵乘法和滑窗计算指令。
+            - 支持从 AlexNet 到 Llama - 2 - 7b 的所有 AI 算法，指令集和算子库开放。
+            - 遵循通用 CPU 程序的开发方式，一个编程模型覆盖 AI 开发全过程。
+        - **RISC - V 安全架构**：
+            - 支持 RISC - V PMP 安全规范和 ePMP 安全扩展。
+            - 支持安全启动、安全存储、签名校验。
+            - 支持 AES / SHA / RSA / SM2 / SM3 / SM4 等算法。
+            - 支持产品生命周期安全管理。
+        - **RCPU**：
+            - RISC - V 实时 CPU，主频 300MHz。
+            - 支持异构双系统。
+    - **内存**：
+        - 32bit LPDDR4 / LPDDR4X - up to 2400MT。
+        - 最大支持 16 GB、带宽可达 10.6 GB / s。
+    - **存储**：
+        - 支持 SPI 闪存。
+        - 支持 eMMC 5.1。
+        - 支持 SDIO3.0 SD 卡。
+        - 支持 SSD：NVMe over PCIe。
+    - **多媒体和显示**：
+        - 支持 3D 图形引擎 OpenCL 3.0、OpenGLES 1.1 / 3.2 Vulkan 1.3。
+        - 支持 4K H.265 / H.264 / VP9 / VP8 等编解码格式。
+        - 支持双屏异显，最高可达 1920 × 1440@60fps。
+        - 通过 MIPI - DSI、HDMI 输出。
+        - 支持三摄输入，单摄最高支持 16MP。
+        - MIPI - CSI 8Lanes（4 + 2 + 2 或 4 + 4）。
+        - 支持三麦输入，立体声输出。
+    - **接口**：
+        - 5xPCle2.1（x2 + x2 + x1 组合、5Gbps / Lane）。
+        - 1×USB3.0（Combo with PCIe2.1 x1）。
+        - 2×USB2.0（OTG + Host）。
+        - 2×GMAC（RGMII & 1000M）。
+        - 4×SPI、7×I2C、12×UART、2×CAN - FD、30×PWM。
+    - **GPIO**：
+        - GPIO - 3.3V 数量：24。
+        - GPIO - 1.8V 数量：104。
+    - **操作系统**：
+        - Bianbu OS。
+        - Linux 主流发行版本。
+        - RTOS。
+    - **封装**：
+        - 封装类型：
+            - FCCSP17mm * 17mm。
+            - FCBGA19mm * 19mm（pin to pin）。
+        - 管脚间距：0.65mm。
+    - **功耗**：
+        - TDP：3 ~ 5W。
+- **产品框图**：
+    - Clustert RCPU Subsystem
+    - 60.AI CoreO X60 CoreD SRAM 256KB
+    - RISCV RCPU CAN / CAN - ED
+    - DISCV BISCV
+    - 64GCVB Core 64GCVB Core
+    - FPU
+    - 32K HCache 32K D - Cache 32K HCache 32K D - Cache SPI IMU
+    - Ext - Coded
+    - 512KL2 + 512K TCM 512KL2
+    - RIRRY Wakeup - Trigger
+    - 2x R_UART MIC IN
+    - 10xR PWM LINE OUT
+    - Internal Memory AON PMU
+    - ROM128KB
+    - SRAM 256KB
+    - High Speed V / O Subsystem
+    - xie Il
+    - US83.0
+    - Mailbox PCle2.1x PHY
+    - x2PG212m
+    - Crypto PLIC WDOG DMA PCle2.1x2 Serde PHY
+    - SPY P
+    - PCle2.1x2
+    - T.S neo
+    - PLLs Main PML Clock & Reset
+    - UART SP X7ALIS Source 2x SP Crystal Low Speed VO Subsys 3x12S / PCM Debug H.264 / H.265 H.264 / H.265 Image Processing ENC + 1×12C（2 - lane） MIPI CS（4 - lane） MIPI CSI
+    - CAN / CANFD IR - RX 10x UART 20x PWM + 1x12C
+    - SD Card CAN - FD tivity Subsyster 4x12C 128xGPIO（1920 pixel buffe（1920pixel b） DPUO DPU1 120 MIPI - CSI MIPI - DSI 1x2C MIPI Display（2 - lane） MIPI CS
+    - 5.1 / 00
+    - （4 - lane）
+    - USB2.0OTG USB2.0 OTG + 1×12C
+    - USB2.0 Host DOR HDMI1.4
+    - 100 / 1000M PHY 2 * GMAC Contrlles 1xi2C
+    - NOR Flash QSPI DOR PHY SPLLCD SPI Display
+    - AON Power Domair 32 - ba LPOR / L PDOR4x TRNG / AES / RSAECSA2AHMA
+    - @2400M1 SM2 / SM3 / SM4
