@@ -1,23 +1,26 @@
-# Bit-Brick K1
-Published Sep 2024
+# K1 Pro Hardware Specifications
 
----
-**NOTE:**
+K1 Pro is a low-power, high-performance single-board computer based on the Rockchip RK3576 application processor. The motherboard integrates large-capacity high-speed memory, eMMC storage, Gigabit Ethernet, HDMI interface, USB 3.0 and 2.0 interfaces, supports multiple official functional modules, dual NVMe solid-state drives, and rich bus interface extensions. K1 Pro is suitable for various application fields such as smart home, industrial control, gateways, NAS, and edge devices.
 
-BIT-BRICK IS THE TRADEMARK OF BIT BRICK LTD. ANYONE WANT TO USE THIS SHOULD GET THE PERMISSION FROM BIT BRICK COMPANY.
-
----
-BIT-BRICK K1 is a single-board computer based on the RISC-V application processor of SpacemiT. The motherboard integrates large-capacity high-speed memory, Gigabit Ethernet, high-definition digital display interface, USB3.0 and USB2.0 interfaces, supports dual NVME solid-state drive interfaces, and supports a rich variety of bus interface expansions. K1 is suitable for the different requirements of different people for learning computing technology.
 ## 1. Overview
-![front](/img/k1/hardware/font.png)
-![front](/img/k1/hardware/back.png)
+
+![front](/img/k1pro/hardware/font.png)
+
+![front](/img/k1pro/hardware/back.png)
+
 ## 2. Hardware Specifications
-| Item | Value |
-|----- | -----  |
-| Processor | - RISC-V SpacemiT® X60™ Dual-Cluster Octa-core processors, adhere to the RISC-V 64GCVB architecture and RVA22 standard <br/> - IMG BXE-2-32@819MHz, 32KB SLC, support OpenCL3.0/OpenGL ES 3.2/Vulkan1.3<br/> - 2TOPS AI performance<br/> - Detailed specifications refer to the official chip specification: [<u>Official Chip Specification</u>](https://developer.spacemit.com/documentation?token=Alhewa0fai7lvbk9sajcumNqn4f) |
-| Detailed Specifications | - LPDDR4X SDRAM (2GB / 4GB/8GB available)<br/>- HDMI 1.4a, Resolution up to 1920x1440@60Hz<br/>- 1×USB 3.0 ports, 1xUSB2.0 HOST, 1xUSB2.0 OTG<br/>- 1×microSD card slot<br/>- 1×Gigabit Ethernet<br/>- 1×4-lane MIPI camera/display transceivers<br/>- PCIe 2.0 x2 interface for fast peripherals, support NVME SSD<br/>- Power, reset key, and upgrade key support<br/>- Power led, and 3 programmable led support<br/>- 3.5mm headset interface, 2 mics support on board.<br/>- 5V/5A DC power via USB-C<br/>- 40 pin connector, support CAN/UART/SPI/I2C/PWM/I2S etc.<br/>- WIFI/Bluetooth OPTIONAL (M.2 slot support SDIO WIFI module) |
+| Item       | Value |
+|------------|-------|
+| Processor  | - Quad-core Cortex-A72 (up to 2.2GHz) and quad-core Cortex-A55 (up to 1.8GHz) with separate NEON coprocessor<br/>- Mali-G52 MC3 GPU (up to 1GHz), supports OpenGL ES 3.2, Vulkan 1.1, and OpenCL 2.0<br/>- 6 TOPS@INT8 AI performance, supports INT4/INT8/INT16/FP16/BF16/TF32 hybrid operation<br/> |
+| Details    | - LPDDR4X SDRAM (2GB / 4GB / 8GB available)<br/>- eMMC flash (typical 64GB)<br/>- HDMI 2.1 supports up to 4K@120fps<br/>- 1x USB 3.0, 1x USB 2.0 HOST, 1x USB 2.0 OTG<br/>- 1x microSD card slot<br/>- 1x Gigabit Ethernet<br/>- 1x 4-lane MIPI CSI<br/>- 1x 4-lane MIPI DSI<br/>- 2x PCIe 2.0 interfaces for fast peripherals, supports NVMe SSD<br/>- Power LED and 3 programmable LEDs<br/>- 3.5mm headset interface, 2 onboard mics<br/>- 5V/2A DC power via USB-C<br/>- 40-pin connector, supports CAN/UART/SPI/I2C/PWM/I2S, etc.<br/>- WIFI/Bluetooth OPTIONAL (M.2 slot supports SDIO WIFI module)<br/> |
+
 ## 3. Functional Block Diagram
-![front](/img/k1/hardware/fun_front.png)
-![front](/img/k1/hardware/fun_back.png)
-## 4. Dimension Specifications
-![front](/img/k1/hardware/fun_frame.png)
+
+![front](/img/k1pro/hardware/fun_font.png)
+![front](/img/k1pro/hardware/fun_back.png)
+
+## 4. Dimensions
+
+![front](/img/k1pro/hardware/fun_frame.png)
+
+

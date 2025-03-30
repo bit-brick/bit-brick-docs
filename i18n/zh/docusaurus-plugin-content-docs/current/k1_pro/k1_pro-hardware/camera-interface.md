@@ -1,4 +1,4 @@
-# K1摄像头接口说明
+# K1 Pro 摄像头接口说明
 
 ## Processor MIPI CSI2介绍
 
@@ -9,46 +9,52 @@ MIPI CSI-2 最初于2005年推出，为移动设备所使用的标准化相机�
 
 ## 1.1 MIPI CSI2控制器
 
-K1的RISC-V应用处理器集成了两个MIPI-CSI2 v1.1 控制器, 每一个都支持 4 lanes，最大传输速率可以达到1.5Gbps per lane.
+K1 Pro的RK3576应用程序处理器支持5个CSI-2接口：
+- 4 ports support 2 D-PHY v1.2 data-lane with 2.5Gbps/lane
+These 4 ports may be bound as 2 ports with 4 data-lane per port
+- 1 port supports 4 D-PHY data-lane or 3 C-PHY trios
+D-PHY is v2.0 which lane speed is 4.5Gbps
+C-PHY is v1.1 which trio speed is 2.5Gsps
+- Each port supports 4 virtual channels
 
-支持的数据格式如下：
-- Legacy YUV420 8-bit
-- YUV420 8-bit
-- RAW8
-- RAW10
-- RAW12
-- RAW14
-- Embed data type
-
-并支持下面两种数据交织格式:
-1. Data type interleaving
-2. Virtual channel interleaving
 
 ## 1.2 ISP处理器
 
-K1处理器集成了一个高性能的图像处理器，可以同时支持两路原始数据的视频流，最大的处理能力能够达到16M@30fps。ISP处理器的主要特性如下：
-
+K1 Pro处理器推出了新一代1600万像素的ISP。它实现了许多算法加速器，如HDR, 3A, CAC, 3DNR, 2DNR,Sharpening, Dehaze, Enhance, Debayer, Small Angle Lens-Distortion Correction等，主要特性：
+ISP V3.9
 - Support video mode and picture mode
-- RAW sensor, output YUV data to DRAM
-- Hardware JPEG encoder/decoder (hardware, up to 23M is supported)
-- Support YUV/EXIF/JFIF format
-- AF/AE/AWB
-- Face detection
-- Digital zoom, panorama view
-- PDAF
-- PIP (picture in picture)
-- Continuous video AF
-- HW 3D denoise
-- Multi-layer 2D YUV denoise
-- Post Porcess of Lens Shading Correction
-- Edge enhancement
+- One channel ISP, 16M pixels
+- VICAP/DMA input: raw8/raw10/raw12/raw16
+- RGB-IR sensor input
+- 3A: include AE/Histogram, AF, AWB statistics output
+- BLC: Black Level Correction
+- PDAF: Phase Detection Auto Focus
+- DPCC: Static/Dynamic defect pixel cluster correction
+- LSC: Lens shading correction
+- HDR: 2-Frame Merge into High-Dynamic Range
+- DRC/TMO: Dynamic Range Compression, Tone mapping in RGB field
+- Supports up to 120dB HDR with 20-bit data width
+- EXPANDER: Sensor expander
+- GIC: Green Imbalance Correction
+- Debayer: Advanced Adaptive Demosaic with Chromatic Aberration Correction(CAC)
+- CCM/CSM: Color correction matrix; RGB2YUV etc
+- Gamma: Gamma out correction
+- Dehaze/Enhance: Automatic Dehaze and edge enhancement
+- Bay3DNR: Advanced Temporal Noise reduce in RAW
+- YUVME: Noise Motion Estimate and Motion Compensation in YUV
+- 2DNR: Advanced Spatial Noise reduce in YUV
+- Sharp: Picture Sharpening & Edge Enhance in YUV
+- CGC: Color Gamut Compression, YUV full range/limit range convert
+- 3DLUT: 3D-Lut Color Palette for Customer
+- LDCH: Lens-distortion in the horizontal direction
+- LDCV: Lens-distortion in the vertical direction
+- Gain: Image local gain
+- Output Scale*2: support scale down level
 
-更详细的内容可以阅读芯片规格书：
-[ISP Processor Specifications](https://developer.spacemit.com/documentation?token=BWbGwbx7liGW21kq9lucSA6Vnpb)
 
-## 2.BIT-BRICK K1摄像头
+## 2. K1 Pro摄像头
 
-BIT-BRICK K1板上预留了一个4lane的MIPI CSI2S摄像头接口
+K1 pro板上预留了一个4lane的MIPI CSI2S摄像头接口
 ![alt text](/img/k1/hardware/camera/k1_camera.png)
 其引脚定义如下：
 ![图1 K1摄像头接口定义](/img/k1/hardware/camera/camera_io.png)

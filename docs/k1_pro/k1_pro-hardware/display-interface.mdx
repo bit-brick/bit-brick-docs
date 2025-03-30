@@ -1,54 +1,53 @@
-# K1 Display Interface Description
-The K1 motherboard supports HDMI and MIPI DSI2 interface-defined LCD displays as the graphical output interface.
-![Figure 1 Block Diagram of the Processor Display Subsystem](/img/k1/hardware/display-interface/display_framework.png)
-<div style={{textAlign: 'center'}}>Figure 1 Block Diagram of the Processor Display Subsystem</div>
+# K1 Pro Display Interface Description
+
+The K1 Pro motherboard supports HDMI and MIPI DSI2 interface-defined LCD displays as graphical output interfaces.
+
+![Figure 1 Processor Display Subsystem Block Diagram](/img/k1/hardware/display-interface/display_framework.png)
+<div style={{textAlign: 'center'}}>Figure 1 Processor Display Subsystem Block Diagram</div>
+
 ## 1. HDMI
-The High Definition Multimedia Interface (HDMI [1]) is a fully digital video and audio transmission interface that can transmit uncompressed audio and video signals. HDMI can be used in set-top boxes, DVD players, personal computers, televisions, game consoles, integrated amplifiers, digital audio systems, and televisions, etc. HDMI can transmit audio and video signals simultaneously, and since the audio and video signals use the same cable, it greatly simplifies the installation difficulty of the system circuit.
-![Figure 1 On-board MIPI DSI Interface of K1](/img/k1/hardware/display-interface/k1_hdmi.png)
-K1 supports the HDMI1.4a version, and the maximum resolution supports 1920*1080@60fps. The main features are as follows:
+
+High-Definition Multimedia Interface (HDMI) is a fully digital video and audio transmission interface that can transmit uncompressed audio and video signals. HDMI can be used in set-top boxes, DVD players, personal computers, TVs, game consoles, integrated amplifiers, digital audio, and TV devices. HDMI can transmit both audio and video signals simultaneously, greatly simplifying the installation complexity of system wiring.
+
+![Figure 1 K1 Pro Onboard MIPI DSI Interface](/img/k1/hardware/display-interface/k1_hdmi.png)
+
+K1 Pro supports HDMI 2.1 version, with a maximum resolution of 4K@120fps. Its main features are as follows:
 - Compliant with HDMI Specification v1.4
-- Physical lane speed: up to 2.4Gbps/lane × 3lane
-- Support resolution: up to 1920*1440@60Hz
-- Support RGB, YcbCr4: 2: 2/4: 4: 4 input video
-- Support RGB, YcbCr4: 2: 2/4: 4: 4 output video
-- Support 8bpc/10bpc/12bpc input and output color depth
-- Support EIA/CEA-861-F video timing and InfoFrame structure
-- Support L-PCM (IEC 60958), 32KHz ~ 192KHz dual channel audio data
-- Support Consumer Electronic Control (CEC)
-- Internal I2C Master, support 100Kbps ~ 400Kbps
+- HDMI v2.1
+- Supports up to 4K@120Hz
+- Output data format: RGB/YUV444/YUV422/YUV420 8/10-bit
+- Supports CEC (Consumer Electronic Control) and ARC (Audio Return Channel)
+- HDCP v2.3 and HDCP v1.4
+
 ![Figure 2 HDMI Transmission Block Diagram](/img/k1/hardware/display-interface/hdmi_send_framework.png)
 <div style={{textAlign: 'center'}}>Figure 2 HDMI Transmission Block Diagram</div>
 
-You can directly connect K1 and the display using a standard HDMI cable (if the display interface is not HDMI, you can purchase an HDMI converter, such as HDMI to DP, etc.)
+You can directly use a standard HDMI cable to connect the K1 and the monitor (if the display interface is not HDMI, you can purchase an HDMI converter, such as HDMI to DP, etc.).
 
 ![Figure 2 HDMI Transmission Block Diagram](/img/k1/hardware/display-interface/hdmi_demo.png)
 
 You can find more detailed information about HDMI from the following links:
 
 [HDMI Wikipedia](https://en.wikipedia.org/wiki/HDMI)
+
 [HDMI Official](https://www.hdmi.org/)
+
 ## 2. MIPI DSI
-The MIPI Alliance, namely the Mobile Industry Processor Interface (MIPI for short) Alliance. MIPI (Mobile Industry Processor Interface) is an open standard and specification formulated by the MIPI Alliance for mobile application processors. It is an alliance founded by companies such as ARM, TI, ST, Nokia, etc. in 2003. The MIPI protocol is widely used in various embedded image devices, such as smartphones, VR, smart wearable devices, etc. DSI is a high-speed interface between the processor and the display module.
-For the detailed specifications of MIPI DSI, refer to:
+
+The MIPI Alliance, or Mobile Industry Processor Interface Alliance, is an open standard and specification initiated by the MIPI Alliance for mobile application processors. It was established in 2003 by companies such as ARM, TI, ST, and Nokia. The MIPI protocol is widely used in various embedded imaging devices, such as smartphones, VR, smart wearables, etc. DSI is a high-speed interface between the processor and the display module.
+
+For detailed specifications of MIPI DSI, refer to:
+
 [MIPI DSI Specifications](https://www.mipi.org/specifications/dsi)
-![Figure 3 On-board MIPI DSI Interface of K1](/img/k1/hardware/display-interface/mip_ldc.png)
-<div style={{textAlign: 'center'}}>Figure 3 On-board MIPI DSI Interface of K1</div>
-The K1 motherboard integrates a display interface supporting MIPI DSI to support screen display. Its features are as follows:
-- Support MIPI Display Serial Interface (DSI) standard
-- Support MIPI DPHY up to 4 data lanes, up to 1200Mbps
-- Support 1 active panel in 1 DPHY link
-- Support Display Command Set (DCS) standard
-- Support all pixel formats defined in DSI and DCS
-- Support video burst mode with DPHY up to 1.2Ghz per lane
-- Support virtual channel in MIPI Link
-- Support up to 1080p resolution
-- Support command, video, and burst modes
-- Support HS-TX, LP-TX, LP-RX, and LP-CD
-## 3. Pin Definition of DSI
-The pin definition of DSI is as follows:
-![Figure 4 Definition of K1 MIPI Display Interface](/img/k1/hardware/display-interface/display_gpio.png)
-As can be seen from the above figure, the display interface also adds the functions of I2C and control pins, which are mainly used for touch screen control. This will be described in the software part on how to use this interface to add the touch screen function to the system.
-K1 defaults to supporting the 10.1-inch display developed by BIT-BRICK. If you need to support other displays, you can connect the corresponding signals according to the interface definition, and then modify the configuration file of the screen according to the specification.
-## Remarks
-If users want to learn more about the display-related information at the chip end, they can refer to the following link:
-[Chip Display Documentation](https://developer.spacemit.com/documentation?token=BWbGwbx7liGW21kq9lucSA6Vnpb)
+
+![Figure 3 K1 Onboard MIPI DSI Interface](/img/k1/hardware/display-interface/mip_ldc.png)
+<div style={{textAlign: 'center'}}>Figure 3 K1 Onboard MIPI DSI Interface</div>
+
+The K1 Pro motherboard integrates a display interface supporting MIPI DSI for screen display. Its features are as follows:
+
+- One MIPI DSI-2 v1.1 interface with D-PHY v2.0 or C-PHY v1.1
+- Supports 4 data lanes on D-PHY
+- Supports 3 data trios on C-PHY
+- Supports up to 2560x1600@60Hz
+- Supports RGB (up to 10-bit) data format
+

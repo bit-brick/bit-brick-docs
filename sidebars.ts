@@ -605,38 +605,31 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'doc',
-              label: 'K1 Pro Hardware Specifications',
               id: 'k1_pro/k1_pro-hardware/hardware-brief',
             },
+            // {
+            //   type: 'doc',
+            //   id: 'k1_pro/k1_pro-hardware/processor-brief',
+            // },
             {
               type: 'doc',
-              label: 'K1 Pro Application Processor',
-              id: 'k1_pro/k1_pro-hardware/processor-brief',
-            },
-            {
-              type: 'doc',
-              label: 'K1 Pro GPIO Expansion Interface',
               id: 'k1_pro/k1_pro-hardware/GPIO-and-40-pin-header',
             },
             {
               type: 'doc',
-              label: 'K1 Pro M.2 Interface',
               id: 'k1_pro/k1_pro-hardware/m2-interface',
             },
             {
               type: 'doc',
-              label: 'K1 Pro Camera Interface',
               id: 'k1_pro/k1_pro-hardware/camera-interface',
             },
             {
               type: 'doc',
-              label: 'K1 Pro Display Interface',
               id: 'k1_pro/k1_pro-hardware/display-interface',
             },
 
             {
               type: 'doc',
-              label: 'K1 Pro Audio Interface',
               id: 'k1_pro/k1_pro-hardware/audio-hardware-introduction',
             },
             // {
@@ -646,7 +639,6 @@ const sidebars: SidebarsConfig = {
             // },
             {
               type: 'doc',
-              label: 'Download of K1 Pro Hardware Documentation',
               id: 'k1_pro/k1_pro-hardware/hardware-file-download',
             },
 

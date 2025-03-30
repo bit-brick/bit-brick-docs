@@ -1,4 +1,4 @@
-# K1 M.2接口说明
+# K1 Pro M.2接口说明
 
 ## 一、M.2接口
 
@@ -20,9 +20,9 @@ M.2是由 PCI-SIG 和 SATA-IO 标准组织所开发，PCI-SIG M.2 和 SATA Rev. 
 - KEY-E引脚定义
 - KEY-M引脚定义
 
-## K1板载M.2接口
+## K1 Pro板载M.2接口
 
-K1板载集成三个M.2的接口,如下图所示
+K1 Pro板载集成三个M.2的接口,如下图所示
 
 ![M.2接口示意图](/img/k1/hardware/m2/k1_m2.png)
 ![M.2接口示意图](/img/k1/hardware/m2/k1_m2_1.png)
