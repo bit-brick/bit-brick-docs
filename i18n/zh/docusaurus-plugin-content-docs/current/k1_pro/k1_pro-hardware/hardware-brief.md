@@ -2,7 +2,7 @@
 
 K1 Pro是一款基于Rockchip RK3576应用处理器的低功耗高性能单板计算机，主板集成大容量高速内存、eMMC存储、千兆以太网口、HMDI接口、USB3.0和2.0等接口，支持多种官方功能模块，支持双NVMe固态硬盘，支持丰富的总线接口扩展。K1 Pro适合智能家居、工业控制、网关、NAS、端侧等多种应用领域。
 
-## 1、Overview
+## 1、总览
 
 ![front](/img/k1pro/hardware/font.png)
 

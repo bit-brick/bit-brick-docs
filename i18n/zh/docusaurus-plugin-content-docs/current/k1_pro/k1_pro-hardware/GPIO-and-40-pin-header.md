@@ -1,37 +1,11 @@
 # K1 Pro GPIO 扩展接口
 
 K1 Pro预留了一个40Pin的GPIO扩展接口，采用2.54双列直插的座子，方便爱好者们可以根据自己的需求连接外设，扩展不同的功能。我们的系统会将这些IO默认设置为一些特定功能，但是用户可以通过软件的重新配置使这些通用的IO具备一些特殊的功能，因为这些IO都是多功能复用的引脚。
-![图1 k1_gpio](/img/k1/hardware/k1_gpio.png)
-![img](/img/k1/hardware/gpio_detail.png)
+![img](/img/k1pro/hardware/gpio_detail.png)
 
-## 1.引脚定义
 
-![front](/img/k1/hardware/gpio/gpio_function.jpg)
-<!-- 
-| Pin | Pin Number | Pin Number | Pin |
-|-----|------------|------------|-----|
-| VCC_3.3V | 1 | 2 | VCC_5.0V |
-| I2C4_SDA | 3 | 4 | VCC_5.0V |
-| I2C4_SCL | 5 | 6 | GND |
-| GPIO7_IO00 | 7 | 8 | UART0_TXD |
-| GND | 9 | 10 | UART0_RXD |
-| GPIO7_IO01 | 11 | 12 | GPIO7_IO04 |
-| GPIO7_IO02 | 13 | 14 | GND |
-| GPIO7_IO03 | 15 | 16 | GPIO9_IO01 |
-| VCC_3.3V | 17 | 18 | GPIO9_IO02 |
-| SPI3_MOSI | 19 | 20 | GND |
-| SPI3_MISO | 21 | 22 | GPIO4_IO09 |
-| SPI3_SCLK | 23 | 24 | SPI3_CS |
-| GND | 25 | 26 | GPIO5_IO00 |
-| I2C3_SDA | 27 | 28 | I2C3_SCL |
-| GPIO2_IO09 | 29 | 30 | GND |
-| GPIO3_IO00 | 31 | 32 | GPIO3_IO04 |
-| GPIO3_IO01 | 33 | 34 | GND |
-| GPIO3_IO02 | 35 | 36 | GPIO3_IO05 |
-| GPIO3_IO03 | 37 | 38 | GPIO3_IO06 |
-| GND | 39 | 40 | GPIO3_IO07 | -->
 
-## 2.多功能引脚定义列表
+## 1.多功能引脚定义列表
 所有的GPIO都可以设置成通用的输入或者输出，也能通过内核配置成更多功能。下面的表格给我们展示了各个GPIO的扩展功能。
 
 

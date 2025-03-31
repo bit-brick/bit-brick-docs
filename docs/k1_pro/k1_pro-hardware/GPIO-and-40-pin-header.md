@@ -1,33 +1,8 @@
 # K1 Pro GPIO Extension Interface
 K1 Pro reserves a 40-pin GPIO extension interface, using a 2.54 double-row straight insertion socket, which is convenient for enthusiasts to connect peripherals according to their own needs and expand different functions. Our system will set these IOs to some specific functions by default, but users can reconfigure them through software to make these general-purpose IOs have some special functions, because these IOs are all multi-functional multiplexed pins.
-![Figure 1 k1_gpio](/img/k1/hardware/k1_gpio.png)
-![img](/img/k1/hardware/gpio_detail.png)
-## 1. Pin Definition
-![front](/img/k1/hardware/gpio/gpio_function.jpg)
+![img](/img/k1pro/hardware/gpio_detail.png)
 
-<!-- | Pin | Pin Number | Pin Number | Pin |
-|-----|------------|------------|-----|
-| VCC_3.3V | 1 | 2 | VCC_5.0V |
-| I2C4_SDA | 3 | 4 | VCC_5.0V |
-| I2C4_SCL | 5 | 6 | GND |
-| GPIO7_IO00 | 7 | 8 | UART0_TXD |
-| GND | 9 | 10 | UART0_RXD |
-| GPIO7_IO01 | 11 | 12 | GPIO7_IO04 |
-| GPIO7_IO02 | 13 | 14 | GND |
-| GPIO7_IO03 | 15 | 16 | GPIO9_IO01 |
-| VCC_3.3V | 17 | 18 | GPIO9_IO02 |
-| SPI3_MOSI | 19 | 20 | GND |
-| SPI3_MISO | 21 | 22 | GPIO4_IO09 |
-| SPI3_SCLK | 23 | 24 | SPI3_CS |
-| GND | 25 | 26 | GPIO5_IO00 |
-| I2C3_SDA | 27 | 28 | I2C3_SCL |
-| GPIO2_IO09 | 29 | 30 | GND |
-| GPIO3_IO00 | 31 | 32 | GPIO3_IO04 |
-| GPIO3_IO01 | 33 | 34 | GND |
-| GPIO3_IO02 | 35 | 36 | GPIO3_IO05 |
-| GPIO3_IO03 | 37 | 38 | GPIO3_IO06 |
-| GND | 39 | 40 | GPIO3_IO07 | -->
-## 2. Multifunctional Pin Definition List
+## 1. Multifunctional Pin Definition List
 All GPIOs can be set as general-purpose inputs or outputs, and can also be configured into more functions through the kernel. The following table shows the extended functions of each GPIO.
 
 

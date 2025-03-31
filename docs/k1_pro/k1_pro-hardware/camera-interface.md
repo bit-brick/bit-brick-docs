@@ -53,9 +53,9 @@ ISP V3.9
 ## 2. K1 Pro Camera
 
 The K1 Pro board reserves a 4-lane MIPI CSI2S camera interface.
-![alt text](/img/k1/hardware/camera/k1_camera.png)
+![alt text](/img/k1pro/hardware/k1pro_camera.png)
 Its pin definition is as follows:
-![Figure 1 K1 Camera Interface Definition](/img/k1/hardware/camera/camera_io.png)
+![Figure 1 K1 Camera Interface Definition](/img/k1pro/hardware/camera_io.png)
 
 BIT-BRICK provides several cameras with different specifications (for details, refer to the BIT-BRICK hardware product details page):
 ![Figure 1 K1 Camera Interface Definition](/img/k1/hardware/camera/bit_brick_camera.png)

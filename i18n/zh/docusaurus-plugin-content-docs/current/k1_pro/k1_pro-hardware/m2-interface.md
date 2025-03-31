@@ -24,8 +24,8 @@ M.2是由 PCI-SIG 和 SATA-IO 标准组织所开发，PCI-SIG M.2 和 SATA Rev. 
 
 K1 Pro板载集成三个M.2的接口,如下图所示
 
-![M.2接口示意图](/img/k1/hardware/m2/k1_m2.png)
-![M.2接口示意图](/img/k1/hardware/m2/k1_m2_1.png)
+![M.2接口示意图](/img/k1pro/hardware/k1pro_m2.png)
+![M.2接口示意图](/img/k1pro/hardware/k1pro_m2_1.png)
 
 其中M.2 SLOT 1和2是标准的M.2 KEY-M接口定义，可以直接支持NVME接口的固态硬盘.固态硬盘长度可以选择2280的固态硬盘。
 
@@ -34,9 +34,9 @@ K1 Pro板载集成三个M.2的接口,如下图所示
 ![SSD安装示意图](/img/k1/hardware/m2/kingston_ssd.png)
 
 另外一个M.2 SLOT 0 则是KEY-E的接口定义，长度为2230，主要用来支持各种无线模块，由于处理器只有三个USB接口，所以SLOT 0并没有将USB接口预留，同时也去掉了兼容NGFF的PCIE接口，所以不能支持USB和PCIE接口定义的模块。SLOT 0接口引脚定义详细说明如下：
-![SSD安装示意图](/img/k1/hardware/m2/m2_frame.png)
+![SSD安装示意图](/img/k1pro/hardware/m2_frame.png)
 
-## K1默认支持BIT-BRICK自己研发的硬件模块，支持的类别和型号如下：
+## K1 Pro默认支持BIT-BRICK自己研发的硬件模块，支持的类别和型号如下：
 
 | 型号   | 类别  | 规格介绍       |
 | ------ | ----- | -------------- |

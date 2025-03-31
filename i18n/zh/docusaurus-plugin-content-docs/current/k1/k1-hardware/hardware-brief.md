@@ -12,7 +12,7 @@ BIT-BRICK IS THE TRADEMARK OF BIT BRICK LTD.ANYONE WANT TO USE THIS SHOULD GET T
 
 BIT-BRICK K1是一款基于进迭时空RISC-V应用处理器的单板电脑，主板集成了大容量高速存储器，千兆以太网，高清数字显示接口，USB3.0和USB2.0接口，支持双NVME的固态硬盘接口，并支持了丰富的总线接口扩展。K1适合于不同人群对计算技术学习需求不一样的要求。
 
-## 1、Overview
+## 1、总览
 
 ![front](/img/k1/hardware/font.png)
 

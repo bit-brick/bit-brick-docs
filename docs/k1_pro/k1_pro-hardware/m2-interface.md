@@ -24,8 +24,8 @@ The pin definitions are as follows:
 
 The K1 Pro integrates three M.2 interfaces onboard, as shown below:
 
-![M.2 Interface Diagram](/img/k1/hardware/m2/k1_m2.png)
-![M.2 Interface Diagram](/img/k1/hardware/m2/k1_m2_1.png)
+![M.2 Interface Diagram](/img/k1pro/hardware/k1pro_m2.png)
+![M.2 Interface Diagram](/img/k1pro/hardware/k1pro_m2_1.png)
 
 Among them, M.2 SLOT 1 and SLOT 2 are standard M.2 KEY-M interface definitions, which can directly support NVME interface solid-state drives. The solid-state drive length can be 2280.
 
@@ -34,9 +34,9 @@ Users can choose mainstream NVME interface SSDs. The installation method is show
 ![SSD Installation Diagram](/img/k1/hardware/m2/kingston_ssd.png)
 
 Another M.2 SLOT 0 is defined as a KEY-E interface with a length of 2230, mainly used to support various wireless modules. Since the processor has only three USB interfaces, SLOT 0 does not reserve a USB interface and also removes compatibility with NGFF's PCIE interface, so it cannot support modules defined by USB and PCIE interfaces. The detailed pin definition of the SLOT 0 interface is as follows:
-![SSD Installation Diagram](/img/k1/hardware/m2/m2_frame.png)
+![frame](/img/k1pro/hardware/m2_frame.png)
 
-## K1 Default Supported BIT-BRICK Hardware Modules
+## K1 Pro Default Supported BIT-BRICK Hardware Modules
 
 The supported categories and models are as follows:
 

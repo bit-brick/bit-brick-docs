@@ -55,9 +55,9 @@ ISP V3.9
 ## 2. K1 Pro摄像头
 
 K1 pro板上预留了一个4lane的MIPI CSI2S摄像头接口
-![alt text](/img/k1/hardware/camera/k1_camera.png)
+![alt text](/img/k1pro/hardware/k1pro_camera.png)
 其引脚定义如下：
-![图1 K1摄像头接口定义](/img/k1/hardware/camera/camera_io.png)
+![图1 K1摄像头接口定义](/img/k1pro/hardware/camera_io.png)
 
 BIT-BRICK 提供了几款不同规格的摄像头(详情参考bit-brick硬件产品详情页)：
 ![图1 K1摄像头接口定义](/img/k1/hardware/camera/bit_brick_camera.png)
