@@ -1,30 +1,28 @@
-# 启动系统
+# Booting and Configuring the K1 Pro
 
-### 启动方式
+### Boot Methods
 
+The K1 Pro primarily uses SD cards and eMMC for booting.
 
-K1 Pro主要使用SD卡和eMMC启动
+- If an SD card with an image is present, it will boot from the SD card.
+- If no image is present on the SD card but an image is present on the eMMC, it will boot from the eMMC.
+- If neither the SD card nor the eMMC has an image, the system will not boot.
 
-- 当SD卡有镜像时，则优先使用sd卡进行启动
-- 当SD卡没有镜像，eMMC有镜像则使用eMMC的镜像进行启动
-- SD卡和eMMC都没有镜像，则不会启动
+### Boot Notes
 
-### 启动注意
+If the SD card or eMMC has a Linux system image burned onto it, the board will automatically run when powered on.
 
-SD卡和eMMC烧录了Linux系统的镜像，板子在上电的时候就会自动运行。
+#### Boot Precautions:
 
-#### 启动注意事项：
-
-1. 正确连接好板上外设，使用配套螺丝固定稳固，尤其是不支持热插拔的设备（MIPI显示屏、MIPI摄像头、无线模块、硬盘等），如果在上电的情况下拔插可能会损坏设备，导致设备无法正常工作。
+1. Properly connect the peripherals on the board and secure them with the provided screws, especially for devices that do not support hot-swapping (e.g., MIPI displays, MIPI cameras, wireless modules, hard drives). Plugging or unplugging these devices while powered on may damage them and cause them to malfunction.
    ![sd_formatter](/img/k1pro/getting-started/all_device.png)
-2. 使用显示屏需注意，MIPI屏接口不支持热插拔，HDMI接口有两种形态，一种是标准HDMI接口，另一种是Micro-HDMI， 两种接口是无法直接相连的，需要使用转接口来进行转换连接。如果是VGA/DP接口的显示器，也可以通过使用转接口来显示。
-3. 使用电源给板卡供电。注意：标注的电源规格为最低规格，如果接入的外设较多，请使用同等电压更大功率的电源。
+2. When using a display, note that the MIPI screen interface does not support hot-swapping. HDMI interfaces come in two forms: standard HDMI and Micro-HDMI. These two interfaces cannot be directly connected and require an adapter for conversion. If you are using a monitor with a VGA/DP interface, you can also use an adapter for display.
+3. Use a power supply to power the board. Note: The specified power supply is the minimum requirement. If multiple peripherals are connected, use a power supply with the same voltage but higher power output.
 
-##  用户名及密码
+## Username and Password
 
-| 用户名 | 密码  |
-| ------ | ----- |
-| linaro | linaro |
+| Username | Password  |
+| -------- | --------- |
+| linaro   | linaro    |
 
-
-**注意**：镜像在烧录完后的第一次启动会对机器进行配置，上电一两分钟后就自动重启，届时系统将会正常运行。
+**Note**: During the first boot after burning the image, the system will configure the machine. After one or two minutes of being powered on, the system will automatically reboot, and it will then run normally.
