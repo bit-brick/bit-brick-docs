@@ -13,7 +13,7 @@ RKNN Toolkit2开发套件(Python接口)运行在PC平台（x86/arm64），提供
 
 ## 1. Toolkit2安装
 
-安装Toolkit2，可以使用python的包管理器pip3安装，或者直接使用docker构建Toolkit2环境。相关依赖库和docker文件从瑞芯微官方 [RKNN-Toolkit2工程](https://github.com/airockchip/rknn-toolkit2) 或者从 [云盘资料下载](https://pan.baidu.com/s/19t8AZV9SYTdjn2uObBiSGA) （提取码hslu），在 `1-野火开源图书_教程文档\配套代码->嵌入式AI应用开发实战指南->AI教程相关源文件->rknn-toolkit2` （获取的RKNN-Toolkit2文件中包含RKNN Toolkit Lite2）。
+安装Toolkit2，可以使用python的包管理器pip3安装，或者直接使用docker构建Toolkit2环境。相关依赖库和docker文件从瑞芯微官方 [RKNN-Toolkit2工程](https://github.com/airockchip/rknn-toolkit2) （获取的RKNN-Toolkit2文件中包含RKNN Toolkit Lite2）。
 
 下面测试是使用python的venv虚拟环境中安装Toolkit2，也可以参考前面开发环境章节使用 [Anaconda](https://www.anaconda.com/download/) 或者 [miniconda](https://docs.conda.io/en/latest/miniconda.html) 创建环境, 其中miniconda是Anaconda的轻量版。
 
