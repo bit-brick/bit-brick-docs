@@ -581,17 +581,14 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'doc',
-              label: 'Getting Started',
               id: 'k1_pro/getting-started/preparation',
             },
             {
               type: 'doc',
-              label: 'Downloading and Installing the OS',
               id: 'k1_pro/getting-started/install',
             },
             {
               type: 'doc',
-              label: 'Starting and Configuring K1',
               id: 'k1_pro/getting-started/configuring',
             }
 
@@ -796,7 +793,18 @@ const sidebars: SidebarsConfig = {
 
           ],
         },
-        
+         
+        {
+          type: 'category',
+          collapsed: true,
+          label: 'Machine Learning',
+          items: [
+            {
+              type: 'doc',
+              id: 'k1_pro/k1_pro_ml/env/env',
+            },
+          ],
+        },
         {
           type: 'category',
           collapsed: true,
