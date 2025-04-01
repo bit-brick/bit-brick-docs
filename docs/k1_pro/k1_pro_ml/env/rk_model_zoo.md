@@ -1,5 +1,3 @@
-
-
 #  RKNN MODEL ZOO 应用示例
 
 [RKNN MODEL ZOO](https://github.com/airockchip/rknn_model_zoo) 是瑞芯微官方提供的 RKNPU 支持的各种主流算法的部署示例，最新的示例支持 mobilenet 模型部署和 yolo 模型部署，本章以部署 yolov10 为例介绍 RKNN MODEL ZOO 示例的使用。
