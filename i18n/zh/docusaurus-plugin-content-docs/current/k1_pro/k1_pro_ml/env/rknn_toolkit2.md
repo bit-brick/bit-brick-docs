@@ -1,5 +1,3 @@
-
-
 # RKNN Toolkit2介绍
 
 RKNN Toolkit2开发套件(Python接口)运行在PC平台（x86/arm64），提供了模型转换、量化功能、模型推理、性能和内存评估、量化精度分析、模型加密等功能。更详细的功能说明参考下RKNN-Toolkit2工程文件的 [《RKNN-Toolkit2用户使用指南》](https://github.com/airockchip/rknn-toolkit2/tree/master/doc) 。
@@ -12,7 +10,6 @@ RKNN Toolkit2开发套件(Python接口)运行在PC平台（x86/arm64），提供
 
 测试环境：K1 Pro，镜像系统是Debian，PC环境使用ubuntu20.04, 教程编写时的RKNN-Toolkit2是1.5.0版本，板卡npu驱动是0.8.8。
 
-</div>
 
 ## 1. Toolkit2安装
 
