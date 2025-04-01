@@ -6,7 +6,7 @@ RKNN Toolkit2开发套件(Python接口)运行在PC平台（x86/arm64），提供
 
 本章将简单介绍在PC（Ubuntu系统）上使用RKNN-Toolkit2进行模型转换、模型推理、性能评估等测试。
 
-<div style="background: rgb(219, 250, 244); padding: 12px;">
+
 
 **重要**
 
