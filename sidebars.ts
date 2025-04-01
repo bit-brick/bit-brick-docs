@@ -815,6 +815,10 @@ const sidebars: SidebarsConfig = {
               type: 'doc',
               id: 'k1_pro/k1_pro_ml/env/rk_model_zoo',
             },
+            {
+              type: 'doc',
+              id: 'k1_pro/k1_pro_ml/env/rkllm',
+            },
           ],
         },
         {
