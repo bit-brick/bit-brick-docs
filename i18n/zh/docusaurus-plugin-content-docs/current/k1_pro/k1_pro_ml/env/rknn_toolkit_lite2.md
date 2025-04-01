@@ -1,5 +1,5 @@
 
-# RKNN Toolkit Lite2介绍
+# RKNN Toolkit Lite2
 
 
 

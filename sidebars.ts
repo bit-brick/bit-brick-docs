@@ -811,6 +811,10 @@ const sidebars: SidebarsConfig = {
               type: 'doc',
               id: 'k1_pro/k1_pro_ml/env/rknn_toolkit_lite2',
             },
+            {
+              type: 'doc',
+              id: 'k1_pro/k1_pro_ml/env/rk_model_zoo',
+            },
           ],
         },
         {
