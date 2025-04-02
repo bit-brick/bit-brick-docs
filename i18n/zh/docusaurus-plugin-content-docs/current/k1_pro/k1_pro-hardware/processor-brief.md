@@ -1,5 +1,5 @@
 
-# K1 Pro Processor Brief  
+# K1 Pro 应用处理器介绍 
 
 
 ## RK3576
