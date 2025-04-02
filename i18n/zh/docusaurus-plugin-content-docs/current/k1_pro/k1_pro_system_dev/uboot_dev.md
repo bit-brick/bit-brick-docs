@@ -111,7 +111,7 @@ mv gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu/ u-boot/toolchain/
 
 - `rkbin/RKBOOT/xxx.ini` 文件以及 `rkbin/RKTRUST/xxx.ini` 文件指定了需要打包的固件。
 
-- `make.sh` 中通过语句 `${RKBIN}/RKBOOT/${RKCHIP_LOADER}MINIALL.ini` 指定要使用的 ini 文件，`RKCHIP_LOADER` 一般为平台名。以 RK3588 为例，使用的 ini 文件即为 `rkbin/RKBOOT/RK3588MINIALL.ini`。
+- `make.sh` 中通过语句 `${RKBIN}/RKBOOT/${RKCHIP_LOADER}MINIALL.ini` 指定要使用的 ini 文件，`RKCHIP_LOADER` 一般为平台名。以 RK3576 为例，使用的 ini 文件即为 `rkbin/RKBOOT/RK3576MINIALL.ini`。
 
 ## 固件编译
 

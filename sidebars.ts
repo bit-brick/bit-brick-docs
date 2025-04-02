@@ -604,10 +604,10 @@ const sidebars: SidebarsConfig = {
               type: 'doc',
               id: 'k1_pro/k1_pro-hardware/hardware-brief',
             },
-            // {
-            //   type: 'doc',
-            //   id: 'k1_pro/k1_pro-hardware/processor-brief',
-            // },
+            {
+              type: 'doc',
+              id: 'k1_pro/k1_pro-hardware/processor-brief',
+            },
             {
               type: 'doc',
               id: 'k1_pro/k1_pro-hardware/GPIO-and-40-pin-header',
