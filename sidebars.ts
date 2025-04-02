@@ -793,7 +793,24 @@ const sidebars: SidebarsConfig = {
 
           ],
         },
-         
+        {
+          type: 'category',
+          collapsed: true,
+          label: 'System Development Guide',
+          items: [
+            {
+              type: 'doc',
+              id: 'k1_pro/k1_pro_system_dev/kernel_dev',
+            }, 
+            {
+              type: 'doc',
+              id: 'k1_pro/k1_pro_system_dev/uboot_dev',
+            }, 
+
+            
+
+          ],
+        },
         {
           type: 'category',
           collapsed: true,
