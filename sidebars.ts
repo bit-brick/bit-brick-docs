@@ -66,6 +66,10 @@ const sidebars: SidebarsConfig = {
                 },
                 {
                   type: 'doc',
+                  id: 'k1/k1-os/desktop/bianbu_desktop_2.1',
+                },
+                {
+                  type: 'doc',
                   label: 'Networking and Upgrading',
                   id: 'k1/k1-os/desktop/installation-and-upgrade',
                 },
@@ -529,6 +533,14 @@ const sidebars: SidebarsConfig = {
             {
               type: 'doc',
               id: 'k1/k1-ml/llm-deploy',
+            },
+            {
+              type: 'doc',
+              id: 'k1/k1-ml/ollama',
+            },
+            {
+              type: 'doc',
+              id: 'k1/k1-ml/openwebui',
             },
 
           ],
