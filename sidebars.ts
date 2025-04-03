@@ -662,6 +662,21 @@ const sidebars: SidebarsConfig = {
             {
               type: 'category',
               collapsed: true,
+              label: 'Debian',
+              items: [
+                {
+                  type: 'doc',
+                  id: 'k1_pro/k1_pro-software/debian/linux',
+                },
+                {
+                  type: 'doc',
+                  id: 'k1_pro/k1_pro-software/debian/system_config',
+                },
+              ]
+            },
+            {
+              type: 'category',
+              collapsed: true,
               label: 'Peripheral Driver',
               items: [
                 {
