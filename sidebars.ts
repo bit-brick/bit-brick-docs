@@ -736,61 +736,14 @@ const sidebars: SidebarsConfig = {
               items: [
                 {
                   type: 'doc',
-                  id: 'k1/k1-software/media/mpp',
+                  id: 'k1_pro/k1_pro-software/media/mpp',
                 },
                 {
                   type: 'doc',
-                  id: 'k1/k1-software/media/gstreamer_user_guide',
+                  id: 'k1_pro/k1_pro-software/media/gstream_mpp',
                 },
               ]
             },
-            {
-                type: 'category',
-                collapsed: true,
-                label: 'Graphics Development',
-                items: [
-                  {
-                    type: 'doc',
-                    id: 'k1/k1-software/graphics/AMD_graphics_card_adaptation_reference',
-                  },
-                  {
-                    type: 'doc',
-                    id: 'k1/k1-software/graphics/graphics_driver_framework',
-                  },
-                  {
-                    type: 'doc',
-                    id: 'k1/k1-software/graphics/graphics_programming_guide',
-                  },
-                  {
-                    type: 'doc',
-                    id: 'k1/k1-software/graphics/openCL_programming_guide',
-                  },
-  
-                  {
-                    type: 'doc',
-                    id: 'k1/k1-software/graphics/panel_porting_guide',
-                  },
-                ]},
-                {
-                  type: 'category',
-                  collapsed: true,
-                  label: 'Camera Development',
-                  items: [
-                    {
-                      type: 'doc',
-                      id: 'k1/k1-software/camera/camera_development_guide',
-                    },
-                    {
-                      type: 'doc',
-                      id: 'k1/k1-software/camera/isp_api_development_guide',
-                    },
-                    {
-                      type: 'doc',
-                      id: 'k1/k1-software/camera/isp_pq_tools_user_guide',
-                    },
-                  ]},
-
-
           ],
         },
         {
