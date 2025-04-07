@@ -41,6 +41,13 @@ const sidebars: SidebarsConfig = {
               type: 'doc',
               label: 'Starting and Configuring K1',
               id: 'k1/getting-started/configuring',
+            },
+            {
+              type: 'doc',
+              id: 'k1/getting-started/k1_cluster_preparation',
+            },{
+              type: 'doc',
+              id: 'k1/getting-started/k1_ssom_install',
             }
 
           ],
