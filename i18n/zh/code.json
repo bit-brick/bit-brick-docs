@@ -176,6 +176,25 @@
   "k1pro.block2.desc": {
     "message": "K1-Pro 定制的专属系统"
   },
+  "k1pro.block3.title": {
+    "message": "Linux Kernel"
+  },
+  "k1pro.block3.desc": {
+    "message": "快速配置与编译linux kernel"
+  },
+  "k1pro.block4.title": {
+    "message": "硬件"
+  },
+  "k1pro.block4.desc": {
+    "message": "带你一起了解K1-Pro的硬件部分"
+  },
+  "k1pro.block5.title": {
+    "message": "软件"
+  },
+  "k1pro.block5.desc": {
+    "message": "带你一起了解K1-Pro的软件部分"
+  },
+  
   "theme.ErrorPageContent.title": {
     "message": "页面已崩溃。",
     "description": "The title of the fallback page when the page crashed"
