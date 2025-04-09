@@ -1,22 +1,22 @@
-#  RKNN MODEL ZOO 应用示例
+# RKNN MODEL ZOO Application Examples
 
-[RKNN MODEL ZOO](https://github.com/airockchip/rknn_model_zoo) 是瑞芯微官方提供的 RKNPU 支持的各种主流算法的部署示例，最新的示例支持 mobilenet 模型部署和 yolo 模型部署，本章以部署 yolov10 为例介绍 RKNN MODEL ZOO 示例的使用。
+[RKNN MODEL ZOO](https://github.com/airockchip/rknn_model_zoo) is a collection of deployment examples for various mainstream algorithms supported by RKNPU, provided by Rockchip officially. The latest examples support mobilenet model deployment and yolo model deployment. This chapter introduces the usage of RKNN MODEL ZOO examples using yolov10 deployment as an example.
 
-## 1 导出 RKNN 模型
+## 1 Export RKNN Model
 
-1. **下载 RKNN MODEL ZOO**
+1. **Download RKNN MODEL ZOO**
     ```bash
     git clone https://github.com/airockchip/rknn_model_zoo.git
     ```
 
-2. **获取 Yolov10 ONNX 模型文件**
+2. **Get Yolov10 ONNX Model File**
     ```bash
     cd <rknn_model_zoo Path>/rknn_model_zoo/examples/yolov10/model
     chmod a+x download_model.sh
     ./download_model.sh
     ```
 
-3. **执行模型转换程序**
+3. **Execute Model Conversion Program**
     ```bash
     conda activate RKNN-Toolkit2
     cd <rknn_model_zoo Path>/rknn_model_zoo/examples/yolov10/python
@@ -24,29 +24,29 @@
     # output model will be saved as ../model/yolov10.rknn
     ```
 
-    **参数说明：**
+    **Parameter Description:**
     ```bash
     python3 convert.py <onnx_model> <TARGET_PLATFORM> <dtype(optional)> <output_rknn_path(optional)>
     ```
-    ◦ `<onnx_model>`：ONNX 模型路径
-    ◦ `<TARGET_PLATFORM>`：指定 NPU 平台名（如 rk3576）
-    ◦ `<quant_dtype>`：量化类型（i8/fp，默认i8）
-    ◦ `<output_rknn_path>`：输出路径（默认保存为 yolov10n.rknn）
+    ◦ `<onnx_model>`: ONNX model path
+    ◦ `<TARGET_PLATFORM>`: Specify NPU platform name (e.g., rk3576)
+    ◦ `<quant_dtype>`: Quantization type (i8/fp, default is i8)
+    ◦ `<output_rknn_path>`: Output path (default saves as yolov10n.rknn)
 
-## 2 编译和构建
+## 2 Compile and Build
 
-1. **设置交叉编译环境变量**
+1. **Set Cross-compilation Environment Variables**
     ```bash
     export GCC_COMPILER=/home/xt/Luckfox/omni3576/sdk-1026/prebuilts/gcc/linux-x86/aarch64/gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu/bin/aarch64-none-linux-gnu
     ```
 
-2. **执行编译脚本**
+2. **Execute Compilation Script**
     ```bash
     chmod +x ./build-linux.sh
     ./build-linux.sh -t rk3576 -a aarch64 -d yolov10
     ```
 
-    **编译过程示例：**
+    **Compilation Process Example:**
     ```bash
     (RKNN-Toolkit2) user@user:~/rknn_model_zoo$ ./build-linux.sh -t rk3576 -a aarch64 -d yolov10
     ./build-linux.sh -t rk3576 -a aarch64 -d yolov10
@@ -111,22 +111,22 @@
     -- Installing: /home/xt/conda/rknn_model_zoo/install/rk3576_linux_aarch64/rknn_yolov10_demo/lib/librga.so
     ```
 
-3. **输出结果**
-    ◦ 编译生成的可执行文件：`install/rk3576_linux_aarch64/rknn_yolov10_demo`
-    ◦ 依赖文件：`模型文件`、`测试图片`、`动态链接库`等
+3. **Output Results**
+    ◦ Generated executable file: `install/rk3576_linux_aarch64/rknn_yolov10_demo`
+    ◦ Dependencies: `model files`, `test images`, `dynamic link libraries`, etc.
 
-> **说明：**
-> - 编译时需要确保交叉编译工具链路径正确
-> - 若遇到权限问题需执行 `chmod +x` 赋予脚本可执行权限
-> - 最终部署包包含运行所需全部文件，可直接拷贝至开发板运行
+> **Note:**
+> - Ensure the cross-compilation toolchain path is correct during compilation
+> - If permission issues occur, execute `chmod +x` to grant script execution rights
+> - The final deployment package contains all files needed for execution and can be directly copied to the development board
 
-## 3 运行程序
-1、先将整个 rknn_yolov10_demo 目录传输至开发板，然后执行下面指令运行程序：
+## 3 Run the Program
+1. First, transfer the entire rknn_yolov10_demo directory to the development board, then execute the following command to run the program:
 ```bash
 scp -r rknn_yolov10_demo/ user@192.168.253.105:/home/user
-
 ```
-2、推理完成后生成图片 `out.png`
+
+2. After inference is complete, an image `out.png` will be generated
 ```bash
 user@user:~/rknn_yolov10_demo$ ./rknn_yolov10_demo ./model/yolov10.rknn ./model/bus.jpg 
 load lable ./model/coco_80_labels_list.txt
@@ -158,10 +158,11 @@ write_image path: out.png width=640 height=640 channel=3 data=0x7fbdd5c010
 user@user:~/rknn_yolov10_demo$ ls
 lib  model  out.png  rknn_yolov10_demo
 ```
-3、您可以根据标签自行下载图片，相关标签文件位于 rknn_yolov10_demo/model/coco_80_labels_list.txt。例如，对象检测器能够定位图片中的办公用品。
+
+3. You can download images according to the labels yourself. The label file is located at rknn_yolov10_demo/model/coco_80_labels_list.txt. For example, the object detector can locate office supplies in the image.
 
 ```bash
 ./rknn_yolov10_demo ./model/yolov10.rknn ./model/laptop.jpg 
 ```
-推理结果：
+Inference result:
 ![alt text](./static/image.png)

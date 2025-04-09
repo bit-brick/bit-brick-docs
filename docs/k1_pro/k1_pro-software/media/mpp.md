@@ -1,286 +1,285 @@
+#   Video Codec - Based on MPP Library
 
-#   视频编解码——基于mpp库
+##  1. MPP Introduction
 
-##  1. MPP 介绍
+The Media Process Platform (MPP) provided by Rockchip is a general-purpose media processing software platform for Rockchip chip series. This platform shields application software from complex underlying chip-related processing, aiming to shield differences between different chips and provide users with a unified Media Process Interface (MPI). MPP provides the following functionalities:
 
-瑞芯微提供的媒体处理软件平台（Media Process Platform，简称MPP）是适用于瑞芯微芯片系列的通用媒体处理软件平台。该平台对应用软件屏蔽了芯片相关的复杂底层处理，其目的是为了屏蔽不同芯片的差异，为使用者提供统一的视频媒体处理接口（Media Process Interface，缩写MPI）。MPP提供的功能包括：
-
-- **视频解码**  
+- **Video Decoding**  
   H.265 / H.264 / H.263 / VP9 / VP8 / MPEG-4 / MPEG-2 / MPEG-1 / VC1 / MJPEG / AV1
 
-- **视频编码**  
+- **Video Encoding**  
   H.265 / H.264 / VP8 / MJPEG
 
-- **视频处理**  
-  视频拷贝，缩放，色彩空间转换，场视频解交织（Deinterlace）
+- **Video Processing**  
+  Video copy, scaling, color space conversion, field video deinterlacing
 
-以下为RK官方MPP文档的GitHub链接，包含了中文/英文的MPP开发指南：  
+Below is the GitHub link to RK's official MPP documentation, including Chinese/English MPP development guides:  
 [https://github.com/rockchip-linux/mpp/tree/develop/doc](https://github.com/rockchip-linux/mpp/tree/develop/doc)
 
-##  2. 获取和编译RKMPP库
+##  2. Obtaining and Compiling RKMPP Library
 
-###  2.1. 测试环境
+###  2.1. Test Environment
 
-- RK官方MPP库地址：[https://github.com/rockchip-linux/mpp](https://github.com/rockchip-linux/mpp)
+- RK official MPP library address: [https://github.com/rockchip-linux/mpp](https://github.com/rockchip-linux/mpp)
 
-###  2.2. 安装相关依赖工具
+###  2.2. Install Related Dependency Tools
 
 ```bash
 sudo apt update
 sudo apt install -y git cmake
 ```
 
-###  2.3. 拉取RK官方MPP仓库
+###  2.3. Pull RK Official MPP Repository
 
 ```bash
 git clone https://github.com/rockchip-linux/mpp.git
 ```
 
-###  2.4. 编译
+###  2.4. Compilation
 
-1. 进入aarch64相应的编译路径：
+1. Navigate to the corresponding compilation path for aarch64:
 
    ```bash
    cd mpp/build/linux/aarch64/
    ```
 
-2. 修改交叉编译配置文件，指定编译器gcc和g++（一般默认就好）：
+2. Modify the cross-compilation configuration file to specify the compilers gcc and g++ (usually default settings are fine):
 
    ```bash
    vim arm.linux.cross.cmake
    ```
     ![alt text](./static/mpp-image.png)
 
-3. 运行bash脚本后编译（编译过程大概需要4分钟）：
+3. Run the bash script and compile (the compilation process takes about 4 minutes):
 
    ```bash
    ./make-Makefiles.bash
    make
    ```
 
-4. 编译结束后，你将会发现目录下多了很多文件。
+4. After compilation, you will find many files in the directory.
     ![alt text](./static/mpp-image-1.png)
-5. 进入`test`目录，目录下便是编译生成的一些测试程序。
+5. Navigate to the `test` directory, where you will find some test programs generated during compilation.
   ![alt text](./static/mpp-image-2.png)
    
 
-##  3. 视频解码
+##  3. Video Decoding
 
-解码器demo为`mpi_dec_test`系列程序，包括使用`decode_put_packet`和`decode_get_frame`接口的单线程`mpi_dec_test`、多线程的`mpi_dec_mt_test`以及多实例的`mpi_dec_multi_test`。
+The decoder demo includes the `mpi_dec_test` series of programs, including single-threaded `mpi_dec_test` using `decode_put_packet` and `decode_get_frame` interfaces, multi-threaded `mpi_dec_mt_test`, and multi-instance `mpi_dec_multi_test`.
 
-###  3.1. 测试环境
+###  3.1. Test Environment
 
-- 测试操作系统：Debian 12
+- Test Operating System: Debian 12
 
-###  3.2. `mpi_dec_test`的命令参数
+###  3.2. Command Parameters for `mpi_dec_test`
 
-####  3.2.1. 终端查看`mpi_dec_test`的命令参数
+####  3.2.1. View Command Parameters for `mpi_dec_test` in Terminal
 
-1. 打开两个终端，其中一个终端输入以下命令，来监控日志输出：
+1. Open two terminals, and in one terminal, input the following command to monitor log output:
 
    ```bash
    sudo tail -f /var/log/syslog
    ```
 
-2. 另一个终端执行`mpi_dec_test`测试程序：
+2. Execute the `mpi_dec_test` test program in the other terminal:
 
    ```bash
    mpi_dec_test
    ```
 
-3. 执行完测试程序后，会在日志中打印如下帮助文档：
+3. After executing the test program, the log will print the following help documentation:
     ![alt text](./static/mpp-image-3.png)
 
-####  3.2.2. `mpi_dec_test`的命令参数描述说明
+####  3.2.2. Description of Command Parameters for `mpi_dec_test`
 
-| 命令参数 | 描述说明 |
-|----------|----------|
-| `-i`     | 输入的码流文件。 |
-| `-o`     | 输出的图像文件。 |
-| `-w`     | 图像宽度，单位为像素。 |
-| `-h`     | 图像高度，单位为像素。 |
-| `-t`     | 码流文件的协议类型。 |
-| `-f`     | 图像色彩空间格式以及内存排布方式，默认为NV12。 |
-| `-n`     | 最大解码帧数。测试时若码流较长，可仅输出前n帧。 |
-| `-s`     | MPP实例数，默认为1。 |
-| `-v`     | 日志选项：`q`为静默标志；`f`为fps显示标志。 |
-| `-slt`   | 输出帧对应的校验文件。 |
-| `-help`  | 打开帮助文档。 |
+| Command Parameter | Description |
+|-------------------|-------------|
+| `-i`             | Input stream file. |
+| `-o`             | Output image file. |
+| `-w`             | Image width in pixels. |
+| `-h`             | Image height in pixels. |
+| `-t`             | Protocol type of the stream file. |
+| `-f`             | Image color space format and memory layout, default is NV12. |
+| `-n`             | Maximum number of decoded frames. If the stream is long during testing, only the first n frames can be output. |
+| `-s`             | Number of MPP instances, default is 1. |
+| `-v`             | Log options: `q` for silent flag; `f` for fps display flag. |
+| `-slt`           | Output checksum file corresponding to the frame. |
+| `-help`          | Open help documentation. |
 
-**小技巧**  
-1. `mpi_dec_test`的命令参数中，输入文件（`i`）和码流类型（`t`）为强制要求配置的参数，其他参数如输出文件（`o`）、图像宽度（`w`）、图像高度（`h`）和解码帧数（`n`）等为可选参数，可以根据不同的测试需求进行配置。
-2. `mpi_dec_test`的命令参数中，输出帧对应的校验文件（`slt`）将输出帧数据转换为对应的循环冗余校验码（具体逻辑见`utils/utils.c`）。校验文件的大小往往只有几kB，在芯片的slt测试中，将输出帧文件的对比转换成校验文件的对比，可以显著缩短测试周期。
+**Tips**  
+1. Among the command parameters of `mpi_dec_test`, the input file (`i`) and stream type (`t`) are mandatory configuration parameters, while other parameters such as output file (`o`), image width (`w`), image height (`h`), and number of decoded frames (`n`) are optional and can be configured according to different test requirements.
+2. Among the command parameters of `mpi_dec_test`, the checksum file corresponding to the output frame (`slt`) converts the output frame data into the corresponding cyclic redundancy checksum (specific logic can be found in `utils/utils.c`). The size of the checksum file is often only a few kB. In the chip's slt test, converting the comparison of output frame files into the comparison of checksum files can significantly shorten the test cycle.
 
-####  3.2.3. MPP解码支持的码流文件协议类型说明
+####  3.2.3. Explanation of Protocol Types Supported by MPP Decoding
 
-MPP支持的解码类型：  
-MPEG2/4、H.263/4/5、VP8/9和JPEG等，id后的数字为不同编码格式对应的参数值。
+MPP supports decoding types:  
+MPEG2/4, H.263/4/5, VP8/9, and JPEG, etc. The number after id corresponds to the parameter value of different encoding formats.
  ![alt text](./static/mpp-image-4.png)
 
-**小技巧**  
-1. MPP库支持的输入文件的编码格式（`t`）为MPEG2/4、H.263/4/5、VP8/9和JPEG等，id后的数字为不同编码格式对应的参数值。参数值来源于OMX的定义，值得注意的是，HEVC和AVS格式的参数值与其他格式的有显著区别。
+**Tips**  
+1. The encoding formats (`t`) supported by the input files of the MPP library are MPEG2/4, H.263/4/5, VP8/9, and JPEG, etc. The number after id corresponds to the parameter value of different encoding formats. The parameter values come from the definition of OMX. It is worth noting that the parameter values of HEVC and AVS formats are significantly different from other formats.
 
-###  3.3. 解码Demo
+###  3.3. Decoding Demo
 
-这里以解码《test.mp4》视频为例，演示一下解码的过程。
+Here, the decoding process of the video `test.mp4` is demonstrated as an example.
 
-**小技巧**  
-mp4解码过程主要分为两步，第一步是将mp4转换成mpp库支持解码的纯视频类型（如：h264），第二步是使用mpp库对转换后的视频进行解码。
+**Tips**  
+The mp4 decoding process is mainly divided into two steps. The first step is to convert mp4 into a pure video type supported by the mpp library (e.g., h264), and the second step is to decode the converted video using the mpp library.
 
-####  3.3.1. mp4转h264
+####  3.3.1. mp4 to h264
 
-mp4转h264，这里使用FFmpeg工具实现，关于FFmpeg工具的其他使用，可参考对应章节。
+mp4 to h264 is implemented here using the FFmpeg tool. For other uses of the FFmpeg tool, refer to the corresponding chapter.
 
 ```bash
-sudo apt update && sudo apt install -y ffmpeg # 安装ffmpeg工具
+sudo apt update && sudo apt install -y ffmpeg # Install ffmpeg tool
 ffmpeg -i test.mp4 -c:v libx264 01.h264
 ```
 
-**提示**  
-其中，`test.mp4`是要转换的源文件名，`01.h264`是输出文件名。
+**Note**  
+Here, `test.mp4` is the source file name to be converted, and `01.h264` is the output file name.
 
-####  3.3.2. h264解码
+####  3.3.2. h264 Decoding
 
-这步主要是对`01.h264`文件进行解码。打开两个终端，其中一个终端输入以下命令，来监控日志输出：
+This step mainly decodes the `01.h264` file. Open two terminals, and in one terminal, input the following command to monitor log output:
 
 ```bash
 sudo tail -f /var/log/syslog
 ```
 
-另一个终端执行解码程序：
+Execute the decoding program in the other terminal:
 
 ```bash
 mpi_dec_test -i 01.h264 -t 7 -n 60 -o 01.yuv
 ```
 
-**提示**  
-上述命令的作用是将`01.h264`解码，并保存为`01.yuv`。其中`-i`表示输入文件，`-t 7`表示输入码流文件的协议类型是H.264，`-n 60`表示解码60帧，`-o`表示输出文件。
+**Note**  
+The above command decodes `01.h264` and saves it as `01.yuv`. Here, `-i` indicates the input file, `-t 7` indicates the protocol type of the input stream file is H.264, `-n 60` indicates decoding 60 frames, and `-o` indicates the output file.
 
-部分解码日志输出如下：  
-（此处省略日志内容）
+Partial decoding log output is as follows:  
+(This section omits log content)
 
-##  4. 视频编码
+##  4. Video Encoding
 
-编码器demo为`mpi_enc_test`系列程序，包括单线程的`mpi_enc_test`及多实例的`mpi_enc_multi_test`。
+The encoder demo includes the `mpi_enc_test` series of programs, including single-threaded `mpi_enc_test` and multi-instance `mpi_enc_multi_test`.
 
-###  4.1. 测试环境
+###  4.1. Test Environment
 
-- 测试操作系统：Debian 12
+- Test Operating System: Debian 12
 
-###  4.2. `mpi_enc_test`的命令参数
+###  4.2. Command Parameters for `mpi_enc_test`
 
-####  4.2.1. 终端查看`mpi_enc_test`的命令参数
+####  4.2.1. View Command Parameters for `mpi_enc_test` in Terminal
 
-1. 打开两个终端，其中一个终端输入以下命令，来监控日志输出：
+1. Open two terminals, and in one terminal, input the following command to monitor log output:
 
    ```bash
    sudo tail -f /var/log/syslog
    ```
 
-2. 另一个终端执行`mpi_enc_test`测试程序：
+2. Execute the `mpi_enc_test` test program in the other terminal:
 
    ```bash
    mpi_enc_test
    ```
 
-3. 执行完测试程序后，会在日志中打印如下帮助文档：
+3. After executing the test program, the log will print the following help documentation:
     ![alt text](./static/mpp-image-5.png)
 
-####  4.2.2. `mpi_enc_test`的命令参数描述说明
+####  4.2.2. Description of Command Parameters for `mpi_enc_test`
 
-| 命令参数 | 描述说明 |
-|----------|----------|
-| `-i`     | 输入的图像文件。 |
-| `-o`     | 输出的码流文件。 |
-| `-w`     | 图像宽度，单位为像素。 |
-| `-h`     | 图像高度，单位为像素。 |
-| `-hstride` | 垂直方向相邻两行之间的距离，单位为byte。 |
-| `-vstride` | 图像分量之间的以行数间隔数，单位为1。 |
-| `-f`     | 图像色彩空间格式以及内存排布方式，默认为NV12。 |
-| `-t`     | 码流文件的协议类型。 |
-| `-tsrc`  | 源码流格式，仅在测试整体编解码性能时使用。 |
-| `-n`     | 最大解码帧数。测试时若码流较长，可仅输出前n帧。 |
-| `-g`     | gop参考模式，对应不同的TSVC码流。 |
-| `-rc`    | 码率控制模式。0:VBR; 1:CBR; 2:FIXQP; 3:AVBR。 |
-| `-bps`   | 码率约束参数。命令格式：`bps_target:bps_min:bps_max`。 |
-| `-fps`   | 输入/输出帧率控制，默认为30。该命令参数仅说明输入帧率和输出帧率之间的比例关系，与实际帧率无关。 |
-| `-qc`    | 质量控制。 |
-| `-s`     | MPP实例数，默认为1。 |
-| `-v`     | 日志选项：`q`为静默标志；`f`为fps显示标志。 |
-| `-ini`   | 额外的编码配置文件ini（暂未生效）。 |
-| `-slt`   | 输出码流对应的校验文件。 |
+| Command Parameter | Description |
+|-------------------|-------------|
+| `-i`             | Input image file. |
+| `-o`             | Output stream file. |
+| `-w`             | Image width in pixels. |
+| `-h`             | Image height in pixels. |
+| `-hstride`       | Distance between adjacent rows in the vertical direction, in bytes. |
+| `-vstride`       | Interval between image components in rows, unit is 1. |
+| `-f`             | Image color space format and memory layout, default is NV12. |
+| `-t`             | Protocol type of the stream file. |
+| `-tsrc`          | Source stream format, only used when testing overall codec performance. |
+| `-n`             | Maximum number of decoded frames. If the stream is long during testing, only the first n frames can be output. |
+| `-g`             | gop reference mode, corresponding to different TSVC streams. |
+| `-rc`            | Bitrate control mode. 0:VBR; 1:CBR; 2:FIXQP; 3:AVBR. |
+| `-bps`           | Bitrate constraint parameters. Command format: `bps_target:bps_min:bps_max`. |
+| `-fps`           | Input/output frame rate control, default is 30. This command parameter only indicates the ratio between input frame rate and output frame rate, and is unrelated to actual frame rate. |
+| `-qc`            | Quality control. |
+| `-s`             | Number of MPP instances, default is 1. |
+| `-v`             | Log options: `q` for silent flag; `f` for fps display flag. |
+| `-ini`           | Additional encoding configuration file ini (not yet effective). |
+| `-slt`           | Output checksum file corresponding to the stream. |
 
-**小技巧**  
-1. `mpi_enc_test`的命令参数中，图像宽度（`w`）、图像高度（`h`）和码流类型（`t`）为强制要求配置的参数，其他参数如输入文件（`i`）、输出文件（`o`）、编码帧数（`n`）和色彩空间格式及内存排布方式（`f`）等为可选参数。如果没有指定输入文件，`mpi_enc_test`会生成默认的彩条图像进行编码。
-2. `mpi_enc_test`的命令参数提供了多样化的码率控制方案，用户可以通过码率控制模式（`rc`）和码率约束参数（`bps`）对输出码流的码率进行控制。码率控制模式（`rc`）分为可变码率模式（VBR）、固定码率模式（CBR）、qp修正的码率模式（FIXQP）和自适应码率模式（AVBR），默认模式为VBR；码率约束参数（`bps`）则是为MPP内部配置码率边界提供参考。
-3. `mpi_enc_test`的命令参数中，日志选项（`v`）为`q`时，MPP日常日志关闭；日志选项（`v`）为`f`时，每秒会打印一次平均帧率和当前帧率。
+**Tips**  
+1. Among the command parameters of `mpi_enc_test`, image width (`w`), image height (`h`), and stream type (`t`) are mandatory configuration parameters, while other parameters such as input file (`i`), output file (`o`), number of encoded frames (`n`), and color space format and memory layout (`f`) are optional. If no input file is specified, `mpi_enc_test` will generate a default color bar image for encoding.
+2. The command parameters of `mpi_enc_test` provide a variety of bitrate control schemes. Users can control the bitrate of the output stream through bitrate control mode (`rc`) and bitrate constraint parameters (`bps`). Bitrate control mode (`rc`) includes variable bitrate mode (VBR), constant bitrate mode (CBR), qp correction bitrate mode (FIXQP), and adaptive bitrate mode (AVBR), with the default mode being VBR; bitrate constraint parameters (`bps`) provide reference for configuring bitrate boundaries within MPP.
+3. Among the command parameters of `mpi_enc_test`, when the log option (`v`) is `q`, MPP daily logs are turned off; when the log option (`v`) is `f`, average frame rate and current frame rate are printed once per second.
 
-####  4.2.3. MPP编码支持的码流文件协议类型说明
+####  4.2.3. Explanation of Protocol Types Supported by MPP Encoding
 
-MPP支持的编码类型：  
-H.265 / H.264 / VP8 / MJPEG等，id后的数字为不同编码格式对应的参数值。
+MPP supports encoding types:  
+H.265 / H.264 / VP8 / MJPEG, etc. The number after id corresponds to the parameter value of different encoding formats.
 
-**小技巧**  
-1. MPP库支持的输入文件的编码格式（`t`）为H.265 / H.264 / VP8 / MJPEG等，id后的数字为不同编码格式对应的参数值。
+**Tips**  
+1. The encoding formats (`t`) supported by the input files of the MPP library are H.265 / H.264 / VP8 / MJPEG, etc. The number after id corresponds to the parameter value of different encoding formats.
 
-####  4.2.4. 图像色彩空间格式以及内存排布方式说明
+####  4.2.4. Explanation of Image Color Space Format and Memory Layout
 
-图像的色彩空间格式分为YUV和RGB两类。MPP支持多种内存排布方式（`f`），id后的数字为不同内存排布方式对应的参数值，值得注意的是，YUV和RGB格式的参数值有显著区别。
+Image color space formats are divided into YUV and RGB categories. MPP supports various memory layouts (`f`), and the number after id corresponds to the parameter value of different memory layouts. It is worth noting that the parameter values of YUV and RGB formats are significantly different.
 
-###  4.3. 编码Demo
+###  4.3. Encoding Demo
 
-这里以编码上述解码出的`01.yuv`文件为例，演示一下编码的过程。
+Here, the encoding process of the `01.yuv` file decoded above is demonstrated as an example.
 
-**小技巧**  
-这里主要演示如何通过mpp库将yuv文件编码成h265，以及如何使用ffmpeg将h265转成mp4。
+**Tips**  
+This mainly demonstrates how to encode a yuv file into h265 using the mpp library and how to convert h265 into mp4 using ffmpeg.
 
-####  4.3.1. yuv编码成h265
+####  4.3.1. yuv Encoding to h265
 
-打开两个终端，其中一个终端输入以下命令，来监控日志输出：
+Open two terminals, and in one terminal, input the following command to monitor log output:
 
 ```bash
 sudo tail -f /var/log/syslog
 ```
 
-另一个终端执行编码程序：
+Execute the encoding program in the other terminal:
 
 ```bash
 mpi_enc_test -i 01.yuv -w 1920 -h 1080 -t 16777220 -o 01.h265 -n 20
 ```
 
-**提示**  
-上述命令的作用是将`01.yuv`编码，并保存为`01.h265`。其中`-i`表示输入文件，`-w 1920`表示指定像素宽度为1920，`-h 1080`表示指定像素高度为1080，`-t 16777220`表示输出码流文件的协议类型是H.265，`-n 60`表示解码60帧，`-o`表示输出文件。
+**Note**  
+The above command encodes `01.yuv` and saves it as `01.h265`. Here, `-i` indicates the input file, `-w 1920` specifies the pixel width as 1920, `-h 1080` specifies the pixel height as 1080, `-t 16777220` indicates the protocol type of the output stream file is H.265, `-n 60` indicates decoding 60 frames, and `-o` indicates the output file.
 
-部分编码日志输出如下：  
+Partial encoding log output is as follows:  
  ![alt text](./static/mpp-image-6.png)
 
-####  4.3.2. h265转mp4
+####  4.3.2. h265 to mp4
 
-h265转mp4，这里使用FFmpeg工具实现。
+h265 to mp4 is implemented here using the FFmpeg tool.
 
 ```bash
-sudo apt update && sudo apt install -y ffmpeg # 安装ffmpeg工具
+sudo apt update && sudo apt install -y ffmpeg # Install ffmpeg tool
 ffmpeg -i 01.h265 -c:v libx265 -c:a aac -f mp4 0101.mp4
 ```
 
-**提示**  
-其中，`01.h265`是要转码的H.265视频文件名，`0101.mp4`是转码后的MP4文件名，`-c:v libx265`将视频编码为H.265格式，`-c:a aac`将音频编码为AAC格式，`-f mp4`指定输出格式为MP4。
+**Note**  
+Here, `01.h265` is the H.265 video file name to be converted, `0101.mp4` is the converted MP4 file name, `-c:v libx265` encodes the video into H.265 format, `-c:a aac` encodes the audio into AAC format, and `-f mp4` specifies the output format as MP4.
 
-##  5. 实用工具
+##  5. Utility Tools
 
-MPP提供了一些单元测试用的工具程序，这种程序可以对软硬件平台以及MPP库本身进行测试：
+MPP provides some unit test tools that can test the software and hardware platform as well as the MPP library itself:
 
 - **`mpp_info_test`**  
-  用于读取和打印MPP库的版本信息，在反馈问题时，可以把打印出来信息附上。
+  Used to read and print the version information of the MPP library. When reporting issues, you can attach the printed information.
 
 - **`mpp_buffer_test`**  
-  用于测试内核的内存分配器是否正常。
+  Used to test whether the kernel's memory allocator is functioning properly.
 
 - **`mpp_mem_test`**  
-  用于测试C库的内存分配器是否正常。
+  Used to test whether the C library's memory allocator is functioning properly.
 
 - **`mpp_runtime_test`**  
-  用于测试一些软硬件运行时环境是否正常。
+  Used to test whether some software and hardware runtime environments are functioning properly.
 
 - **`mpp_platform_test`**  
-  用于读取和测试芯片平台信息是否正常。
+  Used to read and test whether the chip platform information is functioning properly.

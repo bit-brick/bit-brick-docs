@@ -1,64 +1,61 @@
 # RKNN Toolkit2
 
-RKNN Toolkit2开发套件(Python接口)运行在PC平台（x86/arm64），提供了模型转换、量化功能、模型推理、性能和内存评估、量化精度分析、模型加密等功能。更详细的功能说明参考下RKNN-Toolkit2工程文件的 [《RKNN-Toolkit2用户使用指南》](https://github.com/airockchip/rknn-toolkit2/tree/master/doc) 。
+The RKNN Toolkit2 development kit (Python interface) runs on PC platforms (x86/arm64) and provides model conversion, quantization, model inference, performance and memory evaluation, quantization accuracy analysis, model encryption, and other functions. For more detailed function descriptions, please refer to the [《RKNN-Toolkit2 User Guide》](https://github.com/airockchip/rknn-toolkit2/tree/master/doc) in the RKNN-Toolkit2 project files.
 
-本章将简单介绍在PC（Ubuntu系统）上使用RKNN-Toolkit2进行模型转换、模型推理、性能评估等测试。
+This chapter will briefly introduce how to use RKNN-Toolkit2 for model conversion, model inference, performance evaluation, and other tests on a PC (Ubuntu system).
 
+**Important**
 
+Test environment: K1 Pro, with Debian image system, PC environment using Ubuntu 20.04. When writing this tutorial, RKNN-Toolkit2 version is 1.5.0, and the board NPU driver is 0.8.8.
 
-**重要**
+## 1. Toolkit2 Installation
 
-测试环境：K1 Pro，镜像系统是Debian，PC环境使用ubuntu20.04, 教程编写时的RKNN-Toolkit2是1.5.0版本，板卡npu驱动是0.8.8。
+To install Toolkit2, you can use Python's package manager pip3 or directly use Docker to build the Toolkit2 environment. Related dependency libraries and Docker files can be obtained from Rockchip's official [RKNN-Toolkit2 project](https://github.com/airockchip/rknn-toolkit2) (the obtained RKNN-Toolkit2 files include RKNN Toolkit Lite2).
 
-
-## 1. Toolkit2安装
-
-安装Toolkit2，可以使用python的包管理器pip3安装，或者直接使用docker构建Toolkit2环境。相关依赖库和docker文件从瑞芯微官方 [RKNN-Toolkit2工程](https://github.com/airockchip/rknn-toolkit2) （获取的RKNN-Toolkit2文件中包含RKNN Toolkit Lite2）。
-
-下面测试是使用python的venv虚拟环境中安装Toolkit2，也可以参考前面开发环境章节使用 [Anaconda](https://www.anaconda.com/download/) 或者 [miniconda](https://docs.conda.io/en/latest/miniconda.html) 创建环境, 其中miniconda是Anaconda的轻量版。
+The following test uses Python's venv virtual environment to install Toolkit2. You can also refer to the previous development environment chapter to use [Anaconda](https://www.anaconda.com/download/) or [miniconda](https://docs.conda.io/en/latest/miniconda.html) to create the environment. Miniconda is a lightweight version of Anaconda.
 
 ```python
-# 安装python工具，ubuntu20.04默认是安装了python3.8.10
-# 虚拟环境这里选择使用python3.8-venv，也可以安装Anaconda/nimiconda,然后使用conda管理环境。
+# Install Python tools, Ubuntu 20.04 comes with Python 3.8.10 by default
+# For virtual environment, we choose to use python3.8-venv here, you can also install Anaconda/miniconda and use conda to manage environments
 sudo apt update
 sudo apt-get install python3-dev python3-pip python3.8-venv gcc
 
-#安装相关库和软件包
+# Install related libraries and packages
 sudo apt-get install libxslt1-dev zlib1g-dev libglib2.0 libsm6 \
 libgl1-mesa-glx libprotobuf-dev gcc
 ```
 
-安装RKNN-Toolkit2：
+Install RKNN-Toolkit2:
 
 ```python
-# 创建目录，由于测试使用的ubuntu20.04已经安装的包可能和安装运行RKNN-Toolkit2所需的包版本不同,
-# 为避免其他问题，这里使用python venv隔离环境。
+# Create directory. Since the Ubuntu 20.04 being used for testing may have different package versions from those required for RKNN-Toolkit2,
+# To avoid other issues, we use Python venv to isolate the environment.
 mkdir project-Toolkit2 && cd project-Toolkit2
-# toolkit2_1.5是环境名称，可以自行修改
+# toolkit2_1.5 is the environment name, can be modified as needed
 python3 -m venv toolkit2_1.5
 
-# 激活进入环境
+# Activate the environment
 source toolkit2_1.5/bin/activate
 
-# 从官方RKNN-Toolkit2仓库拉取最新版本或者从配套例程获取(教程测试时toolkit2版本是1.5.0)，或者配套网盘获取
+# Pull the latest version from the official RKNN-Toolkit2 repository or get from the companion example (tutorial tested with toolkit2 version 1.5.0), or get from the companion network drive
 git clone https://github.com/rockchip-linux/rknn-toolkit2.git
-# 或者 git clone https://github.com/airockchip/rknn-toolkit2.git
+# Or git clone https://github.com/airockchip/rknn-toolkit2.git
 #git clone https://gitee.com/LubanCat/lubancat_ai_manual_code.git
 #cd lubancat_ai_manual_code/dev_env/rknn_toolkit2
 
-# 配置pip源
+# Configure pip source
 pip3 config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple/
 
-# 安装依赖库，根据rknn-toolkit2\doc\requirements_cp38-1.4.0.txt
+# Install dependencies according to rknn-toolkit2\doc\requirements_cp38-1.4.0.txt
 pip3 install numpy
 pip3 install -r doc/requirements_cp38-1.5.0.txt
 
-# 安装rknn_toolkit2
-# 根据系统的python版本和架构（最新版本支持arm64和x86）选择不同的whl文件安装：
+# Install rknn_toolkit2
+# Choose different whl files to install based on system Python version and architecture (latest version supports arm64 and x86):
 pip3 install packages/rknn_toolkit2-1.5.0+1fa95b5c-cp38-cp38-linux_x86_64.whl
 ```
 
-检测是否安装成功：
+Check if installation was successful:
 
 ```python
 (toolkit2_1.5) llh@YH-LONG:~$ python3
@@ -69,51 +66,51 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>>
 ```
 
-输入quit()或者使用快捷键Ctrl+D退出。
+Type quit() or use Ctrl+D to exit.
 
-## 2. RKNN Toolkit2接口使用
+## 2. RKNN Toolkit2 Interface Usage
 
-这小节熟悉下Toolkit-lite2工具，该工具在PC平台上使用，提供python接口简化模型的部署和运行。用户通过该工具可以便捷地完成一些功能：
+This section familiarizes with the Toolkit-lite2 tool, which is used on the PC platform and provides Python interfaces to simplify model deployment and operation. Users can conveniently complete some functions through this tool:
 
-• **模型转换**，Toolkit-lite2工具导入原始的Caffe、TensorFlow、TensorFlow Lite、ONNX、Pytorch、MXNet等模型转换成RKNN模型()， 也支持导入RKNN模型然后在NPU平台 上加载推理等。
-• **量化功能**，支持将浮点模型量化为定点模型，目前支持的量化方法为非对称量化（asymmetric_quantized-8），并支持混合量化功能。
-• **模型推理**，能够在PC上模拟NPU运行RKNN模型并获取推理结果；或将RKNN模型分发到指定的NPU设备上进行推理并获取推理结果。
-• **性能和内存评估**，连接板卡，将RKNN模型分发到指定NPU设备上运行，然后评估模型在实际设备上运行时的性能和内存占用情况。
-• **量化精度分析**，该功能将给出模型量化后每一层推理结果与浮点模型推理结果的余弦距离，以分析量化误差是如何出现的，为提高量化模型的精度提供思路。
-• **模型加密功能**，使用指定的加密等级将RKNN模型整体加密，因为RKNN模型的解密是在NPU驱动中完成的，所以使用加密模型时，与普通RKNN模型一样加载即可，NPU驱动会自动对其进行解密。
+• **Model Conversion**, the Toolkit-lite2 tool imports original Caffe, TensorFlow, TensorFlow Lite, ONNX, Pytorch, MXNet, and other models and converts them to RKNN models(), also supports importing RKNN models and then loading them for inference on the NPU platform.
+• **Quantization Function**, supports quantizing floating-point models to fixed-point models, currently supports asymmetric quantization (asymmetric_quantized-8), and supports hybrid quantization function.
+• **Model Inference**, can simulate NPU running RKNN model on PC and get inference results; or distribute RKNN model to specified NPU device for inference and get inference results.
+• **Performance and Memory Evaluation**, connect to the board, distribute RKNN model to specified NPU device to run, then evaluate the performance and memory usage of the model running on actual device.
+• **Quantization Accuracy Analysis**, this function will give the cosine distance between each layer's inference results after model quantization and floating-point model inference results, to analyze how quantization errors occur and provide ideas for improving quantization model accuracy.
+• **Model Encryption Function**, encrypt the entire RKNN model using specified encryption level, because RKNN model decryption is completed in the NPU driver, when using encrypted models, they can be loaded just like normal RKNN models, and the NPU driver will automatically decrypt them.
 
-使用Toolkit-lite2，可以运行在PC上，通过模拟器运行模型，然后进行推理，或者模型转换等操作；也可以运行在连接的板卡NPU上， 将RKNN模型传到NPU设备上运行，再从NPU设备上获取推理结果、性能信息等等。
+Using Toolkit-lite2, you can run models on a PC through a simulator, then perform inference or model conversion operations; or run on a connected board NPU, transfer RKNN models to the NPU device to run, and then obtain inference results, performance information, etc., from the NPU device.
 
-Toolkit-lite2运行模型时的一个简单的流程示意：
+A simple flowchart for running models with Toolkit-lite2:
 
-![流程图](./static/19A8E491-15AE-4A01-8E67-FE57B9C8FF5B.png)
+![Flowchart](./static/19A8E491-15AE-4A01-8E67-FE57B9C8FF5B.png)
 
-流程简单描述：
+Simple description of the process:
 
-• 创建RKNN对象，初始化RKNN环境
-• 设置模型预处理参数，如果是运行在PC上，通过模拟器运行模型时需要调用config接口设置模型的预处理参数；如果运行在连接的板卡NPU上并且导入RKNN模型，不需要配置。
-• 导入模型，如果是运行在PC上，通过模拟器运行模型时使用load_caffe、load_tensorflow等接口导入对应的非RKNN模型，通过；如果运行在连接的板卡NPU使用接口load_rknn导入RKNN模型。
-• 构建RKNN模型，如果是运行在PC上，通过模拟器运行模型，需要调用build接口构建RKNN模型，然后可以导出RKNN模型或者初始化运行环境进行推理等操作；如果运行在连接的板卡NPU上不需要。
-• 初始化运行时环境，如果需要模型推理或性能评估，必须先调用init_runtime初始化运行时环境，要指定模型的运行平台（模拟器或者连接板卡的硬件NPU）。
-• 初始化运行环境后，可以调用inference接口进行推理，使用eval_perf接口对模型性能进行评估，或者使用eval_memory接口获取模型在硬件平台上运行时的内存使用情况（模型必须运行在硬件平台上）。
-• 最后调用release接口释放RKNN对象。
+• Create RKNN object, initialize RKNN environment
+• Set model preprocessing parameters. If running on a PC through a simulator, you need to call the config interface to set model preprocessing parameters; if running on a connected board NPU and importing RKNN models, no configuration is needed.
+• Import model. If running on a PC through a simulator, use load_caffe, load_tensorflow, etc., interfaces to import corresponding non-RKNN models; if running on a connected board NPU, use the load_rknn interface to import RKNN models.
+• Build RKNN model. If running on a PC through a simulator, you need to call the build interface to build the RKNN model, then export the RKNN model or initialize the runtime environment for inference, etc.; if running on a connected board NPU, this step is not needed.
+• Initialize runtime environment. If model inference or performance evaluation is required, you must first call init_runtime to initialize the runtime environment and specify the model's running platform (simulator or connected board hardware NPU).
+• After initializing the runtime environment, you can call the inference interface for inference, use the eval_perf interface to evaluate model performance, or use the eval_memory interface to obtain the memory usage of the model running on the hardware platform (the model must run on the hardware platform).
+• Finally, call the release interface to release the RKNN object.
 
-使用load_rknn导入rknn模型时，不能调用accuracy_analysis精度分析，需要导入非rknn模型，然后构建模型时设置量化。
+When using load_rknn to import RKNN models, you cannot call accuracy_analysis for accuracy analysis. You need to import non-RKNN models and then set quantization when building the model.
 
-详细的接口说明参考下RKNN-Toolkit2工程中doc/目录下的用户手册，详细使用例程请参考RKNN-Toolkit2工程中examples/functions目录下例程。
+For detailed interface descriptions, refer to the user manual in the doc/ directory of the RKNN-Toolkit2 project. For detailed usage examples, refer to the examples/functions directory in the RKNN-Toolkit2 project.
 
-### 2.1. 模型转换和模型推理
+### 2.1. Model Conversion and Model Inference
 
-这小节展示下在PC上通过模拟器运行模型，进行模型的转换和推理。
+This section demonstrates model conversion and inference through a simulator on a PC.
 
-配套例程可以也可以使用教程配套例程，或者从 [RKNN-Toolkit2工程](https://github.com/airockchip/rknn-toolkit2) 文件中example目录下的onnx/yolov5中获取。
+You can use the companion example or obtain it from the [RKNN-Toolkit2 project](https://github.com/airockchip/rknn-toolkit2) files in the example directory under onnx/yolov5.
 
-在已经搭建好RKNN-Toolkit2的运行环境中，执行下面命令:
+In the already set up RKNN-Toolkit2 runtime environment, execute the following commands:
 
 ```python
-# 切换到配套例程examples/onnx/yolov5目录下（使用教程配套例程）
+# Switch to the companion example directory examples/onnx/yolov5 (using the tutorial companion example)
 (toolkit2_1.5) llh@YH-LONG:~$ cd lubancat_ai_manual_code/dev_env/rknn-toolkit2/examples/conversion/yolov5
-# 运行test.py，模型转换和模型推理
+# Run test.py for model conversion and inference
 (toolkit2_1.5) llh@YH-LONG:~/examples/conversion/yolov5$ python3 test.py
 W __init__: rknn-toolkit2 version: 1.5.0+1fa95b5c
 --> Config model
@@ -157,21 +154,21 @@ class: bus , score: 0.6890695095062256
 box coordinate left,top,right,down: [91.16828817129135, 134.78936767578125, 556.8909769654274, 460.78936767578125]
 ```
 
-在test.py主程序中：
+In the test.py main program:
 
 ```python
 if __name__ == '__main__':
 
-    # 创建RKNN对象
+    # Create RKNN object
     rknn = RKNN(verbose=True)
 
-    # 设置模型转换参数，这里可以指定平台，添加target_platform='rk3588'配置，默认rk3566
-    # mean_values是设置输入的均值，std_values是输入的归一化值
+    # Set model conversion parameters. Here you can specify the platform, add target_platform='rk3588' configuration, default is rk3566
+    # mean_values sets the input mean, std_values sets the input normalization value
     print('--> Config model')
     rknn.config(mean_values=[[0, 0, 0]], std_values=[[255, 255, 255]])
     print('done')
 
-    # 导入onnx模型，使用model指定onnx模型路径
+    # Import onnx model, use model to specify the onnx model path
     print('--> Loading model')
     ret = rknn.load_onnx(model=ONNX_MODEL)
     if ret != 0:
@@ -179,7 +176,7 @@ if __name__ == '__main__':
         exit(ret)
     print('done')
 
-    # 构建RKNN模型，这里设置do_quantization为true开启量化，dataset是指定用于量化校正的数据集
+    # Build RKNN model. Here set do_quantization to true to enable quantization, dataset specifies the dataset used for quantization calibration
     print('--> Building model')
     ret = rknn.build(do_quantization=QUANTIZE_ON, dataset=DATASET)
     if ret != 0:
@@ -187,7 +184,7 @@ if __name__ == '__main__':
         exit(ret)
     print('done')
 
-    # 导出RKNN模型，使用export_path指定导出模型路径，这里默认设置RKNN_MODEL
+    # Export RKNN model, use export_path to specify the export model path, here default is RKNN_MODEL
     print('--> Export rknn model')
     ret = rknn.export_rknn(RKNN_MODEL)
     if ret != 0:
@@ -195,7 +192,7 @@ if __name__ == '__main__':
         exit(ret)
     print('done')
 
-    # 调用init_runtime接口初始化运行时环境，默认是在PC上模拟仿真
+    # Call init_runtime interface to initialize runtime environment, default is simulation on PC
     print('--> Init runtime environment')
     ret = rknn.init_runtime()
     # ret = rknn.init_runtime('rk3566')
@@ -204,13 +201,13 @@ if __name__ == '__main__':
         exit(ret)
     print('done')
 
-    # 设置输出，用于模型推理
+    # Set output for model inference
     img = cv2.imread(IMG_PATH)
     # img, ratio, (dw, dh) = letterbox(img, new_shape=(IMG_SIZE, IMG_SIZE))
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     img = cv2.resize(img, (IMG_SIZE, IMG_SIZE))
 
-    # 进行推理，没有设置target默认使用模拟器，之后对输出数据后处理并保存结果
+    # Perform inference. If target is not set, the default is simulator. Then post-process the output data and save the results
     print('--> Running model')
     outputs = rknn.inference(inputs=[img])
     np.save('./onnx_yolov5_0.npy', outputs[0])
@@ -218,53 +215,54 @@ if __name__ == '__main__':
     np.save('./onnx_yolov5_2.npy', outputs[2])
     print('done')
 
-    # 省略...
+    # Omitted...
 ```
 
-该例程将配置并导入onnx模型（yolov5s.onnx），对模型进行量化之后导出RKNN模型（yolov5s.rknn）， 随后初始化运行环境，使用模拟器模拟推理获取输出数据，对输出数据后处理，最终得到结果图片：
+This example configures and imports the onnx model (yolov5s.onnx), quantizes the model, then exports the RKNN model (yolov5s.rknn). Subsequently, it initializes the runtime environment, uses the simulator for inference to obtain output data, post-processes the output data, and finally gets the result image:
 
-![结果图](./static/AC520E62-8F78-4B08-A134-FC5DDB28CC3C.png)
+![Result Image](./static/AC520E62-8F78-4B08-A134-FC5DDB28CC3C.png)
 
-### 2.2. 性能和内存评估
+### 2.2. Performance and Memory Evaluation
 
-这小节将使用RKNN-Toolkit2，在连接的板卡NPU上运行，进行性能和内存评估或者推理等操作。
+This section uses RKNN-Toolkit2 to run on a connected board NPU for performance and memory evaluation or inference.
 
-RKNN Toolkit2运行在PC上，通过PC的USB连接NPU设备。 RKNN Toolkit2将RKNN模型传到NPU设备上运行，再从NPU设备上获取推理结果、性能信息等
+RKNN Toolkit2 runs on a PC and connects to the NPU device via USB. RKNN Toolkit2 transfers the RKNN model to the NPU device to run, then retrieves inference results, performance information, etc., from the NPU device.
 
-在开始例程前我们需要以下操作：
+Before starting the example, the following operations are required:
 
-1. **连接板卡**：
+1. **Connect the board**:
 ```python
-# 在板卡上执行命令：
+# Execute the command on the board:
 cat@lubancat:~$ ./adbd &
 [1] 41260
 cat@lubancat:~$ install_listener('tcp:5037','*smartsocket*')
 using port=5555
 
-# PC端安装adb
+# Install adb on PC
 (toolkit2_1.5) llh@YH-LONG:~$ sudo apt install -y adb
 
-# 开启adb server
+# Start adb server
 (toolkit2_1.5) llh@YH-LONG:~$ adb start-server
 
-# 连接板子，IP根据具体板子，默认5555端口
+# Connect to the board. IP depends on the specific board, default port is 5555
 (toolkit2_1.5) llh@YH-LONG:~$ adb connect 192.168.103.131
 already connected to 192.168.103.131:5555
 
-# 查看连接的设备
+# View connected devices
 (toolkit2_1.5) llh@YH-LONG:~$ adb devices
 List of devices attached
 192.168.103.131:5555    device
 ```
 
-2. **启动rknn_server服务**：
+2. **Start rknn_server service**:
 ```python
-# 在板卡上执行restart_rknn.sh或者直接执行rknn_server
+# Execute restart_rknn.sh or directly execute rknn_server on the board
 cat@lubancat:~$ rknn_server
 start rknn server, version:1.5.0 (17e11b1 build: 2023-05-18 21:43:39)
 I NPUTransfer: Starting NPU Transfer Server, Transfer version 2.1.0 (b5861e7@2020-11-23T11:50:51)
 ```
-接下来获取配套例程，然后测试例程（测试使用RKNN模型，使用前面小节导出的rknn模型）：
+
+Next, obtain the companion example and test the example (test using RKNN model, use the RKNN model exported in the previous section):
 
 ```
 (toolkit2_1.5) llh@YH-LONG:~$ cd lubancat_ai_manual_code/dev_env/rknn-toolkit2/examples/evaluation/yolov5
@@ -347,7 +345,9 @@ ID   OpType           DataType Target InputShape                                
 47   ConvRelu         INT8     NPU    (1,128,40,40),(128,128,1,1),(128)            (1,128,40,40)          94372          25600          94372          201            12.74          100.0%/0.0%/0.0% - Up:0.0%             6              5952           6144           545.03         Conv:Conv_88
 48   ConvRelu         INT8     NPU    (1,128,40,40),(128,128,3,3),(128)            (1,128,40,40)          184766         230400         230400         392            58.78          100.0%/0.0%/0.0% - Up:0.0%             6              5952           6144           1067.09        Conv:Conv_90
 49   ConvRelu         INT8     NPU    (1,512,40,40),(128,512,1,1),(128)            (1,128,40,40)          138730         102400         138730         356            28.76          100.0%/0.0%/0.0% - Up:0.0%             17             12944          13568          801.22         Conv:Conv_92
-50   Concat           INT8     NPU    (1,128,40,40),(1,128,40,40)                  (1,256,40,40)          149958         0              149958         277            \              100.0%/0.0%/0.0% - Up:0.0%             17             7664           8960           866.06         Concat:Concat_94
+50   Concat           INT8     NPU    (1,128,40,40),(1,128,40,40)                  (1,256,40,40)          149958         0              
+
+149958         277            \              100.0%/0.0%/0.0% - Up:0.0%             17             7664           8960           866.06         Concat:Concat_94
 51   ConvRelu         INT8     NPU    (1,256,40,40),(256,256,1,1),(256)            (1,256,40,40)          109787         102400         109787         228            44.91          100.0%/0.0%/0.0% - Up:0.0%             9              8928           9216           634.06         Conv:Conv_95
 52   ConvRelu         INT8     NPU    (1,256,40,40),(128,256,1,1),(128)            (1,128,40,40)          173674         51200          173674         168            30.48          100.0%/0.0%/0.0% - Up:0.0%             14             9968           10496          1003.03        Conv:Conv_97
 53   ConvTranspose    INT8     NPU    (1,128,40,40),(128,1,4,4),(128)              (1,128,80,80)          554287         12800          554287         405            3.16           100.0%/0.0%/0.0% - Up:0.0%             1              992            1024           3201.22        ConvTranspose:Resize_100_2deconv
@@ -412,15 +412,15 @@ the size of model, current model size is: 8.11 MiB
 done
 ```
 
-test.py主程序：
+test.py main program:
 ```python
 if __name__ == '__main__':
-    # 创建RKNN
-    # 如果测试遇到问题，请开启verbose=True，查看调试信息。
+    # Create RKNN
+    # If there are issues during testing, enable verbose=True to view debug information.
     #rknn = RKNN(verbose=True)
     rknn = RKNN()
 
-    # 导入RKNN模型，path参数指定rknn模型路径
+    # Import RKNN model, path parameter specifies the rknn model path
     print('--> Loading model')
     ret = rknn.load_rknn(path=RKNN_MODEL)
     if ret != 0:
@@ -428,8 +428,8 @@ if __name__ == '__main__':
         exit(ret)
     print('done')
 
-    # 初始化运行时环境，指定连接的板卡NPU平台,device_id指定前面adb连接的板卡设备ID
-    # perf_debug开启进行性能评估时开启debug模式，eval_mem进入内存评估模式
+    # Initialize runtime environment, specify the connected board NPU platform, device_id specifies the board device ID connected via adb
+    # perf_debug enables debug mode during performance evaluation, eval_mem enters memory evaluation mode
     print('--> Init runtime environment')
     ret = rknn.init_runtime(target='rk3588', device_id='192.168.103.131:5555', perf_debug=True, eval_mem=True)
     if ret != 0:
@@ -437,72 +437,71 @@ if __name__ == '__main__':
         exit(ret)
     print('done')
 
-    # 模型性能进行评估，默认is_print是true，打印内存使用情况
+    # Evaluate model performance, default is_print is true, prints memory usage
     print('--> eval_perf')
     rknn.eval_perf()
     print('done')
 
-    # 调试，模型性能进行评估,默认is_print是true，打印内存使用情况
+    # Debug, evaluate model performance, default is_print is true, prints memory usage
     print('--> eval_memory')
     rknn.eval_memory()
     print('done')
 
     rknn.release()
 ```
-上面程序初始化运行时环境进行了内存和性能评估，也可以在NPU设备上推理，实际添加参考下前面小节在PC模拟器上推理。
+The above program initializes the runtime environment for memory and performance evaluation. You can also perform inference on the NPU device. Refer to the previous section for inference on the PC simulator.
 
-更多rknn-toolkit2的功能测试例程，参考下
-https://github.com/rockchip-linux/rknn-toolkit2/tree/master/examples/functions。
+For more rknn-toolkit2 function test examples, refer to:
+https://github.com/rockchip-linux/rknn-toolkit2/tree/master/examples/functions.
 
+# 3. Board Information Viewing and Settings
 
-# 3. 板卡信息查看和设置
-
-## 3.1. 对于rk3576
-1、NPU频率查询和设置
+## 3.1. For rk3576
+1. Query and set NPU frequency
 ```
-# 查看驱动版本
+# View driver version
 cat /sys/kernel/debug/rknpu/version
 
-# 查看电源状态
+# View power status
 cat /sys/kernel/debug/rknpu/power
 
-# 查看NPU使用率，需要root权限
+# View NPU usage rate, requires root permissions
 cat /sys/kernel/debug/rknpu/load
 
-# 查看NPU可用的频率,然后设置频率
+# View available NPU frequencies, then set frequency
 cat /sys/class/devfreq/fdab0000.npu/available_frequencies
 
 echo userspace > /sys/class/devfreq/fdab0000.npu/governor
 
 echo 1000000000 > /sys/class/devfreq/fdab0000.npu/userspace/set_freq
 
-# 查看NPU当前工作频率
+# View current NPU working frequency
 cat /sys/kernel/debug/rknpu/freq
 ```
-3.3.3. NPU其他相关
+3.3.3. Other NPU-related
 ```
-# 查看librknnrt库版本
+# View librknnrt library version
 strings /usr/lib/librknnrt.so | grep "librknnrt version"
 
-# 查看rknn_server版本
+# View rknn_server version
 strings /usr/bin/rknn_server | grep build
 
-# 查看NPU驱动版本
+# View NPU driver version
 dmesg | grep -i rknpu
 
-# 或者
+# Or
 sudo cat /sys/kernel/debug/rknpu/version
 ```
-关于NPU驱动更新，需要编译内核然后更新板卡内核，板卡可以直接使用命令更新或者烧录网盘的最新镜像。
+Regarding NPU driver updates, you need to compile the kernel and then update the board kernel. The board can directly use commands to update or burn the latest image from the network drive.
 ```
 sudo apt update
 
-# 请根据实际板卡的内核版本
+# Please update according to the actual board kernel version
 sudo apt install linux-image-5.10.160
 
 sudo apt install linux-image-5.10.198
 ```
-3.4. 参考链接
+3.4. Reference Links
 
 https://github.com/airockchip/rknn-toolkit2
 

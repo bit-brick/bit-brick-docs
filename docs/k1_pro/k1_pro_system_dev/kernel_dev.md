@@ -1,40 +1,40 @@
-# Linux Kernel 
+# Linux Kernel
 
-## 环境准备
+## Environment Preparation
 
-确保您的系统已经安装下列依赖包：
+Ensure your system has the following dependencies installed:
 
 ```bash
 sudo apt update
 sudo apt install -y build-essential libncurses-dev bison flex libssl-dev libelf-dev bc dwarves debhelper
 ```
 
-## 源码下载
+## Source Code Download
 
-先从您的 K1Pro 内核仓库克隆源码：
+First, clone the source code from your K1Pro kernel repository:
 
 ```bash
 git clone --depth=1 https://github.com/bit-brick/k1pro-linux-kernel-6.1.git -b main k1pro-kernel
 cd k1pro-kernel
 ```
 
-## 配置内核
+## Kernel Configuration
 
-按照默认配置生成 .config 文件：
+Generate .config file with default configuration:
 
 ```bash
 make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- rockchip_defconfig
 ```
 
-如果需要自定义配置：
+For custom configuration:
 
 ```bash
 make ARCH=arm64 menuconfig
 ```
 
-## 编译内核
+## Kernel Compilation
 
-使用外部交叉编译器（如果您已经安装）：
+Using external cross-compiler (if installed):
 
 ```bash
 export CROSS_COMPILE=aarch64-linux-gnu-
@@ -42,15 +42,15 @@ export ARCH=arm64
 make -j$(nproc) Image modules dtbs
 ```
 
-## 打包成 DEB
+## Package as DEB
 
-创建必要的目录结构：
+Create necessary directory structure:
 
 ```bash
 mkdir -p package/DEBIAN package/boot package/lib/modules
 ```
 
-创建 `package/DEBIAN/control` 文件，其内容如下：
+Create `package/DEBIAN/control` file with the following content:
 
 ```plaintext
 Package: linux-image-k1pro
@@ -62,7 +62,7 @@ Maintainer: Your Name <your@email.com>
 Description: Linux kernel for K1Pro
 ```
 
-将编译好的内核文件处理到对应的文件夹：
+Process compiled kernel files to corresponding folders:
 
 ```bash
 cp arch/arm64/boot/Image package/boot/
@@ -71,29 +71,29 @@ cp arch/arm64/boot/dts/rockchip/*.dtb package/boot/dtbs/
 make modules_install INSTALL_MOD_PATH=package
 ```
 
-生成 Debian 包：
+Generate Debian package:
 
 ```bash
 dpkg-deb --build package linux-image-k1pro_1.0_arm64.deb
 ```
 
-## 安装内核包
+## Install Kernel Package
 
-在 K1Pro 装置系统上安装：
+Install on K1Pro system:
 
 ```bash
 sudo dpkg -i linux-image-k1pro_1.0_arm64.deb
 ```
 
-## 重启测试
+## Reboot and Test
 
-安装完成后，重启设备：
+After installation, restart the device:
 
 ```bash
 sudo reboot
 ```
 
-并使用下面命令确认新内核是否被加载：
+And verify the new kernel is loaded using:
 
 ```bash
 uname -a

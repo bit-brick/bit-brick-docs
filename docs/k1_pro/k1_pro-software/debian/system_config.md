@@ -1,55 +1,55 @@
-# 系统配置 
+# System Configuration
 
-## 1. 语言设置
+## 1. Language Settings
 
-1. 使用 Vim 编辑 `/etc/locale.gen` 文件，将不需要的语言环境注释掉并启用所需的语言环境。
+1. Use Vim to edit the `/etc/locale.gen` file, comment out unwanted language environments and enable required language environments.
 
-2. 中文切换成英文，在文件中执行以下操作：
+2. To switch from Chinese to English, perform the following operations in the file:
 
 ```bash
-# 注释掉 zh_CN.UTF-8 UTF-8 这一行
-# 取消注释 en_US.UTF-8 UTF-8 这一行
+# Comment out the zh_CN.UTF-8 UTF-8 line
+# Uncomment the en_US.UTF-8 UTF-8 line
 ```
 
-3. 使用 `dpkg-reconfigure` 命令以非交互方式重新生成语言环境文件：
+3. Use the `dpkg-reconfigure` command to regenerate locale files non-interactively:
 
 ```bash
 dpkg-reconfigure -f noninteractive locales
 ```
 
-## 2. 自启动配置
+## 2. Auto-start Configuration
 
-本小节以自启以 GPIO 程序为例，该程序绝对路径是 `/home/linaro/gpio.py`，请结合自己实际文件和路径修改对应位置。
+This section uses a GPIO program as an example for auto-start, with the absolute path being `/home/linaro/gpio.py`. Please modify corresponding locations according to your actual files and paths.
 
-### 2.1 桌面自启动
+### 2.1 Desktop Auto-start
 
-1. 首先我们使用如下命令新建一个 `startup.sh`：（K1 Pro 默认在 `/home/linaro`）
+1. First, create a new `startup.sh` using the following command: (K1 Pro default in `/home/linaro`)
 
 ```bash
 touch startup.sh
 ```
 
-2. 打开 `startup.sh` 脚本文件，填入如下内容：
+2. Open the `startup.sh` script file and enter the following content:
 
 ```bash
 #!/bin/sh
 sudo python3 gpio.py
 ```
 
-3. 赋予 `startup.sh` 脚本文件权限：
+3. Grant permissions to the `startup.sh` script file:
 
 ```bash
 sudo chmod 777 startup.sh
 ```
 
-4. 新建自启文件：
+4. Create auto-start file:
 
 ```bash
 cd .config && mkdir autostart
 cd autostart && sudo nano start.desktop
 ```
 
-5. 填入如下内容：
+5. Enter the following content:
 
 ```ini
 [Desktop Entry]
@@ -57,29 +57,29 @@ Type=Application
 Exec=/home/linaro/startup.sh
 ```
 
-6. 重启：
+6. Restart:
 
 ```bash
 sudo reboot
 ```
 
-### 2.2 在rc.local脚本中添加自启动
+### 2.2 Adding Auto-start in rc.local Script
 
-1. 打开 `/etc/rc.local` 脚本在 `exit 0` 前面增加一行：
+1. Open `/etc/rc.local` script and add a line before `exit 0`:
 
 ```bash
 sudo python3 /home/linaro/gpio.py &
 ```
 
-1. 重启 ：
+2. Restart:
 
 ```bash
 sudo reboot
 ```
 
-### 2.3 系统管理器设置自启动
+### 2.3 System Manager Auto-start Settings
 
-1. 在 `/etc/systemd/system/gpio.service` 新建一个自启服务对应的配置文件，填入如下内容：
+1. Create a new configuration file for the auto-start service at `/etc/systemd/system/gpio.service`, enter the following content:
 
 ```ini
 [Unit]
@@ -95,67 +95,67 @@ ExecStart=/home/linaro/gpio.py
 WantedBy=multi-user.target
 ```
 
-2. 启用一个服务，使它在系统启动时自动启动：
+2. Enable a service to auto-start at system boot:
 
 ```bash
 sudo systemctl enable gpio.service
 ```
 
-3. 重启：
+3. Restart:
 
 ```bash
 sudo systemctl restart gpio.service
 ```
 
-4. 重启 Omni3576：
+4. Restart Omni3576:
 
 ```bash
 sudo reboot
 ```
 
-5. 如果想要禁用一个服务，使它在系统启动时不会自动启动：
+5. If you want to disable a service from auto-starting at system boot:
 
 ```bash
 sudo systemctl disable gpio.service
 ```
 
-## 3. 中文输入法安装
+## 3. Chinese Input Method Installation
 
-1. 安装桌面终端软件。
+1. Install desktop terminal software.
 
 ```bash
 sudo apt update
 sudo apt install xfce4-terminal
 ```
 
-2. 安装 IBUS 输入法及相关组件。
+2. Install IBUS input method and related components.
 
 ```bash
 sudo apt update
 sudo apt install ibus-gtk ibus-gtk3 ibus ibus-libpinyin ibus-wayland at-spi2-core
 ```
 
-3. 启动 IBUS 输入法后台服务。
+3. Start IBUS input method background service.
 
 ```bash
 ibus-daemon
 ```
 
-4. 配置中文输入法。
+4. Configure Chinese input method.
 
-   - 在弹出的设置窗口中：
+   - In the pop-up settings window:
     ![alt text](image.png)
-    - 选择 Chinese -> Intelligent Pinyin
+    - Select Chinese -> Intelligent Pinyin
     ![alt text](image-1.png)
     ![alt text](image-2.png)
-5. 重启开发板
+5. Restart the development board
    ```
    sudo reboot
    ```
 
-   - 然后 **左键单击右上角键盘图标**，选择 **中文（Chinese）**。
+   - Then **left-click the keyboard icon** in the top right corner, select **Chinese**.
     ![alt text](image-3.png)
-6. 安装 `im-config` 配置工具，并设置 IBUS 为默认输入法框架
+6. Install `im-config` configuration tool and set IBUS as the default input method framework
 
 ```bash
 sudo apt install im-config

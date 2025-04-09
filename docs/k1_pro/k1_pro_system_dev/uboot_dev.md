@@ -1,46 +1,42 @@
-# Uboot 
+# Uboot
 
-本文详细介绍了如何在 Rockchip 平台上编译 U-Boot，包括获取源码、配置、工具链设置，以及使用 `make.sh` 进行编译、打包
+This document details how to compile U-Boot on the Rockchip platform, including obtaining source code, configuration, toolchain setup, and using `make.sh` for compilation and packaging.
 
-## 准备工作
+## Preparation
 
-### 源码准备
+### Source Code Preparation
 
-- 从官方获取：
+- Get from official repository:
 
   ```bash
   git clone https://github.com/rockchip-linux/u-boot.git
   ```
 
+### `rkbin` Preparation (U-Boot dependency)
 
-
-### `rkbin` 准备（U-Boot 依赖）
-
-- 从官方获取：
+- Get from official repository:
 
   ```bash
   git clone https://github.com/rockchip-linux/rkbin.git
   ```
 
+### Toolchain Preparation (Using GCC 10.3 64-bit as example)
 
-
-### 工具链准备（以 GCC 10.3 64 位为例）
-
-- 从 ARM 官网获取：
+- Download from ARM official website:
 
   ```bash
   wget https://developer.arm.com/-/media/Files/downloads/gnu/10.3-2021.07/binrel/gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu.tar.xz
   ```
 
-- GCC 10.3 以下的版本可从 Linaro 获取。
+- GCC versions below 10.3 can be obtained from Linaro.
 
-- 从开发板厂商提供的 SDK 中拷贝：
+- Copy from the SDK provided by the board manufacturer:
 
   ```bash
   cp -rfp prebuilts/gcc/linux-x86/aarch64/gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu/ .
   ```
 
-### 目录准备
+### Directory Preparation
 
 ```bash
 mv rkbin u-boot/
@@ -48,78 +44,78 @@ mkdir -p u-boot/toolchain
 mv gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu/ u-boot/toolchain/
 ```
 
-## `make.sh` 脚本
+## `make.sh` Script
 
-`make.sh` 既是一个编译脚本，也是一个打包、调试工具。可用于反汇编、打包固件。
+`make.sh` is both a compilation script and a packaging/debugging tool. It can be used for disassembly and firmware packaging.
 
-- 帮助命令：
+- Help command:
 
   ```bash
   ./make.sh help
   ```
 
-- 编译：
+- Compilation:
 
   ```bash
-  ./make.sh board  # 根据 board_defconfig 配置构建固件
-  ./make.sh env    # 生成 fw_printenv 工具
+  ./make.sh board  # Build firmware based on board_defconfig
+  ./make.sh env    # Generate fw_printenv tool
   ```
 
-- 输出：
+- Output:
 
-  在当前目录输出构建产物，包括 U-Boot/Trust/Loader 镜像。
+  Build artifacts are output in the current directory, including U-Boot/Trust/Loader images.
 
-- 打包固件：
+- Package firmware:
 
   ```bash
-  ./make.sh uboot  # 打包 U-Boot
-  ./make.sh trust  # 打包 Trust
-  ./make.sh loader # 打包 Loader
+  ./make.sh uboot  # Package U-Boot
+  ./make.sh trust  # Package Trust
+  ./make.sh loader # Package Loader
   ```
 
-- 反汇编：
+- Disassembly:
 
   ```bash
-  ./make.sh elf  # 反汇编 ELF 文件，默认使用 -D 参数
-  ./make.sh map  # 打开 u-boot.map
-  ./make.sh sym  # 打开 u-boot.sym
+  ./make.sh elf  # Disassemble ELF file, using -D parameter by default
+  ./make.sh map  # Open u-boot.map
+  ./make.sh sym  # Open u-boot.sym
   ```
 
-## 修改 `make.sh`
+## Modifying `make.sh`
 
-- 修改 `RKBIN_TOOLS` 为：
+- Modify `RKBIN_TOOLS` to:
 
   ```bash
   RKBIN_TOOLS=rkbin/tools
   ```
 
-- 如果存在 `TOOLCHAIN_ARM64`，则修改为：
+- If `TOOLCHAIN_ARM64` exists, modify to:
 
   ```bash
   TOOLCHAIN_ARM64=toolchain/gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu/bin
   ```
 
-- 如果存在 `CROSS_COMPILE_ARM64`，则修改为：
+- If `CROSS_COMPILE_ARM64` exists, modify to:
 
   ```bash
   CROSS_COMPILE_ARM64=toolchain/gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu/bin
   ```
 
-## `make.sh` 与 `rkbin` 的联系
+## Relationship between `make.sh` and `rkbin`
 
-- `rkbin`：用于存放 RK 不开源的 bin、脚本、打包工具。U-Boot 编译时会从该仓库索引相关文件，打包生成 Loader、Trust、U-Boot 固件。
+- `rkbin`: Used to store RK's non-open-source bins, scripts, and packaging tools. U-Boot will index related files from this repository during compilation to generate Loader, Trust, and U-Boot firmware.
 
-- `rkbin/RKBOOT/xxx.ini` 文件以及 `rkbin/RKTRUST/xxx.ini` 文件指定了需要打包的固件。
+- `rkbin/RKBOOT/xxx.ini` files and `rkbin/RKTRUST/xxx.ini` files specify the firmware to be packaged.
 
-- `make.sh` 中通过语句 `${RKBIN}/RKBOOT/${RKCHIP_LOADER}MINIALL.ini` 指定要使用的 ini 文件，`RKCHIP_LOADER` 一般为平台名。以 RK3576 为例，使用的 ini 文件即为 `rkbin/RKBOOT/RK3576MINIALL.ini`。
+- In `make.sh`, the statement `${RKBIN}/RKBOOT/${RKCHIP_LOADER}MINIALL.ini` specifies which ini file to use, where `RKCHIP_LOADER` is generally the platform name. For example, with RK3576, the ini file used would be `rkbin/RKBOOT/RK3576MINIALL.ini`.
 
-## 固件编译
+## Firmware Compilation
 
-- 以 RK3576 为例，执行命令：
+- Taking RK3576 as an example, execute:
 
   ```bash
   ./make.sh rk3576
   ```
 
-  实际使用的配置文件为 `./configs/rv3575_defconfig`。
+  The actual configuration file used is `./configs/rv3575_defconfig`.
 

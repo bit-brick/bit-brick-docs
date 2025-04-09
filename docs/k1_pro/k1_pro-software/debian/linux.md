@@ -1,54 +1,53 @@
+# Linux Basics
 
-# Linux 基础
+## 1. Introduction
 
-## 1. 介绍
+Most users are accustomed to Windows' graphical interface operations. While K1 Pro's basic applications can be completed through its graphical interface, there are still many operations that cannot be done through the interface, such as system configuration. However, almost all programs can be called and run through the command line. Therefore, proficiency in common Linux commands holds a high position in entry-level learning. To make K1 Pro more convenient to use, this chapter will introduce some common Linux commands used in K1 Pro development.
 
-大部分用户都已经习惯了 Windows 图形界面化的操作，K1 Pro 日常的基础应用也都可以通过它的图形界面完成，但还是有很多操作无法通过界面完成的，例如系统配置。但是几乎所有的程序都能通过命令行来调用运行，因此，Linux 常用命令的熟练使用在入门学习中占有很高的地位，为更加方便使用 K1 Pro，本章将介绍在 K1 Pro 开发时一些常用的 Linux 命令。
+## 2. Terminal Introduction
 
-## 2. 终端简介
+1. On K1 Pro, you can access the terminal through serial port or SSH login. If using a local display to log in, you can press `Ctrl+Alt+T` to open the default terminal. K1 Pro's default prompt is as follows:
+   - `linaro` indicates the current username / login name
+   - `linaro` indicates the hostname
+   - `~` indicates the current user's directory is `/home/linaro`
+   - `$` character indicates the current login is a regular user
+   - `#` character indicates the login is root user
 
-1. 在 K1 Pro 上，可以通过串口或 SSH 登录进入终端。如果使用本地显示器登录，可以按快捷键 `Ctrl+Alt+T` 打开默认终端。K1 Pro 的默认提示符如下：
-   - `linaro` 表示当前用户名 / 登录名
-   - `linaro` 表示主机名
-   - `~` 表示当前用户所在的目录是 `/home/linaro`
-   - `$` 字符表示当前登录的是普通用户
-   - `#` 字符表示登录的是 root 用户
-
-2. K1 Pro 默认登录普通 linaro 用户，想要切换 root 用户，在终端输入：
+2. K1 Pro defaults to logging in as regular linaro user. To switch to root user, enter in the terminal:
 
 ```bash
-sudo su root  # 普通用户切换 root 用户
-su linaro     # root 用户切换普通用户
+sudo su root  # Regular user switching to root user
+su linaro     # Root user switching to regular user
 ```
 
-## 3. Linux 文件目录
+## 3. Linux File Directory
 
-在 Windows 中每一个分区都是一个树形结构，有多少个分区就有多少个树形结构，而 Linux 中只有一个树形结构，所有的文件、分区都是存在于一个树形结构中。在这个结构中，最上层的是根目录，其他所有的目录、文件、分区都是在根目录下建立的。常用目录：
+In Windows, each partition is a tree structure, with as many tree structures as there are partitions, while in Linux there is only one tree structure, and all files and partitions exist within this single tree structure. In this structure, the top level is the root directory, and all other directories, files, and partitions are established under the root directory. Common directories:
 
-- `/bin`：放置与 K1 Pro 系统有关（包括运行图形界面所需的）的二进制可执行文件。
-- `/boot`：引导目录，放置 Linux 内核以及其它用来启动 K1 Pro 的软件包。
-- `/dev`：设备目录，在 Linux 系统中，所有设备都视为文件，在这个目录中存放了所有设备，例如第一个 SATA 硬盘或 U 盘会被识别为 `sda` 文件。
-- `/etc`：系统管理和配置文件。
-- `/home`：用户目录，除了 root 用户外，其他所有的使用者的数据都存放在这个目录下。
-- `/lib`：基本系统的动态链接库文件存放位置。
-- `/media`：放置可移动存储驱动器，例如 U 盘、光驱等等。
-- `/root`：该目录为系统管理员，也称作超级权限者的用户主目录。
+- `/bin`: Contains binary executable files related to the K1 Pro system (including those required to run the graphical interface).
+- `/boot`: Boot directory, contains the Linux kernel and other software packages used to start K1 Pro.
+- `/dev`: Device directory, in Linux systems, all devices are treated as files, and this directory contains all devices, such as the first SATA hard drive or USB drive recognized as the `sda` file.
+- `/etc`: System management and configuration files.
+- `/home`: User directory, where data for all users except the root user is stored.
+- `/lib`: Location for dynamic link library files of the basic system.
+- `/media`: Contains removable storage drives, such as USB drives, optical drives, etc.
+- `/root`: This directory is the home directory for the system administrator, also known as the superuser.
 
-## 4. 文件系统
+## 4. File System
 
-在 Linux 操作系统中，一切被操作系统管理的资源，如网络接口卡、磁盘驱动器、打印机、输入输出设备、普通文件或目录等，都被视为文件。这是 Linux 系统中一个重要的概念，即“一切都是文件”。**文件系统（File System）** 是操作系统用来管理和组织存储设备（如硬盘、SSD、闪存等）上的数据的一种机制。其核心作用是定义如何在存储设备上存储、检索和管理文件。Linux 支持非常广泛的文件系统，常见的文件系统有 EXT 系列（EXT2、EXT3、EXT4），XFS 文件系统，还有专门针对 NAND 类型设备的文件系统 ubifs、jffs2、yaffs2 等。
+In the Linux operating system, all resources managed by the operating system, such as network interface cards, disk drives, printers, input/output devices, regular files or directories, etc., are treated as files. This is an important concept in Linux systems, namely "everything is a file." **File System** is a mechanism used by the operating system to manage and organize data on storage devices (such as hard drives, SSDs, flash memory, etc.). Its core function is to define how to store, retrieve, and manage files on storage devices. Linux supports a wide range of file systems, including the EXT series (EXT2, EXT3, EXT4), XFS file system, and file systems specifically designed for NAND-type devices such as ubifs, jffs2, yaffs2, etc.
 
-- **EXT2**：早期的 Linux 文件系统，没有日志功能，适合小型存储设备，如 USB 驱动器。
-- **EXT3**：EXT2 的升级版，支持日志功能，极大提高了数据的安全性和文件恢复能力。
-- **EXT4**：是目前最常用的 Linux 文件系统，支持大文件（最高支持 16 TB 文件和 1 EB 的文件系统），性能、稳定性和安全性都非常好。
-- **XFS**：是一个高性能 64 位日志文件系统，设计用于处理大文件和高并发的应用。
-- **JFFS2 和 UBIFS**：是专为 FLASH 存储器设计的文件系统，具有擦写平衡和掉电保护，减少存储损耗。JFFS2 (Journaling Flash File System v2) 提供日志结构和坏块管理，但随着容量增大，其性能和内存占用增加，通过磨损均衡和数据压缩延长寿命。UBIFS (Unsorted Block Image File System) 支持动态文件管理和直接挂载，适合大容量 NAND 闪存，需与 UBI 层配合使用，以实现更有效的磨损均衡和坏块管理，同时采用数据压缩。
+- **EXT2**: An early Linux file system without journaling functionality, suitable for small storage devices like USB drives.
+- **EXT3**: An upgraded version of EXT2, supports journaling functionality, greatly improving data security and file recovery capabilities.
+- **EXT4**: Currently the most commonly used Linux file system, supports large files (up to 16 TB files and 1 EB file system), with excellent performance, stability, and security.
+- **XFS**: A high-performance 64-bit journaling file system designed for handling large files and high-concurrency applications.
+- **JFFS2 and UBIFS**: File systems specifically designed for FLASH memory, featuring wear leveling and power failure protection to reduce storage wear. JFFS2 (Journaling Flash File System v2) provides journaling structure and bad block management, but as capacity increases, its performance and memory usage increase, extending lifespan through wear leveling and data compression. UBIFS (Unsorted Block Image File System) supports dynamic file management and direct mounting, suitable for large-capacity NAND flash, requiring cooperation with the UBI layer for more effective wear leveling and bad block management, while employing data compression.
 
-### 4.1 inode 和 block 介绍
+### 4.1 inode and block Introduction
 
-**Inode**（索引节点）是 Linux 文件系统中每个文件或目录的元数据结构，记录了文件的属性（如文件大小、权限、时间戳等），但不包含文件名和文件数据。每个文件或目录在创建时都会分配一个唯一的 Inode，系统通过 Inode 号找到文件的存储位置。文件存储在硬盘上，硬盘的最小存储单位是扇区（sector），每个扇区大小为 512 字节。为了提高效率，操作系统一次性读取多个扇区，组成一个 **块（block）**，通常大小为 4KB（由 8 个扇区组成）。文件的元信息存储在 Inode 中，文件数据则存储在一个或多个 block 中。
+**Inode** (index node) is the metadata structure for each file or directory in the Linux file system, recording the file's attributes (such as file size, permissions, timestamps, etc.), but does not include the file name and file data. Each file or directory is assigned a unique inode upon creation, and the system uses the inode number to locate the file's storage location. Files are stored on the hard disk, and the smallest storage unit of the hard disk is a sector, each sector being 512 bytes in size. To improve efficiency, the operating system reads multiple sectors at once, forming a **block**, usually 4KB in size (composed of 8 sectors). File metadata is stored in the inode, while file data is stored in one or more blocks.
 
-1. 查看扇区大小：
+1. View sector size:
 
 ```bash
 root@linaro:/home/linaro# fdisk -l /dev/mmcblk1
@@ -71,17 +70,17 @@ root@linaro:/home/linaro# cat /sys/block/mmcblk1/queue/hw_sector_size
 512
 ```
 
-2. 查看 `inode` 信息：
+2. View `inode` information:
 
 ```bash
-# 新建文件并写入三行数字
+# Create a new file and write three lines of numbers
 linaro@linaro:~$ tee 1.txt <<EOF
 > 1111
 > 1111
 > 1111
 > EOF
 
-# 查看 inode 信息
+# View inode information
 linaro@linaro:~$ stat 1.txt
     File: 1.txt
     Size: 15              Blocks: 8          IO Block: 4096   regular file
@@ -93,101 +92,101 @@ Change: 2024-08-26 12:51:35.924002026 +0000
     Birth: 2024-08-26 12:51:16.816002017 +0000
 ```
 
-- **Access**: `(0644/-rw-r--r--)`：文件权限
-- **Access**: `2024-08-26 12:51:16.816002017 +00`：文件上次被访问的时间
-- **Modify**: `2024-08-26 12:51:35.924002026 +0000`：文件内容最后一次被修改的时间。
-- **Change**: `2024-08-26 12:51:35.924002026 +0000`：文件的元数据（如权限或所有者）最后一次被修改的时间
-- **Birth**: `2024-08-26 12:51:16.816002017 +0000`：文件的创建时间（某些文件系统不支持此信息）
+- **Access**: `(0644/-rw-r--r--)`: File permissions
+- **Access**: `2024-08-26 12:51:16.816002017 +00`: Last access time of the file
+- **Modify**: `2024-08-26 12:51:35.924002026 +0000`: Last modification time of the file content.
+- **Change**: `2024-08-26 12:51:35.924002026 +0000`: Last modification time of the file's metadata (such as permissions or owner)
+- **Birth**: `2024-08-26 12:51:16.816002017 +0000`: File creation time (not supported by some file systems)
 
-### 4.2 inode 注意事项
+### 4.2 inode Considerations
 
-1. inode 的数量是有限的，每个文件系统只能包含固定数量的 inode。这意味着当文件系统中的 inode 用完时，无法再创建新的文件或目录，即使磁盘上还有可用空间。因此，在创建文件系统时，需要根据文件和目录的预期数量来合理分配 inode 的数量。
+1. The number of inodes is limited, and each file system can only contain a fixed number of inodes. This means that when the inodes in the file system are exhausted, new files or directories cannot be created, even if there is available space on the disk. Therefore, when creating a file system, it is necessary to reasonably allocate the number of inodes based on the expected number of files and directories.
 
-2. 文件名包含特殊字符，可能无法正常删除。这时直接删除 `inode`，能够起到删除文件的作用。
+2. If a file name contains special characters, it may not be deleted normally. In this case, directly deleting the `inode` can achieve the purpose of deleting the file.
 
 ```bash
-find ./* -inum 节点号 -delete
+find ./* -inum inode_number -delete
 ```
 
-### 4.3 软链接和硬链接
+### 4.3 Soft Links and Hard Links
 
-| 特性          | 硬链接                          | 软链接                          |
+| Feature       | Hard Link                        | Soft Link                        |
 |---------------|----------------------------------|----------------------------------|
-| 指向方式      | 指向相同的 inode                | 指向路径（文本引用）            |
-| 跨文件系统支持| 不支持                          | 支持                            |
-| 源文件删除后影响| 链接仍然有效                    | 链接失效（悬挂链接）            |
-| 创建命令      | `ln filename linkname`          | `ln -s target linkname`         |
-| 可以链接的对象| 任何文件                        | 任何文件或目录                  |
+| Pointing Method | Points to the same inode        | Points to the path (text reference) |
+| Cross File System Support | Not supported                  | Supported                        |
+| Impact After Source File Deletion | Link remains valid            | Link becomes invalid (dangling link) |
+| Creation Command | `ln filename linkname`          | `ln -s target linkname`         |
+| Objects That Can Be Linked | Any file                        | Any file or directory           |
 
-## 5. Linux 常用命令
+## 5. Common Linux Commands
 
 ### ls
 
-#### 命令功能
+#### Command Function
 
-`ls` 命令用于显示指定工作目录下之内容（列出目前工作目录所含之文件及子目录）。
+The `ls` command is used to display the contents of the specified working directory (list the files and subdirectories contained in the current working directory).
 
-#### 命令格式
+#### Command Format
 
 `ls`[-ahl] _directory_
 
-#### 参数说明
+#### Parameter Description
 
-| 参数          | 参数说明                          | 路径                            |
-|---------------|-----------------------------------|----------------------------------|
-| _directory_   | 要显示的目标目录                  | 可以是相对路径或绝对路径。       |
+| Parameter      | Description                        | Path                             |
+|----------------|------------------------------------|----------------------------------|
+| _directory_    | Target directory to display        | Can be a relative path or absolute path. |
 
-#### 使用实例
+#### Usage Examples
 
 ```bash
-ls -a  # 显示所有文件及目录 (. 开头的隐藏文件也会列出 )
-ls -l  # 将文件型态、权限、拥有者、文件大小等资讯详细列出
-ls -lh # 文件大小以容易理解的格式列出，例如 4K
-ls -i  # 查看文件i节点号
+ls -a  # Display all files and directories (hidden files starting with . will also be listed)
+ls -l  # List detailed information such as file type, permissions, owner, file size, etc.
+ls -lh # List file sizes in an easy-to-understand format, such as 4K
+ls -i  # View file inode number
 ```
 
 ### cd
 
-#### 命令功能
+#### Command Function
 
-`cd` 命令用于改变当前工作目录的命令。
+The `cd` command is used to change the current working directory.
 
-#### 命令格式
+#### Command Format
 
 `cd`[ _directory_ ]
 
-#### 参数说明
+#### Parameter Description
 
-| 参数          | 参数说明                          | 取值                            |
-|---------------|-----------------------------------|----------------------------------|
-| _directory_   | 要切换的目标目录，可以是相对路径或绝对路径。| 字符串形式，不支持空格，绝对路径名长度范围为1～64。|
+| Parameter      | Description                        | Value                            |
+|----------------|------------------------------------|----------------------------------|
+| _directory_    | Target directory to switch to, can be a relative path or absolute path. | String format, does not support spaces, absolute path name length range is 1~64. |
 
-#### 使用实例
+#### Usage Examples
 
 ```bash
-cd          # 返回用户目录
-cd ..       # 返回上一层目录
-cd /bin     # 进入 /bin 目录
-cd ../..    # 进入当前目录的上两层目录
-cd ~        # 进入用户家目录
-cd -        # 切换到上次访问的目录
+cd          # Return to the user directory
+cd ..       # Return to the previous directory
+cd /bin     # Enter the /bin directory
+cd ../..    # Enter the upper two levels of the current directory
+cd ~        # Enter the user's home directory
+cd -        # Switch to the last visited directory
 ```
 
 ### pwd
 
-#### 命令功能
+#### Command Function
 
-`pwd` 命令用于显示工作目录，执行 pwd 指令可立刻得知您目前所在的工作目录的绝对路径名称。
+The `pwd` command is used to display the working directory. Executing the pwd command immediately reveals the absolute path name of the current working directory.
 
-#### 使用实例
+#### Usage Examples
 
 ### df
 
-#### 命令功能
+#### Command Function
 
-`df` 命令用于显示目前在 Linux 系统上的文件系统磁盘使用情况统计。
+The `df` command is used to display the current disk usage statistics of the file system on the Linux system.
 
-#### 使用实例
+#### Usage Examples
 
 ```bash
 linaro@linaro:~$ df -Th
@@ -202,124 +201,124 @@ tmpfs          tmpfs     391M   32K  391M   1% /run/user/1000
 
 ### touch
 
-#### 命令功能
+#### Command Function
 
-`touch` 命令用于修改文件或者目录的时间属性，包括存取时间和更改时间。若文件不存在，系统会建立一个新的文件。
+The `touch` command is used to modify the time attributes of files or directories, including access time and modification time. If the file does not exist, the system will create a new file.
 
-#### 使用实例
+#### Usage Examples
 
 ```bash
-touch file.txt       # 新建一个file文件
+touch file.txt       # Create a new file named file.txt
 ```
 
 ### mkdir
 
-#### 命令功能
+#### Command Function
 
-`mkdir` 命令用于创建目录。
+The `mkdir` command is used to create directories.
 
-#### 命令格式
+#### Command Format
 
 `mkdir`[ _options_ ] directory
 
-#### 参数说明
+#### Parameter Description
 
-| 参数          | 参数说明                          |
-|---------------|-----------------------------------|
-| _options_     | -p 原来的目录不存在则新建一个     |
-| _directory_   | 指定被创建的文件名。              |
+| Parameter      | Description                        |
+|----------------|------------------------------------|
+| _options_      | -p Create parent directories if they do not exist |
+| _directory_    | Specify the name of the directory to be created. |
 
-#### 使用实例
+#### Usage Examples
 
 ```bash
-mkdir linaro              # 建立一个名为 linaro 的子目录
-mkdir -p linaro/test      # 建立一个名为 linaro/test 的目录
+mkdir linaro              # Create a subdirectory named linaro
+mkdir -p linaro/test      # Create a directory named linaro/test
 ```
 
 ### cp
 
-#### 命令功能
+#### Command Function
 
-`cp` 命令主要用于复制文件或目录。
+The `cp` command is mainly used to copy files or directories.
 
-#### 命令格式
+#### Command Format
 
 `cp`[ _options_ ] source dest
 
-#### 参数说明
+#### Parameter Description
 
-| 参数          | 参数说明                          |
-|---------------|-----------------------------------|
-| _options_     | -r、-f 等选项                     |
-| _source_      | 指定被复制文件的路径及源文件名。   |
-| _dest_        | 指定目标文件的路径及目标文件名。   |
+| Parameter      | Description                        |
+|----------------|------------------------------------|
+| _options_      | Options such as -r, -f            |
+| _source_       | Specify the path and source file name to be copied. |
+| _dest_         | Specify the path and target file name. |
 
-#### 使用实例
+#### Usage Examples
 
 ```bash
-cp test.txt /bin           # 将 test.txt 复制到 /bin 目录下
-cp –r test/ /usr/newtest   # 将 test 文件夹复制到 /usr 目录下并重新命名为 newtest
+cp test.txt /bin           # Copy test.txt to the /bin directory
+cp –r test/ /usr/newtest   # Copy the test folder to the /usr directory and rename it to newtest
 ```
 
 ### mv
 
-#### 命令功能
+#### Command Function
 
-`mv` 用来为文件或目录改名、或将文件或目录移入其它位置。
+The `mv` command is used to rename files or directories, or move files or directories to other locations.
 
-#### 命令格式
+#### Command Format
 
 `mv`[ _options_ ] source dest
 
-#### 参数说明
+#### Parameter Description
 
-| 参数          | 参数说明                          |
-|---------------|-----------------------------------|
-| _options_     | -i、-f 等选项                     |
-| _source_      | 指定被移动文件的路径及源文件名。   |
-| _dest_        | 指定目标文件路径及目标文件名。     |
+| Parameter      | Description                        |
+|----------------|------------------------------------|
+| _options_      | Options such as -i, -f            |
+| _source_       | Specify the path and source file name to be moved. |
+| _dest_         | Specify the path and target file name. |
 
-#### 使用实例
+#### Usage Examples
 
 ```bash
-mv file1 /userdata          # 将 file1 文件移动到 /userdata 目录下
+mv file1 /userdata          # Move the file1 file to the /userdata directory
 ```
 
 ### rm
 
-#### 命令功能
+#### Command Function
 
-`rm` 命令用于删除一个文件或者目录。
+The `rm` command is used to delete a file or directory.
 
-#### 命令格式
+#### Command Format
 
 `rm`[ _options_ ] file/directory
 
-#### 参数说明
+#### Parameter Description
 
-| 参数          | 参数说明                          |
-|---------------|-----------------------------------|
-| _options_     | -r、-f 等选项                     |
-| _file/directory_| 要删除的目标文件名或目录名。     |
+| Parameter      | Description                        |
+|----------------|------------------------------------|
+| _options_      | Options such as -r, -f            |
+| _file/directory_| Target file or directory name to be deleted. |
 
-#### 使用实例
+#### Usage Examples
 
 ```bash
-rm test.txt         # 删除 test.txt 文件
-rm -r linaro       # 删除 linaro 目录
+rm test.txt         # Delete the test.txt file
+rm -r linaro       # Delete the linaro directory
 ```
 
 ### chmod
 
-#### 命令功能
+#### Command Function
 
-`chmod` 命令是控制用户对文件的权限的命令。
+The `chmod` command is used to control user permissions for files.
 
-#### 命令详解
+#### Command Details
 
-1. Linux/Unix 的文件调用权限分为三级 : 文件所有者（Owner）、用户组（Group）、其它用户（Other Users）。
+1. Linux/Unix file permissions are divided into three levels: file owner (Owner), user group (Group), and other users (Other Users).
 
-2. 在下面终端中，显示了 Linux 根目录下的详细文件信息。在这些文件信息中，最重要的就是第一列，它详细描述了文件和目录的权限，而第三与第四列则显示了这个文件和目录属于哪一个用户或组。
+2. In the terminal below, detailed file information in the Linux root directory is displayed. Among this file information, the most important is the first column, which describes the permissions of files and directories in detail, while the third and fourth columns show which user or group the file or directory belongs to.
 
 ```bash
 # ls -lh
@@ -347,185 +346,185 @@ drwxr-xr-x   12 root     root        1.9K dev
 drwxrwxr-x    2 1002     1002        4.1K bin
 ```
 
-3. Linux 的文件属性可以分为三种：只读（r）、写（w）和可执行（x）。但是上面的文件属性却分为 10 小格，这是因为除了第一格显示目录外，另外三组每组三格分别表示文件所有者权限、同一组内的权限以及其他用户权限。第一栏中如果显示 `d`，则表示这是一个目录；如果是链接文件，则在这里显示 `l`；如果是设备文件，则显示 `c`。
+3. Linux file attributes can be divided into three types: read (r), write (w), and execute (x). However, the file attributes above are divided into 10 small grids, because in addition to the first grid showing the directory, the other three groups of three grids each represent the permissions of the file owner, the permissions within the same group, and the permissions of other users. If the first column shows `d`, it indicates that this is a directory; if it is a link file, it shows `l`; if it is a device file, it shows `c`.
 
-   - 第一个 `rwx` 栏位：- rwx --- --- 表示文件拥有者所拥有的权限。
-   - 第二个 `rwx` 栏位：- --- rwx --- 表示同一工作组内用户权限。
-   - 第三个 `rwx` 栏位：- --- --- rwx 表示其他用户权限。
-   - `rwx rwx rwx` 表示无论哪个用户都可以对这个文件读写与执行。
-   - `rw- --- ---` 表示只有文件拥有者有读写权限，但是没有执行权限。
-   - `rw- rw- rw-` 表示所有用户都有读写权。
+   - The first `rwx` column: - rwx --- --- indicates the permissions of the file owner.
+   - The second `rwx` column: - --- rwx --- indicates the permissions of users within the same group.
+   - The third `rwx` column: - --- --- rwx indicates the permissions of other users.
+   - `rwx rwx rwx` indicates that any user can read, write, and execute this file.
+   - `rw- --- ---` indicates that only the file owner has read and write permissions, but no execute permissions.
+   - `rw- rw- rw-` indicates that all users have read and write permissions.
 
-4. 符号模式
+4. Symbol Mode
 
-   - **who（用户类型）**
+   - **who (User Type)**
 
-     | who | 用户类型 | 说明 |
-     |-----|----------|------|
-     | u   | user     | 文件所有者 |
-     | g   | group    | 文件所有者所在组 |
-     | o   | others   | 所有其他用户 |
-     | a   | all      | 所用用户, 相当于 ugo |
+     | who | User Type | Description |
+     |-----|-----------|-------------|
+     | u   | user      | File owner |
+     | g   | group     | Group to which the file owner belongs |
+     | o   | others    | All other users |
+     | a   | all       | All users, equivalent to ugo |
 
-   - **operator（符号模式表）**
+   - **operator (Symbol Mode Table)**
 
-     | Operator | 说明 |
-     |----------|------|
-     | +        | 为指定的用户类型增加权限 |
-     | -        | 去除指定用户类型的权限 |
-     | =        | 设置指定用户权限的设置，即将用户类型的所有权限重新设置 |
+     | Operator | Description |
+     |----------|-------------|
+     | +        | Add permissions for the specified user type |
+     | -        | Remove permissions for the specified user type |
+     | =        | Set permissions for the specified user type, i.e., reset all permissions for the user type |
 
-   - **permission （符号模式表）**
+   - **permission (Symbol Mode Table)**
 
-     | 模式 | 名字 | 说明 |
-     |------|------|------|
-     | r    | 读   | 设置为可读权限 |
-     | w    | 写   | 设置为可写权限 |
-     | x    | 执行权限 | 设置为可执行权限 |
-     | X    | 特殊执行权限 | 只有当文件为目录文件，或者其他类型的用户有可执行权限时，才将文件权限设置可执行 |
-     | s    | setuid/gid | 当文件被执行时，根据who参数指定的用户类型设置文件的setuid或者setgid权限 |
-     | t    | 粘贴位 | 设置粘贴位，只有超级用户可以设置该位，只有文件所有者u可以使用该位 |
+     | Mode | Name | Description |
+     |------|------|-------------|
+     | r    | Read | Set read permissions |
+     | w    | Write | Set write permissions |
+     | x    | Execute | Set execute permissions |
+     | X    | Special Execute | Only set execute permissions if the file is a directory file or other types of users have execute permissions |
+     | s    | setuid/gid | Set the file's setuid or setgid permissions when the file is executed, based on the who parameter |
+     | t    | Sticky Bit | Set the sticky bit, only superusers can set this bit, and only the file owner u can use this bit |
 
-   - **实例**
+   - **Examples**
 
      ```bash
-     chmod a+r file             # 给 file 的所有用户增加读权限
-     chmod a-x file             # 删除 file 的所有用户的执行权限
-     chmod a+rw file            # 给 file 的所有用户增加读写权限
-     chmod +rwx file            # 给 file 的所有用户增加读写执行权限
-     chmod u=rw,go= file        # 对 file 的所有者设置读写权限，清空该用户组和其他用户对 file 的所有权限（空格代表无权限）
-     chmod -R u+r,go-r linaro  # 对目录 linaro 和其子目录层次结构中的所有文件给用户增加读权限，而对用户组和其他用户删除读权限
+     chmod a+r file             # Add read permissions for all users to file
+     chmod a-x file             # Remove execute permissions for all users from file
+     chmod a+rw file            # Add read and write permissions for all users to file
+     chmod +rwx file            # Add read, write, and execute permissions for all users to file
+     chmod u=rw,go= file        # Set read and write permissions for the file owner, clear all permissions for the group and other users (space represents no permissions)
+     chmod -R u+r,go-r linaro  # Add read permissions for the user to the linaro directory and its subdirectory hierarchy, and remove read permissions for the group and other users
      ```
 
-5. 数值模式
+5. Numeric Mode
 
-   - **八进制语法**
+   - **Octal Syntax**
 
-     | # | 权限 | rwx | 二进制 |
-     |---|------|-----|--------|
-     | 7 | 读 + 写 + 执行 | rwx | 111 |
-     | 6 | 读 + 写 | rw- | 110 |
-     | 5 | 读 + 执行 | r-x | 101 |
-     | 4 | 只读 | r-- | 100 |
-     | 3 | 写 + 执行 | -wx | 011 |
-     | 2 | 只写 | -w- | 010 |
-     | 1 | 只执行 | --x | 001 |
-     | 0 | 无 | --- | 000 |
+     | # | Permissions | rwx | Binary |
+     |---|-------------|-----|--------|
+     | 7 | Read + Write + Execute | rwx | 111 |
+     | 6 | Read + Write | rw- | 110 |
+     | 5 | Read + Execute | r-x | 101 |
+     | 4 | Read Only | r-- | 100 |
+     | 3 | Write + Execute | -wx | 011 |
+     | 2 | Write Only | -w- | 010 |
+     | 1 | Execute Only | --x | 001 |
+     | 0 | None | --- | 000 |
 
-   - **例如：765 的解释如下：**
+   - **For example: 765 is explained as follows:**
 
-     - 所有者的权限用数字表达：属主的那三个权限位的数字加起来的总和。如 `rwx`，也就是 `4 + 2 + 1`，应该是 `7`。
-     - 用户组的权限用数字表达：属组的那个权限位数字的相加的总和。如 `rw-`，也就是 `4 + 2 + 0`，应该是 `6`。
-     - 其它用户的权限数字表达：其它用户权限位的数字相加的总和。如 `r-x`，也就是 `4 + 0 + 1`，应该是 `5`。
+     - The owner's permissions are expressed numerically: The sum of the numbers for the owner's three permission bits. For example, `rwx`, which is `4 + 2 + 1`, should be `7`.
+     - The group's permissions are expressed numerically: The sum of the numbers for the group's permission bits. For example, `rw-`, which is `4 + 2 + 0`, should be `6`.
+     - Other users' permissions are expressed numerically: The sum of the numbers for other users' permission bits. For example, `r-x`, which is `4 + 0 + 1`, should be `5`.
 
-   - **常用数字权限**
+   - **Common Numeric Permissions**
 
-     - `400` - `r-- --- ---` 拥有者能够读，其他任何人不能进行任何操作；
-     - `644` - `rw- r-- r--` 拥有者都能够读，但只有拥有者可以编辑；
-     - `660` - `rw- rw- ---` 拥有者和组用户都可读和写，其他人不能进行任何操作；
-     - `664` - `rw- rw- r--` 所有人都可读，但只有拥有者和组用户可编辑；
-     - `700` - `rwx --- ---` 拥有者能够读、写和执行，其他用户不能任何操作；
-     - `744` - `rwx r-- r--` 所有人都能读，但只有拥有者才能编辑和执行；
-     - `755` - `rwx r-x r-x` 所有人都能读和执行，但只有拥有者才能编辑；
-     - `777` - `rwx rwx rwx` 所有人都能读、写和执行（该设置不建议使用）。
+     - `400` - `r-- --- ---` The owner can read, but no one else can perform any operations;
+     - `644` - `rw- r-- r--` Everyone can read, but only the owner can edit;
+     - `660` - `rw- rw- ---` The owner and group users can read and write, but no one else can perform any operations;
+     - `664` - `rw- rw- r--` Everyone can read, but only the owner and group users can edit;
+     - `700` - `rwx --- ---` The owner can read, write, and execute, but no one else can perform any operations;
+     - `744` - `rwx r-- r--` Everyone can read, but only the owner can edit and execute;
+     - `755` - `rwx r-x r-x` Everyone can read and execute, but only the owner can edit;
+     - `777` - `rwx rwx rwx` Everyone can read, write, and execute (this setting is not recommended).
 
-   - **实例**
+   - **Examples**
 
      ```bash
-     chmod 664 file  # 给 file 的所有用户增加读权限，拥有者和组用户可编辑权限
+     chmod 664 file  # Add read permissions for all users to file, and edit permissions for the owner and group users
      ```
 
 ### tar
 
-#### 命令功能
+#### Command Function
 
-`tar` 命令是用来建立，还原备份文件的工具程序，它可以解压缩备份文件内的文件。tar 本身不压缩文件，但可以与压缩工具（如 gzip 或 bzip2）结合使用，创建压缩的归档文件（如 `.tar.gz` 或 `.tar.bz2`）。
+The `tar` command is used to create and restore backup files. It can extract files from backup files. tar itself does not compress files, but it can be combined with compression tools (such as gzip or bzip2) to create compressed archive files (such as `.tar.gz` or `.tar.bz2`).
 
-#### 命令格式
+#### Command Format
 
 `tar`[options] -f linaro.tar [file/directory]
 
-#### 参数说明
+#### Parameter Description
 
-| 参数 | 参数说明 |
-|------|----------|
-| -x   | 表示解压操作 |
-| -c   | 表示创建操作 |
-| -v   | 显示详细操作过程 |
-| -f   | 指定归档文件的名称（必须放在选项列表的最后） |
-| -z   | 使用 gzip 进行解压缩 |
-| -j   | 使用 bzip2 进行解压缩 |
-| -J   | 使用 xz 进行解压缩 |
-| file/directory | 要解压缩的目标文件或目录 |
+| Parameter | Description |
+|----------|-------------|
+| -x       | Indicates extraction operation |
+| -c       | Indicates creation operation |
+| -v       | Display detailed operation process |
+| -f       | Specify the name of the archive file (must be placed at the end of the option list) |
+| -z       | Use gzip for compression |
+| -j       | Use bzip2 for compression |
+| -J       | Use xz for compression |
+| file/directory | Target file or directory to be compressed or extracted |
 
-#### 使用实例
+#### Usage Examples
 
-1. 创建压缩文件
+1. Create a compressed file
 
 ```bash
-tar -czvf linaro.tar.gz 1.txt 2.txt 3.txt directory            # 将文件和目录使用 gzip 压缩
-tar -czvf linaro.tar.gz directory                              # 使用 gzip 压缩
-tar -cjvf linaro.tar.bz2 directory                             # 使用 bzip2 压缩
-tar -cJvf linaro.tar.xz directory                              # 使用 xz 压缩
+tar -czvf linaro.tar.gz 1.txt 2.txt 3.txt directory            # Compress files and directories using gzip
+tar -czvf linaro.tar.gz directory                              # Compress using gzip
+tar -cjvf linaro.tar.bz2 directory                             # Compress using bzip2
+tar -cJvf linaro.tar.xz directory                              # Compress using xz
 ```
 
-2. 解压压缩文件
+2. Extract a compressed file
 
 ```bash
-tar -xzvf linaro.tar.gz directory                              # 使用 gzip 解压
-tar -xjvf linaro.tar.bz2 directory                             # 使用 bzip2 解压
-tar -xJvf linaro.tar.xz directory                              # 使用 xz 解压
+tar -xzvf linaro.tar.gz directory                              # Extract using gzip
+tar -xjvf linaro.tar.bz2 directory                             # Extract using bzip2
+tar -xJvf linaro.tar.xz directory                              # Extract using xz
 ```
 
 ### find
 
-#### 命令功能
+#### Command Function
 
-`find` 命令用来在指定目录下查找文件。任何位于参数之前的字符串都将被视为欲查找的目录名。如果使用该命令时，不设置任何参数，则 find 命令将在当前目录下查找子目录与文件。并且将查找到的子目录和文件全部进行显示。
+The `find` command is used to search for files in the specified directory. Any string before the parameters will be considered as the directory name to search. If no parameters are set when using this command, the find command will search for subdirectories and files in the current directory. It will display all found subdirectories and files.
 
-#### 命令格式
+#### Command Format
 
 `find`[path][match condition][action]
 
-#### 参数说明
+#### Parameter Description
 
-| 参数          | 参数说明                          |
-|---------------|-----------------------------------|
-| _path_        | 要查找的目录路径，可以是一个目录或文件名，也可以是多个路径，多个路径之间用空格分隔，如果未指定路径，则默认为当前目录 |
-| _match condition_ | 用于指定查找的条件，可以是文件名、文件类型、文件大小等 |
-| _action_      | 用于对匹配到的文件执行操作，比如删除、复制等 |
+| Parameter      | Description                        |
+|----------------|------------------------------------|
+| _path_         | Directory path to search, can be a directory or file name, or multiple paths separated by spaces. If no path is specified, the current directory is used by default |
+| _match condition_ | Specifies the search criteria, such as file name, file type, file size, etc. |
+| _action_       | Specifies the action to be performed on the matched files, such as delete, copy, etc. |
 
-#### 使用实例
+#### Usage Examples
 
-- 通过文件名查找，例如我们查找 `linaro.py` 文件：
+- Search by file name, for example, search for the `linaro.py` file:
 
 ```bash
 sudo find -name linaro.py
 ```
 
-- 通过文件嵌套层数查找。
+- Search by file nesting level.
 
 ```bash
-# 文件查找最大层数为 1，找出的文件全部在 /etc 目录下，例如查找 /etc 目录下的 .conf 文件
+# Search files with a maximum depth of 1, all found files are in the /etc directory, for example, search for .conf files in the /etc directory
 sudo find /etc/ -maxdepth 1 -name *.conf
 
-# 文件查找最小层数为 2，找出的文件不会包含 /etc 目录下文件，而是去 /etc 子目录查找
+# Search files with a minimum depth of 2, found files will not include files in the /etc directory, but will search the /etc subdirectory
 sudo find /etc/ -mindepth 2 -name *.conf
 ```
 
-- 将当前目录及其子目录下所有最近 20 天内更新过的文件列出：
+- List all files updated within the last 20 days in the current directory and its subdirectories:
 
 ```bash
 sudo find . -type f -mtime -20
 ```
 
-- 查找当前目录中文件属主具有读、写权限，并且文件所属组的用户和其他用户具有读权限的文件：
+- Search for files in the current directory whose owner has read and write permissions, and whose group and other users have read permissions:
 
 ```bash
 sudo find . -type f -perm 644 -exec ls -l {} \;
 ```
 
-- 查找系统中所有文件长度为 0 的普通文件，并列出它们的完整路径：
+- Search for all zero-length regular files in the system and list their full paths:
 
 ```bash
 sudo find / -type f -size 0 -exec ls -l {} \;
@@ -533,48 +532,48 @@ sudo find / -type f -size 0 -exec ls -l {} \;
 
 ### cat
 
-#### 命令功能
+#### Command Function
 
-`cat` 命令用于连接文件并打印到标准输出设备上，它的主要作用是用于查看和连接文件。
+The `cat` command is used to concatenate files and print them to the standard output device. Its main function is to view and concatenate files.
 
-#### 命令格式
+#### Command Format
 
 `cat`[options][file]
 
-#### 参数说明
+#### Parameter Description
 
-| 参数          | 参数说明                          |
-|---------------|-----------------------------------|
-| _options_     | `-n`：显示行号，会在输出的每一行前加上行号 |
-| _file_        | 文件名称                          |
+| Parameter      | Description                        |
+|----------------|------------------------------------|
+| _options_      | `-n`: Display line numbers, adds line numbers to each line of output |
+| _file_         | File name                          |
 
-#### 使用实例
+#### Usage Examples
 
-1. 在终端上显示 `test.txt` 文件的内容：
+1. Display the contents of the `test.txt` file in the terminal:
 
 ```bash
 cat test.txt
 ```
 
-2. 列出 `.txt` 当前目录下所有文件的内容：
+2. List the contents of all `.txt` files in the current directory:
 
 ```bash
 cat *.txt
 ```
 
-3. 将标准输入追加到文件 `file` 的末尾：
+3. Append standard input to the end of the file `file`:
 
 ```bash
 cat >> file
 ```
 
-4. 将标准输入重定向到文件 `file`，覆盖该文件的内容：
+4. Redirect standard input to the file `file`, overwriting its contents:
 
 ```bash
 cat > file
 ```
 
-5. 将 `file1` 和 `file2` 的内容合并到 `file3` 中：
+5. Merge the contents of `file1` and `file2` into `file3`:
 
 ```bash
 cat file1 file2 > file3
@@ -582,48 +581,48 @@ cat file1 file2 > file3
 
 ### grep
 
-#### 命令功能
+#### Command Function
 
-`grep` 命令作为 Linux 文本处理三剑客的一员，另外两个是 sed 和 awk。grep 在文件内部搜索某些搜索模式，可以列出包含特殊字母所有组合。
+The `grep` command, as one of the Linux text processing tools, along with sed and awk, is used to search for specific patterns within files. It can list all combinations containing specific letters.
 
-#### 命令格式
+#### Command Format
 
 `grep`[options] pattern [files]
 
-#### 参数说明
+#### Parameter Description
 
-| 参数          | 参数说明                          |
-|---------------|-----------------------------------|
-| options       | `-i`：忽略大小写进行匹配           |
-|               | `-v`：表反向查找，只打印不匹配的行 |
-|               | `-n`：显示匹配行的行号             |
-|               | `-r`：递归查找子目录中的文件       |
-|               | `-l`：只打印匹配的文件名           |
-|               | `-c`：只打印匹配的行数             |
-| pattern       | 表示要查找的字符串或正则表达式     |
-| files         | 表示要查找的文件名，可以同时查找多个文件 |
+| Parameter      | Description                        |
+|----------------|------------------------------------|
+| options        | `-i`: Ignore case during matching   |
+|                | `-v`: Perform reverse search, only print non-matching lines |
+|                | `-n`: Display line numbers of matching lines |
+|                | `-r`: Recursively search files in subdirectories |
+|                | `-l`: Only print matching file names |
+|                | `-c`: Only print the number of matching lines |
+| pattern        | Specifies the string or regular expression to search for |
+| files          | Specifies the file name(s) to search, can search multiple files simultaneously |
 
-#### 使用实例
+#### Usage Examples
 
-1. 搜索文件夹下包含 `sys` 字符串的文件：
+1. Search for files containing the string `sys` in a folder:
 
 ```bash
 grep -r "sys" *
 ```
 
-2. 搜索文件 `config.txt`，使用正则表达式找出以 `arm` 开头的数据行：
+2. Search the file `config.txt` using a regular expression to find lines starting with `arm`:
 
 ```bash
 grep "^arm" config.txt
 ```
 
-3. 在当前目录中，查找后缀有 `file` 字样的文件中包含 `test` 字符串的文件，并打印出该字符串的行：
+3. In the current directory, search for files with the suffix `file` containing the string `test`, and print the lines containing the string:
 
 ```bash
 grep "test" *.file
 ```
 
-4. 在文件夹 `dir` 中递归查找所有文件中匹配正则表达式 `linaro` 的行，并打印匹配行所在的文件名和行号：
+4. Recursively search all files in the folder `dir` for lines matching the regular expression `linaro`, and print the file name and line number of the matching lines:
 
 ```bash
 grep -rn "linaro" dir/
@@ -631,84 +630,84 @@ grep -rn "linaro" dir/
 
 ### ifconfig
 
-#### 命令功能
+#### Command Function
 
-`ifconfig` 命令用来查看和配置网络设备。当网络环境发生改变时可通过此命令对网络进行相应的配置。注意：用 ifconfig 命令配置的网卡信息，在网卡重启后机器重启后，配置就不存在。要想将上述的配置信息永远的存的电脑里，那就要修改网卡的配置文件了。
+The `ifconfig` command is used to view and configure network devices. When the network environment changes, this command can be used to configure the network accordingly. Note: The network card information configured using the ifconfig command will not persist after the network card or machine is restarted. To permanently store the configuration information, the network card configuration file must be modified.
 
-#### 使用实例
+#### Usage Examples
 
 ```bash
-sudo ifconfig eth0          # 查看有线网络 IP 地址
-sudo ifconfig wlan0         # 查看无线网络 IP 地址
+sudo ifconfig eth0          # View wired network IP address
+sudo ifconfig wlan0         # View wireless network IP address
 ```
 
 ### apt
 
-#### 命令功能
+#### Command Function
 
-目前比较流行的 Linux 发行版本都提供了一个集中的软件包管理机制，以帮助用户搜索、安装和管理软件。而软件通常以「包」的形式存储在仓库「repository」中，对软件包的使用和管理被称为包管理。本小节将介绍在使用 Ubuntu、Debian 系统时，搜索、安装和升级等包管理方面的基本方式和快速参考，可以帮助你快速了解不同 Linux 包管理基本操作与技巧。
+Currently, popular Linux distributions provide a centralized package management mechanism to help users search, install, and manage software. Software is usually stored in repositories in the form of "packages," and the use and management of software packages is called package management. This section introduces the basic methods and quick references for package management in Ubuntu and Debian systems, helping you quickly understand basic operations and techniques for different Linux package management.
 
-#### 命令格式
+#### Command Format
 
 `apt`[options][command][package ...]
 
-#### 参数说明
+#### Parameter Description
 
-| 参数          | 参数说明                          |
-|---------------|-----------------------------------|
-| _options_     | 选项包括 `-h`（帮助），`-y`（当安装过程提示选择全部为"yes"），`-q`（不显示安装的过程）等 |
-| _command_     | 要进行的操作                     |
-| _package_     | 安装包名称                        |
+| Parameter      | Description                        |
+|----------------|------------------------------------|
+| _options_      | Options include `-h` (help), `-y` (skip prompts during installation), `-q` (do not display installation process), etc. |
+| _command_      | Operation to be performed         |
+| _package_      | Package name to be installed       |
 
-#### 使用实例
+#### Usage Examples
 
-1. 使用的是本地数据库存储远程可用的包仓库列表，所以在安装或升级包之前最好更新这个数据库，命令如下：
+1. The local database stores the list of remote available package repositories, so it is best to update this database before installing or upgrading packages. The command is as follows:
 
 ```bash
 sudo apt-get update
 ```
 
-2. 更新完成后，就可以使用软件名称安装，命令如下：
+2. After updating, you can install software using its name. The command is as follows:
 
 ```bash
-sudo apt-get install XXX -y     #-y 直接跳过提示安装
+sudo apt-get install XXX -y     #-y Skip prompts during installation
 ```
 
-3. 如果没有包管理系统，要升级并保持 Linux 已安装的软件处在最新版本是一项巨大的工程，管理员和用户不得不手动跟踪上游软件版本变化及安全警告。包管理系统只需几条命令便可保持软件最新，具体如下：
+3. Without a package management system, upgrading and keeping Linux-installed software up-to-date is a huge task. Administrators and users have to manually track upstream software version changes and security warnings. The package management system can keep software up-to-date with just a few commands, as follows:
 
 ```bash
-sudo apt-get upgrade            # 更新已安装的软件包
-sudo apt-get dist-upgrade       # 将系统升级最新版本（谨慎使用）
+sudo apt-get upgrade            # Update installed packages
+sudo apt-get dist-upgrade       # Upgrade the system to the latest version (use with caution)
 ```
 
-   - `upgrade` 和 `dist-upgrade` 都用于升级系统上已安装的软件包。但是，`apt-get upgrade` 命令无法安装新软件包或从系统中删除已安装的软件包，`dist-upgrade` 可以安装新包或在需要时删除现有包。
+   - Both `upgrade` and `dist-upgrade` are used to upgrade installed packages on the system. However, the `apt-get upgrade` command cannot install new packages or remove installed packages, while `dist-upgrade` can install new packages or remove existing packages when needed.
 
-4. 由于包管理知道哪些文件是由哪个包提供的，所以在卸载了不需要的软件包之后，可以获得一个干净的系统。可以通过以下命令卸载一个已经安装的软件包：
+4. Since package management knows which files are provided by which packages, after uninstalling unnecessary packages, you can get a clean system. You can uninstall an already installed package using the following command:
 
 ```bash
-# 删除软件包命令
+# Command to delete a package
 sudo apt remove <package_name>
-# 清理不再使用的依赖和库文件
+# Clean up unused dependencies and library files
 sudo apt autoremove
-# 移除软件包及配置文件
+# Remove package and configuration files
 sudo apt purge <package_name>
 ```
 
 ### dpkg
 
-#### 命令功能
+#### Command Function
 
-Debian 系统包的格式为 `.deb` 文件，要直接安装生成 `.deb` 包时需要使用 `dpkg` 命令。
+The Debian system package format is `.deb` files. To directly install generated `.deb` packages, the `dpkg` command is required.
 
-#### 使用实例
+#### Usage Examples
 
-1. 安装包
+1. Install a package
 
 ```bash
 sudo dpkg -i package_name.deb
 ```
 
-2. 卸载包
+2. Uninstall a package
 
 ```bash
 sudo dpkg -r package_name
@@ -716,32 +715,32 @@ sudo dpkg -r package_name
 
 ### shutdown & reboot
 
-1. K1 Pro 的关机是不建议直接拔掉电源线的，如果使用 TF 卡启动直接拔掉电源线会使一些在内存中的数据没有来得及写入 TF 卡中，从而造成数据的丢失或是损坏 TF 卡上的数据，造成系统无法启动：
+1. K1 Pro's shutdown is not recommended to directly unplug the power cord. If using TF card boot, directly unplugging the power cord will cause some data in memory to not be written to the TF card in time, resulting in data loss or damage to the TF card data, causing the system to fail to boot:
 
 ```bash
-sudo shutdown -h now         # 立即关机
-sudo shutdown -r now         # 重新启动计算机
-sudo shutdown -h 10          # 指定 10 分钟后关机
-sudo reboot                  # 重启（经常使用）
+sudo shutdown -h now         # Shut down immediately
+sudo shutdown -r now         # Restart the computer
+sudo shutdown -h 10          # Shut down in 10 minutes
+sudo reboot                  # Restart (commonly used)
 ```
 
-2. 无论使用哪一个命令来关闭系统都需要 root 用户权限，如果用户使用 linaro 这样的普通用户，可以使用 `sudo` 命令暂时获得 root 权限。
+2. Regardless of which command is used to shut down the system, root user permissions are required. If using a regular user like linaro, you can use the `sudo` command to temporarily obtain root permissions.
 
-## 6. Rockchip 常用命令
+## 6. Rockchip Common Commands
 
-1. 查看 NPU 驱动版本
+1. View NPU driver version
 
 ```bash
 cat /sys/kernel/debug/rknpu/version
 ```
 
-2. 查看芯片唯一码
+2. View chip unique ID
 
 ```bash
 cat /proc/cpuinfo | grep Serial
 ```
 
-3. 查看 CPU 温度
+3. View CPU temperature
 
 ```bash
 echo "$(cat /sys/class/thermal/thermal_zone0/temp) / 1000" | bc

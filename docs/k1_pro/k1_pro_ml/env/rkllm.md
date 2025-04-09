@@ -1,73 +1,70 @@
-
 # RKLLM
 
-
-
-RKLLM 软件堆栈可以帮助用户快速将大语言模型部署到Rockchip芯片上。
+The RKLLM software stack helps users quickly deploy large language models to Rockchip chips.
 
 ![img](https://doc.embedfire.com/linux/rk356x/Ai/zh/latest/_images/framework.jpg)
 
-为了使用RKNPU，用户需要首先在计算机上安装RKLLM-Toolkit工具，将训练后的模型转换为RKLLM格式模型，然后在开发板上使用RKLLM C API进行推理。
+To use RKNPU, users first need to install the RKLLM-Toolkit tool on their computer, convert trained models to RKLLM format, and then use RKLLM C API for inference on the development board.
 
-RKLLM Toolkit是一个软件开发工具包，供用户在PC上进行模型转换和量化。  
-RKLLM Runtime为Rockchip NPU平台提供了C/C++编程接口，帮助用户部署RKLLM模型，加速LLM应用程序的实现。
+RKLLM Toolkit is a software development kit for users to perform model conversion and quantization on PC.  
+RKLLM Runtime provides C/C++ programming interfaces for the Rockchip NPU platform, helping users deploy RKLLM models and accelerate LLM application implementation.
 
-RKLLM的整体开发步骤主要分为：模型转换和板端部署运行。
+The overall development steps of RKLLM are mainly divided into: model conversion and board-side deployment operation.
 
-- 模型转换是使用RKLLM-Toolkit将预训练的大语言模型将会被转换为RKLLM格式。
-- 板端部署运行是调用RKLLM Runtime库加载RKLLM模型到Rockchip NPU平台，然后进行推理等操作。
+- Model conversion uses RKLLM-Toolkit to convert pre-trained large language models into RKLLM format.
+- Board-side deployment operation calls RKLLM Runtime library to load RKLLM models to Rockchip NPU platform, then performs inference and other operations.
 
 ## 1. RKLLM-Toolkit
-RKLLM-Toolkit 是为用户提供在计算机上进行大语言模型的量化、转换的开发套件。通过该 工具提供的接口可以便捷地完成模型转换和模型量化。
+RKLLM-Toolkit is a development kit that provides users with quantization and conversion of large language models on their computer. Through the interfaces provided by this tool, model conversion and quantization can be conveniently completed.
 
-### 1.1. RKLLM-Toolkit安装
-拉取RKLLM源码以及目录文件说明：
+### 1.1. RKLLM-Toolkit Installation
+Pull RKLLM source code and directory file description:
 
 ```
-# 拉取源码
+# Pull source code
 git clone https://github.com/airockchip/rknn-llm.git
 
-# 简单的目录结构说明
+# Simple directory structure description
 .
 ├── CHANGELOG.md
 ├── LICENSE
 ├── README.md
-├── doc             # 存放的RKLLM用户手册
+├── doc             # RKLLM user manual
 ├── res
-├── rkllm-runtime   # 板端部署的库和例程
-├── rkllm-toolkit   # rkllm-toolkit安装包以及模型转换示例
-└── rknpu-driver    # RKNPU驱动
+├── rkllm-runtime   # Libraries and examples for board-side deployment
+├── rkllm-toolkit   # RKLLM-Toolkit installation package and model conversion examples
+└── rknpu-driver    # RKNPU driver
 
 5 directories, 3 files
 ```
-使用conda创建一个RKLLM1.0.1环境(conda安装参考下前面章节)：
+Use conda to create an RKLLM1.0.1 environment (refer to the previous section for conda installation):
 
 ```
-# 创建RKLLM_Toolkit环境
+# Create RKLLM_Toolkit environment
 conda create -n RKLLM1.0.1 python=3.8
-# 激活环境
+# Activate environment
 conda activate RKLLM1.0.1
 
-# 切换到rkllm-toolkit目录
+# Switch to rkllm-toolkit directory
 cd rknn-llm/rknn-toolkit/
 
-# 安装rkllm_toolkit(文件请根据具体版本修改)，会自动下载RKLLM-Toolkit工具所需要的相关依赖包。
+# Install rkllm_toolkit (modify the file according to the specific version), it will automatically download the dependencies required by RKLLM-Toolkit.
 pip3 install packages/rkllm_toolkit-1.0.1-cp38-cp38-linux_x86_64.whl
 ```
-### 1.2. RKLLM-Toolkit测试
-RKLLM-Toolkit提供模型的转换、量化功能， 将Hugging Face格式或者GGUF格式的大语言模型转换为RKLLM模型，然后使用RKLLM Runtime的接口实现板端推理。
+### 1.2. RKLLM-Toolkit Testing
+RKLLM-Toolkit provides model conversion and quantization functions, converting large language models in Hugging Face format or GGUF format into RKLLM models, and then using RKLLM Runtime interfaces for board-side inference.
 
-目前支持的模型有TinyLLAMA 1.1B、Qwen 1.8B、Qwen2 0.5B、Phi-2 2.7B、Phi-3 3.8B、 ChatGLM3 6B、Gemma 2B、InternLM2 1.8B、MiniCPM 2B，最新支持情况请查看 [rknn-llm](https://github.com/airockchip/rknn-llm?tab=readme-ov-file#support-models)。
+Currently supported models include TinyLLAMA 1.1B, Qwen 1.8B, Qwen2 0.5B, Phi-2 2.7B, Phi-3 3.8B, ChatGLM3 6B, Gemma 2B, InternLM2 1.8B, MiniCPM 2B. For the latest support, please check [rknn-llm](https://github.com/airockchip/rknn-llm?tab=readme-ov-file#support-models).
 
 ```
-# 切换到前面拉取仓库的rknn-llm/rknn-toolkit/example目录
+# Switch to the rknn-llm/rknn-toolkit/example directory of the previously pulled repository
 cd rknn-llm/rknn-toolkit/examples/huggingface
 
-# 示例是使用Qwen-1_8B模型，先下载模型（或者从网盘获取）
+# The example uses the Qwen-1_8B model, first download the model (or obtain it from a network disk)
 git lfs install
 git clone https://huggingface.co/Qwen/Qwen-1_8B-Chat
 ```
-修改示例程序test.py的模型路径：
+Modify the model path in the example program test.py:
 
 test.py
 ``` python
@@ -79,77 +76,73 @@ Download the Qwen model from the above website.
 '''
 
 modelpath = './Qwen-1_8B-Chat'
-# 初始化RKLLM对象
+# Initialize RKLLM object
 llm = RKLLM()
 
-# 模型加载
+# Model loading
 ret = llm.load_huggingface(model = modelpath)
 if ret != 0:
     print('Load model failed!')
     exit(ret)
 
-# 模型的量化构建
+# Model quantization and building
 ret = llm.build(do_quantization=True, optimization_level=1, quantized_dtype='w8a8', target_platform='rk3588')
 if ret != 0:
     print('Build model failed!')
     exit(ret)
 
-# 导出rkllm模型
+# Export RKLLM model
 ret = llm.export_rkllm("./qwen.rkllm")
 if ret != 0:
     print('Export model failed!')
     exit(ret)
 ```
-调用RKLLM-Toolkit提供的接口，初始化RKLLM对象，然后调用rkllm.load_huggingface()函数加载模型， 加载模型后是通过rkllm.build()函数对RKLLM模型的构建，配置量化等，最后通过rkllm.export_rkllm()函数将 模型导出为RKLLM模型文件。
+Call the interfaces provided by RKLLM-Toolkit, initialize the RKLLM object, then call rkllm.load_huggingface() function to load the model. After loading the model, use rkllm.build() function to build the RKLLM model, configure quantization, etc., and finally use rkllm.export_rkllm() function to export the model as an RKLLM model file.
 
-详细的接口说明请参考 [RKLLM用户手册](https://github.com/airockchip/rknn-llm/tree/main/doc) 。
+For detailed interface descriptions, please refer to [RKLLM User Manual](https://github.com/airockchip/rknn-llm/tree/main/doc).
 
-运行`test.py`，转换模型为RKLLM模型：
+Run `test.py` to convert the model into RKLLM model:
 ```
 (RKLLM1.0.1) llh@anhao:/xxx/rkllm-toolkit/examples/huggingface$ python3 test.py
 
 rkllm-toolkit version: 1.0.1
-# 省略..................
+# Omitted..................
 Loading checkpoint shards: 100%|███████████████████████████████████████████████████████████████████████████████████████| 2/2 [01:04<00:00, 32.40s/it]
 Optimizing model: 100%|███████████████████████████████████████████████████████████████████████████████████████████████| 24/24 [03:25<00:00,  8.56s/it]
 Converting model: 100%|█████████████████████████████████████████████████████████████████████████████████████████| 195/195 [00:00<00:00, 2278243.12it/s]
 Model has been saved to ./qwen.rkllm!
 ```
-RKLLM模型转换成功后，会在当前目录生成qwen.rkllm文件,复制qwen.rkllm文件到板卡系统中。
-
-
-
+After successfully converting the RKLLM model, a qwen.rkllm file will be generated in the current directory. Copy the qwen.rkllm file to the board system.
 
 ## 2. RKLLM Runtime
 
-RKLLM Runtime加载的RKLLM模型，并在RK3576/RK3588板端部署RKLLM模型。
+RKLLM Runtime loads RKLLM models and deploys RKLLM models on RK3576/RK3588 boards.
 
-### 2.1. 内核驱动更新
+### 2.1. Kernel Driver Update
 
-RKLLM部署需要较高NPU内核版本较高，用户手册说明需要v0.9.6版本以上
+RKLLM deployment requires a higher NPU kernel version, as specified in the user manual, version v0.9.6 or above.
 
 ```bash
-# 板端执行以下命令，查询NPU内核版本
+# Execute the following command on the board to query the NPU kernel version
 cat /sys/kernel/debug/rknpu/version
 ```
 
+### 2.2. RKLLM Model Inference Example
 
-### 2.2. RKLLM模型推理示例
-
-在板卡上获取RKLLM文件，或者复制前面获取的文件复制到板卡上，教程测试是直接到板卡上编译，如果是交叉编译请获取下 [交叉编译器](https://developer.arm.com/downloads/-/gnu-a/10-2-2020-11)，然后设置交叉编译器路径，其他类似。
+Obtain the RKLLM file on the board or copy the file obtained earlier to the board. This tutorial tests directly on the board. If cross-compiling, obtain the [cross-compiler](https://developer.arm.com/downloads/-/gnu-a/10-2-2020-11), then set the cross-compiler path. Other steps are similar.
 
 ```bash
-# 拉取源码
+# Pull source code
 git clone https://github.com/airockchip/rknn-llm.git
 
-# 切换到rkllm-runtime/examples/rkllm_api_demo目录下
+# Switch to rkllm-runtime/examples/rkllm_api_demo directory
 cd rknn-llm/rkllm-runtime/examples/rkllm_api_demo/
 ```
 
-修改`rkllm_api_demo`例程中`build-linux.sh`文件的编译器路径，修改为 `GCC_COMPILER_PATH=aarch64-linux-gnu`，然后执行`build-linux.sh`编译例程：
+Modify the compiler path in the `build-linux.sh` file of the `rkllm_api_demo` example, change it to `GCC_COMPILER_PATH=aarch64-linux-gnu`, then execute `build-linux.sh` to compile the example:
 
 ```bash
-# 编译
+# Compile
 cat@lubancat:~/rknn-llm/rkllm-runtime/examples/rkllm_api_demo$ chmod +x build-linux.sh
 cat@lubancat:~/rknn-llm/rkllm-runtime/examples/rkllm_api_demo$ ./build-linux.sh
 -- The C compiler identification is GNU 10.2.1
@@ -173,27 +166,27 @@ Scanning dependencies of target llm_demo
 [100%] Built target llm_demo
 ```
 
-编译完成后，会在当前目录下的`build/build_linux_aarch64_Release`输出可执行文件`llm_demo`。  
-执行RKLLM模型推理：
+After compilation, the executable file `llm_demo` will be output in the `build/build_linux_aarch64_Release` directory.  
+Execute RKLLM model inference:
 
 ```bash
-# 切换到build/build_linux_aarch64_Release目录下
+# Switch to build/build_linux_aarch64_Release directory
 cd build/build_linux_aarch64_Release/
 
-# 临时设置rkllm runtime库路径，也可以将librkllmrt.so文件复制到系统库/usr/lib下
+# Temporarily set rkllm runtime library path, or copy librkllmrt.so file to system library /usr/lib
 export LD_LIBRARY_PATH=../../../../runtime/Linux/librkllm_api/aarch64/
 
-# 修改最大可打开文件的数量
+# Modify the maximum number of open files
 ulimit -HSn 10240
 
-# 将前面RKLLM-Toolkit测试小节转换出的rkllm模型复制到板卡，设置模型路径，执行rkllm推理：
+# Copy the RKLLM model converted in the RKLLM-Toolkit testing section to the board, set the model path, and execute rkllm inference:
 ./llm_demo /path/qwen.rkllm
 
-# 或者运行绑定cpu运行测试
+# Or run binding CPU for testing
 # taskset f0 ./llm_demo /path/qwen.rkllm
 ```
 
-**测试输出：**
+**Test Output:**
 
 ```bash
 cat@lubancat:/xxxxx/rkllm-runtime/examples/rkllm_api_demo/build/build_linux_aarch64_Release$ ./llm_demo /xxxx/qwen.rkllm
@@ -201,27 +194,24 @@ rkllm init start
 rkllm-runtime version: 1.0.1, rknpu driver version: 0.9.6, platform: RK3588
 rkllm init success
 
-**********************可输入以下问题对应序号获取回答/或自定义输入********************
+**********************You can input the following question numbers to get answers/or customize input********************
 
-[0] 把下面的现代文翻译成文言文：到了春风和煦，阳光明媚的时候，湖面平静，没有惊涛骇浪，天色湖光相连，一片碧绿，广阔无际；沙洲上的鸥鸟，时而飞翔，时而停歇，美丽的鱼游来游去，岸上与小洲上的花草，青翠欲滴。
-[1] 以咏梅为题目，帮我写一首古诗，要求包含梅花、白雪等元素。
-[2] 上联: 江边惯看千帆过
-[3] 把这句话翻译成中文：Knowledge can be acquired from many sources. These include books, teachers and practical experience, and each has its own advantages.
-The knowledge we gain from books and formal education enables us to learn about things that we have no opportunity to experience in daily life.
-We can also develop our analytical skills and learn how to view and interpret the world around us in different ways. Furthermore,
-we can learn from the past by reading books. In this way, we won't repeat the mistakes of others and can build on their achievements.
-[4] 把这句话翻译成英文：RK3588是新一代高端处理器，具有高算力、低功耗、超强多媒体、丰富数据接口等特点
+[0] Translate the following modern text into classical Chinese: When the spring breeze is gentle and the sun is bright, the lake surface is calm, without stormy waves, the sky and lake light are connected, a piece of green, vast and boundless; the gulls on the sandbar sometimes fly, sometimes rest, beautiful fish swim around, the flowers and grass on the shore and small sandbar are lush and green.
+[1] Write an ancient poem with the theme of "Ode to Plum Blossom", requiring elements such as plum blossoms and white snow.
+[2] Upper line: Watching thousands of sails pass by the river
+[3] Translate this sentence into Chinese: Knowledge can be acquired from many sources. These include books, teachers and practical experience, and each has its own advantages. The knowledge we gain from books and formal education enables us to learn about things that we have no opportunity to experience in daily life. We can also develop our analytical skills and learn how to view and interpret the world around us in different ways. Furthermore, we can learn from the past by reading books. In this way, we won't repeat the mistakes of others and can build on their achievements.
+[4] Translate this sentence into English: RK3588 is a new generation high-end processor with high computing power, low power consumption, strong multimedia capabilities, and rich data interfaces.
 
 *************************************************************************
 
 user: 0
-把下面的现代文翻译成文言文：到了春风和煦，阳光明媚的时候，湖面平静，没有惊涛骇浪，天色湖光相连，一片碧绿，广阔无际；沙洲上的鸥鸟，时而飞翔，时而停歇，美丽的鱼游来游去，岸上与小洲上的花草，青翠欲滴。
-robot: 翻译成文言文
+Translate the following modern text into classical Chinese: When the spring breeze is gentle and the sun is bright, the lake surface is calm, without stormy waves, the sky and lake light are connected, a piece of green, vast and boundless; the gulls on the sandbar sometimes fly, sometimes rest, beautiful fish swim around, the flowers and grass on the shore and small sandbar are lush and green.
+robot: Translated into classical Chinese
 
 至春风和煦，阳光明媚之时，湖面平静，无惊涛骇浪，天色湖光相连，一片碧绿，广阔无际；沙洲之鸥鸟，时而飞翔，时而停歇，美丽之鱼游来游去，岸上与小洲之花草，青翠欲滴。
 
 user: 3
-把这句话翻译成中文：Knowledge can be acquired from many sources. These include books, teachers and practical experience, and each has its own advantages. The knowledge we gain from books and formal education enables us to learn about things that we have no opportunity to experience in daily life. We can also develop our analytical skills and learn how to view and interpret the world around us in different ways. Furthermore, we can learn from the past by reading books. In this way, we won't repeat the mistakes of others and can build on their achievements.
+Translate this sentence into Chinese: Knowledge can be acquired from many sources. These include books, teachers and practical experience, and each has its own advantages. The knowledge we gain from books and formal education enables us to learn about things that we have no opportunity to experience in daily life. We can also develop our analytical skills and learn how to view and interpret the world around us in different ways. Furthermore, we can learn from the past by reading books. In this way, we won't repeat the mistakes of others and can build on their achievements.
 robot:
 
 知识可以从许多来源获取。这些包括书籍、教师和实践经验，每种都有其自身的优点。从书籍和正规教育中获得的知识使我们能够在日常生活中无法体验的事情上学习。我们还可以发展我们的分析技能，并学会以不同的方式看待和解释我们周围的世界。此外，我们可以通过阅读书籍来了解过去。通过这种方式，我们将不会重复他人的错误，并可以建立在他们的成就之上。
@@ -229,5 +219,5 @@ robot:
 user:
 ```
 
-## 3.参考链接
+## 3. Reference Links
 https://github.com/airockchip/rknn-llm
