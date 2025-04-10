@@ -11,38 +11,39 @@ Image link: [bianbu-24.04-desktop-v2.1](https://archive.spacemit.com/image/k1/ve
 
 ## Flashing Steps
 
-1. **Open titanflasher** and click "Development Tools" to enter "Standalone Flashing."
-   ![alt text](./static/k1_ssom_install_image.png)
+1. **Open titanflasher** and click "Dev Tools" to enter "USB Download".
+ 
+   ![alt text](./static/k1_ssom_install_image_en.png)
 
-2. **Connect the Device**:
+3. **Connect the Device**:
    
    Insert the core board to be flashed into the master slot of the cluster board. Use a **USB-C cable** to connect the cluster board's **USB 2.0 OTG interface** to the computer. Power on the cluster board.
    ![alt text](./static/k1_ssom_install_image-1.png)
 
-3. **Enter Flashing Mode**:
+4. **Enter Flashing Mode**:
    
    Press and hold the **Download Button** on the cluster board, then press the **Reset Button** once and release it.
-   ![alt text](./static/k1_ssom_install_image-2.png)
+   ![alt text](./static/k1_ssom_install_image-2_en.png)
 
-4. **Scan Devices**:
+5. **Scan Devices**:
    
    In titanflasher, click "Scan Devices" and select the local directory.
-   ![alt text](./static/k1_ssom_install_image-3.png)
+   ![alt text](./static/k1_ssom_install_image-3_en.png)
 
-5. **Select Image Directory**:
+6. **Select Image Directory**:
    
    Click "Flashing Directory" and select the extracted image directory. Then click "Start Flashing."
-   ![alt text](./static/k1_ssom_install_image-4.png)
+   ![alt text](./static/k1_ssom_install_image-4_en.png)
 
-6. **Start Flashing the Image**:
+7. **Start Flashing the Image**:
    
    Wait for the flashing process to complete. Titanflasher will display the flashing progress.
-   ![alt text](./static/k1_ssom_install_image-5.png)
+   ![alt text](./static/k1_ssom_install_image-5_en.png)
 
 ## Flashing Complete
 
 - Once flashing is complete, titanflasher will display a "Flashing Successful" message.
-   ![alt text](./static/k1_ssom_install_image-6.png)
+   ![alt text](./static/k1_ssom_install_image-6_en.png)
 
 ## System Startup
 

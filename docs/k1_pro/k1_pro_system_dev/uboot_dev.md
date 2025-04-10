@@ -9,7 +9,7 @@ This document details how to compile U-Boot on the Rockchip platform, including 
 - Get from official repository:
 
   ```bash
-  git clone https://github.com/rockchip-linux/u-boot.git
+  git clone https://github.com/bit-brick/k1pro-u-boot.git
   ```
 
 ### `rkbin` Preparation (U-Boot dependency)

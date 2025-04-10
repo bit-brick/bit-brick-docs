@@ -9,7 +9,7 @@
 - 从官方获取：
 
   ```bash
-  git clone https://github.com/rockchip-linux/u-boot.git
+  git clone https://github.com/bit-brick/k1pro-u-boot.git
   ```
 
 
