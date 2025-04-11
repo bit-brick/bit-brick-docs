@@ -599,4 +599,10 @@ a:where(:not(.wp-element-button)){text-decoration:none;}
     border: 1px solid #ddd;
     padding: 8px;
   }
-  
+  .markdown img.center {
+    display: block;
+    margin: 0 auto;
+    /* 可选附加样式 */
+    border: 1px solid #eee;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }

@@ -5,13 +5,25 @@ The audio part of K1 is mainly composed of three aspects:
 - 3.5mm standard audio socket
 - Left and right channel microphone input
 
-![Figure 1 Schematic Diagram of the Audio Interface](/img/k1/hardware/audio/k1_audio.png)
+<span style={{
+  display: 'flex',
+  justifyContent: 'center',
+  margin: '10px 0'
+  }}>
+ ![Figure 1 Schematic Diagram of the Audio Interface](/img/k1/hardware/audio/k1_audio.png)
+</span>
 
 <div style={{textAlign: 'center'}}>Figure 1 Schematic Diagram of the Audio Interface</div>
 ## 2. Circuit
 Although the processor internally integrates an audio Codec, K1 still adopts the approach of an external Codec in the design. It connects to the ES8326B through the I2S interface to achieve audio input and output.
 The ES8326B chip is an audio decoding chip, mainly used to convert digital audio signals into analog audio signals. It uses a high-performance digital signal processor and a low-power power amplifier to achieve a high-definition music experience and high-quality call requirements. For detailed specifications, refer to the ES8326B section in the data booklet.
 
-![Figure 2 Circuit of the Audio Part](/img/k1/hardware/audio/k1_audio_io.png)
+<span style={{
+  display: 'flex',
+  justifyContent: 'center',
+  margin: '10px 0'
+  }}>
+ ![Figure 2 Circuit of the Audio Part](/img/k1/hardware/audio/k1_audio_io.png)
+</span>
 
 <div style={{textAlign: 'center'}}>Figure 2 Circuit of the Audio Part</div>
