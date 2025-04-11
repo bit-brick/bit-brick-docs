@@ -1,13 +1,10 @@
-# K1 OH5.0 下载编译烧录说明
+# K1 OH5.0 Download, Build and Flash Guide
 
+# Environment Setup
 
+## Ubuntu Environment (Recommended 22.04, other versions not yet verified)
 
-
-# 环境准备
-
-## ubuntu 环境（推荐 22.04，其他版本暂未验证）
-
-安装依赖：
+Install dependencies:
 
 ```
 sudo apt-get update
@@ -15,51 +12,51 @@ sudo apt-get update
 sudo apt-get install binutils git git-lfs gnupg gperf build-essential zip curl zlib1g-dev gcc-multilib lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z1-dev libxml2-utils xsltproc unzip m4 bc gnutls-bin python3-pip ruby ccache libgl1-mesa-dev g++-multilib libc6-dev-i386 flex bison openjdk-19-jdk openssl libelf-dev lz4 genext2fs libncurses5 libssl-dev u-boot-tools dosfstools mtools libstdc++-12-dev repo python2 cpio nodejs npm
 ```
 
-## 安装 make\_exf4fs
+## Install make_exf4fs
 
-下载附件 bin.zip（[点我下载](https://archive.spacemit.com/tools/openharmony/bin.zip)）并解压放入服务器，在~/.bashrc 中添加到 PATH
+Download the attached bin.zip ([Click to Download](https://archive.spacemit.com/tools/openharmony/bin.zip)) and extract it to the server. Add it to PATH in ~/.bashrc:
 
 ```cpp
 export PATH=$PATH:~/WorkSpace/bin
 ```
 
-# 源码准备
+# Source Code Preparation
 
-## gitee
+## Gitee
 
-代码仓托管在 gitee（[代码仓库路径](https://gitee.com/riscv-sig)）中，下载代码需要进行如下准备：
+The code repository is hosted on Gitee ([Repository Path](https://gitee.com/riscv-sig)). To download the code, follow these steps:
 
-- 开通 gitee 账号
-- 将服务器的 ssh key 上传到 gitee(“设置” - “安全设置” - “SSH 公钥”)
+- Create a Gitee account.
+- Upload the server's SSH key to Gitee ("Settings" - "Security Settings" - "SSH Public Key").
 
-## 下载源码
+## Download Source Code
 
 ```bash
 mkdir oh5
 cd oh5
 repo init -u git@gitee.com:riscv-sig/manifest.git -b riscv/OpenHarmony-v5.0.0-Release --no-repo-verify
-## 如果repo init过程中下载repo失败（概率出现过），使用国内源
-## 后面添加参数 --repo-url=https://gerrit-googlesource.lug.ustc.edu.cn/git-repo
- 
+## If repo init fails to download repo (rare occurrence), use a domestic source
+## Add the parameter --repo-url=https://gerrit-googlesource.lug.ustc.edu.cn/git-repo
+
 repo sync -j4 -c --fail-fast
-## 3小时左右
-## 出现报错及时处理
+## Takes around 3 hours
+## Handle errors promptly
 
 repo forall -c 'git lfs pull'
-## 拉一些大文件，haps，音视频等，2小时左右
+## Pull large files, haps, audio-video, etc., takes around 2 hours
 
 repo start OpenHarmony-v5.0.0-Release --all
 ```
 
-## 安装编译器
+## Install Compiler
 
-在源码根目录下执行脚本，安装编译器及二进制工具。
+Run the script in the source code root directory to install the compiler and binary tools.
 
 ```bash
 bash build/prebuilts_download.sh
 ```
 
-下载的文件默认存放在与 `OpenHarmony` 同目录下的 `openharmony_prebuilts` 下。
+The downloaded files are stored by default in `openharmony_prebuilts` located in the same directory as `OpenHarmony`.
 
 ```bash
 fuqiang@snode2:~/WorkSpace$ tree -L 1
@@ -70,7 +67,7 @@ fuqiang@snode2:~/WorkSpace$ tree -L 1
 2 directories, 0 files
 ```
 
-`openharmony_prebuilts` 里面的内容如下：
+Contents of `openharmony_prebuilts`:
 
 ```bash
 fuqiang@snode2:~/WorkSpace/openharmony_prebuilts$ ls -al
@@ -112,18 +109,18 @@ drwxr-xr-x 6 fuqiang dc-sw-users       4096 Oct 26 18:06 ..
 -rw-r--r-- 1 fuqiang dc-sw-users 1452493082 Oct 28 08:52 f997ab75c9658a9e47bb4db7b91b89a3.clang_ohos-arm64-ef33c3-20240828.tar.gz
 ```
 
-# 完整编译
+# Full Build
 
-## 编译流程说明
+## Build Process Description
 
-进入源码根目录，执行
+Enter the source code root directory and execute:
 
 ```bash
 cd oh5
-./build.sh --product-name **xxx **--ccache --prebuilt-sdk
+./build.sh --product-name **xxx** --ccache --prebuilt-sdk
 ```
 
-进行版本编译。其中，xxx 代表产品方案，目前支持的产品方案包括：
+to build the version. Here, xxx represents the product scheme. Currently supported product schemes include:
 
 - deb1
 - musepaper
@@ -133,17 +130,17 @@ cd oh5
 - musepi
 - musebook
 
-例如，要编译 musepaper 的固件，使用如下命令：
+For example, to build the firmware for musepaper, use the following command:
 
 ```bash
 ./build.sh --product-name musepaper --ccache --prebuilt-sdk
 ```
 
-## 编译卡启动固件
+## Build Card Boot Firmware
 
-系统默认编译出来的是非卡启动固件，一般是 emmc 启动固件（MUSEBook 是 nor+ssd 启动固件），这些固件烧录到 tf 卡上，是无法启动的，需要对源码进行修改，再按照上面的说明进行编译，才能编译出正常的卡启动固件。源码修改方法如下（以 MUSEPi 为例）：
+The system defaults to building non-card boot firmware, usually emmc boot firmware (MUSEBook is nor+ssd boot firmware). These firmwares cannot boot when burned to a tf card. You need to modify the source code and then compile as described above to build normal card boot firmware. The source code modification method is as follows (taking MUSEPi as an example):
 
-1. 在板级配置目录搜索 `d4281000`
+1. Search for `d4281000` in the board-level configuration directory:
 
 ```
 fuqiang@snode:~/workspace/oh5/device/board/spacemit/musepi$ grep -r d4281000 ./
@@ -169,12 +166,12 @@ fuqiang@snode:~/workspace/oh5/device/board/spacemit/musepi$ grep -r d4281000 ./
 
 ```
 
-1. 将所有的 `d4281000` 修改为 `d4280000`
-2. 重新编译固件
+2. Change all `d4281000` to `d4280000`.
+3. Recompile the firmware.
 
 ## MIPI-DSI vs HDMI
 
-目前 `OpenHarmony` 一个固件仅支持 1 种显示输出，如果需要切换输出设备，需要修改代码，重新编译固件，主要修改的文件为板子对应的 `dts` 文件，我们以 `MUSE Pi` 为例进行说明，`MUSE Pi` 默认使用 `MIPI-DSI` 输出，如果要改成 HDMI 输出，需要修改 `kernel/linux/spacemit_kernel-6.6/arch/riscv/boot/dts/spacemit/k1-x_MUSE-Pi.dts` 文件，如下所示，将和 `MIPI-DSI` 相关的 3 个配置关闭即可。
+Currently, `OpenHarmony` supports only one display output per firmware. To switch output devices, you need to modify the code and recompile the firmware. The main file to modify is the board's corresponding `dts` file. Taking `MUSE Pi` as an example, `MUSE Pi` defaults to using `MIPI-DSI` output. To change to HDMI output, modify the file `kernel/linux/spacemit_kernel-6.6/arch/riscv/boot/dts/spacemit/k1-x_MUSE-Pi.dts` as follows. Disable the 3 configurations related to `MIPI-DSI`:
 
 ```
 index 44950b5c2..5b1f2b30c 100644
@@ -205,38 +202,38 @@ index 44950b5c2..5b1f2b30c 100644
  &dpu_online2_hdmi {
 ```
 
-相反的，如果要切换到 `MIPI-DSI` 输出，则打开上面的 3 个配置。
+Conversely, to switch to `MIPI-DSI` output, enable the above 3 configurations.
 
-配置修改完成后，重新编译固件。
+After modifying the configuration, recompile the firmware.
 
-## 常用构建参数说明
+## Common Build Parameters Description
 
 ### --fast-rebuild
 
 ```
 ./build.sh --product-name rk3568 --ccache --no-prebuilt-sdk --fast-rebuild
-## 编译流程主要分为：preloader->loader->gn->ninja这四个过程
-## 在本地没有修改gn和产品配置相关文件的前提下，--fast-rebuild会直接从ninja编译开始
-## 该参数可以减少编译总耗时
+## The build process mainly includes: preloader->loader->gn->ninja
+## Without modifying gn and product configuration files locally, --fast-rebuild starts directly from ninja compilation
+## This parameter can reduce total build time
 ```
 
 ### --prebuilt-sdk
 
-在执行完整编译前先编译 SDK，并整理拷贝 SDK 到 `prebuilts/ohos-sdk`，build.sh 支持通过参数 `sdk_platform=xxx` 指定 SDK 的运行平台，支持 mac/win/linux/ohos/default，default 在 linux 主机下为{`windows`,`linux`,`ohos`}，在 mac 主机下为{`mac`}
+Before performing a full build, compile the SDK and organize/copy the SDK to `prebuilts/ohos-sdk`. build.sh supports specifying the SDK's runtime platform via the parameter `sdk_platform=xxx`, supporting mac/win/linux/ohos/default. Default on a Linux host is {`windows`,`linux`,`ohos`}, on a Mac host is {`mac`}.
 
-例如：
+For example:
 
 ```bash
 ./build.sh --product-name xxx --ccache --prebuilt-sdk sdk_platform=default
 ```
 
-# 生成烧录 img
+# Generate Flashable img
 
 ```bash
 ./build/gen_zip.sh **xxx**
 ```
 
-其中，xxx 代表产品方案，目前支持的产品方案包括：
+Here, xxx represents the product scheme. Currently supported product schemes include:
 
 - deb1
 - musepaper
@@ -246,23 +243,23 @@ index 44950b5c2..5b1f2b30c 100644
 - musepi
 - musebook
 
-生成的可烧录的 img 在
+The generated flashable img is located at:
 
 ```bash
 out/**xxx**/packages/phone/images/**openharmony-spacemit-xxx.zip**
 ```
 
-该 img 可以通过进迭的烧录工具 TitanFlasher 烧录。TitanFlasher 烧录工具的使用方法和下载连接如下：[点我查看](https://developer.spacemit.com/documentation?token=O6wlwlXcoiBZUikVNh2cczhin5d)
+This img can be flashed using the TitanFlasher tool. The usage and download link for the TitanFlasher tool are as follows: [Click to View](https://developer.spacemit.com/documentation?token=O6wlwlXcoiBZUikVNh2cczhin5d)
 
-# 单独编译模块
+# Build Individual Modules
 
-## 单独编译内核
+## Build Kernel Individually
 
 ```bash
 ./build.sh -product-name xxx --ccache --prebuilt-sdk -T build_kernel
 ```
 
-上面的 `build_kernel` 定义在 `device/board/spacemit/xxx/kernel/BUILD.gn`：
+The above `build_kernel` is defined in `device/board/spacemit/xxx/kernel/BUILD.gn`:
 
 ```bash
 action("build_kernel") {
@@ -283,25 +280,25 @@ action("build_kernel") {
 
 ```
 
-内核源码路径在：`kernel/linux/spacemit_kernel-6.6`
+Kernel source code path: `kernel/linux/spacemit_kernel-6.6`
 
-out 目录下生成的 patching 后的内核源码路径在：`out/kernel/OBJ/xxx`
+Patched kernel source code path in the out directory: `out/kernel/OBJ/xxx`
 
-编译生成的内核镜像路径在：`out/kernel/OBJ/xxx/arch/riscv/boot/Image.itb`
+Compiled kernel image path: `out/kernel/OBJ/xxx/arch/riscv/boot/Image.itb`
 
-编译生成的 dtb 文件路径在：`out/kernel/OBJ/xxx/arch/riscv/boot/dts/spacemit/k1-x_xxx.dtb`
+Compiled dtb file path: `out/kernel/OBJ/xxx/arch/riscv/boot/dts/spacemit/k1-x_xxx.dtb`
 
-生成的内核镜像和 dtb 文件会自动拷贝到 `out/xxx/packages/phone/images/bootfs` 目录中，打包脚本会将其打包到 img 中。
+The generated kernel image and dtb files are automatically copied to the `out/xxx/packages/phone/images/bootfs` directory, and the packaging script includes them in the img.
 
-## 单独编译 HDF 适配层
+## Build HDF Adaptation Layer Individually
 
-以 display 为例：
+Take display as an example:
 
 ```c
 ./build.sh -product-name xxx --ccache --prebuilt-sdk -T display_composer_vendor
 ```
 
-display 的适配代码在 `device/soc/spacemit/k1/hardware/display`，`display_composer_vendor` 的定义在 `device/soc/spacemit/k1/hardware/display/BUILD.gn`
+Display adaptation code is located at `device/soc/spacemit/k1/hardware/display`. `display_composer_vendor` is defined in `device/soc/spacemit/k1/hardware/display/BUILD.gn`:
 
 ```bash
 ohos_shared_library("display_composer_vendor") {
@@ -312,24 +309,24 @@ ohos_shared_library("display_composer_vendor") {
     ...
 ```
 
-编译后生成的 so 在：
+Compiled so is located at:
 
 ```bash
 -rwxr-x---+ 1 fuqiang dc-sw-users 181000 Jun  7 08:55 ./out/deb1/hdf/spacemit_products/libdisplay_composer_vendor.z.so
 ```
 
-而下面文件夹中的 so 没有更新，需要注意看更新时间和 md5 值
+The so in the following folder is not updated; pay attention to the update time and md5 value:
 
 ```bash
 -rwxr-x---+ 1 fuqiang dc-sw-users 180968 Jun  6 16:02 ./out/deb1/packages/phone/vendor/lib64/libdisplay_composer_vendor.z.so
 ```
 
-生成的动态库可以通过 hdc 推送到机器中，方便调试，避免重新烧固件，命令如下：
+The generated dynamic library can be pushed to the machine via hdc for debugging, avoiding reflashing the firmware. Command:
 
 ```
 D:\>hdc shell
-# mount -o remount,rw /                #system分区可读写
-# mount -o remount,rw /vendor          #vendor分区可读写
+# mount -o remount,rw /                #system partition writable
+# mount -o remount,rw /vendor          #vendor partition writable
 # exit
 
 D:\>hdc file send xxx.so /vendor/lib64/
@@ -337,26 +334,26 @@ D:\>hdc shell
 # reboot
 ```
 
-## 单独编译 SDK
+## Build SDK Individually
 
 ```bash
 ./build.py --product-name ohos-sdk --ccache=true --xcache=false --load-test-config=false --get-warning-list=false --stat-ccache=false --compute-overlap-rate=false --deps-guard=false --generate-ninja-trace=false --gn-args skip_generate_module_list_file=true **sdk_platform=linux** **ndk_platform=linux** use_cfi=false use_thin_lto=false enable_lto_O0=true sdk_check_flag=false enable_ndk_doxygen=false archive_ndk=false sdk_for_hap_build=true enable_archive_sdk=false enable_notice_collection=false enable_process_notice=false
 ```
 
-通过更改 `sdk_platform` 和 `ndk_platform` 参数可以编译在不同 OS 运行的 SDK，NDK 输出位于 `out/sdk/sdk-native`
+By changing the `sdk_platform` and `ndk_platform` parameters, you can compile SDKs running on different OSs. NDK output is located at `out/sdk/sdk-native`.
 
-## 快速编译
+## Fast Compilation
 
-用下面的命令编译目标模块速度更快：
+Use the following command to compile target modules faster:
 
 ```sql
 ninja -w dupbuild=warn -C out/xxx yyy -j8
 
-# xxx表示方案名
-# yyy表示构建目标
+# xxx represents the scheme name
+# yyy represents the build target
 ```
 
-例如要编译 MUSEPaper 方案的 libomxvpu\_dec 目标，命令如下：
+For example, to compile the libomxvpu_dec target for the MUSEPaper scheme, use the command:
 
 ```sql
 ninja -w dupbuild=warn -C out/musepaper libomxvpu_dec -j8
@@ -364,5 +361,5 @@ ninja -w dupbuild=warn -C out/musepaper libomxvpu_dec -j8
 
 # FAQ
 
-
-引用自[进迭时空开发者文档](https://developer.spacemit.com/documentation?token=OQRQwIzlAiPAxikkNSJcKvFJnQf)
+Referenced from [Spacemit Developer Documentation](https://developer.spacemit.com/documentation?token=OQRQwIzlAiPAxikkNSJcKvFJnQf)
+```

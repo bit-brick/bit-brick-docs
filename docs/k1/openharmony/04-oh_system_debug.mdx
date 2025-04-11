@@ -1,56 +1,56 @@
-# K1 JOH5.0 系统调试说明
+# K1 JOH5.0 System Debugging Guide
 
-# 调试工具和方法
+# Debugging Tools and Methods
 
-## 串口调试
+## Serial Port Debugging
 
-可用，波特率 **115200**，直接使用即可，可以查看 uboot，kernel，OpenHarmony init 进程相关打印。
+Available, baud rate **115200**, can be used directly to view uboot, kernel, and OpenHarmony init process related prints.
 
 ## hdc
 
-hdc 类似 android 的 adb，支持 usb 和 tcp 这 2 种连接模式，使用 tcp 模式，端口默认设置为 55555。配置文件为 device/board/spacemit/xxx/cfg 的 default.para，如下所示：
+hdc is similar to Android's adb, supporting both USB and TCP connection modes. TCP mode is used with default port set to 55555. The configuration file is device/board/spacemit/xxx/cfg's default.para, as shown below:
 
 ```bash
 persist.hdc.mode=usb,tcp
 persist.hdc.port=55555
 ```
 
-### 主机支持 hdc
+### Host hdc Support
 
-#### windows 系统
+#### Windows System
 
-windows 系统将 hdc.exe（[点我下载](https://archive.spacemit.com/tools/openharmony/hdc.zip)）放在特定目录，并设置环境变量路径。
+For Windows systems, place hdc.exe ([Download here](https://archive.spacemit.com/tools/openharmony/hdc.zip)) in a specific directory and set up the environment variable path.
 
-#### ubuntu 系统
+#### Ubuntu System
 
-- 安装依赖项‌：打开终端，输入以下命令来更新软件包列表并安装必要的开发工具和库
+- Install dependencies: Open terminal and enter the following commands to update package list and install necessary development tools and libraries
 
   ```bash
   sudo apt-get update
   sudo apt-get install build-essential libstdc++6 libc++1·
   ```
-- 下载 HDC 工具包‌：前往 OpenHarmony 官网下载适用于 Linux 平台的最新版 HDC 工具压缩包。将其放置于合适位置后进行解压操作，请根据实际情况调整解压路径
+- Download HDC toolkit: Visit OpenHarmony official website to download the latest HDC toolkit for Linux platform. Place it in a suitable location and perform extraction operation. Adjust extraction path as needed.
 
   ```bash
   tar -zxvf hdc_std_<version>_linux.tar.gz -C /opt/hdc/
   ```
-- 设置环境变量‌：编辑用户的 shell 初始化脚本（如 `.bashrc`），添加以下行至文件末尾：
+- Set environment variables: Edit the user's shell initialization script (e.g., `.bashrc`), add the following lines to the end of the file:
 
   ```bash
   export PATH=$PATH:/opt/hdc/bin
   source ~/.bashrc
   ```
-- 验证安装成功与否‌：在新的终端窗口里尝试运行简单的帮助指令以确认一切就绪，如果能够看到详细的帮助文档，则表明整个过程顺利完成
+- Verify installation success: In a new terminal window, try running a simple help command to confirm everything is ready. If you can see detailed help documentation, the process is complete.
 
   ```bash
   hdc help
   ```
 
-### hdc 连接
+### hdc Connection
 
-#### 网络连接
+#### Network Connection
 
-需确保 hdc 的服务端和客户端在同一个局域网内，连接方式如下：
+Ensure hdc's server and client are in the same local area network. Connection method is as follows:
 
 ```bash
 D:\>hdc tconn 10.0.90.142:55555
@@ -60,7 +60,7 @@ D:\>hdc shell
 #
 ```
 
-#### usb 连接
+#### USB Connection
 
 ```bash
 D:\>hdc list targets
@@ -70,9 +70,9 @@ D:\>hdc shell
 #
 ```
 
-#### 多设备连接
+#### Multiple Device Connection
 
-通过 `-t` 参数指定设备即可，如下：
+Specify the device using the `-t` parameter, as shown below:
 
 ```bash
 D:\>hdc list targets
@@ -83,50 +83,50 @@ D:\>hdc -t 0123456789ABCDEF shell
 #
 ```
 
-### hdc 常用命令
+### Common hdc Commands
 
 <table>
 <tbody>
 <tr>
-<td>命令</td>
-<td>用途</td>
+<td>Command</td>
+<td>Purpose</td>
 </tr>
 <tr>
 <td>hdc list targets</td>
-<td>查看当前所有设备</td>
+<td>View all current devices</td>
 </tr>
 <tr>
 <td>hdc shell reboot</td>
-<td>重启</td>
+<td>Reboot</td>
 </tr>
 <tr>
 <td>hdc uninstall com.example.myapp</td>
-<td>卸载hap包</td>
+<td>Uninstall hap package</td>
 </tr>
 <tr>
 <td>hdc install -r xxx.hap</td>
-<td>重新安装hap包</td>
+<td>Reinstall hap package</td>
 </tr>
 <tr>
 <td>hdc shell aa start -a EntryAbility -b com.example.myapp</td>
-<td>启动hap</td>
+<td>Start hap</td>
 </tr>
 <tr>
 <td>hdc file recv  /xxx  D:/</td>
-<td>从小机copy文件到本地</td>
+<td>Copy file from device to local</td>
 </tr>
 <tr>
 <td>hdc file send  D:/xxx  /data/</td>
-<td>发送本地文件到小机</td>
+<td>Send local file to device</td>
 </tr>
 <tr>
 <td>hdc start -r</td>
-<td>重启服务端</td>
+<td>Restart server</td>
 </tr>
 </tbody>
 </table>
 
-### 各设备的 hdc 连接口
+### hdc Connection Ports for Devices
 
 #### MUSEPaper&MUSEPaper2
 
@@ -146,88 +146,88 @@ D:\>hdc -t 0123456789ABCDEF shell
 
 ## hilog
 
-### 基本使用方法
+### Basic Usage
 
-hilog 类似于 android 的 logcat，基本使用方法如下：
+hilog is similar to Android's logcat. Basic usage is as follows:
 
 ```bash
 hilog
 hilog -r
 ```
 
-### 常用命令
+### Common Commands
 
 <table>
 <tbody>
 <tr>
-<td>命令</td>
-<td>用途</td>
-<td>示例</td>
+<td>Command</td>
+<td>Purpose</td>
+<td>Example</td>
 </tr>
 <tr>
 <td>hilog -h</td>
-<td>获取帮助</td>
+<td>Get help</td>
 <td></td>
 </tr>
 <tr>
 <td>hilog -t app|core|kmsg|init</td>
-<td>- 阻塞式实时查询模块日志<br/>- 可以与其他参数同时使用</td>
+<td>- Blocking real-time query of module logs<br/>- Can be used with other parameters</td>
 <td>hilog -t core</td>
 </tr>
 <tr>
 <td>hilog -t app|core|kmsg|init -x</td>
-<td>- 非阻塞式实时查询模块日志<br/>- 可以与其他参数同时使用</td>
+<td>- Non-blocking real-time query of module logs<br/>- Can be used with other parameters</td>
 <td>hilog -t core -x</td>
 </tr>
 <tr>
 <td>hilog -T &lt;tag&gt;</td>
-<td>- 模块内指定tag<br/>- 可以与其他参数一起使用</td>
+<td>- Specify tag within module<br/>- Can be used with other parameters</td>
 <td>hilog -T Launcher_Default</td>
 </tr>
 <tr>
 <td>hilog -L D|I|W|E|F</td>
-<td>- 指定level查询<br/>- D:debug, I:info, W:warning, E:error, F:fatal</td>
+<td>- Specify level query<br/>- D:debug, I:info, W:warning, E:error, F:fatal</td>
 <td>hilog -L I</td>
 </tr>
 <tr>
 <td>hilog -D &lt;domain&gt;<br/></td>
-<td>- 日志的服务域，用于指定输出日志所对应的业务领域<br/>- 这是一个十六进制整数，范围从 0x0 到 0xFFFFF。<br/>- 建议使用0xAAABB格式，AAA表示子系统，BB表示模块<br/>- 指定domian查询<br/>- 可以与其他参数一起使用</td>
+<td>- Log service domain for specifying output log's business domain<br/>- A hexadecimal integer ranging from 0x0 to 0xFFFFF.<br/>- Recommended format: 0xAAABB, where AAA represents subsystem, BB represents module<br/>- Specify domain query<br/>- Can be used with other parameters</td>
 <td>hilog -D 0x0<br/></td>
 </tr>
 <tr>
 <td>^</td>
-<td>- 排除</td>
+<td>- Exclude</td>
 <td>hilog -t ^app -T ^BatteryThread</td>
 </tr>
 </tbody>
 </table>
 
-### 日志落盘
+### Log Persistence
 
-日志落盘意思就是将日志保存到文件中，导出来进行查看。
+Log persistence means saving logs to a file for later viewing.
 
 <table>
 <tbody>
 <tr>
-<td>命令</td>
-<td>用途</td>
+<td>Command</td>
+<td>Purpose</td>
 </tr>
 <tr>
 <td>hilog -w start [-f "xxx"] [-l &lt;length&gt;] [-j &lt;jobid&gt;] [-m &lt;algorithm&gt;] [-n &lt;number&gt;]</td>
-<td>启动落盘任务</td>
+<td>Start persistence task</td>
 </tr>
 <tr>
 <td>hilog -w query [-j &lt;jobid&gt;]</td>
-<td>查询落盘任务</td>
+<td>Query persistence task</td>
 </tr>
 <tr>
 <td>hilog -w stop [-j &lt;jobid&gt;]</td>
-<td>停止落盘任务</td>
+<td>Stop persistence task</td>
 </tr>
 </tbody>
 </table>
 
-示例如下：
+Example:
 
 ```
 # hilog -w query
@@ -244,10 +244,10 @@ drwxrwx--- 6 system log     4096 1970-01-01 00:38 ..
 -rw-r----- 1 logd   system 12239 1970-01-02 03:34 hilog.002.19700102-033431.gz
 -rw-r----- 1 logd   system  6883 1970-01-02 03:34 hilog.003.19700102-033431.gz
 #
-# hilog -w query -j 222 #指定jobid查询
+# hilog -w query -j 222 #Specify jobid query
 222 core,app zlib /data/log/hilog/hilog 67584 2
 #
-# hilog -w query    #查询全部落盘任务
+# hilog -w query    #Query all persistence tasks
 222 core,app zlib /data/log/hilog/hilog 67584 2
 #
 # hilog -w stop -j 222
@@ -263,75 +263,75 @@ drwxrwx--- 6 system log     4096 1970-01-01 00:38 ..
 
 ## hidumper
 
-hidumper 是 OpenHarmony 中为开发、测试人员，IDE 工具提供统一的系统信息获取工具，帮助使用者分析，定位问题。
+hidumper is a unified system information retrieval tool in OpenHarmony for developers, testers, and IDE tools, helping users analyze and locate issues.
 
 <table>
 <tbody>
 <tr>
-<td>命令</td>
-<td>用途</td>
+<td>Command</td>
+<td>Purpose</td>
 </tr>
 <tr>
 <td>hidumper -h</td>
-<td>获取帮助</td>
+<td>Get help</td>
 </tr>
 <tr>
 <td>hidumper --cpuusage [pid]</td>
-<td>查看某个进程的cpu占用信息</td>
+<td>View CPU usage information of a process</td>
 </tr>
 <tr>
 <td>hidumper --mem [pid]</td>
-<td>查看某个进程的内存占用情况</td>
+<td>View memory usage of a process</td>
 </tr>
 <tr>
 <td>hidumper  --cpufreq</td>
-<td>查看cpu的频率</td>
+<td>View CPU frequency</td>
 </tr>
 <tr>
 <td>hidumper --storage</td>
-<td>查看存储情况</td>
+<td>View storage information</td>
 </tr>
 <tr>
 <td>hidumper --net</td>
-<td>查看网络情况</td>
+<td>View network information</td>
 </tr>
 </tbody>
 </table>
 
-## 参数管理
+## Parameter Management
 
 <table>
 <tbody>
 <tr>
-<td>命令</td>
-<td>用途</td>
+<td>Command</td>
+<td>Purpose</td>
 </tr>
 <tr>
 <td>param -h</td>
-<td>获取帮助</td>
+<td>Get help</td>
 </tr>
 <tr>
 <td>param ls -r</td>
-<td>查看所用系统参数</td>
+<td>View all system parameters</td>
 </tr>
 <tr>
 <td>param ls -r persist.sys.hilog.debug.on</td>
-<td>查看系统参数</td>
+<td>View system parameter</td>
 </tr>
 <tr>
 <td>param get persist.sys.hilog.debug.on</td>
-<td>获取系统参数</td>
+<td>Get system parameter</td>
 </tr>
 <tr>
 <td>param set persist.sys.hilog.debug.on true</td>
-<td>设置系统参数</td>
+<td>Set system parameter</td>
 </tr>
 </tbody>
 </table>
 
-## 模拟按键
+## Simulated Key Press
 
-### 鼠标操作
+### Mouse Operations
 
 ```c
 # uinput -?
@@ -366,26 +366,26 @@ commands for mouse:
                                                negative values are sliding forwards
 ```
 
-#### 命令示例
+#### Command Examples
 
 <table>
 <tbody>
 <tr>
-<td>命令</td>
-<td>用途</td>
+<td>Command</td>
+<td>Purpose</td>
 </tr>
 <tr>
 <td>uinput -M -m 50 50</td>
-<td>鼠标光标移动到（50,50）位置</td>
+<td>Move mouse cursor to position (50,50)</td>
 </tr>
 <tr>
 <td>Uinput -M -b 50 200 0 100 300</td>
-<td>鼠标在（50,200）左键双击，点击事件100ms，双击的间隔时间300ms</td>
+<td>Double-click left mouse button at (50,200), click event duration 100ms, double-click interval 300ms</td>
 </tr>
 </tbody>
 </table>
 
-### 键盘操作
+### Keyboard Operations
 
 ```c
 # uinput -?
@@ -399,13 +399,13 @@ commands for keyboard:
 -i <time>                  --interval <time>  -the program interval for the (time) milliseconds
 ```
 
-#### 按键值
+#### Key Values
 
 <table>
 <tbody>
 <tr>
-<td>key</td>
-<td>keycode</td>
+<td>Key</td>
+<td>Keycode</td>
 </tr>
 <tr>
 <td>KEYCODE_HOME</td>
@@ -458,26 +458,26 @@ commands for keyboard:
 </tbody>
 </table>
 
-#### 命令示例
+#### Command Examples
 
 <table>
 <tbody>
 <tr>
-<td>命令</td>
-<td>用途</td>
+<td>Command</td>
+<td>Purpose</td>
 </tr>
 <tr>
 <td>uinput -K -d 1 -u 1</td>
-<td>按HOME键返回主界面</td>
+<td>Press HOME key to return to main screen</td>
 </tr>
 <tr>
 <td>uinput -K -d 1 -u 1</td>
-<td>声音调大</td>
+<td>Increase volume</td>
 </tr>
 </tbody>
 </table>
 
-### 触屏操作
+### Touchscreen Operations
 
 ```c
 # uinput -?
@@ -493,25 +493,25 @@ commands for touch:
 -c <dx1> <dy1> [click interval]               -touch screen click dx1 dy1
 ```
 
-#### 命令提示
+#### Command Examples
 
-待完善
+To be completed.
 
-## 服务管理
+## Service Management
 
 <table>
 <tbody>
 <tr>
-<td>命令</td>
-<td>用途</td>
+<td>Command</td>
+<td>Purpose</td>
 </tr>
 <tr>
 <td>service_control start pulseaudio</td>
-<td>启动pulseaudio服务</td>
+<td>Start pulseaudio service</td>
 </tr>
 <tr>
 <td>service_control stop pulseaudio</td>
-<td>停止pulseaudio服务</td>
+<td>Stop pulseaudio service</td>
 </tr>
 </tbody>
 </table>
@@ -522,9 +522,9 @@ commands for touch:
 
 ## bytrace
 
-通过 hdc 来获取 trace 的方法如下：
+To obtain trace using hdc:
 
-- 抓取 trace：
+- Capture trace:
 
 ```
 D:\>hdc shell
@@ -536,58 +536,58 @@ D:\>hdc shell
 # echo > /sys/kernel/debug/tracing/trace
 # exit
 D:\>hdc file recv /mnt/mynewtrace.ftrace
-查看trace：
-https://ui.perfetto.dev（科学上网）
+View trace:
+https://ui.perfetto.dev (requires internet access)
 ```
 
-查看 trace：
+View trace:
 
 ## bootchart
 
-使用方法：
+Usage:
 
 ```bash
 1. hdc shell
 2. begetctl bootchart enable
-3. reboot 或者断电重启
+3. reboot or power cycle
 4. begetctl bootchart stop
 5. begetctl bootchart disable
-6. 进入到/data/service/el0/startup/init/文件夹下查看是否有如下文件：
-header、proc_diskstats.log、proc_ps.log、proc_stat.log
-7. 在/data/service/el0/startup/init/目录下执行命令：tar -czf bootchart.tgz *  # 打包
-8. hdc_std file recv /data/service/el0/startup/init/bootchart.tgz ./        #导出
-9. 生成开机性能图片 java -jar bootchart.jar bootchart.tgz
+6. Check if the following files exist in /data/service/el0/startup/init/ directory:
+header, proc_diskstats.log, proc_ps.log, proc_stat.log
+7. Execute command in /data/service/el0/startup/init/: tar -czf bootchart.tgz *  # Package files
+8. hdc_std file recv /data/service/el0/startup/init/bootchart.tgz ./        # Export files
+9. Generate boot performance image: java -jar bootchart.jar bootchart.tgz
 ```
 
 ## glmark
 
-使用方法：
+Usage:
 
 ```bash
-执行下面3条命令可运行glmark老化：
+Run the following three commands to perform glmark aging test:
 power-shell setmode 602
 cd /system/bin
 ./glmark2-es2 --run-forever --size 720x720
 ```
 
-## wpa\_supplicant&wpa\_cli
+## wpa_supplicant&wpa_cli
 
 ```bash
-使用方法：
-1. 开启再关闭wifi
+Usage:
+1. Enable and disable WiFi
 2. cd /vendor/bin/
 3. ./wpa_supplicant -B -i wlan0 -c /data/service/el1/public/wifi/wpa_supplicant/wpa_supplicant.conf
-4. ps -ef | grep wpa查看wpa_supplicant是否起来
+4. ps -ef | grep wpa to check if wpa_supplicant is running
 5. /wpa_cli -p /data/service/el1/public/wifi/sockets/wpa
 6. > scan
 7. > scan_results
-8. > add_network，返回一个ID
-9. > set_network ID ssid "WIFI名称"
-10. > set_network ID psk "WIFI密码"
+8. > add_network, returns an ID
+9. > set_network ID ssid "WiFi name"
+10. > set_network ID psk "WiFi password"
 11. > enable_network ID
 ```
 
-## snapshot\_display
+## snapshot_display
 
 ```bash
 param set const.security.developermode.state true
@@ -597,63 +597,63 @@ snapshot_display -f /data/local/tmp/test1.jpeg
 
 ## wukong
 
-待完善
+To be completed.
 
 ## power-shell
 
 ```
-power-shell setmode 602      #性能模式，关闭休眠
-power-shell suspend          #休眠
-power-shell display -s xxx   #设置亮度
+power-shell setmode 602      # Performance mode, disable sleep
+power-shell suspend          # Sleep
+power-shell display -s xxx   # Set brightness
 ```
 
-## 重新挂载 system/vendor 分区为可读写
+## Remount system/vendor partition as read-write
 
-system/vendor 分区默认挂载为只读（ro），当调试的时候需要使用 `hdc file send` 推文件的时候，需要将其重新挂载为可读写，如下：
+The system/vendor partition is mounted as read-only (ro) by default. When debugging and using `hdc file send` to push files, remount it as read-write as follows:
 
 ```shell
 mount -o remount,rw /vendor
 mount -o remount,rw /
 ```
 
-系统重启后失效，需要重新挂载
+This setting is lost after system reboot and needs to be remounted.
 
-## gdb 调试
+## gdb Debugging
 
-待添加
+To be added.
 
-# 常用测试方法
+# Common Testing Methods
 
-## monkey 测试
+## Monkey Testing
 
-待添加
+To be added.
 
-## 循环 reboot
+## Loop Reboot
 
-待添加
+To be added.
 
-## 循环音乐播放
+## Loop Music Playback
 
-待添加
+To be added.
 
-## 循环视频播放
+## Loop Video Playback
 
-待添加
+To be added.
 
-# 常见问题调试手段
+# Common Issue Debugging Methods
 
-## 外设
+## Peripherals
 
-### 屏幕背光无法调节
+### Screen Backlight Adjustment Failure
 
-- 通过查看和设置节点 `sys/class/backlight/backlight/brightness` 来确认驱动是否正常
-- 如果设置上述节点亮度无变化，说明驱动存在问题，需要查驱动，重点查看背光对应的 PWM 是否正常工作
-- 如果设置上述节点亮度有变化，说明是 OH 上层的问题，可以通过命令 power-shell display -s xxx(100\>xxx\>0)来查看亮度是否有变化
+- Check and set the node `sys/class/backlight/backlight/brightness` to confirm if the driver is functioning properly.
+- If setting the above node brightness has no effect, the driver has issues. Investigate the driver, focusing on whether the PWM corresponding to the backlight is functioning correctly.
+- If setting the above node brightness has an effect, the issue lies in the OH upper layer. Use the command power-shell display -s xxx (100>xxx>0) to check if brightness changes.
 
-## 系统
+## System
 
 ### cppcrash
 
-待添加
+To be added.
 
-引用自 [进迭时空开发者文档](https://developer.spacemit.com/documentation?token=Mqo9wGcBOiUbKUk22cAcYAlOnce)
+Referenced from [Spacemit Developer Documentation](https://developer.spacemit.com/documentation?token=Mqo9wGcBOiUbKUk22cAcYAlOnce)
