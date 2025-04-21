@@ -6,6 +6,14 @@ This chapter introduces Cluster K1 and its usage.
 
 Bit-Brick Cluster K1 is a high-performance computing expansion device designed to connect multiple core boards into a cluster, significantly enhancing computing power to meet the needs of applications with high-performance requirements. Cluster K1 can mount up to 4 core boards at a time and is equipped with a variety of peripheral interfaces, allowing users to connect various external devices and expand system functionality.
 
+<span style={{ 
+  display: 'flex', 
+  justifyContent: 'center',
+  margin: '10px 0'
+}}>
+![alt text](./static/k1_cluster.png)
+</span>
+
 ## 2. Working Principle
 
 Cluster K1 uses an Ethernet switch chip as the connection hub to establish a network connection between the four core boards. The Ethernet switch chip, as the core component of the cluster network, provides each core board with an independent network port, enabling fast packet forwarding. When the core boards are connected to the cluster board, the router assigns a unique network address to each core board. Each core board can communicate with others through the Ethernet switch chip, ensuring efficient and stable data transmission.
