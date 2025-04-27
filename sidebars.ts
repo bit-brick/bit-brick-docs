@@ -539,6 +539,10 @@ const sidebars: SidebarsConfig = {
             },
             {
               type: 'doc',
+              id: 'k1/k1-ml/model-zoo',
+            },
+            {
+              type: 'doc',
               id: 'k1/k1-ml/llm-deploy',
             },
             {
