@@ -1,141 +1,228 @@
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Downloading and Installing the Operating System
-When we have prepared the necessary items, we can start downloading and installing the operating system.
-## 1. Downloading the Operating System
+# Download and Install the Operating System
+After preparing all the necessary items, we can proceed to download and install the operating system.
 
-Bianbu OS is the default operating system for BIT-BRICK K1. It is an operating system deeply optimized for RISC-V based on the Ubuntu community source code compilation.
+## 1. Download the Operating System
 
-Download address: [Bianbu desktop for SDcard](https://archive.spacemit.com/image/k1/version/bianbu/v2.1/bianbu-24.04-desktop-k1-v2.1-release-20250124144655.img.zip)
+Bianbu Operating System
 
-The firmware ending with img.zip is the sdcard firmware, which can be written to the sdcard using the dd command or balenaEtcher after decompression. 
+Bianbu OS is the default operating system for BIT-BRICK K1. It is a RISC-V optimized operating system compiled from Ubuntu community source code.
 
-:::note 
-that this firmware is not suitable for eMMC.
-:::
-## 2. Installing the Operating System
-### PC Configuration Requirements
-Operating System: Windows or Linux or MacOS       
-C Drive Space (or Linux/MacOS System Home Space): > 5GB
+Firmware download links:
+[Bianbu Desktop for SDcard](https://archive.spacemit.com/image/k1/version/bianbu/v2.1/bianbu-24.04-desktop-k1-v2.1-release-20250124144655.img.zip)
+[Bianbu Desktop for EMMC](https://archive.spacemit.com/image/k1/version/bianbu/v2.1/bianbu-24.04-desktop-k1-v2.1-release-20250124144655.zip)
 
-We will use the balenaEtcher tool to burn the firmware to the Micro SD card.
-### Installing balenaEtcher
+- Files ending with img.zip are SDcard firmware, which can be written to SDcard using dd command or balenaEtcher after extraction. Note that this firmware is not suitable for eMMC.
+- Files ending with .zip can be flashed using Titan Flasher, or using fastboot after extraction.
+
+The root user password for the firmware is: bianbu.
+
+## 2. Install the Operating System
+
+### PC Requirements
+Operating System: Windows or Linux or MacOS
+C drive space (or Linux/MacOS Home space): > 5GB
 
 <Tabs>
-  <TabItem value="apple" label="Windows" default>
-    1. Download the burning software for the Linux image - balenaEtcher, and the download address is
-https://www.balena.io/etcher/
-2. After entering the balenaEtcher download page, clicking the green download button will jump to the software download location
+  <TabItem value="sdcard" label="SDCard" default>
+  We will use the balenaEtcher tool to flash the firmware to the Micro SD card.
 
-<span style={{
-display: 'flex',
-justifyContent: 'center',
-margin: '10px 0'
+  ### Install balenaEtcher
+<Tabs>
+  <TabItem value="apple" label="Windows" default>
+    1. Download the Linux image flashing tool—balenaEtcher from:
+https://www.balena.io/etcher/
+
+2. After entering the balenaEtcher download page, click the green download button to go to the software download section
+
+<span style={{ 
+  display: 'flex', 
+  justifyContent: 'center',
+  margin: '10px 0'
 }}>
 ![balena_download](/img/k1/getting-started/install/balena_download.png)
 </span>
 
-3. Then you can choose to download the Portable version of the balenaEtcher software. The Portable version does not require installation and can be used by double-clicking to open it.
+3. You can choose to download the Portable version of balenaEtcher, which doesn't require installation and can be used by double-clicking
 
-<span style={{
-display: 'flex',
-justifyContent: 'center',
-margin: '10px 0'
+<span style={{ 
+  display: 'flex', 
+  justifyContent: 'center',
+  margin: '10px 0'
 }}>
 ![balena_download](/img/k1/getting-started/install/balena_download1.png)
 </span>
 
-4. If the installed version of balenaEtcher is downloaded, please install it before using it. If the Portable version of balenaEtcher is downloaded, just double-click to open it. The interface of balenaEtcher after opening is shown in the following figure
+4. If you downloaded the installation version of balenaEtcher, please install it before use. If you downloaded the Portable version, simply double-click to open it. The balenaEtcher interface after opening looks like this:
 
-<span style={{
-display: 'flex',
-justifyContent: 'center',
-margin: '10px 0'
+<span style={{ 
+  display: 'flex', 
+  justifyContent: 'center',
+  margin: '10px 0'
 }}>
 ![balena1](/img/k1/getting-started/install/balenaEtcher_001.png)
 </span>
   </TabItem>
   <TabItem value="orange" label="Linux">
-
-1. Download the burning software for the Linux image - balenaEtcher, and the download address is
+       
+1. Download the Linux image flashing tool—balenaEtcher from:
 https://www.balena.io/etcher/
-2. After entering the balenaEtcher download page, clicking the green download button will jump to the software download location
 
-<span style={{
-display: 'flex',
-justifyContent: 'center',
-margin: '10px 0'
+2. After entering the balenaEtcher download page, click the green download button to go to the software download section
+
+<span style={{ 
+  display: 'flex', 
+  justifyContent: 'center',
+  margin: '10px 0'
 }}>
 ![balena_download](/img/k1/getting-started/install/balena_download.png)
 </span>
 
-3. Then you can choose to download the Portable version of the balenaEtcher software. The Portable version does not require installation and can be used by double-clicking to open it.
+3. You can choose to download the Portable version of balenaEtcher, which doesn't require installation and can be used by double-clicking
 
-<span style={{
-display: 'flex',
-justifyContent: 'center',
-margin: '10px 0'
+<span style={{ 
+  display: 'flex', 
+  justifyContent: 'center',
+  margin: '10px 0'
 }}>
 ![balena_download](/img/k1/getting-started/install/balena_download_ubuntu.png)
 </span>
 
-4. Then double-click balenaEtcher-1.14.3-x64.AppImage in the graphical interface of the Ubuntu PC to open balenaEtcher (no installation required). The interface displayed after opening balenaEtcher is shown in the following figure
+4. Then double-click balenaEtcher-1.14.3-x64.AppImage in Ubuntu PC's graphical interface to open balenaEtcher (no installation needed). The balenaEtcher interface after opening looks like this:
 
-<span style={{
-display: 'flex',
-justifyContent: 'center',
-margin: '10px 0'
+<span style={{ 
+  display: 'flex', 
+  justifyContent: 'center',
+  margin: '10px 0'
 }}>
 ![balena1](/img/k1/getting-started/install/balenaEtcher_001.png)
 </span>
-  </TabItem>
 
+  </TabItem>
+  
 </Tabs>
 
-### Using balenaEtcher to Burn the Image
-1. First, prepare a TF card with a capacity of 16GB or more. The transfer speed of the TF card must be class 10 or above. It is recommended to use TF cards of brands such as SanDisk.
-2. Then insert the TF card into the computer using a card reader.
-3. Find the downloaded compressed package of the Linux operating system image file, ending with img.zip.
-4. The specific steps to use balenaEtcher to burn the Linux image are as follows
-    - First, select the path of the Linux image file to be burned.
-    - Then, select the drive letter of the TF card.
-    - Finally, click Flash to start burning the Linux image to the TF card.
-    
-<span style={{
-display: 'flex',
-justifyContent: 'center',
-margin: '10px 0'
+### Using balenaEtcher to Flash the Image
+1. First, prepare a 16GB or larger TF card. The transfer speed must be class10 or above. We recommend using branded TF cards like SanDisk
+
+2. Use a card reader to insert the TF card into your computer
+
+3. Locate the downloaded Linux operating system image file archive ending with img.zip
+
+4. The specific steps for flashing Linux image using balenaEtcher are as follows:
+
+    - First select the path of the Linux image file to flash
+
+    - Then select the TF card drive
+
+    - Finally click Flash to start writing the Linux image to the TF card
+
+<span style={{ 
+  display: 'flex', 
+  justifyContent: 'center',
+  margin: '10px 0'
 }}>
 ![balena1](/img/k1/getting-started/install/balenaEtcher_002.png)
 </span>
-   
-5. The interface displayed during the process of burning the Linux image by balenaEtcher is shown in the following figure. In addition, the progress bar showing purple indicates that the Linux image is being burned to the TF card.
 
-<span style={{
-display: 'flex',
-justifyContent: 'center',
-margin: '10px 0'
+5. The interface shown during balenaEtcher's flashing process is shown below. The purple progress bar indicates that the Linux image is being written to the TF card
+
+<span style={{ 
+  display: 'flex', 
+  justifyContent: 'center',
+  margin: '10px 0'
 }}>
 ![balena1_flashing](/img/k1/getting-started/install/balenaEtcher_Flashing.png)
 </span>
 
-6. After the Linux image is burned, balenaEtcher will also default to verify the image burned into the TF card to ensure that there is no problem during the burning process. As shown in the following figure, the display of the green progress bar indicates that the image has been burned successfully, and balenaEtcher is verifying the burned image.
+6. After flashing the Linux image, balenaEtcher will automatically verify the flashed image to ensure there were no problems during the process. As shown below, the green progress bar indicates that the image has been flashed and balenaEtcher is verifying it
 
-<span style={{
-display: 'flex',
-justifyContent: 'center',
-margin: '10px 0'
+<span style={{ 
+  display: 'flex', 
+  justifyContent: 'center',
+  margin: '10px 0'
 }}>
 ![balena1_flashing](/img/k1/getting-started/install/balenaEtcher_Validating.png)
 </span>
 
-7. After the successful burning is completed, the display interface of balenaEtcher is shown in the following figure. If the green indicator icon is displayed, it means that the image has been burned successfully. At this time, you can exit balenaEtcher, then remove the TF card and insert it into the TF card slot of the development board for use.
+7. The balenaEtcher interface after successful flashing is shown below. If you see a green indicator icon, it means the image was flashed successfully. You can now exit balenaEtcher, remove the TF card and insert it into the development board's TF card slot
 
-<span style={{
-display: 'flex',
-justifyContent: 'center',
-margin: '10px 0'
+<span style={{ display: 'flex', justifyContent: 'center',margin: '10px 0'}}> ![balena1_flashing](/img/k1/getting-started/install/balenaEtcher_003.png) </span>
+  </TabItem>
+
+  <TabItem value="emmc" label="EMMC" default>
+1. Connect the K1 development board's USB2.0 OTG port to your computer, then connect the power supply
+
+<span style={{ 
+  display: 'flex', 
+  justifyContent: 'center',
+  margin: '10px 0'
 }}>
-![balena1_flashing](/img/k1/getting-started/install/balenaEtcher_003.png)
+![balena1_flashing](/img/k1/getting-started/install/emmc_install_1.png)
 </span>
+
+2. Open the titanflasher tool, click on Developer Tools, then click to enter Single Machine Flash Mode
+
+<span style={{ 
+  display: 'flex', 
+  justifyContent: 'center',
+  margin: '10px 0'
+}}>
+![balena1_flashing](/img/k1/getting-started/install/emmc_install_2.png)
+</span>
+
+3. Hold down the Download button on the K1 development board while pressing the Reset button once, then release both to enter flash mode
+
+<span style={{ 
+  display: 'flex', 
+  justifyContent: 'center',
+  margin: '10px 0'
+}}>
+![balena1_flashing](/img/k1/getting-started/install/emmc_install_3.png)
+</span>
+
+4. Click Scan Device, and after the device is recognized, switch to pulling image from local directory
+
+<span style={{ 
+  display: 'flex', 
+  justifyContent: 'center',
+  margin: '10px 0'
+}}>
+![balena1_flashing](/img/k1/getting-started/install/emmc_install_4.png)
+</span>
+
+5. Select the Bianbu image directory for eMMC flashing (need to extract the image archive first), click Start Flashing
+
+<span style={{ 
+  display: 'flex', 
+  justifyContent: 'center',
+  margin: '10px 0'
+}}>
+![balena1_flashing](/img/k1/getting-started/install/emmc_install_5.png)
+</span>
+
+6. Image flashing in progress
+
+<span style={{ 
+  display: 'flex', 
+  justifyContent: 'center',
+  margin: '10px 0'
+}}>
+![balena1_flashing](/img/k1/getting-started/install/emmc_install_6.png)
+</span>
+
+7. Flashing complete, connect the peripherals and restart K1 or reconnect power to boot the system
+
+<span style={{ 
+  display: 'flex', 
+  justifyContent: 'center',
+  margin: '10px 0'
+}}>
+![balena1_flashing](/img/k1/getting-started/install/emmc_install_7.png)
+</span>
+
+  </TabItem>
+
+</Tabs>

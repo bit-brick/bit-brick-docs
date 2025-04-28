@@ -11,18 +11,27 @@ Bianbu操作系统
 Bianbu OS是BIT-BRICK K1的默认操作系统，它是一个基于Ubuntu社区源码编译的针对RISC-V深度优化的一个操作系统。
 
 
-固件下载地址：[Bianbu Desktop for SDcard](https://archive.spacemit.com/image/k1/version/bianbu/v2.1/bianbu-24.04-desktop-k1-v2.1-release-20250124144655.img.zip)
+固件下载地址：
 
-以 img.zip 结尾的固件为 sdcard 固件，解压后可以用 dd 命令或者 balenaEtcher 写入 sdcard。注意此固件不适用于 eMMC。
+[Bianbu Desktop for SDcard](https://archive.spacemit.com/image/k1/version/bianbu/v2.1/bianbu-24.04-desktop-k1-v2.1-release-20250124144655.img.zip)
+
+[Bianbu Desktop for EMMC](https://archive.spacemit.com/image/k1/version/bianbu/v2.1/bianbu-24.04-desktop-k1-v2.1-release-20250124144655.zip)
+
+- 以 img.zip 结尾的固件为 sdcard 固件，解压后可以用 dd 命令或者 balenaEtcher 写入 sdcard，注意此固件不适用于 eMMC。
+- 以 .zip 结尾，可以用 Titan Flasher 刷机，或者解压后用 fastboot 刷机。
+
+固件 root 用户的密码：bianbu。
 
 ## 2.安装操作系统
 
 ### PC 配置要求
 操作系统：Windows 或 Linux 或 MacOS
 C 盘空间（或 Linux/MacOS 系统 Home 空间）：> 5GB
+<Tabs>
+  <TabItem value="sdcard" label="SDCard" default>
+  我们将采用balenaEtcher工具将固件烧录到Micro SD卡中。
 
-我们将采用balenaEtcher工具将固件烧录到Micro SD卡中。
-### 安装balenaEtcher
+  ### 安装balenaEtcher
 <Tabs>
   <TabItem value="apple" label="Windows" default>
     1. 下载Linux镜像的烧录软件——balenaEtcher，下载地址为
@@ -160,13 +169,83 @@ https://www.balena.io/etcher/
 7. 成功烧录完成后balenaEtcher的显示界面如下图所示，如果显示绿色的指示图标说明镜像烧录成功，此时就可以退出balenaEtcher，然后拔出TF卡插入到开发板的TF卡槽中使用了
 
 
+<span style={{ display: 'flex', justifyContent: 'center',margin: '10px 0'}}> ![balena1_flashing](/img/k1/getting-started/install/balenaEtcher_003.png) </span>
+  </TabItem>
+
+  <TabItem value="emmc" label="EMMC" default>
+1. 将K1开发板的USB2.0 OTG接口与电脑连接，随后接通电源
+
 <span style={{ 
   display: 'flex', 
   justifyContent: 'center',
   margin: '10px 0'
 }}>
-![balena1_flashing](/img/k1/getting-started/install/balenaEtcher_003.png)
+![balena1_flashing](/img/k1/getting-started/install/emmc_install_1.png)
 </span>
+
+2. 打开titanflasher烧录工具，点击研发工具，随后点击进入单机烧录模式
+
+<span style={{ 
+  display: 'flex', 
+  justifyContent: 'center',
+  margin: '10px 0'
+}}>
+![balena1_flashing](/img/k1/getting-started/install/emmc_install_2.png)
+</span>
+
+3. 按住K1开发板的Download键的同时按一下Reset键，随后一起松开，使开发板进入刷机模式
+
+<span style={{ 
+  display: 'flex', 
+  justifyContent: 'center',
+  margin: '10px 0'
+}}>
+![balena1_flashing](/img/k1/getting-started/install/emmc_install_3.png)
+</span>
+
+4. 点击扫描设备，识别出设备后，切换成从本地目录拉取镜像
+
+<span style={{ 
+  display: 'flex', 
+  justifyContent: 'center',
+  margin: '10px 0'
+}}>
+![balena1_flashing](/img/k1/getting-started/install/emmc_install_4.png)
+</span>
+
+5. 选择用于eMMC烧录的Bianbu镜像目录（需提前解压镜像压缩包），点击开始刷机
+
+<span style={{ 
+  display: 'flex', 
+  justifyContent: 'center',
+  margin: '10px 0'
+}}>
+![balena1_flashing](/img/k1/getting-started/install/emmc_install_5.png)
+</span>
+
+6. 正在烧录镜像
+
+<span style={{ 
+  display: 'flex', 
+  justifyContent: 'center',
+  margin: '10px 0'
+}}>
+![balena1_flashing](/img/k1/getting-started/install/emmc_install_6.png)
+</span>
+
+7. 烧录完成，随后连接好外设后重启K1或者为K1重新接入电源启动系统
+
+<span style={{ 
+  display: 'flex', 
+  justifyContent: 'center',
+  margin: '10px 0'
+}}>
+![balena1_flashing](/img/k1/getting-started/install/emmc_install_7.png)
+</span>
+
+  </TabItem>
+
+</Tabs>
 
 
 

@@ -1,0 +1,81 @@
+这份文档主要步骤总结为：
+
+# VNC远程桌面配置指南
+
+## 1. 安装 VNC 服务端
+
+使用 apt 安装 `x11vnc`：
+
+```bash
+sudo apt update
+sudo apt install x11vnc
+```
+
+## 2. 设置访问密码
+
+创建 VNC 连接密码：
+
+```bash
+x11vnc -storepasswd
+```
+
+生成密码文件，默认保存于 `~/.vnc/passwd`。
+
+## 3. 测试 VNC 服务
+
+启动 VNC 服务：
+
+```bash
+x11vnc -usepw -display :0
+```
+
+```bash
+export DISPLAY=:0
+x11vnc -auth guess -once -loop -noxdamage -repeat -rfbauth /home/linaro/.vnc/passwd -rfbport 5900 -shared
+```
+手动开启VNC服务，设置连接端口为5900，如果端口被占用可以使用其他端口。
+
+
+用 MobaXterm 或 VNC Viewer 客户端连接，IP 地址是板子的局域网 IP。
+
+## 4. 配置开机自启
+
+在 `~/.config/autostart/` 目录下新建 `vnc.desktop`，内容示例：
+```bash
+#以cat用户为例
+mkdir /home/linaro/.config/autostart
+
+#创建配置文件
+vim /home/linaro/.config/autostart/vnc.desktop
+```
+
+
+```ini
+[Desktop Entry]
+Type=Application
+Exec=/usr/bin/x11vnc -auth guess -display :0 -rfbauth /home/linaro/.vnc/passwd -rfbport 5900 -forever -loop -noxdamage -repeat -shared -capslock -nomodtweak
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+Name=VNC
+Comment=Start VNC on login
+```
+
+## 5. 关闭休眠设置
+
+避免休眠导致远程连接中断。关闭屏幕保护和节能管理：
+
+```bash
+xset s off
+xset -dpms
+```
+
+可将命令写入 `~/.xprofile` 或启动脚本中。
+
+## 6. 推荐VNC客户端
+
+- [RealVNC Viewer](https://www.realvnc.com/en/connect/download/viewer/)
+- MobaXterm
+- remmina
+
+
