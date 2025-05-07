@@ -54,5 +54,5 @@ jobs:
         uses: actions/deploy-pages@v4
         with:
           debug: true
-          timeout: 600
+          timeout: 6000
           retries: 3
