@@ -46,35 +46,34 @@ RKDevTool is a dedicated USB flashing tool for Rockchip, available on Windows. I
 
 Open the RKDevTool flashing tool and set the board to flashing mode.
 
-1. Prepare a Type-C cable and a power cable. The Type-C cable is used for image flashing.
-2. Connect one end of the Type-C cable to the OTG interface of the board and the other end to the USB interface of the computer. Then connect the power supply to the board.
-3. Open the RKDevTool software and switch the ADB device to Rockusb.
-4. If unsuccessful, repeat steps 2-3.
+1. Prepare a Type-C cable and a power cable. The Type-C cable is used for image flashing
+2. Use a jumper cap to short-circuit the pins marked as `DL` (shown as 1 in the image) to enter firmware download mode
+3. Connect one end of the Type-C cable to the board's OTG port, hold down the K1 Pro's Download button, then connect the power supply to K1 Pro to enter Loader mode
 
 <span style={{ 
   display: 'flex', 
   justifyContent: 'center',
   margin: '10px 0'
 }}>
-![rk_devtools](/img/k1pro/getting-started/rk_devtools_1_en.png) 
+![rk_devtools](/img/k1pro/getting-started/k1pro_loader.png)
 </span>
-Then select the firmware to be flashed and click "Open."
 
 <span style={{ 
   display: 'flex', 
   justifyContent: 'center',
   margin: '10px 0'
 }}>
-![rk_devtools](/img/k1pro/getting-started/rk_devtools_2_en.png) 
+![rk_devtools](/img/k1pro/getting-started/loader_devtools1.png)
 </span>
-Wait for the firmware to load, then click "Upgrade" to start flashing the firmware.
+
+Click "Upgrade Firmware", select the image to be flashed, then click "Upgrade" to start flashing the firmware
 
 <span style={{ 
   display: 'flex', 
   justifyContent: 'center',
   margin: '10px 0'
 }}>
-![rk_devtools](/img/k1pro/getting-started/rk_devtools_3_en.png) 
+![rk_devtools](/img/k1pro/getting-started/loader_devtools2.png)
 </span>
 
 The image is successfully flashed, as shown below:

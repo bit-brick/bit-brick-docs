@@ -5,7 +5,7 @@ K1 Pro出厂默认烧录了系统镜像， 如果不需要烧录新镜像的话�
 ## 烧录镜像到eMMC
 
 镜像地址：
-[K1pro_debian Baidu Cloud](https://pan.baidu.com/s/1AvvPxCaF9EDkc0shuRwt3w?pwd=n3zs)
+[K1pro_debian Baidu ](https://pan.baidu.com/s/1AvvPxCaF9EDkc0shuRwt3w?pwd=n3zs)
 
 ### 工具获取和安装
 
@@ -48,33 +48,33 @@ K1 Pro出厂默认烧录了系统镜像， 如果不需要烧录新镜像的话�
 打开 RKDevTool 烧录工具，并设置板卡进入烧录模式
 
 1. 准备一根Type-c线和一根供电线，Type-c线用于镜像烧录
-2. 使用一根Type-C线一端连接到板卡的OTG接口，另一端连接电脑的usb接口，给板卡接上电源
-3. 然后打开软件RKDevTool，将ADB设备切换到Rockusb
-4. 如果不成功，重复2-3步骤。
+2. 使用跳线帽短路选择图示标记1`DL`跳线的引脚，进入固件下载模式
+3. 使用一根Type-C线一端连接到板卡的OTG接口，按住K1 Pro的Download键，随后为K1 Pro接上电源，进入Loader模式
 
 <span style={{ 
   display: 'flex', 
   justifyContent: 'center',
   margin: '10px 0'
 }}>
-![rk_devtools](/img/k1pro/getting-started/rk_devtools_1.png)
+![rk_devtools](/img/k1pro/getting-started/k1pro_loader.png)
 </span>
-然后就可以点击固件选择要烧录的镜像，然后点击打开
+
 <span style={{ 
   display: 'flex', 
   justifyContent: 'center',
   margin: '10px 0'
 }}>
-![rk_devtools](/img/k1pro/getting-started/rk_devtools_2.png)
+![rk_devtools](/img/k1pro/getting-started/loader_devtools1.png)
 </span>
-等待固件加载完成，然后点击升级，开始烧录固件
+点击升级固件，选择要烧录的镜像，点击升级开始烧录固件
 <span style={{ 
   display: 'flex', 
   justifyContent: 'center',
   margin: '10px 0'
 }}>
-![rk_devtools](/img/k1pro/getting-started/rk_devtools_3.png)
+![rk_devtools](/img/k1pro/getting-started/loader_devtools2.png)
 </span>
+
 
 镜像烧录成功，如下图
 
