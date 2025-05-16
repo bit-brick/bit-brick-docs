@@ -692,78 +692,63 @@ const sidebars: SidebarsConfig = {
               items: [
                 {
                   type: 'doc',
-                  label: 'K1 Pro PINCTRL',
                   id: 'k1_pro/k1_pro-software/peripheral_driver/PINCTRL',
                 },
                 {
                   type: 'doc',
-                  label: 'K1 Pro GPIO',
-                  id: 'k1_pro/k1_pro-software/peripheral_driver/GPIO',
-                },
-                {
-                  type: 'doc',
-                  label: 'K1 Pro PWM',
                   id: 'k1_pro/k1_pro-software/peripheral_driver/PWM',
                 },
                 {
                   type: 'doc',
-                  label: 'K1 Pro IR-RX',
-                  id: 'k1_pro/k1_pro-software/peripheral_driver/IR-RX',
-                },
-                {
-                  type: 'doc',
-                  label: 'K1 Pro UART',
                   id: 'k1_pro/k1_pro-software/peripheral_driver/UART',
                 },
                 {
                   type: 'doc',
-                  label: 'K1 Pro I2C',
                   id: 'k1_pro/k1_pro-software/peripheral_driver/I2C',
                 },
                 {
                   type: 'doc',
-                  label: 'K1 Pro QSPI',
                   id: 'k1_pro/k1_pro-software/peripheral_driver/QSPI',
-                },
+                },         
                 {
                   type: 'doc',
-                  label: 'K1 Pro SDHC',
-                  id: 'k1_pro/k1_pro-software/peripheral_driver/SDHC',
-                },
-                {
-                  type: 'doc',
-                  label: 'K1 Pro GMAC',
                   id: 'k1_pro/k1_pro-software/peripheral_driver/gmac',
                 },
                 {
                   type: 'doc',
-                  label: 'K1 Pro USB',
                   id: 'k1_pro/k1_pro-software/peripheral_driver/USB',
                 },
                 {
                   type: 'doc',
-                  label: 'K1 Pro PCIE',
                   id: 'k1_pro/k1_pro-software/peripheral_driver/PCIe',
                 },
                 {
                   type: 'doc',
-                  label: 'K1 Pro Camera',
-                  id: 'k1_pro/k1_pro-software/peripheral_driver/Camera',
-                },
-                {
-                  type: 'doc',
-                  label: 'K1 Pro DSI',
                   id: 'k1_pro/k1_pro-software/peripheral_driver/DSI',
                 },
                 {
                   type: 'doc',
-                  label: 'K1 Pro HDMI',
                   id: 'k1_pro/k1_pro-software/peripheral_driver/HDMI',
                 },
                 {
                   type: 'doc',
-                  label: 'K1 Pro PMIC',
-                  id: 'k1_pro/k1_pro-software/peripheral_driver/PMIC',
+                  id: 'k1_pro/k1_pro-software/peripheral_driver/AUDIO',
+                },
+                {
+                  type: 'doc',
+                  id: 'k1_pro/k1_pro-software/peripheral_driver/AUDIO',
+                },
+                {
+                  type: 'doc',
+                  id: 'k1_pro/k1_pro-software/peripheral_driver/AUDIO',
+                },
+                {
+                  type: 'doc',
+                  id: 'k1_pro/k1_pro-software/peripheral_driver/CLOCK',
+                },
+                {
+                  type: 'doc',
+                  id: 'k1_pro/k1_pro-software/peripheral_driver/DP',
                 },
               ]
             },
