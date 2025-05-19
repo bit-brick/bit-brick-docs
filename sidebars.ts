@@ -736,14 +736,6 @@ const sidebars: SidebarsConfig = {
                 },
                 {
                   type: 'doc',
-                  id: 'k1_pro/k1_pro-software/peripheral_driver/AUDIO',
-                },
-                {
-                  type: 'doc',
-                  id: 'k1_pro/k1_pro-software/peripheral_driver/AUDIO',
-                },
-                {
-                  type: 'doc',
                   id: 'k1_pro/k1_pro-software/peripheral_driver/CLOCK',
                 },
                 {
