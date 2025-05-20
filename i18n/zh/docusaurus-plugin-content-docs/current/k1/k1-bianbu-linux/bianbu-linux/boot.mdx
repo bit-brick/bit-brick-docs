@@ -55,9 +55,9 @@ display: 'flex',
 justifyContent: 'center',
 margin: '10px 0'
 }}>
-
 ![](static/OLIdbiLK4onXqyxOOj8cyBDCn3b.png)
 </span>
+
 通过键盘"Y"/"N"以开启/关闭相关的功能配置。保存后会更新到 uboot 根目录的.config 文件。
 
 - 编译 uboot
@@ -835,21 +835,9 @@ nor 驱动是基于 spi 驱动下，所以需要先开启 spi 驱动功能。
 
 执行 make menuconfig，进入 Device Drivers --->MTD Support --->SPI Flash Support，将以下配置打开(默认情况下已开启)。示例以开启 winbond 的 nor flash 为例。
 
-<span style={{
-display: 'flex',
-justifyContent: 'center',
-margin: '10px 0'
-}}>
 ![](static/WkhTbAHpFot5raxYWMWckwBwnsh.png)
-</span>
 
-<span style={{
-display: 'flex',
-justifyContent: 'center',
-margin: '10px 0'
-}}>
 ![](static/VTT0bxjO1oobWYxPeficMzw4nfl.png)
-</span>
 
 添加一个新的 spi nor flash:
 
@@ -993,45 +981,15 @@ ret = spi_flash_read(flash, offset, len, buf);
 
 执行 make uboot_menuconfig，即进入 Device Drivers -> Graphics support，将以下配置打开(默认情况下已开启)。
 
-<span style={{
-display: 'flex',
-justifyContent: 'center',
-margin: '10px 0'
-}}>
 ![](static/GeszbbETBojI9KxyCWBcPM7fnHe.png)
-</span>
 
-<span style={{
-display: 'flex',
-justifyContent: 'center',
-margin: '10px 0'
-}}>
 ![](static/MXYNbqJwjoNsdhxsBT2clnTSn1e.png)
-</span>
 
-<span style={{
-display: 'flex',
-justifyContent: 'center',
-margin: '10px 0'
-}}>
 ![](static/MX60b8b2uoLDLaxHlJlcTyc7nte.png)
-</span>
 
-<span style={{
-display: 'flex',
-justifyContent: 'center',
-margin: '10px 0'
-}}>
 ![](static/Sm8hbLmawoxfMdxrMlBcJMVInHd.png)
-</span>
 
-<span style={{
-display: 'flex',
-justifyContent: 'center',
-margin: '10px 0'
-}}>
 ![](static/NuSSbshdfon2mWxWZU6cEipvnwf.png)
-</span>
 
 - dts 配置
 
@@ -1058,13 +1016,7 @@ margin: '10px 0'
 1. 首先打开 uboot 下 hdmi 支持，参考 5.12 小结。
 2. 再打开 uboot 下 bootlogo 支持，进入 Device Drivers -> Graphics support，开启以下选项。
 
-<span style={{
-display: 'flex',
-justifyContent: 'center',
-margin: '10px 0'
-}}>
 ![](static/FfzObuq4poT5ZYxU17scAzZRnyf.png)
-</span>
 
 - env 配置
 
@@ -1134,23 +1086,11 @@ UBOOT_LOGO_FILE="$DEVICE_DIR/k1-x.bmp"
 
 执行 make menuconfig，进入 Command line interface > Boot commands，将以下配置打开
 
-<span style={{
-display: 'flex',
-justifyContent: 'center',
-margin: '10px 0'
-}}>
 ![](static/BmycbCac2oCtuGxjjpvcUlHunug.png)
-</span>
 
 再进入 Boot options > Autoboot options 开启以下选项
 
-<span style={{
-display: 'flex',
-justifyContent: 'center',
-margin: '10px 0'
-}}>
 ![](static/UEhPbxaIgoXpv8xBh52cn7Vdndb.png)
-</span>
 
 - env 配置
 
@@ -1194,31 +1134,13 @@ bootmenu_9="recovery from net"=run spacemit_flashing_net
 
 执行 make menuconfig，进入 Device Drivers --->Fastboot support，开启以下编译配置
 
-<span style={{
-display: 'flex',
-justifyContent: 'center',
-margin: '10px 0'
-}}>
 ![](static/LrxMbKM9Eoioc9xJo9bcUrA2nnb.png)
-</span>
 
 fastboot 依赖 usb 驱动，需要开启 usb 的配置的 USB support。
 
-<span style={{
-display: 'flex',
-justifyContent: 'center',
-margin: '10px 0'
-}}>
 ![](static/DmeEbYiPqoUuW9xa8u8cw9hlnPg.png)
-</span>
 
-<span style={{
-display: 'flex',
-justifyContent: 'center',
-margin: '10px 0'
-}}>
 ![](static/MuMabzRykoQeWHxZk1UcNDZVnDg.png)
-</span>
 
 - 进入 fastboot mode
 
@@ -1424,13 +1346,7 @@ fw_payload.bin    #payload镜像会包含uboot镜像
 make PLATFORM=generic PLATFORM_DEFCONFIG=k1-x_deb1_defconfig menuconfig
 ```
 
-<span style={{
-display: 'flex',
-justifyContent: 'center',
-margin: '10px 0'
-}}>
 ![](static/JdMVb4GyioYNhMxUOhHc8R3enEd.png)
-</span>
 
 ### 烧写 opensbi 镜像
 
@@ -1451,13 +1367,7 @@ fastboot flash opensbi ~/opensbi/fw_dynamic.itb
 
 本小节介绍不同的存储介质的配置方式。对于所有的存储介质启动，从板子上电后的启动流程都如下图所示：
 
-<span style={{
-display: 'flex',
-justifyContent: 'center',
-margin: '10px 0'
-}}>
 ![](static/BSZcbAQFporbCUxdhjGcJDfmnhe.png)
-</span>
 
 根据硬件的 boot pin select，软件上会选择对应存储介质的驱动介质启动下一级镜像。具体的 boot pin select 在刷机章节做介绍。
 
@@ -1535,13 +1445,7 @@ K1 上电启动后，会先 try boot from sd，然后根据 boot pin select，�
 
 执行 make uboot_menuconfig，选择 SPL configuration options
 
-<span style={{
-display: 'flex',
-justifyContent: 'center',
-margin: '10px 0'
-}}>
 ![](static/BvGJbjsl9o6tMcxM4snctbNEnVe.png)
-</span>
 
 开启 MMC Raw mode: by partition，Support MMC（键盘输入 Y 表示是选中，N 表示取消）
 
@@ -1549,21 +1453,9 @@ Partition to use to load U-Boot from 表示从哪一个分区加载下一级启�
 
 K1 方案默认独立加载 opensbi 和 uboot，且从 mmc 的 opensbi，uboot 分区分别加载镜像文件。
 
-<span style={{
-display: 'flex',
-justifyContent: 'center',
-margin: '10px 0'
-}}>
 ![](static/PFB6bnMP1ockJYx5ypVc2HkTnvc.png)
-</span>
 
-<span style={{
-display: 'flex',
-justifyContent: 'center',
-margin: '10px 0'
-}}>
 ![](static/CXnxbxGLXo8MQixeva0cycSinMc.png)
-</span>
 
 注意：
 
@@ -1706,13 +1598,7 @@ ssd 分区表。对于 blk 设备的分区表，都是 partition_universal.json�
 
 执行 make uboot_menuconfig，选择 SPL configuration options
 
-<span style={{
-display: 'flex',
-justifyContent: 'center',
-margin: '10px 0'
-}}>
 ![](static/CRctbdxUxoBw8MxthO0cCejgnUg.png)
-</span>
 
 开启“Support MTD drivers”、“Support SPI DM drivers in SPL”、“Support SPI drivers”、“Support SPI flash drivers”、“Support for SPI flash MTD drivers in SPL”、“Support loading from mtd device”，
 
@@ -1720,33 +1606,15 @@ margin: '10px 0'
 
 如果开启 opensbi/uboot 独立镜像。则需要开启“Second partition to use to load U-Boot from”，且必须要保持 opensbi/uboot 分区为 first/second 的顺序。
 
-<span style={{
-display: 'flex',
-justifyContent: 'center',
-margin: '10px 0'
-}}>
 ![](static/GqnjbPUEbot3npx8swic0mvqn1h.png)
-</span>
 
 对于 mtd 设备，需要开启 env，以确保 spl 启动后能从 env 获取 mtd 分区信息
 
 执行 make uboot_menuconfig，选择 Environment，选择开启 spi 的 env 加载。这里的 env 偏移地址需要与分区表的 env 分区保持一致，如 0x80000。
 
-<span style={{
-display: 'flex',
-justifyContent: 'center',
-margin: '10px 0'
-}}>
 ![](static/Gn8YbgBBtoh2ysxmbRWcpcSGnfe.png)
-</span>
 
-<span style={{
-display: 'flex',
-justifyContent: 'center',
-margin: '10px 0'
-}}>
 ![](static/UmywbnyWuoSnMlxQrBZcrZC1nTe.png)
-</span>
 
 spi flash 驱动需要适配硬件上的 spi flash 对应厂商的型号。在 menuconfig 上选择对应的厂商 manufactureID
 
@@ -1754,13 +1622,7 @@ spi flash 驱动需要适配硬件上的 spi flash 对应厂商的型号。在 m
 
 根据硬件的 spi flash 厂商，选择对应的驱动程序。
 
-<span style={{
-display: 'flex',
-justifyContent: 'center',
-margin: '10px 0'
-}}>
 ![](static/UjFqbVIp6opVyFxYrADcVgU7noc.png)
-</span>
 
 如果驱动里面都没有，可以在代码上直接添加。flash_name 可以自定义，一般为硬件 flash 名称，0x1f4501 为该 flash 的 jedecid，其他参数可以根据该硬件的 flash 添加。
 
@@ -1777,13 +1639,7 @@ const struct flash_info spi_nor_ids[] = {
 
 选择 Support blk device，这里支持是 ssd/emmc 等 blk 设备，如 ssd 对应的是 nvme，emmc 对应是 mmc。
 
-<span style={{
-display: 'flex',
-justifyContent: 'center',
-margin: '10px 0'
-}}>
 ![](static/P3y3bCjgUo6HSKx6trrcR6cbnec.png)
-</span>
 
 - spl-dts 配置
 
@@ -1869,13 +1725,7 @@ margin: '10px 0'
 
 执行 make uboot_menuconfig，选择 SPL configuration options
 
-<span style={{
-display: 'flex',
-justifyContent: 'center',
-margin: '10px 0'
-}}>
 ![](static/PlOFbfsMMo1J4zxYep4c4fqJncf.png)
-</span>
 
 开启
 
@@ -1895,13 +1745,7 @@ Partition name to use to load U-Boot from 与分区表中的分区名保持一�
 
 如果开启 opensbi/uboot 独立镜像。则需要开启 Second partition to use to load U-Boot from，且必须要保持 opensbi/uboot 的先后顺序。
 
-<span style={{
-display: 'flex',
-justifyContent: 'center',
-margin: '10px 0'
-}}>
 ![](static/R9nNbsLyHo3nyHxXisWc0p8lnLe.png)
-</span>
 
 对于 mtd 设备，需要开启 env，以确保 spl 启动后能从 env 获取 mtd 分区信息
 
