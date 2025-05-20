@@ -75,7 +75,7 @@ CLK API | 提供 Linux 环境下供 Driver 调用的接口 | drivers/clk/clk-xxx
 | 项目            | 功能                                                                 | 路径                                                                 |
 |----------------|--------------------------------------------------------------------|---------------------------------------------------------------------|
 | clk-rk3xxx.c   | .c中主要是CLOCK的寄存器描述、CLOCK之间的树状关系描述等                   | drivers/clk/rockchip/clk-rk3xxx.c                                   |
-| rk3xxx-cru.h   | .h中是CLOCK的ID定义，通过ID匹配CLOCK Name                             | include/dt-bindings/clock/rk3xxx-cru.h<br>include/dt-bindings/clock/rockchip,rk3xxx-cru.h |
+| rk3xxx-cru.h   | .h中是CLOCK的ID定义，通过ID匹配CLOCK Name                             | include/dt-bindings/clock/rk3xxx-cru.h  include/dt-bindings/clock/rockchip,rk3xxx-cru.h |
 | RK 特别的处理    | 处理RK的PLL时钟，处理RK的一些特殊时钟如LCDC、I2S等                      | drivers/clk/rockchip/clk-xxx.c                                      |
 | CLK API        | 提供Linux环境下供Driver调用的接口                                      | drivers/clk/clk-xxx.x                                               |
 
