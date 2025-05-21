@@ -1688,7 +1688,7 @@ cat /sys/kernel/debug/clk/clk_summary | grep "aclk_vop"
 
 获取DP每条lane支持的带宽，公式如下：
 $$
-\text{bandwidth\_per\_lane} = \frac{\text{pixel\_clock} \times \text{bit\_per\_pixel}}{1.25 \times \text{lane\_count}}
+bandwidth\_\_per\_lane = pixel\_clk \times bit\_per\_pixel \times 1.25 / lane\_count
 $$
 
 
@@ -1700,7 +1700,7 @@ $$
 
 例如，对于一个lane数量为2，最大的lane rate为5.4 Gbps/lane的拓展坞，如果要输出的4K@60Hz,pixel clock为594MHz,RGB888格式的图像数据时，需要的每条lane的带宽为：
 $$
-\text{bandwidth\_per\_lane} = \frac{594 \times 24 \times 1.25}{2} = 8.91\,\text{Gbps/lane} > 5.4\,\text{Gbps/lane}
+bandwidth\_\_per\_lane = 594 \times 24 \times 1.25 / 2 = 8.91\,\text{Gbps/lane} > 5.4\,\text{Gbps/lane}
 $$
 
 
