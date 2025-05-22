@@ -1699,9 +1699,11 @@ $$
 
 
 例如，对于一个lane数量为2，最大的lane rate为5.4 Gbps/lane的拓展坞，如果要输出的4K@60Hz,pixel clock为594MHz,RGB888格式的图像数据时，需要的每条lane的带宽为：
+```
 $$
 bandwidth\_\_per\_lane = 594 \times 24 \times 1.25 / 2 = 8.91\,\text{Gbps/lane} > 5.4\,\text{Gbps/lane}
 $$
+```
 
 
 可以看到，当前的拓展坞不支持输出4K@60Hz,pixel clock为594MHz,RGB888格式的数据，需要使用4 lane输出的拓展坞，增加PHY lane的带宽，或输出YUV420格式的数据，减少需要使用PHY lane的带宽。
