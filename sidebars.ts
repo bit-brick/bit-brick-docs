@@ -683,6 +683,10 @@ const sidebars: SidebarsConfig = {
                   type: 'doc',
                   id: 'k1_pro/k1_pro-software/debian/system_config',
                 },
+                {
+                  type: 'doc',
+                  id: 'k1_pro/k1_pro-software/debian/swap',
+                },
               ]
             },
             {

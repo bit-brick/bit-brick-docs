@@ -24,6 +24,18 @@
 
 ## 1. Rockchip SPI 功能特点
 
+SPI （serial peripheral interface），以下是 linux 4.4 SPI 驱动支持的一些特性︰
+- 默认采用摩托罗拉 SPI 协议
+- 支持 8 位和 16 位
+- 软件可编程时钟频率
+- 支持 SPI 4 种传输模式配置
+- 每个 SPI 控制器支持一个到两个片选
+- 支持 spi slave mode，有且仅有 SPI_CS0N 作为 CS 输入脚：
+    - 传输过程不允许切换为 GPIO function
+    - 不支持 CS1N 替代
+除以上支持，linux 4.19 新增以下特性：
+  - 框架支持 slave 和 master 两种模式
+
 ### 1.1 SPI 接口速率
 
 | 芯片名称 | Master Mode 接口最高速率 | Slave Mode 接口最高速率 |
@@ -92,7 +104,7 @@ Device Drivers --->
 };
 ```
 
-**说明**：
+**spiclk assigned-clock-rates 和 spi-max-frequency 的配置说明：**：
 - `spi-max-frequency` 是 SPI 的输出时钟，由 SPI 工作时钟 `spiclk assigned-clock-rates` 内部分频后输出，由于内部至少 2 分频，所以关系是 `spiclk assigned-clock-rates >= 2 * spi-max-frequency`。
 - 假定需要 50MHz 的 SPI IO 速率，可以考虑配置（记住内部分频为偶数分频）`spi_clk assigned-clock-rates = <100000000>`，`spi-max-frequency = <50000000>`，即工作时钟 100MHz（PLL 分频到一个不大于 100MHz 但最接近的值），然后内部二分频最终 IO 接近 50MHz。
 - `spiclk assigned-clock-rates` 不要低于 24M，否则可能有问题。
@@ -101,6 +113,7 @@ Device Drivers --->
 
 #### 关键补丁
 
+推荐使用 SPI slave 源码 spi-rockchip-slave.c，由于 SDK 版本问题，建议先确认 SDK 是否有以下补丁：
 ```bash
 commit 10cbf3c2c93fca6e5ec6c99b5bdb319ca0494d45
 Author: Jon Lin <jon.lin@rock-chips.com>
@@ -185,7 +198,7 @@ index 544d6038919a..c1037153ff86 100644
 - 建议所有 slave mode 传输行为都在 performance mode 下运行。
 - set/clear performance 接口有一定的时间开销，所以建议业务上层设置，避免频繁调用。
 
-如果缓存溢出，slave 无法完成 DMA 传输，会阻塞无法退出，通过打印 SPI->SPI_RISR 寄存器可以确认是否出现缓存溢出。
+- 如果缓存溢出，slave 无法完成 DMA 传输，会阻塞无法退出，通过打印 SPI->SPI_RISR 寄存器可以确认是否出现缓存溢出。
 
 #### 2.4.2 建议设置 16bits 宽度
 
@@ -194,8 +207,9 @@ index 544d6038919a..c1037153ff86 100644
 #### 2.4.3 其他须知
 
 **SPI Slave 测试须知**：
-- SPI 做 slave，要先启动 slave read，再启动 master write，不然会导致 slave 还没读完，master 已经写完了。
-- slave write，master read 也是需要先启动 slave write，因为只有 master 送出 clk 后，slave 才会工作，同时 master 会立即发送或接收数据。
+  SPI 做 slave，要先启动 slave read，再启动 master write，不然会导致 slave 还没读完，master 已经写完了。
+
+  slave write，master read 也是需要先启动 slave write，因为只有 master 送出 clk 后，slave 才会工作，同时 master 会立即发送或接收数据。
 
 **例如**：在第三章节的基础上：
 - 先 slave：`echo write 0 1 16 > /dev/spi_misc_test`
@@ -211,75 +225,62 @@ index 544d6038919a..c1037153ff86 100644
 #include <linux/platform_device.h>
 #include <linux/of.h>
 #include <linux/spi/spi.h>
-
 static int spi_test_probe(struct spi_device *spi)
 {
-    int ret;
-    if (!spi)
-        return -ENOMEM;
-    spi->bits_per_word = 8;
-    ret = spi_setup(spi);
-    if (ret < 0) {
-        dev_err(&spi->dev, "ERR: fail to setup spi\n");
-        return -1;
-    }
-    return ret;
+    int ret;
+    if(!spi)
+        return -ENOMEM;
+    spi->bits_per_word= 8;
+    ret= spi_setup(spi);
+    if(ret < 0) {
+        dev_err(&spi->dev,"ERR: fail to setup spi\n");
+        return-1;
+   }
+    return ret;
 }
-
 static int spi_test_remove(struct spi_device *spi)
 {
-    printk("%s\n", __func__);
-    return 0;
+    printk("%s\n",__func__);
+    return 0;
 }
-
-static const struct of_device_id spi_test_dt_match[] = {
-    { .compatible = "rockchip,spi_test_bus1_cs0", },
-    { .compatible = "rockchip,spi_test_bus1_cs1", },
-    { },
+static const struct of_device_id spi_test_dt_match[]= {
+   {.compatible = "rockchip,spi_test_bus1_cs0", },
+   {.compatible = "rockchip,spi_test_bus1_cs1", },
+   {},
 };
-
 MODULE_DEVICE_TABLE(of, spi_test_dt_match);
-
 static struct spi_driver spi_test_driver = {
-    .driver = {
-        .name  = "spi_test",
-        .owner = THIS_MODULE,
-        .of_match_table = of_match_ptr(spi_test_dt_match),
-    },
-    .probe = spi_test_probe,
-    .remove = spi_test_remove,
+   .driver = {
+       .name  = "spi_test",
+       .owner = THIS_MODULE,
+       .of_match_table = of_match_ptr(spi_test_dt_match),
+   },
+   .probe = spi_test_probe,
+   .remove = spi_test_remove,
 };
-
 static int __init spi_test_init(void)
 {
-    int ret = 0;
-    ret = spi_register_driver(&spi_test_driver);
-    return ret;
+    int ret = 0;
+    ret = spi_register_driver(&spi_test_driver);
+    return ret;
 }
-
 module_init(spi_test_init);
-
 static void __exit spi_test_exit(void)
 {
-    spi_unregister_driver(&spi_test_driver);
+    return spi_unregister_driver(&spi_test_driver);
 }
-
 module_exit(spi_test_exit);
+```
 
-static inline int spi_write(struct spi_device *spi, const void *buf, size_t len)
-{
-    // 实现 SPI 写操作
-}
-
-static inline int spi_read(struct spi_device *spi, void *buf, size_t len)
-{
-    // 实现 SPI 读操作
-}
-
-static inline int spi_write_and_read(struct spi_device *spi, const void *tx_buf, void *rx_buf, size_t len)
-{
-    // 实现 SPI 写读操作
-}
+对 SPI 读写操作请参考 include/linux/spi/spi.h，以下简单列出几个
+```
+static inline int
+spi_write(struct spi_device *spi,const void *buf, size_t len)
+static inline int
+spi_read(struct spi_device *spi,void *buf, size_t len)
+static inline int
+spi_write_and_read(structspi_device *spi, const void *tx_buf, void *rx_buf, 
+size_t len)
 ```
 
 ### 2.6 User mode SPI device 配置
@@ -319,7 +320,7 @@ Device Drivers --->
 make CROSS_COMPILE=~/path-to-toolchain/gcc-xxxxx-toolchain/bin/xxxx-linux-gnu-
 ```
 
-**支持配置为 SPI slave 设备**，参考 “SPI 设备配置 —— RK 芯片做 Slave 端”，其中 DTS 配置 sub node 应保持为 `"rockchip,spidev"`。
+支持配置为 SPI slave 设备，参考 “SPI 设备配置 —— RK 芯片做 Slave 端”，其中 DTS 配置 sub node 应保持为 `"rockchip,spidev"`。
 
 ### 2.7 cs-gpios 支持
 
@@ -334,44 +335,80 @@ make CROSS_COMPILE=~/path-to-toolchain/gcc-xxxxx-toolchain/bin/xxxx-linux-gnu-
 **以 SPI1 设定 GPIO0_C4 为 spi1_cs2n 扩展脚为例**。
 
 **设置 cs-gpio 脚并在 SPI 节点中引用**：
-
-```dts
+```diff
+diff --git a/arch/arm/boot/dts/rv1126-evb-v10.dtsi b/arch/arm/boot/dts/rv1126-
+evb-v10.dtsi
+index 144e9edf1831..c17ac362289e 100644
+--- a/arch/arm/boot/dts/rv1126-evb-v10.dtsi
++++ b/arch/arm/boot/dts/rv1126-evb-v10.dtsi
 &pinctrl {
-    ...
-    spi1 {
-        spi1_cs0n: spi1-cs0n {
-            rockchip,pins =
-                <0 RK_PC2 RK_FUNC_GPIO &pcfg_pull_up_drv_level_0>;
-        };
-        spi1_cs1n: spi1-cs1n {
-            rockchip,pins =
-                <0 RK_PC3 RK_FUNC_GPIO &pcfg_pull_up_drv_level_0>;
-        };
-        spi1_cs2n: spi1-cs2n {
-            rockchip,pins =
-                <0 RK_PC4 RK_FUNC_GPIO &pcfg_pull_up_drv_level_0>;
-        };
-    };
+       ...
++
++       spi1 {
++               spi1_cs0n: spi1-cs1n {
++                       rockchip,pins =
++                               <0 RK_PC2 RK_FUNC_GPIO 
+&pcfg_pull_up_drv_level_0>;
++               };
++               spi1_cs1n: spi1-cs1n {
++                       rockchip,pins =
++                               <0 RK_PC3 RK_FUNC_GPIO 
+&pcfg_pull_up_drv_level_0>;
++               };
++               spi1_cs2n: spi1-cs2n {
++                       rockchip,pins =
++                               <0 RK_PC4 RK_FUNC_GPIO 
+&pcfg_pull_up_drv_level_0>;
++               };
++       };
+};
+diff --git a/arch/arm/boot/dts/rv1126.dtsi b/arch/arm/boot/dts/rv1126.dtsi
+index 351bc668ea42..986a85f13832 100644
+--- a/arch/arm/boot/dts/rv1126.dtsi
++++ b/arch/arm/boot/dts/rv1126.dtsi
+spi1: spi@ff5b0000 {
+       compatible = "rockchip,rv1126-spi", "rockchip,rk3066-spi";
+       reg = <0xff5b0000 0x1000>;
+       interrupts = <GIC_SPI 11 IRQ_TYPE_LEVEL_HIGH>;
+       #address-cells = <1>;
+       #size-cells = <0>;
+       clocks = <&cru CLK_SPI1>, <&cru PCLK_SPI1>;
+       clock-names = "spiclk", "apb_pclk";
+       dmas = <&dmac 3>, <&dmac 2>;
+       dma-names = "tx", "rx";
+       pinctrl-names = "default", "high_speed";
+-       pinctrl-0 = <&spi1m0_clk &spi1m0_cs0n &spi1m0_cs1n &spi1m0_miso 
+&spi1m0_mosi>;
+-       pinctrl-1 = <&spi1m0_clk_hs &spi1m0_cs0n &spi1m0_cs1n &spi1m0_miso_hs 
+&spi1m0_mosi_hs>;
++       pinctrl-0 = <&spi1m0_clk &spi1_cs0n &spi1_cs1n &spi1_cs2n &spi1m0_miso 
+&spi1m0_mosi>;
++       pinctrl-1 = <&spi1m0_clk_hs &spi1_cs0n &spi1_cs1n &spi1_cs2n 
+&spi1m0_miso_hs &spi1m0_mosi_hs>
+       status = "disabled";
 };
 ```
 
+
 **SPI 节点重新指定 cs 脚**：
 
-```dts
-spi1: spi@ff5b0000 {
-    compatible = "rockchip,rv1126-spi", "rockchip,rk3066-spi";
-    reg = <0xff5b0000 0x1000>;
-    interrupts = <GIC_SPI 11 IRQ_TYPE_LEVEL_HIGH>;
-    #address-cells = <1>;
-    #size-cells = <0>;
-    clocks = <&cru CLK_SPI1>, <&cru PCLK_SPI1>;
-    clock-names = "spiclk", "apb_pclk";
-    dmas = <&dmac 3>, <&dmac 2>;
-    dma-names = "tx", "rx";
-    pinctrl-names = "default", "high_speed";
-    pinctrl-0 = <&spi1m0_clk &spi1_cs0n &spi1_cs1n &spi1_cs2n &spi1m0_miso &spi1m0_mosi>;
-    pinctrl-1 = <&spi1m0_clk_hs &spi1_cs0n &spi1_cs1n &spi1_cs2n &spi1m0_miso_hs &spi1m0_mosi_hs>;
-    status = "disabled";
+```diff+&spi1 {
++       status = "okay";
++       max-freq = <48000000>;
++       cs-gpios = <&gpio0 RK_PC2 GPIO_ACTIVE_LOW>, <&gpio0 RK_PC3 
+GPIO_ACTIVE_LOW>, <&gpio0 RK_PC4 GPIO_ACTIVE_LOW>;
+       spi_test@0 {
+               compatible = "rockchip,spi_test_bus1_cs0";
+...
++       spi_test@2 {
++               compatible = "rockchip,spi_test_bus1_cs2";
++               id = <2>;
++               reg = <0x2>;
++               spi-cpha;
++               spi-cpol;
++               spi-lsb-first;
++               spi-max-frequency = <16000000>;
++       };
 };
 ```
 
@@ -390,51 +427,31 @@ spi1: spi@ff5b0000 {
 
 #### 内核补丁
 
-```bash
-diff --git a/drivers/spi/spi-rockchip-test.c b/drivers/spi/spi-rockchip-test.c
-index 544d6038919a..c1037153ff86 100644
---- a/drivers/spi/spi-rockchip-test.c
-+++ b/drivers/spi/spi-rockchip-test.c
-@@ -36,6 +36,8 @@
- #include <linux/platform_data/spi-rockchip.h>
- #include <linux/uaccess.h>
- #include <linux/syscalls.h>
-+#include <soc/rockchip/rockchip-system-status.h>
-+#include <dt-bindings/soc/rockchip-system-status.h>
- #define MAX_SPI_DEV_NUM 10
- #define SPI_MAX_SPEED_HZ       12000000
-@@ -242,8 +244,10 @@ static ssize_t spi_test_write(struct file *file,
-                }
-                start_time = ktime_get();
-+               rockchip_set_system_status(SYS_STATUS_PERFORMANCE);
-                for (i = 0; i < times; i++)
-                        spi_read_slt(id, rxbuf, size);
-+               rockchip_clear_system_status(SYS_STATUS_PERFORMANCE);
-                end_time = ktime_get();
-                cost_time = ktime_sub(end_time, start_time);
-                us = ktime_to_us(cost_time);
 ```
+需要手动添加编译：
+drivers/spi/Makefile
++obj-y                                 += spi-rockchip-test.o
+```
+
 
 #### DTS 配置
 
 ```dts
-&spi1 {
-    status = "okay";
-    max-freq = <48000000>;
-    cs-gpios = <&gpio0 RK_PC2 GPIO_ACTIVE_LOW>, <&gpio0 RK_PC3 GPIO_ACTIVE_LOW>, <&gpio0 RK_PC4 GPIO_ACTIVE_LOW>;
-    spi_test@0 {
-        compatible = "rockchip,spi_test_bus1_cs0";
-        ...
-    };
-    spi_test@2 {
-        compatible = "rockchip,spi_test_bus1_cs2";
-        id = <2>;
-        reg = <0x2>;
-        spi-cpha;
-        spi-cpol;
-        spi-lsb-first;
-        spi-max-frequency = <16000000>;
-    };
+&spi0 {
+   status = "okay";
+   spi_test@0 {
+       compatible = "rockchip,spi_test_bus0_cs0";
+       id = <0>;                                       //这个属性spi-rockchip￾test.c用来区分不同的spi从设备的
+       reg = <0>;                                     //chip select 0:cs0 
+1:cs1
+       spi-max-frequency = <24000000>;                 //spi output clock
+   };
+   spi_test@1 {
+       compatible = "rockchip,spi_test_bus0_cs1";
+       id = <1>;
+       reg = <1>;
+       spi-max-frequency = <24000000>;
+   };
 };
 ```
 
@@ -447,12 +464,6 @@ index 544d6038919a..c1037153ff86 100644
 
 ### 3.3 测试命令
 
-```bash
-echo 类型 id 循环次数 传输长度 > /dev/spi_misc_test
-echo setspeed id 频率（单位 Hz） > /dev/spi_misc_test
-```
-
-**例如**：
 
 ```bash
 echo write 0 10 255 > /dev/spi_misc_test
@@ -462,6 +473,11 @@ echo loop 0 10 255 > /dev/spi_misc_test
 echo setspeed 0 1000000 > /dev/spi_misc_test
 ```
 
+```bash
+echo 类型 id 循环次数 传输长度 > /dev/spi_misc_test
+echo setspeed id 频率（单位 Hz） > /dev/spi_misc_test
+```
+如果需要，可以自己修改测试 case。
 ---
 
 ## 4. 内核 SPI Slave 软件
@@ -483,6 +499,9 @@ echo setspeed 0 1000000 > /dev/spi_misc_test
         3. master 确认 slave ready 后发起传输
         4. slave 接收来自 master 发出的足够的 clk 后完成传输
         5. slave idle，释放 GPIO_SLV_READY 信号
+   
+   ![alt text](/pdf/rk/spi/image.png)
+
     - 定义两种包类型：
         - ctrl packet：2B cmd，2B addr（RK slave 定义的 application buffer 偏移地址），4B data（通常用于指定之后 data 包的传输长度）
         - data packet
@@ -517,47 +536,59 @@ Date:   Wed Dec 20 12:02:14 2023 +0800
 - `drivers/spi/spidev-rkslv.c`：
 - `drivers/spi/spidev-rkmst.c`：
 
+
+源码简介：
+`drivers/spi/spidev-rkslv.c：`
 ```c
-static int spidev_rkslv_ctrl_receiver_thread(void *p) // 建立线程，线程内重复发起传输
+static int spidev_rkslv_ctrl_receiver_thread(void *p)                   //建立线
+程，线程内重复发起传输
 {
-    while (1)
-        spidev_rkslv_xfer(spidev);
+    while (1)
+        spidev_rkslv_xfer(spidev);
 }
-
-static int spidev_rkslv_xfer(struct spidev_rkslv_data *spidev) // 传输入口
+static int spidev_rkslv_xfer(struct spidev_rkslv_data *spidev)          //传输入口
 {
-    spidev_slv_read(spidev, spidev->ctrlbuf, SPI_OBJ_CTRL_MSG_SIZE); // 1 ctrl packet，获取并解析传输类型
-    switch (ctrl->cmd) { // 1 data packet，根据传输类型，定义 data packet 并完成收发
-        case SPI_OBJ_CTRL_CMD_INIT:
-            /* to-do */
-        case SPI_OBJ_CTRL_CMD_READ:
-            /* to-do */
-        case SPI_OBJ_CTRL_CMD_WRITE:
-            /* to-do */
-        case SPI_OBJ_CTRL_CMD_DUPLEX:
-            /* to-do */
-    }
+    spidev_slv_read(spidev, spidev->ctrlbuf, SPI_OBJ_CTRL_MSG_SIZE);    //1 ctrl 
+packet，获取并解析传输类型
+    switch (ctrl->cmd) {                                                //1 data 
+packet，根据传输类型，定义 data packet 并完成收发
+    case SPI_OBJ_CTRL_CMD_INIT:
+        /* to-do */
+    case SPI_OBJ_CTRL_CMD_READ:
+        /* to-do */
+    case SPI_OBJ_CTRL_CMD_WRITE:
+        /* to-do */
+    case SPI_OBJ_CTRL_CMD_DUPLEX:
+        /* to-do */
+   }
 }
+static const struct file_operations spidev_rkslv_misc_fops = {}          //注册 misc device 测试接口
+```
+`drivers/spi/spidev-rkmst.c：`
+```c
 
-static const struct file_operations spidev_rkslv_misc_fops = {} // 注册 misc device 测试接口;
-
-static int spidev_rkmst_xfer(struct spidev_rkmst_data *spidev, void *tx, void *rx, u16 addr, u32 len) // 传输入口
+static int spidev_rkmst_xfer(struct spidev_rkmst_data *spidev, void *tx, void 
+*rx, u16 addr, u32 len)  //传输入口
 {
-    spidev_rkmst_ctrl(spidev, cmd, addr, len); // 1 ctrl packet，定义传输类型
-    switch (cmd) { // 1 data packet，根据传输类型，定义 data packet 并完成收发
-        case SPI_OBJ_CTRL_CMD_READ:
-            /* to-do */
-        case SPI_OBJ_CTRL_CMD_WRITE:
-            /* to-do */
-        case SPI_OBJ_CTRL_CMD_DUPLEX:
-            /* to-do */
-    }
+    spidev_rkmst_ctrl(spidev, cmd, addr, len);                           //1 ctrl 
+packet，定义传输类型
+    switch (cmd) {                                                       //1 data 
+packet，根据传输类型，定义 data packet 并完成收发
+    case SPI_OBJ_CTRL_CMD_READ:
+        /* to-do */
+    case SPI_OBJ_CTRL_CMD_WRITE:
+        /* to-do */
+    case SPI_OBJ_CTRL_CMD_DUPLEX:
+        /* to-do */
+   }
 }
-
-static const struct file_operations spidev_rkmst_misc_fops = {} // 注册 misc device 测试接口;
+static const struct file_operations spidev_rkmst_misc_fops = {}          //注册 misc device 测试接口
 ```
 
 **实现业务**：
+
+![alt text](/pdf/rk/spi/image-1.png)
+
 - 提供 “内核 SPI slave 软件” 的目的在于提供协议和设备驱动的参考，最终客户还应在 slave 端的 application buffer 上定义自己的产品需求以实现业务。
 
 ### 4.2 SPI Slave 测试设备配置
@@ -608,6 +639,9 @@ CONFIG_SPI_SLAVE_ROCKCHIP_OBJ=y
 
 #### SPI master 发起单包数据传输测试
 
+```
+echo cmd addr length > /dev/spidev_rkmst_misc
+```
 **说明**：
 - `cmd`：支持 `read/write/duplex`
 - `addr`：为对端 slave application buffer 偏移，单位 Bytes，仅支持 10 进制输入
@@ -616,7 +650,7 @@ CONFIG_SPI_SLAVE_ROCKCHIP_OBJ=y
 **例如**：
 
 ```bash
-echo cmd addr length > /dev/spidev_rkmst_misc
+
 echo write 128 128 > /dev/spidev_rkmst_misc
 echo read 128 128 > /dev/spidev_rkmst_misc
 echo duplex 128 128 > /dev/spidev_rkmst_misc
@@ -624,6 +658,9 @@ echo duplex 128 128 > /dev/spidev_rkmst_misc
 
 #### SPI master 发起自动化测试
 
+```bash
+echo autotest length loops compare > /dev/spidev_rkmst_misc
+```
 **说明**：
 - `autotest`：固定输入，先测试全双工数据传输，再测试读写数据传输，并输出速率结果
 - 测试默认使用对端 slave application buffer 偏移地址 0
@@ -634,7 +671,7 @@ echo duplex 128 128 > /dev/spidev_rkmst_misc
 **例如**：
 
 ```bash
-echo autotest length loops compare > /dev/spidev_rkmst_misc
+
 echo autotest 1024 64 1 > /dev/spidev_rkmst_misc
 ```
 
@@ -729,6 +766,24 @@ echo verbose 1 > ./dev/spidev_rkslv_misc         # 开启传输传输过程 debu
 
 ##### 改为 IRQ 传输
 
+
+```diff
+diff --git a/arch/arm/boot/dts/rv1126-evb-v10.dtsi b/arch/arm/boot/dts/rv1126-evb-v10.dtsi
+index 86dd23482d97..2cea93d2423f 100644
+--- a/arch/arm/boot/dts/rv1126-evb-v10.dtsi
++++ b/arch/arm/boot/dts/rv1126-evb-v10.dtsi
+@@ -1367,6 +1367,7 @@
+        status = "okay";
+        max-freq = <48000000>;
+        cs-gpios = <0>, <0>, <&gpio0 RK_PC4 GPIO_ACTIVE_LOW>;
++       dma-names;
+        spi_test@00 {
+```
+
+
+##### 修改 SPI 水线
+
+
 ```diff
 diff --git a/drivers/spi/spi-rockchip.c b/drivers/spi/spi-rockchip.c
 index 27fd6f671b12..bd0fa8c5f8c3 100644
@@ -743,19 +798,4 @@ index 27fd6f671b12..bd0fa8c5f8c3 100644
         writel_relaxed(rockchip_spi_calc_burst_size(xfer->len / rs->n_bytes) - 1,
                        rs->regs + ROCKCHIP_SPI_DMARDLR);
         writel_relaxed(dmacr, rs->regs + ROCKCHIP_SPI_DMACR);
-```
-
-##### 修改 SPI 水线
-
-```diff
-diff --git a/arch/arm/boot/dts/rv1126-evb-v10.dtsi b/arch/arm/boot/dts/rv1126-evb-v10.dtsi
-index 86dd23482d97..2cea93d2423f 100644
---- a/arch/arm/boot/dts/rv1126-evb-v10.dtsi
-+++ b/arch/arm/boot/dts/rv1126-evb-v10.dtsi
-@@ -1367,6 +1367,7 @@
-        status = "okay";
-        max-freq = <48000000>;
-        cs-gpios = <0>, <0>, <&gpio0 RK_PC4 GPIO_ACTIVE_LOW>;
-+       dma-names;
-        spi_test@00 {
 ```

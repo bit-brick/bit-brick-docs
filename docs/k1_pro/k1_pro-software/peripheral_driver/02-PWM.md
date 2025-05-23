@@ -52,7 +52,9 @@
   - `drivers/pwm/pwm-rockchip.c`
   - `drivers/pwm/pwm-rockchip-test.c`
 
-从 Linux-6.1 开始支持了 PWM v4 驱动，Linux-5.10 及以下支持的 PWM v1-v3 共用 v1 的接口，下文中统称为 PWM v1。Linux-6.1 新增了 test 驱动用于测试功能和定位问题，同时也作为 PWM 各功能的应用示例，需要打开 `CONFIG_PWM_ROCKCHIP_TEST` 以使用。
+- Linux-6.1 开始支持了 PWM v4 驱动，Linux-5.10 及以下支持的 PWM v1-v3 共用 v1 的接口，下文中统称为 PWM v1。
+
+- Linux-6.1 新增了 test 驱动用于测试功能和定位问题，同时也作为 PWM 各功能的应用示例，需要打开 `CONFIG_PWM_ROCKCHIP_TEST` 以使用。
 
 #### 1.1.2 DTS 配置
 
@@ -117,8 +119,7 @@ Linux-4.4 及以上内核 PWM 节点支持的参数个数从 Linux-3.10 的 2 �
 - counter/frequency meter/IR output/IR input 部分控制器可以支持，且单个控制器同时只有一个 channel 可以使能上述功能。
 - wave generator 部分控制器可以支持，且单个控制器中的多个 channel 可以同时使能该功能。
 - biphasic counter 部分控制器可以支持，且单个控制器中有多个 channel 可以支持该功能。
-
-DTS 配置可以参考 `arch/arm/boot/dts/rk3506g-iotest-pwm-test.dtsi`，仅需要使能 A 相 channel 对应的 PWM 节点，B 相 channel 配置对应的 IOMUX 即可。
+        DTS 配置可以参考 `arch/arm/boot/dts/rk3506g-iotest-pwm-test.dtsi`，仅需要使能 A 相 channel 对应的 PWM 节点，B 相 channel 配置对应的 IOMUX 即可。
 
 ## 3. 应用说明
 
@@ -128,16 +129,17 @@ DTS 配置可以参考 `arch/arm/boot/dts/rk3506g-iotest-pwm-test.dtsi`，仅需
 
 Kernel 驱动中若要使用 PWM，可以参考 [DTS 配置](#112-dts-配置) 章节中 backlight 驱动的配置方法，在驱动节点下添加 pwms 属性，再通过如下接口 get/put PWM 设备：
 
-具体实现及功能说明详见 `include/linux/pwm.h` 和 `drivers/pwm/core.c`。
-
-PWM 框架提供的接口（摘自 Linux-5.10，Linux-6.1 上已经将 legacy drivers 相关的接口全部删除）：
-
 ```c
 struct pwm_device *pwm_get(struct device *dev, const char *con_id);
 void pwm_put(struct pwm_device *pwm);
 struct pwm_device *devm_pwm_get(struct device *dev, const char *con_id);
 struct pwm_device *devm_fwnode_pwm_get(struct device *dev, struct fwnode_handle *fwnode, const char *con_id);
 ```
+具体实现及功能说明详见 `include/linux/pwm.h` 和 `drivers/pwm/core.c`。
+
+PWM 框架提供的接口（摘自 Linux-5.10，Linux-6.1 上已经将 legacy drivers 相关的接口全部删除）：
+
+
 
 ```c
 /**
@@ -178,7 +180,9 @@ struct pwm_ops {
     ANDROID_KABI_RESERVE(1);
 };
 ```
-
+Linux-4.4 及以上内核不再实现 config、enable 和 disable 等接口，而改为实现 apply。
+目的在于可以用 int pwm_apply_state(struct pwm_device *pwm, const struct pwm_state *state) 函数，通过 struct 
+pwm_state 来 atomic 改变 PWM 设备的多个参数。
 ```c
 /*
  * struct pwm_state - state of a PWM channel
@@ -223,12 +227,7 @@ pwm_apply_state(pdev, &state);
 #### 3.1.2 Oneshot
 
 单次输出模式，支持输出指定个数的 PWM 波形。Kernel 中需要打开 `CONFIG_PWM_ROCKCHIP_ONESHOT` 配置。
-
-`oneshot_count` 表示输出指定占空比的波形个数，在 PWM v4 上扩展了波形个数的上限，实际输出波形个数为 `oneshot_repeat * oneshot_count`。
-
-`oneshot` 模式在输出结束后会产生中断，用户可以按需在 `drivers/pwm/pwm-rockchip-irq-callbacks.h` 中断处理函数中添加相应逻辑：
-
-```c
+```
 pwm_get_state(pdev, &state);
 state.period = period;
 state.duty_cycle = duty;
@@ -237,6 +236,12 @@ state.polarity = polarity;
 state.oneshot_count = rpt_first;
 state.oneshot_repeat = rpt_second;
 pwm_apply_state(pdev, &state);
+```
+`oneshot_count` 表示输出指定占空比的波形个数，在 PWM v4 上扩展了波形个数的上限，实际输出波形个数为 `oneshot_repeat * oneshot_count`。
+
+`oneshot` 模式在输出结束后会产生中断，用户可以按需在 `drivers/pwm/pwm-rockchip-irq-callbacks.h` 中断处理函数中添加相应逻辑：
+
+```c
 
 static void rockchip_pwm_oneshot_callback(struct pwm_device *pwm, struct pwm_state *state)
 {
@@ -259,11 +264,12 @@ static void rockchip_pwm_oneshot_callback(struct pwm_device *pwm, struct pwm_sta
 
 输入捕获模式，支持计算输入波形高低电平的持续时间。
 
-在 `timeout_ms` 后返回计算的结果 `cap_res`：
-
 ```c
 pwm_capture(pdev, &cap_res, timeout_ms);
 ```
+
+在 `timeout_ms` 后返回计算的结果 `cap_res`：
+
 
 ```c
 /**
@@ -280,8 +286,6 @@ struct pwm_capture {
 #### 3.1.4 Global control
 
 全局控制模式，支持多通道配置的同步更新，结合 continous/oneshot mode 可以实现输出同步、互补输出等功能。
-
-global control 模式中各指令的说明：
 
 ```c
 // join the global control group
@@ -303,6 +307,10 @@ rockchip_pwm_global_ctrl(pdev0, PWM_GLOBAL_CTRL_EXIT);
 rockchip_pwm_global_ctrl(pdev1, PWM_GLOBAL_CTRL_EXIT);
 rockchip_pwm_global_ctrl(pdev2, PWM_GLOBAL_CTRL_EXIT);
 ```
+
+global control 模式中各指令的说明：
+
+
 
 ```c
 /**
@@ -334,33 +342,30 @@ enum rockchip_pwm_global_ctrl_cmd {
 
 输入计数模式，支持计算输入波形的个数。
 
-在 `timeout_ms` 后关闭 counter 并获取计数结果 `counter_res`：
-
 ```c
 rockchip_pwm_set_counter(pdev, PWM_COUNTER_INPUT_FROM_IO, true);
 msleep(timeout_ms);
 rockchip_pwm_set_counter(pdev, 0, false);
 rockchip_pwm_get_counter_result(pdev, &counter_res, true);
 ```
+在 `timeout_ms` 后关闭 counter 并获取计数结果 `counter_res`：
+
+
 
 #### 3.1.7 Frequency meter
 
 频率计模式，支持计算输入波形的频率。
 
-在 `timeout_ms` 后返回计算的结果 `freq_hz`。
-
 ```c
 rockchip_pwm_set_freq_meter(pdev, timeout_ms, PWM_COUNTER_INPUT_FROM_IO, &freq_hz);
 ```
+在 `timeout_ms` 后返回计算的结果 `freq_hz`。
+
+
 
 #### 3.1.8 IR output
 
 红外输出模式，支持输出 NEC 格式的红外波形。Kernel 中需要打开 `CONFIG_RC_CORE` 和 `CONFIG_LIRC` 配置，前者使能 RC 设备的框架支持，而后者提供 RC 设备的用户层接口。
-
-RC 设备及其用户层接口详见目录 `Documentation/userspace-api/media/rc/` 下各文档。
-
-根据 `Documentation/userspace-api/media/rc/lirc-write.rst` 文档的说明，写入的 buffer 应该为一个 pulse/space 序列，而 Rockchip 平台支持更简单的配置方法，仅需要 7 个参数即可。详见驱动 `drivers/pwm/pwm-rockchip.c` 中的注释：
-
 ```c
 #include <stdio.h>
 #include <unistd.h>
@@ -404,29 +409,41 @@ int main(int argc, char **argv)
     return 0;
 }
 ```
+RC 设备及其用户层接口详见目录 `Documentation/userspace-api/media/rc/` 下各文档。
+
+根据 `Documentation/userspace-api/media/rc/lirc-write.rst` 文档的说明，写入的 buffer 应该为一个 pulse/space 序列，而 Rockchip 平台支持更简单的配置方法，仅需要 7 个参数即可。详见驱动 `drivers/pwm/pwm-rockchip.c` 中的注释：
+
+
 
 ```c
 static int rockchip_pwm_ir_transmit_v4(struct pwm_chip *chip, unsigned int *txbuf, unsigned int count)
 {
-    //......
-    /*
-     * Each value in the txbuf[] is in microseconds(us).
-     * txbuf[0]: the low duration of NEC leader code.
-     * txbuf[1]: the high duration of NEC leader code.
-     * txbuf[2]: the high duration of NEC repeat code.
-     * txbuf[3]: the low duration of NEC logic '0' and '1'.
-     * txbuf[4]: the high duration of NEC logic '0'.
-     * txbuf[5]: the high duration of NEC logic '1'.
-     * txbuf[6]:
-     * For 8-bit address code:
-     *   bit[31:24]            bit[23:16]   bit[15:8]            bit[7:0]
-     *   command inverted code command code address inverted code address code
-     *
-     * For 16-bit address code:
-     *   bit[31:24]            bit[23:16]   bit[15:8]            bit[7:0]
-     *   command inverted code command code address code bit[15:8] address code bit[7:0]
-     */
-    //......
+......
+ /*
+ * Each value in the txbuf[] is in microseconds(us).
+ * txbuf[0]: the low duration of NEC leader code.
+ * txbuf[1]: the high duration of NEC leader code.
+ * txbuf[2]: the high duration of NEC repeat code.
+ * txbuf[3]: the low duration of NEC logic '0' and '1'.
+ * txbuf[4]: the high duration of NEC logic '0'.
+ * txbuf[5]: the high duration of NEC logic '1'.
+ * txbuf[6]:
+ * For 8-bit address code:
+ *   bit[31:24]             bit[23:16]   bit[15:8]             bit[7:0]
+ *   command inverted code command code address inverted code address code
+ *
+ * For 16-bit address code:
+ *   bit[31:24]             bit[23:16]   bit[15:8]             bit[7:0]
+ *   command inverted code command code address code bit[15:8] address code bit[7:0]
+ */
+ preload = txbuf[0] << IR_TRANS_OUT_LOW_PRELOAD_SHIFT |
+  txbuf[1] << IR_TRANS_OUT_HIGH_PRELOAD_SHIFT;
+ spreload = txbuf[2] << IR_TRANS_OUT_HIGH_SIMPLE_PRELOAD_SHIFT;
+ low_period = txbuf[3] << IR_TRANS_OUT_DATA_LOW_PERIOD_SHIFT;
+ high_period = txbuf[4] << IR_TRANS_OUT_HIGH_PERIOD_FOR_ZERO_SHIFT |
+      txbuf[5] << IR_TRANS_OUT_HIGH_PERIOD_FOR_ONE_SHIFT;
+ tx_value = txbuf[6] << IR_TRANS_OUT_VALUE_SHIFT;
+......
 }
 ```
 
@@ -437,13 +454,10 @@ static int rockchip_pwm_ir_transmit_v4(struct pwm_chip *chip, unsigned int *txbu
 #### 3.1.10 Wave generator
 
 波形发生器模式，支持根据 wave table 中的配置输出指定波形。
-
-wave 模式相关的配置及说明如下：
-
-```c
+```
 // setup the duty table
 for (i = 0; i < PWM_TABLE_MAX; i++)
-    table[i] = i * PWM_WAVE_STEP;
+ table[i] = i * PWM_WAVE_STEP;
 duty_table.table = table;
 duty_table.offset = (channel_id % 3) * PWM_TABLE_MAX;
 duty_table.len = PWM_TABLE_MAX;
@@ -451,8 +465,8 @@ duty_table.len = PWM_TABLE_MAX;
 wave_config.rpt = PWM_WAVE_RPT;
 // setup the clk rate
 wave_config.clk_rate = 400000;
-// If duty_en is true, the wave will get duty config from table each PWM_WAVE_RPT period, and the same to
-// period_en
+// If duty_en is true, the wave will get duty config from table each PWM_WAVE_RPT period, and the same to 
+period_en
 wave_config.duty_table = &duty_table;
 wave_config.period_table = NULL;
 wave_config.enable = enable;
@@ -478,6 +492,8 @@ state.polarity = polarity;
 state.enabled = enable;
 pwm_apply_state(pdev, &state);
 ```
+wave 模式相关的配置及说明如下：
+
 
 ```c
 /**
@@ -486,28 +502,22 @@ pwm_apply_state(pdev, &state);
  * @PWM_WAVE_TABLE_16BITS_WIDTH: each element in table is 16bits
  */
 enum rockchip_pwm_wave_table_width_mode {
-    PWM_WAVE_TABLE_8BITS_WIDTH,
-    PWM_WAVE_TABLE_16BITS_WIDTH,
+ PWM_WAVE_TABLE_8BITS_WIDTH,
+ PWM_WAVE_TABLE_16BITS_WIDTH,
 };
-```
-
-```c
 /**
  * enum rockchip_pwm_wave_update_mode - update mode of wave generator
  * @PWM_WAVE_INCREASING:
- *      The wave table address will wrap back to minimum address when increase to
- *      maximum and then increase again.
+ *     The wave table address will wrap back to minimum address when increase to
+ *     maximum and then increase again.
  * @PWM_WAVE_INCREASING_THEN_DECREASING:
- *      The wave table address will change to decreasing when increasing to the maximum
- *      address. it will return to increasing when decrease to the minimum value.
+ *     The wave table address will change to decreasing when increasing to the maximum
+ *     address. it will return to increasing when decrease to the minimum value.
  */
 enum rockchip_pwm_wave_update_mode {
-    PWM_WAVE_INCREASING,
-    PWM_WAVE_INCREASING_THEN_DECREASING,
+ PWM_WAVE_INCREASING,
+ PWM_WAVE_INCREASING_THEN_DECREASING,
 };
-```
-
-```c
 /**
  * struct rockchip_pwm_wave_config - wave generator config object
  * @duty_table: the wave table config of duty
@@ -530,66 +540,27 @@ enum rockchip_pwm_wave_update_mode {
  * @middle_hold: the time to stop at middle address
  */
 struct rockchip_pwm_wave_config {
-    struct rockchip_pwm_wave_table *duty_table;
-    struct rockchip_pwm_wave_table *period_table;
-    bool enable;
-    bool duty_en;
-    bool period_en;
-    unsigned long clk_rate;
-    u16 rpt;
-    u32 width_mode;
-    u32 update_mode;
-    u32 duty_max;
-    u32 duty_min;
-    u32 period_max;
-    u32 period_min;
-    u32 offset;
-    u32 middle;
-    u32 max_hold;
-    u32 min_hold;
-    u32 middle_hold;
+ struct rockchip_pwm_wave_table *duty_table;
+ struct rockchip_pwm_wave_table *period_table;
+ bool enable;
+ bool duty_en;
+ bool period_en;
+ unsigned long clk_rate;
+ u16 rpt;
+ u32 width_mode;
+ u32 update_mode;
+ u32 duty_max;
+ u32 duty_min;
+ u32 period_max;
+ u32 period_min;
+ u32 offset;
+ u32 middle;
+ u32 max_hold;
+ u32 min_hold;
+ u32 middle_hold;
 };
 ```
 
-```c
-static void rockchip_pwm_wave_middle_callback(struct pwm_device *pwm)
-{
-    /*
-     * If you want to update the configuration of wave table, set
-     * struct rockchip_pwm_wave_table and call rockchip_pwm_set_wave().
-     *
-     * struct rockchip_pwm_wave_config wave_config;
-     * struct rockchip_pwm_wave_table duty_table;
-     *
-     * //fill the duty table
-     * ......
-     * wave_config.duty_table = &duty_table;
-     * wave_config.enable = true;
-     * rockchip_pwm_set_wave(pwm, &wave_config);
-     *
-     */
-}
-```
-
-```c
-static void rockchip_pwm_wave_max_callback(struct pwm_device *pwm)
-{
-    /*
-     * If you want to update the configuration of wave table, set
-     * struct rockchip_pwm_wave_table and call rockchip_pwm_set_wave().
-     *
-     * struct rockchip_pwm_wave_config wave_config;
-     * struct rockchip_pwm_wave_table duty_table;
-     *
-     * //fill the duty table
-     * ......
-     * wave_config.duty_table = &duty_table;
-     * wave_config.enable = true;
-     * rockchip_pwm_set_wave(pwm, &wave_config);
-     *
-     */
-}
-```
 
 PWM v4 在 wave generator 模式下有 768 * 8bit 大小的空间用于存储 duty/period 配置，开启 duty_en/period_en 后每 rpt 个周期就会从 duty_table/period_table 中 duty_min + offset/period_min + offset 索引处取新的配置值（单位：ns），直到 duty_max/period_max 为止。接着会根据 update_mode 重新进入下一次循环，如果是 oneshot模式下 oneshot_repeat 次循环后就会停止，而 continous 模式将会持续输出直到手动停止。
 
@@ -597,30 +568,58 @@ wave 支持 width_mode 的切换（768 * 8bit 和 384 * 16bit），相同工作�
 
 在配置的 middle 和 max 索引处会产生中断，用户可以按需在 `drivers/pwm/pwm-rockchip-irq-callbacks.h` 中断处理函数中添加相应逻辑。
 
+```
+static void rockchip_pwm_wave_middle_callback(struct pwm_device *pwm)
+{
+ /*
+ * If you want to update the configuration of wave table, set
+ * struct rockchip_pwm_wave_table and call rockchip_pwm_set_wave().
+ *
+ * struct rockchip_pwm_wave_config wave_config;
+ * struct rockchip_pwm_wave_table duty_table;
+ *
+ * //fill the duty table
+ * ......
+ * wave_config.duty_table = &duty_table;
+ * wave_config.enable = true;
+ * rockchip_pwm_set_wave(pwm, &wave_config);
+ *
+ */
+}
+static void rockchip_pwm_wave_max_callback(struct pwm_device *pwm)
+{
+ /*
+ * If you want to update the configuration of wave table, set
+ * struct rockchip_pwm_wave_table and call rockchip_pwm_set_wave().
+ *
+ * struct rockchip_pwm_wave_config wave_config;
+ * struct rockchip_pwm_wave_table duty_table;
+ *
+ * //fill the duty table
+ * ......
+ * wave_config.duty_table = &duty_table;
+ * wave_config.enable = true;
+ * rockchip_pwm_set_wave(pwm, &wave_config);
+ *
+ */
+}
+```
 #### 3.1.11 Biphasic counter
 
 双向计数器模式，支持 mode0-mode4 五种计数模式（详见 TRM 中 PWM 章节的描述），mode0 下可以作为上述的 counter 和 frequency meter 使用。
 
-biphasic_config 各参数说明如下：
-
-非 continous 模式下，timeout_ms 后返回计数的结果 biphasic_res。
-
-continous 模式下，计数在手动关闭前将持续进行，可以通过 `int rockchip_pwm_get_biphasic_result(struct pwm_device *pwm, unsigned long *biphasic_res)` 实时获取计数结果。
-
-biphasic counter 模式说明：
-
-- `PWM_BIPHASIC_COUNTER_MODE0` 等价于 counter 功能，而 `PWM_BIPHASIC_COUNTER_MODE0_FREQ` 等价于 frequency meter 功能。
-
-```c
+```
 biphasic_config.enable = true;
 biphasic_config.is_continuous = false;
 biphasic_config.mode = biphasic_mode;
 biphasic_config.delay_ms = timeout_ms;
 rockchip_pwm_set_biphasic(pdev, &biphasic_config, &biphasic_res);
+
 ```
 
+- biphasic_config 各参数说明如下：
 ```c
-/**
+  /**
  * struct rockchip_pwm_biphasic_config - biphasic counter config object
  * @enable: enable: enable or disable biphasic counter
  * @is_continuous: biphascic counter will not stop at the end of timer in continuous mode
@@ -628,14 +627,19 @@ rockchip_pwm_set_biphasic(pdev, &biphasic_config, &biphasic_res);
  * @delay_ms: time to wait, in milliseconds, before getting biphasic counter result
  */
 struct rockchip_pwm_biphasic_config {
-    bool enable;
-    bool is_continuous;
-    u8 mode;
-    u32 delay_ms;
+ bool enable;
+ bool is_continuous;
+ u8 mode;
+ u32 delay_ms;
 };
 ```
+  - 非 continous 模式下，timeout_ms 后返回计数的结果 biphasic_res。
 
-```c
+  -  continous 模式下，计数在手动关闭前将持续进行，可以通过 `int rockchip_pwm_get_biphasic_result(struct pwm_device *pwm, unsigned long *biphasic_res)` 实时获取计数结果。
+
+biphasic counter 模式说明：
+
+```
 /**
  * enum rockchip_pwm_biphasic_mode - mode of biphasic counter
  * @PWM_BIPHASIC_COUNTER_MODE0: single phase increase mode with A-phase
@@ -645,18 +649,26 @@ struct rockchip_pwm_biphasic_config {
  * @PWM_BIPHASIC_COUNTER_MODE4: dual phase with A/B-phase 4 times frequency mode
  */
 enum rockchip_pwm_biphasic_mode {
-    PWM_BIPHASIC_COUNTER_MODE0,
-    PWM_BIPHASIC_COUNTER_MODE1,
-    PWM_BIPHASIC_COUNTER_MODE2,
-    PWM_BIPHASIC_COUNTER_MODE3,
-    PWM_BIPHASIC_COUNTER_MODE4,
-    PWM_BIPHASIC_COUNTER_MODE0_FREQ,
+ PWM_BIPHASIC_COUNTER_MODE0,
+ PWM_BIPHASIC_COUNTER_MODE1,
+ PWM_BIPHASIC_COUNTER_MODE2,
+ PWM_BIPHASIC_COUNTER_MODE3,
+ PWM_BIPHASIC_COUNTER_MODE4,
+ PWM_BIPHASIC_COUNTER_MODE0_FREQ,
 };
 ```
+- `PWM_BIPHASIC_COUNTER_MODE0` 等价于 counter 功能，而 `PWM_BIPHASIC_COUNTER_MODE0_FREQ` 等价于 frequency meter 功能。
+
+
 
 ### 3.2 User space
 
 PWM 框架在 `/sys/class/pwm/` 目录下提供了用户层接口，详见 `drivers/pwm/sysfs.c`，PWM 驱动加载成功后，会在其下生成 pwmchipX 目录，如 pwmchip0、pwmchip1 等，此处的 X 与 PWM 的控制器或通道 id 无关，仅与 PWM 设备的 probe 顺序有关。
+
+```bash
+root@linaro-alip:/# cat /sys/class/pwm/pwmchip0/
+device/    export     npwm       power/     subsystem/ uevent     unexport
+```
 
 向 `export` 节点写入 Y，会在当前目录下产生一个 pwmY 目录，由于 Rockchip 平台每个 PWM device 只有一个 chip，Y 值只能为 0。反之，向 `unexport` 节点写入 Y 就会删除 pwmY 目录。
 
@@ -725,7 +737,7 @@ U-Boot 与 kernel 所配置的极性和周期不一致，也会导致中间出�
 由于在做 reboot 的时候，很多情况是不复位 GRF 里面的寄存器，而 PWM 控制器会发生复位，这就会在 reboot 起来后改变 PWM Regulator 的默认电压，所以要在 kernel 中配置 PWM pin 脚上下拉与默认的上下拉一致，不能配置为 none。该问题只针对 PWM 作为调压时才需要修改，作为其他功能可以不需要关注。
 
 通过硬件原理图确认该 PWM pin 的默认上下拉。例如 RK3399 挖掘机板子 PWM2 作为调压功能，在原理图上找到 PWM2 pin 脚: `GPIO1_C3/PWM2_d`，其中的 `"d"` 表示 down 为默认下拉；如果是 `"u"` 表示 up 默认上拉。
-
+![alt text](/pdf/rk/pwm/image.png)
 dtsi 中定义 PWM pull down pinctrl:
 
 ```dts

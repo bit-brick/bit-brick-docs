@@ -1,0 +1,32 @@
+# swap 分区
+当系统的物理内存不够用的时候，就可以增加Debian的swap虚拟内存分区，以供当前运行的程序使用。 比如创建一个2G的虚拟内存
+
+- 创建一个swap文件
+```bash
+cd /opt
+mkdir swap
+dd if=/dev/zero of=swapfile bs=1024 count=2000000
+##  count代表的是大小，这里是2G
+```
+- 把文件转换为swap文件
+```bash 
+sudo mkswap swapfile
+```
+- 激活swap文件
+```bash
+swapon /opt/swapfile
+卸载:
+swapoff /opt/swapfile
+```
+
+开机启动后自动挂载的话，可以把它添加到/etc/fstab文件中
+`eg : /opt/swapfile swap swap defaults 0 0`
+
+验证是否生效
+```bash
+root@linaro-alip:/opt# free -h
+               total       used       free     shared buff/cache   available
+内存：     1.9Gi       390Mi       91Mi       75Mi       1.5Gi       1.4Gi
+交换：     1.9Gi         0B       1.9Gi
+e =h
+```

@@ -29,7 +29,7 @@
 
 DTS 的配置参考 `Documentation/devicetree/bindings/net/rockchip-dwmac.txt`。
 
-板级配置需要关注的部分有以下几部分：
+
 
 ```dts
 gmac: ethernet@ff290000 {
@@ -60,7 +60,7 @@ gmac: ethernet@ff290000 {
     status = "ok";
 };
 ```
-
+板级配置需要关注的部分有以下几部分：
 - `phy-mode`：主要分为 RMII 和 RGMII 模式。
 - `snps,reset-gpio`：PHY 的硬件复位脚。
 - `snps,reset-delays-us`：PHY 的复位时序，三个时间分别表示 PHY 的不同阶段的复位时序，不同的 PHY 的复位时序是不一样的。如果是 `snps,reset-active-low` 属性，则表示三个时间分别表示 Reset pin 脚拉高，拉低，再拉高的时间；如果是 `snps,reset-active-high` 属性，则反之。
@@ -78,29 +78,39 @@ gmac: ethernet@ff290000 {
 驱动提供了读写寄存器的接口，目前在不同内核版本上有两套接口。路径：`/sys/bus/mdio_bus/devices/stmmac-0:00`，其中 `stmmac-0:00` 表示 PHY 地址是 0。
 
 ### 3.1 Linux 3.10
-
+```
+/sys/bus/mdio_bus/devices/stmmac-0:00/phy_reg
+/sys/bus/mdio_bus/devices/stmmac-0:00/phy_regValue
+```
 - **写入**：例如，往 Reg0 写入 0xabcd
+
+  ```
+    echo 0x00 > /sys/bus/mdio_bus/devices/stmmac-0:00/phy_reg
+    echo 0xabcd > /sys/bus/mdio_bus/devices/stmmac-0:00/phy_regValue
+  ```
 - **读取**：例如，读取 Reg0 值
+
+  ```
+    echo 0x00 > /sys/bus/mdio_bus/devices/stmmac-0:00/phy_reg
+    cat /sys/bus/mdio_bus/devices/stmmac-0:00/phy_regValue
+  ```
 
 ### 3.2 其它版本
 
+```
+/sys/bus/mdio_bus/devices/stmmac-0:00/phy_registers
+```
 - **写入**：
+    例如， 往 Reg0 写入 0xabcd
   ```bash
-  echo 0x00 > /sys/bus/mdio_bus/devices/stmmac-0:00/phy_reg
-  echo 0xabcd > /sys/bus/mdio_bus/devices/stmmac-0:00/phy_regValue
+  echo 0x00 0xabcd > /sys/bus/mdio_bus/devices/stmmac-0:00/phy_registers
   ```
 - **读取**：
   ```bash
-  echo 0x00 > /sys/bus/mdio_bus/devices/stmmac-0:00/phy_reg
-  cat /sys/bus/mdio_bus/devices/stmmac-0:00/phy_regValue
+  cat /sys/bus/mdio_bus/devices/stmmac-0:00/phy_registers
   ```
+  该命令会读取 0~31 的所有寄存器，所以可以查看对应的寄存器值。
 
-或者使用以下命令读取 0~31 的所有寄存器：
-```bash
-cat /sys/bus/mdio_bus/devices/stmmac-0:00/phy_registers
-```
-
----
 
 ## 4. MAC 地址
 
@@ -108,7 +118,6 @@ cat /sys/bus/mdio_bus/devices/stmmac-0:00/phy_registers
 
 MAC 地址烧写工具参考文档《Rockchip_User_Guide_RKDevInfoWriteTool_CN.pdf》。
 
----
 
 ## 5. 回环测试
 
@@ -130,8 +139,15 @@ PHY 有各自的 LED 控制，下面是 RK3228 和 RK3328 里面的 macphy，其
 - RK3328：通过配置 dts 上的 iomux，例如通过 rx 和 link 控制 led，则配置上对应的 pinctrl。
 
 ```bash
-echo 0x00 0xabcd > /sys/bus/mdio_bus/devices/stmmac-0:00/phy_registers
-cat /sys/bus/mdio_bus/devices/stmmac-0:00/phy_registers
+phy: phy@0 {
+        compatible = "ethernet-phy-id1234.d400", "ethernet-phy-ieee802.3-c22";
+        reg = <0>;
+        clocks = <&cru SCLK_MAC2PHY_OUT>;
+        resets = <&cru SRST_MACPHY>;
+        pinctrl-names = "default";
+        pinctrl-0 = <&fephyled_rxm1 &fephyled_linkm1>;
+        phy-is-integrated;
+};
 ```
 
 ---
@@ -172,69 +188,63 @@ PING 192.168.1.100 (192.168.1.100) 9000(9028) bytes of data.
 
 从 RV1126/1109 芯片开始支持 PTP1588，以下是测试结果：
 
-```dts
-phy: phy@0 {
-    compatible = "ethernet-phy-id1234.d400", "ethernet-phy-ieee802.3-c22";
-    reg = <0>;
-    clocks = <&cru SCLK_MAC2PHY_OUT>;
-    resets = <&cru SRST_MACPHY>;
-    pinctrl-names = "default";
-    pinctrl-0 = <&fephyled_rxm1 &fephyled_linkm1>;
-    phy-is-integrated;
-};
-```
+
 
 ### 11.1 PC master and RK slave
-
-```bash
+```
 ubuntu@thinkpad: sudo ptp4l -i enp0s31f6 -m -H
 ptp4l[1790161.443]: selected /dev/ptp0 as PTP clock
 ptp4l[1790161.443]: port 1: INITIALIZING to LISTENING on INIT_COMPLETE
 ptp4l[1790161.443]: port 0: INITIALIZING to LISTENING on INIT_COMPLETE
-ptp4l[1790168.489]: port 1: LISTENING to MASTER on ANNOUNCE_RECEIPT_TIMEOUT_EXPIRES
+ptp4l[1790168.489]: port 1: LISTENING to MASTER on 
+ANNOUNCE_RECEIPT_TIMEOUT_EXPIRES
 ptp4l[1790168.489]: selected local clock 54e1ad.fffe.dfa454 as best master
 ptp4l[1790168.490]: assuming the grand master role
+```
+
+```bash
 [root@Puma:/]# ptp4l -i eth0 -m -H -s
 ptp4l[39.868]: selected /dev/ptp0 as PTP clock
-[   39.871092] rk_gmac-dwmac ffc40000.ethernet eth0: stmmac_hwtstamp_set config flags:0x0, tx_type:0x1, rx_filter:0xc
-[   39.872029] stmmac_hwtstamp_set, value: 0x17e03
+[   39.871092] rk_gmac-dwmac ffc40000.ethernet eth0: stmmac_hwtstamp_set config 
+flags:0x0, tx_type:0x1, rx_filter:0xc
+[   39.872029] stmmac_hwtstamp_set, value: 0x17e03
 ptp4l[39.870]: port 1: INITIALIZING to LISTENING on INIT_COMPLETE
 ptp4l[39.871]: port 0: INITIALIZING to LISTENING on INIT_COMPLETE
 ptp4l[41.251]: port 1: new foreign master 54e1ad.fffe.dfa454-1
-[   43.817340] rk_gmac-dwmac ffc40000.ethernet eth0: stmmac_hwtstamp_set config flags:0x0, tx_type:0x1, rx_filter:0xc
-[   43.818262] stmmac_hwtstamp_set, value: 0x17e03
+[   43.817340] rk_gmac-dwmac ffc40000.ethernet eth0: stmmac_hwtstamp_set config 
+flags:0x0, tx_type:0x1, rx_filter:0xc
+[   43.818262] stmmac_hwtstamp_set, value: 0x17e03
 ptp4l[45.251]: selected best master clock 54e1ad.fffe.dfa454
 ptp4l[45.251]: port 1: LISTENING to UNCALIBRATED on RS_SLAVE
-ptp4l[49.251]: master offset     -1608 s0 freq      +0 path delay      5691
-ptp4l[50.251]: master offset     -5579 s0 freq      +0 path delay      9435
-ptp4l[51.251]: master offset     -4831 s2 freq    +748 path delay      9435
+ptp4l[49.251]: master offset      -1608 s0 freq      +0 path delay      5691
+ptp4l[50.251]: master offset      -5579 s0 freq      +0 path delay      9435
+ptp4l[51.251]: master offset      -4831 s2 freq    +748 path delay      9435
 ptp4l[51.251]: port 1: UNCALIBRATED to SLAVE on MASTER_CLOCK_SELECTED
-ptp4l[52.251]: master offset     12189 s2 freq  +12937 path delay      7563
-ptp4l[53.251]: master offset     14413 s2 freq  +18818 path delay      8287
-ptp4l[54.251]: master offset     10712 s2 freq  +19441 path delay      8861
-ptp4l[55.251]: master offset      7185 s2 freq  +19127 path delay      8861
-ptp4l[56.251]: master offset      3234 s2 freq  +17332 path delay      9435
-ptp4l[57.251]: master offset      1787 s2 freq  +16855 path delay      9454
-ptp4l[58.251]: master offset       785 s2 freq  +16389 path delay      9454
-ptp4l[59.251]: master offset        89 s2 freq  +15928 path delay      9473
-ptp4l[60.251]: master offset        31 s2 freq  +15897 path delay      9454
-ptp4l[61.251]: master offset       -71 s2 freq  +15804 path delay      9454
-ptp4l[62.251]: master offset      -100 s2 freq  +15754 path delay      9406
-ptp4l[63.251]: master offset       -27 s2 freq  +15797 path delay      9406
-ptp4l[64.251]: master offset       -69 s2 freq  +15747 path delay      9395
-ptp4l[65.251]: master offset        29 s2 freq  +15824 path delay      9395
-ptp4l[66.251]: master offset       -73 s2 freq  +15731 path delay      9395
-ptp4l[67.251]: master offset        32 s2 freq  +15814 path delay      9388
-ptp4l[68.251]: master offset       -20 s2 freq  +15772 path delay      9388
-ptp4l[69.251]: master offset      -104 s2 freq  +15682 path delay      9395
-ptp4l[70.251]: master offset       -56 s2 freq  +15699 path delay      9395
-ptp4l[71.251]: master offset        24 s2 freq  +15762 path delay      9388
-ptp4l[72.251]: master offset        11 s2 freq  +15756 path delay      9395
+ptp4l[52.251]: master offset      12189 s2 freq  +12937 path delay      7563
+ptp4l[53.251]: master offset      14413 s2 freq  +18818 path delay      8287
+ptp4l[54.251]: master offset      10712 s2 freq  +19441 path delay      8861
+ptp4l[55.251]: master offset       7185 s2 freq  +19127 path delay      8861
+ptp4l[56.251]: master offset       3234 s2 freq  +17332 path delay      9435
+ptp4l[57.251]: master offset       1787 s2 freq  +16855 path delay      9454
+ptp4l[58.251]: master offset        785 s2 freq  +16389 path delay      9454
+ptp4l[59.251]: master offset         89 s2 freq  +15928 path delay      9473
+ptp4l[60.251]: master offset         31 s2 freq  +15897 path delay      9454
+ptp4l[61.251]: master offset        -71 s2 freq  +15804 path delay      9454
+ptp4l[62.251]: master offset       -100 s2 freq  +15754 path delay      9406
+ptp4l[63.251]: master offset        -27 s2 freq  +15797 path delay      9406
+ptp4l[64.251]: master offset        -69 s2 freq  +15747 path delay      9395
+ptp4l[65.251]: master offset         29 s2 freq  +15824 path delay      9395
+ptp4l[66.251]: master offset        -73 s2 freq  +15731 path delay      9395
+ptp4l[67.251]: master offset         32 s2 freq  +15814 path delay      9388
+ptp4l[68.251]: master offset        -20 s2 freq  +15772 path delay      9388
+ptp4l[69.251]: master offset       -104 s2 freq  +15682 path delay      9395
+ptp4l[70.251]: master offset        -56 s2 freq  +15699 path delay      9395
+ptp4l[71.251]: master offset         24 s2 freq  +15762 path delay      9388
+ptp4l[72.251]: master offset         11 s2 freq  +15756 path delay      9395     9395
 ```
 
 ### 11.2 RK master and PC slave
-
-```bash
+```
 [root@Puma:/]# ptp4l -i eth0 -m -H
 ptp4l[15.668]: selected /dev/ptp0 as PTP clock
 ptp4l[15.670]: port 1: INITIALIZING to LISTENING on INIT_COMPLETE
@@ -242,6 +252,9 @@ ptp4l[15.670]: port 0: INITIALIZING to LISTENING on INIT_COMPLETE
 ptp4l[22.120]: port 1: LISTENING to MASTER on ANNOUNCE_RECEIPT_TIMEOUT_EXPIRES
 ptp4l[22.120]: selected local clock aadc46.fffe.5da6d9 as best master
 ptp4l[22.121]: assuming the grand master role
+```
+
+```bash
 ubuntu@thinkpad: sudo ptp4l -i enp0s31f6 -m -H -s
 ptp4l[1879661.603]: selected /dev/ptp0 as PTP clock
 ptp4l[1879661.603]: port 1: INITIALIZING to LISTENING on INIT_COMPLETE
@@ -249,31 +262,31 @@ ptp4l[1879661.603]: port 0: INITIALIZING to LISTENING on INIT_COMPLETE
 ptp4l[1879662.249]: port 1: new foreign master aadc46.fffe.5da6d9-1
 ptp4l[1879665.849]: selected best master clock aadc46.fffe.5da6d9
 ptp4l[1879665.849]: port 1: LISTENING to UNCALIBRATED on RS_SLAVE
-ptp4l[1879667.649]: master offset         49 s0 freq   -9515 path delay      9364
-ptp4l[1879668.549]: master offset        128 s2 freq   -9436 path delay      9338
+ptp4l[1879667.649]: master offset         49 s0 freq   -9515 path delay      9364
+ptp4l[1879668.549]: master offset        128 s2 freq   -9436 path delay      9338
 ptp4l[1879668.549]: port 1: UNCALIBRATED to SLAVE on MASTER_CLOCK_SELECTED
-ptp4l[1879669.449]: master offset        256 s2 freq   -9180 path delay      9338
-ptp4l[1879670.349]: master offset       -230 s2 freq   -9589 path delay      9338
-ptp4l[1879671.249]: master offset       -399 s2 freq   -9827 path delay      9360
-ptp4l[1879672.149]: master offset        142 s2 freq   -9406 path delay      9360
-ptp4l[1879673.049]: master offset        232 s2 freq   -9273 path delay      9347
-ptp4l[1879673.949]: master offset       -303 s2 freq   -9739 path delay      9347
-ptp4l[1879674.849]: master offset       -267 s2 freq   -9794 path delay      9338
-ptp4l[1879675.749]: master offset        327 s2 freq   -9280 path delay      9335
-ptp4l[1879676.649]: master offset        405 s2 freq   -9104 path delay      9335
-ptp4l[1879677.549]: master offset       -156 s2 freq   -9543 path delay      9335
-ptp4l[1879678.449]: master offset       -178 s2 freq   -9612 path delay      9335
-ptp4l[1879679.349]: master offset       -100 s2 freq   -9587 path delay      9335
-ptp4l[1879680.249]: master offset        -73 s2 freq   -9590 path delay      9335
-ptp4l[1879681.149]: master offset        -79 s2 freq   -9618 path delay      9344
-ptp4l[1879682.049]: master offset        -76 s2 freq   -9639 path delay      9344
-ptp4l[1879682.949]: master offset        -59 s2 freq   -9645 path delay      9329
-ptp4l[1879683.849]: master offset        -31 s2 freq   -9634 path delay      9329
-ptp4l[1879684.750]: master offset         22 s2 freq   -9591 path delay      9329
-ptp4l[1879685.650]: master offset         -9 s2 freq   -9615 path delay      9337
-ptp4l[1879686.550]: master offset        -31 s2 freq   -9640 path delay      9337
-ptp4l[1879687.450]: master offset         -3 s2 freq   -9621 path delay      9337
-ptp4l[1879688.350]: master offset        -15 s2 freq   -9634 path delay      9351
+ptp4l[1879669.449]: master offset        256 s2 freq   -9180 path delay      9338
+ptp4l[1879670.349]: master offset       -230 s2 freq   -9589 path delay      9338
+ptp4l[1879671.249]: master offset       -399 s2 freq   -9827 path delay      9360
+ptp4l[1879672.149]: master offset        142 s2 freq   -9406 path delay      9360
+ptp4l[1879673.049]: master offset        232 s2 freq   -9273 path delay      9347
+ptp4l[1879673.949]: master offset       -303 s2 freq   -9739 path delay      9347
+ptp4l[1879674.849]: master offset       -267 s2 freq   -9794 path delay      9338
+ptp4l[1879675.749]: master offset        327 s2 freq   -9280 path delay      9335
+ptp4l[1879676.649]: master offset        405 s2 freq   -9104 path delay      9335
+ptp4l[1879677.549]: master offset       -156 s2 freq   -9543 path delay      9335
+ptp4l[1879678.449]: master offset       -178 s2 freq   -9612 path delay      9335
+ptp4l[1879679.349]: master offset       -100 s2 freq   -9587 path delay      9335
+ptp4l[1879680.249]: master offset        -73 s2 freq   -9590 path delay      9335
+ptp4l[1879681.149]: master offset        -79 s2 freq   -9618 path delay      9344
+ptp4l[1879682.049]: master offset        -76 s2 freq   -9639 path delay      9344
+ptp4l[1879682.949]: master offset        -59 s2 freq   -9645 path delay      9329
+ptp4l[1879683.849]: master offset        -31 s2 freq   -9634 path delay      9329
+ptp4l[1879684.750]: master offset         22 s2 freq   -9591 path delay      9329
+ptp4l[1879685.650]: master offset         -9 s2 freq   -9615 path delay      9337
+ptp4l[1879686.550]: master offset        -31 s2 freq   -9640 path delay      9337
+ptp4l[1879687.450]: master offset         -3 s2 freq   -9621 path delay      9337
+ptp4l[1879688.350]: master offset        -15 s2 freq   -9634 path delay      9351
 ```
 
 ---
@@ -348,6 +361,16 @@ ptp4l[1879688.350]: master offset        -15 s2 freq   -9634 path delay      935
 #### 13.4.2 RX
 
 通过以上排查确定不是 TX 问题，重点排查 RX；连接上网线后通过 `ifconfig -a` 查看 eth0 节点的 RX packets 是否在不断增加，如果为 0，表示 GMAC RX 没有收到数据。同样可以测试 PHY 的 RXN/P，以及 GMAC 的 RX Clock/RX Data，来排除是 MAC 还是 PHY 出现了问题。MAC 可以检查以下几个方面：
+```
+eth0     Link encap:Ethernet HWaddr 16:21:8d:d9:67:0b Driver rk_gmac-dwmac
+         inet6 addr: fe80::c43d:3e5d:533:b7ea/64 Scope: Link
+         UP BROADCAST RUNNING MULTICAST MTU:1500 Metric:1
+         RX packets:341 errors:0 dropped:0 overruns:0 frame:0
+         TX packets:26 errors:0 dropped:0 overruns:0 carrier:0
+         collisions:0 txqueuelen:1000
+         RX bytes:48928 TX bytes:3741
+         Interrupt:355
+```
 
 - 检查 RX Clock/RX Data 的 iomux。
 - RXC 时钟是否正确。

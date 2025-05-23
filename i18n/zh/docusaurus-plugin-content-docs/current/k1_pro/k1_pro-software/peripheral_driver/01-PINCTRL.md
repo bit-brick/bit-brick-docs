@@ -33,8 +33,12 @@ Rockchip Pin 的 ID 按照 **控制器(bank)+端口(port)+索引序号(pin)** �
 
 ### 1.1 GPIO（通用输入输出）
 
-控制器和 GPIO 控制器数量一致，端口固定为 A、B、C 和 D，索引序号固定为 0、1、2、3、4、5、6、7。  
-例如 RK3588，从 RK3588-TRM.pdf 的 Chapter 20 GPIO 章节可以看到，有 5 个 GPIO 控制器，每个控制器可以控制 32 个 IO，作为 GPIO 功能时，端口行为由 GPIO 控制器寄存器配置。
+控制器和 GPIO 控制器数量一致，
+端口固定为 A、B、C 和 D，
+索引序号固定为 0、1、2、3、4、5、6、7。  
+例如 RK3588，从 RK3588-TRM.pdf 的 Chapter 20 GPIO 章节可以看到
+`There are five GPIOs (GPIO0 in PD_PMU,GPIO1/GPIO2/GPIO3/GPIO4 in PD_BUS)`
+有 5 个 GPIO 控制器，每个控制器可以控制 32 个 IO，作为 GPIO 功能时，端口行为由 GPIO 控制器寄存器配置。
 
 ### 1.2 IOMUX（输入输出复用）
 
@@ -53,6 +57,7 @@ Rockchip Pin 可以复用成多种功能，同一个控制器如果存在多种�
     - 4'hb: PWM13_M2
 
 如下是 RK3588 I2C5 的 IOMUX：  
+![alt text](/pdf/rk/pinctrl/image.png)
 多通路复用支持硬件设计更为灵活，当外设工作电压是 1.8V 或 3.3V 时，可以选择不同电压域 VCCIO 的引脚。  
 **注意**：多通路复用的寄存器配置，对 TX 类的引脚没有用，对 RX 类的引脚起作用。
 
@@ -182,6 +187,13 @@ pinctrl 节点没有 reg，它不是一个标准 platform device，寄存器基�
 1. 必须在 pinctrl 节点下
 2. 必须以 function+group 的形式添加
 3. function+group 的格式如下
+    ```
+    function {
+        group {
+        rockchip,pin = <bank gpio func &ref>;
+        };
+        };
+    ```
 4. 遵循其他 dts 的基本规则
 
 ### 3.2 引用pinctrl
