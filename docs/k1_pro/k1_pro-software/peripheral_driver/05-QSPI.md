@@ -1,44 +1,41 @@
-
 # SPI
 
+## Chip Names and Kernel Versions
 
-## 芯片名称与内核版本
-
-| 芯片名称 | 内核版本 |
+| Chip Name | Kernel Version |
 | --- | --- |
-| 采用 Linux 4.4 的所有芯片 | Linux 4.4 |
-| 采用 Linux 4.19 及以上内核的所有芯片 | Linux 4.19 及以上内核 |
+| All chips using Linux 4.4 | Linux 4.4 |
+| All chips using Linux 4.19 and above | Linux 4.19 and above |
 
-## 前言
+## Introduction
 
-### 概述
+### Overview
 
-本文介绍 Linux SPI 驱动原理和基本调试方法。
+This document introduces the Linux SPI driver principles and basic debugging methods.
 
-### 读者对象
+### Target Audience
 
-本文档主要适用于以下工程师：
-- 技术支持工程师
-- 软件开发工程师
+This document is primarily intended for:
+- Technical Support Engineers
+- Software Development Engineers
 
+## 1. Rockchip SPI Features
 
-## 1. Rockchip SPI 功能特点
+SPI (serial peripheral interface), the following are features supported by the Linux 4.4 SPI driver:
+- Default Motorola SPI protocol
+- Support for 8-bit and 16-bit
+- Software programmable clock frequency
+- Support for 4 SPI transfer modes configuration
+- Each SPI controller supports one to two chip selects
+- Support for SPI slave mode, with SPI_CS0N only as CS input pin:
+    - No switching to GPIO function allowed during transfer
+    - CS1N replacement not supported
+In addition to the above support, Linux 4.19 adds the following features:
+  - Framework supports both slave and master modes
 
-SPI （serial peripheral interface），以下是 linux 4.4 SPI 驱动支持的一些特性︰
-- 默认采用摩托罗拉 SPI 协议
-- 支持 8 位和 16 位
-- 软件可编程时钟频率
-- 支持 SPI 4 种传输模式配置
-- 每个 SPI 控制器支持一个到两个片选
-- 支持 spi slave mode，有且仅有 SPI_CS0N 作为 CS 输入脚：
-    - 传输过程不允许切换为 GPIO function
-    - 不支持 CS1N 替代
-除以上支持，linux 4.19 新增以下特性：
-  - 框架支持 slave 和 master 两种模式
+### 1.1 SPI Interface Rates
 
-### 1.1 SPI 接口速率
-
-| 芯片名称 | Master Mode 接口最高速率 | Slave Mode 接口最高速率 |
+| Chip Name | Master Mode Max Interface Rate | Slave Mode Max Interface Rate |
 | --- | --- | --- |
 | RK3506 | 50MHz | 50MHz |
 | RV1106B/RV1103B | 50MHz | 33MHz |
@@ -51,28 +48,28 @@ SPI （serial peripheral interface），以下是 linux 4.4 SPI 驱动支持的�
 | RK3568 | 50MHz | 33MHz |
 | RK1808 | 50MHz | 16MHz |
 | RK3308 | 50MHz | 16MHz |
-| 其他芯片平台 | 50MHz | 16MHz |
+| Other platforms | 50MHz | 16MHz |
 
-**说明**：
-- 接口最高速率为理论速率，受设备走线 PCB 质量影响，以实测为准。
-- 部分平台由于 PLL 策略原因无法准确分频到上限值，实际以最大分频值为准。
+**Notes**:
+- The maximum interface rates are theoretical rates, actual rates depend on PCB trace quality and should be verified through testing.
+- Some platforms cannot accurately divide down to the upper limit value due to PLL strategy limitations, actual maximum is determined by the maximum division value.
 
 ---
 
-## 2. 内核软件
+## 2. Kernel Software
 
-### 2.1 代码路径
+### 2.1 Code Paths
 
-- `drivers/spi/spi.c`：SPI 驱动框架
-- `drivers/spi/spi-rockchip.c`：RK SPI 各接口实现
-- `drivers/spi/spi-rockchip-slave.c`：RK SPI slave 各接口实现
-- `drivers/spi/spidev.c`：创建 SPI 设备节点，用户态使用
-- `drivers/spi/spi-rockchip-test.c`：SPI 测试驱动，需要手动添加到 Makefile 编译
-- `Documentation/spi/spidev_test.c`：用户态 SPI 测试工具
+- `drivers/spi/spi.c`: SPI driver framework
+- `drivers/spi/spi-rockchip.c`: RK SPI interface implementations
+- `drivers/spi/spi-rockchip-slave.c`: RK SPI slave interface implementations  
+- `drivers/spi/spidev.c`: Create SPI device nodes for user space usage
+- `drivers/spi/spi-rockchip-test.c`: SPI test driver, needs to be manually added to Makefile
+- `Documentation/spi/spidev_test.c`: User space SPI test tools
 
-### 2.2 SPI 设备配置 —— RK 芯片作 Master 端
+### 2.2 SPI Device Configuration — RK Chip as Master
 
-#### 内核配置
+#### Kernel Configuration 
 
 ```bash
 Device Drivers --->
@@ -80,40 +77,40 @@ Device Drivers --->
         <*>   Rockchip SPI controller driver
 ```
 
-#### DTS 节点配置
+#### DTS Node Configuration
 
 ```dts
 &spi1 {
     status = "okay";
-    // assigned-clocks = <CLK_SPI1>; // 默认不用配置，CLK_SPIn 请从 soc 对应的 dtsi 里确认
-    // assigned-clock-rates = <200000000>; // 默认不用配置，SPI 设备工作时钟值
-    // dma-names; // 默认不用配置，关闭 DMA 支持，仅支持 IRQ 传输
-    // rockchip,poll-only; // 默认不用配置，开启后强制使用 CPU 传输，仅支持 master mode 下配置
-    // rx-sample-delay-ns = <10>; // 默认不用配置，读采样延时，详细参考 “常见问题”“延时采样时钟配置方案” 章节
-    // rockchip,autosuspend-delay-ms = <500>; // 默认不用配置，Runtime PM autosuspend 延时，详细参考 “SPI 传输速率及 CPU 负载优化”
-    // rockchip,rt; // 默认不用配置，将 spi 数据传输进程放到 SCHED_FIFO 类中，其优先级为 50
+    // assigned-clocks = <CLK_SPI1>; // No need to configure by default, check CLK_SPIn from corresponding soc dtsi
+    // assigned-clock-rates = <200000000>; // No need to configure by default, SPI device working clock value
+    // dma-names; // No need to configure by default, disable DMA support, only support IRQ transfer
+    // rockchip,poll-only; // No need to configure by default, force CPU transfer when enabled, only supported in master mode
+    // rx-sample-delay-ns = <10>; // No need to configure by default, read sampling delay, see "Common Issues" "Delay Sampling Clock Configuration" section for details
+    // rockchip,autosuspend-delay-ms = <500>; // No need to configure by default, Runtime PM autosuspend delay, see "SPI Transfer Rate and CPU Load Optimization"
+    // rockchip,rt; // No need to configure by default, puts spi data transfer process in SCHED_FIFO class with priority 50
     spi_test@10 {
-        compatible = "rockchip,spi_test_bus1_cs0"; // 与驱动对应的名字
-        reg = <0>; // 片选 0 或者 1
-        spi-cpha; // 设置 CPHA = 1，不配置则为 0
-        spi-cpol; // 设置 CPOL = 1，不配置则为 0
-        spi-lsb-first; // IO 先传输 lsb
-        spi-max-frequency = <24000000>; // spi clk 输出的时钟频率，不超过 50M
-        status = "okay"; // 使能设备节点
+        compatible = "rockchip,spi_test_bus1_cs0"; // Name corresponding to driver
+        reg = <0>; // Chip select 0 or 1
+        spi-cpha; // Set CPHA = 1, default is 0 if not configured
+        spi-cpol; // Set CPOL = 1, default is 0 if not configured
+        spi-lsb-first; // Transfer LSB first
+        spi-max-frequency = <24000000>; // SPI clock output frequency, not exceeding 50M
+        status = "okay"; // Enable device node
     };
 };
 ```
 
-**spiclk assigned-clock-rates 和 spi-max-frequency 的配置说明：**：
-- `spi-max-frequency` 是 SPI 的输出时钟，由 SPI 工作时钟 `spiclk assigned-clock-rates` 内部分频后输出，由于内部至少 2 分频，所以关系是 `spiclk assigned-clock-rates >= 2 * spi-max-frequency`。
-- 假定需要 50MHz 的 SPI IO 速率，可以考虑配置（记住内部分频为偶数分频）`spi_clk assigned-clock-rates = <100000000>`，`spi-max-frequency = <50000000>`，即工作时钟 100MHz（PLL 分频到一个不大于 100MHz 但最接近的值），然后内部二分频最终 IO 接近 50MHz。
-- `spiclk assigned-clock-rates` 不要低于 24M，否则可能有问题。
+**Configuration notes for spiclk assigned-clock-rates and spi-max-frequency**:
+- `spi-max-frequency` is the SPI output clock, derived from the SPI working clock `spiclk assigned-clock-rates` through internal division. Due to minimum internal division of 2, the relationship is `spiclk assigned-clock-rates >= 2 * spi-max-frequency`
+- For example, if 50MHz SPI IO rate is needed, consider configuring (remember internal division must be even) `spi_clk assigned-clock-rates = <100000000>`, `spi-max-frequency = <50000000>`, meaning 100MHz working clock (PLL divided to closest value not exceeding 100MHz), then internal division by 2 for final IO close to 50MHz
+- `spiclk assigned-clock-rates` should not be lower than 24M to avoid potential issues
 
-### 2.3 SPI 设备配置 —— RK 芯片作 Slave 端
+### 2.3 SPI Device Configuration — RK Chip as Slave
 
-#### 关键补丁
+#### Key Patches
 
-推荐使用 SPI slave 源码 spi-rockchip-slave.c，由于 SDK 版本问题，建议先确认 SDK 是否有以下补丁：
+It is recommended to use the SPI slave source code spi-rockchip-slave.c. Due to SDK version issues, please confirm whether the SDK has the following patch:
 ```bash
 commit 10cbf3c2c93fca6e5ec6c99b5bdb319ca0494d45
 Author: Jon Lin <jon.lin@rock-chips.com>
@@ -125,10 +122,10 @@ Date:   Tue Nov 21 10:58:57 2023 +0800
     Signed-Off-By: Jon Lin <jon.lin@rock-chips.com>
 ```
 
-**说明**：
-- 如无该补丁，客户可直接通过 Redmine -> FAE 项目 -> 文档 -> 开发配置文档 -> SPI 路径获取。
+**Note**:
+- If the patch is not available, customers can directly obtain it from Redmine -> FAE Project -> Documentation -> Development Configuration Document -> SPI path.
 
-#### 内核配置
+#### Kernel Configuration
 
 ```bash
 Device Drivers --->
@@ -137,37 +134,37 @@ Device Drivers --->
         [*]   Rockchip SPI Slave controller driver
 ```
 
-#### DTS 节点配置
+#### DTS Node Configuration
 
 ```dts
 &spi1 {
-    compatible = "rockchip,spi-slave"; // 优先使用 SPI slave 专用驱动
+    compatible = "rockchip,spi-slave"; // Prefer to use dedicated SPI slave driver
     status = "okay";
-    // ready-gpios = <&gpio1 RK_PD2 GPIO_ACTIVE_LOW>; // 建议配置，SPI slave 完成传输配置的信号，详细参考 “内核 SPI Slave 软件” 章节
-    // rockchip,cs-inactive-disable; // 默认不用配置，当 SPI master 时序 tod_cs（Clk Rise To CS Rise Time） 超过多个 io 时钟周期，应开启配置来屏蔽检测 cs 释放动作
-    slave { // 按照框架要求，SPI slave 子节点的命名需以 "slave" 开始
+    // ready-gpios = <&gpio1 RK_PD2 GPIO_ACTIVE_LOW>; // Recommended configuration, signal for SPI slave to complete transmission, refer to "Kernel SPI Slave Software" section for details
+    // rockchip,cs-inactive-disable; // No need to configure by default, when SPI master timing tod_cs (Clk Rise To CS Rise Time) exceeds multiple io clock cycles, enable this to mask CS release detection
+    slave { // According to framework requirements, SPI slave sub-node naming must start with "slave"
         compatible = "rockchip,spi_test_bus1_cs0";
-        reg = <0>; // 片选仅支持 0
-        spi-cpha; // 设置 CPHA = 1，不配置则为 0
-        spi-cpol; // 设置 CPOL = 1，不配置则为 0
-        spi-lsb-first; // IO 先传输 lsb
-        status = "okay"; // 使能设备节点
+        reg = <0>; // Chip select only supports 0
+        spi-cpha; // Set CPHA = 1, default is 0 if not configured
+        spi-cpol; // Set CPOL = 1, default is 0 if not configured
+        spi-lsb-first; // Transfer LSB first
+        status = "okay"; // Enable device node
     };
 };
 ```
 
-**说明**：
-- RK SPI 默认使能 DMA 传输，slave mode 不建议关闭 DMA 传输。当一笔传输超过控制器缓存数量，软件会配置为 DMA 传输，来避免中断传输相应不及时。
+**Note**:
+- RK SPI defaults to enable DMA transfer, it is not recommended to disable DMA transfer in slave mode. When a transmission exceeds the controller's cache size, the software will configure DMA transfer to avoid delayed interrupt response.
 
-### 2.4 SPI Slave 须知
+### 2.4 SPI Slave Considerations
 
-#### 2.4.1 建议设置 performance
+#### 2.4.1 Recommended Performance Settings
 
-当 master 速率超过一定频率后，建议传输过程设置 performance 模式，避免传输过程 DRAM 变频导致控制器缓存溢出：
-- `bits_per_word = 8bits`，master io 速率超过 5MHz
-- `bits_per_word = 16bits`，master io 速率超过 10MHz
+When the master rate exceeds a certain frequency, it is recommended to set the performance mode during the transmission process to avoid controller cache overflow caused by DRAM frequency switching:
+- `bits_per_word = 8bits`，master io rate exceeds 5MHz
+- `bits_per_word = 16bits`，master io rate exceeds 10MHz
 
-**参考代码**：
+**Reference Code**：
 
 ```diff
 diff --git a/drivers/spi/spi-rockchip-test.c b/drivers/spi/spi-rockchip-test.c
@@ -194,30 +191,30 @@ index 544d6038919a..c1037153ff86 100644
                 us = ktime_to_us(cost_time);
 ```
 
-**说明**：
-- 建议所有 slave mode 传输行为都在 performance mode 下运行。
-- set/clear performance 接口有一定的时间开销，所以建议业务上层设置，避免频繁调用。
+**Note**：
+- It is recommended that all slave mode transmission behaviors operate in performance mode.
+- The set/clear performance interface has some time overhead, so it is recommended to be set by the upper business layer to avoid frequent calls.
 
-- 如果缓存溢出，slave 无法完成 DMA 传输，会阻塞无法退出，通过打印 SPI->SPI_RISR 寄存器可以确认是否出现缓存溢出。
+- If the cache overflows and the slave cannot complete the DMA transfer, it will be blocked and unable to exit. By printing the SPI->SPI_RISR register, you can check whether a cache overflow has occurred.
 
-#### 2.4.2 建议设置 16bits 宽度
+#### 2.4.2 Recommended 16bits Width Setting
 
-最大限度利用 slave fifo 容量，加速且最小 burst 2，能加速 slave 端的 DMA 传输速率，避免 fifo 因为来不及搬移造成堆叠。
+Maximize the use of slave FIFO capacity, with burst size at least 2, to accelerate the DMA transfer rate on the slave side and avoid FIFO overflow due to slow data movement.
 
-#### 2.4.3 其他须知
+#### 2.4.3 Other Considerations
 
-**SPI Slave 测试须知**：
-  SPI 做 slave，要先启动 slave read，再启动 master write，不然会导致 slave 还没读完，master 已经写完了。
+**SPI Slave Testing Notes**：
+  When SPI acts as a slave, start the slave read first, then start the master write, otherwise, the slave may not finish reading before the master has already written.
 
-  slave write，master read 也是需要先启动 slave write，因为只有 master 送出 clk 后，slave 才会工作，同时 master 会立即发送或接收数据。
+  For slave write and master read, the slave write must be started first, because only after the master sends the clock, the slave will work, and the master will immediately send or receive data.
 
-**例如**：在第三章节的基础上：
-- 先 slave：`echo write 0 1 16 > /dev/spi_misc_test`
-- 再 master：`echo read 0 1 16 > /dev/spi_misc_test`
+**For example**：Based on the third chapter:
+- First slave: `echo write 0 1 16 > /dev/spi_misc_test`
+- Then master: `echo read 0 1 16 > /dev/spi_misc_test`
 
-### 2.5 SPI 设备驱动介绍
+### 2.5 SPI Device Driver Introduction
 
-**设备驱动注册**：
+**Device Driver Registration**：
 
 ```c
 #include <linux/init.h>
@@ -272,7 +269,7 @@ static void __exit spi_test_exit(void)
 module_exit(spi_test_exit);
 ```
 
-对 SPI 读写操作请参考 include/linux/spi/spi.h，以下简单列出几个
+For SPI read and write operations, please refer to include/linux/spi/spi.h, here are a few simple ones
 ```
 static inline int
 spi_write(struct spi_device *spi,const void *buf, size_t len)
@@ -283,11 +280,11 @@ spi_write_and_read(structspi_device *spi, const void *tx_buf, void *rx_buf,
 size_t len)
 ```
 
-### 2.6 User mode SPI device 配置
+### 2.6 User Mode SPI Device Configuration
 
-**User mode SPI device** 指的是用户空间直接操作 SPI 接口，这样方便众多的 SPI 外设驱动跑在用户空间，不需要改到内核，方便驱动移植开发。
+**User mode SPI device** refers to direct operation of the SPI interface from user space, making it convenient for many SPI peripheral drivers to run in user space without modifying the kernel, facilitating driver porting and development.
 
-#### 内核配置
+#### Kernel Configuration
 
 ```bash
 Device Drivers --->
@@ -295,7 +292,7 @@ Device Drivers --->
         [*]   User mode SPI device driver support
 ```
 
-#### DTS 配置
+#### DTS Configuration
 
 ```dts
 &spi0 {
@@ -309,32 +306,32 @@ Device Drivers --->
 };
 ```
 
-**使用说明**：
-- 驱动设备加载注册成功后，会出现类似这个名字的设备：`/dev/spidev1.1`。
-- 设备节点的读写操作例程请参照：
-    - 内核 4.4 `Documentation/spi/spidev_test.c`
-    - 内核 4.19 及以后 `tools/spi/spidev_test.c`
-- 可在内核工程编译后，进入对应路径，输入以下命令直接编译标准 SPI app 程序：
+**Usage Notes**:
+- After the driver device is successfully loaded and registered, a device with a name similar to `/dev/spidev1.1` will appear.
+- For device node read/write operation examples, please refer to:
+    - Kernel 4.4: `Documentation/spi/spidev_test.c`
+    - Kernel 4.19 and later: `tools/spi/spidev_test.c`
+- After kernel project compilation, enter the corresponding path and input the following command to directly compile the standard SPI app program:
 
 ```bash
 make CROSS_COMPILE=~/path-to-toolchain/gcc-xxxxx-toolchain/bin/xxxx-linux-gnu-
 ```
 
-支持配置为 SPI slave 设备，参考 “SPI 设备配置 —— RK 芯片做 Slave 端”，其中 DTS 配置 sub node 应保持为 `"rockchip,spidev"`。
+Supports configuration as an SPI slave device, refer to "SPI Device Configuration — RK Chip as Slave End", where the DTS configuration sub node should remain as `"rockchip,spidev"`.
 
-### 2.7 cs-gpios 支持
+### 2.7 cs-gpios Support
 
-用户可以通过 `spi-bus` 的 `cs-gpios` 属性来实现 gpio 模拟 cs 以扩展 SPI 片选信号，`cs-gpios` 属性详细信息可以查阅内核文档 `Documentation/devicetree/bindings/spi/spi-bus.txt`。
+Users can implement GPIO-simulated CS to extend SPI chip select signals through the `cs-gpios` property of `spi-bus`. Detailed information about the `cs-gpios` property can be found in the kernel documentation `Documentation/devicetree/bindings/spi/spi-bus.txt`.
 
-#### 2.7.1 Linux 4.4 配置
+#### 2.7.1 Linux 4.4 Configuration
 
-该支持需要较多支持补丁，请联系 RK 工程师获取相应的补丁。
+This support requires multiple patches. Please contact RK engineers to obtain the corresponding patches.
 
-#### 2.7.2 Linux 4.19 及以上内核配置
+#### 2.7.2 Linux 4.19 and Later Kernel Configuration
 
-**以 SPI1 设定 GPIO0_C4 为 spi1_cs2n 扩展脚为例**。
+**Example using SPI1 setting GPIO0_C4 as spi1_cs2n extension pin**
 
-**设置 cs-gpio 脚并在 SPI 节点中引用**：
+**Set cs-gpio pins and reference them in SPI node**：
 ```diff
 diff --git a/arch/arm/boot/dts/rv1126-evb-v10.dtsi b/arch/arm/boot/dts/rv1126-
 evb-v10.dtsi
@@ -384,15 +381,15 @@ spi1: spi@ff5b0000 {
 +       pinctrl-0 = <&spi1m0_clk &spi1_cs0n &spi1_cs1n &spi1_cs2n &spi1m0_miso 
 &spi1m0_mosi>;
 +       pinctrl-1 = <&spi1m0_clk_hs &spi1_cs0n &spi1_cs1n &spi1_cs2n 
-&spi1m0_miso_hs &spi1m0_mosi_hs>
+&spi1m0_miso_hs &spi1m0_mosi_hs>;
        status = "disabled";
 };
 ```
 
 
-**SPI 节点重新指定 cs 脚**：
-
-```diff+&spi1 {
+**Redefine CS pins in SPI node**：
+```diff
++&spi1 {
 +       status = "okay";
 +       max-freq = <48000000>;
 +       cs-gpios = <&gpio0 RK_PC2 GPIO_ACTIVE_LOW>, <&gpio0 RK_PC3 
@@ -412,57 +409,55 @@ GPIO_ACTIVE_LOW>, <&gpio0 RK_PC4 GPIO_ACTIVE_LOW>;
 };
 ```
 
-**注释**：
-- 如果要扩展 `cs-gpio`，则所有 cs 都要转为 gpio function，用 `cs-gpios` 扩展来支持。
+**Notes**:
+- If expanding `cs-gpios`, all CS pins must be converted to GPIO function and supported through `cs-gpios` extension.
 
 ---
 
-## 3. 内核测试软件
+## 3. Kernel Test Software
 
-### 3.1 代码路径
+### 3.1 Code Path
 
 - `drivers/spi/spi-rockchip-test.c`
 
-### 3.2 SPI 测试设备配置
+### 3.2 SPI Test Device Configuration
 
-#### 内核补丁
+#### Kernel Patch
 
 ```
-需要手动添加编译：
+Need to manually add to compilation:
 drivers/spi/Makefile
-+obj-y                                 += spi-rockchip-test.o
++obj-y                                 += spi-rockchip-test.o
 ```
 
-
-#### DTS 配置
+#### DTS Configuration
 
 ```dts
 &spi0 {
-   status = "okay";
-   spi_test@0 {
-       compatible = "rockchip,spi_test_bus0_cs0";
-       id = <0>;                                       //这个属性spi-rockchip￾test.c用来区分不同的spi从设备的
-       reg = <0>;                                     //chip select 0:cs0 
-1:cs1
-       spi-max-frequency = <24000000>;                 //spi output clock
-   };
-   spi_test@1 {
-       compatible = "rockchip,spi_test_bus0_cs1";
-       id = <1>;
-       reg = <1>;
-       spi-max-frequency = <24000000>;
-   };
+   status = "okay";
+   spi_test@0 {
+       compatible = "rockchip,spi_test_bus0_cs0";
+       id = <0>;                                       // This property in spi-rockchip-test.c is used to distinguish different SPI slave devices
+       reg = <0>;                                     // chip select 0:cs0 1:cs1
+       spi-max-frequency = <24000000>;                // spi clock output frequency, not exceeding 50M
+   };
+   spi_test@1 {
+       compatible = "rockchip,spi_test_bus0_cs1";
+       id = <1>;
+       reg = <1>;
+       spi-max-frequency = <24000000>;
+   };
 };
 ```
 
-#### 驱动 log
+#### Driver Log
 
 ```bash
 [   0.457137] rockchip_spi_test_probe:name=spi_test_bus0_cs0,bus_num=0,cs=0,mode=11,speed=16000000
 [   0.457308] rockchip_spi_test_probe:name=spi_test_bus0_cs1,bus_num=0,cs=1,mode=11,speed=16000000
 ```
 
-### 3.3 测试命令
+### 3.3 Test Commands
 
 
 ```bash
@@ -474,45 +469,45 @@ echo setspeed 0 1000000 > /dev/spi_misc_test
 ```
 
 ```bash
-echo 类型 id 循环次数 传输长度 > /dev/spi_misc_test
-echo setspeed id 频率（单位 Hz） > /dev/spi_misc_test
+echo type id loop_count transfer_length > /dev/spi_misc_test
+echo setspeed id frequency(Hz) > /dev/spi_misc_test
 ```
-如果需要，可以自己修改测试 case。
+You can modify the test cases as needed.
 ---
 
-## 4. 内核 SPI Slave 软件
+## 4. Kernel SPI Slave Software
 
-### 4.1 简介
+### 4.1 Introduction
 
-**背景**：
-- SPI 主从之间传输通常遵循特定协议，如 SPI Nor 兼容 JEDEC SDFP 协议，RK SPI slave 作为设备端传输也应遵循特定的协议，由于协议无范式，所以 RK 提供自定义的传输协议和设备驱动以供客户参考。
-- Linux SPI slave 驱动框架限制：
-    - 使用传输队列，虽然队列唤醒后的线程优先级较高，但受调度影响不能完全保证实时性。
-- RK SPI slave mode 限制：
-    - 每次传输需重新发起 SPI 控制器配置，因此为确保 SPI master 能够获知 RK SPI slave 完成传输配置从而发起数据传输，RK SPI slave 端需增加 side-band 信号做 ready 状态位。
+**Background**:
+- SPI master-slave communication usually follows specific protocols, such as SPI Nor being compatible with JEDEC SDFP protocol. As a device-side transmission, RK SPI slave should also follow specific protocols. Since there is no standard protocol format, RK provides customized transmission protocols and device drivers for customer reference.
+- Linux SPI slave driver framework limitations:
+    - Uses transmission queues; although awakened queue threads have high priority, scheduling effects mean real-time performance cannot be fully guaranteed.
+- RK SPI slave mode limitations:
+    - Each transmission requires re-initiating SPI controller configuration. Therefore, to ensure SPI master can detect when RK SPI slave completes transmission configuration and initiate data transfer, RK SPI slave needs to add a side-band signal as a ready status bit.
 
-**传输协议**：
-- RK SPI slave 传输协议：
-    - RK SPI slave 传输要求指定 `ready-gpios` 来通知 SPI master，基本流程：
-        1. slave 主动发起 `spi_sync`
-        2. slave ready，使能 GPIO_SLV_READY 信号
-        3. master 确认 slave ready 后发起传输
-        4. slave 接收来自 master 发出的足够的 clk 后完成传输
-        5. slave idle，释放 GPIO_SLV_READY 信号
+**Transmission Protocol**:
+- RK SPI slave transmission protocol:
+    - RK SPI slave transmission requires specifying `ready-gpios` to notify SPI master, basic flow:
+        1. Slave initiates `spi_sync`
+        2. Slave ready, enables GPIO_SLV_READY signal
+        3. Master confirms slave ready then initiates transfer
+        4. Slave receives sufficient clock from master to complete transfer
+        5. Slave idle, releases GPIO_SLV_READY signal
    
    ![alt text](/pdf/rk/spi/image.png)
 
-    - 定义两种包类型：
-        - ctrl packet：2B cmd，2B addr（RK slave 定义的 application buffer 偏移地址），4B data（通常用于指定之后 data 包的传输长度）
+    - Defines two packet types:
+        - ctrl packet: 2B cmd, 2B addr (RK slave-defined application buffer offset address), 4B data (typically used to specify subsequent data packet transfer length)
         - data packet
-    - 定义两种传输类型：
-        - ctrl 传输，仅包含 1 ctrl packet
-        - data 传输，包含 1 ctrl packet 和 1 data packet 的两笔 SPI 传输
-    - `spidev_rkslv` 支持 `SPI_OBJ_APP_RAM_SIZE` 长度的 application buffer 用于缓存传输数据，SPI master 发起的 data 传输 1 ctrl packet 2B addr 指向该缓存偏移地址。
+    - Defines two transfer types:
+        - ctrl transfer, contains only 1 ctrl packet
+        - data transfer, contains 1 ctrl packet and 1 data packet in two SPI transfers
+    - `spidev_rkslv` supports application buffer of length `SPI_OBJ_APP_RAM_SIZE` for caching transfer data, SPI master-initiated data transfer 1 ctrl packet 2B addr points to this cache offset address.
 
-**设备驱动**：
+**Device Driver**：
 
-#### 关键补丁
+#### Key Patches
 
 ```bash
 commit d2fef34977c1a7aab3837d29ac8dc3b5378a2754 (HEAD -> develop-4.19)
@@ -528,25 +523,25 @@ Date:   Wed Dec 20 12:02:14 2023 +0800
     Signed-off-by: Jon Lin <jon.lin@rock-chips.com>
 ```
 
-**说明**：
-- 由于 SDK 版本问题，建议先确认 SDK 是否有以下补丁，如无该补丁，客户可直接通过 Redmine -> FAE 项目 -> 文档 -> 开发配置文档 -> SPI 路径获取。
+**Note**:
+- Due to SDK version issues, it is recommended to first confirm whether the SDK has the following patch. If not, customers can directly obtain it from Redmine -> FAE Project -> Documentation -> Development Configuration Document -> SPI path.
 
-**驱动源码**：
+**Driver Source Code**：
 
 - `drivers/spi/spidev-rkslv.c`：
 - `drivers/spi/spidev-rkmst.c`：
 
 
-源码简介：
+Source code introduction:
 `drivers/spi/spidev-rkslv.c：`
 ```c
-static int spidev_rkslv_ctrl_receiver_thread(void *p)                   //建立线
+static int spidev_rkslv_ctrl_receiver_thread(void *p)                   //Establish line
 程，线程内重复发起传输
 {
     while (1)
         spidev_rkslv_xfer(spidev);
 }
-static int spidev_rkslv_xfer(struct spidev_rkslv_data *spidev)          //传输入口
+static int spidev_rkslv_xfer(struct spidev_rkslv_data *spidev)          //Transmission input port
 {
     spidev_slv_read(spidev, spidev->ctrlbuf, SPI_OBJ_CTRL_MSG_SIZE);    //1 ctrl 
 packet，获取并解析传输类型
@@ -568,7 +563,7 @@ static const struct file_operations spidev_rkslv_misc_fops = {}          //
 ```c
 
 static int spidev_rkmst_xfer(struct spidev_rkmst_data *spidev, void *tx, void 
-*rx, u16 addr, u32 len)  //传输入口
+*rx, u16 addr, u32 len)  //Transmission input port
 {
     spidev_rkmst_ctrl(spidev, cmd, addr, len);                           //1 ctrl 
 packet，定义传输类型
@@ -585,15 +580,15 @@ packet，根据传输类型，定义 data packet 并完成收发
 static const struct file_operations spidev_rkmst_misc_fops = {}          //注册 misc device 测试接口
 ```
 
-**实现业务**：
+**Business Implementation**：
 
 ![alt text](/pdf/rk/spi/image-1.png)
 
-- 提供 “内核 SPI slave 软件” 的目的在于提供协议和设备驱动的参考，最终客户还应在 slave 端的 application buffer 上定义自己的产品需求以实现业务。
+- The purpose of providing "Kernel SPI slave software" is to offer a reference for protocols and device drivers. Ultimately, customers should define their product requirements on the slave side's application buffer to实现业务.
 
-### 4.2 SPI Slave 测试设备配置
+### 4.2 SPI Slave Test Device Configuration 
 
-#### defconfig 配置
+#### defconfig Configuration
 
 ```bash
 CONFIG_SPI_SLAVE_ROCKCHIP_OBJ=y
@@ -635,167 +630,104 @@ CONFIG_SPI_SLAVE_ROCKCHIP_OBJ=y
 };
 ```
 
-### 4.3 测试命令
+### 4.3 Test Commands
 
-#### SPI master 发起单包数据传输测试
+#### SPI Master Single Packet Data Transfer Test
 
 ```
 echo cmd addr length > /dev/spidev_rkmst_misc
 ```
-**说明**：
-- `cmd`：支持 `read/write/duplex`
-- `addr`：为对端 slave application buffer 偏移，单位 Bytes，仅支持 10 进制输入
-- `length`：为 data packet 长度，单位 Bytes，仅支持 10 进制输入
+**Description**:
+- `cmd`: Supports `read/write/duplex`
+- `addr`: Offset in the slave application buffer, unit in Bytes, only supports decimal input
+- `length`: Data packet length, unit in Bytes, only supports decimal input
 
-**例如**：
+**For example**:
 
 ```bash
-
 echo write 128 128 > /dev/spidev_rkmst_misc
 echo read 128 128 > /dev/spidev_rkmst_misc
 echo duplex 128 128 > /dev/spidev_rkmst_misc
 ```
 
-#### SPI master 发起自动化测试
+#### SPI Master Automated Testing
 
 ```bash
 echo autotest length loops compare > /dev/spidev_rkmst_misc
 ```
-**说明**：
-- `autotest`：固定输入，先测试全双工数据传输，再测试读写数据传输，并输出速率结果
-- 测试默认使用对端 slave application buffer 偏移地址 0
-- `length`：为 data packet 长度，单位 Bytes，仅支持 10 进制输入
-- `loops`：设定压测循环次数
-- `compare`：1 - 开启数据校验；0 - 关闭数据校验（支持特定场景，如持续输出数据进行信号测试）
+**Description**:
+- `autotest`: Fixed input, first tests full-duplex data transfer, then tests read/write data transfer, and outputs rate results
+- Test uses offset address 0 in slave application buffer by default
+- `length`: Data packet length, unit in Bytes, only supports decimal input
+- `loops`: Sets the number of stress test cycles
+- `compare`: 1 - Enable data verification; 0 - Disable data verification (supports specific scenarios, like continuous data output for signal testing)
 
-**例如**：
+**For example**:
 
 ```bash
-
 echo autotest 1024 64 1 > /dev/spidev_rkmst_misc
 ```
 
-#### SPI slave 测试
+#### SPI Slave Testing
 
 ```bash
-echo appmem 0 256 > ./dev/spidev_rkslv_misc      # 打印 application buffer 数据
-echo verbose 1 > ./dev/spidev_rkslv_misc         # 开启传输传输过程 debug log，echo verbose 0 关闭打印
+echo appmem 0 256 > ./dev/spidev_rkslv_misc      # Print application buffer data
+echo verbose 1 > ./dev/spidev_rkslv_misc         # Enable debug log for transfer process, echo verbose 0 to disable printing
 ```
 
 ---
 
-## 5. 常见问题
+## 5. Common Issues
 
-### 5.1 SPI 无信号
+### 5.1 No SPI Signal
 
-- 调试前确认驱动有跑起来
-- 确保 SPI 4 个引脚的 IOMUX 配置无误
-- 确认 TX 送时，TX 引脚有正常的波形，CLK 有正常的 CLOCK 信号，CS 信号有拉低
-- 如果 clk 频率较高，可以考虑提高驱动强度来改善信号
-- 如何简单判断 SPI DMA 是否使能，串口打印如无以下关键字则 DMA 使能成功：
+- Confirm the driver is running before debugging
+- Ensure the IOMUX configuration of the 4 SPI pins is correct
+- For TX transmission, verify TX pin has normal waveform, CLK has normal CLOCK signal, and CS signal is pulled low
+- If clk frequency is high, consider increasing drive strength to improve signal
+- To check if SPI DMA is enabled, DMA is successfully enabled if the following keywords are not present in serial output:
 
 ```bash
 [   0.457137] Failed to request TX DMA channel
 [   0.457237] Failed to request RX DMA channel
 ```
 
-### 5.2 如何编写 SPI 应用代码
+### 5.2 How to Write SPI Application Code
 
-- 请选择合适的目标函数接口再编写驱动。
+- Please select an appropriate target function interface before writing the driver.
 
-#### 自定义 SPI 设备驱动
+#### Custom SPI Device Driver
 
-- **参考**：“SPI 设备驱动介绍” 编写，实例如：`drivers/spi/spi-rockchip-test.c`。
+- **Reference**: Write according to "SPI Device Driver Introduction", example: `drivers/spi/spi-rockchip-test.c`.
 
-#### 基于 spidev 标准设备节点编写的应⽤程序
+#### Application
 
-- **参考**：“User mode SPI device 配置” 章节。
+- **Reference**: See the "User mode SPI device configuration" section.
 
-### 5.3 延时采样时钟配置方案
+### 5.3 Delay Sampling Clock Configuration Scheme
 
-对于 SPI io 速率较高的情形，正常 SPI mode 可能依旧无法匹配外接器件输出延时，RK SPI master read 可能无法采到有效数据，需要启用 SPI rsd 逻辑来延迟采样时钟。
+For scenarios with high SPI IO rates, the normal SPI mode may still not match the output delay of external devices. RK SPI master read may fail to capture valid data, so the SPI rsd logic needs to be enabled to delay the sampling clock.
 
-#### RK SPI rsd（read sample delay）控制逻辑特性
+#### RK SPI rsd (read sample delay) Control Logic Features
 
-- 可配值为 0，1，2，3
-- 延时单位为 1 spi_clk cycle，即控制器工作时钟，详见 “SPI 设备配置章节”
-- `rx-sample-delay` 实际延时为 dts 设定值最接近的 rsd 有效值为准，以 spi_clk 200MHz，周期 5ns 为例：
-    - rsd 实际可配延迟为 0，5ns，10ns，15ns
-    - `rx-sample-delay` 设定 12ns，接近有效值 10ns，所以最终为 10ns 延时。
+- Configurable values: 0, 1, 2, 3
+- Delay unit: 1 spi_clk cycle, i.e., the controller's working clock. See the "SPI Device Configuration" section for details.
+- The actual delay of `rx-sample-delay` is determined by the closest valid rsd value to the DTS setting. For example, with spi_clk at 200MHz (period 5ns):
+    - The actual configurable rsd delays are 0, 5ns, 10ns, 15ns.
+    - If `rx-sample-delay` is set to 12ns, the closest valid value is 10ns, so the final delay is 10ns.
 
-### 5.4 SPI 传输方式说明
+### 5.4 SPI Transfer Mode Description
 
-#### 默认传输模式
+#### Default Transfer Mode
 
-- **Master mode** 支持 IRQ、DMA 和 CPU 传输，**Slave mode** 支持 IRQ 和 DMA 传输，默认都为 IRQ/DMA 组合传输方式：
-    - 当传输长度 < fifo 深度时，使用 IRQ 传输，默认使用 4.19 及以上内核版本的 SOC，fifo 深度为 64
-    - 当传输长度 >= fifo 深度时，使用 DMA 传输
+- **Master mode** supports IRQ, DMA and CPU transfer, **Slave mode** supports IRQ and DMA transfer, both default to IRQ/DMA combined transfer mode:
+    - When transfer length < fifo depth, use IRQ transfer, default fifo depth is 64 for SOCs using kernel 4.19 and above
+    - When transfer length >= fifo depth, use DMA transfer
 
-#### 修改传输模式
+#### Transfer Mode Modification
 
-- **Master mode** 支持：
-    - 默认 IRQ/DMA 组合传输方式
-    - 参考 “关闭 DMA 支持，仅支持 IRQ 传输” 说明，关闭 DMA，配置后仅支持 IRQ 传输
-    - 参考 “rockchip,poll-only” 说明，配置后仅支持 CPU 传输
-- **Slave mode** 不支持修改传输模式。
-
-#### IRQ 传输特性
-
-- 当数据 < fifo 深度时，一次传触发 1 个中断
-- 当数据 >= fifo 深度且使用 IRQ 传输时，fifo 水线设置为半 fifo，通常为 32 item，一次传输大致上触发 items / 32 次中断
-
-#### DMA 传输特性
-
-- 不触发 spi 控制器中断，使用 DMA 传输 finished call back 回调
-
-### 5.5 SPI 传输速率及 CPU 占用率高优化方向
-
-通常 SPI 传输速率慢、IO 高负载下 CPU 占用率高的原因是因为：SPI 传输粒度小，且传输次数多，频繁发起传输从而涉及较多的调度，例如：
-
-- SPI 线程调度
-- 中断调度，参考 “SPI 传输方式说明” 章节先确认是否使用到中断传输
-- CPU idle 调度
-
-#### 建议优化方向
-
-1. **开启 auto runtime**，延时设置为 500ms，具体值以实测为准，修改点为 dts 节点添加 `rockchip,autosuspend-delay-ms` 属性
-2. **降低 CPU 负载**：改用 IRQ 传输，相对 DMA 可能会有优势，补丁参考 “改为 IRQ 传输” 小节
-3. **降低 CPU 负载**：如为 DMA 传输，可修改 TX DMA 水线来降低 CPU 在 DMA 回调函数中等待 fifo 传输完成的时间，补丁参考 “修改 SPI 水线”
-
-#### 修改补丁参考
-
-##### 改为 IRQ 传输
-
-
-```diff
-diff --git a/arch/arm/boot/dts/rv1126-evb-v10.dtsi b/arch/arm/boot/dts/rv1126-evb-v10.dtsi
-index 86dd23482d97..2cea93d2423f 100644
---- a/arch/arm/boot/dts/rv1126-evb-v10.dtsi
-+++ b/arch/arm/boot/dts/rv1126-evb-v10.dtsi
-@@ -1367,6 +1367,7 @@
-        status = "okay";
-        max-freq = <48000000>;
-        cs-gpios = <0>, <0>, <&gpio0 RK_PC4 GPIO_ACTIVE_LOW>;
-+       dma-names;
-        spi_test@00 {
-```
-
-
-##### 修改 SPI 水线
-
-
-```diff
-diff --git a/drivers/spi/spi-rockchip.c b/drivers/spi/spi-rockchip.c
-index 27fd6f671b12..bd0fa8c5f8c3 100644
---- a/drivers/spi/spi-rockchip.c
-+++ b/drivers/spi/spi-rockchip.c
-@@ -616,7 +616,8 @@ static void rockchip_spi_config(struct rockchip_spi *rs,
-        else
-            writel_relaxed(rs->fifo_len / 2 - 1, rs->regs + ROCKCHIP_SPI_RXFTLR);
--       writel_relaxed(rs->fifo_len / 2 - 1, rs->regs + ROCKCHIP_SPI_DMATDLR);
-+       // writel_relaxed(rs->fifo_len / 2 - 1, rs->regs + ROCKCHIP_SPI_DMATDLR);
-+       writel_relaxed(11, rs->regs + ROCKCHIP_SPI_DMATDLR);
-        writel_relaxed(rockchip_spi_calc_burst_size(xfer->len / rs->n_bytes) - 1,
-                       rs->regs + ROCKCHIP_SPI_DMARDLR);
-        writel_relaxed(dmacr, rs->regs + ROCKCHIP_SPI_DMACR);
-```
+- **Master mode** supports:
+    - Default IRQ/DMA combined transfer mode
+    - Refer to "Disable DMA support, only support IRQ transfer" description to disable DMA and only support IRQ transfer
+    - Refer to "rockchip,poll-only" description to only support CPU transfer
+- **Slave mode** does not support transfer mode modification.

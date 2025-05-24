@@ -1,213 +1,193 @@
-
-
 # PCIe 
+# Overview
 
+## Product Versions
 
-
-
-
-# 概述
-
-## 产品版本
-
-| 芯片名称 | 内核版本 |
+| Chip Name | Kernel Version |
 | --- | --- |
-| RK1808 | 4.4，4.19 |
-| RK3528 | 4.19，5.10，6.1 |
-| RK3562 | 5.10，6.1 |
-| RK3566/RK3568 | 4.19，5.10，6.1 |
+| RK1808 | 4.4, 4.19 |
+| RK3528 | 4.19, 5.10, 6.1 |
+| RK3562 | 5.10, 6.1 |
+| RK3566/RK3568 | 4.19, 5.10, 6.1 |
 | RK3576 | 6.1 |
-| RK3588 | 5.4，5.10，6.1 |
+| RK3588 | 5.4, 5.10, 6.1 |
 
-**说明**：RK3399使用不同的PCIe控制器IP，不在本文档覆盖范围，请参考《Rockchip_RK3399_Developer_Guide_PCIe_CN》。
+**Note**: RK3399 uses a different PCIe controller IP and is not covered in this document. Please refer to "Rockchip_RK3399_Developer_Guide_PCIe_CN".
 
-# 读者对象
+# Target Audience
 
-本文档（本指南）主要适用于以下工程师：
-- 技术支持工程师
-- 软件开发工程师
+This document (guide) is mainly intended for the following engineers:
+- Technical Support Engineers
+- Software Development Engineers
 
-
-## 1. 芯片资源介绍
+## 1. Chip Resource Introduction
 
 ### 1.1 RK1808
 
-| 资源 | 模式 | 支持lane | 支持DMA | 支持MMU | 支持ASPM | 备注 |
+| Resource | Mode | Supported Lanes | DMA Support | MMU Support | ASPM Support | Remarks |
 | --- | --- | --- | --- | --- | --- | --- |
-| PCIe Gen2 | RC | x2 lane | 否 | 否 | L0s/L1 | 内部时钟 |
+| PCIe Gen2 | RC | x2 lane | No | No | L0s/L1 | Internal clock |
 
 ### 1.2 RK3528
 
-| 资源 | 模式 | 支持lane拆分 | 支持DMA | 支持MMU | 支持ASPM | 备注 |
+| Resource | Mode | Lane Split Support | DMA Support | MMU Support | ASPM Support | Remarks |
 | --- | --- | --- | --- | --- | --- | --- |
-| PCIe Gen2 x1 | RC | 否 | 否 | 否 | ALL | 内部时钟 |
+| PCIe Gen2 x1 | RC | No | No | No | ALL | Internal clock |
 
 ### 1.3 RK3562
 
-| 资源 | 模式 | 支持lane拆分 | 支持DMA | 支持MMU | 支持ASPM | 备注 |
+| Resource | Mode | Lane Split Support | DMA Support | MMU Support | ASPM Support | Remarks |
 | --- | --- | --- | --- | --- | --- | --- |
-| PCIe Gen2 x1 | RC | 否 | 否 | 否 | ALL | 内部时钟 |
+| PCIe Gen2 x1 | RC | No | No | No | ALL | Internal clock |
 
 ### 1.4 RK3566
 
-| 资源 | 模式 | 支持lane拆分 | 支持DMA | 支持MMU | 支持ASPM | 备注 |
+| Resource | Mode | Lane Split Support | DMA Support | MMU Support | ASPM Support | Remarks |
 | --- | --- | --- | --- | --- | --- | --- |
-| PCIe Gen2 x1 | RC | 否 | 否 | 否 | L0s/L1 | 内部时钟 |
+| PCIe Gen2 x1 | RC | No | No | No | L0s/L1 | Internal clock |
 
 ### 1.5 RK3568
 
-#### 1.5.1 控制器
+#### 1.5.1 Controller
 
-| 资源 | 模式 | lane拆分 | 支持DMA | 支持MMU | 支持ASPM | 备注 |
+| Resource | Mode | Lane Split | DMA Support | MMU Support | ASPM Support | Remarks |
 | --- | --- | --- | --- | --- | --- | --- |
-| PCIe Gen2 | RC | 1 lane only | 否 | 否 | L0s/L1 | 内部时钟 |
-| PCIe Gen3 | RC/EP | 1 lane RC + 1 lane RC | 2个读Channel + 2个写Channel | 否 | ALL | 支持pcie30phy |
-| PCIe Gen3 | RC | 1 lane | 否 | 否 | ALL | 支持pcie30phy |
+| PCIe Gen2 | RC | 1 lane only | No | No | L0s/L1 | Internal clock |
+| PCIe Gen3 | RC/EP | 1 lane RC + 1 lane RC | 2 read Channels + 2 write Channels | No | ALL | Supports pcie30phy |
+| PCIe Gen3 | RC | 1 lane | No | No | ALL | Supports pcie30phy |
 
 #### 1.5.2 PHY
 
-| 资源 | dts节点 | 参考时钟 | 拆分 | 是否combo |
+| Resource | dts Node | Reference Clock | Split | Combo |
 | --- | --- | --- | --- | --- |
-| pcie30phy | phy@fe8c0000 | 外部 | 2Lane：默认 | PCIe专用 |
-| combphy2_psq | phy@fe840000 | 内部/外部 | 1Lane + 1Lane：rockchip,bifurcation | combo |
+| pcie30phy | phy@fe8c0000 | External | 2Lane: Default | PCIe dedicated |
+| combphy2_psq | phy@fe840000 | Internal/External | 1Lane + 1Lane: rockchip,bifurcation | combo |
 
-**说明**：pcie30phy 2Lane默认配置为PCIe Gen3 x 2 lane，拆分后“PCIe Gen3 x 2 lane”和“PCIe Gen3 x 1 lane”控制器各1Lane。
+**Note**: pcie30phy 2Lane is by default configured as PCIe Gen3 x 2 lane. After splitting, the "PCIe Gen3 x 2 lane" and "PCIe Gen3 x 1 lane" controllers each use 1 lane.
 
 ### 1.6 RK3576
 
-| 资源 | 模式 | 支持lane拆分 | 支持DMA | 支持MMU | 支持ASPM | 备注 |
+| Resource | Mode | Lane Split Support | DMA Support | MMU Support | ASPM Support | Remarks |
 | --- | --- | --- | --- | --- | --- | --- |
-| PCIe Gen2 x1 | RC | 否 | 否 | 是 | ALL | 内部时钟 |
+| PCIe Gen2 x1 | RC | No | No | Yes | ALL | Internal clock |
 
 ### 1.7 RK3588
 
-**说明**：
-RK3588共有5个PCIe控制器，硬件IP一致，配置不同。其中一个4Lane DM模式可支持作为EP使用，另外2Lane和3个1Lane控制器仅能作为RC使用。
-RK3588有两种PCIe PHY，一种为pcie3.0PHY，含2个Port共4个Lane；另一种是pcie2.0 PHY，每个为2.0 1Lane，与SATA和USB combo使用。
-pcie3.0 PHY的4Lane可根据需求拆分使用，拆分后需合理配置对应的控制器，所有配置在DTS中完成，无需修改驱动。
+**Note**:
+RK3588 has a total of 5 PCIe controllers, with identical hardware IP but different configurations. One 4Lane DM mode can support EP usage, while the other 2Lane and three 1Lane controllers can only be used as RC.
+RK3588 has two types of PCIe PHY: one is pcie3.0PHY with 2 Ports and 4 Lanes; the other is pcie2.0 PHY, each being 2.0 1Lane, used in combo with SATA and USB.
+The 4Lane of pcie3.0 PHY can be split as needed. After splitting, the corresponding controllers must be properly configured. All configurations are done in DTS, no driver modification required.
 
-使用限制：
-1. pcie30phy拆分后，pcie30x4控制器，工作于2Lane模式时只能固定配合pcie30phy的port0，工作
-于1Lane模式时，只能固定配合pcie30phy的port0lane0；
-2. pcie30phy拆分后，pcie30x2控制器，工作于2Lane模式时只能固定配合pcie30phy的port1，工作
-于1Lane模式时，只能固定配合pcie30phy的port1lane0；
-3. pcie30phy拆分为4个1Lane，pcie3phy的port0lane1只能固定配合pcie2x1l0控制器，pcie3phy的
-port1lane1只能固定配合pcie2x1l1控制器;
-4. pcie30x4控制器工作于EP模式，可以使用4Lane模式，或者2Lane模式使用pcie30phy的port0，
-pcie30phy的port1中2lane可以作为RC配合其他控制器使用。默认使用common clock作为
-reference clock时，无法实现pcie30phy port0的lane0工作于EP模式，lane1工作于RC模式配合其
-他控制器使用，因为Port0的两个lane是共用一个输入的reference clock，RC和EP同时使用clock可
-能会有冲突。
-5. RK3588 pcie30phy 如果只使用其中一个port，另一个port也需要供电，refclk等其他信号可接地。
+Usage restrictions:
+1. After splitting pcie30phy, the pcie30x4 controller, when working in 2Lane mode, can only be paired with port0 of pcie30phy; in 1Lane mode, it can only be paired with port0lane0 of pcie30phy;
+2. After splitting pcie30phy, the pcie30x2 controller, when working in 2Lane mode, can only be paired with port1 of pcie30phy; in 1Lane mode, it can only be paired with port1lane0 of pcie30phy;
+3. When pcie30phy is split into four 1Lanes, port0lane1 of pcie3phy can only be paired with the pcie2x1l0 controller, and port1lane1 of pcie3phy can only be paired with the pcie2x1l1 controller;
+4. The pcie30x4 controller working in EP mode can use 4Lane mode, or use 2Lane mode with port0 of pcie30phy. The 2Lane of port1 of pcie30phy can be used as RC with other controllers. By default, when using common clock as the reference clock, it is not possible to have lane0 of port0 of pcie30phy working in EP mode and lane1 working in RC mode with other controllers, because the two lanes of port0 share one input reference clock, and simultaneous use of clock by RC and EP may cause conflicts.
+5. If only one port of RK3588 pcie30phy is used, the other port also needs to be powered, and other signals such as refclk can be grounded.
 
 ![alt text](/pdf/rk/pcie/image.png)
-#### 1.7.1 控制器
+#### 1.7.1 Controller
 
-| 资源 | 模式 | dts节点 | 可用phy | 内部DMA | 支持ASPM | 支持MMU |
+| Resource | Mode | dts Node | Available PHY | Internal DMA | ASPM Support | MMU Support |
 | --- | --- | --- | --- | --- | --- | --- |
-| PCIe Gen3 x4 | RC/EP | pcie3x4: pcie@fe150000 | pcie30phy | 2个读Channel + 2个写Channel | ALL | 是 |
-| PCIe Gen3 x2 | RC | pcie3x2: pcie@fe160000 | pcie30phy | 否 | ALL | 是 |
-| PCIe Gen3 x1 | RC | pcie2x1l0: pcie@fe170000 | pcie30phy, combphy1_ps | 否 | ALL | 是 |
-| PCIe Gen3 x1 | RC | pcie2x1l1: pcie@fe180000 | pcie30phy, combphy2_psu | 否 | ALL | 是 |
-| PCIe Gen3 x1 | RC | pcie2x1l2: pcie@fe190000 | combphy0_ps | 否 | ALL | 是 |
+| PCIe Gen3 x4 | RC/EP | pcie3x4: pcie@fe150000 | pcie30phy | 2 read Channels + 2 write Channels | ALL | Yes |
+| PCIe Gen3 x2 | RC | pcie3x2: pcie@fe160000 | pcie30phy | No | ALL | Yes |
+| PCIe Gen3 x1 | RC | pcie2x1l0: pcie@fe170000 | pcie30phy, combphy1_ps | No | ALL | Yes |
+| PCIe Gen3 x1 | RC | pcie2x1l1: pcie@fe180000 | pcie30phy, combphy2_psu | No | ALL | Yes |
+| PCIe Gen3 x1 | RC | pcie2x1l2: pcie@fe190000 | combphy0_ps | No | ALL | Yes |
 
 #### 1.7.2 PHY
 
-| 资源 | dts节点 | 参考时钟 | 拆分 | 是否combo |
+| Resource | dts Node | Reference Clock | Split | Combo |
 | --- | --- | --- | --- | --- |
-| pcie30phy | phy@fee80000 | 外部 | 4Lane：PHY_MODE_PCIE_AGGREGATION<br/>2Lane+2Lane：PHY_MODE_PCIE_NANBNB<br/>2Lane+1Lane+1Lane：PHY_MODE_PCIE_NANBBI<br/>1Lane4：PHY_MODE_PCIE_NABIBI | PCIe专用 |
-| combphy0_ps | phy@fee00000 | 内部/外部 | - | 与SATA combo |
-| combphy1_ps | phy@fee10000 | 内部/外部 | - | 与SATA combo |
-| combphy2_psu | phy@fee20000 | 内部/外部 | - | 与SATA/USB3 combo |
+| pcie30phy | phy@fee80000 | External | 4Lane: PHY_MODE_PCIE_AGGREGATION<br/>2Lane+2Lane: PHY_MODE_PCIE_NANBNB<br/>2Lane+1Lane+1Lane: PHY_MODE_PCIE_NANBBI<br/>1Lane4: PHY_MODE_PCIE_NABIBI | PCIe dedicated |
+| combphy0_ps | phy@fee00000 | Internal/External | - | Combo with SATA |
+| combphy1_ps | phy@fee10000 | Internal/External | - | Combo with SATA |
+| combphy2_psu | phy@fee20000 | Internal/External | - | Combo with SATA/USB3 |
 
 ### 1.8 RK3588S
 
-**说明**：RK3588S的PCIe较为简单，有2个1Lane控制器和2个可用于pcie 2.0的1Lane comboPHY，是一一对应关系。
+**Note**: The PCIe of RK3588S is relatively simple, with two 1Lane controllers and two 1Lane comboPHYs for PCIe 2.0, in a one-to-one correspondence.
 
-#### 1.8.1 控制器
+#### 1.8.1 Controller
 
-| 资源 | 模式 | dts节点 | 可用phy | 内部DMA | 支持ASPM | 支持MMU |
+| Resource | Mode | dts Node | Available PHY | Internal DMA | ASPM Support | MMU Support |
 | --- | --- | --- | --- | --- | --- | --- |
-| PCIe Gen3 x1 | RC | pcie2x1l1: pcie@fe180000 | combphy2_psu | 否 | ALL | 是 |
-| PCIe Gen3 x1 | RC | pcie2x1l2: pcie@fe190000 | combphy0_ps | 否 | ALL | 是 |
+| PCIe Gen3 x1 | RC | pcie2x1l1: pcie@fe180000 | combphy2_psu | No | ALL | Yes |
+| PCIe Gen3 x1 | RC | pcie2x1l2: pcie@fe190000 | combphy0_ps | No | ALL | Yes |
 
 #### 1.8.2 PHY
 
-| 资源 | dts节点 | 参考时钟 | 拆分 | 是否combo |
+| Resource | dts Node | Reference Clock | Split | Combo |
 | --- | --- | --- | --- | --- |
-| combphy0_ps | phy@fee00000 | 内部/外部 | - | 与SATA combo |
-| combphy2_psu | phy@fee20000 | 内部/外部 | - | 与SATA/USB3 combo |
+| combphy0_ps | phy@fee00000 | Internal/External | - | Combo with SATA |
+| combphy2_psu | phy@fee20000 | Internal/External | - | Combo with SATA/USB3 |
 
 ---
 
-## 2. DTS 配置
+## 2. DTS Configuration
 
-### 2.1 配置要点
+### 2.1 Key Points for Configuration
 
-pcie的配置大部分是固定的，需要在板级dts配置的变量并不多，参考以下要点进行配置即可：
-1. **控制器/PHY使能**：根据原理图选择使能正确的控制器和PHY，注意控制器的index和phy的index不一定是顺序匹配的。
-2. **控制器**：部分控制器（如RK3588的pcie2x1l0和pcie2x1l1）有多个phy可选，需按方案设计正确配置“phys”。
-3. **控制器**：作为RC通常需要配置"reset-gpios"，对应原理图PCIE的"PERSTn"信号。
-4. **控制器**：作为RC可能需要配置"vpcie3v3-supply"，对应PCIE的"PWREN"gpio信号控制的fixed regulator。
-5. **控制器**：作为EP使用时，需要修改"compatible"为EP模式对应字串。
-6. **PHY**：pcie30phy共4个lane，可拆分使用，需根据方案正确配置"rockchip,pcie30-phymode"模式。
+Most PCIe configurations are fixed, and there are not many variables that need to be configured in the board-level dts. Refer to the following key points for configuration:
+1. **Controller/PHY Enable**: Enable the correct controller and PHY according to the schematic. Note that the index of the controller and the index of the phy may not match sequentially.
+2. **Controller**: Some controllers (such as RK3588's pcie2x1l0 and pcie2x1l1) have multiple PHYs to choose from. Configure "phys" correctly according to the design.
+3. **Controller**: As RC, usually need to configure "reset-gpios", corresponding to the "PERSTn" signal of PCIe in the schematic.
+4. **Controller**: As RC, may need to configure "vpcie3v3-supply", corresponding to the fixed regulator controlled by the "PWREN" gpio signal of PCIe.
+5. **Controller**: When used as EP, need to modify "compatible" to the corresponding string for EP mode.
+6. **PHY**: pcie30phy has 4 lanes and can be split. Configure the "rockchip,pcie30-phymode" mode correctly according to the design.
 
-### 2.2 RK1808 DTS配置
+### 2.2 RK1808 DTS Configuration
 
-RK1808的dts配置，所有的实现模式都在SDK的evb代码中有范例可以参考，可以依照下面表中的模式选
-择匹配的内容拷贝到产品板级dts中使用。
-| 资源 | 模式 | 参考配置 | 控制器节点 | PHY节点 | 备注 |
+For RK1808 dts configuration, all implementation modes have examples in the SDK evb code. You can select the matching content from the table below and copy it to the product board-level dts for use.
+| Resource | Mode | Reference Configuration | Controller Node | PHY Node | Remarks |
 | --- |---| --- | --- | --- | --- |
-| PCIe Gen2 x2 lane | RC | rk1808-evb.dtsi | pcie0 | combphy|<br/>需要关闭usbdrd_dwc3和usbdrd3 |
-| PCIe Gen2 x2 lane | EP | rk1808-evb.dtsi的pcie0节点
-添加`compatible = "rockchip,rk1808-pcie-ep","snps,dw-pcie";` | pcie0 | combphy| <br/>需要关闭usbdrd_dwc3和usbdrd3 |
+| PCIe Gen2 x2 lane | RC | rk1808-evb.dtsi | pcie0 | combphy|<br/>Need to disable usbdrd_dwc3 and usbdrd3 |
+| PCIe Gen2 x2 lane | EP | Add `compatible = "rockchip,rk1808-pcie-ep","snps,dw-pcie";` to the pcie0 node in rk1808-evb.dtsi | pcie0 | combphy| <br/>Need to disable usbdrd_dwc3 and usbdrd3 |
 
-### 2.3 RK3528 DTS配置
+### 2.3 RK3528 DTS Configuration
 
-RK3528的dts配置，所有的实现模式都在SDK的evb代码中有范例可以参考，可以依照下面表中的模式选
-择匹配的内容拷贝到产品板级dts中使用
-| 资源 |模式 | 参考配置 | 控制器节点 | PHY节点 
+For RK3528 dts configuration, all implementation modes have examples in the SDK evb code. You can select the matching content from the table below and copy it to the product board-level dts for use.
+| Resource |Mode | Reference Configuration | Controller Node | PHY Node 
 | --- | --- | --- | --- | --- |
 | PCIe Gen2 x1 lane | RC | rk3528-evb2-ddr3-v10.dtsi | pcie2x1 | combphy_pu |
 
-### 2.4 RK356X DTS配置
+### 2.4 RK356X DTS Configuration
 
-RK356x的dts配置，所有的实现模式都在SDK的evb代码中有范例可以参考，可以依照下面表中的模式选
-择匹配的内容拷贝到产品板级dts中使用
+For RK356x dts configuration, all implementation modes have examples in the SDK evb code. You can select the matching content from the table below and copy it to the product board-level dts for use.
 
 #### 2.4.1 RK3562 dts
 
-| 资源 |模式 | 参考配置 | 控制器节点 | PHY节点 |
+| Resource |Mode | Reference Configuration | Controller Node | PHY Node |
 | --- | --- | --- | --- | --- |
 | PCIe Gen2 x1 lane | RC | rk3562-evb1-lp4x-v10.dtsi | pcie2x1 | combphy_pu |
 
 #### 2.4.2 RK3566 dts
 
-| 资源 |模式 | 参考配置 | 控制器节点 | PHY节点 |
+| Resource |Mode | Reference Configuration | Controller Node | PHY Node |
 | --- |--- | --- | --- | --- |
 | PCIe Gen2 x1 lane | RC | rk3566-evb1-ddr4-v10.dtsi | pcie2x1 | combphy2_psq |
 
 #### 2.4.3 RK3568 dts
 
-| 资源 |模式 | 参考配置 | 控制器节点 | PHY节点 | 
+| Resource |Mode | Reference Configuration | Controller Node | PHY Node | 
 | --- |--- | --- | --- | --- | 
 | PCIe Gen2 x1 lane | RC | rk3568-evb2-lp4x-v10.dtsi | pcie2x1 | combphy2_psq |
 | PCIe Gen3 x2 lane | RC | rk3568-evb1-ddr4-v10.dtsi | pcie3x2 | pcie30phy |
-| PCIe Gen3 拆分1 lane | RC | rk3568-evb6-ddr3-v10.dtsi | pcie3x2 | pcie30phy<br/>pcie3x1 |
+| PCIe Gen3 split 1 lane | RC | rk3568-evb6-ddr3-v10.dtsi | pcie3x2 | pcie30phy<br/>pcie3x1 |
 | PCIe Gen3 x2 lane | EP | rk3568-iotest-ddr3-v10.dts | pcie3x2 | pcie30phy |
 
 #### 2.4.4 RK3576 dts
 
-| 资源 |模式 | 参考配置 | 控制器节点 | PHY节点 |
+| Resource |Mode | Reference Configuration | Controller Node | PHY Node |
 | --- |--- | --- | --- | --- |
 | PCIe Gen2 x1 lane | RC | rk3576-test1.dtsi | pcie0 | combphy0_ps |
 | PCIe Gen2 x1 lane | RC | rk3576-test1.dtsi | pcie1 | combphy1_psu |
 
-### 2.5 RK3588 DTS配置
-RK3588的控制器和PHY较多，无法在SDK的evb代码中进行穷举所有组合，按配置要点进行配置即可，
-这里给出几个典型范例供参考。
+### 2.5 RK3588 DTS Configuration
+RK3588 has many controllers and PHYs, so it is not possible to enumerate all combinations in the SDK evb code. Just configure according to the key points. Here are some typical examples for reference.
 
-#### 2.5.1 示例1 pcie3.0 4Lane RC + 2个pcie 2.0(comboPHY) (RK3588 evb1)
+#### 2.5.1 Example 1: pcie3.0 4Lane RC + 2 pcie 2.0 (comboPHY) (RK3588 evb1)
 
 ```markdown
 / {
@@ -251,7 +231,7 @@ RK3588的控制器和PHY较多，无法在SDK的evb代码中进行穷举所有�
 };
 ```
 
-#### 2.5.2 示例2 pcie3.0phy拆分2个2Lane RC, 3个PCIe 2.0 1Lane(comboPHY)
+#### 2.5.2 Example 2: pcie3.0phy split into two 2Lane RC, three PCIe 2.0 1Lane (comboPHY)
 
 ```markdown
 / {
@@ -265,7 +245,7 @@ RK3588的控制器和PHY较多，无法在SDK的evb代码中进行穷举所有�
  startup-delay-us = <5000>;
  vin-supply = <&vcc12v_dcin>;
  };
-}；
+};
 &combphy0_ps {
  status = "okay";
 };
@@ -309,14 +289,13 @@ RK3588的控制器和PHY较多，无法在SDK的evb代码中进行穷举所有�
 };
 ```
 
+#### 2.5.3 Example 3: pcie3.0phy split into four 1Lane, one uses PCIe 2.0 1 Lane (comboPHY)
 
-#### 2.5.3 示例3 pcie3.0phy拆分为4个1Lane, 1个使用PCIe 2.0 1 Lane(comboPHY)
+ Note
 
- 须知
+- `pcie2x1l0/pcie2x1l1` are connected to the corresponding `TX/RX` signals of `pcie3.0phy` in hardware, so disable the `combphy1_ps/combphy2_psu` nodes in dts.
 
-- `pcie2x1l0/pcie2x1l1`硬件上接入`pcie3.0phy`对应`TX/RX`信号，dts关闭`combphy1_ps/combphy2_psu`节点。
-
- 参考代码
+ Reference code
 
 ```markdown
 / {
@@ -330,7 +309,7 @@ RK3588的控制器和PHY较多，无法在SDK的evb代码中进行穷举所有�
  startup-delay-us = <5000>;
  vin-supply = <&vcc12v_dcin>;
  };
-}；
+};
 &combphy0_ps {
  status = "okay";
 };
@@ -371,148 +350,108 @@ RK3588的控制器和PHY较多，无法在SDK的evb代码中进行穷举所有�
 
 ---
 
-### 2.6 DTS property说明
+### 2.6 DTS Property Description
 
-#### 2.6.1 控制器dts常用配置
+#### 2.6.1 Common Controller DTS Configurations
 
 1. **compatible**
-   - **可选配置项**：设置PCIe接口使用的是RC模式还是EP模式。
-     - RK3568作为RC功能时：`compatible = "rockchip,rk3568-pcie", "snps,dw-pcie";`
-     - RK3568作为EP功能时：`compatible = "rockchip,rk3568-pcie-ep", "snps,dw-pcie";`
-     - RK1808、RK3588：将`rk3568`字段分别替换为`rk1808`和`rk3588`。
+   - **Optional**: Set whether the PCIe interface uses RC mode or EP mode.
+     - RK3568 as RC: `compatible = "rockchip,rk3568-pcie", "snps,dw-pcie";`
+     - RK3568 as EP: `compatible = "rockchip,rk3568-pcie-ep", "snps,dw-pcie";`
+     - For RK1808, RK3588: replace `rk3568` with `rk1808` and `rk3588` respectively.
 
 2. **reset-gpios**
-   - **必须配置项**：设置PCIe接口的`PERST#`复位信号。
-     - 示例：`reset-gpios = <&gpio3 13 GPIO_ACTIVE_HIGH>;`
-     - 注意：如果将多个lane的PCIe接口拆分，每个节点需配置不同的`PERST#`信号线。
+   - **Required**: Set the `PERST#` reset signal for the PCIe interface.
+     - Example: `reset-gpios = <&gpio3 13 GPIO_ACTIVE_HIGH>;`
+     - Note: If multiple lane PCIe interfaces are split, each node needs to configure a different `PERST#` signal line.
 
 3. **num-lanes**
-   - **可选配置项**：设置PCIe设备所使用的lane数量。
-     - 示例：`num-lanes = <4>;`
-     - 默认配置在芯片级的dtsi中，建议按实际硬件配置。
+   - **Optional**: Set the number of lanes used by the PCIe device.
+     - Example: `num-lanes = <4>;`
+     - The default configuration is in the chip-level dtsi. It is recommended to configure according to the actual hardware.
 
 4. **max-link-speed**
-   - **可选配置项**：设置PCIe的带宽版本。
-     - 1表示Gen1，2表示Gen2，3表示Gen3。
-     - 示例：`max-link-speed = <2>;`
-     - 原则上不需要每个板子配置，仅作为测试或降级手段。
+   - **Optional**: Set the PCIe bandwidth version.
+     - 1 means Gen1, 2 means Gen2, 3 means Gen3.
+     - Example: `max-link-speed = <2>;`
+     - In principle, it does not need to be configured for every board, only for testing or downgrade purposes.
 
 5. **status**
-   - **必须配置项**：在PCIe控制器节点和对应的phy节点中同时使能。
-     - 示例：`status = "okay";`
+   - **Required**: Enable both the PCIe controller node and the corresponding phy node.
+     - Example: `status = "okay";`
 
 6. **vpcie3v3-supply**
-   - **可选配置项**：用于配置 PCIe 外设的 3V3 供电(原则上我司的硬件参考原理图上将PCIe插槽的12V电源和
-                  3V3电源合并控制，所以配置3v3的电源之后，12V电源一并控制)。如果板级针对 PCIe 外设的 3V3 需要
-                  控制使能，则如范例所示定义一组对应的 regulator，regulator 的配置请参考 
-                  Documentation/devicetree/bindings/regulator/。
-                  另需要特别注意，如果是PCIe3.0的控制器，一般需要外接100M晶振芯片，那么该晶振芯片的供电原则
-                  上硬件设计与PCIe外设的3V3共用。所以配置了该项之后，除了确认外设3V3供电之外，还需要确认外置
-                  晶振芯片的时钟是否输出正常。一般而言，外置晶振芯片需要一个稳定周期来输出时钟。因此请严格参
-                  考时钟芯片的手册中规定的最小数值，并在留有测试余量的基础上，在电源节点中指定startup-delay-us
-                  属性的数值。另外针对关闭电源后放电较慢的硬件设计，在电源节点中指定 off-on-delay-us属性的数
-                  值，保证上下电操作充分。以rk3568为例，详细范例可参考rk3568-evb1-ddr4-v10.dtsi文件中的
-                  vcc3v3_pcie节点。
+   - **Optional**: Used to configure the 3V3 power supply for PCIe peripherals (in principle, our hardware reference schematic merges the 12V and 3V3 power supplies of the PCIe slot, so after configuring the 3v3 power supply, the 12V power supply is also controlled together). If the 3V3 for PCIe peripherals needs to be controlled on the board, define a corresponding regulator as shown in the example. For regulator configuration, refer to Documentation/devicetree/bindings/regulator/.
+     Also, if it is a PCIe3.0 controller, an external 100M crystal oscillator chip is generally required. The power supply for this crystal oscillator chip is usually shared with the 3V3 for PCIe peripherals in hardware design. Therefore, after configuring this item, in addition to confirming the 3V3 power supply for peripherals, also confirm whether the external crystal oscillator chip outputs the clock normally. Generally, the external crystal oscillator chip requires a stable period to output the clock. Please strictly refer to the minimum value specified in the clock chip manual, and specify the value of startup-delay-us in the power node with a test margin. For hardware designs with slow discharge after power off, specify the value of off-on-delay-us in the power node to ensure sufficient power cycling. For details, refer to the vcc3v3_pcie node in the rk3568-evb1-ddr4-v10.dtsi file.
 
 7. **phys**
-   - **可选配置项**：用于配置控制器使用的phy的phandle引用，部分控制器可以路由到多个phy(如RK3588的
-pcie2x1l0和pcie2x1l1)，需要注意的是不同的phy引用方式可能有差异，comboPHY需要同时指定phy的
-工作模式，具体如下：
-     - 示例：
+   - **Optional**: Used to configure the phandle reference of the phy used by the controller. Some controllers can be routed to multiple phys (such as RK3588's pcie2x1l0 and pcie2x1l1). Note that different phys may have different reference methods. comboPHY needs to specify the working mode of the phy at the same time, as follows:
+     - Example:
        ```markdown
        phys = <&pcie30phy>;
        phys = <&combphy1_ps PHY_TYPE_PCIE>;
        ```
 
 8. **rockchip,bifurcation**
-         - **可选配置项**：此为RK3568芯片特有配置。可以将pcie3x2的2个lane 拆成两个1个lane的控制器来使用。
-         具体的配置方法就是dts中pcie3x1和pcie3x2控制器节点和pcie30phy都使能，并且pcie3x2和pcie3x1节
-         点中都添加rockchip,bifurcation属性。可参考rk3568-evb6-ddr3-v10.dtsi。否则默认情况下，pcie3x1
-         控制器无法使用。
+         - **Optional**: This is a special configuration for the RK3568 chip. It can split the two lanes of pcie3x2 into two 1-lane controllers.
+         The specific configuration method is to enable both the pcie3x1 and pcie3x2 controller nodes and the pcie30phy in dts, and add the rockchip,bifurcation property to both the pcie3x2 and pcie3x1 nodes. Refer to rk3568-evb6-ddr3-v10.dtsi. Otherwise, by default, the pcie3x1 controller cannot be used.
 
-         此时lane0是由pcie3x2控制器使用，lane1是由pcie3x1控制器使用，硬件布板上严格按照我司原理图。
-         另注意，此模式下两个1-lane的控制器必须同时工作在RC模式下。
+         At this time, lane0 is used by the pcie3x2 controller, and lane1 is used by the pcie3x1 controller. The hardware layout strictly follows our schematic.
+         Also note that in this mode, both 1-lane controllers must work in RC mode.
 
-         另外需要特别注意，PCIe 3.0拆分成2个单lane后接两个不同外设，由于晶振及其电源是同一路控制。此
-         时请不要将vpcie3v3-supply配置给其中某一个控制器，否则会造成获取了3v3电压操作权限的这路控制
-         器干扰另一控制器所接的外设的正常初始化。此时应该将vpcie3v3-supply所对应的regulator配置成 
-         regulator-boot-on和regulator-always-on
+         Also pay special attention: after PCIe 3.0 is split into two single lanes and connected to two different peripherals, since the crystal oscillator and its power supply are controlled by the same circuit, do not configure vpcie3v3-supply for only one controller. Otherwise, the controller that obtains the 3v3 voltage operation permission will interfere with the normal initialization of the peripheral connected to the other controller. In this case, the regulator corresponding to vpcie3v3-supply should be configured as regulator-boot-on and regulator-always-on.
 
 9.  `prsnt-gpios = <&gpio4 15 GPIO_ACTIVE_LOW>;`
-   - **可选配置项**：用于驱动识别是否存在外设以及相关外围电路，若检测到有效电平则跳过设备检测流程 。
-根据PCIe电气化特性协议文档，此gpio为低电平时候表示有设备接入。若板子设计与此相反，可修改为
-GPIO_ACTIVE_HIGH来标识高电平为有设备接入。该信号用于同套软件支持相同板型带PCIe3的产品和
-不带PCIe3的产品，避免pcie控制器初始化时发生rcu stall的系统异常；
+   - **Optional configuration**: Used for the driver to detect the presence of peripherals and related circuits. If a valid level is detected, the device detection process is skipped.
+According to the PCIe electrical specification, this GPIO being low indicates a device is present. If your board design is the opposite, you can change it to
+GPIO_ACTIVE_HIGH to indicate high level means device present. This signal allows the same software to support both products with and without PCIe3 on the same board type, avoiding system exceptions such as rcu stall during PCIe controller initialization.
 
 10.  `rockchip,perst-inactive-ms = <500>;`
-    - **可选配置项**：可选配置项：用于配置设备#PERST复位信号的复位时间，单位为毫秒。根据PCIe Express Card 
-Electromechanical Spec要求，下游设备电源稳定到释放#PERST最小需求为100ms，不配置此项则RK
-驱动默认配置了200ms。若仍不满足外设工作要求，可以酌情调整，以实测为准。
+    - **Optional configuration**: Used to configure the reset time of the device #PERST reset signal, in milliseconds. According to the PCIe Express Card 
+Electromechanical Spec, the minimum requirement from downstream device power stable to #PERST release is 100ms. If not configured, the RK
+driver defaults to 200ms. If this still does not meet the peripheral's requirements, you can adjust as needed based on actual testing.
 
 11.  `rockchip,s2r-perst-inactive-ms = <1>;`
-    - **可选配置项**：用于配置休眠唤醒时设备#PERST复位信号的复位时间，单位为毫秒。若不配置，它的数值
-等同于 rockchip,perst-inactive-ms 的配置。如果外设在休眠期间不断电，以Wi-Fi为例，则休眠过程
-中#PERST一直处于复位状态，因此唤醒过程中可以缩短#PERST复位信号的时间，甚至可以配置成0。
+    - **Optional configuration**: Used to configure the reset time of the device #PERST signal during suspend/resume, in milliseconds. If not configured, its value
+is the same as rockchip,perst-inactive-ms. If the peripheral is not powered off during suspend, such as Wi-Fi, then #PERST remains in reset during suspend, so the reset time during resume can be shortened, even set to 0.
 
 12.  `rockchip,wait-for-link-ms = <1>;`
-    - **可选配置项**：可选配置项：用于配置设备#PERST复位信号释放后的等待时间，单位为毫秒。此配置用于部分需要较长
-时间进行内部初始化的外设，防止因其内部初始化较久而使得系统等待链接超时的情况发生。目前常见
-的需要此配置的是FPGA和部分AI算力卡。
+    - **Optional configuration**: Used to configure the wait time after releasing the device #PERST reset signal, in milliseconds. This is for peripherals that require a longer internal initialization time, to prevent system link timeout due to slow initialization. Common devices needing this are FPGAs and some AI accelerator cards.
 
 13.  **supports-clkreq**
-    - **可选配置项**：仅在 RC mode 下有效，请确认已配置 CLKREQ# pinctrl iomux 为 function io 后，如果存
-在此属性，则指定存在从root port到下游设备的CLKREQ#信号路由，并且主机网桥驱动程序可以根据
-CLKREQ#信号的存在进行编程，例如，如果没有CLKREQ#信号，则将root port设置为不支持PM L1 
-Substates。
+    - **Optional configuration**: Only valid in RC mode. Please ensure the CLKREQ# pinctrl iomux is set to function io. If this property exists, it indicates that there is a CLKREQ# signal route from the root port to the downstream device, and the host bridge driver can program accordingly. For example, if there is no CLKREQ# signal, the root port will be set to not support PM L1 Substates.
 
 14.  **rockchip,lpbk-master**
-    - **特殊调试配置**：此配置是针对loopback信号测试，使用PCIe控制器构造模拟loopback master环境，让
-待测试对端设备进入slave模型，非模拟验证实验室的RX环路需求请勿配置。另注意，Gen3控制器可能
-需要配置compliance模式，才可以loopback slave模式。如果阅读者不理解什么是loopback测试，说明
-这不是你要找的配置，请勿针对此配置提问。
+    - **Special debug configuration**: This is for loopback signal testing, using the PCIe controller to simulate a loopback master environment, letting the device under test enter slave mode. Do not configure this unless you are doing simulation lab RX loopback tests. Note that Gen3 controllers may require compliance mode for loopback slave mode. If you do not understand loopback testing, this is not the configuration you are looking for, do not ask about it.
 
 15.  **rockchip,compliance-mode**
-    - **特殊调试配置**：此配置是针对compliance信号测试，使PCIe控制器强制进入compliance测试模式或者
-当使用SMA夹具进入测试模式后不断电。这是一个包含两个配置的数组，数组的第一个配置表示测试模
-式，第二个配置表示在前述配置下的preset数值。如果使用SMA夹具测试，建议配置
-`rockchip,compliance-mode=<0 0>;` ；如果测试焊接设备，需要固定配置模式和preset数值，
-`rockchip,compliance-mode=<mode preset>;` 。mode根据需要配置成1、2或者3，分别代表
-2.5GT、5.0GT和8GT信号。仅在5GT和8GT模式下，preset的有效数值为0到10，分别代表P0到P10不同
-的协议预加重等配置，可参考附录中“关于PCIe TX加重预设值对照表”的部分。
+    - **Special debug configuration**: This is for compliance signal testing, forcing the PCIe controller into compliance test mode or keeping it powered on after entering test mode with an SMA fixture. This is an array with two values: the first is the test mode, the second is the preset value for that mode. If using an SMA fixture, configure
+`rockchip,compliance-mode=<0 0>;`. If testing soldered devices, fix the mode and preset values,
+`rockchip,compliance-mode=<mode preset>;`. Mode can be 1, 2, or 3, representing 2.5GT, 5.0GT, and 8GT signals. Only in 5GT and 8GT modes, preset values 0-10 are valid, representing P0-P10 protocol pre-emphasis settings. See the appendix "PCIe TX Pre-emphasis Preset Table" for details.
 
 16.  **rockchip,keep-power-in-suspend**
-    - **可选配置项**：仅在 RC mode 下有效，用于实现在休眠状态下不关闭外设的电源和对其进行复位。允许外
-设在系统休眠后脱机工作。此模式生效还需要pcie节点引用 `vpcie3v3-supply `。
+    - **Optional configuration**: Only valid in RC mode. Used to keep the peripheral powered and reset during suspend. Allows the peripheral to work offline after system suspend. This mode also requires the pcie node to reference `vpcie3v3-supply`.
 
 ---
 
-#### 2.6.2 comboPHY dts配置
+#### 2.6.2 comboPHY dts configuration
 
-
-- 以下配置不适用于RK1808的combphy节点。
-- `combphy`节点数字表示Mux关系，后缀表示复用关系，`p`、`s`、`u`、`q`分别表示PCIe、SATA、USB、QSGMII。
+- The following configurations do not apply to the combphy node of RK1808.
+- The number in the `combphy` node indicates the Mux relationship, and the suffix indicates the multiplexing relationship: `p`, `s`, `u`, `q` represent PCIe, SATA, USB, QSGMII respectively.
 
 1. **rockchip,ext-refclk**
-   - **特殊调试配置**：首先请注意此配置仅仅针对combophy。默认combphy使用SoC内部时钟方案，以
-RK356X为例，可参阅rk3568.dtsi节点，默认使用24MHz时钟源。除了24MHz时钟源，还支持25M和
-100M，仅需要调整`assigned-clock-rates = <24000000>`数值为所需频率即可。内部时钟源方案成本最
-优，所以作为SDK默认方案，但combphy仍然预留了外部晶振芯片的时钟源输入选择。如果确实需要使
-用外部时钟晶振芯片提供时钟的方案，请在板级dts的PCIe控制器用的combphy节点中加入
-      rockchip,ext-refclk，且需要注意在节点中加入`assigned-clock-rates = <时钟频率> `来指定外部时钟芯片
-      输入的频率，仍然只支持24M,25M,100M三档。
+   - **Special debug configuration**: Note this is only for combophy. By default, combophy uses the SoC internal clock. For example, in RK356X, see the rk3568.dtsi node, which uses a 24MHz clock source by default. Besides 24MHz, 25M and 100M are also supported, just set `assigned-clock-rates = <24000000>` to the desired frequency. The internal clock is the most cost-effective and is the SDK default, but combophy still reserves the option for an external crystal oscillator. If you need to use an external oscillator, add
+      rockchip,ext-refclk to the combphy node used by the PCIe controller in the board dts, and set `assigned-clock-rates = <frequency>` to specify the external oscillator frequency, still only supporting 24M, 25M, 100M.
 
       2. **rockchip,enable-ssc**
-         - **特殊调试配置**：首先请注意此配置仅仅针对PCIe所使用的combphy结点。默认情况下，combophy输出
-      时钟不开启展频。如果用户需要规避一些EMI问题，可尝试在对应的combphy节点加入此配置项，开启
-      SSC。
+         - **Special debug configuration**: Only for the combphy node used by PCIe. By default, combophy output clock does not enable spread spectrum. If you need to mitigate EMI issues, add this property to the corresponding combphy node to enable SSC.
 
       ---
 
-      #### 2.6.3 pcie30phy dts配置
+      #### 2.6.3 pcie30phy dts configuration
 
       1. **rockchip,pcie30-phymode**
-         - **可选配置项**：该配置为pcie30phy的组合使用模式，需要合理配置，默认为4Lane共用。详细的可选内容
-      参考 `include/dt-bindings/phy/phy-snps-pcie3.h` ：
+         - **Optional configuration**: This configures the pcie30phy combination mode, which must be set correctly. Default is 4Lane shared. For details, see `include/dt-bindings/phy/phy-snps-pcie3.h`:
 
       ```
       /*
@@ -530,91 +469,81 @@ RK356X为例，可参阅rk3568.dtsi节点，默认使用24MHz时钟源。除了2
 
       ---
 
-      ### 2.7 根据原理图填写DTS
+      ### 2.7 Fill in DTS according to schematic
 
-      #### 2.7.1 低速IO说明
+      #### 2.7.1 Low-speed IO description
 
-      PCIe模块的芯片信号连接，除了数据线和参考时钟差分对，可能还有以下这些低速IO：
+      PCIe module chip signal connections, besides data lines and reference clock differential pairs, may also have the following low-speed IOs:
 
-      | 低速IO名 | RC模式 | EP模式 | 说明 |
+      | IO Name | RC Mode | EP Mode | Description |
       | --- | --- | --- | --- |
-      | PERSTn | GPIO输出 | 接nPOR | 必选，配置dts `"reset-gpios"`项 |
-      | WAKE | GPIO(PMU域) | GPIO输出 | 可选，function驱动注册对应GPIO中断及唤醒源，非PCIe控制器驱动处理 |
-      | PWREN | GPIO输出 | 无 | 可选，配置dts `"vpcie3v3-supply"`项 |
-      | CLKREQ | FUNCTION | FUNCTION | 可选，支持L1SS时使用，配置dts `"supports-clkreq"`项 |
-      | PRSNT | GPIO输入 | 无 | 可选，配置dts `"prsnt-gpios"`项 |
+      | PERSTn | GPIO output | Connect nPOR | Required, configure dts `"reset-gpios"` |
+      | WAKE | GPIO (PMU domain) | GPIO output | Optional, function driver registers GPIO interrupt and wake source, not handled by PCIe controller driver |
+      | PWREN | GPIO output | None | Optional, configure dts `"vpcie3v3-supply"` |
+      | CLKREQ | FUNCTION | FUNCTION | Optional, used for L1SS, configure dts `"supports-clkreq"` |
+      | PRSNT | GPIO input | None | Optional, configure dts `"prsnt-gpios"` |
 
-      - 其中只有`CLKREQ`使用PCIe的function功能，该信号仅L1SS功能需要使用，否则可以不接，使用时必须添加dts对应属性。
-      - 其他信号都是使用GPIO功能，请勿在pinctrl里面配置为pcie function，具体用法请参考dts对应配置说明。
-      - `PERST`信号是协议要求的必选信号，其他信号根据实际项目需求进行配置。
+      - Only `CLKREQ` uses PCIe function; this signal is only needed for L1SS. Otherwise, it can be left unconnected. If used, the corresponding dts property must be added.
+      - Other signals use GPIO function; do not configure them as PCIe function in pinctrl. See dts configuration instructions for details.
+      - The `PERST` signal is required by the protocol; other signals are configured as needed for the project.
 
       ---
 
-      #### 2.7.2 dts配置方法
+      #### 2.7.2 DTS configuration method
 
+      The schematic describes hardware from the IO signal perspective, and IO signals are strongly related to PHY index, but the controller and PHY index of RK3588 may not match, so pay special attention when reading the schematic.
 
-      原理图是基于IO信号的视角来描述硬件，IO信号是跟PHY的index强相关的，而RK3588的controller和PHY的index可能不一致，因此在查看原理图时需要特别注意这一点。
+      Recommended steps for filling in dts based on the hardware schematic:
 
-      根据硬件原理图来填写dts的建议步骤：
+      1. **Confirm PCIe device allocation**:
+         - Confirm with hardware engineers how many PCIe devices are used and how the chip's PCIe interfaces are allocated.
+      2. **Find PHY output**:
+         - In the schematic, find which PHY output the PCIe data lines for each device use.
+      3. **Determine controller and PHY**:
+         - Determine which controller and PHY each device uses, and enable them in dts.
+      4. **Check controller `phy` property**:
+         - Ensure the controller dts `"phy"` property and mode are correct, e.g., `pcie2x1ln` controller should use `comboPHY` and specify `PHY_TYPE_PCIE`.
+      5. **Disable other controllers**:
+         - If `comboPHY` may be shared by `SATA`, `USB`, `RGMII`, etc., ensure other controllers are disabled in dts.
+      6. **Configure PHY mode**:
+         - Ensure the PHY has the correct working mode, e.g., pcie30phy split combinations must be configured correctly.
+      7. **Configure `PERSTn` signal**:
+         - Ensure the correct GPIO for `PERSTn` is configured in the controller dts node.
+      8. **Configure `PWREN` signal**:
+         - Ensure the correct GPIO for `PWREN` is configured in the controller dts node (or in the onboard peripheral dts).
+      9. **Configure other peripheral hardware**:
+         - Configure other hardware required for the peripheral.
 
-      1. **确认PCIe设备分配**：
-         - 跟硬件工程师确认使用了几个PCIe设备，芯片的多个PCIe接口是如何分配的。
-      2. **查找PHY输出**：
-         - 在原理图中分别查找某个设备使用的PCIe数据线对应到哪个PHY的输出。
-      3. **确定控制器和PHY**：
-         - 确定当前设备使用的分别是哪个控制器和PHY，在dts中使能。
-      4. **检查控制器的`phy`属性**：
-         - 确定当前PCIe接口使用的控制器dts `"phy"`属性及模式是否选择正确，例如`pcie2x1ln`控制器需要选择`comboPHY`且指定为`PHY_TYPE_PCIE`。
-      5. **禁用其他控制器**：
-         - 如果`comboPHY`可能被`SATA`、`USB`、`RGMII`等多个控制器共用，请确认对应的其他控制器在dts中被disable。
-      6. **配置PHY模式**：
-         - 确定当前PHY是否有多种工作模式，配置是否正确，例如`pcie30phy`的不同拆分组合需要正确配置对应模式。
-      7. **配置`PERSTn`信号**：
-         - 确定当前PCIe接口使用的`PERSTn`信号是哪个GPIO，正确配置到控制器dts节点。
-      8. **配置`PWREN`信号**：
-         - 确定当前PCIe接口使用的`PWREN`信号是哪个GPIO控制的，正确配置到控制器dts节点（也可以放到on board外设的dts中）。
-      9. **配置其他外设硬件**：
-         - 配置其他外设工作所需的硬件。
-
-      下图是RK3588 pcie30phy及其可能使用的controller，红色方框为controller，粉色方框为PHY信号，绿
-      色方框为外设信号；实际使用哪个控制器可以通过外设信号连接来确认，也可以跟硬件工程师核对理解
-      是否正确。下图是来自RK3588 evb1, 设备接的是一个pcie3.0 x4的slot，所以controller用的是
-      PCIe30X4(dts命名pcie3x4)，其他几个controller都未跟这个PHY配合使用。
+      The following diagram shows RK3588 pcie30phy and its possible controllers. Red boxes are controllers, pink boxes are PHY signals, green
+      boxes are peripheral signals. Which controller is used can be confirmed by peripheral signal connections or by checking with hardware engineers.
+      This diagram is from RK3588 evb1, with a PCIe3.0 x4 slot connected, so the controller used is
+      PCIe30X4 (dts name pcie3x4), and other controllers are not used with this PHY.
 
       ![alt text](/pdf/rk/pcie/image-1.png)
 
-      下图是RK3588 comboPHY及其可能使用的controller，红色方框为controller，粉色方框为PHY信号，
-      绿色方框为外设信号；实际使用哪个控制器可以通过外设信号连接来确认，也可以跟硬件工程师核对理
-      解是否正确。此图中Mux0的PHY(combphy0_ps)工作于SATA模式，未工作于PCIe；Mux1的
-      PHY(combphy1_ps)配合PCIe30x1_0(dts命名为pcie2x1l0)可能工作于PCIe模式，需要由最终实际接的
-      设备来确定；Mux2的PHY(combphy2_psu)配合PCIe30x1_1(dts命名为pcie2x1l1)工作于pcie模式用于
-      连接一个PCIe网卡。
+      The following diagram shows RK3588 comboPHY and its possible controllers. Red boxes are controllers, pink boxes are PHY signals,
+      green boxes are peripheral signals. Which controller is used can be confirmed by peripheral signal connections or by checking with hardware engineers.
+      In this diagram, Mux0's PHY (combphy0_ps) is in SATA mode, not PCIe; Mux1's
+      PHY (combphy1_ps) works with PCIe30x1_0 (dts name pcie2x1l0) and may be in PCIe mode, depending on the connected device; Mux2's PHY (combphy2_psu) works with PCIe30x1_1 (dts name pcie2x1l1) in PCIe mode to connect a PCIe NIC.
 
       ![alt text](/pdf/rk/pcie/image-2.png)
 
-      下图为RK3588 evb1的pcie3.0接口供电，可以通过PCIE30X4_PWREN_H这个信号来定位对应的RK3588 
-      GPIO，然后填到pcie3x4控制器dts中。
+      The following diagram shows the PCIe3.0 interface power supply on RK3588 evb1. You can locate the corresponding RK3588 GPIO by the PCIE30X4_PWREN_H signal, then fill it in the pcie3x4 controller dts.
 
       ![alt text](/pdf/rk/pcie/image-3.png)
 
-      ### 2.8 Wi-Fi模块设备树编写范例
+      ### 2.8 Wi-Fi module device tree example
 
-      由于Wi-Fi模块一般接入PCIe2.0口，其使用的`combphy`复用关系复杂，且其电源使用方式、休眠模式、复位需求与其他设备有明显的不同，此处给出一个设备树编写范例，请酌情参考。
+      Since Wi-Fi modules are usually connected to PCIe2.0 ports, and their use of `combphy` is complex, with different power, suspend, and reset requirements from other devices, here is a device tree example for reference.
 
-
-      1. 查看原理图，弄清楚Wi-Fi模块所使用的combphy。combphy节点数字表示Mux关系，后缀表示复
-      用关系，p、s、u、q分别表示PCIe、SATA、USB、 QSGMII。以此图为例，Wi-FI是接到了PCIe与
-      SATA复用的`PCIE20/SATA30 Mux0`上，因此配置的应该是combphy0_ps节点。
+      1. Check the schematic to determine which combphy the Wi-Fi module uses. The combphy node number indicates the Mux relationship, and the suffix indicates the multiplexing: p, s, u, q represent PCIe, SATA, USB, QSGMII. In this example, Wi-Fi is connected to the PCIe/SATA muxed `PCIE20/SATA30 Mux0`, so configure the combphy0_ps node.
 
       ![alt text](/pdf/rk/pcie/image-4.png)
       
-      2. 搜索dts文件，确保复用此combphy功能的其他控制器节点关闭，防止信号干扰。
-      3. 将wifi_reg_on信号从wireless_wlan节点挪到PCIe 3.3v电源控制节点中。
-      4. 如果Wi-Fi需要实现L1.x功耗模式，请参考”RC mode PM L1 Substates 支持“章节。
-      5. 如果Wi-Fi需要实现无线唤醒功能，需要确保 wifi_reg_on管脚在休眠时保持高电平， 
-      wifi_host_wake管脚连接到不断电的PMU IO上用于产生中断唤醒主控，具体硬件接发和软件修改
-      详述请参考我司SDK发布文档中的《Rockchip_Developer_Guide_Linux_WIFI_BT_CN.pdf》相关章
-      节。
+      2. Search the dts file to ensure other controllers sharing this combphy are disabled to prevent signal interference.
+      3. Move the wifi_reg_on signal from the wireless_wlan node to the PCIe 3.3v power control node.
+      4. If Wi-Fi needs L1.x power mode, see the "RC mode PM L1 Substates support" section.
+      5. If Wi-Fi needs wireless wakeup, ensure wifi_reg_on pin stays high during suspend, and wifi_host_wake pin is connected to a non-power-off PMU IO to generate an interrupt to wake the host. For hardware and software details, see the relevant chapters in our SDK documentation "Rockchip_Developer_Guide_Linux_WIFI_BT_CN.pdf".
 
 ```
       + vcc3v3_pcie20_wifi: vcc3v3-pcie20-wifi {
@@ -624,8 +553,8 @@ RK356X为例，可参阅rk3568.dtsi节点，默认使用24MHz时钟源。除了2
       +     regulator-max-microvolt = <3300000>;
       +     enable-active-high;
       +   /*
-      +     * wifi_reg_on 是在vbat、vddio稳定后才使能，在reset-gpios前拉高，所以
-      +     * 放到PCIe的电源节点中才满足模块时序，引用wifi_poweren_gpio。
+      +     * wifi_reg_on is enabled after vbat and vddio are stable, and pulled high before reset-gpios,
+      +     * so putting it in the PCIe power node meets the module timing, referencing wifi_poweren_gpio.
       +     */
       +     pinctrl-0 = <&wifi_poweren_gpio>;
       +     startup-delay-us = <5000>;
@@ -637,41 +566,39 @@ RK356X为例，可参阅rk3568.dtsi节点，默认使用24MHz时钟源。除了2
             pinctrl-names = "default";
             pinctrl-0 = <&wifi_host_wake_irq>;
             WIFI,host_wake_irq = <&gpio0 RK_PA0 GPIO_ACTIVE_HIGH>;
-      +       /* 注意：这里也需要配置wifi_reg_on管脚，给WiFi驱动来控制 */
+      +       /* Note: wifi_reg_on pin also needs to be configured here for WiFi driver control */
       +       WIFI,poweren_gpio = <&gpio0 RK_PC7 GPIO_ACTIVE_HIGH>;
             status = "okay";
         };
       +
       +&sata0 {
-      +   status = "disabled" /* sata0与pcie2x1l2复用了combphy0_ps, 需确保禁用 */
+      +   status = "disabled" /* sata0 shares combphy0_ps with pcie2x1l2, must be disabled */
       +}
       +
       +&combphy0_ps {
-      +   status = "okay"; /* 确保phy开启 */
+      +   status = "okay"; /* Ensure phy is enabled */
       +};
       +
       +&pcie2x1l2 {
       +   reset-gpios = <&gpio3 RK_PD1 GPIO_ACTIVE_HIGH>;
       +   rockchip,skip-scan-in-resume;
-      +   rockchip,perst-inactive-ms = <500>; /* 参考Wi-Fi模组手册，查询所需#PERST复位时间 
-      */
+      +   rockchip,perst-inactive-ms = <500>; /* Refer to Wi-Fi module manual for required #PERST reset time */
       +   vpcie3v3-supply = <&vcc3v3_pcie20_wifi>;
       +   status = "okay";
       +};
       &pinctrl {
           wireless-wlan {
               wifi_poweren_gpio: wifi-poweren-gpio {
-      +           //PCIE REG ON： 务必配置成上拉
+      +           //PCIE REG ON: Must be configured as pull-up
       +           rockchip,pins = <0 RK_PC7 RK_FUNC_GPIO &pcfg_pull_up>;
               };
           };
       };
 ```
 
+## 3. menuconfig configuration
 
-## 3. menuconfig 配置
-
-1. 需要确保如下配置打开，方可正确的使用 PCIe 相关功能
+1. Make sure the following configs are enabled to use PCIe features correctly
 
 ```makefile
 CONFIG_PCI=y
@@ -694,7 +621,7 @@ CONFIG_IRQ_DOMAIN=y
 CONFIG_IRQ_DOMAIN_HIERARCHY=y
 ```
 
-2. 使能 NVMe 设备(建立在 PCIe 接口的 SSD)，PCIe转接AHCI设备（SATA），PCIe转接USB设备(XHCI) 均已在默认config中打开，烦请确认。其他转接设备例如以太网卡，WiFi等请自行确认相关config配置。
+2. Enable NVMe devices (PCIe SSDs), PCIe-to-AHCI devices (SATA), PCIe-to-USB devices (XHCI) are enabled by default config, please confirm. For other devices such as Ethernet cards, WiFi, please check the relevant config yourself.
 
 ```makefile
 CONFIG_BLK_DEV_NVME=y
@@ -707,58 +634,58 @@ CONFIG_USB_XHCI_PCI=y
 CONFIG_USB_XHCI_HCD=y
 ```
 
-特别说明，默认内核仅支持 `drivers/ata/ahci.c` 中列表内的PCIe转接SATA设备，超出部分请找原厂或者代理商支持。
+Note: The default kernel only supports PCIe-to-SATA devices listed in `drivers/ata/ahci.c`. For others, please contact the manufacturer or agent for support.
 
-## 4. 标准EP功能件开发
+## 4. Standard EP function development
 
-RK部分芯片的PCIe控制器支持EP模式，可以将芯片开发为标准PCIe EP产品，针对EP功能的实现，请参考文档《Rockchip_Developer_Guide_PCIE_EP_Stardard_Card_CN》。
+Some Rockchip chips' PCIe controllers support EP mode, allowing the chip to be developed as a standard PCIe EP product. For EP function implementation, see the document "Rockchip_Developer_Guide_PCIE_EP_Stardard_Card_CN".
 
-## 5. RC mode PM L1 Substates 支持
+## 5. RC mode PM L1 Substates Support
 
-当确认所用 RK 主控及所接的外设都支持 PCIe PM L1 Substates，可以通过开启 PM L1 Substates 功能支持对功耗进一步优化。
+When it is confirmed that both the RK host controller and the connected peripherals support PCIe PM L1 Substates, you can enable the PM L1 Substates feature to further optimize power consumption.
 
-进一步强调，如果目标外设中有不支持 PM L1 Substates 的设备，尤其是主板设计为 slot 外接非固定器件，请勿开启 PM L1 Substates 功能，否则部分设备将无法正常工作。
+It is further emphasized that if there are devices in the target peripherals that do not support PM L1 Substates, especially if the motherboard is designed for slot external non-fixed devices, do not enable the PM L1 Substates feature, otherwise some devices may not work properly.
 
-### PM L1 Substates 支持的硬件电路设计
+### Hardware Circuit Design Supporting PM L1 Substates
 
-RC CLKREQ#、EP CLKREQ# 双端互联
+RC CLKREQ#, EP CLKREQ# are interconnected at both ends.
 
-可选优化：
-外部参考时钟方案，可以考虑 CLKREQ# 接入 CLOCK_GEN OE，如 CLOCK_GEN OE 为高有效，则应添加反相器
+Optional optimization:
+For the external reference clock scheme, you can consider connecting CLKREQ# to CLOCK_GEN OE. If CLOCK_GEN OE is active high, an inverter should be added.
 
 ![alt text](/pdf/rk/pcie/image-5.png)
 
-### 系统默认设置
+### System Default Settings
 
-关闭系统对 PM L1 Substates 支持：
+System support for PM L1 Substates is disabled:
 
-- dts 未添加 `supports-clkreq;` 属性
-- 内核宏配置 `CONFIG_PCIEASPM_POWER_SUPERSAVE=n`
+- The dts does not add the `supports-clkreq;` property
+- Kernel macro configuration `CONFIG_PCIEASPM_POWER_SUPERSAVE=n`
 
-### 系统开启 PM L1 Substates 支持
+### Enabling PM L1 Substates Support in the System
 
-1. 确认 RC/EP 都支持 PM L1 Substates，其中RC的支持情况可查阅“芯片资源介绍”章节之ASPM一栏。
-2. 硬件配置 CLKREQ# 信号：确认符合 “PM L1 Substates 支持的硬件电路设计”
-3. 软件配置 CLKREQ# 信号：设置 CLKREQ# iomux 为 function io
-4. 软件配置控制器节点添加 `supports-clkreq;` 属性，详细参考 "dts 可配置项 11" 说明
-5. 开启 PM L1 Substates 支持：
-    - 方法1：内核宏配置 `CONFIG_PCIEASPM_POWER_SUPERSAVE=y`
-    - 方法2：部分外设如 WIFI，支持驱动中使能 PM L1 Substates
+1. Confirm that both RC/EP support PM L1 Substates. For RC support, refer to the "Chip Resource Introduction" chapter under the ASPM section.
+2. Hardware configuration of the CLKREQ# signal: Ensure compliance with the "Hardware Circuit Design Supporting PM L1 Substates"
+3. Software configuration of the CLKREQ# signal: Set the CLKREQ# iomux to function io
+4. Add the `supports-clkreq;` property to the controller node in the software configuration. For details, refer to "dts Configurable Item 11"
+5. Enable PM L1 Substates support:
+    - Method 1: Kernel macro configuration `CONFIG_PCIEASPM_POWER_SUPERSAVE=y`
+    - Method 2: Some peripherals such as WIFI support enabling PM L1 Substates in the driver
 
-说明：
-- 如果不严格符合以上条件却要尝试通过开启内核宏配置，PCIe link 可能会进入异常状态，无法唤醒
-- 请确认内核源码为较新代码，包含支持 L1SS 补丁：commit e18dfa93 PCI: rockchip: dw: Support PM L1 clock removing
+Note:
+- If you try to enable the kernel macro configuration without strictly meeting the above conditions, the PCIe link may enter an abnormal state and fail to wake up.
+- Please ensure that the kernel source code is up-to-date and includes the L1SS support patch: commit e18dfa93 PCI: rockchip: dw: Support PM L1 clock removing
 
-## 6. 基于GPIO方式的拔插检测机制
+## 6. GPIO-based Hotplug Detection Mechanism
 
-### 6.1 硬件要求
+### 6.1 Hardware Requirements
 
-1. PCIe slot的PRSNT#_1需要与主控的任意GPIO相连，作为检测脚
-2. PCIe设备的电源需要软件可控制上下电
+1. The PRSNT#_1 of the PCIe slot needs to be connected to any GPIO of the host controller as a detection pin.
+2. The power supply of the PCIe device needs to be software-controllable for power on/off.
 
-### 6.2 软件要求
+### 6.2 Software Requirements
 
-1. 至少包含以下提交，如无请联系业务获取补丁：
+1. At least include the following commits. If not, please contact the business for patches:
 
 ```plaintext
 commit 4de1a0c19e0f9804ba22e7f5e544fea317913957
@@ -776,14 +703,14 @@ FROMLIST: PCI/hotplug: Add GPIO PCIe hotplug driver
 Change-Id: Iafa798ee4d98f195f5d33d80120da0c569132548
 ```
 
-2. 内核需确认打开如下配置：
+2. The kernel must confirm the following configurations are enabled:
 
 ```makefile
 CONFIG_HOTPLUG_PCI=y
 CONFIG_HOTPLUG_PCI_GPIO=y
 ```
 
-3. DTS配置参考如下
+3. DTS configuration reference:
 
 ```dts
 &pcie0 {
@@ -803,9 +730,9 @@ CONFIG_HOTPLUG_PCI_GPIO=y
 };
 ```
 
-### 6.3 使用限制
+### 6.3 Usage Restrictions
 
-1. PCIe设备带电拔插极易损坏设备和主控，在设备拔出后的卸载流程和断电流程需要一点时间，所以禁止快速热拔插。需要等到如下移除log后，再重新插入:
+1. Hot-plugging PCIe devices while powered can easily damage the device and the host controller. The device removal and power-off process takes some time after device removal, so rapid hot-plugging is prohibited. You need to wait until the following removal log appears before reinserting:
 
 ```plaintext
 [   35.680289][  T134] pcieport 0000:00:00.0: Hot-UnPlug Event
@@ -816,21 +743,21 @@ CONFIG_HOTPLUG_PCI_GPIO=y
 [   35.827334][  T134] pcieport 0000:00:00.0: Device is already removed
 ```
 
-2. 为保证数据的完整性和系统的稳定性，需要确保系统停止访问待拔出设备。
+2. To ensure data integrity and system stability, make sure the system stops accessing the device to be removed.
 
-3. 无法支持switch下游设备的单独拔插。如有此需求，首先需要确认switch支持下游设备打单独热拔插，然后参考常见应用问题中“如何对下游单个设备进行重扫描或者在线更换设备？”部分进行rescan处理，亦可达到同等效果。
+3. It is not possible to support individual hot-plugging of downstream devices under a switch. If this is required, first confirm that the switch supports individual hot-plugging of downstream devices, then refer to the "How to rescan or replace a single downstream device online?" section in common application issues for rescan processing, which can achieve the same effect.
 
-4. 不支持在休眠待机状态下，检测插入或者移除设备。
+4. Detection of device insertion or removal is not supported in suspend or standby states.
 
-## 7. 内核 DMATEST
+## 7. Kernel DMATEST
 
-在进行开发前请确认目标PCIe控制器是否支持DMA传输，详细参考“芯片资源介绍”章节。
+Before development, please confirm whether the target PCIe controller supports DMA transfer. For details, refer to the "Chip Resource Introduction" chapter.
 
-RK PCIe DMA提供基于内核module_para机制的测试机制，框架类似Linux dmatest，可以基于该框架进一步完成内核下的PCIe DMA应用。
+RK PCIe DMA provides a test mechanism based on the kernel module_param mechanism, similar to Linux dmatest. You can further complete PCIe DMA applications under the kernel based on this framework.
 
-### 内核版本要求
+### Kernel Version Requirements
 
-至少包含以下提交，如无请联系业务获取补丁：
+At least include the following commit. If not, please contact the business for patches:
 
 ```plaintext
 commit a7c40cb119703e566d9d5befb8c1a7b0533dd7b7
@@ -844,29 +771,29 @@ Date:   Tue Jan 17 17:46:48 2023 +0800
     Signed-off-by: Jon Lin <jon.lin@rock-chips.com>
 ```
 
-### 测试宏配置
+### Test Macro Configuration
 
 ```makefile
 CONFIG_PCIE_DW_DMATEST=y
 CONFIG_ROCKCHIP_PCIE_DMA_OBJ=n
 ```
 
-### 搭建环境
+### Setup Environment
 
-PCIe 互联模型：
+PCIe interconnection model:
 
-- 客户自行搭建RK RC - FPGA EP环境
-- RK本地测试搭建为RK RC（RK dmatest 配置）-RK EP（RK 芯片互联配置）
+- Customers can build their own RK RC - FPGA EP environment
+- RK local test setup: RK RC (RK dmatest configuration) - RK EP (RK chip interconnection configuration)
 
-注意：
+Note:
 
-- MPS 配置为 256B
-- RC EP都需要reserved memory，建议在0x3c000000预留64MB测试用内存（测试默认配置的地址）
-- 建议关闭其他无关的 PCIe 控制器
+- MPS is configured as 256B
+- Both RC and EP need reserved memory. It is recommended to reserve 64MB of test memory at 0x3c000000 (default test address)
+- It is recommended to disable other unrelated PCIe controllers
 
-### 测试
+### Test
 
-详细参考：`pcie-dw-misc-dmatest.c`源码
+For details, refer to the `pcie-dw-misc-dmatest.c` source code
 
 ```c
 static int size = 0x20;
@@ -906,7 +833,7 @@ module_param_named(is_rc, is_rc, bool, 0644);
 MODULE_PARM_DESC(is_rc, "Test port is rc(default true)");
 ```
 
-实例参考1：RC设备，channel 0，写数据，数据粒度1MB，循环次数1000，local 地址0x3c000000，remote地址0x3c000000：
+Example 1: RC device, channel 0, write data, data size 1MB, 1000 cycles, local address 0x3c000000, remote address 0x3c000000:
 
 ```bash
 echo 0 > ./sys/module/pcie_dw_dmatest/parameters/test_dev
@@ -920,7 +847,7 @@ echo 0x3c000000 > ./sys/module/pcie_dw_dmatest/parameters/bus_addr
 echo run > ./sys/module/pcie_dw_dmatest/parameters/dmatest
 ```
 
-实例参考2：EP设备，channel 0/1（双线程同时运行），读写数据，数据粒度8KB，循环次数10000，local 地址 0x3c000000，remote 地址 0x3c000000：
+Example 2: EP device, channel 0/1 (dual threads running simultaneously), read and write data, data size 8KB, 10000 cycles, local address 0x3c000000, remote address 0x3c000000:
 
 ```bash
 echo 0 > ./sys/module/pcie_dw_dmatest/parameters/test_dev
@@ -933,73 +860,71 @@ echo 0x3c000000 > ./sys/module/pcie_dw_dmatest/parameters/local_addr
 echo 0x3c000000 > ./sys/module/pcie_dw_dmatest/parameters/bus_addr
 echo run > ./sys/module/pcie_dw_dmatest/parameters/dmatest
 ```
+## 8. Kernel Stability Statistics Information
 
-## 8. 内核 稳定性统计信息
+If the PCIe device exhibits abnormal behavior during long-term operation and its running state does not meet expectations, you can try to obtain information from the debugfs node for analysis. To enable this feature, make sure the following commit is included (pcie: rockchip: dw: Add debugfs support), otherwise you can obtain `0001-pcie-rockchip-dw-Add-debugfs-support.patch` from the Redmine system as shown in the appendix.
 
-PCIe 设备长期工作状态下出现异常，其运行状态不符合预期，可以尝试获取debugfs节点中的信息以便提供给我们进行分析。若需要启用此功能，先确保包含此提交（pcie: rockchip: dw: Add debugfs support），否则可以在附录章节所示redmine系统中获取`0001-pcie-rockchip-dw-Add-debugfs-support.patch`。
+ Usage
 
- 使用方法
+1. Identify the controller address node where the problematic device is located. You can check it from the boot enumeration log or directly from the dtsi.
+2. Take fe16000.pcie as an example, enter the `/sys/kernel/debug/fe160000.pcie` directory.
+3. `echo disable > err_event` to disable all event statistics functions.
+4. `echo clear > err_event` to clear all event statistics counters.
+5. `echo enable > err_event` to enable all event statistics functions.
+6. Start device aging and reproduce your abnormal case. After reproduction, execute `cat dumpfifo` and `cat err_event`.
+7. Compare the exported information with the Debugfs export information analysis table in the appendix of this document to roughly identify the problem.
 
-1. 明确出问题的设备所处的控制器地址节点，可从开机枚举log中查阅或者直接从dtsi中查看。
-2. 以fe16000.pcie 为例, 进入`/sys/kernel/debug/fe160000.pcie` 目录
-3. `echo disable > err_event` 关闭所有的事件统计功能
-4. `echo clear > err_event` 清除所有的事件统计计数
-5. `echo enable > err_event` 开启所有的事件统计功能
-6. 开始设备老化，复现您的异常case, 复现后请执行`cat dumpfifo` 和`cat err_event`。
-7. 将导出的信息与本文档附录中的Debugfs导出信息解析表进行对比，可以大致明确出现的问题。
+## 9. Kernel Error Injection Test Support
 
-## 9. 内核 错误注入测试支持
+If you need to test the RC-side function driver, business model/EP-side firmware/dual-end hardware IP fault tolerance for PCIe link, you can enable error injection testing to simulate possible error types during interaction and evaluate the stability of dual-end software and IP.
 
-PCIe链路如果需要测试RC端funtion驱动、业务模型/EP端 firmware/双端硬件IP对错误的容错率，可以开启错误注入测试，模拟双方交互过程中可能出现的错误类型，评估双端软件、IP的稳定性。
-
- 使用方法
+ Usage
 
 ```
-(1) 需要包含以下提交
+(1) The following commit is required:
 commit fe835d5fd3329ba629f8c4290c818ef4b8f9895d
 Author: Shawn Lin <shawn.lin@rock-chips.com>
 Date:   Wed Sep 4 17:04:37 2024 +0800
    PCI: rockchip: dw: Add fault injection support
    Change-Id: Ib214cc1be565bf16bafb6a847215572f35c43753
-(2) 需要开启本文档中”内核 稳定性统计信息“章节所述功能，并进入对应控制器的目录
+(2) The feature described in the "Kernel Stability Statistics Information" section of this document must be enabled, and enter the corresponding controller directory.
 (3) echo "einj_number enable_or_disable error_type error_number" > 
 fault_injection
    |-------------------|--------------------------------------------------------
 --|
-   | 数值               |         含义                                             
+   | Value             |         Meaning                                          
 |
    |-------------------|--------------------------------------------------------
 --|
-   |einj_number:       |错误注入的组号，仅支持0到6，其他数值无效                       
+   |einj_number:       |Error injection group number, only supports 0 to 6, other values are invalid                       
   |
    |-------------------|--------------------------------------------------------
 --|
-   |enable_or_disable: |开启错误注入还是关闭错误注入，0表示关闭，1表示开启，其他数值无效   
+   |enable_or_disable: |Enable or disable error injection, 0 means disable, 1 means enable, other values are invalid   
   |
    |-------------------|--------------------------------------------------------
 --|
-   |error_type:       |错误注入类型选择，根据附录所述选择einj_number所示组号所对应的错误
-类型|
+   |error_type:       |Error injection type selection, select the error type corresponding to the group number according to the appendix|
    |-------------------|--------------------------------------------------------
 --|
-   |error_number:     |错误注入数量，仅支持0到255，其他数值无效                       
+   |error_number:     |Number of error injections, only supports 0 to 255, other values are invalid                       
   |
    |-------------------|--------------------------------------------------------
 --|
-   例如echo "2 1 2 128" > fault_injection ,代表开启einj2，注入128个NAK DLLP包
-(4) 启动PCIe链路传输，例如NVMe: dd if=/dev/nvme0n1 of=/dev/null bs=1M count=5000
-(5) 查看错误是否发生：cat err_event
+   For example, echo "2 1 2 128" > fault_injection means to enable einj2 and inject 128 NAK DLLP packets.
+(4) Start PCIe link transmission, for example NVMe: dd if=/dev/nvme0n1 of=/dev/null bs=1M count=5000
+(5) Check if the error occurred: cat err_event
    Rx Recovery Request: 0x1f
    ...
    Tx Nak DLLP: 0x80
-(6) 分析双端软硬件，查看是否发生预期外的软硬件异常
+(6) Analyze the dual-end software and hardware to see if unexpected software or hardware exceptions occur.
 ```
 
-## 10. 内核 PMU perf支持
+## 10. Kernel PMU perf Support
 
-### 10.1 软件与配置
+### 10.1 Software and Configuration
 ```
-(1)需包含以下五个提交：
+(1) The following five commits are required:
 commit 0270f32f207f5682a729c17e977eb87bba83823e
 Author: Shuai Xue <xueshuai@linux.alibaba.com>
 Date:   Fri Dec 8 10:56:50 2023 +0800
@@ -1025,144 +950,105 @@ Author: Shawn Lin <shawn.lin@rock-chips.com>
 Date:   Tue Sep 3 16:24:36 2024 +0800
    PCI: rockchip: dw: Add dwc pmu support for rockchip
    Change-Id: Ia27ee055aa3e63deeb7fd646411c3542b7019288
-(2)内核需要开启CONFIG_PERF_EVENTS配置
-(3)系统需要集成perf工具；若无，可以去本文档附录所述开发资源获取地址内下载
+(2) The kernel needs to enable the CONFIG_PERF_EVENTS configuration.
+(3) The system needs to integrate the perf tool; if not, you can download it from the development resources address mentioned in the appendix of this document.
 ```
-### 10.2 使用说明
+### 10.2 Usage Instructions
 
 ```
-(1) 列出所有DWC PCIe PMU支持的配置
+(1) List all configurations supported by DWC PCIe PMU
 root@rk3576-buildroot:/# /userdata/perf list | grep dwc_rootport
- dwc_rootport_0/CFG_RCVRY/                         [Kernel PMU event] #链路rcvry
-时间占比
- dwc_rootport_0/L0/                                 [Kernel PMU event] #链路处于L0
-占比
- dwc_rootport_0/L1/                                 [Kernel PMU event] #链路处于L1
-占比
- dwc_rootport_0/L1_1/                               [Kernel PMU event] #链路处于
-L1.1占比
- dwc_rootport_0/L1_2/                               [Kernel PMU event] #链路处于
-L1.2占比
- dwc_rootport_0/L1_AUX/                             [Kernel PMU event] #RK不支持状
-态
- dwc_rootport_0/RX_L0S/                             [Kernel PMU event] #RX处于L0s
-占比
- dwc_rootport_0/Rx_CCIX_TLP_Data_Payload/           [Kernel PMU event] #RK不支持
-CCI数据统计
- dwc_rootport_0/Rx_PCIe_TLP_Data_Payload/           [Kernel PMU event] #RX TLP数
-据量
- dwc_rootport_0/TX_L0S/                             [Kernel PMU event] #TX处于L0s
-占比
- dwc_rootport_0/TX_RX_L0S/                         [Kernel PMU event] #TX/RX都处
-于L0s占比
- dwc_rootport_0/Tx_CCIX_TLP_Data_Payload/           [Kernel PMU event] #RK不支持
-CCI数据统计
- dwc_rootport_0/Tx_PCIe_TLP_Data_Payload/           [Kernel PMU event] #TX TLP数
-据量
- dwc_rootport_0/one_cycle/                         [Kernel PMU event] #RK不支持
- dwc_rootport_0/rx_ack_dllp,lane=?/                 [Kernel PMU event] #RX回复的
-DLLP数
- dwc_rootport_0/rx_atomic,lane=?/                   [Kernel PMU event] #RK不支持
- dwc_rootport_0/rx_ccix_tlp,lane=?/                 [Kernel PMU event] #RK不支持
- dwc_rootport_0/rx_completion_with_data,lane=?/     [Kernel PMU event] #RX cplt包
-带数据
- dwc_rootport_0/rx_completion_without_data,lane=?/ [Kernel PMU event] #RX cplt包
-不带数据
- dwc_rootport_0/rx_duplicate_tl,lane=?/             [Kernel PMU event] #RX/TL 
-dup错误数
- dwc_rootport_0/rx_io_read,lane=?/                 [Kernel PMU event] #RX上ior包
-数
- dwc_rootport_0/rx_io_write,lane=?/                 [Kernel PMU event] #RX上iow包
-数
- dwc_rootport_0/rx_memory_read,lane=?/             [Kernel PMU event] #RX上memr
-包数
- dwc_rootport_0/rx_memory_write,lane=?/             [Kernel PMU event] #RX上memw
-包数
- dwc_rootport_0/rx_message_tlp,lane=?/             [Kernel PMU event] #RX上收到的
-msg数
- dwc_rootport_0/rx_nulified_tlp,lane=?/             [Kernel PMU event] #RX上因错丢
-弃的TLP数
- dwc_rootport_0/rx_tlp_with_prefix,lane=?/         [Kernel PMU event] #RX上带前缀
-的TLP数
- dwc_rootport_0/rx_update_fc_dllp,lane=?/           [Kernel PMU event] #RX上收到的
-流控包数
- dwc_rootport_0/tx_ack_dllp,lane=?/                 [Kernel PMU event] #TX回复的
-DLLP数
- dwc_rootport_0/tx_atomic,lane=?/                   [Kernel PMU event] #RK不支持
- dwc_rootport_0/tx_ccix_tlp,lane=?/                 [Kernel PMU event] #RK不支持
- dwc_rootport_0/tx_completion_with_data,lane=?/     [Kernel PMU event] #TX cplt包
-带数据
- dwc_rootport_0/tx_completion_without_data,lane=?/ [Kernel PMU event] #TX cplt包
-不带数据
- dwc_rootport_0/tx_configuration_read,lane=?/       [Kernel PMU event] #TX cfg-r
-包数
- dwc_rootport_0/tx_configuration_write,lane=?/     [Kernel PMU event] #TX cfg-w
-包数
- dwc_rootport_0/tx_io_read,lane=?/                 [Kernel PMU event] #TX上ior包
-数
- dwc_rootport_0/tx_io_write,lane=?/                 [Kernel PMU event] #TX上iow包
-数
- dwc_rootport_0/tx_memory_read,lane=?/             [Kernel PMU event] #TX上memr
-包数
- dwc_rootport_0/tx_memory_write,lane=?/             [Kernel PMU event] #TX上memw
-包数
- dwc_rootport_0/tx_message_tlp,lane=?/             [Kernel PMU event] #TX上收到的
-msg数
- dwc_rootport_0/tx_nulified_tlp,lane=?/             [Kernel PMU event] #TX上因错丢
-弃的TLP数
- dwc_rootport_0/tx_tlp_with_prefix,lane=?/         [Kernel PMU event] #TX发出的带
-前缀TLP数
- dwc_rootport_0/tx_update_fc_dllp,lane=?/           [Kernel PMU event] #TX三发出的
-流控包数
-(2) 启动某项perf功能, 以基于时间的统计RX TLP为例
+ dwc_rootport_0/CFG_RCVRY/                         [Kernel PMU event] # Link rcvry time ratio
+ dwc_rootport_0/L0/                                 [Kernel PMU event] # Link in L0 ratio
+ dwc_rootport_0/L1/                                 [Kernel PMU event] # Link in L1 ratio
+ dwc_rootport_0/L1_1/                               [Kernel PMU event] # Link in L1.1 ratio
+ dwc_rootport_0/L1_2/                               [Kernel PMU event] # Link in L1.2 ratio
+ dwc_rootport_0/L1_AUX/                             [Kernel PMU event] # RK does not support this state
+ dwc_rootport_0/RX_L0S/                             [Kernel PMU event] # RX in L0s ratio
+ dwc_rootport_0/Rx_CCIX_TLP_Data_Payload/           [Kernel PMU event] # RK does not support CCI data statistics
+ dwc_rootport_0/Rx_PCIe_TLP_Data_Payload/           [Kernel PMU event] # RX TLP data volume
+ dwc_rootport_0/TX_L0S/                             [Kernel PMU event] # TX in L0s ratio
+ dwc_rootport_0/TX_RX_L0S/                         [Kernel PMU event] # TX/RX both in L0s ratio
+ dwc_rootport_0/Tx_CCIX_TLP_Data_Payload/           [Kernel PMU event] # RK does not support CCI data statistics
+ dwc_rootport_0/Tx_PCIe_TLP_Data_Payload/           [Kernel PMU event] # TX TLP data volume
+ dwc_rootport_0/one_cycle/                         [Kernel PMU event] # RK does not support
+ dwc_rootport_0/rx_ack_dllp,lane=?/                 [Kernel PMU event] # Number of RX replied DLLP
+ dwc_rootport_0/rx_atomic,lane=?/                   [Kernel PMU event] # RK does not support
+ dwc_rootport_0/rx_ccix_tlp,lane=?/                 [Kernel PMU event] # RK does not support
+ dwc_rootport_0/rx_completion_with_data,lane=?/     [Kernel PMU event] # RX cplt packets with data
+ dwc_rootport_0/rx_completion_without_data,lane=?/ [Kernel PMU event] # RX cplt packets without data
+ dwc_rootport_0/rx_duplicate_tl,lane=?/             [Kernel PMU event] # RX/TL dup error count
+ dwc_rootport_0/rx_io_read,lane=?/                 [Kernel PMU event] # RX ior packet count
+ dwc_rootport_0/rx_io_write,lane=?/                 [Kernel PMU event] # RX iow packet count
+ dwc_rootport_0/rx_memory_read,lane=?/             [Kernel PMU event] # RX memr packet count
+ dwc_rootport_0/rx_memory_write,lane=?/             [Kernel PMU event] # RX memw packet count
+ dwc_rootport_0/rx_message_tlp,lane=?/             [Kernel PMU event] # RX received msg count
+ dwc_rootport_0/rx_nulified_tlp,lane=?/             [Kernel PMU event] # RX TLPs discarded due to errors
+ dwc_rootport_0/rx_tlp_with_prefix,lane=?/         [Kernel PMU event] # RX TLPs with prefix
+ dwc_rootport_0/rx_update_fc_dllp,lane=?/           [Kernel PMU event] # RX received flow control packets
+ dwc_rootport_0/tx_ack_dllp,lane=?/                 [Kernel PMU event] # TX replied DLLP count
+ dwc_rootport_0/tx_atomic,lane=?/                   [Kernel PMU event] # RK does not support
+ dwc_rootport_0/tx_ccix_tlp,lane=?/                 [Kernel PMU event] # RK does not support
+ dwc_rootport_0/tx_completion_with_data,lane=?/     [Kernel PMU event] # TX cplt packets with data
+ dwc_rootport_0/tx_completion_without_data,lane=?/ [Kernel PMU event] # TX cplt packets without data
+ dwc_rootport_0/tx_configuration_read,lane=?/       [Kernel PMU event] # TX cfg-r packet count
+ dwc_rootport_0/tx_configuration_write,lane=?/     [Kernel PMU event] # TX cfg-w packet count
+ dwc_rootport_0/tx_io_read,lane=?/                 [Kernel PMU event] # TX ior packet count
+ dwc_rootport_0/tx_io_write,lane=?/                 [Kernel PMU event] # TX iow packet count
+ dwc_rootport_0/tx_memory_read,lane=?/             [Kernel PMU event] # TX memr packet count
+ dwc_rootport_0/tx_memory_write,lane=?/             [Kernel PMU event] # TX memw packet count
+ dwc_rootport_0/tx_message_tlp,lane=?/             [Kernel PMU event] # TX received msg count
+ dwc_rootport_0/tx_nulified_tlp,lane=?/             [Kernel PMU event] # TX TLPs discarded due to errors
+ dwc_rootport_0/tx_tlp_with_prefix,lane=?/         [Kernel PMU event] # TX sent TLPs with prefix
+ dwc_rootport_0/tx_update_fc_dllp,lane=?/           [Kernel PMU event] # TX sent flow control packets
+(2) Start a perf function, for example, to count RX TLP based on time:
  /userdata/perf stat -a -e dwc_rootport_0/Rx_PCIe_TLP_Data_Payload/
-(3) 启动传输
+(3) Start transmission
 root@rk3576-buildroot:/# dd if=/dev/nvme0n1 of=/dev/null bs=1M count=5000
 dd if=/dev/nvme0n1 of=/dev/null bs=1M count=5000
 5000+0 records in
 5000+0 records out
 5242880000 bytes (5.2 GB, 4.9 GiB) copied, 14.9016 s, 352 MB/s
-(4) 查看统计
+(4) View statistics
 Performance counter stats for 'system wide':
 5221423060     dwc_rootport_0/Rx_PCIe_TLP_Data_Payload/     (50.01%)
 28.298528222 seconds time elapsed
-(5) 同理可以测试TX TLP的数据量，则平均的RX/TX带宽计算
-PCIe RX Bandwidth = Rx_PCIe_TLP_Data_Payload / 统计时长
-PCIe TX Bandwidth = Tx_PCIe_TLP_Data_Payload / 统计时长
-(6) Lane事件的统计
-因为每个Lane都拥有相同的事件，为了避免产生大量冗余信息，建议指定Lane ID，例如：
+(5) Similarly, you can test the amount of TX TLP data, then calculate the average RX/TX bandwidth:
+PCIe RX Bandwidth = Rx_PCIe_TLP_Data_Payload / statistics duration
+PCIe TX Bandwidth = Tx_PCIe_TLP_Data_Payload / statistics duration
+(6) Lane event statistics
+Since each Lane has the same events, to avoid generating a lot of redundant information, it is recommended to specify the Lane ID, for example:
  /userdata/perf stat -a -e dwc_rootport_0/rx_memory_read,lane=1/
 ```
 
-## 11. 常见应用问题
+## 11. Common Application Issues
 
-### 11.1 当走线位置不佳时，不同lane之间能否交织？
+### 11.1 Can different lanes be interleaved if the routing position is not ideal?
 
-1. 支持lane交织（Lane reversal），属于硬件协议行为，软件不需要改动。但是有如下限制：
+1. Lane reversal is supported, which is a hardware protocol behavior and does not require software changes. However, there are the following restrictions:
 
-- 4 Lane的情况下，目前RK平台仅支持全倒序交织，即RC的Lane[0.1.2.3] 分别对应 EP的
-Lane[3.2.1.0]，其余情况一概不支持。
+- In the case of 4 lanes, the RK platform currently only supports full reverse interleaving, that is, RC Lane[0.1.2.3] corresponds to EP Lane[3.2.1.0] respectively, and other cases are not supported.
 
 ![alt text](/pdf/rk/pcie/image-6.png)
 
-- 2 Lane的情况下，同理支持RC的Lane[0.1]分别对应EP的Lane[1.0]。
+- In the case of 2 lanes, similarly, RC Lane[0.1] corresponds to EP Lane[1.0].
 
-不支持同一侧不同组lane之间的信号的组合使用，如RC lane0 TX与lane1 RX无法组合为一组lane来外接设备。
+It is not supported to combine signals between different groups of lanes on the same side, such as combining RC lane0 TX and lane1 RX as a group of lanes to connect external devices.
 
 
-### 11.2 同一个lane的差分信号能否交织？
+### 11.2 Can the differential signals of the same lane be interleaved?
 
-支持PN翻转（Lane polarity），通常RC TX+接入EP RX+、RC TX-接入EP RX-，支持RC TX+接入EP RX-等PN翻转布线，且软件不需要额外处理，由PCIe控制器自动探测。
+PN inversion (Lane polarity) is supported. Normally, RC TX+ connects to EP RX+, RC TX- connects to EP RX-, and RC TX+ connects to EP RX- and other PN inversion wiring are supported. No additional software processing is required, and the PCIe controller automatically detects it.
 
-不支持TX/RX交织，例如RC的lane1 TX无法与EP的lane1TX对接。
+TX/RX interleaving is not supported, for example, RC lane1 TX cannot be connected to EP lane1 TX.
 
-### 11.3 同一个PCIe接口是否支持拆分或者合并？
+### 11.3 Does the same PCIe interface support splitting or merging?
 
-RK芯片的部分PCIe口可以支持拆分和合并功能，请参阅“芯片资源介绍”章节，具体方法参考示例和dts说明。
+Some PCIe ports of RK chips support splitting and merging functions. Please refer to the "Chip Resource Introduction" section, and refer to the example and dts instructions for specific methods.
 
-### 11.4 PCIe 3.0接口支持哪些时钟输入模式？
+### 11.4 What clock input modes are supported by the PCIe 3.0 interface?
 
-PCIe 3.0 的PHY的输入时钟模式可以是HCSL、LPHCSL或者其他差分信号，例如支持LVDS外加电平转换等电路实现的输入时钟方案，以上所有以满足PHY指标为准。
+The input clock mode of PCIe 3.0 PHY can be HCSL, LPHCSL, or other differential signals, such as input clock schemes implemented by supporting LVDS plus level conversion circuits, etc. All of the above are subject to meeting PHY indicators.
 
 ![alt text](/pdf/rk/pcie/image-7.png)
 
@@ -1170,21 +1056,21 @@ PCIe 3.0 的PHY的输入时钟模式可以是HCSL、LPHCSL或者其他差分信�
 
 ![alt text](/pdf/rk/pcie/image-9.png)
 
-### 11.5 是否支持PCIe switch？贵司有没有推荐？
+### 11.5 Is PCIe switch supported? Do you have any recommendations?
 
-理论上支持，不需要任何补丁，且没有推荐列表。为了把控风险，请联系供应商借评估板，插在我司EVB上验证后再采购。
+Theoretically supported, no patches are required, and there is no recommended list. To control risks, please contact the supplier to borrow an evaluation board, insert it into our EVB for verification before purchasing.
 
-### 11.6 在系统中如何确定控制器与设备的对应关系？
+### 11.6 How to determine the correspondence between controllers and devices in the system?
 
-以RK3568芯片为例：
+Take the RK3568 chip as an example:
 
-| 控制器 | Bus地址范围 |
+| Controller | Bus Address Range |
 |--------|-------------|
-| PCIe2x1控制器 | 0x00~0x0f |
-| PCIe3x1控制器 | 0x10~0x1f |
-| PCIe3x2控制器 | 0x20~0x2f |
+| PCIe2x1 Controller | 0x00~0x0f |
+| PCIe3x1 Controller | 0x10~0x1f |
+| PCIe3x2 Controller | 0x20~0x2f |
 
-从`lspci`输出的信息中可以看到各设备分配到的bus地址（高位），即可确定对应关系。第二列Class是设备类型，第三列VID:PID。
+From the output of `lspci`, you can see the bus address (high bits) assigned to each device, and thus determine the correspondence. The second column "Class" is the device type, and the third column is VID:PID.
 
 ```plaintext
 console:/ # lspci
@@ -1196,262 +1082,36 @@ console:/ # lspci
 00:00.0 Class 0604: 1d87:3566
 ```
 
-Class类型请参考[https://pci-ids.ucw.cz/read/PD/](https://pci-ids.ucw.cz/read/PD/)，厂商VID和产品PID请参考[http://pci-ids.ucw.cz/v2/pci.ids](http://pci-ids.ucw.cz/v2/pci.ids)。
+For Class types, please refer to [https://pci-ids.ucw.cz/read/PD/](https://pci-ids.ucw.cz/read/PD/), and for vendor VID and product PID, please refer to [http://pci-ids.ucw.cz/v2/pci.ids](http://pci-ids.ucw.cz/v2/pci.ids).
 
-如果需要调整控制器的`bus-range`，请调整`rk3568.dtsi`中三个控制器的`bus-range`分配，且务必确保不要重叠。另外，调整`bus-range`将导致设备的MSI(-X) RID区间变化，请同步调整`msi-map`。
+If you need to adjust the controller's `bus-range`, please adjust the `bus-range` allocation of the three controllers in `rk3568.dtsi`, and be sure not to overlap. In addition, adjusting `bus-range` will cause the MSI(-X) RID range of the device to change, so please adjust `msi-map` accordingly.
 
 ```dts
-bus-range = <起始地址 结束地址>
-msi-map = < bus-range中的起始地址 << 8
+bus-range = <start address end address>
+msi-map = < bus-range start address << 8
             &its
-            bus-range中的起始地址 << 8
-            bus-range中分配的总线总数 << 8>
+            bus-range start address << 8
+            total number of buses allocated in bus-range << 8>
 ```
 
-例如`bus-range`调整为0x30 ~ 0x60, 即该控制器下游设备分配的bus地址从0x30到0x60, 总线总数0x30个，则可配置`msi-map`如下：
+For example, if `bus-range` is adjusted to 0x30 ~ 0x60, that is, the bus address assigned to downstream devices of this controller is from 0x30 to 0x60, with a total of 0x30 buses, then `msi-map` can be configured as follows:
 
 ```dts
 msi-map = <0x3000  &its  0x3000  0x3000>;
 ```
 
-依此类推，且一定要保证三个控制器的`bus-range`和`msi-map`互不重叠，且`bus-range`和`msi-map`相互适配。
+And so on. Be sure to ensure that the `bus-range` and `msi-map` of the three controllers do not overlap, and that `bus-range` and `msi-map` match each other.
 
-### 11.7 如何确定PCIe设备的链路状态？
+### 11.17 How to trigger MSI-X interrupt from RK PCIe EP via command?
 
-请使用服务器发布的`lspci`工具，执行`lspci -vvv`，找到对应设备的`linkStat`即可查看；其中`Speed`为速度，`Width`即为lane数。如需要解析其他信息，请查找搜索引擎，对照查看。
+ Principle
 
-### 11.8 如何确定SoC针对PCIe设备可分配的MSI或者MSI-X数量？
+The PC configures the MSI table through the standard MSI-X cap mapped BAR4.
 
-SoC针对每个PCIe设备可分配的数量由中断控制器的资源决定。每个控制器的下游设备，RK1808/RK3566/RK3568/RK3588可分配的MSI或者MSI-X总数均是65535个，RK3528/RK3562/RK3576可分配的MSI或者MSI-X总数是8个。
-
-### 11.9 是否支持Legacy INT方式？如何强制使用Legacy INTA ~ INTD的中断？
-
-支持legacy INT方式。但Linux PCIe协议栈默认的优先级是MSI-X, MSI, Legacy INT，因此常规市售设备不会去申请Legacy INT。若调试测试需要，请参考内核中`Documentation/admin-guide/kernel-parameters.txt`文档，其中`pci=option[,option...] [PCI] various PCI subsystem options.`描述了可以在cmdline中关闭MSI，则系统默认会强制使用Legacy INT分配机制。以RK356X安卓平台为例，可在`arch/arm64/boot/dts/rockchip/rk3568-android.dtsi`的cmdline参数中额外添加一项`pci=nomsi`，注意前后项需空格隔开：
-
-```dts
-bootargs = "...... pci=nomsi ......";
+RK3568 Example:
 ```
-
-如果添加成功，则`lspci -vvv`可以看到此设备的MSI和MSI-X都是处于关闭状态(Enable-)，而分配了INT A中断，中断号是80。`cat /proc/interrupts`可查看到80中断的状态。
-
-```plaintext
-01:00.0 Class 0108: Device 14a4:22f1 (rev 01) (prog-if 02)
-       Subsystem: Device 1b4b:1093
-...
-       Interrupt: pin A routed to IRQ 80
-...
-       Capabilities: [50] MSI: Enable- Count=1/1 Maskable+ 64bit+
-               Address: 0000000000000000 Data: 0000
-               Masking: 00000000 Pending: 00000000
-...
-       Capabilities: [b0] MSI-X: Enable- Count=19 Masked-
-               Vector table: BAR=0 offset=00002000
-               PBA: BAR=0 offset=00003000
-```
-
-### 11.10 芯片支持分配的BAR空间地址域有多大？
-
-| 芯片型号 | 控制器 | 高端BAR起始地址 | 长度 | 低端BAR起始地址 | 长度 |
-|----------|--------|----------------|------|----------------|------|
-| RK1808   | PCIe2.0 | -              | -    | 0xF8000000     | 64MB |
-| RK3528   | PCIe2.0 | 0x100000000    | 1GB  | 0xFC000000     | 32MB |
-| RK3562   | PCIe2.0 | 0x300000000    | 1GB  | 0xFC000000     | 32MB |
-| RK3566/RK3568 | PCIe2.0 | 0x300000000 | 1GB  | 0xF4000000     | 32MB |
-| RK3566/RK3568 | PCIe3x1 | 0x340000000 | 1GB  | 0xF2000000     | 32MB |
-| RK3566/RK3568 | PCIe3x2 | 0x380000000 | 1GB  | 0xF0000000     | 32MB |
-| RK3576   | PCIe0   | 0x900000000    | 2GB  | 0x20000000     | 16MB |
-| RK3576   | PCIe1   | 0x980000000    | 2GB  | 0x21000000     | 16MB |
-| RK3588(s)| pcie3x4 | 0x900000000    | 1GB  | 0xf0000000     | 16MB |
-| RK3588(s)| pcie3x2 | 0x940000000    | 1GB  | 0xf1000000     | 16MB |
-| RK3588(s)| pcie2x1l0 | 0x980000000   | 1GB  | 0xf2000000     | 16MB |
-| RK3588(s)| pcie2x1l1 | 0x9c0000000   | 1GB  | 0xf3000000     | 16MB |
-| RK3588(s)| pcie2x1l2 | 0xa00000000   | 1GB  | 0xf4000000     | 16MB |
-
-PCIe控制器支持最大的64-bit的BAR空间见上图，其中外设配置空间、IO空间和MEM空间共享这地址段，且MEM空间不支持预取功能。
-
-### 11.11 如果CPU运行在32位地址模式下，如何实现BAR空间的访问？
-
-默认状态下，芯片给PCIe控制器分配的BAR空间均位于超出32位寻址的地址段。但是我们芯片有预留32位以下的一个BAR地址，对每个控制器有不同的限制。例如，RK3568芯片每个控制器的低位BAR地址仅有32MB，当RK3568的CPU运行在32位地址模式下，此时我们应该启用低位地址空间对每个PCIe节点的`ranges`进行重新分配。以下例子已经修改为配置空间1MB，IO空间1MB和32-bit MEM空间30MB：
-
-```dts
-<0x00000800 0x0 0xF4000000 0x0 0xF4000000 0x0 0x100000>
-<0x81000000 0x0 0xF4100000 0x0 0xF4100000 0x0 0x100000>
-<0x82000000 0x0 0xF4200000 0x0 0xF4200000 0x0 0x1e00000>;
-&pcie3x1 {
-        ranges = <0x00000800 0x0 0xF2000000 0x0 0xF2000000 0x0 0x100000
-                  0x81000000 0x0 0xF2100000 0x0 0xF2100000 0x0 0x100000
-                  0x82000000 0x0 0xF2200000 0x0 0xF2200000 0x0 0x1e00000>;
-}
-&pcie3x2 {
-        ranges = <0x00000800 0x0 0xF0000000 0x0 0xF0000000 0x0 0x100000
-                  0x81000000 0x0 0xF0100000 0x0 0xF0100000 0x0 0x100000
-                  0x82000000 0x0 0xF0200000 0x0 0xF0200000 0x0 0x1e00000>;
-}
-```
-
-如需调整各个空间的大小，可参考附录中“关于PCIe地址空间配置详述”的部分。
-
-### 11.12 如何查看芯片分配给外设的CPU域地址以及PCIe bus域地址，两者如何对应？
-
-使用`lspci`命令可以看到各设备CPU域地址以及PCIe bus域地址：
-
-```bash
-root@linaro-alip: /home/linaro# lspci -Vs 0002:21:00.0 -X
-0002:21:00.0 Non-Volatile memory controller: Intel Corporation SSD Pro 7600p/760p/E 6100p Series (rev 03) (prog-if 02 [NVM Express])
-Subsystem: Intel Corporation SSD Pro 7600p/760p/E 6100p Series
-Flags: bus master, fast devsel, latency 0，IRQ 114
-Memory at 380900000 (64-bit, non-prefetchable) [size=16K]
-Capabilities: [40] Power Management version 3
-...
-00: 86 80 a6 f1 06 04 10 00 03 02 08 01 00 00 00 00
-10: 04 00 90 80 00 00 00 00 00 00 00 00 00 00 00 00
-20: 00 00 00 00 00 00 00 00 00 00 00 00 86 80 0b 39
-30: 00 00 00 00 40 00 00 00 00 00 00 00 72 01 00 00
-```
-
-我们可以看出，芯片给外设分配的CPU域地址是`0x380900000`；CPU若需要访问外设，可以直接用IO命令或者`devmem`命令读取`0x380900000`。而`0x380900000`这个CPU域地址对应的PCIe bus域地址，可以从PCIe外设的BAR0地址（偏移`0x10`开始到`0x14`为止）读出“`04 00 90 80`”，即为`0x80900000`（最低位`04`是表明此BAR的类型为64bit MEM）。因此当CPU发出访问`0x380900000`这个CPU域地址时，PCIe的地址转换服务（ATU），通过所配置的outbound关系，可以发出`0x80900000`这个PCIe bus域地址，从而实现CPU访问到PCIe外设的内部信息。
-
-而两者的对应关系在`rk3568.dtsi`中有定义，我们以`pcie3x2`为例：
-
-```
-ranges = <0x00000800 0x0 0x80000000 0x3 0x80000000 0x0 0x800000
-          0x81000000 0x0 0x80800000 0x3 0x80800000 0x0 0x100000  IO空间
-          0x83000000 0x0 0x80900000 0x3 0x80900000 0x0 0x3f700000>; Memory空间
-```
-
-例如我们可查看到Memory段的详细分配情况。首段`0x83000000`表明此memory段为64-bit non-prefetch空间。
-
-`0x3 0x80900000`为芯片分配的CPU域地址，即`0x0000000380900000`；`0x0 0x80900000`为分配的CPU域地址所对应的PCIe bus域地址，即`0x0000000080900000`；`0x3f700000`为此memory段的总大小。因此CPU发出的CPU域访问地址与转换后的PCIe bus域地址存在`0x300000000`的偏移关系，这部分偏移关系在硬件上由ATU自动转化。
-
-关于地址空间的配置详情，可参考附录中“关于PCIe地址空间配置详述”的部分。
-
-### 11.13 如何对下游单个设备进行重扫描或者在线更换设备？
-
-若有如下两点需求则需对下游设备进行重枚举：
-
-1. 下游设备可能在不同阶段出现bar空间变化；
-2. 下游设备损坏后进行在线更换；
-```
-(1) 找出下游所需更换或者重扫描设备，目前我们以BDF为01:00.0的这个设备为例
-console:/ # /data/lspci -k
-00:00.0 Class 0604: Device 1d87:3566 (rev 01)
-       Kernel driver in use: pcieport
-01:00.0 Class 0c03: Device 1912:0014 (rev 03)
-(2) 对设备进行remove操作，可看到对应设备节点以及它所运行的pcie driver被反初始化
-console:/ # echo 1 > /sys/bus/pci/devices/0000\:01\:00.0/remove
-[   30.624938] xhci_hcd 0000:01:00.0: remove, state 4
-[   30.624985] usb usb8: USB disconnect, device number 1
-[   30.625741] xhci_hcd 0000:01:00.0: USB bus 8 deregistered
-[   30.626115] xhci_hcd 0000:01:00.0: remove, state 4
-[   30.626142] usb usb7: USB disconnect, device number 1
-[   30.640977] xhci_hcd 0000:01:00.0: USB bus 7 deregistered
-[   32.055886] vcc5v0_otg: disabling
-[   32.055920] vcc3v3_lcd1_n: disabling
-(3) 可再次查看，确定设备已经无法扫描到了
-console:/ # /data/lspci -k
-00:00.0 Class 0604: Device 1d87:3566 (rev 01)
-       Kernel driver in use: pcieport
-(4) 发起总线重扫描，可任选如下两条指令之一，执行后新设备恢复识别
-console:/ # echo 1 > /sys/bus/pci/devices/0000\:00\:00.0/rescan
-console:/ # echo 1 > /sys/bus/pci/rescan
-[   33.222240] pci 0000:01:00.0: BAR 0: assigned [mem 0x300900000-0x300900fff 
-64bit]
-[   33.222606] xhci_hcd 0000:01:00.0: xHCI Host Controller
-[   33.224875] xhci_hcd 0000:01:00.0: new USB bus registered, assigned bus number 
-7
-[   33.225468] xhci_hcd 0000:01:00.0: hcc params 0x002841eb hci version 0x100 
-quirks 0x0000000000000090
-[   33.226318] usb usb7: New USB device found, idVendor=1d6b, idProduct=0002, 
-bcdDevice= 4.19
-[   33.226329] usb usb7: New USB device strings: Mfr=3, Product=2, SerialNumber=1
-[   33.226345] usb usb7: Product: xHCI Host Controller
-[   33.226355] usb usb7: Manufacturer: Linux 4.19.172 xhci-hcd
-[   33.226364] usb usb7: SerialNumber: 0000:01:00.0
-[   33.227661] hub 7-0:1.0: USB hub found
-[   33.227716] hub 7-0:1.0: 1 port detected
-[   33.228252] xhci_hcd 0000:01:00.0: xHCI Host Controller
-[   33.228581] xhci_hcd 0000:01:00.0: new USB bus registered, assigned bus number 
-8
-[   33.226816] xhci_hcd 0000:01:00.0: Host supports USB 3.0 SuperSpeed
-[   33.228678] usb usb8: We don't know the algorithms for LPM for this host, 
-disabling LPM.
-[   33.228783] usb usb8: New USB device found, idVendor=1d6b, idProduct=0003, 
-bcdDevice= 4.19
-[   33.228796] usb usb8: New USB device strings: Mfr=3, Product=2, SerialNumber=1
-[   33.228803] usb usb8: Product: xHCI Host Controller
-[   33.228809] usb usb8: Manufacturer: Linux 4.19.172 xhci-hcd
-[   33.228814] usb usb8: SerialNumber: 0000:01:00.0
-[   33.229360] hub 8-0:1.0: USB hub found
-[   33.229406] hub 8-0:1.0: 4 ports detected
-[   33.556216] usb 7-1: new high-speed USB device number 2 using xhci_hcd
-[   33.700886] usb 7-1: New USB device found, idVendor=2109, idProduct=3431, 
-bcdDevice= 4.20
-[   33.700913] usb 7-1: New USB device strings: Mfr=0, Product=1, SerialNumber=0
-[   33.700920] usb 7-1: Product: USB2.0 Hub
-[   33.702398] hub 7-1:1.0: USB hub found
-[   33.702642] hub 7-1:1.0: 4 ports detected
-```
-
-### 11.14 PCIe外设及其function驱动如何处理cache一致性？
-
-根据PCIe协议Snoop和No Snoop的定义，外设向主机系统进行访问请求，其TLP包需要设置No Snoop属性位，来表征是否需要主机系统的硬件协助其完成cache一致性的维护。
-
-| No | Cache Coherency | Col3 | Col4 |
-|----|------------------|------|------|
-|    | 管理模型        | 备注 |      |
-| Snoop位 | 类型          |      |      |
-| 0  | Snoop           | 硬件保证cache一致性 | Cfg包，I/O包，Message包，MSI(-)包必须设置为0 |
-| 1  | No Snoop        | 外设驱动维护cache一致性 | - |
-
-当外设发出写入主机内存的TLP包，若其No Snoop位为0，进入主机系统后，RC将检查所写入的地址是否落入其他CPU的cache内。若是，则需要在数据写入物理内存后，对所有含有此地址缓存的CPU执行invalidate操作。
-
-当外设发来从主机内存取数据并送往外设的TLP包，若其No Snoop位为0，则RC将检查所有CPU的cache，确定该TLP包内数据所在的地址是否有被其他CPU缓存。若是，则在取数据之前进行flush操作。
-
-RK平台的部分芯片体系并不支持Snoop类型，统一按照No Snoop为1处理。因此运行的function驱动需要自行维护cache一致性。支持Snoop类型的，芯片可以保证cache一致性。
-
-不支持PCIe cache一致性的平台 | 支持PCIe cache一致性的平台
---------------------------------|-----------------------------
-RK1808、RK3528、RK3562、RK3566、RK3568、RK3588(s) | RK3576
-
-### 11.15 是否支持PCIe设备使用beacon方式唤醒主控？
-
-RK平台不支持在L2的状态下，由PCIe设备发送beacon唤醒主控。如果有唤醒需求，请使用#WAKE信号当作GPIO唤醒源方式实现。
-
-### 11.16 如何通过命令从RK PCIe EP发起MSI中断？
-
-测试前确认：
-
-- RC和EP都支持并使能MSI cap，RK RC和RK EP默认已使能MSI cap
-- RC 上运行EP的function驱动，并已申请msi中断
-
-RK PCIe EP client寄存器`PCIE_CLIENT_MSI_GEN_CON`支持触发MSI中断，32bits寄存器分别对应32个msi中断，以RK3588为例：
-
-```bash
-io -4 0xFE150038 1
-```
-
-除此之外，还可通过：
-
-- 设置outbound atu，CPU写发起memory write
-- 或通过DMA传输发起memory write
-
-部分PC只能申请一个MSI中断，例如包括Linux系统和Windows系统，主要受PC BIOS配置限制，例如：
-
-- Intel BIOS虚拟化及VT-d配置
-- Interrupt remapper support
-
-RK3588 RC上能申请32个MSI中断。
-
-### 11.17 如何通过命令从RK PCIe EP发起MSI-X中断？
-
- 原理
-
-PC通过标准的MSI-X cap映射BAR4配置MSI table
-
-RK3568实例:
-```
-# 加载驱动后msix配置后状态，从设备端执行以下两条命令可以看到MSI-Xtable
-io -4 0xfe280270 0x10001      # 测试时开启 Dbi writeable
+# After loading the driver and configuring msix, execute the following two commands on the device side to view the MSI-X table
+io -4 0xfe280270 0x10001      # Enable Dbi writeable for testing
 io -4 -l 0x100 0xf6300000
 io -4 0xfe280270 0x10000
 f6300000: fee02004 00000000 00000024 00000000
@@ -1462,20 +1122,20 @@ f6300040: fee08004 00000000 00000025 00000000
 f6300050: fee01004 00000000 00000025 00000000
 f6300060: fee02004 00000000 00000026 00000000
 f6300070: fee04004 00000000 00000026 00000000
-f6300080:  00000000 00000000 00000000 00000001
-f6300090:  00000000 00000000 00000000 00000001
-f63000a0:  00000000 00000000 00000000 00000001
-f63000b0:  00000000 00000000 00000000 00000001
-f63000c0:  00000000 00000000 00000000 00000001
-f63000d0:  00000000 00000000 00000000 00000001
-f63000e0:  00000000 00000000 00000000 00000001
-f63000f0:  00000000 00000000 00000000 00000001
-# 由于当前业务没有提供 MSI-X 接口示例，可通过以下方式触发 MSI-X
-# 设置设备 outbound，默认RK EP outbound 配置 CPU addr 为 0xf0000000，测试时未改动，或者
-通过内核接口完成 Bar outbound 配置
-io -4 0xf6300014 0xfee00000    # 指向前面的 io -4 -l 0x100 0xf5300000 输出地址
+f6300080:  00000000 00000000 00000000 00000001
+f6300090:  00000000 00000000 00000000 00000001
+f63000a0:  00000000 00000000 00000000 00000001
+f63000b0:  00000000 00000000 00000000 00000001
+f63000c0:  00000000 00000000 00000000 00000001
+f63000d0:  00000000 00000000 00000000 00000001
+f63000e0:  00000000 00000000 00000000 00000001
+f63000f0:  00000000 00000000 00000000 00000001
+# Since the current business does not provide an MSI-X interface example, you can trigger MSI-X as follows
+# Set device outbound, by default RK EP outbound configures CPU addr as 0xf0000000, not changed during testing, or
+complete Bar outbound configuration via kernel interface
+io -4 0xf6300014 0xfee00000    # Points to the address output by io -4 -l 0x100 0xf5300000 above
 io -4 0xf6300018 0x0
-# 触发 MSI-X
+# Trigger MSI-X
 io -4 0xf0002004 0x24
 io -4 0xf0008004 0x24
 io -4 0xf0001004 0x24
@@ -1487,10 +1147,10 @@ io -4 0xf0004004 0x26
 ```
 
 
- RK3588实例：
+ RK3588 Example:
 ```
-# 加载驱动后 msix 配置后状态，从设备端执行以下两条命令可以看到 MSI-X table
-io -4 0xfe150270 0x10001       # 测试时开启 Dbi writeable
+# After loading the driver and configuring msix, execute the following two commands on the device side to view the MSI-X table
+io -4 0xfe150270 0x10001       # Enable Dbi writeable for testing
 io -4 -l 0x100 0xf5300000
 io -4 0xfe150270 0x10000
 f5300000: fee02004 00000000 00000024 00000000
@@ -1501,20 +1161,20 @@ f5300040: fee08004 00000000 00000025 00000000
 f5300050: fee01004 00000000 00000025 00000000
 f5300060: fee02004 00000000 00000026 00000000
 f5300070: fee04004 00000000 00000026 00000000
-f5300080:  00000000 00000000 00000000 00000001
-f5300090:  00000000 00000000 00000000 00000001
-f53000a0:  00000000 00000000 00000000 00000001
-f53000b0:  00000000 00000000 00000000 00000001
-f53000c0:  00000000 00000000 00000000 00000001
-f53000d0:  00000000 00000000 00000000 00000001
-f53000e0:  00000000 00000000 00000000 00000001
-f53000f0:  00000000 00000000 00000000 00000001
-# 由于当前业务没有提供 MSI-X 接口示例，可通过以下方式触发 MSI-X
-# 设置设备 outbound，默认RK EP outbound 配置 CPU addr 为 0xf0000000，测试时未改动，或者
-通过内核接口完成 Bar outbound 配置
-io -4 0xf5300014 0xfee00000    # 指向前面的 io -4 -l 0x100 0xf5300000 输出地址
+f5300080:  00000000 00000000 00000000 00000001
+f5300090:  00000000 00000000 00000000 00000001
+f53000a0:  00000000 00000000 00000000 00000001
+f53000b0:  00000000 00000000 00000000 00000001
+f53000c0:  00000000 00000000 00000000 00000001
+f53000d0:  00000000 00000000 00000000 00000001
+f53000e0:  00000000 00000000 00000000 00000001
+f53000f0:  00000000 00000000 00000000 00000001
+# Since the current business does not provide an MSI-X interface example, you can trigger MSI-X as follows
+# Set device outbound, by default RK EP outbound configures CPU addr as 0xf0000000, not changed during testing, or
+complete Bar outbound configuration via kernel interface
+io -4 0xf5300014 0xfee00000    # Points to the address output by io -4 -l 0x100 0xf5300000 above
 io -4 0xf5300018 0x0
-# 触发 MSI-X
+# Trigger MSI-X
 io -4 0xf0002004 0x24
 io -4 0xf0008004 0x24
 io -4 0xf0001004 0x24
@@ -1525,32 +1185,32 @@ io -4 0xf0002004 0x26
 io -4 0xf0004004 0x26
 ```
 
-### 11.18 如何修改增加32bits-np映射地址空间？
+### 11.18 How to modify and increase 32bits-np mapping address space?
 
-#### 背景
+#### Background
 
-PCIe mmio空间为CPU发起PCIe传输的映射地址空间，物理地址专用，Dram不包括此段空间，每个PCIe控制器有专用的mmio空间，通常为32MB 32bits地址空间和1GB 64bits地址空间。
+PCIe mmio space is the mapping address space for CPU-initiated PCIe transfers, dedicated to physical addresses, and DRAM does not include this segment. Each PCIe controller has a dedicated mmio space, usually 32MB 32bits address space and 1GB 64bits address space.
 
-PCIe range为CPU访问地址和PCI域虚拟地址之间的映射，PCIe range分配的原则：
+PCIe range is the mapping between CPU access address and PCI domain virtual address. The allocation principle of PCIe range:
 
-- 域地址与Dram物理地址不能重叠，避免EP端DMA地址混乱导致访问错误，所以
-- 默认域地址分配在对应PCIe控制器mmio物理地址，与PCIe mmio空间一一对应
-- 扩展少量32bits-np域地址空间，建议跨用其他PCIe控制器mmio物理地址
-- 继续扩充更多32bits-np域地址空间，建议reserved 4GB内memory空间做进一步分配
+- Domain address and DRAM physical address cannot overlap to avoid EP-side DMA address confusion and access errors, so
+- By default, the domain address is allocated in the corresponding PCIe controller mmio physical address, one-to-one with PCIe mmio space
+- To extend a small amount of 32bits-np domain address space, it is recommended to use other PCIe controller mmio physical addresses
+- To further expand more 32bits-np domain address space, it is recommended to reserve memory space within 4GB for further allocation
 
-默认配置提供确认，以RK3588为例：
+Default configuration confirmation, take RK3588 as an example:
 
 ```plaintext
 [    5.325570] pci_bus 0000:00: root bus resource [mem 0xf0200000-0xf0ffffff]    # RC 14MB 32bits-np mem
 [    5.325577] pci_bus 0000:00: root bus resource [mem 0x900000000-0x93fffffff pref]            # RC 1GB 64bits-pref mem
 ```
 
-#### 问题：默认分配32bits-np空间不足
+#### Problem: Default allocated 32bits-np space is insufficient
 
-log：
+log:
 
 ```plaintext
-[   11.646077] pci 0000:01:00.0: reg 0x10: [mem 0x00000000-0x00ffffff 64bit]   # Dev总共需求26MB 32bits-np，最终会对齐需求32MB空间
+[   11.646077] pci 0000:01:00.0: reg 0x10: [mem 0x00000000-0x00ffffff 64bit]   # Dev requires 26MB 32bits-np, will be aligned to 32MB
 [   11.646113] pci 0000:01:00.0: reg 0x18: [mem 0x00000000-0x007fffff 64bit]
 [   11.646150] pci 0000:01:00.0: reg 0x20: [mem 0x00000000-0x001fffff 64bit]
 ...
@@ -1562,51 +1222,50 @@ log：
 [   11.971726] pci 0000:01:00.0: BAR 4: failed to assign [mem size 0x00200000 64bit]
 ```
 
-#### 解决补丁参考
+#### Solution Patch Reference
 
-参考 TRM 确认 PCIe 专用的内存空间，然后新增所缺mem range资源。
+Refer to TRM to confirm the dedicated memory space for PCIe, then add the missing mem range resource.
 
- 实例1：RK3588 pcie3x4修改240MB 32bits-np映射空间配置，修改内核rk3588.dtsi对应节点range属性为：
+ Example 1: RK3588 pcie3x4 modifies the 240MB 32bits-np mapping space configuration, modify the kernel rk3588.dtsi corresponding node range attribute as:
 
 ```plaintext
 ranges = <0x00000800 0x0 0xff000000 0x0 0xf0000000 0x0 0x100000
-                         0x81000000 0x0 0xff100000 0x0 0xf0100000 0x0 0x100000
-                         0x82000000 0x0 0xf0000000 0x9 0x00000000 0x0 0x0f000000
-                         0xc3000000 0x9 0x10000000 0x9 0x10000000 0x0 
+                     0x81000000 0x0 0xff100000 0x0 0xf0100000 0x0 0x100000
+                     0x82000000 0x0 0xf0000000 0x9 0x00000000 0x0 0x0f000000
+                     0xc3000000 0x9 0x10000000 0x9 0x10000000 0x0 
 0x30000000>;
 ```
 
- 实例2：RK3588s pcie2x1l2修改240MB 32bits-np映射空间配置，修改内核rk3588s.dtsi对应节点range属性为：
+ Example 2: RK3588s pcie2x1l2 modifies the 240MB 32bits-np mapping space configuration, modify the kernel rk3588s.dtsi corresponding node range attribute as:
 
 ```plaintext
 ranges = <0x00000800 0x0 0xff000000 0x0 0xf4000000 0x0 0x100000
-                         0x81000000 0x0 0xff100000 0x0 0xf4100000 0x0 0x100000
-                         0x82000000 0x0 0xf0000000 0xa 0x00000000 0x0 0x0f000000
-                         0xc3000000 0xa 0x10000000 0xa 0x10000000 0x0 
+                     0x81000000 0x0 0xff100000 0x0 0xf4100000 0x0 0x100000
+                     0x82000000 0x0 0xf0000000 0xa 0x00000000 0x0 0x0f000000
+                     0xc3000000 0xa 0x10000000 0xa 0x10000000 0x0 
 0x30000000>;
 ```
 
- 实例3：RK3588 pcie2x1l0修改240MB 32bits-np映射空间配置，修改内核rk3588.dtsi对应节点range属性为：
+ Example 3: RK3588 pcie2x1l0 modifies the 240MB 32bits-np mapping space configuration, modify the kernel rk3588.dtsi corresponding node range attribute as:
 
 ```plaintext
 ranges = <0x00000800 0x0 0xff000000 0x0 0xff000000 0x0 0x100000
-                         0x81000000 0x0 0xff100000 0x0 0xff100000 0x0 0x100000
-                         0x82000000 0x0 0xf0000000 0x9 0x80000000 0x0 0x0f000000
-                         0xc3000000 0x9 0x90000000 0x9 0x90000000 0x0 
+                     0x81000000 0x0 0xff100000 0x0 0xff100000 0x0 0x100000
+                     0x82000000 0x0 0xf0000000 0x9 0x80000000 0x0 0x0f000000
+                     0xc3000000 0x9 0x90000000 0x9 0x90000000 0x0 
 0x30000000>;
 ```
 
-实例3：RK3568 pcie3x2修改240MB 32bits-np映射空间配置，修改内核rk356x.dtsi对应节点range属性
-为：
+Example 3: RK3568 pcie3x2 modifies the 240MB 32bits-np mapping space configuration, modify the kernel rk356x.dtsi corresponding node range attribute as:
 
 ```
 ranges = <0x00000800 0x0 0xff000000 0x0 0xf0000000 0x0 0x100000
-                         0x81000000 0x0 0xff100000 0x0 0xf0100000 0x0 0x100000
-                         0x82000000 0x0 0xf0000000 0x3 0x80000000 0x0 0x0f000000
-                         0xc3000000 0x3 0x90000000 0x3 0x90000000 0x0 
+                     0x81000000 0x0 0xff100000 0x0 0xf0100000 0x0 0x100000
+                     0x82000000 0x0 0xf0000000 0x3 0x80000000 0x0 0x0f000000
+                     0xc3000000 0x3 0x90000000 0x3 0x90000000 0x0 
 0x30000000>;
 ```
- 实例4：基于实例1新增0x30000000处的256M映射内存，并做按照要求做内存预留：
+ Example 4: Based on Example 1, add 256M mapped memory at 0x30000000 and reserve memory as required:
 
 ```diff
 diff --git a/arch/arm64/boot/dts/rockchip/rk3588-evb1-lp4.dtsi 
@@ -1615,18 +1274,18 @@ index a10dad37f9cf..d1b16e13c459 100644
 --- a/arch/arm64/boot/dts/rockchip/rk3588-evb1-lp4.dtsi
 +++ b/arch/arm64/boot/dts/rockchip/rk3588-evb1-lp4.dtsi
 @@ -233,6 +233,15 @@ wireless_wlan: wireless-wlan {
-               WIFI,poweren_gpio = <&gpio3 RK_PB1 GPIO_ACTIVE_HIGH>;
-               status = "okay";
-       };
+                WIFI,poweren_gpio = <&gpio3 RK_PB1 GPIO_ACTIVE_HIGH>;
+                status = "okay";
+        };
 +
-+       reserved-memory {
-+               #address-cells = <2>;
-+               #size-cells = <2>;
-+               ranges;
-+               pcie3x4_range: pcie3x4-range@30000000 {
-+                       reg = <0x0 0xdfe00000 0x0 0x10200000>;
-+               };
-+       };
++       reserved-memory {
++               #address-cells = <2>;
++               #size-cells = <2>;
++               ranges;
++               pcie3x4_range: pcie3x4-range@30000000 {
++                       reg = <0x0 0xdfe00000 0x0 0x10200000>;
++               };
++       };
  };
  &backlight {
 diff --git a/arch/arm64/boot/dts/rockchip/rk3588.dtsi 
@@ -1635,56 +1294,56 @@ index ad414c61fd38..096f16740e11 100644
 --- a/arch/arm64/boot/dts/rockchip/rk3588.dtsi
 +++ b/arch/arm64/boot/dts/rockchip/rk3588.dtsi
 @@ -601,10 +601,11 @@ pcie3x4: pcie@fe150000 {
-               phys = <&pcie30phy>;
-               phy-names = "pcie-phy";
-               power-domains = <&power RK3588_PD_PCIE>;
--               ranges = <0x00000800 0x0 0xf0000000 0x0 0xf0000000 0x0 0x100000
--                         0x81000000 0x0 0xf0100000 0x0 0xf0100000 0x0 0x100000
--                         0x82000000 0x0 0xf0200000 0x0 0xf0200000 0x0 0xe00000
--                         0xc3000000 0x9 0x00000000 0x9 0x00000000 0x0 
+                phys = <&pcie30phy>;
+                phy-names = "pcie-phy";
+                power-domains = <&power RK3588_PD_PCIE>;
+-               ranges = <0x00000800 0x0 0xf0000000 0x0 0xf0000000 0x0 0x100000
+-                             0x81000000 0x0 0xf0100000 0x0 0xf0100000 0x0 0x100000
+-                             0x82000000 0x0 0xf0200000 0x0 0xf0200000 0x0 0xe00000
+-                             0xc3000000 0x9 0x00000000 0x9 0x00000000 0x0 
 0x40000000>;
-+               ranges = <0x00000800 0x0 0xdfe00000 0x0 0xf0000000 0x0 0x100000
-+                         0x81000000 0x0 0xdff00000 0x0 0xf0100000 0x0 0x100000
-+                         0x82000000 0x0 0xe0000000 0x9 0x00000000 0x0 
-0x20000000 // 扩展至512MB
-+                         0xc3000000 0x9 0x20000000 0x9 0x20000000 0x0 
++               ranges = <0x00000800 0x0 0xdfe00000 0x0 0xf0000000 0x0 0x100000
++                             0x81000000 0x0 0xdff00000 0x0 0xf0100000 0x0 0x100000
++                             0x82000000 0x0 0xe0000000 0x9 0x00000000 0x0 
+0x20000000 // Extended to 512MB
++                             0xc3000000 0x9 0x20000000 0x9 0x20000000 0x0 
 0x20000000>;
-               reg = <0x0 0xfe150000 0x0 0x10000>,
-                     <0xa 0x40000000 0x0 0x400000>;
-               reg-names = "pcie-apb", "pcie-dbi";
+                reg = <0x0 0xfe150000 0x0 0x10000>,
+                      <0xa 0x40000000 0x0 0x400000>;
+                reg-names = "pcie-apb", "pcie-dbi";
 ```
 
 
-### 11.19 如何配置max payload size？
+### 11.19 How to configure max payload size?
 
-PCIe以TLP的形式发送数据，而max payload size(简称mps)决定了pcie设备的tlp能够传输的最大字节数。mps的大小是由PCIe链路两端的设备协商决定的，PCIe设备发送TLP时，其最大payload不能超过mps的值。
+PCIe sends data in the form of TLP, and the max payload size (MPS) determines the maximum number of bytes that a PCIe device's TLP can transmit. The size of MPS is negotiated by both ends of the PCIe link, and the maximum payload sent by the PCIe device cannot exceed the MPS value.
 
-内核提供基于dts的"[PCI] various PCI subsystem options."配置，详细参考“Documentation/admin-guide/kernel-parameters.txt”文档，相关配置如下：
+The kernel provides a "[PCI] various PCI subsystem options." configuration based on dts. For details, refer to the "Documentation/admin-guide/kernel-parameters.txt" document. The relevant configurations are as follows:
 
-- `pcie_bus_tune_off`  #关闭mps调整，使用设备自身默认值
-- `pcie_bus_safe`      #开启mps调整，设置所有设备都支持的最大mps值
-- `pcie_bus_perf`      #开启mps调整，根据parent bus及自身capability设置为最大mps
-- `pcie_bus_peer2peer` #开启mps调整，设置所有设备为mps为128B
+- `pcie_bus_tune_off`  # Turn off MPS adjustment, use the device's own default value
+- `pcie_bus_safe`      # Enable MPS adjustment, set the maximum MPS value supported by all devices
+- `pcie_bus_perf`      # Enable MPS adjustment, set to the maximum MPS according to parent bus and own capability
+- `pcie_bus_peer2peer` # Enable MPS adjustment, set all devices' MPS to 128B
 
-### 说明：
+### Note:
 
-- 内核默认max payload size配置机制为`pcie_bus_tune_off`
-- 通常可以考虑直接在dts bootargs添加`pci=pcie_bus_safe`属性
+- The kernel default max payload size configuration mechanism is `pcie_bus_tune_off`
+- Usually, you can consider directly adding the `pci=pcie_bus_safe` property in dts bootargs
 
-### 11.20 如何固定被枚举设备的ID号？
+### 11.20 How to fix the enumerated device ID?
 
-当系统中出现多路同类型的PCIe设备，如多个网卡，由于初始化顺序不固定的情况，所以`eth0`代表哪一路设备实际并不固定。同样的情况也适用于NVMe等。用户如果希望将被枚举设备的ID进行固定，需要修改对应的function驱动，修改的理论基础是设备的bus number是DTS固定分配的。以下两个例子可供参考：
+When there are multiple PCIe devices of the same type in the system, such as multiple network cards, due to the uncertain initialization order, the actual device represented by `eth0` is not fixed. The same situation applies to NVMe, etc. If the user wants to fix the ID of the enumerated device, the corresponding function driver needs to be modified. The theoretical basis for the modification is that the device's bus number is fixed by DTS. The following two examples are for reference：
 
 ```
-如果RK3588接了三个网卡，想按下面顺序固定：
+If RK3588 is connected to three network cards and you want to fix them in the following order:
 pcie2x1l0: pcie@fe170000 => eth1
 pcie2x1l2: pcie@fe190000 => eth2
 pcie2x1l1: pcie@fe180000 => eth3
-查询dtsi可知：
-pcie2x1l0节点：bus-range = <0x20 0x2f> -> 网卡分配的bus number为0x21 -> eth1
-pcie2x1l2节点：bus-range = <0x40 0x4f> -> 网卡分配的bus number为0x41 -> eth2
-pcie2x1l1节点：bus-range = <0x30 0x3f> -> 网卡分配的bus number为0x31 -> eth3
-修改对应的function驱动，在register_netdev函数被调用前修改注册到网络子系统的名字。
+Check dtsi:
+pcie2x1l0 node: bus-range = <0x20 0x2f> -> network card assigned bus number 0x21 -> eth1
+pcie2x1l2 node: bus-range = <0x40 0x4f> -> network card assigned bus number 0x41 -> eth2
+pcie2x1l1 node: bus-range = <0x30 0x3f> -> network card assigned bus number 0x31 -> eth3
+Modify the corresponding function driver, and change the name registered to the network subsystem before the register_netdev function is called.
 --- a/drivers/net/ethernet/realtek/r8168/r8168_n.c
 +++ b/drivers/net/ethernet/realtek/r8168/r8168_n.c
 @@ -25481,6 +25481,18 @@ static const struct net_device_ops rtl8168_netdev_ops = 
@@ -1694,43 +1353,43 @@ pcie2x1l1节点：bus-range = <0x30 0x3f> -> 网卡分配的bus number为0x31 ->
 +static void pci_bus_nr_2_id(struct pci_dev *pdev, struct net_device *ndev )
 +{
 +
-+       dev_info(&pdev->dev, "%s pdev->bus->number = 0x%x\n",
-+               __func__, pdev->bus->number);
++       dev_info(&pdev->dev, "%s pdev->bus->number = 0x%x\n",
++               __func__, pdev->bus->number);
 +
-+       if(pdev->bus->number == 0x21)
-+               strcpy(ndev->name, "eth1");
-+       if(pdev->bus->number == 0x41)
-+               strcpy(ndev->name, "eth2");
-+       if(pdev->bus->number == 0x31)
-+               strcpy(ndev->name, "eth3");
++       if(pdev->bus->number == 0x21)
++               strcpy(ndev->name, "eth1");
++       if(pdev->bus->number == 0x41)
++               strcpy(ndev->name, "eth2");
++       if(pdev->bus->number == 0x31)
++               strcpy(ndev->name, "eth3");
 +}
 +
  static int __devinit
  rtl8168_init_one(struct pci_dev *pdev,
-                 const struct pci_device_id *ent)
+                 const struct pci_device_id *ent)
 @@ -25624,7 +25636,7 @@ rtl8168_init_one(struct pci_dev *pdev,
-                 rtl8168_set_eeprom_sel_low(tp);
-         rtl8168_get_mac_address(dev);
+                 rtl8168_set_eeprom_sel_low(tp);
+         rtl8168_get_mac_address(dev);
 -
-+       pci_bus_nr_2_id(pdev, dev); // 修改位置一定要在register_netdev()之前
-         tp->fw_name = rtl_chip_fw_infos[tp->mcfg].fw_name;
-同理NVMe存储器可参考类似修改
++       pci_bus_nr_2_id(pdev, dev); // The modification must be before register_netdev()
+         tp->fw_name = rtl_chip_fw_infos[tp->mcfg].fw_name;
+Similarly, NVMe storage can be modified in a similar way
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
 @@ -5169,6 +5169,19 @@ static void nvme_free_ctrl(struct device *dev)
-               nvme_put_subsystem(subsys);
+                nvme_put_subsystem(subsys);
  }
 +static void pci_bus_nr_2_id(struct pci_dev *pdev, struct nvme_ctrl *ctrl)
 +{
-+       dev_info(&pdev->dev, "%s pdev->bus->number = 0x%x\n",
-+               __func__, pdev->bus->number);
++       dev_info(&pdev->dev, "%s pdev->bus->number = 0x%x\n",
++               __func__, pdev->bus->number);
 +
-+       if(pdev->bus->number == 0x21)
-+               ctrl->instance = 1; //pcie2x1l0 -> nvme1
-+       if(pdev->bus->number == 0x41)
-+               ctrl->instance = 2; //pcie2x1l2 -> nvme2
-+       if(pdev->bus->number == 0x31)
-+               ctrl->instance = 3; //pcie2x1l1 -> nvme3
++       if(pdev->bus->number == 0x21)
++               ctrl->instance = 1; //pcie2x1l0 -> nvme1
++       if(pdev->bus->number == 0x41)
++               ctrl->instance = 2; //pcie2x1l2 -> nvme2
++       if(pdev->bus->number == 0x31)
++               ctrl->instance = 3; //pcie2x1l1 -> nvme3
 +}
 +
  /*
@@ -1738,25 +1397,24 @@ pcie2x1l1节点：bus-range = <0x30 0x3f> -> 网卡分配的bus number为0x31 ->
  * earliest initialization so that we have the initialized structured around
 @@ -5178,6 +5191,7 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device 
 *dev,
-               const struct nvme_ctrl_ops *ops, unsigned long quirks)
+                const struct nvme_ctrl_ops *ops, unsigned long quirks)
  {
-       int ret;
-+       struct pci_dev *pdev = container_of(dev, struct pci_dev, dev);
-       ctrl->state = NVME_CTRL_NEW;
-       clear_bit(NVME_CTRL_FAILFAST_EXPIRED, &ctrl->flags);
+        int ret;
++       struct pci_dev *pdev = container_of(dev, struct pci_dev, dev);
+        ctrl->state = NVME_CTRL_NEW;
+        clear_bit(NVME_CTRL_FAILFAST_EXPIRED, &ctrl->flags);
 @@ -5214,6 +5228,8 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device 
 *dev,
-               goto out;
-       ctrl->instance = ret;
-+       pci_bus_nr_2_id(pdev, ctrl);
-       device_initialize(&ctrl->ctrl_device);
-       ctrl->device = &ctrl->ctrl_device;
-       ctrl->device->devt = MKDEV(MAJOR(nvme_ctrl_base_chr_devt),
-```
+                goto out;
+        ctrl->instance = ret;
++       pci_bus_nr_2_id(pdev, ctrl);
+        device_initialize(&ctrl->ctrl_device);
+        ctrl->device = &ctrl->ctrl_device;
+        ctrl->device->devt = MKDEV(MAJOR(nvme_ctrl_base_chr_devt),
 
-## 12. 异常排查
+## 12. Troubleshooting
 
-### 12.1 驱动加载失败
+### 12.1 Driver Load Failure
 
 ```plaintext
 [    0.417008] rk-pcie 3c0000000.pcie: Linked as a consumer to regulator.14
@@ -1764,7 +1422,7 @@ pcie2x1l1节点：bus-range = <0x30 0x3f> -> 网卡分配的bus number为0x31 ->
 [    0.417648] rk-pcie 3c0800000.pcie: phy init failed
 ```
 
-异常原因：dts中未正确开启此控制器所对应的phy节点。
+Cause: The corresponding phy node for this controller is not correctly enabled in the dts.
 
 ```plaintext
 [    0.195567] rochchip_p3phy_init: lock failed 0x6890000, check input refclk and power supply
@@ -1773,17 +1431,16 @@ pcie2x1l1节点：bus-range = <0x30 0x3f> -> 网卡分配的bus number为0x31 ->
 [    0.195611] rk-pcie 3c0800000.pcie: phy init failed
 ```
 
-异常原因：PCIe 3.0 PHY工作电源或者输入时钟异常，导致phy没有正常工作。
+Cause: The PCIe 3.0 PHY power supply or input clock is abnormal, causing the phy to not work properly.
 
-### 12.2 trainning 失败
+### 12.2 Training Failure
 
 ```
-PCIe Link Fail的log如下一直重复”PCIe Linking...“，LTSSM状态机可能不同
+The log of PCIe Link Fail keeps repeating "PCIe Linking...", and the LTSSM state machine may be different
 rk-pcie 3c0000000.pcie: PCIe Linking... LTSSM is 0x0
 rk-pcie 3c0000000.pcie: PCIe Linking... LTSSM is 0x0
 rk-pcie 3c0000000.pcie: PCIe Linking... LTSSM is 0x0
-或者出现"PCIe Link up"的打印， 但LTSSM状态机的bit16与bit17不等于0x3, bit0到bit8数值不大于
-0x11
+Or "PCIe Link up" is printed, but bit16 and bit17 of the LTSSM state machine are not equal to 0x3, and the value of bit0 to bit8 is not greater than 0x11
 [   3.108325] rk-pcie fe150000.pcie: Looking up vpcie3v3-supply from device tree
 [   3.126926] rk-pcie fe150000.pcie: missing legacy IRQ resource
 [   3.126940] rk-pcie fe150000.pcie: IRQ msi not found
@@ -1801,17 +1458,16 @@ rk-pcie 3c0000000.pcie: PCIe Linking... LTSSM is 0x0
 [   3.127007] rk-pcie fe150000.pcie: Missing *config* reg space
 [   3.127028] rk-pcie fe150000.pcie: invalid resource
 [   3.387304] rk-pcie fe150000.pcie: PCIe Link up, LTSSM is 0x0
-真正如果link成功，应该可以看到类似log, 出现"PCIe Link up"的打印，且LTSSM状态机的bit16与
-bit17等于0x3, bit0到bit8数值大等于0x11
+If the link is truly successful, you should see a log like "PCIe Link up" and bit16 and bit17 of the LTSSM state machine are equal to 0x3, and the value of bit0 to bit8 is greater than or equal to 0x11
 [   2.410536] rk-pcie 3c0000000.pcie: PCIe Link up, LTSSM is 0x130011
 ```
 
-异常原因：trainning 失败，外设没有处于工作状态或者信号异常。首先检测下 `reset-gpios` 这个是否配置对了。其次，检测下外设的3V3供电是否有，是否足够，部分外设需要12V电源。最后测试复位信号与电源的时序是否与此设备的spec冲突。如果都无法解决，大概率需要定位信号完整性，需要拿出测试眼图和PCB给到我司硬件，并且最好我们建议贵司找实验室提供一份测试TX兼容性信号测试报告。
+Cause: Training failed, the peripheral is not in working state or the signal is abnormal. First, check whether `reset-gpios` is configured correctly. Second, check whether the 3V3 power supply of the peripheral is present and sufficient; some peripherals require a 12V power supply. Finally, test whether the timing of the reset signal and power supply conflicts with the device's spec. If none of these solve the problem, it is likely a signal integrity issue, and you need to provide an eye diagram and PCB to our hardware team. We also recommend that your company obtain a TX compatibility signal test report from a laboratory.
 
-另外还建议客户打开`pcie-dw-rockchip.c`中的`RK_PCIE_DBG`，抓一份log以便分析。请阅读者注意，如果有多个控制器同时使用，抓log前请先把不使用或者没问题的设备对应的控制器disable掉，这样log会好分析一点。所抓取的log中，将会出现类似“`rk-pcie 3c0000000.pcie: fifo_status = 0x144001`”等信息。`fifo_status`的末尾两位是PCIe链路的ltssm状态机，可以根据状态机信息判断异常发生的大致情况。芯片的PCIe ltssm状态机信息可参照文末附录部分。
+It is also recommended that customers enable `RK_PCIE_DBG` in `pcie-dw-rockchip.c` and capture a log for analysis. Note: If multiple controllers are used at the same time, please disable the controllers of unused or problem-free devices before capturing the log for easier analysis. In the captured log, you will see information like "`rk-pcie 3c0000000.pcie: fifo_status = 0x144001`". The last two digits of `fifo_status` are the ltssm state machine of the PCIe link, which can be used to determine the approximate situation of the exception. The PCIe ltssm state machine information of the chip can be found in the appendix at the end of the document.
 
 
-### 12.3 PCIe3.0控制器初始化设备系统异常
+### 12.3 PCIe3.0 Controller Device Initialization System Exception
 
 ```
 [   21.523506] rcu: INFO: rcu_preempt detected stalls on CPUs/tasks:
@@ -1844,14 +1500,14 @@ bit17等于0x3, bit0到bit8数值大等于0x11
 [   21.524004] Call trace:
 ```
 
-异常原因：如果系统卡住此log附近，则表明PCIe3.0的PHY工作异常。请依次检查：
+Cause: If the system is stuck near this log, it means that the PCIe3.0 PHY is not working properly. Please check in order:
 
-- 外部晶振芯片的时钟输入是否异常，如果无时钟或者幅度异常，将导致phy无法锁定。
-- 检查 `PCIE30_AVDD_0V9` 和 `PCIE30_AVDD_1V8` 电压是否满足要求。
-- 检查板级DTS中是否有将PCIe的低速IO进行配置，如有请删除再测试；并参考“低速IO说明”部分了解这些IO的具体使用方式。
-- RK3588 pcie30phy 如果只使用其中一个port，另一个port也需要供电，检查是否符合要求。
+- Whether the clock input of the external crystal oscillator chip is abnormal. If there is no clock or the amplitude is abnormal, the phy will not be able to lock.
+- Check whether the voltages of `PCIE30_AVDD_0V9` and `PCIE30_AVDD_1V8` meet the requirements.
+- Check whether the low-speed IO of PCIe is configured in the board-level DTS. If so, please delete and test again; and refer to the "Low-speed IO Description" section for the specific usage of these IOs.
+- For RK3588 pcie30phy, if only one port is used, the other port also needs to be powered. Check whether this meets the requirements.
 
-### 12.4 PCIe2.0控制器初始化设备系统异常
+### 12.4 PCIe2.0 Controller Device Initialization System Exception
 
 ```
 [   21.523870] rcu:     (detected by 2, t=6302 jiffies, g=-1183, q=1)
@@ -1866,11 +1522,11 @@ bit17等于0x3, bit0到bit8数值大等于0x11
 [   21.524004] Call trace:
 ```
 
-异常原因：如果系统卡住此log附近，则表明PCIe2.0的PHY工作异常。以RK3568的combphy2_psq这个PHY为例，请依次检查：
+Cause: If the system is stuck near this log, it means that the PCIe2.0 PHY is not working properly. Taking the combphy2_psq PHY of RK3568 as an example, please check in order:
 
-- 检查 `PCIE30_AVDD_0V9` 和 `PCIE30_AVDD_1V8` 电压是否满足要求。
-- 检查板级DTS中是否有将PCIe的低速IO进行配置，如有请删除再测试；并参考“低速IO说明”部分了解这些IO的具体使用方式。
-- 修改combphy2_psq的驱动phy-rockchip-naneng-combphy.c，在rockchip_combphy_init函数的末尾增加如下代码，检查PHY内部的一些配置：
+- Check whether the voltages of `PCIE30_AVDD_0V9` and `PCIE30_AVDD_1V8` meet the requirements.
+- Check whether the low-speed IO of PCIe is configured in the board-level DTS. If so, please delete and test again; and refer to the "Low-speed IO Description" section for the specific usage of these IOs.
+- Modify the driver phy-rockchip-naneng-combphy.c for combphy2_psq, and add the following code at the end of the rockchip_combphy_init function to check some internal configurations of the PHY:
 
 ```c
 val = readl(priv->mmio + (0x27 << 2));
@@ -1880,9 +1536,9 @@ val = readl(priv->mmio + (0x28 << 2));
 dev_err(priv->dev, "PWON_IREF is 0x%x\n", val & BIT(7));
 ```
 
-首先查看`TXPLL_LOCK`是否为1，如果不是，表明PHY没有lock完成。其次查看`PWON_IREF`是否为1，如果不为1，则表明PHY时钟异常。此时尝试切换combophy的时钟频率，修改rk3568.dtsi中的combphy2_psq的assigned-clock-rates，依次调整为25M或者100M进行尝试。
+First, check whether `TXPLL_LOCK` is 1. If not, it means the PHY has not completed locking. Then check whether `PWON_IREF` is 1. If not, it means the PHY clock is abnormal. At this time, try to switch the clock frequency of combophy by modifying the assigned-clock-rates of combphy2_psq in rk3568.dtsi, and try 25M or 100M in turn.
 
-如果调整以上步骤均无效，请将PHY内部的时钟bypass到refclk差分信号脚上，进行测量。bypass加在rockchip_combphy_pcie_init函数的末尾，根据芯片的不同，设置如下代码所示：
+If the above steps do not work, please bypass the internal clock of the PHY to the refclk differential signal pin and measure it. Add the bypass at the end of the rockchip_combphy_pcie_init function. According to different chips, set as follows:
 
 ```c
 /* For RK356X, RK3588 */
@@ -1900,17 +1556,17 @@ val |= BIT(29);
 writel(val, priv->mmio + 0x108);
 ```
 
-设置完成后，请依次配置combphy2_psq的时钟频率为24M,25M以及100M，用示波器从PCIe的refclk差分信号脚上测量时钟情况，检查频率和幅值、抖动是否满足要求。
+After setting, please configure the clock frequency of combphy2_psq to 24M, 25M, and 100M in turn, and use an oscilloscope to measure the clock at the refclk differential signal pin of PCIe to check whether the frequency, amplitude, and jitter meet the requirements.
 
-还需特别注意：由于PCIe 2.0接口与SATA2接口复用，如果两者被错误地同时打开，开机过程或者休眠唤醒过程也会出现类似log。
+Special note: Since the PCIe 2.0 interface is multiplexed with the SATA2 interface, if both are mistakenly enabled at the same time, similar logs will appear during boot or resume from sleep.
 
-### 12.5 PCIe外设Memory BAR资源分配异常
+### 12.5 PCIe Peripheral Memory BAR Resource Allocation Exception
 
-外设分配Memory资源异常主要分为三类：
+There are three main types of exceptions in peripheral memory resource allocation:
 
-- 地址空间超出平台限制
+- Address space exceeds platform limit
 
-各平台地址空间大小可查阅常见应用问题章节之“芯片支持分配的BAR空间地址域有多大”。此类异常的典型log如下所示，其特征关键字为`no space for`，表明21号总线外设向RK平台申请3GB的64bit memory空间，超出了限制导致无法分配资源。若为市售设备，将不受RK芯片支持；若为定制设备，请联系设备vendor确认是否可以修改其BAR空间容量编码。
+The address space size supported by each platform can be found in the "How large is the BAR space address domain supported by the chip" section of the Common Application Issues chapter. The typical log for this type of exception is shown below, with the key feature being `no space for`, indicating that the device on bus 21 is requesting 3GB of 64bit memory space from the RK platform, which exceeds the limit and cannot be allocated. If it is a commercial device, it will not be supported by the RK chip; if it is a custom device, please contact the device vendor to confirm whether the BAR space capacity encoding can be modified.
 
 ```
 3.286864] pci 0002:20:00.0: bridge configuration invalid ([bus 01-ff]), reconfiguring
@@ -1924,9 +1580,9 @@ writel(val, priv->mmio + 0x108);
 3.298488] pci 0002:21:00.0: PCI bridge to [bus 21]
 ```
 
-- class类型非法
+- Illegal class type
 
-其特征关键字为`class 0x000000`，且`lspci`输出可见其BAR资源均显示`unassigned`状态。应对此问题的正确做法是联系模块供应商，对模块的class类型进行正确的配置。如果无法修改或者作为临时性的解决方案，可以参考所示补丁尝试对模块的class类型进行软件修复，需要填入此异常模块的VID和PID，并且class修复为其真实类型（请参考常见应用问题章节之“在系统中如何确定控制器与设备的对应关系”部分关于class类型的描述进行配置）。
+The key feature is `class 0x000000`, and `lspci` output shows all BAR resources as `unassigned`. The correct way to deal with this problem is to contact the module supplier and configure the class type of the module correctly. If it cannot be modified or as a temporary solution, you can refer to the patch below to try to fix the class type of the module in software. You need to fill in the VID and PID of the abnormal module, and fix the class to its real type (please refer to the description of class type in the "How to determine the correspondence between controller and device in the system" section of the Common Application Issues chapter for configuration).
 
 ```
 [   2.335899] pci 0000:02:04.0: [13fe:1730] type 00 class 0x000000
@@ -1968,9 +1624,9 @@ quirk_class_id_fixup); /* Please Add Correct Vendor ID and Device ID ! */
 ```
 
 
-- 外设的BAR寄存器校验异常
+- BAR register verification exception of the peripheral
 
-其特征关键字为`assigned [mem`和`error updating`，且`lspci`输出可见其BAR资源均显示`unassigned`状态。出现此问题的原因是外设工作状态异常，导致BAR地址写入外设后，回读校验失败。其可能的因素是低功耗支持异常，或可能是外设对于非Gen1的RC支持存在问题，亦或者是其他类型的模块工作异常。
+The key feature is `assigned [mem` and `error updating`, and `lspci` output shows all BAR resources as `unassigned`. The reason for this problem is that the peripheral is in an abnormal working state, resulting in a failure to verify the BAR address after writing it to the peripheral. Possible factors include abnormal low power support, or the peripheral may have problems supporting non-Gen1 RC, or other types of module malfunctions.
 
 ```
 [    2.460092] pci 0002:21:00.0: calc_l1ss_pwron: Invalid T_PwrOn scale: 3
@@ -1982,9 +1638,9 @@ quirk_class_id_fixup); /* Please Add Correct Vendor ID and Device ID ! */
 [    2.472153] pci 0002:21:00.0: BAR 0: error updating (high 0x000000 != 0xffffffff)
 ```
 
-此类问题，首先请测量模组供电、`#PERST`复位信号和100M参考时钟三者的控制时序是否满足模组手册要求，例如QCNFA765模块如果使用常供电方式，就使得时序异常进而导致模块工作异常，产生此问题。如果硬件外围设计与接口时序均满足模块手册要求，则建议依次尝试下列的补丁。若依然无效，联系供应商协助分析模块异常原因。
+For this type of problem, first measure whether the module power supply, `#PERST` reset signal, and 100M reference clock meet the timing requirements of the module manual. For example, if the QCNFA765 module uses a constant power supply, it will cause timing abnormalities and module malfunctions, resulting in this problem. If the hardware peripheral design and interface timing both meet the module manual requirements, try the following patches in order. If still invalid, contact the supplier for assistance in analyzing the module abnormality.
 
-1. 禁止此模块的ASPM功能，其中PID和VID需要填写设备真实的ID。
+1. Disable the ASPM function of this module. The PID and VID need to be filled in with the actual device IDs.
 
     ```diff
     --- a/drivers/pci/quirks.c
@@ -1998,7 +1654,7 @@ quirk_class_id_fixup); /* Please Add Correct Vendor ID and Device ID ! */
     Correct Vendor ID and Device ID to disable L0s and L1 ASPM */
     ```
 
-2. 限制对应控制的模式为Gen1，在dtsi中修改对应节点的`max-link-speed`，示例如下：
+2. Limit the mode of the corresponding controller to Gen1 by modifying the `max-link-speed` of the corresponding node in dtsi, as shown below:
 
     ```diff
     --- a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi
@@ -2014,7 +1670,7 @@ quirk_class_id_fixup); /* Please Add Correct Vendor ID and Device ID ! */
                      phys = <&combphy0_ps PHY_TYPE_PCIE>;
     ```
 
-3. 增加外设供电稳定时间以及`#PERST`复位时间，示例如下：
+3. Increase the power supply stabilization time and `#PERST` reset time for the peripheral, as shown below:
 
     ```diff
     --- a/arch/arm64/boot/dts/rockchip/rk3568-evb1-lp4.dtsi
@@ -2035,8 +1691,7 @@ quirk_class_id_fixup); /* Please Add Correct Vendor ID and Device ID ! */
              status = "okay";
      };
     ```
-
-4. 已知高通部分系列的wifi模块存在异常，受影响的模块包AR9xxx系列和QCA9xxx系列。非高通系列模块无需此补丁。
+4. It is known that some Qualcomm series WiFi modules have anomalies, affecting the AR9xxx and QCA9xxx series modules. Non-Qualcomm series modules do not require this patch.
 
     ```diff
          --- a/drivers/pci/pcie/aspm.c
@@ -2175,11 +1830,7 @@ quirk_class_id_fixup); /* Please Add Correct Vendor ID and Device ID ! */
       };
     ```
 
-- switch的无效端口占用了部分资源。以RK3588为例，其每个root port可分配的32-bit BAR空间仅
-为16MB。有的switch，如ASM2812，不论port的下游是否有设备，都会如下面log所示，申请
-2MB的32-bit BAR空间。根据lspci结果我们可以看到，bus 12的switch下的2/3/a/b这四个port下
-面并无设备，但却额外占用了总共8MB的32-bit BAR空间，导致正常设备的32-bit BAR资源不够分
-配。
+- Invalid ports of the switch occupy some resources. Take RK3588 as an example, each root port can only allocate 16MB of 32-bit BAR space. Some switches, such as ASM2812, will request 2MB of 32-bit BAR space for each port, regardless of whether there is a downstream device, as shown in the log below. According to the lspci result, we can see that under bus 12, the four ports 2/3/a/b of the switch do not have devices downstream, but they still occupy a total of 8MB of 32-bit BAR space, resulting in insufficient 32-bit BAR resources for normal devices.
 
 ```
 [   22.005666] pci 0001:12:00.0: BAR 8: no space for [mem size 0x00600000]
@@ -2246,9 +1897,7 @@ lspci -nn
 0003:31:00.0 Ethernet controller [0200]: Realtek Semiconductor Co., Ltd. Device 
 [10ec:8125] (rev 05)
 ```
-处理这类问题，建议同switch厂家协商，是否可以修改switch的固件配置，关闭不存在下游设备的端口
-的BAR空间。如果switch的固件无法关闭的情况下，且产品的拓扑结构相对固定（即不存在switch的各
-插槽随机插入设备的情况），可以尝试下列补丁进行过滤：
+To deal with such problems, it is recommended to negotiate with the switch manufacturer to see if the switch firmware configuration can be modified to disable the BAR space of ports without downstream devices. If the switch firmware cannot be disabled, and the product topology is relatively fixed (i.e., there is no situation where devices are randomly inserted into the switch slots), you can try the following patch for filtering:
 
 ```diff
 diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
@@ -2266,7 +1915,7 @@ index ece90a2..53bef6b 100644
 +
 +#define ANY 0xff
 +
-+/* 请在sbl表中填写实际要过滤的设备bdf，以上述log为例，过滤的是bus12的2/3/a/b四个端口*/
++/* Please fill in the actual devices to be filtered in the sbl table. In the above log example, the filtered ones are the four ports 2/3/a/b on bus 12 */
 +static struct scan_blacklist_devfn sbl[] = {
 +       {12, 0x2, ANY},
 +       {12, 0x3, ANY},
@@ -2303,9 +1952,9 @@ pci_bus *bus,
                nr_devs = pci_scan_slot(bus, devfn);
 ```
 
-### 12.6 PCIe外设IO BAR资源分配异常
+### 12.6 PCIe Peripheral IO BAR Resource Allocation Exception
 
-在枚举过程中出现以下IO BAR地址空间写入异常，并报有类似错误log，其特征关键字为`assigned [io`和`error updating`，或者`firmware Bug`，则建议核对设备手册中关于IO BAR地址空间的限制：
+During the enumeration process, if the following IO BAR address space write exception occurs, and there are similar error logs with keywords such as `assigned [io` and `error updating`, or `firmware Bug`, it is recommended to check the device manual for restrictions on IO BAR address space:
 
 ```
 [    2.324600] pci_bus 0002:22: extended config space not accessible
@@ -2315,7 +1964,7 @@ pci_bus *bus,
 [    2.331041] pci_bus 0002:22: busn_res: [bus 22-2f] end is updated to 22
 ```
 
-或：
+or:
 
 ```
 [    2.434085] [  T117] pci_bus 0002:22: extended config space not accessible
@@ -2328,9 +1977,9 @@ pci_bus *bus,
 [    2.463002] [  T117] snd_cmipci 0002:22:00.0: enabling device (0080 -> 0081)
 ```
 
-注释：
+Note:
 
-以上log为使用PCI声卡CMI8738时的异常打印。PCI原生设计是针对X86体系，所以IO BAR地址长度通常较小。CMI8738声卡IO BAR0地址限制在`0xFF00`以内，所以可参考以下补丁：
+The above log is the abnormal print when using the PCI sound card CMI8738. The PCI native design is for the X86 architecture, so the IO BAR address length is usually small. The IO BAR0 address of the CMI8738 sound card is limited to within `0xFF00`, so you can refer to the following patch:
 
 ```diff
 diff --git a/arch/arm64/boot/dts/rockchip/rk3568.dtsi b/arch/arm64/boot/dts/rockchip/rk3568.dtsi
@@ -2348,38 +1997,38 @@ index 9dc057637177..a060dcbf7df5 100644
                            <0x0 0xfe280000 0x0 0x10000>;
 ```
 
-### 12.7 MSI/MSI-X无法使用
+### 12.7 MSI/MSI-X Cannot Be Used
 
-在移植外设驱动的开发过程中（主要指的是WiFi），认为主机端的function driver因无法使用MSI或者MSI-X中断而导致流程不正常，按如下流程进行排查：
+During the development of peripheral drivers (mainly WiFi), if the function driver on the host side is considered abnormal due to the inability to use MSI or MSI-X interrupts, please troubleshoot as follows:
 
-- 确认前述menuconfig中提到的配置，尤其是MSI相关配置是否都有正确勾选。
-- 确认rk3568.dtsi中，its节点是否被设置为disabled。
-- 执行`lspci -vvv`，查看对应设备的MSI或者MSI-X是否有支持并被使能。以此设备为例，其上报的capabilities显示其支持32个64 bit MSI，目前仅使用1个，但是`Enable-`表示未使能。若正确使能应该看到`Enable+`，且`Address`应该能看到类似为`0x00000000fd4400XX`的地址。此情况一般是设备驱动还未加载或者加载时申请MSI或者MSI-X失败导致，请参考其他驱动，使用`pci_alloc_irq_vectors`等函数进行申请，详情可结合其他成熟的PCIe外设驱动做法以及参考内核中的`Documentation/PCI/MSI-HOWTO.txt`文档进行编写和排查异常。
+- Confirm the configuration mentioned in the previous menuconfig, especially whether the MSI-related configuration is correctly selected.
+- Confirm whether the its node in rk3568.dtsi is set to disabled.
+- Execute `lspci -vvv` to check whether the corresponding device supports and enables MSI or MSI-X. For example, the reported capabilities of this device show that it supports 32 64-bit MSIs, currently only 1 is used, but `Enable-` means it is not enabled. If enabled correctly, you should see `Enable+`, and the `Address` should show an address like `0x00000000fd4400XX`. In this case, it is generally because the device driver has not been loaded or failed to apply for MSI or MSI-X when loading. Please refer to other drivers and use functions such as `pci_alloc_irq_vectors` to apply. For details, refer to other mature PCIe peripheral driver practices and the kernel documentation `Documentation/PCI/MSI-HOWTO.txt`.
 
     ```
     Capabilities: [58] MSI: Enable- Count=1/32 Maskable- 64bit+
                     Address: 0000000000000000  Data: 0000
     ```
 
-如果MSI或者MSI-X有正确申请，可用如下命令导出中断计数，查看是否正常：`cat /proc/interrupts`。在其中找到对应驱动申请的ITS-MSI中断（依据最后一列申请者驱动名称，例如此处为`xhci_hcd`驱动申请了这些MSI中断）。理论上每一笔的通信传输都会增加ITS，如果设备没有通信或者通信不正常，就会看到中断计数为0，或者有数值但发起通信后不再增加中断计数的情况。
+If MSI or MSI-X is correctly applied, you can use the following command to export the interrupt count and check whether it is normal: `cat /proc/interrupts`. Find the ITS-MSI interrupt applied by the corresponding driver (according to the last column, such as `xhci_hcd`). In theory, each communication transfer will increase ITS. If the device does not communicate or is abnormal, you will see the interrupt count is 0, or the value does not increase after communication.
 
 ```
 229: 0 0 0 0 0 0 ITS-MSI 524288 Edge xhci_hcd
 ```
 
-如果是概率性事件导致function driver无法收到MSI或者MSI-X中断，可以进行如下尝试。首先执行`cat /proc/interrupts`查看相应中断号，以上述229为例，将中断迁移导其他CPU测试。例如切换导CPU2，则使用命令`echo 2 > /proc/irq/229/smp_affinity_list`。
+If it is a probabilistic event that causes the function driver to fail to receive MSI or MSI-X interrupts, you can try the following. First, execute `cat /proc/interrupts` to check the corresponding interrupt number. For example, for 229 above, migrate the interrupt to another CPU for testing. For example, to switch to CPU2, use the command `echo 2 > /proc/irq/229/smp_affinity_list`.
 
-使用协议分析仪器抓取协议信号，查看流程中外设是否有概率性没有向主机发送MSI或者MSI-X中断，而导致的异常。需注意，目前协议分析仪一般都难以支持焊贴设备的信号采集，需向设备vendor购买金手指的板卡，在我司EVB上进行测试和信号采集。另需注意我司EVB仅支持标准接口的金手指板卡，若待测设备为M.2接口的设备（常见key A, key B, key M, key B+M, key E 四种类型），请参考附录中“M.2 硬件接口”章节所介绍的关于不同key的外观尺寸，采购使用对应型号的转接板。
+Use a protocol analyzer to capture protocol signals and check whether the peripheral sometimes fails to send MSI or MSI-X interrupts to the host, causing exceptions. Note that most protocol analyzers are difficult to support signal acquisition for soldered devices. You need to purchase a gold finger card from the device vendor for testing and signal acquisition on our EVB. Also note that our EVB only supports standard interface gold finger cards. If the device to be tested is an M.2 interface device (common key A, key B, key M, key B+M, key E), please refer to the appendix "M.2 Hardware Interface" for the appearance and size of different keys and purchase the corresponding adapter board.
 
-### 12.8 外设枚举后通信过程中报错
+### 12.8 Peripheral Communication Error After Enumeration
 
-以下是NVMe在RK3566-EVB2上进行正常枚举之后，通信过程中突然设备异常报错的log。不论是什么设备，如果可以正常枚举并使能，则可以看到类似`nvme 0000:01:00.0: enabling device (0000 -> 0002)`的log。此后通信过程中设备报错，需要考虑如下三个方面：
+The following is the log of NVMe on RK3566-EVB2 after normal enumeration and then abnormal error during communication. No matter what device, if it can be enumerated and enabled normally, you can see a log like `nvme 0000:01:00.0: enabling device (0000 -> 0002)`. If an error occurs during communication, consider the following three aspects:
 
-- 利用示波器测量触发外设的电源，排除是否有跌落的情况发生。
-- 利用示波器测量触发外设的`#PERST`信号，排除是否被人误操作导致设备被复位的情况发生。
-- 利用示波器测量触发PCIe PHY的0v9和1v8两路电源，排除是否PHY的电源异常。
+- Use an oscilloscope to measure the power supply of the peripheral to rule out voltage drops.
+- Use an oscilloscope to measure the #PERST signal of the peripheral to rule out accidental resets.
+- Use an oscilloscope to measure the 0v9 and 1v8 power supplies of the PCIe PHY to rule out PHY power anomalies.
 
-特别提醒：RK EVB有较多的信号复用，利用拨码将PCIe的`#PERST`控制信号和其他外设的IO进行复用，请配合硬件重点确认。例如目前已知有部分RK3566-EVB2的拨码有异常，需要修正。
+Special reminder: RK EVB has a lot of signal multiplexing. Use DIP switches to multiplex the PCIe #PERST control signal and other peripheral IOs. Please confirm with hardware engineers. For example, it is known that some RK3566-EVB2 DIP switches are abnormal and need to be fixed.
 
 ```
 [    2.426038] pci 0000:00:00.0:   bridge window [mem 0x300900000-0x3009fffff]
@@ -2399,15 +2048,12 @@ index 9dc057637177..a060dcbf7df5 100644
 [   48.162900] nvme nvme0: failed to set APST feature (-19)
 ```
 
+### 12.9 FW Exception During Peripheral Enumeration
 
-
-### 12.9 外设枚举过程报FW异常
-
-如设备在枚举过程分配BAR空间报如下两类错误，一般问题是设备的BAR空间与协议不兼容，需要特殊处理。需要修改`drivers/pci/quirks.c`中，增加对应quirk处理。具体信息应该咨询设备厂商。目前已知JMB585芯片给出的解决办法是需要重复读取BAR空间，才可以解决他们Fireware的异常，那么可以使用`echo 1 > /sys/bus/pci/rescan`重新对链路进行扫描，可以修复。
-
+If the device reports the following two types of errors when allocating BAR space during the enumeration process, the problem is generally that the device's BAR space is incompatible with the protocol and requires special handling. You need to modify `drivers/pci/quirks.c` to add the corresponding quirk handling. For specific information, you should consult the device manufacturer. The known solution for the JMB585 chip is to repeatedly read the BAR space to resolve their Firmware exception. You can use `echo 1 > /sys/bus/pci/rescan` to rescan the link, which can fix the issue.
 
 ```
-类型1：
+Type 1:
 [   2.379768] rk-pcie 3c0000000.pcie: PCIe Link up, LTSSM is 0x30011
 [   2.380155] rk-pcie 3c0000000.pcie: PCI host bridge to bus 0000:00
 [   2.380187] pci_bus 0000:00: root bus resource [bus 00-0f]
@@ -2416,7 +2062,7 @@ index 9dc057637177..a060dcbf7df5 100644
 [   2.380230] pci_bus 0000:00: root bus resource [mem 0x300900000-0x33fffffff] (bus address [0x00900000-0x3fffffff])
 [   2.394983] pci 0000:01:00.0: [Firmware Bug] reg 0x10: invalid BAR (can't size)
 
-类型2：
+Type 2:
 
 [   2.548219] pci 0000:01:00.0: [10ec:b723] type 00 class 0x028000
 [   2.548389] pci 0000:01:00.0: reg 0x10: initial BAR value 0x00000000 invalid
@@ -2426,9 +2072,9 @@ index 9dc057637177..a060dcbf7df5 100644
 [   2.549138] pci 0000:01:00.0: PME# supported from D0 D1 D2 D3hot D3cold
 ```
 
-### 12.10 重新映射后访问PCIe设备的BAR地址空间异常
+### 12.10 Exception When Accessing PCIe Device BAR Address Space After Remapping
 
-1. **首先**，如果内核中利用`ioremap`将分配给PCIe外设的BAR地址进行映射后，使用`memset`或者`memcpy`来读写，会产生`alignment fault`错误。亦或者利用`mmap`将分配给PCIe外设的BAR地址映射到用户态进行访问，使用`memset`或者`memcpy`来读写，会产生`sigbug`错误。原因是`memcpy`有对齐优化问题或者`memset`在ARM64上会使用类似`DC ZVA`等指令，这些指令不支持`Device memory type(nGnRE)`。
+1. **First**, if the kernel uses `ioremap` to map the BAR address allocated to the PCIe peripheral, and then uses `memset` or `memcpy` to read or write, an `alignment fault` error will occur. Or if you use `mmap` to map the BAR address allocated to the PCIe peripheral to user space for access, and use `memset` or `memcpy` to read or write, a `sigbug` error will occur. The reason is that `memcpy` has alignment optimization issues or `memset` on ARM64 will use instructions like `DC ZVA`, which do not support `Device memory type(nGnRE)`.
 
     ```
     [   69.195811] Unhandled fault: alignment fault (0x96000061) at 0xffffff8009800000
@@ -2443,9 +2089,9 @@ index 9dc057637177..a060dcbf7df5 100644
     [   69.366713] sp : ffffffc00a2df810
     ```
 
-    **解决办法**：改用`memset_io`或者`memset_fromio/memset_toio`等API。如果需要在用户态操作，请使用循环赋值方式来拷贝或者清理内存。另外，由于对齐访问的要求，如果您的程序触发了上述异常，强烈建议在内核配置中开启这个配置`CONFIG_ROCKCHIP_ARM64_ALIGN_FAULT_FIX`。
+    **Solution**: Use APIs such as `memset_io` or `memset_fromio/memset_toio` instead. If you need to operate in user space, please use a loop assignment method to copy or clear memory. In addition, due to the requirements of aligned access, if your program triggers the above exception, it is strongly recommended to enable this configuration in the kernel: `CONFIG_ROCKCHIP_ARM64_ALIGN_FAULT_FIX`.
 
-2. **其次**，针对RK3588如果对BAR空间赋值操作触发以下类似异常，这是由于编译器将四个地址连续的访问优化成一个平台不支持的16字节的访问。
+2. **Second**, for RK3588, if a BAR space assignment operation triggers the following similar exception, it is because the compiler optimizes four consecutive address accesses into a 16-byte access that the platform does not support.
 
    ```
          [14037.477507][   C3] SError Interrupt on CPU3, code 0xbe000011 -- SError
@@ -2501,23 +2147,23 @@ index 9dc057637177..a060dcbf7df5 100644
          [14037.477769][   C4] CPU4: stopping
          [14037.477778][   C1] handle_percpu_devid_fasteoi_ipi+0x7c/0x1c8
    ```
-    假设`addr`是您程序重映射的PCIe设备BAR地址，您的程序对这个地址进行四个连续地址的赋值操作，请在代码点1、2、3处任意一点加入一个内存屏障`barrier()`。
+    Suppose `addr` is the BAR address of the PCIe device remapped by your program, and your program performs four consecutive address assignment operations on this address. Please add a memory barrier `barrier()` at any of code points 1, 2, or 3.
 
     ```c
-    /* 若在用户态使用，需要添加如下barrier的实现 */
+    /* If used in user space, add the following barrier implementation */
     #define barrier() __asm__ __volatile__("" ::: "memory")
     *((u32 *)((void *)addr + 0x0)) = 0x11111111;
-    /* 代码点 1 */
+    /* Code point 1 */
     *((u32 *)((void *)addr + 0x4)) = 0x44444444;
-    /* 代码点 2 */
+    /* Code point 2 */
     *((u32 *)((void *)addr + 0x8)) = 0x88888888;
-    /* 代码点 3 */
+    /* Code point 3 */
     *((u32 *)((void *)addr + 0xc)) = 0xcccccccc;
     ```
 
-### 12.11 PCIe转USB设备驱动(xhci)加载异常
+### 12.11 PCIe-to-USB Device Driver (xhci) Loading Exception
 
-部分市售PCIe转USB芯片，如VL805，在链路建立之后，设备驱动加载异常。主要异常点就是等待xHCI芯片复位没有完成，大概率是转接芯片的固件需要升级。可先对接PC平台测试，若确定需要升级固件可联系供应商。
+Some commercially available PCIe-to-USB chips, such as VL805, encounter driver loading exceptions after the link is established. The main exception is that the xHCI chip reset is not completed, most likely because the firmware of the bridge chip needs to be upgraded. You can first test on a PC platform. If it is confirmed that the firmware needs to be upgraded, please contact the supplier.
 
 ```
 [ 6.289987] pci 0000:01:00.0: xHCI HW not ready after 5 sec (HC bug?) status = 0x811
@@ -2529,7 +2175,7 @@ index 9dc057637177..a060dcbf7df5 100644
 [ 16.534281] xhci_hcd: probe of 0000:01:00.0 failed with error -110
 ```
 
-若仍无法解决，可以尝试下列补丁`drivers/usb/host/pci-quirks.c`：
+If the problem still cannot be solved, you can try the following patch for `drivers/usb/host/pci-quirks.c`:
 
 ```diff
 diff --git a/drivers/usb/host/pci-quirks.c b/drivers/usb/host/pci-quirks.c
@@ -2552,13 +2198,13 @@ index 3ea435c..cca536d 100644
          pdev->class != PCI_CLASS_SERIAL_USB_EHCI &&
 ```
 
-### 12.12 PCIe 3.0接口休眠唤醒时系统异常
+### 12.12 System Exception During PCIe 3.0 Interface Suspend and Wakeup
 
-休眠唤醒测试如见下列log，原因是休眠时候关闭3.3v电源时导致了时钟晶振的电源异常。请从三个方面着手：
+During suspend and wakeup testing, as shown in the following log, the reason is that turning off the 3.3v power supply during suspend causes a clock crystal power exception. Please address the issue from three aspects:
 
-1. dts中`vpcie3v3-supply`的电源配置，是否电源的`max`和`min`等配置不合理，导致电源操作异常。
-2. 测量时钟晶振，是否在休眠前提前关闭了，或者休眠失败后就没有再次开启，亦或者掉电不充分导致时钟晶振芯片异常。
-3. 将3.3v电源和晶振的供电飞线改为外部供电，排除异常。
+1. The power configuration of `vpcie3v3-supply` in the dts, whether the `max` and `min` configurations of the power supply are unreasonable, causing abnormal power operations.
+2. Measure the clock crystal to see if it was turned off before suspend, or if it was not turned on again after suspend failure, or if insufficient power-down caused the clock crystal chip to malfunction.
+3. Change the 3.3v power supply and crystal power supply fly wires to external power supply to rule out exceptions.
 
 ```
 [   17.406781] PM: suspend entry (deep)
@@ -2592,9 +2238,9 @@ index 3ea435c..cca536d 100644
 [  101.523307]  pci_pm_resume_noirq+0x0/0x120
 ```
 
-### 12.13 PCIe设备切换PM模式时模块异常
+### 12.13 Module Exception When PCIe Device Switches PM Mode
 
-目前有发现个别Wi-Fi模块休眠唤醒的时候，协议栈无法将其设置从D3 hot切换为D0状态，导致休眠唤醒流程失败。由于考虑到PCIe控制器驱动会强制链路进入L2并复位，唤醒后链路和设备能回到L0和D0状态，所以协议栈是否能成功将模块设置进入D0状态并不影响唤醒后的使用。因此可以使用所提供的补丁依次尝试进行修复。
+Currently, it has been found that some Wi-Fi modules fail to switch from D3 hot to D0 state during suspend and wakeup, causing the suspend and wakeup process to fail. Since the PCIe controller driver will force the link into L2 and reset, after wakeup the link and device can return to L0 and D0 states, so whether the protocol stack can successfully set the module to D0 state does not affect the use after wakeup. Therefore, you can use the provided patches to try to fix it in order.
 
 ```
 [ 848.869840] PM: Some devices failed to suspend, or early wake event detected
@@ -2650,9 +2296,9 @@ pci_power_t state)
 
 
 
-### 12.14 PCIe 外设休眠唤醒时模块无法连接或者工作异常
+### 12.14 PCIe Peripheral Cannot Connect or Work Abnormally After Suspend and Wakeup
 
-原则上PCIe外设在休眠时候需要进行断电。如果由于硬件上的限制导致掉电过程过于缓慢，那么如果快速唤醒就很容易导致外设掉电不充分又被上电，引起模块工作异常。此问题常见但不限于NVMe模块，由于NVMe为了防止异常掉电而在电源增加了一些大的耦合电容，而显得问题相对突出。可以打上如下风险测试补丁，若存在上述问题，一般可以快速复现。
+In principle, PCIe peripherals need to be powered off during suspend. If, due to hardware limitations, the power-down process is too slow, a quick wakeup can easily cause the peripheral to be powered on again before it is fully powered down, resulting in abnormal module operation. This problem is common, but not limited to NVMe modules. Since NVMe adds large coupling capacitors to the power supply to prevent abnormal power-off, the problem is more prominent. You can apply the following risk test patch. If the above problem exists, it can usually be reproduced quickly.
 
 ```diff
 --- a/kernel/cpu.c
@@ -2671,10 +2317,10 @@ pci_power_t state)
                  error = _cpu_down(cpu, 1, CPUHP_OFFLINE);
 ```
 
-此类问题的处理需要从两方面着手解决：
+The handling of such problems needs to be addressed from two aspects:
 
-1. 硬件上修改PCIe模块的放电电路，保证合理的放电时长，给出优化后的最长放电时长`t`。
-2. 软件上增加外设电源上下电的延时，确保唤醒系统时再次上电之前经过`t`的时间，范例如下：
+1. Modify the discharge circuit of the PCIe module in hardware to ensure a reasonable discharge time, and provide the optimized maximum discharge time `t`.
+2. Add a delay for peripheral power on and off in software to ensure that the system waits for time `t` before powering on again after wakeup. Example:
 
 ```diff
 --- a/arch/arm64/boot/dts/rockchip/rk3568-evb1-ddr4-v10.dtsi
@@ -2688,7 +2334,7 @@ pci_power_t state)
          };
 ```
 
-### 12.15 设备分配到legacy中断号为0
+### 12.15 Device Assigned Legacy Interrupt Number 0
 
 ```
 0002:21:00.0 Serial controller: Device 1c00:3853 (rev 10) (prog-if 05 [16850])
@@ -2703,9 +2349,9 @@ pci_power_t state)
         Capabilities: [60] Power Management version 3
 ```
 
-可以看到`pin A`分配到的legacy中断号为0，实际是默认未分配状态。原理上，不论内核cmdline中是否禁用msi中断，PCIe协议栈都会在`pci bus driver`加载的时候调用`pci_assign_irq`函数读取外设配置空间的`0x3d`寄存器，确定`pin`的数值。针对所读取的`pin`数值进行映射并分配映射后的虚拟中断号，写入外设配置空间的`0x3c`寄存器。所以一般不会出现查询不到分配legacy中断号的情况。此情况下，外设将无法正常使用l发出legacy类型中断，影响设备驱动的正常执行。目前有发现部分客户从非Linux平台移植PCIe设备驱动到Linux平台上，没有适配好`pci bus driver`模型，导致`pci_assign_irq`函数未被调用，导致legacy中断未分配。
+It can be seen that the legacy interrupt number assigned to `pin A` is 0, which is actually the default unassigned state. In principle, regardless of whether MSI interrupts are disabled in the kernel cmdline, the PCIe protocol stack will call the `pci_assign_irq` function when the `pci bus driver` is loaded to read the `0x3d` register in the peripheral configuration space to determine the value of `pin`. The corresponding virtual interrupt number is mapped and assigned according to the read `pin` value, and written to the `0x3c` register in the peripheral configuration space. Therefore, it is generally not possible to fail to query the assigned legacy interrupt number. In this case, the peripheral will not be able to issue legacy type interrupts normally, affecting the normal execution of the device driver. It has been found that some customers port PCIe device drivers from non-Linux platforms to Linux platforms without properly adapting to the `pci bus driver` model, resulting in the `pci_assign_irq` function not being called and the legacy interrupt not being assigned.
 
-### 12.16 无法读取分配给外设的IO地址空间
+### 12.16 Unable to Read IO Address Space Allocated to Peripheral
 
 ```
 0002:21:00.0 Serial controller: Device 1c00:3853 (rev 10) (prog-if 05 [16850])
@@ -2731,35 +2377,35 @@ console:/ # cat /proc/ioports
     00001010-00001017 : 0002:21:00.2
 ```
 
-可以看到，`lspci`显示出此外设的IO端口分配地址是`0x1000`，而对应的`pcie bus`为`0x80800000`。这与`rk3568.dtsi`中定义的不符。以`pcie3x2`为例，其定义的IO端口的物理起始地址是`0x380800000`，所对应的`pci bus`起始地址为`0x80800000`。因此不能直接用`IO`命令或者`devmem`命令访问`0x1000`这个物理地址，或者软件访问其`ioremap`后的地址，否则会发生异常。
+It can be seen that the IO port allocation address of this peripheral displayed by `lspci` is `0x1000`, and the corresponding `pcie bus` is `0x80800000`. This does not match the definition in `rk3568.dtsi`. Taking `pcie3x2` as an example, its defined IO port physical start address is `0x380800000`, and the corresponding `pci bus` start address is `0x80800000`. Therefore, you cannot directly use the `IO` command or `devmem` command to access the physical address `0x1000`, or access its `ioremap` address in software, otherwise an exception will occur.
 
-出现这种情况是由于历史原因，`x86`的PCIe中IO端口地址与内存端口地址是分离的，`16M`以下的地址段为IO端口地址。而`ARM`平台使用的PCIe IO地址端口是由内存端口模拟而来的。因此PCIe协议栈在计算IO端口地址的时候，为了将其地址也限制在`16M`以下，形式上看起来与`x86`平台更一致化，故而做了一层转换。转换的原理是将`4K`对齐处的`0x1000`作为IO端口的起始地址。换句话说，`lspci`中看到的IO端口地址`0x1000`即对应`0x380800000`这个物理地址。所以如果用`IO`命令或者`devmem`命令，可直接访问`0x380800000`。以此类推，如果分配到的IO端口地址为`0x1010`，则根据该原理可得出所需访问的真实物理地址为`0x380800010`。如果是自行编写的驱动中，想要获取真实的IO端口地址进行访问，可以参考`8250_port.c`与`8250_pci.c`串口驱动，使用`pci_ioremap_bar`和`request_region`函数组合，获取IO端口的真实物理地址以及`iomap`后的CPU地址。
+This situation is due to historical reasons. In x86 PCIe, IO port addresses and memory port addresses are separated, and addresses below 16M are IO port addresses. On the ARM platform, the PCIe IO port address is simulated from the memory port. Therefore, when the PCIe protocol stack calculates the IO port address, in order to also limit its address below 16M and make it more consistent with the x86 platform, a layer of conversion is done. The principle of conversion is to use `0x1000` at a 4K aligned position as the start address of the IO port. In other words, the IO port address `0x1000` seen in `lspci` corresponds to the physical address `0x380800000`. By analogy, if the allocated IO port address is `0x1010`, the actual physical address to be accessed is `0x380800010`. If you are writing your own driver and want to get the real IO port address for access, you can refer to the serial drivers `8250_port.c` and `8250_pci.c`, and use the combination of `pci_ioremap_bar` and `request_region` functions to obtain the real physical address of the IO port and the CPU address after `iomap`.
 
-### 12.17 PCIe设备性能抖动
+### 12.17 PCIe Device Performance Jitter
 
-PCIe控制器外接实时性需求比较高的外设时，如寒武纪MLU220 AI加速卡，若产品有显示输出需求或高带宽网络访问的情况下，可能使得AI加速卡性能抖动。此时，可以尝试提高对应PCIe接口的内存访问优先级。以`RK3566/RK3568`芯片为例：
+When the PCIe controller is connected to peripherals with high real-time requirements, such as Cambricon MLU220 AI accelerator cards, if the product has display output requirements or high-bandwidth network access, it may cause performance jitter of the AI accelerator card. At this time, you can try to increase the memory access priority of the corresponding PCIe interface. Taking the `RK3566/RK3568` chip as an example:
 
-根据实际产品测试确认所需提高性能的PCIe接口以及是否需要降低对应`GMAC`和`VOP IP`的内存访问优先级。其中，末尾数字越大表明优先级越高，即`0x80000303 > 0x80000202 > 0x80000101`。
+According to actual product testing, confirm which PCIe interface needs performance improvement and whether the memory access priority of the corresponding `GMAC` and `VOP IP` needs to be lowered. The larger the number at the end, the higher the priority, i.e., `0x80000303 > 0x80000202 > 0x80000101`.
 
-- 提高`pcie2x1`接口为第一优先级: `io -4 0xfe190008 0x80000303`
-- 提高`pcie3x1`接口为第一优先级: `io -4 0xfe190088 0x80000303`
-- 提高`pcie3x2`接口为第一优先级: `io -4 0xfe190108 0x80000303`
-- 降低`GMAC1`接口为第二优先级: `io -4 0xfe130008 0x80000202`
-- 降低`GMAC0`接口为第二优先级: `io -4 0xfe188008 0x80000202`
-- 降低`VOP_M0`接口为第二优先级: `io -4 0xfe1a8088 0x80000202`
-- 降低`VOP_M1`接口为第二优先级: `io -4 0xfe1a8108 0x80000202`
+- Increase `pcie2x1` interface to first priority: `io -4 0xfe190008 0x80000303`
+- Increase `pcie3x1` interface to first priority: `io -4 0xfe190088 0x80000303`
+- Increase `pcie3x2` interface to first priority: `io -4 0xfe190108 0x80000303`
+- Lower `GMAC1` interface to second priority: `io -4 0xfe130008 0x80000202`
+- Lower `GMAC0` interface to second priority: `io -4 0xfe188008 0x80000202`
+- Lower `VOP_M0` interface to second priority: `io -4 0xfe1a8088 0x80000202`
+- Lower `VOP_M1` interface to second priority: `io -4 0xfe1a8108 0x80000202`
 
-修改后的实际测试环节，需要观察受影响模块在AI加速卡运行过程中的具体指标，例如`GMAC`网络的性能抖动影响，或者观察是否出现下列`VOP`带宽不足的提示，综合考虑。
+After modification, you need to observe the specific indicators of the affected modules during the operation of the AI accelerator card in the actual test, such as the performance jitter impact of the `GMAC` network, or observe whether the following `VOP` bandwidth insufficient prompt appears, and make a comprehensive consideration.
 
 ```
 rockchip-vop2 fe040000.vop: [drm:vop2_isr] ERROR POST_BUF_EMPTY irq err at vp0
 ```
 
-其他芯片的PCIe接口内存访问优先级调整寄存器请参阅附录中"各SoC中PCIe控制器QoS调节寄存器"部分。
+For other chips, please refer to the appendix "PCIe Controller QoS Adjustment Registers in Each SoC" for the memory access priority adjustment registers of PCIe interfaces.
 
-### 12.18 PCIe转SATA设备盘号不固定
+### 12.18 PCIe-to-SATA Device Disk Numbers Are Not Fixed
 
-因为驱动的初始化是采用线程化，所以多个PCIe控制器下外接的转接SATA芯片的初始化顺序不固定。实际上，每个转接SATA芯片下的多个硬盘口号是固定的，但是多个SATA芯片之间的硬盘口号是不固定的。例如某次启动，转接芯片1下的四个硬盘分别为`sda~sdd`，转接芯片2下的四个硬盘分别为`sdesdh`；下一次启动可能变成转接芯片1下的四个硬盘分别为`sdesdh`，转接芯片2下的四个硬盘分别为`sda~sdd`的情况。为了完全固定这些硬盘的顺序，可以采用应用层遍历硬盘路径，按照控制器地址（例如`fe160000.pcie`）来固定转接芯片，进而创建软连接来固定顺序。如果想简化应用层，也可以采用关闭线程初始化，将`CONFIG_PCIE_RK_THREADED_INIT`去除即可。
+Because the driver initialization is threaded, the initialization order of SATA chips connected to multiple PCIe controllers is not fixed. In fact, the hardware disk numbers under each SATA chip are fixed, but the hardware disk numbers between multiple SATA chips are not fixed. For example, in one boot, the four hard disks under SATA chip 1 are `sda~sdd`, and the four hard disks under SATA chip 2 are `sdesdh`; in the next boot, it may become the four hard disks under SATA chip 1 are `sdesdh`, and the four hard disks under SATA chip 2 are `sda~sdd`. To completely fix the order of these hard disks, you can traverse the hard disk paths at the application layer, fix the SATA chip according to the controller address (such as `fe160000.pcie`), and then create soft links to fix the order. If you want to simplify the application layer, you can also disable threaded initialization by removing `CONFIG_PCIE_RK_THREADED_INIT`.
 
 ```bash
 ls -al /sys/block/sd*
@@ -2769,9 +2415,9 @@ lrwxrwxrwx   1 root     root         0 Jan  1 00:03 /sys/block/sdc -> ../devices
 lrwxrwxrwx   1 root     root         0 Jan  1 00:00 /sys/block/sdd -> ../devices/platform/fe160000.pcie/pci0001:10/0001:10:00.0/0001:11:00.0/ata5/host4/target4:0:0/4:0:0:0/block/sdd
 ```
 
-### 12.19 PCIe 设备可以Link却无法枚举出设备
+### 12.19 PCIe Device Can Link But Cannot Enumerate Device
 
-若出现设备可以`Link up`但是却没有枚举出设备，例如`lspci`可见`root port`所在`bus 0`却看不到下一级`bus 1`等。
+If the device can `Link up` but cannot enumerate the device, for example, `lspci` can see the `root port` on `bus 0` but cannot see the next level `bus 1`, etc.
 
 ```
 rk-pcie fe150000.pcie: PCIe Link up, LTSSM is 0x30011
@@ -2792,7 +2438,7 @@ lspci
 0000:00:00.0 PCI bridge: Fuzhou Rockchip Electronics Co., Ltd Device 3588 (rev 01) (prog-if 00 [Normal decode])
 ```
 
-此原因是读取的下一级设备，即`bus 1`设备的`vendor ID`为非法数值。请在`drivers/pci/probe.c`文件的`pci_bus_generic_read_dev_vendor_id`函数中添加打印确认，协议栈默认了四种非法`ID`类型。
+The reason is that the `vendor ID` of the next-level device, i.e., `bus 1`, is read as an illegal value. Please add a print statement in the `pci_bus_generic_read_dev_vendor_id` function in the `drivers/pci/probe.c` file to confirm. The protocol stack defaults to four types of illegal `ID`.
 
 ```diff
 --- a/drivers/pci/probe.c
@@ -2807,7 +2453,7 @@ lspci
             *l == 0x0000ffff || *l == 0xffff0000)
 ```
 
-目前已知`ZX-200`这款`switch`芯片在释放复位后需要加载`bin`并运行的时间较长，可能出现`link up`之后还未完全运行好其内部程序，导致`RC`去枚举时候读取到`0`的非法`ID`。如有类似情况请加上下列补丁尝试修复，如补丁加入仍无法解决问题，则建议联系设备厂家协助排查具体原因。
+It is currently known that the `ZX-200` switch chip requires a long time to load the `bin` and run after releasing the reset. It may not have fully run its internal program after `link up`, causing the `RC` to read an illegal `ID` of `0` during enumeration. If you encounter a similar situation, please try adding the following patch. If the patch does not solve the problem, it is recommended to contact the device manufacturer for further investigation.
 
 ```diff
 --- a/drivers/pci/controller/dwc/pcie-dw-rockchip.c
@@ -2823,9 +2469,9 @@ lspci
                              dev_info(pci->dev, "PCIe Link up, LTSSM is 0x%x\n",
 ```
 
-### 12.20 PCIe 设备可以枚举但访问异常
+### 12.20 PCIe Device Can Be Enumerated But Access Exception
 
-部分设备`#PERST`复位时间不够，可能概率性导致其虽然可以被系统枚举，但是实际工作不正常。例如有客户使用PCIe switch扩展后再连`RTL8111`网卡，出现如下的异常信息。此时需要增加`#PERST`的复位时间，在DTS中增加`rockchip,perst-inactive-ms`属性。详情请参照DTS property说明章节。
+Some devices have insufficient #PERST reset time, which may cause them to be enumerated by the system but not work properly. For example, a customer uses a PCIe switch to expand and then connects an RTL8111 network card, resulting in the following exception information. At this time, you need to increase the #PERST reset time and add the `rockchip,perst-inactive-ms` property in the DTS. For details, please refer to the DTS property description section.
 
 ```
 [   8.739794] enP4p67s0f0: 0xffffffc0127bd000, 86:41:ff:d2:48:a0, IRQ 133
@@ -2864,21 +2510,20 @@ rtl8168_wait_phy_ups_resume+0x6c/0x88
 [   10.178257] dev_change_flags+0x30/0x70
 [   10.178263] devinet_ioctl+0x288/0x51c
 [   10.178268] inet_ioctl+0x1b8/0x1e8
-lspci -vvv的输出结果:
+lspci -vvv output:
 0003:31:00.0 Class 0108: Device 8086:f1a5 (rev ff) (prog-if ff)
        !!! Unknown header type 7f
 ```
+### 12.21 PCIe Device Driver Using Producer-Consumer Model Causes System Hang
 
-### 12.21 PCIe 设备驱动使用Producer-Consumer模型导致系统卡死
-
-此类卡死一般发生在PCIe设备老化过程中，系统卡死后能看到CPU都停在访问PCIe外设的某寄存器上。
+This type of hang generally occurs during the aging process of PCIe devices. After the system hangs, you can see that the CPU is stuck accessing a certain register of the PCIe peripheral.
 ```
 ffffff80083c2b9c:       b4000224       cbz     x4, ffffff80083c2be0 
 <igb_rd32+0x58>
 ffffff80083c2ba0:       8b214082       add     x2, x4, w1, uxtw
-ffffff80083c2ba4:       b9400042       ldr     w2, [x2]   #死机位置，访问PCIE映射的
-寄存器
-或者
+ffffff80083c2ba4:       b9400042       ldr     w2, [x2]   #Hang location, accessing PCIe mapped
+register
+Or
 ffffffc010a7a990:       d50331bf       dmb     oshld
 ffffffc010a7a994:       92403c08       and     x8, x0, #0xffff
 ffffffc010a7a998:       ca080108       eor     x8, x8, x8
@@ -2886,93 +2531,65 @@ ffffffc010a7a99c:       b5000008       cbnz   x8, ffffffc010a7a99c
 <os_pci_read16+0x34>
 ffffffc010a7a9a0:       f9400bf3       ldr     x19, [sp,#16]
 ffffffc010a7a9a4:       a8c27bfd       ldp     x29, x30, [sp],#32
-ffffffc010a7a9a8:       f85f8e5e       ldr     x30, [x18,#-8]!#死机位置，访问PCIe映
-射的寄存器
+ffffffc010a7a9a8:       f85f8e5e       ldr     x30, [x18,#-8]!#Hang location, accessing PCIe mapped
+register
 ffffffc010a7a9ac:       d50323bf       hint    #0x1d
 ffffffc010a7a9b0:       d65f03c0       ret
-又或者
+Or
 ffffffc01068193c:       7100069f       cmp     w20, #0x1
 ffffffc010681940:       54000281       b.ne   ffffffc010681990 
 <pci_generic_config_read+0x8c>
-ffffffc010681944:       39400108       ldrb   w8, [x8]   #死机位置，访问PCIe映射的
-寄存器
+ffffffc010681944:       39400108       ldrb   w8, [x8]   #Hang location, accessing PCIe mapped
+register
 ffffffc010681948:       d50331bf       dmb     oshld
 ffffffc01068194c:       92401d09       and     x9, x8, #0xff
 ffffffc010681950:       ca090129       eor     x9, x9, x9
 ffffffc010681954:       b5000009       cbnz   x9, ffffffc010681954
 ```
 
-问题的产生一般是设备驱动使用了Producer-Consumer模型，且设备端存在数据发送断流的情况。下图
-是严格的PCIe协议上的数据包排序模型，其中有严格约束的是Row B/C/D与Col 2，尤其是D2a，即
-Completion包不能跨过Posted请求。
+The cause of the problem is generally that the device driver uses the Producer-Consumer model, and there is a data transmission interruption on the device side. The following diagram shows the strict packet ordering model in the PCIe protocol, where Row B/C/D and Col 2 are strictly constrained, especially D2a, i.e., Completion packets cannot bypass Posted requests.
 
 ![alt text](/pdf/rk/pcie/image-10.png)
 
-更通俗一点说，在Producer-Consumer模型中，作为消费者的一端，在生产者完全将数据写入某内存之
-前，不能使用该内存的数据；且生产者提供的状态查询寄存器也不允许在数据未完全写出去之前，提前
-响应消费者的状态读取请求。下图中EP设备是一个生产者，RC端是消费者：
-1. EP设备从source RAM中获得数据，并采用post方式写入RC端的dest RAM，我们记为PD。写完之
-后EP写一个完成标志位到它的状态寄存器(Status Register)。
-2. RC端的CPU一直在轮询EP端的这个状态寄存器，来检查是否生产的数据已经写完。这个轮询的读过
-程我们记为NPS。其所对应的从EP端获得的寄存器数据我们记为CPLS
-3. 在这个流程中，CPLS绝对不允许超过任何PD 之前发出，或者RC的CPU端在数据完全落入dest RAM
-之前对CPLS进行响应。这个流程称为严格的Producer-Consumer模型。
+In simpler terms, in the Producer-Consumer model, the consumer side cannot use the data in a certain memory before the producer has completely written the data; and the status query register provided by the producer is not allowed to respond to the consumer's status read request before the data is fully written out. In the following diagram, the EP device is a producer, and the RC side is the consumer:
+1. The EP device obtains data from the source RAM and writes it to the dest RAM on the RC side using the post method, which we call PD. After writing, the EP writes a completion flag to its status register (Status Register).
+2. The CPU on the RC side keeps polling this status register on the EP side to check whether the produced data has been written. This polling read process is called NPS. The register data obtained from the EP side is called CPLS.
+3. In this process, CPLS must never be sent before any PD, or the CPU on the RC side must not respond to CPLS before the data is fully written into dest RAM. This process is called the strict Producer-Consumer model.
 
 ![alt text](/pdf/rk/pcie/image-11.png)
 
-前述问题的发生的根源，是由于设备驱动的不当业务模型所致：
-- EP设备驱动和EP Firmware在使用Producer-Consumer模型时未遵守协议，当EP端向dest RAM发
-送PD间隙，RC端的设备驱动恰好发出了NPS读完成标志的请求(包括CfgRd或MemRd类型)，而EP端
-在PD未完全发完之前提前允许返回了CPLS。
-- 此时，RC端因为严格遵守Producer-Consumer协议模型，等不到完整的PD而无法接收CPLS，且没
-有超时返回的途径，导致等待CPLS的CPU卡住。
-- 还需要特别注意，EP设备驱动如果不是发起读取完成标志的TLP请求，即不希望此包进入严格
-Producer-Consumer模型排序的包，都应该配置成Relaxed Ordering, 即TLP的header的Attr置上
-RO位。否则不仅可能会因为排序而导致业务性能下降，也会导致误进入排序规则而引起不必要的异
-常风险。
+The root cause of the above problem is due to an improper business model in the device driver:
+- The EP device driver and EP Firmware did not follow the protocol when using the Producer-Consumer model. When there is a gap in sending PD from the EP side to the dest RAM, and the RC side's device driver happens to send an NPS read completion flag request (including CfgRd or MemRd types), the EP side prematurely allows CPLS to be returned before PD is fully sent.
+- At this time, since the RC side strictly follows the Producer-Consumer protocol model, it cannot receive CPLS without a complete PD and has no way to return with a timeout, causing the CPU waiting for CPLS to hang.
+- It should also be noted that if the EP device driver does not initiate a TLP request to read the completion flag, i.e., does not want this packet to enter the strict Producer-Consumer model ordering, it should be configured as Relaxed Ordering, i.e., set the RO bit in the TLP header's Attr. Otherwise, not only may performance be degraded due to ordering, but it may also mistakenly enter the ordering rules and cause unnecessary abnormal risks.
 
-因此，为了要打破这种协议约束下的严格模型，我们RC端提供了可修改排序规则的寄存器，允许在
-Producer-Consumer模型下使得CPLS超越 PD ，让CPU端提前获得Status Register的数据，用于确认问
-题和提供临时规避方案。但需要指出，使用我们下方提供的规避方案，在Producer-Consumer模型下虽
-然不会因为数据推送间隙中提前返回CPLS而卡住RC端CPU，但可能会发生数据完整性异常。例如明显
-CPLS抢先返回了完成标志位，然而PDn却还没有完全落入dest RAM的情况，那么RC端CPU去获取dest 
-RAM内的数据就可能是不完整的，缺失PDn部分的数据。这个可能性大小受CPU运算速度，驱动软件获
-得完成标志后去取数据流的软件延时，芯片内Memory latency/QoS等多种因素影响。目前已知一些网
-络设备存在这类问题，规避方案配合低概率的数据错误率、网络协议栈数据包的校验和出错处理机制，
-并不会最终导致使用异常。但是其他设备并不能保证，这依赖于这些设备驱动完善的校验和恢复机制。
-因此我们对于使用这种协议模型又无法满足约束的EP设备的建议：
+Therefore, to break this strict model under the protocol constraints, we provide a register on the RC side that allows the ordering rules to be modified, allowing CPLS to bypass PD in the Producer-Consumer model, so that the CPU can obtain the Status Register data in advance for problem confirmation and temporary workaround. However, it should be pointed out that using our workaround below, although the RC side CPU will not hang due to CPLS being returned early during the PD gap in the Producer-Consumer model, data integrity exceptions may occur. For example, CPLS returns the completion flag early, but PDn has not been fully written into dest RAM, so the RC side CPU may get incomplete data from dest RAM, missing part of PDn. The probability of this depends on CPU speed, software delay after the driver gets the completion flag and fetches the data stream, memory latency/QoS inside the chip, and other factors. It is known that some network devices have this problem, but with the workaround and a low probability of data error rate, plus the checksum and error handling mechanism of the network protocol stack, it does not ultimately cause abnormal use. But for other devices, this cannot be guaranteed, and it depends on whether the device driver has a complete checksum and recovery mechanism. Therefore, our suggestions for EP devices that use this protocol model but cannot meet the constraints are:
 
-- 设备驱动可以抛弃传统的Producer-Consumer模型，即以读取寄存器来确认数据发送完成的方法，
-改用EP端触发MSI(-x)中断机制进行通知，这是目前绝大多数PCIe设备的处理共识。
-
-- 若确实因为技术支持层面无法修改的，请与Vendor确认其非严格约束的Producer-Consumer模式
-采用我们的规避方案之后，需评估驱动对数据完整性出错的处理机制是否完善，是否会严重影响业
-务生态的使用。
+- The device driver can abandon the traditional Producer-Consumer model, i.e., the method of reading registers to confirm data transmission completion, and switch to the EP side triggering MSI(-x) interrupt mechanism for notification, which is the consensus of most PCIe devices.
+- If it really cannot be modified due to technical support, please confirm with the Vendor whether the non-strict Producer-Consumer mode, after adopting our workaround, has a complete error handling mechanism for data integrity in the driver, and whether it will seriously affect the business ecosystem.
 
 ```
-1. 查询PCIe控制器，获得dbi寄存器基地址，我们以RK3588 pcie2x1l0为例
+1. Query the PCIe controller to obtain the dbi register base address. Take RK3588 pcie2x1l0 as an example:
 pcie2x1l0: pcie@fe170000 {
            ......
            reg = <0x0 0xfe170000 0x0 0x10000>,
-                 <0xa 0x40800000 0x0 0x400000>; //dbi地址为前两个cell高低位数值，
+                 <0xa 0x40800000 0x0 0x400000>; //dbi address is the value of the first two cells high and low,
 0xa40800000
            reg-names = "pcie-apb", "pcie-dbi";
 }
-2. 临时调整Ordering rule寄存器，允许CPLs超过Pd，寄存器为dbi地址+0x8b4：
+2. Temporarily adjust the Ordering rule register to allow CPLs to bypass Pd. The register is dbi address+0x8b4:
 io -4 0xa408008b4 0xff00 # 0xa40800000 + 0x8b4
-3. Ordering rule寄存器详解：
+3. Ordering rule register details:
 _________________________________________________________________________________
 __
-|[0: 7] | Determines if NP can pass halted P queue. (Completion Passing Posted规
-则) |
+|[0: 7] | Determines if NP can pass halted P queue. (Completion Passing Posted rule) |
 |       | 0：NP can not pass P (recommended)                                       
 |
 |       | 1：NP can pass P                                                         
 |
 |_______|________________________________________________________________________
 __ |
-|[8:15] | Determines if CPL can pass halted P queue.(Non-Posted Passing Posted规
-则) |
+|[8:15] | Determines if CPL can pass halted P queue.(Non-Posted Passing Posted rule) |
 |       | 0: CPL can not pass P (recommended)                                     
   |
 |       | 1: CPL can pass P                                                       
@@ -2983,7 +2600,7 @@ __ |
 
 
 
-### 12.22 NVMe 设备长期工作状态下出现异常
+### 12.22 NVMe Device Abnormalities After Long-Term Operation
 
 ```
 [186825.261896] nvme nvme0: Abort status: 0x0
@@ -2998,9 +2615,9 @@ __ |
 [187449.750258] nvme nvme0: I/O 736 QID 2 timeout, reset controller
 ```
 
-重载测试下NVMe设备出现异常，从上述log可以看到NVMe设备返回的设备状态为0，因为如果链路异常，则返回应该是0xf，所以此时可排除链路问题。这种情况下，请重点从设备工作温度考虑。
+Abnormalities occur in NVMe devices under stress testing. From the above log, the device status returned by the NVMe device is 0. If there is a link exception, it should return 0xf, so the link problem can be ruled out. In this case, focus on the device's operating temperature.
 
-首先需内核开启NVMe温控配置`CONFIG_NVME_HWMON`。其次遍历`hwmon`的ID以寻找NVMe注册的温控节点，以8为例`cat /sys/class/hwmon/hwmon8/name`，得到`nvme`字样即为nvme设备的温控节点。读取NVMe各设备的温传计数`cat /sys/class/hwmon/hwmon8/*input`，观察重载测试下其温度变化，是否超过该设备额定工作温度。若确定工作温度超出限制，需改善扇热条件或者在用户态执行相应的硬盘温控策略。
+First, enable the NVMe thermal control configuration `CONFIG_NVME_HWMON` in the kernel. Then traverse the `hwmon` IDs to find the thermal node registered by NVMe, e.g., `cat /sys/class/hwmon/hwmon8/name`, and if you get `nvme`, it is the thermal node for the nvme device. Read the temperature sensor counts of each NVMe device `cat /sys/class/hwmon/hwmon8/*input` and observe the temperature changes under stress testing to see if it exceeds the rated operating temperature of the device. If the operating temperature exceeds the limit, improve the heat dissipation conditions or implement corresponding hard disk thermal control strategies in user space.
 
 ```
 [ 3836.614828] sysrq: Show Blocked State
@@ -3028,10 +2645,10 @@ flags:0x04000009
 [ 3836.614972] el0_sync+0x160/0x180
 ```
 
-除`nvme nvme0: I/O 736 QID 2 timeout, aborting`之外，如果还触发如上打印。此时应分析是否在异常前进行了全盘格式化或者同步批量删除等操作，尤其是大容量NVMe在较满的状态下更易触发。解决办法如下：
+In addition to `nvme nvme0: I/O 736 QID 2 timeout, aborting`, if the above print is also triggered, analyze whether a full disk format or synchronous batch deletion operation was performed before the exception, especially for large-capacity NVMe devices that are nearly full. The solution is as follows:
 
-1. 将`CONFIG_DEFAULT_HUNG_TASK_TIMEOUT`配置一个稍大秒数，例如120，以规避block-mq的阻塞检测。
-2. 调整NVMe协议栈关于admin queue和io queue的软件超时时间：
+1. Set `CONFIG_DEFAULT_HUNG_TASK_TIMEOUT` to a slightly larger value, such as 120, to avoid block-mq blocking detection.
+2. Adjust the software timeout for the NVMe protocol stack's admin queue and io queue:
 
 ```diff
 --- a/drivers/nvme/host/core.c
@@ -3049,29 +2666,29 @@ flags:0x04000009
  module_param_named(io_timeout, nvme_io_timeout, uint, 0644);
 ```
 
-## 13. 附录
+## 13. Appendix
 
-### 13.1 LTSSM状态机
+### 13.1 LTSSM State Machine
 
-| 状态代码 | 状态描述符 | 备注 |
+| State Code | State Descriptor | Note |
 | --- | --- | --- |
-| 0x00 | S_DETECT_QUIET | 未检到外设RX端接电阻，设备未正常工作 |
+| 0x00 | S_DETECT_QUIET | No RX terminal resistor detected on the peripheral, device not working properly |
 | 0x01 | S_DETECT_ACTIVE | - |
 | 0x02 | S_POLL_ACTIVE | - |
-| 0x03 | S_POLL_COMPLIANCE | 兼容性测试模式。非测试模式下因信号异常原因错误进入 |
+| 0x03 | S_POLL_COMPLIANCE | Compliance test mode. Entered by mistake due to signal abnormality in non-test mode |
 | 0x04 | S_POLL_CONFIG | - |
 | 0x05 | S_PRE_DETECT_QUIET | - |
 | 0x06 | S_DETECT_WAIT | - |
 | 0x07 | S_CFG_LINKWD_START | - |
-| 0x08 | S_CFG_LINKWD_ACEPT | Lane 顺序检测过程 |
+| 0x08 | S_CFG_LINKWD_ACEPT | Lane order detection process |
 | 0x09 | S_CFG_LANENUM_WAIT | - |
 | 0x0a | S_CFG_LANENUM_ACEPT | - |
-| 0x0b | S_CFG_COMPLETE | 物理层检测完毕 |
+| 0x0b | S_CFG_COMPLETE | Physical layer detection completed |
 | 0x0c | S_CFG_IDLE | - |
 
-| 状态代码 | 状态描述符 | 备注 |
+| State Code | State Descriptor | Note |
 | --- | --- | --- |
-| 0x0d | S_RCVRY_LOCK | 速率切换过程 |
+| 0x0d | S_RCVRY_LOCK | Rate switching process |
 | 0x0e | S_RCVRY_SPEED | - |
 | 0x0f | S_RCVRY_RCVRCFG | - |
 | 0x10 | S_RCVRY_IDLE | - |
@@ -3079,7 +2696,7 @@ flags:0x04000009
 | 0x21 | S_RCVRY_EQ1 | - |
 | 0x22 | S_RCVRY_EQ2 | - |
 | 0x23 | S_RCVRY_EQ3 | - |
-| 0x11 | S_L0 | 链路正常工作过状态L0 |
+| 0x11 | S_L0 | Link normal working state L0 |
 | 0x12 | S_L0S | - |
 | 0x13 | S_L123_SEND_EIDLE | - |
 | 0x14 | S_L1_IDLE | - |
@@ -3089,107 +2706,107 @@ flags:0x04000009
 | 0x18 | S_DISABLED_IDLE | - |
 | 0x19 | S_DISABLED | - |
 | 0x1a | S_LPBK_ENTRY | - |
-| 0x1b | S_LPBK_ACTIVE | loopback测试模式，一般在测试环境下会进入 |
+| 0x1b | S_LPBK_ACTIVE | loopback test mode, generally entered in test environment |
 | 0x1c | S_LPBK_EXIT | - |
 | 0x1d | S_LPBK_EXIT_TIMEOUT | - |
-| 0x1e | S_HOT_RESET_ENTRY | 外设主动发其hot reset流程 |
+| 0x1e | S_HOT_RESET_ENTRY | Peripheral initiates its hot reset process |
 | 0x1f | S_HOT_RESET | - |
 
-### 13.2 Debugfs导出信息解析表
+### 13.2 Debugfs Exported Information Interpretation Table
 
-| 事件符号 | 含义 |
+| Event Symbol | Meaning |
 | --- | --- |
 | EBUF Overflow | - |
 | EBUF Underrun | - |
-| Decode Error | 包解码错误，信号异常 |
-| Running Disparity Error | 极性偏差错误，8bit/10bit编码中0与1数量比例失衡，Gen2信号异常 |
-| SKP OS Parity Error | SKP 序列奇偶校验错误，Gen3信号异常 |
-| SYNC Header Error | 异步包头错误，信号问题 |
-| CTL SKP OS Parity Error | 控制的SKP 序列奇偶校验错误，Gen3信号异常 |
-| Detect EI Inference | 检测到信号串扰 |
-| Receiver Error | 接收端错误 |
-| Rx Recovery Request | RX信号收到外设请求，进入rescoery状态进行信号矫正 |
-| N_FTS Timeout | 外设的n_fts不达标，L0s回到L0异常进入recovery状态 |
-| Framing Error | 帧格式解码错误，信号异常 |
-| Deskew Error | deskew错误，信号异常 |
-| BAD TLP | 收到错误TLP包 |
-| LCRC Error | link CRC，信号异常 |
-| BAD DLLP | 错误的DLLP包，信号异常 |
-| Replay Number Rollover | 重传包积累太多，replay buffer冲了 |
-| Replay Timeout | 误码包重传超时 |
-| Rx Nak DLLP | 收到来自下游的DLLP而拒绝其访问 |
-| Tx Nak DLLP | 发往下游的DLLP被拒绝 |
-| Retry TLP | 重传的TLP包数量，可以表征误码率 |
-| FC Timeout | 更新流控超时 |
-| Poisoned TLP | 上报一个错误的TLP类型，可能是因为链路原因或RAM的位跳变引起 |
-| ECRC Error | end CRC，信号异常 |
-| Unsupported Request | 收到不支持的请求类型的TLP包，可能是访问外设被拒绝 |
-| Completer Abort | 设备接收到了RC发来的请求，但是发生了其内部错误，要求终止该访问请求 |
+| Decode Error | Packet decoding error, signal abnormality |
+| Running Disparity Error | Polarity deviation error, 8bit/10bit encoding 0 and 1 ratio imbalance, Gen2 signal abnormality |
+| SKP OS Parity Error | SKP sequence parity error, Gen3 signal abnormality |
+| SYNC Header Error | Asynchronous packet header error, signal problem |
+| CTL SKP OS Parity Error | Control SKP sequence parity error, Gen3 signal abnormality |
+| Detect EI Inference | Detected signal crosstalk |
+| Receiver Error | Receiver error |
+| Rx Recovery Request | RX signal received peripheral request, enters recovery state for signal correction |
+| N_FTS Timeout | Peripheral's n_fts not up to standard, L0s returns to L0 abnormally entering recovery state |
+| Framing Error | Frame format decoding error, signal abnormality |
+| Deskew Error | deskew error, signal abnormality |
+| BAD TLP | Received bad TLP packet |
+| LCRC Error | link CRC, signal abnormality |
+| BAD DLLP | Bad DLLP packet, signal abnormality |
+| Replay Number Rollover | Too many retransmitted packets accumulated, replay buffer overflowed |
+| Replay Timeout | Retransmission timeout for error packets |
+| Rx Nak DLLP | Received DLLP from downstream and access was refused |
+| Tx Nak DLLP | DLLP sent to downstream was refused |
+| Retry TLP | Number of retransmitted TLP packets, can indicate error rate |
+| FC Timeout | Flow control update timeout |
+| Poisoned TLP | Reports a bad TLP type, possibly due to link reasons or RAM bit flips |
+| ECRC Error | end CRC, signal abnormality |
+| Unsupported Request | Received unsupported TLP request, possibly access to peripheral was refused |
+| Completer Abort | Device received a request from RC, but an internal error occurred and the access request was terminated |
 
-| 事件符号 | 含义 |
+| Event Symbol | Meaning |
 | --- | --- |
-| Completion Timeout | 读取外设相关资源，TLP返回超时 |
-| Common event signal | 读取目前控制器的PM模式 |
+| Completion Timeout | Timeout when reading peripheral-related resources, TLP return timeout |
+| Common event signal | Read the current controller's PM mode |
 
-## 13.3 错误注入配置对照表
+## 13.3 Error Injection Configuration Comparison Table
 
-| 组号 | 组描述 | 类型号 | 类型含义 |
+| Group No. | Group Description | Type No. | Type Meaning |
 | --- | --- | --- | --- |
-| 0 | CRC错误 | 0x0 | TLP LCRC错包 |
-| 0 | CRC错误 | 0x1 | 16b CRC of ACK/NAK DLLP 错包 |
-| 0 | CRC错误 | 0x2 | 16b CRC of Update-FC DLLP错包 |
-| 0 | CRC错误 | 0x3 | TLP ECRC错包 |
-| 0 | CRC错误 | 0x4 | TLP FCRC错包(128b/130bit编码) |
-| 0 | CRC错误 | 0x5 | TX极性错误TSOS(128b/130bit编码) |
-| 0 | CRC错误 | 0x6 | TX极性错误SKPOS(128b/130bit编码) |
-| 0 | CRC错误 | 0x8 | RX LCRC错包 |
-| 0 | CRC错误 | 0xb | RX ECRC错包 |
+| 0 | CRC Error | 0x0 | TLP LCRC error packet |
+| 0 | CRC Error | 0x1 | 16b CRC of ACK/NAK DLLP error packet |
+| 0 | CRC Error | 0x2 | 16b CRC of Update-FC DLLP error packet |
+| 0 | CRC Error | 0x3 | TLP ECRC error packet |
+| 0 | CRC Error | 0x4 | TLP FCRC error packet (128b/130bit encoding) |
+| 0 | CRC Error | 0x5 | TX polarity error TSOS (128b/130bit encoding) |
+| 0 | CRC Error | 0x6 | TX polarity error SKPOS (128b/130bit encoding) |
+| 0 | CRC Error | 0x8 | RX LCRC error packet |
+| 0 | CRC Error | 0xb | RX ECRC error packet |
 
-| 组号 | 组描述 | 类型号 | 类型含义 |
+| Group No. | Group Description | Type No. | Type Meaning |
 | --- | --- | --- | --- |
-| 1 | 包编号顺序错误 | 0x0 | TLP SEQ#错误 |
-| 1 | 包编号顺序错误 | 0x1 | DLLP SEQ#错误 ACK_NAK_DLLP |
+| 1 | Packet Number Sequence Error | 0x0 | TLP SEQ# error |
+| 1 | Packet Number Sequence Error | 0x1 | DLLP SEQ# error ACK_NAK_DLLP |
 
-| 组号 | 组描述 | 类型号 | 类型含义 |
+| Group No. | Group Description | Type No. | Type Meaning |
 | --- | --- | --- | --- |
-| 2 | DLLP错误 | 0x0 | 阻止传输DLLP ACK/NAK 包[1] |
-| 2 | DLLP错误 | 0x1 | 阻止传输Update FC DLLP包[1] |
-| 2 | DLLP错误 | 0x2 | 总是发送NAK DLLP包[1] |
+| 2 | DLLP Error | 0x0 | Block transmission of DLLP ACK/NAK packet[1] |
+| 2 | DLLP Error | 0x1 | Block transmission of Update FC DLLP packet[1] |
+| 2 | DLLP Error | 0x2 | Always send NAK DLLP packet[1] |
 
-| 组号 | 组描述 | 类型号 | 类型含义 |
+| Group No. | Group Description | Type No. | Type Meaning |
 | --- | --- | --- | --- |
-| 3 | 符号错误 | 0x0 | Invert sync header(128bit/130bit编码) |
-| 3 | 符号错误 | 0x1 | TS1 order set错误 |
-| 3 | 符号错误 | 0x2 | TS2 order set错误 |
-| 3 | 符号错误 | 0x3 | FTS order set错误 |
-| 3 | 符号错误 | 0x4 | E-idle order set错误 |
-| 3 | 符号错误 | 0x5 | END/EDB symbol错误 |
-| 3 | 符号错误 | 0x6 | STP/SDP symbol错误 |
-| 3 | 符号错误 | 0x7 | SKP order set错误 |
+| 3 | Symbol Error | 0x0 | Invert sync header (128bit/130bit encoding) |
+| 3 | Symbol Error | 0x1 | TS1 order set error |
+| 3 | Symbol Error | 0x2 | TS2 order set error |
+| 3 | Symbol Error | 0x3 | FTS order set error |
+| 3 | Symbol Error | 0x4 | E-idle order set error |
+| 3 | Symbol Error | 0x5 | END/EDB symbol error |
+| 3 | Symbol Error | 0x6 | STP/SDP symbol error |
+| 3 | Symbol Error | 0x7 | SKP order set error |
 
-| 组号 | 组描述 | 类型号 | 类型含义 |
+| Group No. | Group Description | Type No. | Type Meaning |
 | --- | --- | --- | --- |
-| 4 | 流控FC错误 | 0x0 | Posted TLP header credit |
-| 4 | 流控FC错误 | 0x1 | Non-Posted TLP header credit |
-| 4 | 流控FC错误 | 0x2 | Commpletion TLP header credit |
-| 4 | 流控FC错误 | 0x4 | Posted TLP Data credit |
-| 4 | 流控FC错误 | 0x5 | Non-Posted TLP Data credit |
-| 4 | 流控FC错误 | 0x6 | Commpletion TLP data credit |
+| 4 | Flow Control FC Error | 0x0 | Posted TLP header credit |
+| 4 | Flow Control FC Error | 0x1 | Non-Posted TLP header credit |
+| 4 | Flow Control FC Error | 0x2 | Completion TLP header credit |
+| 4 | Flow Control FC Error | 0x4 | Posted TLP Data credit |
+| 4 | Flow Control FC Error | 0x5 | Non-Posted TLP Data credit |
+| 4 | Flow Control FC Error | 0x6 | Completion TLP data credit |
 
-| 组号 | 组描述 | 类型号 | 类型含义 |
+| Group No. | Group Description | Type No. | Type Meaning |
 | --- | --- | --- | --- |
-| 5 | 特殊TLP错误 | 0x0 | 将ACK DLLP当成NAK DLLP来产生 |
-| 5 | 特殊TLP错误 | 0x1 | 制造无效TLP包，原始包放入retry流程 |
+| 5 | Special TLP Error | 0x0 | Generate ACK DLLP as NAK DLLP |
+| 5 | Special TLP Error | 0x1 | Generate invalid TLP packet, original packet enters retry process |
 
-| 组号 | 组描述 | 类型号 | 类型含义 |
+| Group No. | Group Description | Type No. | Type Meaning |
 | --- | --- | --- | --- |
-| 6 | 包头检查错误 | 0x0 | 产生TLP header错误 |
-| 6 | 包头检查错误 | 0x1 | 产生TLP prefix 中第一组四个dword错误 |
-| 6 | 包头检查错误 | 0x2 | TLP prefix 中第二组dword错误 |
+| 6 | Packet Header Check Error | 0x0 | Generate TLP header error |
+| 6 | Packet Header Check Error | 0x1 | Generate error in the first group of four dwords in TLP prefix |
+| 6 | Packet Header Check Error | 0x2 | Error in the second group of dwords in TLP prefix |
 
-[1] 不依赖于计数到零而停止，需要命令手动停止
+[1] Does not depend on counting to zero to stop, requires manual command to stop
 
-### 13.4 关于PCIe TX加重预设值对照表
+### 13.4 PCIe TX De-emphasis Preset Value Comparison Table
 
 | Preset Number | Preshoot(dB) | De-emphasis(dB) |
 | --- | --- | --- |
@@ -3205,36 +2822,36 @@ flags:0x04000009
 | P9 | 3.5 ± 1 dB | 0 |
 | P10 | 0 | x |
 
-### 13.5 开发资源获取地址
+### 13.5 Development Resource Access Address
 
-取得redmine权限后可以直接访问[https://redmine.rock-chips.com/documents/107](https://redmine.rock-chips.com/documents/107)获取前文所述各类资料。
+After obtaining redmine permission, you can directly access [https://redmine.rock-chips.com/documents/107](https://redmine.rock-chips.com/documents/107) to obtain the various materials mentioned above.
 
-### 13.6 PCIe地址空间配置详述
+### 13.6 Detailed PCIe Address Space Configuration
 
-针对DTS中PCIe地址空间的详细配置，可参考如下链接进行解读或者修改：[https://elinux.org/Device_Tree_Usage#PCI_Host_Bridge](https://elinux.org/Device_Tree_Usage#PCI_Host_Bridge)
+For detailed configuration of PCIe address space in DTS, refer to the following link for interpretation or modification: [https://elinux.org/Device_Tree_Usage#PCI_Host_Bridge](https://elinux.org/Device_Tree_Usage#PCI_Host_Bridge)
 
-### 13.7 M.2接口硬件
+### 13.7 M.2 Interface Hardware
 
-Key B+M的金手指可以使用key B或者key M的转接板slot，key A+E的金手指可以使用key A或者key E的转接板slot。其余类型的金手指板请严格按照接口选择对应型号的转接板slot。
+Key B+M gold fingers can use key B or key M adapter slots, key A+E gold fingers can use key A or key E adapter slots. For other types of gold finger boards, please strictly select the corresponding type of adapter slot according to the interface.
 
 ![alt text](/pdf/rk/pcie/image-12.png)
 
-### 13.8 板级可配置时序
+### 13.8 Board-Level Configurable Timing
 
 ![alt text](/pdf/rk/pcie/image-13.png)
 
-| 可调时间 | dts属性 | 说明（Linux 内核阶段） |
+| Adjustable Time | dts property | Description (Linux kernel stage) |
 | --- | --- | --- |
-| Power Stable | `rockchip,vpcie3v3-supply` | 此属性是配置到PCIe节点的`vpcie3v3-supply`所引用的电源节点中的 |
-| Tpvperl | `rockchip,perst-inactive-ms` | 此属性是配置到PCIe节点中的，若不配置默认为200ms，在开机时候生效 |
-| Tpvperl | `rockchip,s2r-perst-inactive-ms` | 此属性是配置到PCIe节点中的，若不配置默认等同于`rockchip,perst-inactive-ms`的配置数值，在休眠唤醒时生效 |
-| out of electrical idle | `rockchip,wait-for-link-ms` | 此属性是配置到PCIe节点中的，若不配置默认为1ms, 用于等待每次发起link之前的等待时间 |
+| Power Stable | `rockchip,vpcie3v3-supply` | This property is configured in the power node referenced by the `vpcie3v3-supply` property of the PCIe node |
+| Tpvperl | `rockchip,perst-inactive-ms` | This property is configured in the PCIe node. If not configured, the default is 200ms, effective at boot |
+| Tpvperl | `rockchip,s2r-perst-inactive-ms` | This property is configured in the PCIe node. If not configured, the default is the same as `rockchip,perst-inactive-ms`, effective during suspend/resume |
+| out of electrical idle | `rockchip,wait-for-link-ms` | This property is configured in the PCIe node. If not configured, the default is 1ms, used to wait before each link initiation |
 
-### 13.9 各SoC中PCIe控制器QoS调节寄存器
+### 13.9 PCIe Controller QoS Adjustment Registers in Each SoC
 
-下表中的寄存器命令范例为配置成所允许的最高优先级，实际请根据测试情况酌情调整。
+The register command examples in the table below are configured to the highest allowed priority. Please adjust as appropriate according to test results.
 
-| 芯片 | 控制器 | 寄存器命令 |  |
+| Chip | Controller | Register Command |  |
 | --- | --- | --- | --- |
 | RK1808 | pcie0 | `io -4 0xfe880008` | `0x303` |
 | RK3528 | pcie2x1 | `io -4 0xff280188` | `0x404` |

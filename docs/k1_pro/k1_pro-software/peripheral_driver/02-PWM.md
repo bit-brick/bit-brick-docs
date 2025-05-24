@@ -1,64 +1,61 @@
-# PWM 
+# PWM
 
+## Supported Chips List
 
-## 芯片支持列表
+| Chip Name | Kernel Version |
+| --- | --- |
+| RK3036 | Linux kernel 4.4 and above |
+| RK312X/PX3SE | Linux kernel 4.4 and above |
+| RK3288 | Linux kernel 4.4 and above |
+| RK322X/RK312XH | Linux kernel 4.4 and above |
+| RK3308 | Linux kernel 4.4 and above |
+| RK322XH/RK332X | Linux kernel 4.4 and above |
+| RK3326/PX30 | Linux kernel 4.4 and above |
+| RK3368/PX5 | Linux kernel 4.4 and above |
+| RK3399 | Linux kernel 4.4 and above |
+| RK1808 | Linux kernel 4.4 and above |
+| RV1109/RV1126 | Linux kernel 4.19 and above |
+| RK356X | Linux kernel 4.19 and above |
+| RK3588 | Linux kernel 5.10 and above |
+| RV1103/RV1106 | Linux kernel 5.10 and above |
+| RK3528 | Linux kernel 4.19 and above |
+| RK3562 | Linux kernel 5.10 and above |
+| RK3576 | Linux kernel 6.1 and above |
+| RV1103B | Linux kernel 5.10 and above |
+| RK3506 | Linux kernel 6.1 and above |
 
-| 芯片名称          | 内核版本               |
-|-------------------|------------------------|
-| RK3036            | Linux kernel 4.4 及以上内核 |
-| RK312X/PX3SE      | Linux kernel 4.4 及以上内核 |
-| RK3288            | Linux kernel 4.4 及以上内核 |
-| RK322X/RK312XH    | Linux kernel 4.4 及以上内核 |
-| RK3308            | Linux kernel 4.4 及以上内核 |
-| RK322XH/RK332X    | Linux kernel 4.4 及以上内核 |
-| RK3326/PX30       | Linux kernel 4.4 及以上内核 |
-| RK3368/PX5        | Linux kernel 4.4 及以上内核 |
-| RK3399            | Linux kernel 4.4 及以上内核 |
-| RK1808            | Linux kernel 4.4 及以上内核 |
-| RV1109/RV1126     | Linux kernel 4.19 及以上内核 |
-| RK356X            | Linux kernel 4.19 及以上内核 |
-| RK3588            | Linux kernel 5.10 及以上内核 |
-| RV1103/RV1106     | Linux kernel 5.10 及以上内核 |
-| RK3528            | Linux kernel 4.19 及以上内核 |
-| RK3562            | Linux kernel 5.10 及以上内核 |
-| RK3576            | Linux kernel 6.1 及以上内核 |
-| RV1103B           | Linux kernel 5.10 及以上内核 |
-| RK3506            | Linux kernel 6.1 及以上内核 |
+## Introduction
 
+Pulse Width Modulation (PWM) is a very common feature in embedded systems. It is a highly effective technique for using digital output from microprocessors to control analog circuits, widely used in many fields from measurement and communication to power control and conversion. This document mainly introduces the basic characteristics, usage methods, and common problem analysis of PWM on the Rockchip platform.
 
+## Target Audience
 
-## 前言
-
-脉宽调制（PWM，Pulse Width Modulation）功能在嵌入式系统中是非常常见的，它是利用微处理器的数字输出来对模拟电路进行控制的一种非常有效的技术，广泛应用于从测量、通信到功率控制与变换的许多领域中。本文主要介绍 Rockchip 平台 PWM 的基本特性、使用方法和常见问题分析。
-
-## 读者对象
-
-本文档（本指南）主要适用于以下工程师：
-- 技术支持工程师
-- 软件开发工程师
-- 硬件开发工程师
+This document (guide) is primarily intended for the following engineers:
+- Technical Support Engineers
+- Software Development Engineers
+- Hardware Development Engineers
 
 
 
-## 1. 软件驱动
+## 1. Software Driver
 
-### 1.1 Kernel 驱动
+### 1.1 Kernel Driver
 
-#### 1.1.1 驱动目录
+#### 1.1.1 Driver Directory
 
-- **Linux-5.10 及以下版本**：
+- **Linux-5.10 and below**:
   - `drivers/pwm/pwm-rockchip.c`
-- **Linux-6.1 及以上版本**：
+- **Linux-6.1 and above**:
   - `drivers/pwm/pwm-rockchip.c`
   - `drivers/pwm/pwm-rockchip-test.c`
 
-- Linux-6.1 开始支持了 PWM v4 驱动，Linux-5.10 及以下支持的 PWM v1-v3 共用 v1 的接口，下文中统称为 PWM v1。
+- Linux-6.1 began to support PWM v4 driver, Linux-5.10 and below support PWM v1-v3 sharing the v1 interface, collectively referred to as PWM v1.
 
-- Linux-6.1 新增了 test 驱动用于测试功能和定位问题，同时也作为 PWM 各功能的应用示例，需要打开 `CONFIG_PWM_ROCKCHIP_TEST` 以使用。
+- Linux-6.1 added a test driver for testing functions and locating issues, also serving as an application example for each PWM function. It needs to enable `CONFIG_PWM_ROCKCHIP_TEST` to use.
 
-#### 1.1.2 DTS 配置
+#### 1.1.2 DTS Configuration
 
-在 DTS 中，PWM 节点通常被别的驱动所引用，在其中通过 PWM 框架提供的各接口来配置和使用 PWM，本节以常见的背光驱动为例。
+In DTS, the PWM node is usually referenced by other drivers, and PWM is configured and used through various interfaces provided by the PWM framework. This section takes the common backlight driver as an example.
 
 - **PWM v1**：
   ```dts
@@ -77,57 +74,57 @@
   };
   ```
 
-PWM v1 和 PWM v4 节点的命名方式有所不同：
-- PWM v1 为 `pwmX`，实际对应的控制器 id 为 `X / 4`，通道 id 为 `X % 4`。
-- PWM v4 为 `pwmX_Ych_Z`，`X` 表示控制器 id ，`Y` 表示当前控制器支持的通道总数，`Z` 表示通道 id 。
+The naming conventions for PWM v1 and PWM v4 nodes differ:
+- PWM v1 is named `pwmX`, actually corresponding to the controller id `X / 4`, channel id `X % 4`.
+- PWM v4 is named `pwmX_Ych_Z`, where `X` indicates the controller id, `Y` indicates the total number of channels supported by the current controller, and `Z` indicates the channel id.
 
-Linux-4.4 及以上内核 PWM 节点支持的参数个数从 Linux-3.10 的 2 个提升到 3 个，具体个数与 PWM 节点的 `#pwm-cells` 属性相对应，参考文档 `Documentation/devicetree/bindings/pwm/pwm.txt` 中有详细的说明，此处仅对各参数作简要说明：
-- 参数 1，表示 index (per-chip index of the PWM to request），值固定为 0。Rockchip 平台的每个 PWM channel 对应一个 PWM device，且每个 device 只有一个 chip。
-- 参数 2，表示 PWM 输出波形的 period，单位为 ns。示例中的 25000 ns 换算为频率即为 40KHz。
-- 参数 3，表示可选参数 polarity，默认为 0，若要翻转极性则配为 `PWM_POLARITY_INVERTED`。
+The number of parameters supported by the PWM node in Linux 4.4 and above has been increased from 2 in Linux 3.10 to 3, corresponding to the `#pwm-cells` property of the PWM node. For detailed information, refer to the document `Documentation/devicetree/bindings/pwm/pwm.txt`. Here is a brief description of each parameter:
+- Parameter 1 indicates the index (per-chip index of the PWM to request), with a fixed value of 0. Each PWM channel on the Rockchip platform corresponds to one PWM device, and each device has only one chip.
+- Parameter 2 indicates the period of the PWM output waveform, in ns. The 25000 ns in the example corresponds to a frequency of 40KHz.
+- Parameter 3 is an optional parameter for polarity, with a default value of 0. If you want to invert the polarity, set it to `PWM_POLARITY_INVERTED`.
 
-## 2. 功能支持
+## 2. Feature Support
 
-| 特性                | RK3036 | RK312X/PX3SE | RK3288 | RK322X/RK312XH | RK3308 | RK322XH/RK332X | RK3326/PX30 | RK3368/PX5 | RK3399 | RK1808 | RV1109/RV1126 | RK356X | RK3588 | RV1103/RV1106 | RK3528 | RK3562 | RK3576 | RV1103B | RK3506 |
-|---------------------|--------|--------------|--------|----------------|--------|----------------|--------------|--------------|--------|--------|----------------|--------|--------|----------------|--------|--------|--------|----------|--------|
-| PWM version         | v2     | v2           | v2     | v2             | v2     | v2             | v2           | v2           | v2     | v2     | v2             | v2     | v2     | v3             | v3     | v3     | v4     | v4       | v4     |
-| channel number      | 4      | 4            | 4      | 4              | 4      | 4              | 4            | 4            | 4      | 4      | 4              | 4      | 4      | 4              | 4      | 4      | 2/6/8  | 4/4/4   | 4/8    |
-| continous           | √      | √            | √      | √              | √      | √              | √            | √            | √      | √      | √              | √      | √      | √              | √      | √      | √      | √        | √      |
-| oneshot             | √      | √            | √      | √              | √      | √              | √            | √            | √      | √      | √              | √      | √      | √              | √      | √      | √      | √        | √      |
-| capture             | √      | √            | √      | √              | √      | √              | √            | √            | √      | √      | √              | √      | √      | √              | √      | √      | √      | √        | √      |
-| global control      | ×      | ×            | ×      | ×              | ×      | ×              | ×            | ×            | ×      | ×      | ×              | ×      | ×      | √              | √      | √      | √      | √        | √      |
-| output offset       | ×      | ×            | ×      | ×              | ×      | ×              | ×            | ×            | ×      | ×      | ×              | ×      | ×      | √              | √      | √      | √      | √        | √      |
-| counter             | ×      | ×            | ×      | ×              | ×      | ×              | ×            | ×            | ×      | ×      | ×              | ×      | ×      | √              | √      | √      | √      | √        | √      |
-| frequency meter     | ×      | ×            | ×      | ×              | ×      | ×              | ×            | ×            | ×      | ×      | ×              | ×      | ×      | ×              | ×      | ×      | √      | √        | √      |
-| IR output           | ×      | ×            | ×      | ×              | ×      | ×              | ×            | ×            | ×      | ×      | ×              | ×      | ×      | ×              | ×      | ×      | √      | √        | √      |
-| IR input            | ×      | ×            | ×      | ×              | √      | √              | √            | ×            | ×      | √      | √              | √      | √      | √              | √      | √      | √      | √        | √      |
+| Feature | RK3036 | RK312X/PX3SE | RK3288 | RK322X/RK312XH | RK3308 | RK322XH/RK332X | RK3326/PX30 | RK3368/PX5 | RK3399 | RK1808 | RV1109/RV1126 | RK356X | RK3588 | RV1103/RV1106 | RK3528 | RK3562 | RK3576 | RV1103B | RK3506 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| PWM version | v2 | v2 | v2 | v2 | v2 | v2 | v2 | v2 | v2 | v2 | v2 | v2 | v2 | v3 | v3 | v3 | v4 | v4 | v4 | v4 |
+| channel number | 4 | 4 | 4 | 4 | 4 | 4 | 4 | 4 | 4 | 4 | 4 | 4 | 4 | 4 | 4 | 4 | 4 | 2/6/8 | 4/4/4 | 4/8 |
+| continous | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ |
+| oneshot | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ |
+| capture | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ |
+| global control | × | × | × | × | × | × | × | × | × | × | × | × | × | √ | √ | √ | √ | √ | √ | √ |
+| output offset | × | × | × | × | × | × | × | × | × | × | × | × | × | √ | √ | √ | √ | √ | √ | √ |
+| counter | × | × | × | × | × | × | × | × | × | × | × | × | × | √ | √ | √ | √ | √ | √ | √ |
+| frequency meter | × | × | × | × | × | × | × | × | × | × | × | × | × | × | × | √ | √ | √ | √ | √ |
+| IR output | × | × | × | × | × | × | × | × | × | × | × | × | × | × | × | √ | √ | √ | √ | √ |
+| IR input | × | × | × | × | √ | √ | √ | × | × | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ | √ |
 
 ### PWM v2
 
-- 每个控制器的 channel 数为 4；
-- continuous/oneshot/capture 每个控制器的任意通道均可支持；
-- IR input 仅有每个控制器的 channel 3 可以支持。
+- Each controller has 4 channels;
+- continuous/oneshot/capture can be supported by any channel of each controller;
+- IR input is only supported by channel 3 of each controller.
 
 ### PWM v3
 
-- 新增的 counter/output offset 每个控制器的任意通道均可支持，其他功能与 PWM v2 相同。
+- The new counter/output offset can be supported by any channel of each controller, other functions are the same as PWM v2.
 
 ### PWM v4
 
-- 不同控制器的 channel 数可能不相同，单个控制器最大支持的 channel 数为 8；
-- continuous/oneshot/capture/global control/output offset 每个控制器的任意通道均可支持；
-- counter/frequency meter/IR output/IR input 部分控制器可以支持，且单个控制器同时只有一个 channel 可以使能上述功能。
-- wave generator 部分控制器可以支持，且单个控制器中的多个 channel 可以同时使能该功能。
-- biphasic counter 部分控制器可以支持，且单个控制器中有多个 channel 可以支持该功能。
-        DTS 配置可以参考 `arch/arm/boot/dts/rk3506g-iotest-pwm-test.dtsi`，仅需要使能 A 相 channel 对应的 PWM 节点，B 相 channel 配置对应的 IOMUX 即可。
+- The number of channels may vary between different controllers, with a maximum of 8 channels supported by a single controller;
+- continuous/oneshot/capture/global control/output offset can be supported by any channel of each controller;
+- counter/frequency meter/IR output/IR input can be supported by some controllers, and only one channel of a single controller can enable the above functions at the same time.
+- wave generator can be supported by some controllers, and multiple channels in a single controller can enable this function simultaneously.
+- biphasic counter can be supported by some controllers, and multiple channels in a single controller can support this function.
+        DTS configuration can refer to `arch/arm/boot/dts/rk3506g-iotest-pwm-test.dtsi`, only need to enable the PWM node corresponding to the A phase channel, and configure the IOMUX corresponding to the B phase channel.
 
-## 3. 应用说明
+## 3. Application Instructions
 
-对于 PWM kernel 和 user space 的应用方法在 `Documentation/devicetree/bindings/pwm/pwm.txt` 已有说明，本节主要针对 Rockchip 平台的 PWM 特性进一步展开。
+The application methods for PWM in kernel and user space have been described in `Documentation/devicetree/bindings/pwm/pwm.txt`. This section further elaborates on the PWM features of the Rockchip platform.
 
-### 3.1 Kernel driver
+### 3.1 Kernel Driver
 
-Kernel 驱动中若要使用 PWM，可以参考 [DTS 配置](#112-dts-配置) 章节中 backlight 驱动的配置方法，在驱动节点下添加 pwms 属性，再通过如下接口 get/put PWM 设备：
+To use PWM in the kernel driver, you can refer to the configuration method of the backlight driver in the [DTS Configuration](#112-dts-配置) section. Add the pwms attribute under the driver node, and then use the following interfaces to get/put the PWM device:
 
 ```c
 struct pwm_device *pwm_get(struct device *dev, const char *con_id);
@@ -135,9 +132,9 @@ void pwm_put(struct pwm_device *pwm);
 struct pwm_device *devm_pwm_get(struct device *dev, const char *con_id);
 struct pwm_device *devm_fwnode_pwm_get(struct device *dev, struct fwnode_handle *fwnode, const char *con_id);
 ```
-具体实现及功能说明详见 `include/linux/pwm.h` 和 `drivers/pwm/core.c`。
+For detailed implementation and function description, refer to `include/linux/pwm.h` and `drivers/pwm/core.c`.
 
-PWM 框架提供的接口（摘自 Linux-5.10，Linux-6.1 上已经将 legacy drivers 相关的接口全部删除）：
+The interfaces provided by the PWM framework (excerpted from Linux-5.10, the legacy drivers related interfaces have been removed in Linux-6.1):
 
 
 
@@ -180,9 +177,8 @@ struct pwm_ops {
     ANDROID_KABI_RESERVE(1);
 };
 ```
-Linux-4.4 及以上内核不再实现 config、enable 和 disable 等接口，而改为实现 apply。
-目的在于可以用 int pwm_apply_state(struct pwm_device *pwm, const struct pwm_state *state) 函数，通过 struct 
-pwm_state 来 atomic 改变 PWM 设备的多个参数。
+Linux-4.4 and above no longer implement interfaces such as config, enable, and disable, but instead implement apply.
+The purpose is to use the `int pwm_apply_state(struct pwm_device *pwm, const struct pwm_state *state)` function to atomically change multiple parameters of the PWM device through `struct pwm_state`.
 ```c
 /*
  * struct pwm_state - state of a PWM channel
@@ -209,11 +205,11 @@ struct pwm_state {
 };
 ```
 
-PWM 的基本功能，包括 continous、oneshot 和 capture 等，可以通过 PWM 框架提供的接口来应用，而 Rockchip 平台 PWM v4 支持的 frequency meter、counter 和 wave generator 等功能需要引用头文件 `include/linux/pwm-rockchip.h` 来使用。下面对各功能及其应用进行具体的介绍，也可以参考 demo 驱动 `drivers/pwm/pwm-rockchip-test.c`。
+The basic functions of PWM, including continous, oneshot, and capture, can be applied using the interfaces provided by the PWM framework. However, functions such as frequency meter, counter, and wave generator supported by PWM v4 on the Rockchip platform need to include the header file `include/linux/pwm-rockchip.h` to use. The following is a specific introduction to each function and its application, and you can also refer to the demo driver `drivers/pwm/pwm-rockchip-test.c`.
 
 #### 3.1.1 Continous
 
-连续输出模式，支持持续输出指定占空比的 PWM 波形。
+Continuous output mode, supports continuous output of PWM waveform with specified duty cycle.
 
 ```c
 pwm_get_state(pdev, &state);
@@ -226,7 +222,7 @@ pwm_apply_state(pdev, &state);
 
 #### 3.1.2 Oneshot
 
-单次输出模式，支持输出指定个数的 PWM 波形。Kernel 中需要打开 `CONFIG_PWM_ROCKCHIP_ONESHOT` 配置。
+Single-shot output mode, supports output of a specified number of PWM waveforms. The kernel needs to enable the `CONFIG_PWM_ROCKCHIP_ONESHOT` configuration.
 ```
 pwm_get_state(pdev, &state);
 state.period = period;
@@ -237,9 +233,9 @@ state.oneshot_count = rpt_first;
 state.oneshot_repeat = rpt_second;
 pwm_apply_state(pdev, &state);
 ```
-`oneshot_count` 表示输出指定占空比的波形个数，在 PWM v4 上扩展了波形个数的上限，实际输出波形个数为 `oneshot_repeat * oneshot_count`。
+`oneshot_count` indicates the number of waveforms with the specified duty cycle to be output. In PWM v4, the upper limit of the number of waveforms has been extended, and the actual number of waveforms output is `oneshot_repeat * oneshot_count`.
 
-`oneshot` 模式在输出结束后会产生中断，用户可以按需在 `drivers/pwm/pwm-rockchip-irq-callbacks.h` 中断处理函数中添加相应逻辑：
+The `oneshot` mode will generate an interrupt after the output is finished. The user can add corresponding logic to the interrupt handler function in `drivers/pwm/pwm-rockchip-irq-callbacks.h` as needed:
 
 ```c
 
@@ -262,13 +258,13 @@ static void rockchip_pwm_oneshot_callback(struct pwm_device *pwm, struct pwm_sta
 
 #### 3.1.3 Capture
 
-输入捕获模式，支持计算输入波形高低电平的持续时间。
+Input capture mode, supports calculating the duration of high and low levels of the input waveform.
 
 ```c
 pwm_capture(pdev, &cap_res, timeout_ms);
 ```
 
-在 `timeout_ms` 后返回计算的结果 `cap_res`：
+After `timeout_ms`, the calculated result `cap_res` is returned:
 
 
 ```c
@@ -283,9 +279,9 @@ struct pwm_capture {
 };
 ```
 
-#### 3.1.4 Global control
+#### 3.1.4 Global Control
 
-全局控制模式，支持多通道配置的同步更新，结合 continous/oneshot mode 可以实现输出同步、互补输出等功能。
+Global control mode, supports synchronous updating of multi-channel configurations. Combined with continous/oneshot mode, it can achieve synchronous output, complementary output, and other functions.
 
 ```c
 // join the global control group
@@ -308,7 +304,7 @@ rockchip_pwm_global_ctrl(pdev1, PWM_GLOBAL_CTRL_EXIT);
 rockchip_pwm_global_ctrl(pdev2, PWM_GLOBAL_CTRL_EXIT);
 ```
 
-global control 模式中各指令的说明：
+Instructions for each command in global control mode:
 
 
 
@@ -334,13 +330,13 @@ enum rockchip_pwm_global_ctrl_cmd {
 };
 ```
 
-#### 3.1.5 Output offset
+#### 3.1.5 Output Offset
 
-输出偏移模式，支持 PWM 输出波形偏移指定的时间，通常结合 global control 在 oneshot 模式下使用，对应 struct pwm_state 中的 duty offset 参数，可以参考 oneshot 模式说明。
+Output offset mode, supports offsetting the PWM output waveform by a specified time, usually used in conjunction with global control in oneshot mode. It corresponds to the duty offset parameter in the struct pwm_state. For details, please refer to the oneshot mode description.
 
 #### 3.1.6 Counter
 
-输入计数模式，支持计算输入波形的个数。
+Input counting mode, supports counting the number of input waveforms.
 
 ```c
 rockchip_pwm_set_counter(pdev, PWM_COUNTER_INPUT_FROM_IO, true);
@@ -348,24 +344,24 @@ msleep(timeout_ms);
 rockchip_pwm_set_counter(pdev, 0, false);
 rockchip_pwm_get_counter_result(pdev, &counter_res, true);
 ```
-在 `timeout_ms` 后关闭 counter 并获取计数结果 `counter_res`：
+After `timeout_ms`, turn off the counter and obtain the counting result `counter_res`:
 
 
 
-#### 3.1.7 Frequency meter
+#### 3.1.7 Frequency Meter
 
-频率计模式，支持计算输入波形的频率。
+Frequency meter mode, supports calculating the frequency of the input waveform.
 
 ```c
 rockchip_pwm_set_freq_meter(pdev, timeout_ms, PWM_COUNTER_INPUT_FROM_IO, &freq_hz);
 ```
-在 `timeout_ms` 后返回计算的结果 `freq_hz`。
+After `timeout_ms`, the calculated result `freq_hz` is returned.
 
 
 
-#### 3.1.8 IR output
+#### 3.1.8 IR Output
 
-红外输出模式，支持输出 NEC 格式的红外波形。Kernel 中需要打开 `CONFIG_RC_CORE` 和 `CONFIG_LIRC` 配置，前者使能 RC 设备的框架支持，而后者提供 RC 设备的用户层接口。
+Infrared output mode, supports outputting infrared waveforms in NEC format. The kernel needs to enable the `CONFIG_RC_CORE` and `CONFIG_LIRC` configurations. The former enables the framework support for RC devices, and the latter provides the user-space interface for RC devices.
 ```c
 #include <stdio.h>
 #include <unistd.h>
@@ -409,9 +405,9 @@ int main(int argc, char **argv)
     return 0;
 }
 ```
-RC 设备及其用户层接口详见目录 `Documentation/userspace-api/media/rc/` 下各文档。
+The RC device and its user-space interface are detailed in the `Documentation/userspace-api/media/rc/` directory documents.
 
-根据 `Documentation/userspace-api/media/rc/lirc-write.rst` 文档的说明，写入的 buffer 应该为一个 pulse/space 序列，而 Rockchip 平台支持更简单的配置方法，仅需要 7 个参数即可。详见驱动 `drivers/pwm/pwm-rockchip.c` 中的注释：
+According to the description in `Documentation/userspace-api/media/rc/lirc-write.rst`, the written buffer should be a pulse/space sequence. The Rockchip platform supports a simpler configuration method, requiring only 7 parameters. For details, see the comments in the driver `drivers/pwm/pwm-rockchip.c`:
 
 
 
@@ -447,13 +443,13 @@ static int rockchip_pwm_ir_transmit_v4(struct pwm_chip *chip, unsigned int *txbu
 }
 ```
 
-#### 3.1.9 IR input
+#### 3.1.9 IR Input
 
-详见文档《Rockchip_Developer_Guide_PWM_IR_CN》，对应内核驱动为 `driver/input/remotectl/rockchip_pwm_remotectl.c`。
+See the document "Rockchip_Developer_Guide_PWM_IR_CN", the corresponding kernel driver is `driver/input/remotectl/rockchip_pwm_remotectl.c`.
 
-#### 3.1.10 Wave generator
+#### 3.1.10 Wave Generator
 
-波形发生器模式，支持根据 wave table 中的配置输出指定波形。
+Waveform generator mode, supports outputting specified waveforms according to the configuration in the wave table.
 ```
 // setup the duty table
 for (i = 0; i < PWM_TABLE_MAX; i++)
@@ -492,7 +488,7 @@ state.polarity = polarity;
 state.enabled = enable;
 pwm_apply_state(pdev, &state);
 ```
-wave 模式相关的配置及说明如下：
+The configuration and description related to the wave mode are as follows：
 
 
 ```c
@@ -562,11 +558,11 @@ struct rockchip_pwm_wave_config {
 ```
 
 
-PWM v4 在 wave generator 模式下有 768 * 8bit 大小的空间用于存储 duty/period 配置，开启 duty_en/period_en 后每 rpt 个周期就会从 duty_table/period_table 中 duty_min + offset/period_min + offset 索引处取新的配置值（单位：ns），直到 duty_max/period_max 为止。接着会根据 update_mode 重新进入下一次循环，如果是 oneshot模式下 oneshot_repeat 次循环后就会停止，而 continous 模式将会持续输出直到手动停止。
+In wave generator mode, PWM v4 has a space of 768 * 8bit to store duty/period configurations. After enabling duty_en/period_en, a new configuration value will be fetched from the duty_table/period_table at the duty_min + offset/period_min + offset index every rpt period (in ns), until duty_max/period_max. Then, it will re-enter the next loop according to the update_mode. If it is in oneshot mode, it will stop after oneshot_repeat cycles, while the continuous mode will keep outputting until manually stopped.
 
-wave 支持 width_mode 的切换（768 * 8bit 和 384 * 16bit），相同工作时钟 dclk 下，16bit 模式会支持更大的 duty/period 配置。
+The wave mode supports switching of width_mode (768 * 8bit and 384 * 16bit). Under the same working clock dclk, the 16bit mode will support larger duty/period configurations.
 
-在配置的 middle 和 max 索引处会产生中断，用户可以按需在 `drivers/pwm/pwm-rockchip-irq-callbacks.h` 中断处理函数中添加相应逻辑。
+Interrupts will be generated at the configured middle and max indices, and the user can add corresponding logic to the interrupt handler function in `drivers/pwm/pwm-rockchip-irq-callbacks.h`.
 
 ```
 static void rockchip_pwm_wave_middle_callback(struct pwm_device *pwm)
@@ -604,9 +600,9 @@ static void rockchip_pwm_wave_max_callback(struct pwm_device *pwm)
  */
 }
 ```
-#### 3.1.11 Biphasic counter
+#### 3.1.11 Biphasic Counter
 
-双向计数器模式，支持 mode0-mode4 五种计数模式（详见 TRM 中 PWM 章节的描述），mode0 下可以作为上述的 counter 和 frequency meter 使用。
+Biphasic counter mode, supports five counting modes (see the description in the TRM PWM chapter), under mode0, it can be used as the above counter and frequency meter.
 
 ```
 biphasic_config.enable = true;
@@ -617,7 +613,7 @@ rockchip_pwm_set_biphasic(pdev, &biphasic_config, &biphasic_res);
 
 ```
 
-- biphasic_config 各参数说明如下：
+- The parameters of biphasic_config are described as follows：
 ```c
   /**
  * struct rockchip_pwm_biphasic_config - biphasic counter config object
@@ -633,11 +629,11 @@ struct rockchip_pwm_biphasic_config {
  u32 delay_ms;
 };
 ```
-  - 非 continous 模式下，timeout_ms 后返回计数的结果 biphasic_res。
+  - In non-continuous mode, after `timeout_ms`, the counting result `biphasic_res` is returned.
 
-  -  continous 模式下，计数在手动关闭前将持续进行，可以通过 `int rockchip_pwm_get_biphasic_result(struct pwm_device *pwm, unsigned long *biphasic_res)` 实时获取计数结果。
+  - In continuous mode, the counting will continue until manually turned off. The real-time counting result can be obtained through `int rockchip_pwm_get_biphasic_result(struct pwm_device *pwm, unsigned long *biphasic_res)`.
 
-biphasic counter 模式说明：
+Description of biphasic counter mode:
 
 ```
 /**
@@ -657,31 +653,31 @@ enum rockchip_pwm_biphasic_mode {
  PWM_BIPHASIC_COUNTER_MODE0_FREQ,
 };
 ```
-- `PWM_BIPHASIC_COUNTER_MODE0` 等价于 counter 功能，而 `PWM_BIPHASIC_COUNTER_MODE0_FREQ` 等价于 frequency meter 功能。
+- `PWM_BIPHASIC_COUNTER_MODE0` is equivalent to the counter function, while `PWM_BIPHASIC_COUNTER_MODE0_FREQ` is equivalent to the frequency meter function.
 
 
 
-### 3.2 User space
+### 3.2 User Space
 
-PWM 框架在 `/sys/class/pwm/` 目录下提供了用户层接口，详见 `drivers/pwm/sysfs.c`，PWM 驱动加载成功后，会在其下生成 pwmchipX 目录，如 pwmchip0、pwmchip1 等，此处的 X 与 PWM 的控制器或通道 id 无关，仅与 PWM 设备的 probe 顺序有关。
+The PWM framework provides user-space interfaces in the `/sys/class/pwm/` directory, detailed in `drivers/pwm/sysfs.c`. After the PWM driver is successfully loaded, a pwmchipX directory, such as pwmchip0, pwmchip1, etc., will be generated under this directory. The X here is unrelated to the PWM controller or channel id, but only related to the probe order of the PWM device.
 
 ```bash
 root@linaro-alip:/# cat /sys/class/pwm/pwmchip0/
 device/    export     npwm       power/     subsystem/ uevent     unexport
 ```
 
-向 `export` 节点写入 Y，会在当前目录下产生一个 pwmY 目录，由于 Rockchip 平台每个 PWM device 只有一个 chip，Y 值只能为 0。反之，向 `unexport` 节点写入 Y 就会删除 pwmY 目录。
+Writing Y to the `export` node will generate a pwmY directory in the current directory. Since each PWM device on the Rockchip platform has only one chip, the Y value can only be 0. Conversely, writing Y to the `unexport` node will delete the pwmY directory.
 
-pwmY 目录下有以下几个可操作的节点：
+The pwmY directory has the following operable nodes:
 
-- `enable`：写入 1 使能 PWM，写入 0 关闭 PWM；
-- `polarity`：有 `normal` 或 `inversed` 两个参数选择，对应 PWM 的极性配置 `PWM_POLARITY_NORMAL`/`PWM_POLARITY_INVERSED`；
-- `duty_cycle`：在 `normal` 模式下，表示一个周期内高电平持续的时间（单位：ns），在 `reversed` 模式下，表示一个周期中低电平持续的时间（单位：ns)；
-- `period`：表示 PWM 波形的周期（单位：ns）；
-- `oneshot_count`：需开启 `CONFIG_PWM_ROCKCHIP_ONESHOT`，表示 oneshot 模式的 PWM 波形个数；
-- `oneshot_repeat`：需开启 `CONFIG_PWM_ROCKCHIP_ONESHOT` 且仅 PWM v4 支持，表示 oneshot 模式重复的次数，最后输出的波形个数为 `oneshot_repeat * oneshot_count`；
-- `duty_offset`：需开启 `CONFIG_PWM_ROCKCHIP_ONESHOT`，表示 PWM 输出波形偏移的时间（单位：ns）；
-- `capture`：使能 capture 模式，获取输入波形高低电平的时长（单位：ns）。
+- `enable`: Write 1 to enable PWM, write 0 to turn off PWM;
+- `polarity`: Choose between `normal` or `inversed`, corresponding to PWM polarity configuration `PWM_POLARITY_NORMAL`/`PWM_POLARITY_INVERSED`;
+- `duty_cycle`: In `normal` mode, it represents the duration of high level in one period (unit: ns). In `reversed` mode, it represents the duration of low level in one period (unit: ns);
+- `period`: Represents the period of the PWM waveform (unit: ns);
+- `oneshot_count`: Requires enabling `CONFIG_PWM_ROCKCHIP_ONESHOT`, represents the number of PWM waveforms in oneshot mode;
+- `oneshot_repeat`: Requires enabling `CONFIG_PWM_ROCKCHIP_ONESHOT` and is only supported in PWM v4, represents the number of times the oneshot mode is repeated. The total number of waveforms output will be `oneshot_repeat * oneshot_count`;
+- `duty_offset`: Requires enabling `CONFIG_PWM_ROCKCHIP_ONESHOT`, represents the offset time of the PWM output waveform (unit: ns);
+- `capture`: Enables capture mode to obtain the duration of high and low levels of the input waveform (unit: ns).
 
 #### 3.2.1 Continous
 
@@ -719,26 +715,26 @@ cd pwm0
 cat capture
 ```
 
-## 4. 常见问题
+## 4. Common Issues
 
-### 4.1 PWM 在 U-Boot 与 kernel 之间的衔接问题
+### 4.1 PWM Handoff Issues Between U-Boot and Kernel
 
-U-Boot 如果有用 PWM 调压功能，到了 kernel 阶段，此时 PWM 仍然是工作状态，需要根据当前 PWM 的硬件状态，将 PWM clock count 调整与当前 PWM 状态一致。否则可能会出现 clock 架构发现无人使用的 PWM clock，将其关闭后，导致 PWM 无法工作，出现类似 PWM 调压电压不够导致的死机问题等。以上的补丁已经修正，确保 PWM 驱动: `drivers/pwm/pwm-rockchip.c`，更新到下面的提交点:
+If the U-Boot uses the PWM voltage regulation function, the PWM will still be in the working state when it reaches the kernel stage. It is necessary to adjust the PWM clock count to be consistent with the current PWM state according to the current hardware status of the PWM. Otherwise, issues such as the clock architecture discovering unused PWM clock and shutting it down, leading to PWM not working, or system crashes due to insufficient PWM voltage regulation may occur. The following patches have been fixed to ensure the PWM driver: `drivers/pwm/pwm-rockchip.c`, updated to the following commit points:
 
 1. kernel-4.4: commit e6f2796ef5b660a70102c02d6c15f65ff8701d76
 2. kernel-3.10: commit 5a3d9257d5e379391eb02457ccd70f28a8fb188b
 
-U-Boot 与 kernel PWM 所用的时钟源的频率不同，也会导致中间出现切换可能会导致 PWM 占空比发生变化，出现类似 PWM 调压电压不够导致的死机问题等，所以要保持 U-Boot 与 kernel 的时钟源或时钟源的频率一致。确保 U-Boot 的 GPLL 频率与 kernel 保持一致，因为 PWM 的时钟现在都是挂在 GPLL 下面；U-Boot 的 GPLL 频率通过 U-Boot 的开机打印 log 可以看到，kernel 的频率通过查看 clock tree, `cat /sys/kernel/debug/clock/clock_tree | grep gpll`。
+The frequency of the clock sources used by U-Boot and the kernel for PWM is different, which may also cause changes in the PWM duty cycle during the transition, leading to issues such as insufficient PWM voltage regulation. Therefore, the clock source or frequency of the clock source between U-Boot and the kernel should be kept consistent. Ensure that the GPLL frequency of U-Boot is consistent with the kernel, as the PWM clock is now挂在 GPLL 下面; The GPLL frequency of U-Boot can be seen in the U-Boot boot log, and the kernel frequency can be checked by looking at the clock tree, `cat /sys/kernel/debug/clock/clock_tree | grep gpll`.
 
-U-Boot 与 kernel 所配置的极性和周期不一致，也会导致中间出现切换，可能会导致 PWM 占空比发生变化，出现类似 PWM 调压电压不够导致的死机问题等，所以要保持 U-Boot 与 kernel 的极性和周期一致。
+The inconsistency in polarity and period configuration between U-Boot and the kernel may also cause changes in the PWM duty cycle during the transition, leading to issues such as insufficient PWM voltage regulation. Therefore, the polarity and period of U-Boot and the kernel should be kept consistent.
 
-### 4.2 PWM Regulator 时 PWM pin 脚上下拉配置问题
+### 4.2 PWM Regulator and PWM Pin Pull-up/Pull-down Configuration Issues
 
-由于在做 reboot 的时候，很多情况是不复位 GRF 里面的寄存器，而 PWM 控制器会发生复位，这就会在 reboot 起来后改变 PWM Regulator 的默认电压，所以要在 kernel 中配置 PWM pin 脚上下拉与默认的上下拉一致，不能配置为 none。该问题只针对 PWM 作为调压时才需要修改，作为其他功能可以不需要关注。
+During reboot, in many cases, the GRF registers are not reset, and the PWM controller will reset, which will change the default voltage of the PWM Regulator. Therefore, it is necessary to configure the PWM pin pull-up/pull-down in the kernel to be consistent with the default configuration, and it cannot be configured as none. This issue only needs to be addressed when PWM is used for voltage regulation, and it can be ignored when used for other functions.
 
-通过硬件原理图确认该 PWM pin 的默认上下拉。例如 RK3399 挖掘机板子 PWM2 作为调压功能，在原理图上找到 PWM2 pin 脚: `GPIO1_C3/PWM2_d`，其中的 `"d"` 表示 down 为默认下拉；如果是 `"u"` 表示 up 默认上拉。
+Confirm the default pull-up/pull-down of the PWM pin through the hardware schematic. For example, in the RK3399 excavator board, PWM2 is used for voltage regulation. Find the PWM2 pin in the schematic: `GPIO1_C3/PWM2_d`, where `"d"` indicates the default pull-down; if it is `"u"`, it indicates the default pull-up.
 ![alt text](/pdf/rk/pwm/image.png)
-dtsi 中定义 PWM pull down pinctrl:
+Define PWM pull-down pinctrl in dtsi:
 
 ```dts
 pwm2_pin_pull_down: pwm2-pin-pull-down {
@@ -747,7 +743,7 @@ pwm2_pin_pull_down: pwm2-pin-pull-down {
 };
 ```
 
-在 dts 中重新 PWM 覆盖 pinctrl:
+In the dts, overwrite the pinctrl of PWM:
 
 ```dts
 &pwm2 {
@@ -757,15 +753,15 @@ pwm2_pin_pull_down: pwm2-pin-pull-down {
 };
 ```
 
-### 4.3 PWM 波形无法示波器测到
+### 4.3 Unable to Measure PWM Waveform with Oscilloscope
 
-如果示波器测试不到波形，从两方面入手：
+If the oscilloscope cannot test the waveform, check from two aspects:
 
-1. 先检查 PWM Counter Register 寄存器的值是否在变化，如果有变化说明 PWM 在工作 (注意，如果用 io 命令来读取寄存器，在产品文档的表格中 RK3328 和它之后的芯片需要再关闭 pclk 的 gating，因为这些芯片 pclk 和工作时钟是分开的)；如果该寄存器的值没有发生变化，则说明 PWM 工作异常。一般，这些异常分为以下几个方面：
-   - 时钟问题；
-   - PWM 本身寄存器配置问题,PWM 未使能或者 duty 配置的值大于 period 等；
-   - RK3368 芯片需要额外配置 GRF 中 GRF_SOC_CON15 寄存器的 bit12 为 1。
-2. 如果读出来的 Counter Register 寄存器的值在发生变化，则说明 PWM 工作正常，但是仍量不到信号，应该是 pin 脚的问题，一般也分为以下几个可能：
-   - iomux 问题；
-   - io-domain 配置不对；
-   - 被外面硬件干扰。
+1. First, check whether the value of the PWM Counter Register is changing. If it is changing, it means PWM is working (Note: If you use the io command to read the register, in the product document table, RK3328 and later chips need to turn off the pclk gating, because the pclk and working clock of these chips are separate); if the value of this register does not change, it means PWM is not working. Generally, these exceptions are divided into the following aspects:
+   - Clock issues;
+   - PWM register configuration issues, PWM not enabled or duty value greater than period, etc.;
+   - RK3368 chip requires additional configuration of bit12 in GRF_SOC_CON15 register in GRF.
+2. If the value of the Counter Register read is changing, it means PWM is working normally, but the signal is still not measurable, it is likely a pin issue, generally also divided into the following possible reasons:
+   - IOMUX issues;
+   - IO-domain configuration is incorrect;
+   - Interference from external hardware.

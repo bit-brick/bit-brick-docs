@@ -1,50 +1,42 @@
-
-
 # Pinctrl
 
+## Chip Names and Kernel Versions
 
-
-## 芯片名称与内核版本
-
-| 芯片名称 | 内核版本 |
+| Chip Name | Kernel Version |
 | --- | --- |
 | RK3568/RK3399/RK3368/RK3288/PX30/RK3128/RK3126/RV1126 | Linux-4.19 |
 | RK3588/RV1106 | Linux-5.10 |
 
+## Introduction
 
+### Overview
 
-## 前言
+This document introduces the Rockchip PIN-CTRL driver and DTS usage methods.
 
-### 概述
+### Target Audience
 
-本文介绍 Rockchip PIN-CTRL 驱动及 DTS 使用方法。
+This document is primarily intended for the following engineers:
+- Technical Support Engineers
+- Software Development Engineers
 
-### 读者对象
+## 1. Pin Naming Rules
 
-本文档主要适用于以下工程师：
-- 技术支持工程师
-- 软件开发工程师
+The Rockchip Pin ID is composed of **Controller(bank)+Port(port)+Index Number(pin)**.
 
+### 1.1 GPIO (General Purpose Input/Output)
 
-
-## 1. 引脚命名规则
-
-Rockchip Pin 的 ID 按照 **控制器(bank)+端口(port)+索引序号(pin)** 组成。
-
-### 1.1 GPIO（通用输入输出）
-
-控制器和 GPIO 控制器数量一致，
-端口固定为 A、B、C 和 D，
-索引序号固定为 0、1、2、3、4、5、6、7。  
-例如 RK3588，从 RK3588-TRM.pdf 的 Chapter 20 GPIO 章节可以看到
+The number of controllers matches the number of GPIO controllers,
+ports are fixed as A, B, C, and D,
+index numbers are fixed as 0, 1, 2, 3, 4, 5, 6, 7.  
+For example, in RK3588, as shown in Chapter 20 GPIO of RK3588-TRM.pdf,
 `There are five GPIOs (GPIO0 in PD_PMU,GPIO1/GPIO2/GPIO3/GPIO4 in PD_BUS)`
-有 5 个 GPIO 控制器，每个控制器可以控制 32 个 IO，作为 GPIO 功能时，端口行为由 GPIO 控制器寄存器配置。
+there are 5 GPIO controllers, each controller can control 32 IOs. When functioning as GPIO, the port behavior is configured by GPIO controller registers.
 
-### 1.2 IOMUX（输入输出复用）
+### 1.2 IOMUX (Input/Output Multiplexing)
 
-Rockchip Pin 可以复用成多种功能，同一个控制器如果存在多种复用引脚，一般叫做 m0、m1、m2 等等。例如 I2C 控制器有两组复用引脚，分别是 2cm0、i2cm1。  
-引脚复用配置的寄存器是在 GRF/PMUGRF（RK3588 叫做 IOC）。  
-例如 RK3588 BUS_IOC_GPIO1B_IOMUX_SEL_H Address: Operational Base + offset (0x002C)：
+Rockchip Pin can be multiplexed into multiple functions. If there are multiple multiplexed pins for the same controller, they are generally named m0, m1, m2, etc. For example, the I2C controller has two sets of multiplexed pins, namely 2cm0 and i2cm1.  
+The registers for pin multiplexing configuration are in GRF/PMUGRF (called IOC in RK3588).  
+For example, the IOMUX of RK3588 BUS_IOC_GPIO1B_IOMUX_SEL_H Address: Operational Base + offset (0x002C):
 - gpio1b7_sel
     - 4'h0: GPIO
     - 4'h2: MIPI_CAMERA2_CLK_M0
@@ -56,24 +48,24 @@ Rockchip Pin 可以复用成多种功能，同一个控制器如果存在多种�
     - 4'ha: UART1_RX_M1
     - 4'hb: PWM13_M2
 
-如下是 RK3588 I2C5 的 IOMUX：  
+The following is the IOMUX of RK3588 I2C5:  
 ![alt text](/pdf/rk/pinctrl/image.png)
-多通路复用支持硬件设计更为灵活，当外设工作电压是 1.8V 或 3.3V 时，可以选择不同电压域 VCCIO 的引脚。  
-**注意**：多通路复用的寄存器配置，对 TX 类的引脚没有用，对 RX 类的引脚起作用。
+Multi-path multiplexing supports more flexible hardware design. When the working voltage of the peripheral is 1.8V or 3.3V, pins with different voltage domains VCCIO can be selected.  
+**Note**: The register configuration for multi-path multiplexing does not apply to TX-type pins, but takes effect on RX-type pins.
 
-### 1.3 PULL（端口上下拉）
+### 1.3 PULL (Port Pull-up/Pull-down)
 
-Rockchip IO PAD 的 bias 一般支持 3 种模式：
+The bias of Rockchip IO PAD generally supports 3 modes:
 - bias-disable
 - bias-pull-up
 - bias-pull-down
 
-上下拉配置是作用于 IO PAD，配置对 GPIO/IOMUX 都起作用。
+The pull-up/pull-down configuration acts on the IO PAD and is effective for both GPIO and IOMUX.
 
-### 1.4 DRIVE-STRENGTH（端口驱动强度）
+### 1.4 DRIVE-STRENGTH (Port Drive Strength)
 
-Rockchip IO PAD 的驱动强度，根据不同工艺，支持不同强度配置。RK3399 之前的芯片，驱动强度配置按 mA 为单位配置；RK1808 之后芯片，一般按照 Level 为单位，档位的数值即为寄存器配置值。  
-例如 RK3588 TRM 中 GPIO0_C7 的驱动强度等级如下：
+The drive strength of Rockchip IO PAD supports different strength configurations based on different processes. For chips before RK3399, the drive strength is configured in mA; for chips after RK1808, it is generally configured in levels, with the value of the gear directly corresponding to the register configuration.  
+For example, the drive strength levels of GPIO0_C7 in RK3588 TRM are as follows:
 - gpio0c7_ds
     - GPIO0C7 DS control Driver Strength Selection
         - 3'b000: 100ohm
@@ -83,7 +75,7 @@ Rockchip IO PAD 的驱动强度，根据不同工艺，支持不同强度配置�
         - 3'b001: 33ohm
         - 3'b101: 25ohm
 
-软件驱动依然按照 Level 来处理，即上述寄存器描述对应：
+The software driver still processes according to the level, that is, the above register description corresponds to:
 - 3'b000: Level0
 - 3'b100: Level4
 - 3'b010: Level2
@@ -91,19 +83,19 @@ Rockchip IO PAD 的驱动强度，根据不同工艺，支持不同强度配置�
 - 3'b001: Level1
 - 3'b101: Level5
 
-DTS 中 `drive-strength=<5>;` 表示配置为 Level5，即寄存器写 3'b101。
+In DTS, `drive-strength=<5>;` means configuring it to Level5, that is, writing 3'b101 to the register.
 
-### 1.5 SMT（端口斯密特触发器）
+### 1.5 SMT (Port Schmitt Trigger)
 
-Rockchip IO PAD 大多数芯片支持 SMT 功能，默认不使能；使能 SMT 可以消除边沿抖动，加大 VIH VIL 的电压区间，增强 IO 的信号稳定性。一般 I2C 的 SCL/SDA 会默认使能 SMT 功能。
+Most Rockchip IO PAD chips support SMT function, which is disabled by default. Enabling SMT can eliminate edge jitter, increase the voltage range of VIH VIL, and enhance the signal stability of IO. Generally, the SCL/SDA of I2C will default to enabling the SMT function.
 
 ---
 
-## 2. 驱动介绍
+## 2. Driver Introduction
 
-Rockchip pinctrl 驱动包括 Pinctrl 驱动（`drivers/pinctrl/pinctrl-rockchip.c`）和 GPIO 驱动（`drivers/gpio/gpio-rockchip.c`）。  
-Pinctrl 驱动是主要驱动，提供 IO 的方法集，包括 PINMUX、PINCONF 和 GPIO。  
-GPIO 驱动是完成 gpiochip 的功能，包括 GPIO 和 IRQ。
+The Rockchip pinctrl driver includes the Pinctrl driver (`drivers/pinctrl/pinctrl-rockchip.c`) and the GPIO driver (`drivers/gpio/gpio-rockchip.c`).  
+The Pinctrl driver is the main driver, providing a method set for IO, including PINMUX, PINCONF, and GPIO.  
+The GPIO driver completes the functions of gpiochip, including GPIO and IRQ.
 
 ### 2.1 pinctrl-rockchip
 
@@ -115,11 +107,11 @@ GPIO 驱动是完成 gpiochip 的功能，包括 GPIO 和 IRQ。
 
 ---
 
-## 3. DTS介绍
+## 3. DTS Introduction
 
-Rockchip dts 一般把 pinctrl 节点放在 soc.dtsi，例如 rk3588s.dtsi，一般位于最后一个节点。  
-pinctrl 节点没有 reg，它不是一个标准 platform device，寄存器基地值是通过 `rockchip,grf=<&grf>;` 传入；驱动内部根据这个基地值，加偏移地址，完成 IOMUX、PINCONF 的配置；GPIO 是使用 gpio 节点的 reg 地址。  
-例如 `arch/arm64/boot/dts/rockchip/rk3588s.dtsi`：
+Rockchip dts generally places the pinctrl node in soc.dtsi, such as rk3588s.dtsi, usually located at the last node.  
+The pinctrl node does not have a reg; it is not a standard platform device. The register base value is passed in through `rockchip,grf=<&grf>;`; the driver internally configures IOMUX and PINCONF by adding offset addresses based on this base value; GPIO uses the reg address of the gpio node.  
+For example, `arch/arm64/boot/dts/rockchip/rk3588s.dtsi`:
 
 ```dts
 {
@@ -179,14 +171,14 @@ pinctrl 节点没有 reg，它不是一个标准 platform device，寄存器基�
 };
 ```
 
-还有 `arch/arm64/boot/dts/rockchip/rk3588s-pinctrl.dtsi` 文件通过 include 形式加到 rk3588s.dtsi。
+The `arch/arm64/boot/dts/rockchip/rk3588s-pinctrl.dtsi` file is then included in rk3588s.dtsi.
 
-### 3.1 新建pinctrl
+### 3.1 Creating a New pinctrl
 
-`rk3588s-pinctrl.dtsi` 文件已经枚举了 rk3588s 芯片所有 iomux 的实例，各模块一般不再需要创建 iomux 实例；创建 iomux 实例需要遵循如下规则：
-1. 必须在 pinctrl 节点下
-2. 必须以 function+group 的形式添加
-3. function+group 的格式如下
+The `rk3588s-pinctrl.dtsi` file has enumerated all the instances of iomux for the rk3588s chip. Generally, modules do not need to create iomux instances; if iomux instances need to be created, the following rules must be followed:
+1. Must be under the pinctrl node
+2. Must be added in the form of function+group
+3. The format of function+group is as follows
     ```
     function {
         group {
@@ -194,12 +186,12 @@ pinctrl 节点没有 reg，它不是一个标准 platform device，寄存器基�
         };
         };
     ```
-4. 遵循其他 dts 的基本规则
+4. Follow other basic rules of dts
 
-### 3.2 引用pinctrl
+### 3.2 Referencing pinctrl
 
-模块引用 pinctrl 是通过 `pinctrl-names` 和 `pinctrl-0` 连接模块和 pinctrl 驱动。  
-例如 rk3588 uart2：
+Modules reference pinctrl through `pinctrl-names` and `pinctrl-0`, connecting the module and pinctrl driver.  
+For example, rk3588 uart2:
 
 ```dts
 {
@@ -219,8 +211,8 @@ pinctrl 节点没有 reg，它不是一个标准 platform device，寄存器基�
 };
 ```
 
-`uart2m1_xfer` 是一个 pinctrl group；模块可以同时引用多组 group。  
-例如 rk3588 pdm1：
+`uart2m1_xfer` is a pinctrl group; a module can reference multiple groups simultaneously.  
+For example, rk3588 pdm1:
 
 ```dts
 {
@@ -256,14 +248,14 @@ pinctrl 节点没有 reg，它不是一个标准 platform device，寄存器基�
 };
 ```
 
-`pinctrl-names` 可以支持多个实例，pinctrl 默认的有 4 种实例（state）：
+`pinctrl-names` can support multiple instances, and there are 4 default instances (states) for pinctrl:
 - `PINCTRL_STATE_DEFAULT`："default"
 - `PINCTRL_STATE_INIT`："init"
 - `PINCTRL_STATE_IDLE`："idle"
 - `PINCTRL_STATE_SLEEP`："sleep"
 
-`pinctrl-names` 是可以自定义的，有 driver 去匹配解析。  
-例如 rk3588 pwm4：
+`pinctrl-names` can be customized and matched and parsed by the driver.  
+For example, rk3588 pwm4：
 
 ```dts
 {
@@ -284,35 +276,35 @@ pinctrl 节点没有 reg，它不是一个标准 platform device，寄存器基�
 
 ## 4. FAQ
 
-### 4.1 用户层配置IOMUX
+### 4.1 User-level Configuration IOMUX
 
-iomux 是 gcc 编译的二进制文件，通过 ioctl 调用 rockchip-pinctrl device，设置 iomux，也可以获取 iomux 当前值。  
-编译方法：
+IOMUX is a binary file compiled by gcc. You can set the IOMUX by calling the rockchip-pinctrl device through ioctl, and you can also get the current value of the IOMUX.  
+Compilation method:
 
 ```bash
 gcc tools/testing/selftests/rkpinctrl/iomux.c -o iomux
 ```
 
-使用方法：  
-例如：设置 GPIO0_B7 为 func1
+Usage method:  
+For example: set GPIO0_B7 to func1
 
 ```bash
 [root@RK3588:/]# iomux 0 15 1
 ```
 
-例如：获取 GPIO0_B7 当前 iomux 值
+For example: get the current IOMUX value of GPIO0_B7
 
 ```bash
 [root@RK3588:/]# iomux 0 15
 mux get (GPIO0-15) = 1
 ```
 
-### 4.2 配置某个GPIO电平
+### 4.2 Configuring the Level of a GPIO
 
-有个别需求是某个 GPIO 不属于某个特定模块，更多是某个电源开关，希望在系统开机过程中尽快输出高或低电平，要怎么实现呢？  
-使用 "regulator-fixed"。  
-`regulator-fixed` 通常用于定义电压固定的 regulator，或由某个 GPIO 开关控制的 regulator。  
-例如 GPIO2_A1 需要配置为高电平：
+There is a specific requirement where a GPIO does not belong to a particular module, but is more of a power switch, and it is希望在系统开机过程中尽快输出高或低电平，要怎么实现呢？  
+Use "regulator-fixed".  
+`regulator-fixed` is usually used to define a regulator with a fixed voltage, or a regulator controlled by a GPIO.  
+For example, GPIO2_A1 needs to be configured as high:
 
 ```dts
 / {
@@ -333,8 +325,8 @@ mux get (GPIO0-15) = 1
 };
 ```
 
-### 4.3 模块的pinctrl-0不生效
+### 4.3 The pinctrl-0 of the Module Does Not Take Effect
 
-通常模块调用 `pinctrl-names` `pinctrl-0` 配置默认的 IOMUX 或在 IOCONFIG，但不是所有的节点都可以加这两个属性，如果模块被 `driver_probe_device` 调用，它就可以加这两个属性。  
-调试方法：`drivers/base/dd.c` 的 `pinctrl_bind_pins`，在这里加打印看调用。
+Usually, the module calls `pinctrl-names` `pinctrl-0` to configure the default IOMUX or IOCONFIG, but not all nodes can have these two attributes. If the module is called by `driver_probe_device`, it can have these two attributes.  
+Debug method: Add print statements in `pinctrl_bind_pins` in `drivers/base/dd.c` to observe the call.
 

@@ -1,33 +1,33 @@
 #  GMAC
 
-### 概述
+### Overview
 
-本文提供 Rockchip 平台以太网 GMAC 接口的使用文档，用于解决大部分以太网问题。
+This document provides usage documentation for the Rockchip platform's Ethernet GMAC interface to resolve most Ethernet-related issues.
 
-### 产品版本
+### Product Version
 
-### 读者对象
+### Target Audience
 
-本文档（本指南）主要适用于以下工程师：
+This document (guide) is primarily intended for the following engineers:
 
-- 技术支持工程师
-- 软件开发工程师
+- Technical Support Engineers
+- Software Development Engineers
 
 
 
-## 1. 代码位置
+## 1. Code Location
 
-以太网模块的硬件相关的驱动代码主要包括 GMAC 和 PHY。其中 PHY 驱动一般使用通用 PHY 驱动，如果有需要修改特殊寄存器，请使用对应的 PHY 驱动，代码都在 `drivers/net/phy`。另外，RK322x/RK3328 自带有一个百兆的 PHY 芯片。
+The hardware-related driver code for the Ethernet module primarily includes GMAC and PHY. The PHY driver generally uses generic PHY drivers. If special register modifications are needed, please use the corresponding PHY driver. All code is in `drivers/net/phy`. Additionally, RK322x/RK3328 comes with a built-in 100Mbps PHY chip.
 
-- Linux3.10 GMAC 驱动代码：`driver/net/ethernet/rockchip/gmac/*`
-- 其它内核 GMAC 驱动代码（高于3.10的内核版本）：`drivers/net/ethernet/stmicro/stmmac/*`
-- RK 内部 EPHY 驱动代码：`drivers/net/phy/rockchip.c`
+- Linux3.10 GMAC driver code：`driver/net/ethernet/rockchip/gmac/*`
+- Other kernel GMAC driver code (kernel version higher than 3.10): `drivers/net/ethernet/stmicro/stmmac/*`
+- RK internal EPHY driver code：`drivers/net/phy/rockchip.c`
 
 ---
 
 ## 2. DTS
 
-DTS 的配置参考 `Documentation/devicetree/bindings/net/rockchip-dwmac.txt`。
+DTS configuration refers to `Documentation/devicetree/bindings/net/rockchip-dwmac.txt`。
 
 
 
@@ -60,83 +60,83 @@ gmac: ethernet@ff290000 {
     status = "ok";
 };
 ```
-板级配置需要关注的部分有以下几部分：
-- `phy-mode`：主要分为 RMII 和 RGMII 模式。
-- `snps,reset-gpio`：PHY 的硬件复位脚。
-- `snps,reset-delays-us`：PHY 的复位时序，三个时间分别表示 PHY 的不同阶段的复位时序，不同的 PHY 的复位时序是不一样的。如果是 `snps,reset-active-low` 属性，则表示三个时间分别表示 Reset pin 脚拉高，拉低，再拉高的时间；如果是 `snps,reset-active-high` 属性，则反之。
-- `phy-supply`：如果 PHY 的电源是常供方式，可以不用配置；否则，需要配置对应的 regulator。
-- 时钟配置：请参考本文的第三章节。
-- `pinctrl`：RGMII 和 RMII 模式下配置不一样，另外对于时钟方式，如果是输出时钟的 pin 脚，该 pin 脚驱动强度一般也是不一样的，例如 RMII 模式下 ref_clock pin 脚输出时钟时，驱动强度也会配置更大。
-- `tx_delay`/`rx_delay`：RGMII 模式下需要配置该属性，请参考本文的 RGMII Delayline 第八章节。
+The parts of the board-level configuration that need attention are as follows:
+- `phy-mode`: Mainly divided into RMII and RGMII modes.
+- `snps,reset-gpio`: The hardware reset pin of the PHY.
+- `snps,reset-delays-us`: The reset timing of the PHY. The three timings represent the reset timing of different stages of the PHY. The reset timing of different PHYs is different. If it is the `snps,reset-active-low` attribute, it means that the three timings represent the timing of the Reset pin being pulled high, low, and then high; if it is the `snps,reset-active-high` attribute, it is the opposite.
+- `phy-supply`: If the power supply of the PHY is always-on, this does not need to be configured; otherwise, the corresponding regulator needs to be configured.
+- Clock configuration: Please refer to the third chapter of this article.
+- `pinctrl`: Configuration is different under RGMII and RMII modes. In addition, for clock output pins, the driving strength of the pin is generally different. For example, in RMII mode, when the ref_clock pin outputs the clock, the driving strength is also configured to be larger.
+- `tx_delay`/`rx_delay`: This attribute needs to be configured in RGMII mode. Please refer to the eighth chapter of this article on RGMII Delayline.
 
-因为不同芯片下的不同模式配置比较多，请参考另一份文档《Rockchip_Developer_Guide_Linux_GMAC_Mode_Configuration_CN.pdf》。
+Due to the large number of configurations in different modes under different chips, please refer to another document "Rockchip_Developer_Guide_Linux_GMAC_Mode_Configuration_CN.pdf".
 
 ---
 
-## 3. PHY 寄存器读写调试
+## 3. PHY Register Read/Write Debugging
 
-驱动提供了读写寄存器的接口，目前在不同内核版本上有两套接口。路径：`/sys/bus/mdio_bus/devices/stmmac-0:00`，其中 `stmmac-0:00` 表示 PHY 地址是 0。
+The driver provides interfaces for reading and writing registers. Currently, there are two sets of interfaces on different kernel versions. Path: `/sys/bus/mdio_bus/devices/stmmac-0:00`, where `stmmac-0:00` indicates that the PHY address is 0.
 
 ### 3.1 Linux 3.10
 ```
 /sys/bus/mdio_bus/devices/stmmac-0:00/phy_reg
 /sys/bus/mdio_bus/devices/stmmac-0:00/phy_regValue
 ```
-- **写入**：例如，往 Reg0 写入 0xabcd
+- **Write**: For example, to write 0xabcd to Reg0
 
   ```
     echo 0x00 > /sys/bus/mdio_bus/devices/stmmac-0:00/phy_reg
     echo 0xabcd > /sys/bus/mdio_bus/devices/stmmac-0:00/phy_regValue
   ```
-- **读取**：例如，读取 Reg0 值
+- **Read**: For example, to read the value of Reg0
 
   ```
     echo 0x00 > /sys/bus/mdio_bus/devices/stmmac-0:00/phy_reg
     cat /sys/bus/mdio_bus/devices/stmmac-0:00/phy_regValue
   ```
 
-### 3.2 其它版本
+### 3.2 Other Versions
 
 ```
 /sys/bus/mdio_bus/devices/stmmac-0:00/phy_registers
 ```
-- **写入**：
-    例如， 往 Reg0 写入 0xabcd
+- **Write**:
+    For example, to write 0xabcd to Reg0
   ```bash
   echo 0x00 0xabcd > /sys/bus/mdio_bus/devices/stmmac-0:00/phy_registers
   ```
-- **读取**：
+- **Read**：
   ```bash
   cat /sys/bus/mdio_bus/devices/stmmac-0:00/phy_registers
   ```
-  该命令会读取 0~31 的所有寄存器，所以可以查看对应的寄存器值。
+  This command will read all registers from 0 to 31, so you can check the corresponding register values.
 
 
-## 4. MAC 地址
+## 4. MAC Address
 
-目前对 MAC 地址的读取策略是，优先使用 DTB 里面的 MAC 地址（uboot 也会写入），之后是烧写在 IDB 中的 MAC 地址，若该地址符合规范，则使用，若不符合或没有烧写，则使用随机生成的地址（重启开机 MAC 地址会变化）。在 RK3399、RK3328/RK3228H 及以后的版本中，对策略进行了完善：优先使用烧写在 IDB 或 vendor Storage 中的 MAC 地址，若该地址符合规范，则使用，若不符合或没有烧写，则随机生成 MAC 地址保存到 Vendor 分区中并使用，重启或恢复出厂设置不会丢失。
+Currently, the strategy for reading the MAC address is to use the MAC address in the DTB as the priority (which is also written by uboot), followed by the MAC address burned in the IDB. If the burned address is compliant with the specification, it will be used; if not, or if not burned, a randomly generated address will be used (the MAC address will change on reboot). In RK3399, RK3328/RK3228H, and later versions, the strategy has been improved: priority is given to the MAC address burned in the IDB or vendor Storage. If this address is compliant with the specification, it will be used; if not, or if not burned, a random MAC address will be generated, saved to the Vendor partition, and used. This address will not be lost on reboot or factory reset.
 
-MAC 地址烧写工具参考文档《Rockchip_User_Guide_RKDevInfoWriteTool_CN.pdf》。
+For details on the MAC address burning tool, refer to the document "Rockchip_User_Guide_RKDevInfoWriteTool_CN.pdf".
 
 
-## 5. 回环测试
+## 5. Loopback Test
 
-回环测试主要有 MAC 和 PHY 两种回环，具体可参考《Rockchip_Developer_Guide_Linux_GMAC_RGMII_Delayline_CN.pdf》文档里面，对 `phy_lb` 和 `mac_lb` 节点的说明。
+The loopback test mainly includes MAC and PHY loopbacks. For details, please refer to the document "Rockchip_Developer_Guide_Linux_GMAC_RGMII_Delayline_CN.pdf" regarding the `phy_lb` and `mac_lb` nodes.
 
 ---
 
 ## 6. RGMII Delayline
 
-RGMII 接口提供了 tx 和 rx 的 delayline，用于调整 RGMII 时序，如何获取合适的 RGMII Delayline，请参考文档《Rockchip_Developer_Guide_Linux_GMAC_RGMII_Delayline_CN.pdf》。
+The RGMII interface provides tx and rx delay lines to adjust the RGMII timing. For information on how to obtain the appropriate RGMII Delayline, please refer to the document "Rockchip_Developer_Guide_Linux_GMAC_RGMII_Delayline_CN.pdf".
 
 ---
 
-## 7. LED 灯
+## 7. LED Lights
 
-PHY 有各自的 LED 控制，下面是 RK3228 和 RK3328 里面的 macphy，其它外部 PHY 请参考其 datasheet。下面是 RK3228 和 RK3328 LED 配置：
+PHYs have their own LED control. Below are the macphy configurations for RK3228 and RK3328. For other external PHYs, please refer to their datasheets. The following is the LED configuration for RK3228 and RK3328:
 
-- RK3228：需要打上补丁 `kernel_4.4_rk322x_phy_led_control.patch`。
-- RK3328：通过配置 dts 上的 iomux，例如通过 rx 和 link 控制 led，则配置上对应的 pinctrl。
+- RK3228: Requires patch `kernel_4.4_rk322x_phy_led_control.patch` to be applied.
+- RK3328: Configure the iomux on the dts, for example, to control the led through rx and link, configure the corresponding pinctrl.
 
 ```bash
 phy: phy@0 {
@@ -154,19 +154,19 @@ phy: phy@0 {
 
 ## 8. WOL
 
-Wake On Lan 功能，对于每个 PHY 来说配置的寄存器是不一样的。目前收录的补丁，包含了 RTL8211E/F，RTL8201F。
+The Wake On Lan function requires different register configurations for each PHY. Currently, the collected patches include RTL8211E/F and RTL8201F.
 
 ---
 
-## 9. MAC To MAC 直连
+## 9. MAC To MAC Direct Connection
 
-参考文档《Rockchip_Developer_Guide_Linux_MAC_TO_MAC_CN.pdf》。
+Refer to the document "Rockchip_Developer_Guide_Linux_MAC_TO_MAC_CN.pdf".
 
 ---
 
 ## 10. Jumbo Frame
 
-从 RV1126/1109 芯片开始支持 Junbro Frame 9K，需要将测试网络 MTU 配置成 9000，以下是测试结果：
+Jumbo Frame 9K is supported from the RV1126/1109 chips. The MTU of the test network needs to be configured to 9000. The following are the test results:
 
 ```bash
 [root@Puma:/]# ping -s 9000 192.168.1.100
@@ -186,7 +186,7 @@ PING 192.168.1.100 (192.168.1.100) 9000(9028) bytes of data.
 
 ## 11. PTP1588
 
-从 RV1126/1109 芯片开始支持 PTP1588，以下是测试结果：
+PTP1588 is supported from the RV1126/1109 chips. The following are the test results:
 
 
 
@@ -291,53 +291,53 @@ ptp4l[1879688.350]: master offset        -15 s2 freq   -9634 path delay   
 
 ---
 
-## 12. 硬件信号测试
+## 12. Hardware Signal Testing
 
-参考 Rockchip 硬件发布的信号测试文档，包括 RMII 或 RGMII，PHY 眼图测试。
+Refer to the signal testing documents released by Rockchip Hardware, including RMII or RGMII, and PHY eye diagram tests.
 
-- [瑞芯硬件部100base-t测试指南-V1.1.doc](#)
-- [瑞芯硬件部1000base-t测试指南_V1.0.doc](#)
+- [Rockchip Hardware Department 100base-t Testing Guide-V1.1.doc](#)
+- [Rockchip Hardware Department 1000base-t Testing Guide_V1.0.doc](#)
 
 ---
 
-## 13. 问题分析
+## 13. Problem Analysis
 
 ### 13.1 DMA Initialization Failed
 
-如果 GMAC 的驱动开机 log 上出现打印：`DMA engine initialization failed`，可以认为是 GMAC 的工作时钟出问题了。先测量时钟引脚是否有时钟，时钟频率以及幅度等指标是否正常，主要确认以下几个方面：
+If the GMAC driver boot log shows: `DMA engine initialization failed`, it can be assumed that there is a problem with the GMAC working clock. First, measure whether the clock pin has a clock, and whether the clock frequency and amplitude are normal. Mainly check the following aspects:
 
-- IOMUX 出错，检查时钟脚寄存器值是否正确。
-- 时钟方向以及配置与硬件不匹配，参考本文第四章节的时钟设置。
-- 检查 clock tree 和 CRU 寄存器，确认时钟频率大小和时钟是否有使能。
+- IOMUX error, check whether the register value of the clock pin is correct.
+- Clock direction and configuration do not match the hardware, refer to the clock settings in the fourth chapter of this article.
+- Check the clock tree and CRU registers to confirm the clock frequency and whether the clock is enabled.
 
-### 13.2 PHY 初始化失败
+### 13.2 PHY Initialization Failed
 
-如果 GMAC 的驱动开机 log 上出现打印：`No PHY found` 或者 `Cannot attach to PHY`，表示找不到 PHY。驱动会通过 MDIO 先读取 PHY 的 ID，可以测量 MDC 和 MDIO 波形，波形是否正常，该总线类似于 I2C，MDC 频率要求是小于 2.5M。一般来说，找不到 PHY 有以下几种原因：
+If the GMAC driver boot log shows: `No PHY found` or `Cannot attach to PHY`, it means the PHY cannot be found. The driver will first read the PHY ID through MDIO. You can measure the MDC and MDIO waveforms to see if they are normal. This bus is similar to I2C, and the MDC frequency is required to be less than 2.5M. Generally, if the PHY cannot be found, it is due to the following reasons:
 
-- 检查 MDC/MDIO IOMUX 寄存器值是否正确。
-- PHY 供电是否正常。
-- Reset IO 配置不正确。
-- Reset IO 时序不满足 PHY datasheet 要求，不同 PHY 的时序要求不一致，具体配置参考本文 DTS 章节。
-- 测试 MDIO/MDC 波形是否异常，其中 MDC 时钟频率要求小于 2.5M。
+- Check whether the MDC/MDIO IOMUX register values are correct.
+- Whether the PHY power supply is normal.
+- Reset IO configuration is incorrect.
+- Reset IO timing does not meet the PHY datasheet requirements. The timing requirements for different PHYs are different. For specific configurations, refer to the DTS chapter of this article.
+- Test whether the MDIO/MDC waveforms are abnormal, where the MDC clock frequency is required to be less than 2.5M.
 
-### 13.3 Link 问题
+### 13.3 Link Issues
 
-如果出现了 Link 问题，有个排除法，即将 MDC/MDIO 与主控断开，与电脑直连，查看电脑端是否有同样的问题，以此排除软件上的干扰，那么需要重点排查下硬件上的影响，先测试 TXN/P 以及 RXN/P 是否有 Link 波形。
+If there is a Link issue, one troubleshooting method is to disconnect MDC/MDIO from the main control and connect it directly to the computer to see if the same issue occurs on the computer side. This can help rule out software interference, and if the problem persists, it may be due to hardware issues. First, test whether TXN/P and RXN/P have Link waveforms.
 
-如果不断出现 Link up/Link down，可能原因：
+If Link up/Link down keeps occurring, possible reasons include:
 
-- PHY 收到了错误的数据。
-- EEE 模式下，发送的波形在 delayline 配置错误的情况下可能会导致不断 link up/down。
-- 供给 PHY 的时钟不对也会导致该问题。
+- The PHY receives incorrect data.
+- In EEE mode, the transmitted waveform may cause continuous link up/down if the delay line is configured incorrectly.
+- Supplying the PHY with an incorrect clock can also cause this problem.
 
-### 13.4 数据不通
+### 13.4 Data Transmission Issues
 
-首先排查一下是否是 TX 问题，或者 RX，还是二者都有问题。
+First, check whether it is a TX issue, an RX issue, or both.
 
 #### 13.4.1 TX
 
-- 通过 `ifconfig -a` 查看 eth0 节点的 TX packets 是否在不断增加，如果为 0，则有可能网线没有 link 上。
-- 通过查看节点可以看到网线是否是连接上的，`carrier` 为 1 表示是 link up，反之 0 为 link down。例如 RK3328：
+- Use `ifconfig -a` to check whether the TX packets of the eth0 node are increasing. If it is 0, the network cable may not be linked.
+- You can also check the node to see if the network cable is connected. `carrier` = 1 means link up, 0 means link down. For example, RK3328:
   ```bash
   console:/ # cat /sys/devices/platform/ff550000.ethernet/net/eth0/carrier
   1
@@ -351,16 +351,16 @@ ptp4l[1879688.350]: master offset        -15 s2 freq   -9634 path delay   
             Interrupt:45
   ```
 
-假设 TX packets 是在不断增加，表示 TX 数据在 GMAC 有发出数据。将板卡与 PC 连在同一个局域网内，在板卡上 ping PC，同时在 PC 端通过抓包工具（比如 Wireshark）抓包查看，如果有抓到板卡发过来的数据，表示 TX 数据是通的。如果没有抓到，需要确认 TX 在哪个链路位置上出现了异常，可以测试 GMAC 的 TX Clock 与 TX Data 的波形，来排除是 MAC 还是 PHY 出现了问题。MAC 可以检查以下几个方面：
+Assuming the TX packets are increasing, indicating that the TX data is being sent from the GMAC. Connect the board to the PC within the same local area network, ping the PC from the board, and use a packet capture tool (like Wireshark) on the PC side to check if data from the board is captured. If data is captured, the TX data is confirmed to be通. If not, you need to confirm where the TX异常 occurs in the link. You can test the GMAC's TX Clock and TX Data waveforms to rule out whether the issue is with the MAC or PHY. For the MAC, you can check the following aspects:
 
-- 检查 TX Clock/TX Data 的 iomux。
-- TXC 时钟是否正确。
-- RGMII 模式时，Tx Delayline 配置是否正确。
-- PHY 端也可以测试 PHY 的 TXN/P 信号确认 PHY 是否有数据发出；对于不同的 PHY 来说，其配置可能是不一样，具体需要查看其 Datasheet。
+- Check the iomux of TX Clock/TX Data.
+- Whether the TXC clock is correct.
+- In RGMII mode, whether the Tx Delayline configuration is correct.
+- On the PHY side, you can also test the PHY's TXN/P signals to confirm whether the PHY is sending data. The configuration for different PHYs may vary, and you need to refer to their Datasheets for specifics.
 
 #### 13.4.2 RX
 
-通过以上排查确定不是 TX 问题，重点排查 RX；连接上网线后通过 `ifconfig -a` 查看 eth0 节点的 RX packets 是否在不断增加，如果为 0，表示 GMAC RX 没有收到数据。同样可以测试 PHY 的 RXN/P，以及 GMAC 的 RX Clock/RX Data，来排除是 MAC 还是 PHY 出现了问题。MAC 可以检查以下几个方面：
+If it is determined that the issue is not with TX, focus on checking RX. After connecting the network cable, use `ifconfig -a` to check whether the RX packets of the eth0 node are increasing. If it is 0, it means the GMAC RX has not received data. Similarly, you can test the PHY's RXN/P and GMAC's RX Clock/RX Data to rule out whether the issue is with the MAC or PHY. For the MAC, you can check the following aspects:
 ```
 eth0     Link encap:Ethernet HWaddr 16:21:8d:d9:67:0b Driver rk_gmac-dwmac
          inet6 addr: fe80::c43d:3e5d:533:b7ea/64 Scope: Link
@@ -372,20 +372,11 @@ eth0     Link encap:Ethernet HWaddr 16:21:8d:d9:67:0b Driver rk_gmac-dwmac
          Interrupt:355
 ```
 
-- 检查 RX Clock/RX Data 的 iomux。
-- RXC 时钟是否正确。
-- RGMII 模式时，Rx Delayline 配置是否正确。
+- Check the iomux of RX Clock/RX Data.
+- Whether the RXC clock is correct.
+- In RGMII mode, whether the Rx Delayline configuration is correct.
 
-假设 TX packets 是在不断增加，但以太网还是不正常通讯，则有可能是以下原因：
+Assuming the TX packets are increasing, but the Ethernet still cannot communicate normally, it may be due to the following reasons:
 
-- RMII 模式下 MAC 和 PHY 的参考时钟不是同一个。
-- PHY 模式配置不对，例如硬件上配置成了 MII 模式。
-
-### 13.5 TX queue0 timeout
-
-认为是 TX 无法发出，一般是控制器异常了，可能是以下几个原因引起的控制器异常：
-
-- 时钟问题，检查时钟配置是否正确，参考本文第三章节。
-- PHY 时序问题，PHY 的复位时序不对导致 PHY 给的时钟不对。
-- PHY 硬件问题，导致出现了冲突检测，无法发送数据。
-- 逻辑电压太低。
+- In RMII mode, the reference clocks for MAC and PHY are not the same.
+- The PHY mode configuration is incorrect, for example, it is硬件上 configured as MII mode.

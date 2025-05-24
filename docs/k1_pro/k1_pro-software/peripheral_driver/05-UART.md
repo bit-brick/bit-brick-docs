@@ -1,50 +1,49 @@
 # UART
 
-### 概述
+### Overview
 
-本文主要说明Rockchip系列芯片UART的使用和调试方法，包括UART作为普通串口和控制台两种不同使用场景。
+This document mainly explains the usage and debugging methods of the UART in the Rockchip series chips, including two different usage scenarios: UART as a general serial port and as a console.
 
-### 产品版本
+### Product Version
 
-### 读者对象
+### Target Audience
 
-本文档（本指南）主要适用于以下工程师：
-- 技术支持工程师
-- 软件开发工程师
+This document (guide) is mainly intended for the following engineers:
+- Technical Support Engineers
+- Software Development Engineers
 
+## Features
 
-## 功能特点
+Rockchip UART (Universal Asynchronous Receiver/Transmitter) is based on the 16550A serial port standard. The complete module supports the following features:
+- Supports 5, 6, 7, 8 bits data bits.
+- Supports 1, 1.5, 2 bits stop bits.
+- Supports odd and even parity, does not support mark and space parity.
+- Supports receive FIFO and transmit FIFO, generally 32 bytes or 64 bytes.
+- Supports up to 4M baud rate. The actual supported baud rate depends on the chip clock division strategy.
+- Supports interrupt transfer mode and DMA transfer mode.
+- Supports hardware auto flow control, RTS+CTS.
 
-Rockchip UART (Universal Asynchronous Receiver/Transmitter) 基于16550A串口标准，完整模块支持以下功能：
-- 支持5、6、7、8 bits数据位。
-- 支持1、1.5、2 bits停止位。
-- 支持奇校验和偶校验，不支持mark校验和space校验。
-- 支持接收FIFO和发送FIFO，一般为32字节或者64字节。
-- 支持最高4M波特率，实际支持波特率需要芯片时钟分频策略配合。
-- 支持中断传输模式和DMA传输模式。
-- 支持硬件自动流控，RTS+CTS。
-
-注意，实际芯片中的UART支持的功能请以芯片手册中UART章节的描述为准，部分UART功能会进行适当裁剪。
+Note: The actual UART features supported in the chip should be based on the description in the UART chapter of the chip manual. Some UART features may be appropriately trimmed.
 
 ---
 
-## 作为普通串口
+## As a General Serial Port
 
-### 2.1 驱动路径
+### 2.1 Driver Path
 
-在Linux kernel 3.10中，使用以下驱动文件：
+In Linux kernel 3.10, the following driver file is used:
 - `drivers/tty/serial/rk_serial.c`
 
-在Linux kernel 4.4和Linux kernel 4.19中，使用8250串口通用驱动，以下为主要驱动文件：
-- `drivers/tty/serial/8250/8250_core.c` # 8250串口驱动核心
-- `drivers/tty/serial/8250/8250_dw.c` # Synopsis DesignWare 8250串口驱动
-- `drivers/tty/serial/8250/8250_dma.c` # 8250串口DMA驱动
-- `drivers/tty/serial/8250/8250_port.c` # 8250串口端口操作
-- `drivers/tty/serial/8250/8250_early.c` # 8250串口early console驱动
+In Linux kernel 4.4 and Linux kernel 4.19, the 8250 universal serial port driver is used. The main driver files are as follows:
+- `drivers/tty/serial/8250/8250_core.c` # 8250 serial driver core
+- `drivers/tty/serial/8250/8250_dw.c` # Synopsis DesignWare 8250 serial driver
+- `drivers/tty/serial/8250/8250_dma.c` # 8250 serial DMA driver
+- `drivers/tty/serial/8250/8250_port.c` # 8250 serial port operations
+- `drivers/tty/serial/8250/8250_early.c` # 8250 serial early console driver
 
-### 2.2 menuconfig配置
+### 2.2 menuconfig Configuration
 
-在不同版本的Linux kernel中，UART相关的menuconfig配置均在以下路径选项，选项说明十分详细，这里不再展开：
+In different versions of the Linux kernel, UART-related menuconfig configurations are all under the following path options. The options are very detailed and will not be expanded here:
 
 ```
 Device Drivers --->
@@ -52,28 +51,28 @@ Device Drivers --->
     Serial drivers --->
 ```
 
-建议使用Rockchip SDK中提供的UART默认配置。
+It is recommended to use the default UART configuration provided in the Rockchip SDK.
 
-### 2.3 dts配置
+### 2.3 dts Configuration
 
-在不同版本的Linux kernel中，UART的dts配置均与以下典型配置类似。以下典型配置以Linux kernel 4.19 RK3568芯片为例，在`rk3568.dtsi`中：
+In different versions of the Linux kernel, the UART dts configuration is similar to the following typical configuration. The following typical configuration takes the Linux kernel 4.19 RK3568 chip as an example, in `rk3568.dtsi`:
 
-UART的板级dts配置只有以下参数允许修改：
-- `dma-names`：
-  - `"tx"` 打开tx dma
-  - `"rx"` 打开rx dma
-  - `"!tx"` 关闭tx dma
-  - `"!rx"` 关闭rx dma
-- `pinctrl-0`：
-  - `&uart1m0_xfer` 配置tx和rx引脚为iomux group 0
-  - `&uart1m1_xfer` 配置tx和rx引脚为iomux group 1
-  - `&uart1m0_ctsn` 和 `&uart1m0_rtsn` 配置硬件自动流控cts和rts引脚为iomux group 0
-  - `&uart1m1_ctsn` 和 `&uart1m1_rtsn` 配置硬件自动流控cts和rts引脚为iomux group 1
-- `status`：
-  - `"okay"` 打开
-  - `"disabled"` 关闭
+The board-level dts configuration of UART only allows modification of the following parameters:
+- `dma-names`:
+  - `"tx"` Enable tx dma
+  - `"rx"` Enable rx dma
+  - `"!tx"` Disable tx dma
+  - `"!rx"` Disable rx dma
+- `pinctrl-0`:
+  - `&uart1m0_xfer` Configure tx and rx pins as iomux group 0
+  - `&uart1m1_xfer` Configure tx and rx pins as iomux group 1
+  - `&uart1m0_ctsn` and `&uart1m0_rtsn` Configure hardware auto flow control cts and rts pins as iomux group 0
+  - `&uart1m1_ctsn` and `&uart1m1_rtsn` Configure hardware auto flow control cts and rts pins as iomux group 1
+- `status`:
+  - `"okay"` Enable
+  - `"disabled"` Disable
 
-例如，打开RK3568 UART1，打开dma，配置打开了硬件自动流控的UART1的tx、rx、cts、rts的iomux为group0，在板级dts里的配置如下：
+For example, to enable RK3568 UART1, enable dma, and configure the tx, rx, cts, and rts of UART1 with hardware auto flow control to iomux group 0, the configuration in the board-level dts is as follows:
 
 ```dts
 uart1: serial@fe650000 {
@@ -98,40 +97,40 @@ uart1: serial@fe650000 {
 };
 ```
 
-需要注意，参数`pinctrl-0`中对于硬件自动流控的操作仅仅是配置引脚iomux，实际使能硬件自动流控的操作在UART驱动中，如果不需要使用硬件自动流控，cts和rts引脚的iomux配置可以去掉。
+Note: The operation of `pinctrl-0` for hardware auto flow control is only to configure the pin iomux. The actual enabling of hardware auto flow control is done in the UART driver. If hardware auto flow control is not needed, the iomux configuration of the cts and rts pins can be removed.
 
-### 2.4 波特率配置
+### 2.4 Baud Rate Configuration
 
-UART波特率 = 工作时钟源 / 内部分频系数 / 16。当工作时钟源由24M晶振直接提供时，UART将使用内部时钟分频系数得到需要的波特率。当工作时钟源由CRU模块通过PLL分频提供时，UART波特率一般为工作时钟源的1/16。UART实际允许配置的波特率和此波特率下数据传输的稳定性在软件上主要由UART工作时钟分频策略决定。
+UART baud rate = working clock source / internal division factor / 16. When the working clock source is directly provided by a 24M crystal oscillator, the UART will use an internal clock division factor to obtain the required baud rate. When the working clock source is provided by the CRU module through PLL division, the UART baud rate is generally 1/16 of the working clock source. The actual configurable baud rate of UART and the stability of data transmission at this baud rate are mainly determined by the UART working clock division strategy in software.
 
-目前，UART驱动会根据配置的波特率大小自动去获取需要的工作时钟频率，可以通过以下命令查询到UART工作时钟频率：
+Currently, the UART driver will automatically obtain the required working clock frequency based on the configured baud rate. The working clock frequency of UART can be queried using the following command:
 
 ```bash
 cat /sys/kernel/debug/clk/clk_summary | grep uart
 ```
 
-Rockchip UART对常用的波特率，如115200、460800、921600、1500000、3000000、4000000等确保稳定支持。对于一些特殊的波特率，可能需要修改工作时钟分频策略才能支持。
+Rockchip UART ensures stable support for common baud rates such as 115200, 460800, 921600, 1500000, 3000000, 4000000. For some special baud rates, it may be necessary to modify the working clock division strategy to support them.
 
-### 2.5 使用DMA
+### 2.5 Using DMA
 
-UART使用DMA传输模式只有在数据量很大时才会产生较为明显的减轻CPU负载的效果。一般情况下，和使用中断传输模式相比，UART使用DMA传输模式并不一定能提高数据传输速度。一方面，现在CPU性能都很高，传输瓶颈在外设。另一方面，启动DMA需要消耗额外的资源，并且由于UART数据存在长度不确定的特性，会使DMA传输效率下降。
+The UART DMA transfer mode only significantly reduces CPU load when the data volume is large. Generally, compared to using interrupt transfer mode, using DMA transfer mode for UART does not necessarily improve data transfer speed. On the one hand, current CPU performance is very high, and the transfer bottleneck lies in peripherals. On the other hand, starting DMA consumes additional resources, and due to the uncertain length of UART data, DMA transfer efficiency may decrease.
 
-因此，建议一般情况下使用默认中断传输模式，会有以下打印：
+Therefore, it is generally recommended to use the default interrupt transfer mode, which will have the following print:
 
-在DMA通道资源紧张的使用场景下，可以考虑关掉TX的DMA传输，会有以下打印：
+In scenarios where DMA channel resources are tight, consider turning off TX DMA transfer, which will have the following print:
 
 ```
 failed to request DMA, use interrupt mode
 got rx dma channels only
 ```
 
-### 2.6 使用硬件自动流控
+### 2.6 Using Hardware Auto Flow Control
 
-UART使用硬件自动流控时，需要确保UART驱动使能硬件自动流控功能，且在dts中已经切换cts和rts流控引脚的iomux。建议在高波特率（1.5M波特率及以上）、大数据量的场景下都使用硬件自动流控，即使用四线UART。
+When using hardware auto flow control for UART, ensure that the UART driver enables the hardware auto flow control function and that the cts and rts flow control pins have been switched to iomux in the dts. It is recommended to use hardware auto flow control, i.e., four-wire UART, in high baud rate (1.5M baud rate and above) and large data volume scenarios.
 
-### 2.7 使用串口唤醒系统
+### 2.7 Using Serial Port to Wake Up the System
 
-串口唤醒系统功能是在系统待机时串口保持打开，并且把串口中断设置为唤醒源。使用时需要在dts中增加以下参数：
+The serial port wake-up system function keeps the serial port open during system standby and sets the serial port interrupt as a wake-up source. To use it, add the following parameter in the dts:
 
 ```dts
 &uart1 {
@@ -139,13 +138,13 @@ UART使用硬件自动流控时，需要确保UART驱动使能硬件自动流控
 };
 ```
 
-注意，串口唤醒系统需要同时修改trust固件，请联系Rockchip以获取支持。
+Note: The serial port wake-up system also requires modifications to the trust firmware. Please contact Rockchip for support.
 
-### 2.8 设备注册
+### 2.8 Device Registration
 
-在dts中使能UART后，能在系统启动的log中看到以下对应的打印，表示设备正常注册：
+After enabling UART in the dts, the corresponding print can be seen in the system startup log, indicating that the device is registered normally:
 
-普通串口设备将会根据dts中的aliase来对串口进行编号，对应注册成ttySx设备。dts中的aliases如下：
+General serial port devices will be numbered according to the aliases in the dts and registered as ttySx devices. The aliases in the dts are as follows:
 
 ```dts
 aliases {
@@ -157,7 +156,7 @@ aliases {
 };
 ```
 
-如果需要把uart3注册成ttyS1，可以进行以下修改：
+If you need to register uart3 as ttyS1, you can make the following modifications:
 
 ```dts
 aliases {
@@ -171,19 +170,19 @@ aliases {
 
 ---
 
-## 作为控制台
+## As a Console
 
-### 3.1 驱动路径
+### 3.1 Driver Path
 
-Rockchip UART作为控制台，使用fiq_debugger流程。Rockchip SDK一般会将uart2配置为ttyFIQ0设备。使用以下驱动文件：
+Rockchip UART as a console uses the fiq_debugger process. The Rockchip SDK generally configures uart2 as the ttyFIQ0 device. The following driver files are used:
 
-- `drivers/staging/android/fiq_debugger/fiq_debugger.c` # 驱动文件
-- `drivers/soc/rockchip/rk_fiq_debugger.c` # kernel 4.4及之后的平台实现
-- `arch/arm/mach-rockchip/rk_fiq_debugger.c` # kernel 3.10平台实现
+- `drivers/staging/android/fiq_debugger/fiq_debugger.c` # Driver file
+- `drivers/soc/rockchip/rk_fiq_debugger.c` # Implementation for platforms after kernel 4.4
+- `arch/arm/mach-rockchip/rk_fiq_debugger.c` # Implementation for kernel 3.10 platforms
 
-### 3.2 menuconfig配置
+### 3.2 menuconfig Configuration
 
-在不同版本的Linux kernel中，fiq_debugger相关的menuconfig配置均在以下路径选项：
+In different versions of the Linux kernel, fiq_debugger-related menuconfig configurations are all under the following path options:
 
 ```
 Device Drivers --->
@@ -191,16 +190,16 @@ Device Drivers --->
     Android --->
 ```
 
-建议使用Rockchip SDK默认配置。
+It is recommended to use the default configuration provided in the Rockchip SDK.
 
-### 3.3 dts配置
+### 3.3 dts Configuration
 
-以Linux kernel 4.19 RK3568为例，在dts中fiq_debugger节点配置如下。由于fiq_debugger和普通串口互斥，在使能fiq_debugger节点后必须禁用对应的普通串口uart节点。
+Taking Linux kernel 4.19 RK3568 as an example, the fiq_debugger node configuration in the dts is as follows. Since fiq_debugger and general serial ports are mutually exclusive, the corresponding general serial port uart node must be disabled after enabling the fiq_debugger node.
 
-以下对几个参数进行说明：
-- `rockchip,serial-id`：使用的UART编号。修改serial-id到不同UART，fiq_debugger设备也会注册成ttyFIQ0设备。
-- `rockchip,irq-mode-enable`：配置为1使用irq中断，配置为0使用fiq中断。
-- `interrupts`：配置的辅助中断，保持默认即可。
+The following parameters are explained:
+- `rockchip,serial-id`: UART number used. Modifying serial-id to a different UART will also register the fiq_debugger device as ttyFIQ0.
+- `rockchip,irq-mode-enable`: Configure as 1 to use irq interrupt, configure as 0 to use fiq interrupt.
+- `interrupts`: Auxiliary interrupt configuration, keep the default.
 
 ```dts
 fiq-debugger {
@@ -220,9 +219,9 @@ fiq-debugger {
 };
 ```
 
-### 3.4 parameter.txt配置
+### 3.4 parameter.txt Configuration
 
-如果使用Linux kernel 3.10和Linux kernel 4.4，需要确保在parameter.txt文件中有以下对于控制台的指定命令：
+If using Linux kernel 3.10 and Linux kernel 4.4, ensure that the parameter.txt file contains the following command to specify the console:
 
 ```dts
 chosen: chosen {
@@ -232,15 +231,15 @@ chosen: chosen {
 
 ---
 
-## 驱动调试
+## Driver Debugging
 
-Rockchip UART调试提供一个测试程序`ts_uart.uart`、两个测试用文件`send_0x55`和`send_00_ff`，该程序可以向Rockchip FAE获取。
+Rockchip UART debugging provides a test program `ts_uart.uart` and two test files `send_0x55` and `send_00_ff`. This program can be obtained from Rockchip FAE.
 
-通过adb工具将测试程序放在开发板上一个可执行的路径下，以下放在data路径：
+Use the adb tool to place the test program in an executable path on the development board. The following places it in the data path:
 
-在开发板上修改测试程序权限：
+Modify the test program permissions on the development board:
 
-使用以下命令可以获取程序帮助：
+Use the following command to get program help:
 
 ```bash
 adb root
@@ -274,57 +273,57 @@ receive, data must be 0x55
 ts_uart r init.rc 1500000 0 0 0 /dev/ttyS0
 ```
 
-### 4.1 测试发送
+### 4.1 Testing Transmission
 
-测试发送的命令如下，`send_0x55`和`send_00_ff`为发送的文件：
+The command for testing transmission is as follows. `send_0x55` and `send_00_ff` are the files to be sent:
 
 ```bash
 ./data/ts_uart.uart s ./data/send_0x55 1500000 0 0 0 /dev/ttyS1
 ./data/ts_uart.uart s ./data/send_00_ff 1500000 0 0 0 /dev/ttyS1
 ```
 
-发送成功可以通过USB转UART小板连接PC端，使用PC端串口调试工具验证。
+Successful transmission can be verified by connecting a USB-to-UART adapter to the PC and using a serial debugging tool on the PC.
 
-### 4.2 测试接收
+### 4.2 Testing Reception
 
-测试接收的命令如下，`receive_0x55`为接收的文件：
+The command for testing reception is as follows. `receive_0x55` is the file to receive:
 
 ```bash
 ./data/ts_uart.uart r ./data/receive_0x55 1500000 0 0 0 /dev/ttyS1
 ```
 
-可以使用PC端串口调试工具发送数据，测试程序将自动检测，检测到U（0x55）接收正确，检测到其他字符将打印16进制ASCII码值，可以对照查询接收是否正确。
+You can use a serial debugging tool on the PC to send data. The test program will automatically detect it. If it detects U (0x55), the reception is correct. If it detects other characters, it will print the hexadecimal ASCII code value, which can be compared to check if the reception is correct.
 
-### 4.3 测试内部自收自发
+### 4.3 Testing Internal Loopback
 
-测试内部自收自发的命令如下：
+The command for testing internal loopback is as follows:
 
 ```bash
 ./data/ts_uart.uart m ./data/send_00_ff 1500000 0 0 0 /dev/ttyS1
 ```
 
-按下Ctrl+C停止测试，可以观察到结束log如下。比较发送和接收的数据是否一致：
+Press Ctrl+C to stop the test. The following log will be observed at the end. Compare the sent and received data to see if they match:
 
 ```
 Sending data from file to port...
-send:1172, receive:1172 total:1172 # 收发数据一致，测试成功
-send:3441, receive:3537 total:3441 # 收发数据不一致，测试失败
+send:1172, receive:1172 total:1172 # Data sent and received match, test successful
+send:3441, receive:3537 total:3441 # Data sent and received do not match, test failed
 ```
 
-如果测试失败，说明当前串口存在问题或者有其他程序也在使用同一个串口。可以使用以下命令查看哪些程序打开了这个串口：
+If the test fails, it indicates that there is an issue with the current serial port or another program is also using the same serial port. Use the following command to check which programs have opened this serial port:
 
 ```bash
 lsof | grep ttyS1
 ```
 
-### 4.4 测试流控
+### 4.4 Testing Flow Control
 
-验证CTS，先手动拉高CTS引脚电平，再使用以下命令发送数据：
+To verify CTS, first manually pull the CTS pin high, then use the following command to send data:
 
 ```bash
 ./data/ts_uart.uart s ./data/send_0x55 1500000 1 0 0 /dev/ttyS1
 ```
 
-当CTS电平被拉高时，发送数据阻塞。当释放CTS电平为低电平时，被阻塞的数据完成发送。
+When the CTS pin is pulled high, data transmission is blocked. When the CTS pin is released to low, the blocked data is sent.
 
-验证RTS，通过测量RTS引脚电平是否能够正常拉高和拉低来确认。
+To verify RTS, measure whether the RTS pin can be pulled high and low normally.

@@ -1,32 +1,32 @@
 # CAN
 
-## 1. CAN 驱动
+## 1. CAN Driver
 
-### 1.1 驱动文件
+### 1.1 Driver Files
 
-驱动文件所在位置：
+Driver file locations:
 
-- **RV1126/RV1109使用**：`drivers/net/can/rockchip/rockchip_can.c`
-- **RK3568/RK3588使用**：`drivers/net/can/rockchip/rockchip_canfd.c`
-- **RK3562使用**：`drivers/net/can/rockchip/rk3562_canfd.c`
+- **For RV1126/RV1109**: `drivers/net/can/rockchip/rockchip_can.c`
+- **For RK3568/RK3588**: `drivers/net/can/rockchip/rockchip_canfd.c`
+- **For RK3562**: `drivers/net/can/rockchip/rk3562_canfd.c`
 
-### 1.2 DTS 节点配置
+### 1.2 DTS Node Configuration
 
-主要参数：
+Main parameters:
 
 ```dts
 interrupts = <GIC_SPI 100 IRQ_TYPE_LEVEL_HIGH>;
 ```
 
-转换完成，产生中断信号。
+After conversion, an interrupt signal is generated.
 
-- **时钟频率**：可以修改，如果CAN的比特率1M建议修改CAN时钟到300M，信号更稳定。低于1M比特率的，时钟设置200M就可以。CAN时钟最好设置成比特率的偶数倍，便于分出精准的比特率频率。
-- **compatible**：
-    - RV1126/RV1109使用`"rockchip,can-1.0"`。
-    - RK3568使用`"rockchip,rk3568-can-2.0"`。
-    - RK3588使用`"rockchip,can-2.0"`。
-    - RK3562使用`"rockchip,rk3562-can"`。
-- **pinctrl**：
+- **Clock Frequency**: Can be modified. If the CAN bitrate is 1M, it is recommended to set the CAN clock to 300M for more stable signals. For bitrates below 1M, set the clock to 200M. The CAN clock is best set to an even multiple of the bitrate for more accurate frequency division.
+- **compatible**:
+    - For RV1126/RV1109 use `"rockchip,can-1.0"`.
+    - For RK3568 use `"rockchip,rk3568-can-2.0"`.
+    - For RK3588 use `"rockchip,can-2.0"`.
+    - For RK3562 use `"rockchip,rk3562-can"`.
+- **pinctrl**:
     ```dts
     assigned-clocks = <&cru CLK_CAN>;
     assigned-clock-rates = <200000000>;
@@ -34,9 +34,9 @@ interrupts = <GIC_SPI 100 IRQ_TYPE_LEVEL_HIGH>;
     clock-names = "baudclk", "apb_pclk";
     .compatible = "rockchip,can-1.0",
     ```
-    配置can_h和can_l的iomux作为can功能使用。
+    Configure the iomux of can_h and can_l for CAN function.
 
-### 1.3 内核配置
+### 1.3 Kernel Configuration
 
 ```dts
 &can {
@@ -46,7 +46,7 @@ interrupts = <GIC_SPI 100 IRQ_TYPE_LEVEL_HIGH>;
 };
 ```
 
-- **Symbol**：
+- **Symbol**:
     ```plaintext
     Symbol: CAN_ROCKCHIP [=y] 
     | Type : tristate 
@@ -79,104 +79,104 @@ interrupts = <GIC_SPI 100 IRQ_TYPE_LEVEL_HIGH>;
 
 ---
 
-## 2. CAN 通信测试工具
+## 2. CAN Communication Test Tools
 
-`canutils`是常用的CAN通信测试工具包，内含5个独立的程序：`canconfig`、`candump`、`canecho`、`cansend`、`cansequence`。这几个程序的功能简述如下：
+`canutils` is a commonly used CAN communication test tool package, containing 5 independent programs: `canconfig`, `candump`, `canecho`, `cansend`, `cansequence`. The functions of these programs are briefly described as follows:
 
-- **canconfig**：用于配置CAN总线接口的参数，主要是波特率和模式。
-- **candump**：从CAN总线接口接收数据并以十六进制形式打印到标准输出，也可以输出到指定文件。
-- **canecho**：把从CAN总线接口接收到的所有数据重新发送到CAN总线接口。
-- **cansend**：往指定的CAN总线接口发送指定的数据。
-- **cansequence**：往指定的CAN总线接口自动重复递增数字，也可以指定接收模式并校验检查接收的递增数字。
-- **ip**：CAN波特率、功能等配置。
+- **canconfig**: Used to configure CAN bus interface parameters, mainly baud rate and mode.
+- **candump**: Receives data from the CAN bus interface and prints it in hexadecimal to standard output, or can output to a specified file.
+- **canecho**: Resends all data received from the CAN bus interface back to the CAN bus interface.
+- **cansend**: Sends specified data to the specified CAN bus interface.
+- **cansequence**: Automatically sends incrementing numbers to the specified CAN bus interface, can also specify receive mode and check the received incrementing numbers.
+- **ip**: Configuration for CAN baud rate, functions, etc.
 
-**注意**：`busybox`里也有集成了`ip`工具，但`busybox`里的`ip`是阉割版本，不支持CAN的操作。故使用前请先确定`ip`命令的版本（`iproute2`）。
+**Note**: `busybox` also integrates the `ip` tool, but the `ip` in `busybox` is a stripped-down version and does not support CAN operations. Please confirm the version of the `ip` command (`iproute2`) before use.
 
-上述工具包，网络上都有详细的编译说明。如果是自己编译`buildroot`，直接开启宏就可以支持上述工具包。也可以联系我们获取。
+There are detailed compilation instructions for the above tool package available online. If you compile `buildroot` yourself, just enable the macro to support the above tool package. You can also contact us to obtain it.
 
 ---
 
-## 3. CAN 常用命令接口
+## 3. Common CAN Command Interfaces
 
-1. **查询当前网络设备**：
+1. **Query current network devices**:
     ```bash
     ifconfig -a
     ```
 
-2. **CAN启动**：
+2. **CAN startup**:
     ```bash
     ip link set can0 up
     ```
-    **关闭CAN**：
+    **Disable CAN**:
     ```bash
     ip link set can0 down
     ```
-    **设置比特率500KHz**：
+    **Set bitrate to 500KHz**:
     ```bash
     ip link set can0 type can bitrate 500000
     ```
-    **打印can0信息**：
+    **Print can0 information**:
     ```bash
     ip -details -statistics link show can0
     ```
 
-3. **CAN发送**：
-    - **发送（标准帧，数据帧，ID:123，data:DEADBEEF）**：
+3. **CAN send**:
+    - **Send (standard frame, data frame, ID:123, data:DEADBEEF)**:
         ```bash
         cansend can0 123#DEADBEEF
         ```
-    - **发送（标准帧，远程帧，ID:123）**：
+    - **Send (standard frame, remote frame, ID:123)**:
         ```bash
         cansend can0 123#R
         ```
-    - **发送（扩展帧，数据帧，ID:00000123，data:DEADBEEF）**：
+    - **Send (extended frame, data frame, ID:00000123, data:DEADBEEF)**:
         ```bash
         cansend can0 00000123#12345678
         ```
-    - **发送（扩展帧，远程帧，ID:00000123）**：
+    - **Send (extended frame, remote frame, ID:00000123)**:
         ```bash
         cansend can0 00000123#R
         ```
 
-4. **CAN接收**：
-    - **开启打印，等待接收**：
+4. **CAN receive**:
+    - **Enable print, wait to receive**:
         ```bash
         candump can0
         ```
 
 ---
 
-## 4. CAN 常见问题排查
+## 4. Common CAN Troubleshooting
 
-### 4.1 无法收发
+### 4.1 Unable to Send/Receive
 
-**回环模式测试**：
-启动can后，io输入命令开启回环自测（基地址根据实际dts启动的can配置）：
+**Loopback mode test**:
+After starting CAN, use the io command to enable loopback self-test (base address depends on the actual can configuration in dts):
 ```bash
 io -4 0xfe580000 0x8415
 ```
-回环模式下，`cansend`后`candump`可以接收，说明控制器工作正常。这种状态下，只要检查：IOMUX是否正确；硬件连接是否正确；终端120欧姆电阻有没有接入；转换芯片是否正常。
+In loopback mode, after `cansend`, `candump` can receive, indicating the controller is working properly. In this state, just check: whether IOMUX is correct; whether the hardware connection is correct; whether the terminal 120-ohm resistor is connected; whether the transceiver chip is normal.
 
-### 4.2 概率性不能收发
+### 4.2 Probabilistic Send/Receive Failure
 
-先确认比特率是否是精准的，下面命令可以看到can当前的实际比特率以及配置信息。如果比特率偏差会造成收发异常，需要根据比特率调整输入时钟，以分到精准的比特率。
+First confirm whether the bitrate is accurate. The following command can show the actual bitrate and configuration information of the current CAN. If there is a bitrate deviation, it will cause abnormal send/receive, and you need to adjust the input clock according to the bitrate to get an accurate bitrate.
 ```bash
 ip -details -statistics link show can0
 ```
-采样点调整，上面can命令会打印当前配置的采样点，尽量保证同网络中采样点一致。可以保障收发的稳定性。
+Sampling point adjustment: the above CAN command will print the current configured sampling point. Try to ensure that the sampling point is consistent within the network. This can ensure the stability of send/receive.
 
 ---
 
-## 5. CAN 比特率和采样点计算
+## 5. CAN Bitrate and Sampling Point Calculation
 
-目前CAN架构根据输入频率和比特率自动计算。采样点的规则按照CIA标准协议：
+Currently, the CAN architecture automatically calculates based on input frequency and bitrate. The sampling point rule follows the CIA standard protocol:
 
-**比特率计算公式**（详细原理可以百度，这里只介绍芯片配置相关）：
+**Bitrate calculation formula** (for detailed principle, please refer to Baidu, here only chip configuration related):
 ```plaintext
 BitRate = clk_can / (2 * (brq + 1) / ((tseg2 + 1) + (tseg1 + 1) + 1)
 Sample = (1 + (tseg1 + 1)) / (1 + (tseg1 + 1) + (tseg2 + 1))
 ```
-`brq`、`tseg1`、`tseg2`见CAN的TRM中BITTIMING寄存器。
+`brq`, `tseg1`, `tseg2` refer to the BITTIMING register in the CAN TRM.
 
 ```c
 /* Use CiA recommended sample points */

@@ -1,62 +1,60 @@
-
-
 #  Audio 
 
 
 
-## 1. 概述
+## 1. Overview
 
-### 1.1 Rockchip 音频特性
+### 1.1 Rockchip Audio Features
 
-本小节描述 RK 平台的音频特性，如表 1-1 所示：
+This section describes the audio features of the RK platform, as shown in Table 1-1:
 ![alt text](/pdf/rk/audio/image.png)
 
-表 1-1 Rockchip Audio 特性
+Table 1-1 Rockchip Audio Features
 
 ### 1.2 DAI
 
-本章节主要描述 RK 平台数字音频接口支持情况。
+This chapter mainly describes the support of digital audio interfaces on the RK platform.
 
 #### 1.2.1 I2S
 
-RK 平台有两种 I2S 控制器：I2S 和 I2S-TDM。I2S 控制器支持 I2S, PCM 协议；I2S-TDM 控制器支持 I2S, PCM, TDM 协议。
+The RK platform has two types of I2S controllers: I2S and I2S-TDM. The I2S controller supports I2S and PCM protocols; the I2S-TDM controller supports I2S, PCM, and TDM protocols.
 
-##### 1.2.1.1 I2S 控制器 Features
+##### 1.2.1.1 I2S Controller Features
 
-- 支持 8 声道 I2S 协议：standard, left justified, right justified  
-- 支持 stereo PCM 协议：early, late 1, late 2, late 3  
-- 支持 master/slave 模式，模式同时应用于 TX/RX 逻辑  
-- 支持 8k ~ 192k 采样率，384k 采样率  
-- 支持 16 ~ 32 bits 位宽  
-- 支持 MSB/LSB 模式  
-- 支持 时钟相位调整  
-- 支持 时钟补偿  
-
-**Note**:  
-384k 采样率需要高精度 clk，可从 MCLK PIN 导入外部高精度 clk 或者采用 slave 模式。  
-不支持 mono PCM，如有需求，可采用 stereo PCM 传输 mono PCM，有效数据放在 slot 0。  
-时钟补偿应用于异源系统的时钟补偿，比如 UAC，但有使用条件限制，参考音频时钟补偿章节。
-
-##### 1.2.1.2 I2S-TDM 控制器 Features
-
-除了支持 I2S 控制器的功能之外，I2S-TDM 控制器新增支持如下功能：
-
-- 支持 8 slots TDM PCM 协议：normal, left shift mode[0~3]  
-- 支持 8 slots TDM I2S 协议：normal, left justified, right justified  
-- 支持 slot 位宽可配：16 ~ 32 bits  
-- 支持 data line 全映射，可重映射 data line 与 path 的关系  
-- 支持 TX/RX 异步模式，独立的时钟，可支持独立的采样率，位宽，协议  
-- 支持 TX/RX 同步模式，共享时钟  
-- 支持 PCM FSYNC 宽度可配：[1~7] sclk cycle 或 one channel block  
-- 支持 I2S FSYNC 宽度可配：half frame / whole frame  
+- Supports 8-channel I2S protocol: standard, left justified, right justified  
+- Supports stereo PCM protocol: early, late 1, late 2, late 3  
+- Supports master/slave mode, mode applies to both TX/RX logic  
+- Supports 8k ~ 192k sampling rate, 384k sampling rate  
+- Supports 16 ~ 32 bits width  
+- Supports MSB/LSB mode  
+- Supports clock phase adjustment  
+- Supports clock compensation  
 
 **Note**:  
-slot 仅支持偶数配置。  
-TDM I2S 长帧模式下，可支持 16 声道传输。
-TDM 协议下，仅使用 path-0，所以物理连接的 PIN 与声道不对应时，请通过 data line 重映射到 path-0。
+384k sampling rate requires a high-precision clk, which can be imported from the MCLK PIN or use slave mode.  
+Mono PCM is not supported. If needed, stereo PCM can be used to transmit mono PCM, with valid data in slot 0.  
+Clock compensation is used for clock compensation in heterogeneous systems, such as UAC, but has usage restrictions. Refer to the audio clock compensation section.
+
+##### 1.2.1.2 I2S-TDM Controller Features
+
+In addition to the functions supported by the I2S controller, the I2S-TDM controller adds the following features:
+
+- Supports 8 slots TDM PCM protocol: normal, left shift mode[0~3]  
+- Supports 8 slots TDM I2S protocol: normal, left justified, right justified  
+- Supports configurable slot width: 16 ~ 32 bits  
+- Supports full mapping of data lines, can remap the relationship between data lines and paths  
+- Supports TX/RX asynchronous mode, independent clocks, can support independent sampling rates, bit widths, protocols  
+- Supports TX/RX synchronous mode, shared clock  
+- Supports configurable PCM FSYNC width: [1~7] sclk cycle or one channel block  
+- Supports configurable I2S FSYNC width: half frame / whole frame  
+
+**Note**:  
+Only even slot configurations are supported.  
+In TDM I2S long frame mode, up to 16 channels can be transmitted.
+In TDM protocol, only path-0 is used, so when the physical PIN connected does not correspond to the channel, please remap the data line to path-0.
 
 
-##### 1.2.1.3 RK 系列芯片 I2S 支持列表
+##### 1.2.1.3 RK Series Chips I2S Support List
 
 Chip| I2S| I2S-TDM
 ---|---|---
@@ -79,27 +77,27 @@ RV1126/RV1109| I2S1_2CH, I2S2_2CH| I2S0_8CH
 
 #### 1.2.2 PDM
 
-##### 1.2.2.1 PDM 控制器 Features
+##### 1.2.2.1 PDM Controller Features
 
-RK 平台支持 PDM 协议的数字麦或者 ADC，具体 Features 如下：
+The RK platform supports digital microphones or ADCs with PDM protocol. Specific features are as follows:
 
-- 支持 master mode only  
-- 支持 最大 8 个 MIC 阵列  
-- 支持 16 ~ 24 bits 位宽  
-- 支持 8 ~ 48k 采样率  
-- 支持 声道交换  
-- 支持 高通滤波：3.79 Hz, 60 Hz, 243 Hz, 493 Hz
-- 支持 存储对齐：左对齐， 右对齐
-- 支持 data line 全映射
-- 支持 时钟相位调整
-- 支持 时钟补偿
+- Supports master mode only  
+- Supports up to 8 MIC array  
+- Supports 16 ~ 24 bits width  
+- Supports 8 ~ 48k sampling rate  
+- Supports channel swapping  
+- Supports high-pass filtering: 3.79 Hz, 60 Hz, 243 Hz, 493 Hz
+- Supports storage alignment: left alignment, right alignment
+- Supports full mapping of data lines
+- Supports clock phase adjustment
+- Supports clock compensation
 
 Note:
-存储对齐仅对于位宽大于16 bits 的格式，大于16 bits 的格式，数据按 word 存储，默认低位补0
-时钟补偿应用于异源系统的时钟补偿，比如 UAC，但有使用条件限制，参考 音频时钟补偿 章节
-data line 全映射功能在 RV1126 及后续推出的芯片才支持： RV1126/RV1109, RK3568/RK3566...
+Storage alignment is only for formats with bit width greater than 16 bits. For formats greater than 16 bits, data is stored by word, with low bits padded with 0 by default.
+Clock compensation is used for clock compensation in heterogeneous systems, such as UAC, but has usage restrictions. Refer to the audio clock compensation section.
+Full mapping of data lines is only supported on RV1126 and later chips: RV1126/RV1109, RK3568/RK3566...
 
-##### 1.2.2.2 RK 系列芯片 PDM 支持列表
+##### 1.2.2.2 RK Series Chips PDM Support List
 
 Chip | Name| Max Channel| Version
 ---|---|---|---
@@ -111,81 +109,81 @@ RK3328| PDM | 8| V1
 RK3568/RK3566| PDM | 8| V3
 RV1126/RV1109| PDM | 8| V3
 
-版本描述
+Version Description
 
 Version| Description
 ---|---
-V1| 1. 支持标准模式，对应时钟：2.048/2.822/3.072 MHz。
-V2| 1. 新增小数分频。   <br/> 2. 新增存储对齐模式。
-V3| BUG FIX:  <br/> 1. 修正 HPF 使能情况下，输入信号幅度接近 0 db 时，符号位溢出问题。  <br/> 2. 修正通带内纹波一致性问题，新版本通带纹波小于 0.1 db。  <br/> 3. 修正混叠问题。  <br/> Features:  <br/> 1. 新增低功耗模式，对应时钟 1.024/1.411/1.536 MHz。  <br/> 2. 新增高性能模式，对应时钟 4.096/5.644/6.144 MHz。  
+V1| 1. Supports standard mode, corresponding clocks: 2.048/2.822/3.072 MHz.
+V2| 1. Added fractional division.   <br/> 2. Added storage alignment mode.
+V3| BUG FIX:  <br/> 1. Fixed sign bit overflow issue when HPF is enabled and input signal amplitude is close to 0 db.  <br/> 2. Fixed passband ripple consistency issue, new version passband ripple is less than 0.1 db.  <br/> 3. Fixed aliasing issue.  <br/> Features:  <br/> 1. Added low power mode, corresponding clocks 1.024/1.411/1.536 MHz.  <br/> 2. Added high performance mode, corresponding clocks 4.096/5.644/6.144 MHz.  
 
 
 
 #### 1.2.3 DCODEC
 
-RK 平台支持数字 CODEC 接口，可对接支持该协议的模拟 CODEC，比如 RK812，组合成完整 CODEC。另外，控制器工作于 DSM 模式时，可驱动外部 PA，满足普通音质产品需求，节省成本。
+The RK platform supports digital CODEC interface, which can be connected to analog CODECs supporting this protocol, such as RK812, to form a complete CODEC. In addition, when the controller works in DSM mode, it can drive an external PA to meet the needs of ordinary audio quality products and save costs.
 
-- 支持 3 声道 ADC  
-- 支持 stereo DAC  
-- 支持 异步模式：播放和录音采样率可不同。  
-- 支持 同步模式：播放和录音采样率必须相同。  
-- 支持 PGA / ALC  
-- 支持 DSM 输出，直驱 PA  
-- 支持 高通滤波  
+- Supports 3-channel ADC  
+- Supports stereo DAC  
+- Supports asynchronous mode: playback and recording sampling rates can be different.  
+- Supports synchronous mode: playback and recording sampling rates must be the same.  
+- Supports PGA / ALC  
+- Supports DSM output, direct drive PA  
+- Supports high-pass filtering  
 
 #### 1.2.4 VAD
 
-语音活性检测 (Voice Activity Detection)，VAD 接收来自 DAI 的数据，处理统计分析，达到预设阈值时，触发中断，唤醒系统。简要数据流图如图 1-1 所示：
+Voice Activity Detection (VAD) receives data from DAI, processes and analyzes statistics, and triggers an interrupt to wake up the system when the preset threshold is reached. A brief data flow diagram is shown in Figure 1-1:
 
-**图 1-1 RK VAD 数据流**  
+**Figure 1-1 RK VAD Data Flow**  
 
 ![RK VAD 数据流](/pdf/rk/audio/image-1.png)
 
-1. 系统休眠时，DAI -> VAD -> SRAM 保持工作，VAD 持续的接收数据，滤波，噪声自学习，音频数据存储在 SRAM 循环 Buffer 中。  
-2. VAD 检测到声音超过预设阈值时，产生中断唤醒 CPU，CPU 关闭 VAD，VAD 关闭时，数据流自动切换 DMAC 通路，即：DAI -> DMAC -> DDR -> CPU 标准录音路径。  
-3. CPU 将 SRAM 中的数据无缝填充到录音 Buffer 中，数据处理对用户态透明。  
-4. 唤醒后，ASR 程序对录取的数据做分析处理，关键词检测等。
+1. When the system is in sleep, DAI -> VAD -> SRAM remain working, VAD continuously receives data, filters, performs noise self-learning, and stores audio data in the SRAM circular buffer.  
+2. When VAD detects that the sound exceeds the preset threshold, it generates an interrupt to wake up the CPU. The CPU turns off VAD. When VAD is turned off, the data flow automatically switches to the DMAC channel, i.e.: DAI -> DMAC -> DDR -> CPU standard recording path.  
+3. The CPU seamlessly fills the data in SRAM into the recording buffer, and the data processing is transparent to user space.  
+4. After waking up, the ASR program analyzes the recorded data, such as keyword detection.
 
 #### 1.2.5 SPDIF
 
-RK 平台支持 SPDIF Transmitter 接口协议，特别的，RK3308 还支持 SPDIF Receiver。
+The RK platform supports the SPDIF Transmitter interface protocol. In particular, the RK3308 also supports SPDIF Receiver.
 
-- 支持 16 ~ 24 bits 位宽  
-- 支持 192k 采样率  
-- 支持 stereo uncompressed audio，即 LPCM  
-- 支持 5.1 / 7.1 compressed audio，比如：DD, DD+  
-- 支持 Optical, Coaxial  
+- Supports 16 ~ 24 bits width  
+- Supports 192k sampling rate  
+- Supports stereo uncompressed audio, i.e. LPCM  
+- Supports 5.1 / 7.1 compressed audio, such as: DD, DD+  
+- Supports Optical, Coaxial  
 
 **Note**:  
-192k 采样率输出的时候，需要配套支持 192k 的 Optical 器件。
+When outputting 192k sampling rate, an Optical device supporting 192k is required.
 
 #### 1.3 Combo DAI
 
-RK 平台支持任意 DAI 的组合使用，重组 DAI 生成 Combo DAI，如图 1-2 所示：
+The RK platform supports arbitrary combinations of DAIs to form Combo DAIs, as shown in Figure 1-2:
 
 
 ![alt text](/pdf/rk/audio/image-2.png)
 
-## 2. Audio 驱动开发
+## 2. Audio Driver Development
 
-本章节描述 RK 平台音频支持情况，驱动开发及调试。
+This chapter describes the audio support, driver development, and debugging on the RK platform.
 
-### 2.1 声卡基本构成
+### 2.1 Basic Structure of Sound Card
 
-本小节介绍声卡的基本构成，如图 2-1 所示：
+This section introduces the basic structure of a sound card, as shown in Figure 2-1:
 
 ![alt text](/pdf/rk/audio/image-3.png)
-**图 2-1 ALSA 声卡构成**  
+**Figure 2-1 ALSA Sound Card Structure**  
 
 DAI: Digital Audio Interface.  
 MACHINE: Link dai and codec to be a new sound card.  
 DMAENGINE: Transfer data between memory and dai's fifo.
 
-通常情况下，基于发布的 SDK 添加一个声卡，仅需要移植或者编写 codec 驱动即可，个别情况下需要添加 machine 驱动，详见 Machine 驱动开发章节。
+In general, to add a sound card based on the released SDK, you only need to port or write a codec driver. In rare cases, you need to add a machine driver. See the Machine Driver Development section for details.
 
-### 2.2 代码清单
+### 2.2 Code List
 
-代码清单及描述如下所示：
+The code list and description are as follows:
 
 ```plaintext
 kernel/sound/soc/rockchip$ tree -I "*.o|*.h"
@@ -228,31 +226,31 @@ kernel/sound/soc/codecs$ tree -P "rk*.c|h*.c|d*.c"
 └── rk_codec_digital.c /* link with external analog part, e.g. rk812. */
 ```
 
-### 2.3 DAI 驱动开发
+### 2.3 DAI Driver Development
 
-发布的 SDK 里 DAI 的驱动都已经完成，开发者只需要根据应用场景配置属性启用相应功能。
+The DAI drivers in the released SDK are already complete. Developers only need to configure properties to enable the corresponding functions according to the application scenario.
 
 #### 2.3.1 I2S
 
-##### 2.3.1.1 协议格式设置
+##### 2.3.1.1 Protocol Format Setting
 
-协议格式设置通过 Machine Driver 解析 DTS，然后调用 set_fmt API 设置控制器的协议格式，Simple Card 请参照 Simple Card 章节。
+The protocol format is set by the Machine Driver parsing the DTS, and then calling the set_fmt API to set the controller's protocol format. For Simple Card, refer to the Simple Card section.
 
-##### 2.3.1.2 master / slave 设置
+##### 2.3.1.2 Master / Slave Setting
 
-master / slave 设置通过 Machine Driver 解析 DTS，然后调用 set_fmt API 设置控制器的协议格式，Simple Card 请参照 Simple Card 章节。
+Master / slave setting is done by the Machine Driver parsing the DTS, and then calling the set_fmt API to set the controller's protocol format. For Simple Card, refer to the Simple Card section.
 
-##### 2.3.1.3 时钟相位反相设置
+##### 2.3.1.3 Clock Phase Inversion Setting
 
-时钟相位反相通过 Machine Driver 解析 DTS，然后调用 set_fmt API 设置控制器的协议格式，Simple Card 请参照 Simple Card 章节。
+Clock phase inversion is set by the Machine Driver parsing the DTS, and then calling the set_fmt API to set the controller's protocol format. For Simple Card, refer to the Simple Card section.
 
-##### 2.3.1.4 bclk-fs 设置
+##### 2.3.1.4 bclk-fs Setting
 
 Property | Value | Description
 ---|---|---
-rockchip,bclk-fs |int|默认情况下，bclk 为采样率的64倍
+rockchip,bclk-fs |int|By default, bclk is 64 times the sampling rate
 
-示例：bclk 为采样率的 32 倍
+Example: bclk is 32 times the sampling rate
 
 ```plaintext
 &i2s0 {
@@ -260,54 +258,52 @@ rockchip,bclk-fs |int|默认情况下，bclk 为采样率的64倍
 };
 ```
 
-##### 2.3.1.5 高精度时钟设置
+##### 2.3.1.5 High Precision Clock Setting
 
 Property | Value | Description
 ---|---|---
-rockchip,mclk-calibrate|boolean|支持高精度时钟，且支持时钟补偿，具体使用参照 音频时钟补偿
+rockchip,mclk-calibrate|boolean|Supports high-precision clock and clock compensation. For details, refer to Audio Clock Compensation
 
-##### 2.3.1.6 其他
+##### 2.3.1.6 Others
 
 Property | Value | Description
 ---|---|---
-rockchip,no-dmaengine|boolean|不绑定 dmaengine，具体使用参照 Combo DAI 驱动开发
-rockchip,playback-only|boolean|只支持播放功能，仅注册 TX DMA
-rockchip,capture-only|boolean|只支持录音功能，仅注册 RX DMA
+rockchip,no-dmaengine|boolean|Do not bind dmaengine. For details, refer to Combo DAI Driver Development
+rockchip,playback-only|boolean|Only supports playback function, only registers TX DMA
+rockchip,capture-only|boolean|Only supports recording function, only registers RX DMA
 
 
-更多功能详见内核文档：`kernel/Documentation/devicetree/bindings/sound/rockchip-i2s.txt`
+For more features, see the kernel documentation: `kernel/Documentation/devicetree/bindings/sound/rockchip-i2s.txt`
 
 #### 2.3.2 I2S-TDM
 
-除了支持 I2S 控制器的功能之外，I2S-TDM 控制器新增支持如下功能：
+In addition to the functions supported by the I2S controller, the I2S-TDM controller adds the following features:
 
-##### 2.3.2.1 TX/RX 时钟共享设置
+##### 2.3.2.1 TX/RX Clock Sharing Setting
 
 Property | Value | Description
 ---|---|---
-rockchip,clk-trcm|0|TX/RX 逻辑独立，使用各自的时钟，IO 上有两组时钟
-rockchip,clk-trcm|1|TX/RX 逻辑同步，共享 TX 的时钟，IO上只有 TX 的时钟
-rockchip,clk-trcm|2|TX/TX/RX 逻辑同步，共享 RX 的时钟， IO 上只有 RX 的时钟
+rockchip,clk-trcm|0|TX/RX logic is independent, each uses its own clock, there are two sets of clocks on the IO
+rockchip,clk-trcm|1|TX/RX logic is synchronous, sharing TX's clock, only TX's clock on IO
+rockchip,clk-trcm|2|TX/TX/RX logic is synchronous, sharing RX's clock, only RX's clock on IO
 
-示例：设置为共享 TX 时钟模式
+Example: Set to share TX clock mode
 
 ```plaintext
 &i2s0 {
     rockchip,clk-trcm = <1>;
 };
 ```
+##### 2.3.2.2 Data Line Full Mapping Setting
 
-##### 2.3.2.2 data line 全映射设置
-
-硬件可接任意 data line，配置对应属性修正声道顺序。
+Hardware can connect to any data line, configure the corresponding property to correct the channel order.
 
 Property | Value | Description
 ---|---|---
-rockchip,i2s-tx-route|`<int int int int>`| 默认为正序：SDO0 SDO1  SDO2  SDO3
-rockchip,i2s-rx-route|`<int int int int>`| 默认为正序：SDI0 SDI1 SDI2 SDI3
+rockchip,i2s-tx-route|`<int int int int>`| Default is in order: SDO0 SDO1 SDO2 SDO3
+rockchip,i2s-rx-route|`<int int int int>`| Default is in order: SDI0 SDI1 SDI2 SDI3
 
-
-示例：播放声道顺序为 “SDO3 | SDO2 | SDO1 | SDO0" 排列
+Example: Playback channel order is arranged as “SDO3 | SDO2 | SDO1 | SDO0”
 
 ```plaintext
 &i2s0 {
@@ -315,13 +311,13 @@ rockchip,i2s-rx-route|`<int int int int>`| 默认为正序：SDI0 SDI1 SDI2 SDI3
 };
 ```
 
-##### 2.3.2.3 TDM 半帧模式设置
+##### 2.3.2.3 TDM Half Frame Mode Setting
 
 Property | Value | Description
 ---|---|---
-rockchip,tdm-fsync-half-frame|boolean| TDM I2S 模式下，帧时钟支持半帧和长帧格式，默认长帧
+rockchip,tdm-fsync-half-frame|boolean| In TDM I2S mode, frame clock supports half-frame and long-frame formats, default is long-frame
 
-示例：半帧格式
+Example: Half-frame format
 
 ```plaintext
 &i2s0 {
@@ -329,25 +325,23 @@ rockchip,tdm-fsync-half-frame|boolean| TDM I2S 模式下，帧时钟支持半帧
 };
 ```
 
-##### 2.3.2.4 TDM slot 参数设置
+##### 2.3.2.4 TDM Slot Parameter Setting
 
-驱动已经实现 set_tdm_slot 接口，Machine Driver 解析 DTS 属性，然后调用 set_tdm_slot API 设置控制器对应参数。Simple Card 请参照 Simple Card 章节。
+The driver has implemented the set_tdm_slot interface. The Machine Driver parses the DTS property and then calls the set_tdm_slot API to set the corresponding parameters of the controller. For Simple Card, please refer to the Simple Card section.
 
-更多功能详见内核文档：`kernel/Documentation/devicetree/bindings/sound/rockchip,i2s-tdm.txt`
+For more features, see the kernel documentation: `kernel/Documentation/devicetree/bindings/sound/rockchip,i2s-tdm.txt`
 
 #### 2.3.3 PDM
 
-##### 2.3.3.1 data line 全映射设置
+##### 2.3.3.1 Data Line Full Mapping Setting
 
-硬件可接任意 data line，配置对应属性修正声道顺序。
+Hardware can connect to any data line, configure the corresponding property to correct the channel order.
 
 Property | Value | Description
 ---|---|---
-rockchip,path-map|`<int int int int>`| 默认为正序：SDI0 SDI1 SDI2  SDI3
+rockchip,path-map|`<int int int int>`| Default is in order: SDI0 SDI1 SDI2 SDI3
 
-
-
-示例：录音声道顺序为 “SDI3 | SDI2 | SDI1 | SDI0" 排列
+Example: Recording channel order is arranged as “SDI3 | SDI2 | SDI1 | SDI0”
 
 ```plaintext
 &i2s0 {
@@ -355,29 +349,29 @@ rockchip,path-map|`<int int int int>`| 默认为正序：SDI0 SDI1 SDI2  SDI3
 };
 ```
 
-##### 2.3.3.2 高精度时钟设置
+##### 2.3.3.2 High Precision Clock Setting
 
 Property | Value | Description
 ---|---|---
-rockchip,mclk-calibrat|boolean| 支持高精度时钟，且支持时钟补偿，具体使用参照 音频时钟补偿
+rockchip,mclk-calibrat|boolean| Supports high precision clock and clock compensation. For specific usage, refer to Audio Clock Compensation.
 
-##### 2.3.3.3 其他
+##### 2.3.3.3 Others
 
 Property | Value | Description
 ---|---|---
-rockchip,no-dmaengine|boolean| 不绑定 dmaengine，具体使用参照 Combo DAI 驱动开发
+rockchip,no-dmaengine|boolean| Do not bind dmaengine. For specific usage, refer to Combo DAI driver development.
 
-更多功能详见内核文档：`kernel/Documentation/devicetree/bindings/sound/rockchip,pdm.txt`
+For more features, see the kernel documentation: `kernel/Documentation/devicetree/bindings/sound/rockchip,pdm.txt`
 
 #### 2.3.4 DCODEC
 
-##### 2.3.4.1 时钟同步模式设置
+##### 2.3.4.1 Clock Sync Mode Setting
 
 Property | Value | Description
 ---|---|---
-rockchip,clk-sync-mode|boolean| 默认为时钟异步模式，即 ADC/DAC 时钟独立
+rockchip,clk-sync-mode|boolean| Default is clock asynchronous mode, i.e., ADC/DAC clocks are independent
 
-示例：设置为时钟同步模式，共享 ADC 时钟
+Example: Set to clock sync mode, sharing ADC clock
 
 ```plaintext
 &dig_acodec {
@@ -385,13 +379,13 @@ rockchip,clk-sync-mode|boolean| 默认为时钟异步模式，即 ADC/DAC 时钟
 };
 ```
 
-##### 2.3.4.2 DSM 输出模式设置
+##### 2.3.4.2 DSM Output Mode Setting
 
 Property | Value | Description
 ---|---|---
-rockchip,pwm-output-mode|boolean| 外接 RC，直驱 PA
+rockchip,pwm-output-mode|boolean| External RC, direct drive PA
 
-示例：设置为 DSM PWM 输出模式，IOMUX 切换为 PWM 差分输出
+Example: Set to DSM PWM output mode, IOMUX switches to PWM differential output
 
 ```plaintext
 &dig_acodec {
@@ -403,26 +397,25 @@ rockchip,pwm-output-mode|boolean| 外接 RC，直驱 PA
 
 ![alt text](/pdf/rk/audio/image-5.png)
 
-更多功能详见内核文档：`kernel/Documentation/devicetree/bindings/sound/rockchip,codec-digital.txt`
+For more features, see the kernel documentation: `kernel/Documentation/devicetree/bindings/sound/rockchip,codec-digital.txt`
 
 #### 2.3.5 VAD
 
-##### 2.3.5.1 音频源设置
+##### 2.3.5.1 Audio Source Setting
 
 | Property            | Value   | Description                     |
 |---------------------|---------|---------------------------------|
-| rockchip,audio-src  | phandle | 设置用于语音检测的音频源           |
+| rockchip,audio-src  | phandle | Set the audio source for voice detection |
 
+The audio source for voice detection comes from DAI. Different chips support different audio sources, as shown in the table below:
 
-用于语音检测的音频源来自于 DAI，不同的芯片支持的音频源不同，如下表所示：
-
-芯片| 音频源
+Chip| Audio Source
 ---|---
 RK1808| I2S0, I2S1, PDM
 RK3308| I2S_8CH_0, I2S_8CH_1, I2S_8CH_2, I2S_8CH_3, PDM_8CH
 RK3568/RK3566| I2S1_8CH, I2S2_2CH, I2S3_2CH
 
-示例：RK3308 上 VAD 使用 PDM_8CH 阵列麦 作为音频源
+Example: On RK3308, VAD uses PDM_8CH array mic as the audio source
 
 ```plaintext
 &vad {
@@ -430,67 +423,61 @@ RK3568/RK3566| I2S1_8CH, I2S2_2CH, I2S3_2CH
 };
 ```
 
-
-
-#### 2.3.5.1 VAD 配置
+#### 2.3.5.1 VAD Configuration
 
 | Property            | Value | Description |
 |---------------------|-------|-------------|
-| rockchip,det-channel | int   | 设置用于检测的声道，默认声道0 |
+| rockchip,det-channel | int   | Set the channel for detection, default is channel 0 |
 
-#### 2.3.5.2 检测声道设置
-示例：RK3308 上 VAD 使用阵列麦2作为检测声道
+#### 2.3.5.2 Detection Channel Setting
+Example: On RK3308, VAD uses array mic 2 as the detection channel
 ```dts
 &vad {
     rockchip,det-channel = <2>;
 };
 ```
 
-### 2.3.5.3 数据存储模式设置
+### 2.3.5.3 Data Storage Mode Setting
 
 | Property            | Value | Description |
 |---------------------|-------|-------------|
-| rockchip,mode       | 0     | VAD 检测到语音信号后才开始缓存音频数据 |
-| rockchip,mode       | 1     | VAD 使能后即开始缓存音频数据 |
-| rockchip,mode       | 2     | VAD 不缓存音频数据 |
+| rockchip,mode       | 0     | VAD starts buffering audio data only after detecting voice signal |
+| rockchip,mode       | 1     | VAD starts buffering audio data immediately after being enabled |
+| rockchip,mode       | 2     | VAD does not buffer audio data |
 
-
-
-示例：RK3308 上 VAD 使用模式1
+Example: On RK3308, VAD uses mode 1
 ```dts
 &vad {
     rockchip,mode = <1>;
 };
 ```
-Note：为了确保后级 ASR 应用能得到完整的音频数据，建议使用模式1。缓存的数据存储于 sram 的循环 buffer 中，VAD 唤醒系统后，将 sram 的缓存音频合并入音频流中，该部分数据处理对应用程序透明。
+Note: To ensure that the subsequent ASR application can obtain complete audio data, it is recommended to use mode 1. The buffered data is stored in the circular buffer of sram. After VAD wakes up the system, the buffered audio in sram is merged into the audio stream. This part of data processing is transparent to the application.
 
-### 2.3.5.4 缓存大小设置
+### 2.3.5.4 Buffer Size Setting
 
 | Property            | Value | Description |
 |---------------------|-------|-------------|
-| rockchip,buffer-time-ms | int | 设置 VAD 缓存大小，大小等于：采样率 * 位宽 * 声道 * 时间 |
+| rockchip,buffer-time-ms | int | Set the VAD buffer size, size equals: sample rate * bit width * channel * time |
 
-示例：缓存设置为100 ms，16k 16bits 8ch 条件下为 204800 bytes
+Example: Buffer set to 100 ms, under 16k 16bits 8ch condition is 204800 bytes
 ```dts
 &vad {
     rockchip,buffer-time-ms = <100>;
 };
 ```
-Note：缓存变大，会同等增大后级 ASR 应用的 Latency。且系统 sram 有限，谨慎调整。调整策略为 “保证数据完整性”，即缓存的大小能覆盖 “唤醒-> 应用接管” 时间即可。如果该部分时间过长，请优化该部分时间。
+Note: Increasing the buffer will equally increase the latency of the subsequent ASR application. Also, system sram is limited, so adjust carefully. The adjustment strategy is "ensure data integrity", i.e., the buffer size can cover the "wake up -> application takeover" time. If this part of the time is too long, please optimize this part of the time.
 
-更多功能详见内核文档：kernel/Documentation/devicetree/bindings/sound/rockchip,vad.txt
-### 2.4 Combo DAI 驱动开发
+For more features, see the kernel documentation: kernel/Documentation/devicetree/bindings/sound/rockchip,vad.txt
+### 2.4 Combo DAI Driver Development
 
-#### 2.4.1 sub dai 设置
+#### 2.4.1 Sub DAI Setting
 
 | Property            | Value | Description |
 |---------------------|-------|-------------|
-| dais | `<phandle>...` | sub dai，用于组合成 combo dai。sub dai 需要使用属性
-“rockchip,no-dmaengine” 移除关联的 dmaengine，统一由
-Combo DAI 框架注册绑定。 |
+| dais | `<phandle>...` | sub dai, used to form combo dai. sub dai needs to use the property
+“rockchip,no-dmaengine” to remove the associated dmaengine, and is uniformly registered and bound by the Combo DAI framework. |
 
-
-示例：将 i2s_8ch_2 和 pdm_8ch 组合成 Combo DAI
+Example: Combine i2s_8ch_2 and pdm_8ch into Combo DAI
 ```dts
 &i2s_8ch_2 {
        status = "okay";
@@ -505,14 +492,14 @@ Combo DAI 框架注册绑定。 |
 };
 ```
 
-### 2.4.2 声道映射设置
+### 2.4.2 Channel Mapping Setting
 
 | Property            | Value | Description |
 |---------------------|-------|-------------|
-| capture,channel-mapping | `<int ...>` | 每个sub dai 用于组合的录音声道数量 |
-| playback,channel-mapping  | `<int ...>` | 每个sub dai 用于组合的播放声道数量 |
+| capture,channel-mapping | `<int ...>` | Number of recording channels used for each sub dai in the combination |
+| playback,channel-mapping  | `<int ...>` | Number of playback channels used for each sub dai in the combination |
 
-示例：声卡立体声播放，8声道录音（6声道麦 + 2声道回采）
+Example: Stereo playback, 8-channel recording (6-channel mic + 2-channel loopback)
 ```dts
 &multi-dais {
     dais = <&i2s_8ch_2>, <&pdm_8ch>;
@@ -521,15 +508,14 @@ Combo DAI 框架注册绑定。 |
 };
 ```
 
-### 2.4.3 master / slave 设置
+### 2.4.3 Master / Slave Setting
 
 | Property            | Value | Description |
 |---------------------|-------|-------------|
-| bitclock-master | `<int ...>` | 设置提供位时钟的设备，1表示提供时钟，即 master |
-| frame-master   | `<int ...>` | 设置提供帧时钟的设备，1表示提供时钟，即 master |
+| bitclock-master | `<int ...>` | Set the device providing the bit clock, 1 means providing the clock, i.e., master |
+| frame-master   | `<int ...>` | Set the device providing the frame clock, 1 means providing the clock, i.e., master |
 
-
-示例1：i2s_8ch_2 和 pdm_8ch 组合成 8 声道录音（回采 + 麦克阵列），i2s_8ch_2 可配置为 master / slave 模式，该例中作为 master，pdm 只有 master 模式。
+Example 1: i2s_8ch_2 and pdm_8ch are combined into 8-channel recording (loopback + mic array), i2s_8ch_2 can be configured as master/slave mode, in this case as master, pdm only supports master mode.
 
 ```
 &multi-dais {
@@ -540,7 +526,7 @@ Combo DAI 框架注册绑定。 |
        frame-master = <1 1>;
 };
 ```
-示例2：两个 i2s 组合成 16 ch，一个为 master，一个为 slave，外部硬件连线需要将提供时钟的 dai 连接到各 slave dai。
+Example 2: Two i2s are combined into 16 ch, one as master, one as slave. The external hardware wiring needs to connect the dai providing the clock to each slave dai.
 
 ```
 &multi-dais {
@@ -551,7 +537,7 @@ Combo DAI 框架注册绑定。 |
        frame-master = <1 0>;
 };
 ```
-示例3：两个 i2s 组合成 16 ch，都为 slave 模式，时钟由 codec 端提供。
+Example 3: Two i2s are combined into 16 ch, both in slave mode, and the clock is provided by the codec end.
 
 ```
 &multi-dais {
@@ -562,32 +548,30 @@ Combo DAI 框架注册绑定。 |
        frame-master = <0 0>;
 };
 ```
-
-### 2.4.4 时钟相位反相设置
+### 2.4.4 Clock Phase Inversion Setting
 
 | Property            | Value | Description |
 |---------------------|-------|-------------|
-| bbitclock-inversion | `<int ...>` | 1 表示反相 位时钟，即 BCLK |
-| frame-inversion   | `<int ...>` | 1 反相 帧时钟，即 LRCK |
+| bitclock-inversion | `<int ...>` | 1 means inverted bit clock, i.e., BCLK |
+| frame-inversion   | `<int ...>` | 1 means inverted frame clock, i.e., LRCK |
 
 
-示例：将 sub dai 的时钟都取反
+Example: Invert the clocks of all sub DAIs
 ```dts
 &multi-dais {
        dais = <&i2s_8ch_0>, <&i2s_8ch_1>;
        bitclock-inversion = <1 1>;
        frame-inversion = <1 1>;
 };
-
 ```
 
 | Property            | Value | Description |
 |---------------------|-------|-------------|
-| bitclock-inversion  | int   | 1 表示反相位时钟，即 BCLK |
-| frame-inversion     | int   | 1 反相帧时钟，即 LRCK |
+| bitclock-inversion  | int   | 1 means inverted bit clock, i.e., BCLK |
+| frame-inversion     | int   | 1 means inverted frame clock, i.e., LRCK |
 
-### 2.4.5 实例
-示例1：RK3308 PDM 阵列麦 + 立体声回采 + 立体声放音 + VAD 语音检测
+### 2.4.5 Examples
+Example 1: RK3308 PDM array mic + stereo loopback + stereo playback + VAD voice detection
 ```
 multi_dais: multi-dais {
        status = "okay";
@@ -617,7 +601,7 @@ vad-sound {
        rockchip,codec = <&acodec>, <&vad>;
 };
 ```
-示例2：RK3308 SoundBar I2S_8CH_0 + I2S_8CH_1 组合 16 声道输出
+Example 2: RK3308 SoundBar I2S_8CH_0 + I2S_8CH_1 combined for 16-channel output
 ```dts
 &i2s_8ch_0 {
        #sound-dai-cells = <0>;
@@ -643,32 +627,32 @@ i2s_16ch_dais: i2s-16ch-dais {
        rockchip,grf = <&grf>;
 };
 ```
-更多功能详见内核文档：kernel/Documentation/devicetree/bindings/sound/rockchip,multidais.txt
-## 2.5 CODEC 驱动开发
-请参考内核音频官方文档：Linux Sound Subsystem Documentation
+For more features, see the kernel documentation: kernel/Documentation/devicetree/bindings/sound/rockchip,multidais.txt
+## 2.5 CODEC Driver Development
+Please refer to the official Linux Sound Subsystem Documentation.
 
-## 2.6 Machine 驱动开发
-本章节主要结合实例简述声卡添加步骤。
+## 2.6 Machine Driver Development
+This section briefly describes the steps to add a sound card with examples.
 
 ### 2.6.1 Simple Card
-Simple Card 是 ASoC 通用的 machine driver，可支持大部分标准声卡的添加。
+Simple Card is a generic ASoC machine driver that supports the addition of most standard sound cards.
 
-#### 2.6.1.1 协议格式设置
+#### 2.6.1.1 Protocol Format Setting
 
 | Property            | Value | Description |
 |---------------------|-------|-------------|
-| simple-audio-card,format | string | 设置协议格式 |
+| simple-audio-card,format | string | Set protocol format |
 
 Format | Description
 ---------------------|-------
-i2s | i2s 标准格式
-right_j| i2s 右对齐格式
-left_j |i2s 左对齐格式
-dsp_a | pcm delay 1 bit 格式
-dsp_b  | pcm no delay 格式
-pdm | pdm 格式
+i2s | i2s standard format
+right_j| i2s right-justified format
+left_j |i2s left-justified format
+dsp_a | pcm delay 1 bit format
+dsp_b  | pcm no delay format
+pdm | pdm format
 
-示例：设置为 i2s 左对齐格式
+Example: Set to i2s left-justified format
 ```dts
 audiopwmout_diff: audiopwmout-diff {
     compatible = "simple-audio-card";
@@ -682,13 +666,13 @@ audiopwmout_diff: audiopwmout-diff {
 };
 ```
 
-#### 2.6.1.2 mclk-fs 设置
+#### 2.6.1.2 mclk-fs Setting
 
 | Property            | Value | Description |
 |---------------------|-------|-------------|
-| simple-audio-card,mclk-fs | int   | 默认情况下，mclk 为采样率的256倍 |
+| simple-audio-card,mclk-fs | int   | By default, mclk is 256 times the sampling rate |
 
-示例：mclk 为采样率的512倍
+Example: mclk is 512 times the sampling rate
 ```dts
 audiopwmout_diff: audiopwmout-diff {
     compatible = "simple-audio-card";
@@ -702,17 +686,15 @@ audiopwmout_diff: audiopwmout-diff {
 };
 ```
 
-#### 2.6.1.3 master / slave 设置
+#### 2.6.1.3 master / slave Setting
 
 Property |Value| Description
 ---|---|---
 simple-audio-card,bitclock-master
-|phandle|设置提供位时钟的设备，默认情况下 DAI 提供
-时钟
-simple-audio-card,frame-master|phandle|设置提供帧时钟的设备，默认情况下 DAI 提供
-时钟
+|phandle|Set the device providing the bit clock, by default DAI provides the clock
+simple-audio-card,frame-master|phandle|Set the device providing the frame clock, by default DAI provides the clock
 
-示例：DAI 工作于 slave 模式，CODEC 工作于 master 模式
+Example: DAI works in slave mode, CODEC works in master mode
 ```dts
 audiopwmout_diff: audiopwmout-diff {
     compatible = "simple-audio-card";
@@ -727,14 +709,14 @@ audiopwmout_diff: audiopwmout-diff {
 };
 ```
 
-#### 2.6.1.4 时钟相位反相设置
+#### 2.6.1.4 Clock Phase Inversion Setting
 
 Property | Value  | Description
 ---|---|---
-simple-audio-card,bitclock-inversion | boolean | 反相 位时钟，即 BCLK
-simple-audio-card,frame-inversion | boolean 反相 帧时钟，即 LRCK
+simple-audio-card,bitclock-inversion | boolean | Invert bit clock, i.e., BCLK
+simple-audio-card,frame-inversion | boolean | Invert frame clock, i.e., LRCK
 
-示例：bclk，lrck 同时反相
+Example: Invert both bclk and lrck
 ```dts
 audiopwmout_diff: audiopwmout-diff {
     compatible = "simple-audio-card";
@@ -748,15 +730,14 @@ audiopwmout_diff: audiopwmout-diff {
     };
 };
 ```
-
-#### 2.6.1.5 TDM slot 参数设置
+#### 2.6.1.5 TDM Slot Parameter Settings
 
 | Property            | Value | Description |
 |---------------------|-------|-------------|
-| dai-tdm-slot-num    | int   | 设置 slot 的个数 |
-| dai-tdm-slot-width  | int   | 设置 slot 的位宽 |
+| dai-tdm-slot-num    | int   | Set the number of slots |
+| dai-tdm-slot-width  | int   | Set the slot bit width |
 
-示例：slot 位宽为 32 bits，8个 slot
+Example: slot bit width is 32 bits, 8 slots
 ```dts
 i2s-dmic-array {
     compatible = "simple-audio-card";
@@ -772,26 +753,26 @@ i2s-dmic-array {
 };
 ```
 
-Note：mclk-fs 等于 [ slot num ] * [ slot-width ]，或为其偶数倍。
-更多功能详见内核文档：kernel/Documentation/devicetree/bindings/sound/simple-card.txt
+Note: mclk-fs equals [slot num] * [slot-width], or an even multiple thereof.
+For more features, see the kernel documentation: kernel/Documentation/devicetree/bindings/sound/simple-card.txt
 
-#### 2.6.1.6 声卡添加实例
-1. 移植或者编写 codec 驱动
+#### 2.6.1.6 Sound Card Addition Example
+1. Port or write the codec driver
 ```
 sound/soc/codecs/Kconfig
 sound/soc/codecs/Makefile
 sound/soc/codecs/tas571x.c
 sound/soc/codecs/tas571x.h
 ```
-2. 使能 CONFIG
+2. Enable CONFIG
 ```
 CONFIG_SND_SIMPLE_CARD
 CONFIG_SND_SOC_ROCKCHIP_I2S
 CONFIG_SND_SOC_ROCKCHIP_I2S_TDM
 CONFIG_SND_SOC_TAS571X
 ```
-3. 添加 DTS 声卡节点
-根据硬件连接情况，使能对应的 i2s 节点
+3. Add DTS sound card node
+Enable the corresponding i2s node according to the hardware connection
 ```dts
 &i2s_8ch_1 {
     status = "okay";
@@ -805,7 +786,7 @@ CONFIG_SND_SOC_TAS571X
 
 ```
 
-根据硬件连接情况，在对应 i2c 或者 spi 下添加 codec 节点
+According to the hardware connection, add the codec node under the corresponding i2c or spi
 ```
 &i2c1 {
        clock-frequency = <400000>;
@@ -824,7 +805,7 @@ CONFIG_SND_SOC_TAS571X
 };
 ```
 
-添加并使能声卡节点
+Add and enable the sound card node
 
 ```
 tas5731_sound: tas5731-sound {
@@ -842,27 +823,26 @@ tas5731_sound: tas5731-sound {
 };
 ```
 
-确认声卡创建成功
+Confirm the sound card is created successfully
 
 ```
 cat /proc/asound/cards
  0 [rockchiptas5731]: rockchip_tas5731 - rockchip,tas5731
 ```
 Note:
-mclk 遵循 “谁使用谁申请” 原则。当 codec 需要使用外部 mclk 时，驱动需要申请并管理 mclk。本例中 
-codec mclk 来自于 RK3308 的 SCLK_I2S1_8CH_TX_OUT。
+mclk follows the principle of "whoever uses it applies for it". When the codec needs to use an external mclk, the driver needs to apply for and manage the mclk. In this example, the codec mclk comes from RK3308's SCLK_I2S1_8CH_TX_OUT.
 
 ### 2.6.2 Multi Codecs Machine Driver
-当 Simple Card 不满足需求时，则需要编写对应的 Machine Driver。本小节介绍 RK 的 Multi Codecs Machine Driver。应用于 1个 DAI 对应多个 CODEC，或者 Combo DAI 对应多个 CODEC 的场景。
+When the Simple Card does not meet the requirements, you need to write the corresponding Machine Driver. This section introduces RK's Multi Codecs Machine Driver. It is used in scenarios where one DAI corresponds to multiple CODECs, or Combo DAI corresponds to multiple CODECs.
 ![alt text](/pdf/rk/audio/image-6.png)
 
-#### 2.6.2.1 dai / codec 设置
+#### 2.6.2.1 dai / codec Settings
 
 Property | Value | Description
 ---|---|---
-rockchip,cpu | phandle | 设置 DAI 设备
-rockchip,codec |phandle...| 设置关联的 codecs
-示例：i2s0_8ch 同时应用于 codec 和 vad
+rockchip,cpu | phandle | Set DAI device
+rockchip,codec |phandle...| Set associated codecs
+Example: i2s0_8ch is used for both codec and vad
 ```dts
 &sound {
     compatible = "rockchip,multicodecs-card";
@@ -871,49 +851,49 @@ rockchip,codec |phandle...| 设置关联的 codecs
 };
 ```
 
-#### 2.6.2.2 协议格式设置
+#### 2.6.2.2 Protocol Format Settings
 
 | Property            | Value | Description |
 |---------------------|-------|-------------|
-| rockchip,format     | string | 设置协议格式 |
+| rockchip,format     | string | Set protocol format |
 
 Format | Description
 ---------------------|-------
-i2s i2s |  标准格式
-right_j |i2s 右对齐格式
-left_j |i2s 左对齐格式
-dsp_a |pcm delay 1 bit 格式
-dsp_b | pcm no delay 格式
-pdm | pdm 格式
+i2s i2s |  Standard format
+right_j |i2s right-justified format
+left_j |i2s left-justified format
+dsp_a |pcm delay 1 bit format
+dsp_b | pcm no delay format
+pdm | pdm format
 
-示例：设置为 i2s 左对齐格式
+Example: set to i2s left-justified format
 ```dts
 &sound {
        rockchip,format = "left_j";
 };
 ```
 
-#### 2.6.2.3 mclk-fs 设置
+#### 2.6.2.3 mclk-fs Setting
 
 | Property            | Value | Description |
 |---------------------|-------|-------------|
-| rockchip,mclk-fs    | int   | 默认情况下，mclk 为采样率的256倍 |
+| rockchip,mclk-fs    | int   | By default, mclk is 256 times the sampling rate |
 
-示例：mclk 为采样率的512倍
+Example: mclk is 512 times the sampling rate
 ```
 &sound {
        rockchip,mclk-fs = <512>;
 };
 ```
 
-#### 2.6.2.4 master / slave 设置
+#### 2.6.2.4 master / slave Setting
 
 Property | Value | Description
 ---|---|---
-rockchip,frame-master |phandle |设置提供位时钟的设备，默认情况下 DAI 提供时钟
-rockchip,bitclock-master| phandle | 设置提供帧时钟的设备，默认情况下 DAI 提供时钟
+rockchip,frame-master |phandle |Set the device providing the bit clock, by default DAI provides the clock
+rockchip,bitclock-master| phandle | Set the device providing the frame clock, by default DAI provides the clock
 
-示例：DAI 工作于 slave 模式，CODEC 工作于 master 模式
+Example: DAI works in slave mode, CODEC works in master mode
 ```dts
 &sound {
     compatible = "rockchip,multicodecs-card";
@@ -924,14 +904,14 @@ rockchip,bitclock-master| phandle | 设置提供帧时钟的设备，默认情�
 };
 ```
 
-#### 2.6.2.5 时钟相位反相设置
+#### 2.6.2.5 Clock Phase Inversion Setting
 
 | Property            | Value | Description |
 |---------------------|-------|-------------|
-| rockchip,bitclock-inversion | boolean | 反相位时钟，即 BCLK |
-| rockchip,frame-inversion    | boolean | 反相帧时钟，即 LRCK |
+| rockchip,bitclock-inversion | boolean | Invert bit clock, i.e. BCLK |
+| rockchip,frame-inversion    | boolean | Invert frame clock, i.e. LRCK |
 
-示例：bclk，lrck 同时反相
+Example: bclk and lrck are both inverted
 ```dts
 &sound {
     compatible = "rockchip,multicodecs-card";
@@ -942,14 +922,13 @@ rockchip,bitclock-master| phandle | 设置提供帧时钟的设备，默认情�
 };
 ```
 
-#### 2.6.2.6 设置wait-card-locked
+#### 2.6.2.6 Set wait-card-locked
 
 Property | Value | Description
 ---|---|---
-rockchip,wait-card-locked|int|等待特定soundcard的ID注册后再进行注册，确保当前
-soundcard的ID排在指定ID之后
+rockchip,wait-card-locked|int|Wait for the registration of a specific soundcard ID before registering, to ensure that the current soundcard ID is after the specified ID
 
-示例：希望当前bluetooth-sound注册为card1，需要card0注册了之后当前card才注册。
+Example: If you want the current bluetooth-sound to register as card1, you need card0 to be registered before the current card is registered.
 ```dts
 bluetooth_sound: bluetooth-sound {
     status = "disabled";
@@ -966,26 +945,26 @@ bluetooth_sound: bluetooth-sound {
 
 
 
-#### 2.6.2.7 耳机按键检测/耳机喇叭使能相关配置
+#### 2.6.2.7 Headphone Button Detection / Headphone Speaker Enable Related Configuration
 
 | Property | Value | Description |
 |-----------|-----|-------------|
-| hp-det-gpio    | phandle     | 耳机检测pin，通过中断来检测耳机拔插状态 |
-| spk-con-gpio   | phandle     | 功放喇叭控制pin |
-| hp-con-gpio    | phandle     | 耳机控制pin |
-| io-channels    | phandle     | adc检测通道用来区分3/4段耳机，以及耳机按键 |
-| poll-interval  | int         | adc轮询时间间隔。默认100，单位是ms |
-| keyup-threshold-microvolt | int | adc按键电压 |
-| play-pause-key | phandle     | 这里定义了播放暂停按键，可以根据需求定义其他按键 |
-| rockchip,audio-routing | string | 声卡的 routing |
+| hp-det-gpio    | phandle     | Headphone detection pin, detects headphone plug/unplug status via interrupt |
+| spk-con-gpio   | phandle     | Amplifier speaker control pin |
+| hp-con-gpio    | phandle     | Headphone control pin |
+| io-channels    | phandle     | ADC detection channel, used to distinguish between 3/4-segment headphones and headphone buttons |
+| poll-interval  | int         | ADC polling interval. Default is 100, unit is ms |
+| keyup-threshold-microvolt | int | ADC button voltage |
+| play-pause-key | phandle     | Defines the play/pause button here, other buttons can be defined as needed |
+| rockchip,audio-routing | string | Sound card routing |
 
-示例:
+Example:
 
-gpio1_d5 低电平插入耳机检测，gpio1_d2使能耳机 ，gpio1_d3 高电平使能喇叭。
-adc3 来区分3/4段耳机，同时支持耳机线上的播放暂停按键。
-Headphone 对应es8388 的 LROUT1，通过Headphone Power 控制gpio1_d2。
-Speaker 对应es8388 的 LROUT2，通过Speaker Power 控制gpio1_d3。
-LINPUT 对应es8388 的 Main Mic， RINPUT对应Headset Mic
+gpio1_d5 low level for headphone detection, gpio1_d2 enables headphone, gpio1_d3 high level enables speaker.
+adc3 is used to distinguish between 3/4-segment headphones, and supports play/pause button on the headphone cable.
+Headphone corresponds to es8388's LROUT1, controlled by Headphone Power via gpio1_d2.
+Speaker corresponds to es8388's LROUT2, controlled by Speaker Power via gpio1_d3.
+LINPUT corresponds to es8388's Main Mic, RINPUT corresponds to Headset Mic
 ```dts
 es8388_sound: es8388-sound {
     status = "okay";
@@ -1023,13 +1002,13 @@ es8388_sound: es8388-sound {
     };
 };
 ```
-更多功能详见内核文档：`kernel/Documentation/devicetree/bindings/sound/rockchip,multicodecs.txt`
+For more features, see the kernel documentation: `kernel/Documentation/devicetree/bindings/sound/rockchip,multicodecs.txt`
 
 #### 2.6.3 HDMI Audio
 
-RK 4.4内核 HDMI 包含两套框架：RK HDMI 框架，DRM 框架，因此，音频也对应两种实现方式。RK 4.19内核版本开始只使用标准 DRM 框架。
+RK 4.4 kernel HDMI includes two frameworks: RK HDMI framework and DRM framework, so audio also has two implementations. Starting from RK 4.19 kernel version, only the standard DRM framework is used.
 
-### 示例1：RK3399 RK HDMI 框架音频配置
+### Example 1: RK3399 RK HDMI Framework Audio Configuration
 ```dts
 dw_hdmi_audio: dw-hdmi-audio {
     compatible = "rockchip,dw-hdmi-audio";
@@ -1050,7 +1029,7 @@ hdmi_sound: hdmi-sound {
 
 ```
 
-### 示例2：DRM 框架音频配置
+### Example 2: DRM Framework Audio Configuration
 ```dts
 hdmi: hdmi@ff940000 {
     compatible = "rockchip,rk3399-dw-hdmi";
@@ -1072,22 +1051,21 @@ hdmi_sound: hdmi-sound {
     };
 };
 ```
+### 2.7 Audio Clock Compensation
 
-### 2.7 音频时钟补偿
+The RK platform provides audio clock fine-tuning to solve audio synchronization problems in heterogeneous systems, such as UAC, HDMI IN, BT voice, etc. The adjustment range is ± 1000 ppm (parts per million).
 
-RK 平台提供音频时钟微调，用于解决异源系统中音频同步问题，比如：UAC，HDMI IN，BT 语音等，调整范围：± 1000 ppm（parts per million）。
-
-1. 使能 CONFIG
+1. Enable CONFIG
    ```
    CONFIG_ROCKCHIP_CLK_COMPENSATION
    ```
-2. 添加 PLL 小数模式频率（时钟微调补偿功能仅在PLL 小数模式下有效），遵循“PLL 为 mclk 的偶数倍”原则。分两类芯片方案描述：
-   - 音频独立 PLL 的芯片，只需遵循偶数倍原则即可。比如 RK3308 VPLL0 设置为 1179648000 Hz，VPLL1 设置为 903168000 Hz。
-   - 音频和其他模块共享 PLL时，产品需要评估时钟微调对共享模块的影响，分如下两点描述：
-     a. ± 1000 ppm 的调整对模块功能是否有影响，比如：以太网就必须要求精确时钟，而视频编码控制器则没有精确要求。
-     b. 如果条件a满足，则将 PLL 频率调整到合适的分数频率。比如 RV1126上，既要满足500 MHz 左右的视频编码控制器工作，又要兼容支持 48k 采样率的音频播放支持，选择靠近 500 MHz 的分数 PLL 频率即可，如：491520000 MHz。
+2. Add PLL fractional mode frequency (clock fine-tuning compensation function is only effective in PLL fractional mode), following the principle of "PLL is an even multiple of mclk". Described in two types of chip solutions:
+   - For chips with independent audio PLL, just follow the even multiple principle. For example, set RK3308 VPLL0 to 1179648000 Hz, VPLL1 to 903168000 Hz.
+   - When audio and other modules share the PLL, the product needs to evaluate the impact of clock fine-tuning on the shared modules, described as follows:
+     a. Whether the ± 1000 ppm adjustment affects the module function, for example: Ethernet requires precise clocks, while video encoding controllers do not.
+     b. If condition a is met, adjust the PLL frequency to a suitable fractional frequency. For example, on RV1126, both the video encoding controller working around 500 MHz and audio playback supporting 48k sampling rate need to be supported, so choose a fractional PLL frequency close to 500 MHz, such as: 491520000 MHz.
 
-     示例： RV1126 CPLL 频率修改为小数频率
+     Example: RV1126 CPLL frequency modified to fractional frequency
     ```
             diff --git a/drivers/clk/rockchip/clk-rv1126.c b/drivers/clk/rockchip/clk￾rv1126.c
         index 9ba0bff..1b95aed 100644
@@ -1100,7 +1078,7 @@ RK 平台提供音频时钟微调，用于解决异源系统中音频同步问�
         +       RK3036_PLL_RATE(496742400, 1, 124, 6, 1, 0, 3113851),
         +       RK3036_PLL_RATE(491520000, 1, 40, 2, 1, 0, 16106127),
     ```
-    DTS 配置：仅配置 491520000 Hz，支持 8k, 16k, 24k, 48k, 96k, 192k 采样率
+    DTS configuration: only configure 491520000 Hz, supporting 8k, 16k, 24k, 48k, 96k, 192k sampling rates
 
     ```
                 &cru {
@@ -1122,8 +1100,8 @@ RK 平台提供音频时钟微调，用于解决异源系统中音频同步问�
                       <200000000>;
         };
     ```
-3. 使能 DAI 的时钟补偿功能，配置 root pll
-   - I2S 控制器
+3. Enable the DAI clock compensation function and configure the root pll
+   - I2S controller
     ```
         &i2s1_2ch {
           clocks = <&cru MCLK_I2S1>, <&cru HCLK_I2S1>, <&cru PLL_CPLL>;
@@ -1131,7 +1109,7 @@ RK 平台提供音频时钟微调，用于解决异源系统中音频同步问�
           rockchip,mclk-calibrate;
     };
     ```
-   - I2S-TDM 控制器
+   - I2S-TDM controller
     ```
             &i2s0_8ch {
           clocks = <&cru MCLK_I2S0_TX>, <&cru MCLK_I2S0_RX>, <&cru HCLK_I2S0>,
@@ -1143,7 +1121,7 @@ RK 平台提供音频时钟微调，用于解决异源系统中音频同步问�
           rockchip,mclk-calibrate;
     };
     ```
-   - PDM 控制器
+   - PDM controller
     ```bash
                 &pdm {
               status = "okay";
@@ -1152,10 +1130,10 @@ RK 平台提供音频时钟微调，用于解决异源系统中音频同步问�
               rockchip,mclk-calibrate;
         };
     ```
-4. 验证功能
-   功能开启后，可通过 amixer 进行时钟微调。
+4. Function verification
+   After enabling the function, you can fine-tune the clock through amixer.
 
- 示例：RV1126 CPLL 频率修改为小数频率
+ Example: RV1126 CPLL frequency modified to fractional frequency
 ```dts
 # cat /proc/asound/cards
  0 [rockchiprk809co]: rockchip_rk809- - rockchip,rk809-codec
@@ -1214,21 +1192,21 @@ pll_cpll                         1       1       0   49151510
 
 
 
-## 3. 调试方法
-常用调试工具如图 3-1 所示：
+## 3. Debugging Methods
+Common debugging tools are shown in Figure 3-1:
 
 ![alt text](/pdf/rk/audio/image-7.png)
 
-### 3.1 硬件仪器
+### 3.1 Hardware Instruments
 
-#### 3.1.1 万用表
-测量硬件供电情况，结合芯片手册确认工作电压正常。RK 端确认 IO domain的电压是否和软件配置一致，CODEC 端确认各路供电是否符合手册要求。
+#### 3.1.1 Multimeter
+Measure hardware power supply, and confirm with the chip manual that the working voltage is normal. On the RK side, confirm whether the IO domain voltage is consistent with the software configuration, and on the CODEC side, confirm whether each power supply meets the manual requirements.
 
-示例：RV1126 EVB，RK817 接在 I2S0 上，CODEC 工作 1.8v；万用表测量硬件电压为 1.8v，如下图所示：
+Example: RV1126 EVB, RK817 is connected to I2S0, CODEC works at 1.8v; the multimeter measures the hardware voltage as 1.8v, as shown below:
 
 ![alt text](/pdf/rk/audio/image-8.png)
 
-软件板级 DTS 对应 domain 的配置为 1.8v，如下所示：
+The corresponding domain configuration in the software board-level DTS is 1.8v, as shown below:
 ```dts
 &pmu_io_domains {
     status = "okay";
@@ -1236,21 +1214,21 @@ pll_cpll                         1       1       0   49151510
     vccio7-supply = <&vcc_1v8>;
 };
 ```
-**注意**：如果硬件供电和软件配置不一致，可能会造成功能异常，芯片损坏等风险。
+**Note**: If the hardware power supply and software configuration are inconsistent, it may cause functional abnormalities and even risk of chip damage.
 
-#### 3.1.2 示波器
-使用示波器测量硬件信号：时钟和数据。测量时钟频率，幅度，占空比，jitter等是否符合协议规范（比如：当工作电压为3.3v，而实际时钟信号只有2v时，导致采集不到数据，原因可能是被外设拉低，或者对地短路，或者软件电压配置不正确等）；抓取时钟和数据信号，结合特定数据pattern，从波形中分析数据（可用逻辑分析仪替代）是否正确；使用触发模式抓取问题现场（比如：断音瞬间 CLK 是否有毛刺或者抖动）。
+#### 3.1.2 Oscilloscope
+Use an oscilloscope to measure hardware signals: clock and data. Measure whether the clock frequency, amplitude, duty cycle, jitter, etc. meet the protocol specifications (for example: when the working voltage is 3.3v, but the actual clock signal is only 2v, resulting in no data being collected, the reason may be that it is pulled down by a peripheral, shorted to ground, or the software voltage configuration is incorrect, etc.); capture clock and data signals, analyze data from the waveform combined with specific data patterns (can be replaced by a logic analyzer) to see if it is correct; use trigger mode to capture the problem scene (for example: whether there is a glitch or jitter on the CLK at the moment of sound interruption).
 
-#### 3.1.3 信号发生器
-可生成特定的波形，比如方波，三角波，正弦波。调试 ADC 时，可使用信号发生器生成正弦波，调试 ADC 的不失真电平等。
+#### 3.1.3 Signal Generator
+Can generate specific waveforms, such as square, triangle, sine waves. When debugging ADC, a signal generator can be used to generate a sine wave to debug the undistorted level of the ADC.
 
-#### 3.1.4 AP分析仪
-CODEC 指标测试分析仪，测试数字接口信号，测量模拟信号指标，信噪比，总谐波失真，动态范围等。
+#### 3.1.4 AP Analyzer
+CODEC index test analyzer, tests digital interface signals, measures analog signal indicators, signal-to-noise ratio, total harmonic distortion, dynamic range, etc.
 
-### 3.2 调试命令
+### 3.2 Debugging Commands
 
 #### 3.2.1 procfs
-通过 proc fs 确认声卡注册成功
+Confirm that the sound card is registered successfully through proc fs
 ```bash
 # cat /proc/asound/cards
 0 [rockchiprk809co]: rockchip_rk809- - rockchip,rk809-codec
@@ -1263,8 +1241,8 @@ controlC0 pcmC0D0c   pcmC7D0c pcmC7D1c timer
 ```
 
 #### 3.2.2 clk summary
-查询音频时钟，确认时钟设置正确
-示例：查询 i2s0 mclk 频率，以及其所在的 pll，结果：mclk 为 12288000 Hz，pll 源为 cpll
+Query the audio clock to confirm that the clock is set correctly
+Example: Query the i2s0 mclk frequency and its PLL source, result: mclk is 12288000 Hz, PLL source is cpll
 ```bash
 # cat /sys/kernel/debug/clk/clk_summary | egrep "i2s0|pll"
 pll_cpll                     1       1       0   500000000
@@ -1280,10 +1258,10 @@ cpll                         5       10      0   500000000
           mclk_i2s0_tx_out2io 2       2       0   12288000
 ```
 
-#### 3.2.3 寄存器
+#### 3.2.3 Registers
 
-##### 3.2.3.1 io 命令
-通过 io 命令查看修改寄存器（适合 SOC 寄存器查询），配合芯片手册确认配置以及工作状态。
+##### 3.2.3.1 io command
+View and modify registers through the io command (suitable for SOC register queries), and confirm configuration and working status with the chip manual.
 ```bash
 # cat /proc/iomem | grep i2s
 ff800000-ff800fff : i2s@ff800000
@@ -1295,7 +1273,7 @@ ff800030: 00003eff 00003eff 00000303 20150001
 ```
 
 ##### 3.2.3.2 regmap
-通过 regmap 节点查看寄存器（只读）。
+View registers through the regmap node (read-only).
 ```bash
 # ls /sys/kernel/debug/regmap/
 0-0020-rk817-codec
@@ -1320,9 +1298,9 @@ ff800000.i2s
 
 ```
 
-**注意**：`regmap` 基于 cache 机制，如果通过 `io` 命令直接修改寄存器后，`regmap` 节点不会体现更新后的寄存器，除非驱动将寄存器类型设置为 `volatile` 或者将 `regmap` cache 关闭。
+**Note**: `regmap` is based on a cache mechanism. If you modify the register directly through the `io` command, the `regmap` node will not reflect the updated register unless the driver sets the register type to `volatile` or disables the `regmap` cache.
 
-示例：关闭 regmap cache，查询到正确寄存器值
+Example: Disable regmap cache to query the correct register value
 ```bash
 # cd /sys/kernel/debug/regmap/ff800000.i2s/
 # cat registers /* dump register by regmap */
@@ -1384,11 +1362,11 @@ syncing cache
 ```
 
 ##### 3.2.3.3 i2c-tools
-通过 i2c tool 查看修改 codec 寄存器（适合 i2c 类型的 codec 设备），配合 codec 手册确认配置以及工作状态。
+View and modify codec registers through i2c tool (suitable for i2c type codec devices), and confirm configuration and working status with the codec manual.
 
 ###### 3.2.3.3.1 i2cdetect
-查看 i2c 总线上的设备
-示例：查询 i2c0 总线上的设备
+View devices on the i2c bus
+Example: Query devices on the i2c0 bus
 ```bash
 Usage: i2cdetect [-y] [-a] [-q|-r] I2CBUS [FIRST LAST]
        i2cdetect -F I2CBUS
@@ -1397,7 +1375,7 @@ Usage: i2cdetect [-y] [-a] [-q|-r] I2CBUS [FIRST LAST]
  If provided, FIRST and LAST limit the probing range
 ```
 
-示例：查询 i2c0 总线上的设备
+Example: Query devices on the i2c0 bus
 ```bash
 # i2cdetect -y 0
      0 1 2 3 4 5 6 7 8 9 a b c d e f
@@ -1410,9 +1388,8 @@ Usage: i2cdetect [-y] [-a] [-q|-r] I2CBUS [FIRST LAST]
 60: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 70: -- -- -- -- -- -- -- --
 ```
-
 ###### 3.2.3.3.2 i2cdump
-dump 设备的所有寄存器
+Dump all registers of the device
 
 ```
 Usage: i2cdump [-f] [-y] [-r first-last] I2CBUS ADDRESS [MODE [BANK [BANKREG]]]
@@ -1427,7 +1404,7 @@ Usage: i2cdump [-f] [-y] [-r first-last] I2CBUS ADDRESS [MODE [BANK [BANKREG]]]
    c (consecutive byte)
    Append p for SMBus PEC
 ```
-示例：查询 i2c0 总线下 rk817（设备地址：0x20）的寄存器，其中 0x12 ~ 0x4f 为 codec 寄存器。
+Example: Query the registers of rk817 (device address: 0x20) on i2c0 bus, where 0x12 ~ 0x4f are codec registers.
 ```bash
 # i2cdump -f -y 0 0x20 b
      0 1 2 3 4 5 6 7 8 9 a b c d e f
@@ -1450,7 +1427,7 @@ f0: c0 8c a0 40 18 10 00 86 00 dc 00 ff 00 ff 60 00
 ```
 
 ###### 3.2.3.3.3 i2cset
-修改单个寄存器值
+Modify the value of a single register
 ```
 Usage: i2cset [-f] [-y] [-m MASK] [-r] I2CBUS CHIP-ADDRESS DATA-ADDRESS [VALUE] 
 ... [MODE]
@@ -1464,7 +1441,7 @@ Usage: i2cset [-f] [-y] [-m MASK] [-r] I2CBUS CHIP-ADDRESS DATA-ADDRESS [VALUE]
    s (SMBus block data)
    Append p for SMBus PEC
 ```
-示例：修改 rk817 的 0x12 寄存器，将值改为0
+Example: Modify register 0x12 of rk817, set the value to 0
 
 ```bash
 # i2cset -f -y -r 0 0x20 0x12 0x0 b
@@ -1472,7 +1449,7 @@ Value 0x00 written, readback matched
 ```
 
 ###### 3.2.3.3.4 i2cget
-查询单个寄存器值
+Query the value of a single register
 
 ```bash
 Usage: i2cget [-f] [-y] I2CBUS CHIP-ADDRESS [DATA-ADDRESS [MODE]]
@@ -1486,15 +1463,15 @@ Usage: i2cget [-f] [-y] I2CBUS CHIP-ADDRESS [DATA-ADDRESS [MODE]]
 
 ```
 
-示例：查询 rk817 的 0x12 寄存器
+Example: Query register 0x12 of rk817
 ```bash
 # i2cget -f -y 0 0x20 0x12 b
 0x00
 ```
-更多功能详见i2c-tools 官方文档：[i2c-tools](#)
+For more features, see the official i2c-tools documentation: [i2c-tools](#)
 
 ### 3.2.4 alsa-utils
-RK Linux SDK 标配 alsa-utils 工具
+RK Linux SDK comes with alsa-utils tools by default
 
 #### 3.2.4.1 aplay
 ```bash
@@ -1540,7 +1517,7 @@ Usage: aplay [OPTION]... [FILE]...
     --dump-hw-params    dump hw_params of the device
     --fatal-errors      treat all errors as fatal
 ```
-示例：通过声卡0 播放 48k 采样率 2声道 16 位的静音数据
+Example: Use sound card 0 to play silent data with 48k sample rate, 2 channels, and 16 bits
 ```bash
 aplay -D hw:0,0 --period-size=1024 --buffer-size=4096 -r 48000 -c 2 -f s16_le /dev/zero
 ```
@@ -1589,23 +1566,23 @@ Usage: arecord [OPTION]... [FILE]...
     --dump-hw-params    dump hw_params of the device
     --fatal-errors      treat all errors as fatal
 ```
-示例：通过声卡0 录制 16k 采样率 8声道 32 位 的音频数据
+Example: Use sound card 0 to record audio data with 16k sample rate, 8 channels, and 32 bits
 ```bash
 arecord -D hw:0,0 --period-size=1024 --buffer-size=4096 -r 16000 -c 8 -f s32_le r.wav
 ```
 
 #### 3.2.4.3 aplay | arecord
-两者通过管道可以方便的实现 loopback 功能，方便驱动调试和指标测试。
-示例：声卡0 录制 -> 声卡1 播放
+The two can be conveniently used together via pipe to implement loopback functionality, which is convenient for driver debugging and performance testing.
+Example: Sound card 0 records -> Sound card 1 plays
 ```bash
 arecord -D hw:0,0 --period-size=1024 --buffer-size=4096 -r 48000 -c 2 -f s16_le -t raw | aplay -D hw:1,0 --period-size=1024 --buffer-size=4096 -r 48000 -c 2 -f s16_le -t raw
 ```
 
 #### 3.2.4.4 amixer
-控制 codec 内部的通路开关，结合 codec 手册的音频拓扑图（比如 图 3-2 RK3308 codec）实现音频流的路由，音量控制等。
+Control the internal path switches of the codec. Combined with the audio topology diagram in the codec manual (such as Figure 3-2 RK3308 codec), it can realize audio stream routing, volume control, etc.
 
 ![alt text](/pdf/rk/audio/image-9.png)
-图 3-2 RK3308 codec
+Figure 3-2 RK3308 codec
 
 
 ```
@@ -1635,7 +1612,7 @@ Available commands:
 - `cset cID P` set control contents for one control
 - `cget cID` get control contents for one control
 ```
-示例：查询声卡 controls，将播放通路切换到 SPK
+Example: Query sound card controls and switch the playback path to SPK
 
 ```bash
 # amixer -c 0 contents
@@ -1670,13 +1647,12 @@ numid=1,iface=MIXER,name='Playback Path'
  ; Item #10 'RING_SPK_HP'
  : values=2
 ```
-
 #### 3.2.4.5 alsaloop
 
-支持任意声卡间的路由  
-支持自适应时钟同步  
-支持自适应重采样  
-支持 mixer controls 重定向  
+Supports routing between any sound cards  
+Supports adaptive clock synchronization  
+Supports adaptive resampling  
+Supports mixer controls redirection  
 
 ```
 Usage: `alsaloop [OPTION]...`
@@ -1727,26 +1703,26 @@ Sync mode specification for capture to playback stream:
 - `4 or samplerate` - use samplerate library to do rate resampling
 - `5 or auto` - automatically selects the best method in this order: captshift, playshift, samplerate, simple
 ```
-示例：声卡0录制的音频通过声卡1播放，同步模式采用 策略1（增加或减少采样点）
+Example: Audio recorded by sound card 0 is played through sound card 1, using sync mode strategy 1 (add or remove samples)
 ```
 alsaloop -C hw:0,0 -P hw:1,0 -t 10000 -A 3 -S 1 -b -v
 ```
 **Note**:
-如果声卡0和1的时钟源相同（比如，同一个 OSC），那么不存在异步累积误差问题。如果声卡0为 UAC（时钟来源于 PC），声卡1为系统声卡（时钟来源于设备），因为时钟源不同，随着时间的累积，必然出现累积误差，导致断音。此时需要软件补偿（如：增加或减少采样点）或者硬件补偿（如：音频时钟补偿）。
+If sound card 0 and 1 share the same clock source (e.g., the same OSC), there is no asynchronous cumulative error issue. If sound card 0 is UAC (clock sourced from PC) and sound card 1 is the system sound card (clock sourced from the device), since the clock sources are different, cumulative errors will inevitably occur over time, leading to audio dropouts. In this case, software compensation (such as adding or removing samples) or hardware compensation (such as audio clock compensation) is required.
 
 ### 3.2.5 tiny-alsa
 
-RK Android SDK 标配 tiny-alsa 工具
+RK Android SDK comes with tiny-alsa tools by default
 
 #### 3.2.5.1 tinypcminfo
 
-查询声卡支持的采样率，格式，声道数等。
+Query the supported sample rates, formats, number of channels, etc. of the sound card.
 
 ```
 Usage: tinypcminfo [-D card] [-d device]
 ```
 
-示例：
+Example:
 ```bash
 # tinypcminfo -D 0
 Info for card 0, device 0:
@@ -1780,7 +1756,7 @@ Period count: min=2 max=4096
 Usage: `tinyplay file.wav [-D card] [-d device] [-p period_size] [-n n_periods]`
 ```
 
-示例：播放1k0音频文件
+Example: Play a 1k0 audio file
 
 
 
@@ -1795,7 +1771,7 @@ Playing sample: 2 ch, 44100 hz, 32 bit
 Usage: `tinycap file.wav [-D card] [-d device] [-c channels] [-r rate] [-b bits] [-p period_size] [-n n_periods]`
 ```
 
-示例：44.1k采样率录制音频
+Example: Record audio at 44.1k sample rate
 
 ```bash
 # tinycap /sdcard/rec.wav -D 0 -d 0 -c 2 -r 44100 -b 16 -p 1024 -n 3
@@ -1803,11 +1779,11 @@ Usage: `tinycap file.wav [-D card] [-d device] [-c channels] [-r rate] [-b bits]
 
 #### 3.2.5.4 tinymix
 
-控制 codec 内部的通路开关，音量控制等。效果等同于 amixer。
+Control internal codec path switches, volume control, etc. Equivalent to amixer.
 ```
 Usage: `tinymix [-D card]`
 ```
-示例：打开 Mono 通路开关
+Example: Turn on the Mono path switch
 
 
 
@@ -1828,29 +1804,29 @@ Mono Playback Switch: On
 
 ### 3.2.6 xrun profiling
 
-当音频播放 buffer empty 的时候，触发 underrun；当音频录制 buffer full 的时候，触发 overrun；两者统称为 xrun。音频流路径上，所有 buffer 的节点都可能触发 xrun。本小节描述内核 xrun。
+When the audio playback buffer is empty, an underrun is triggered; when the audio recording buffer is full, an overrun is triggered; both are collectively referred to as xrun. Any buffer node in the audio stream path may trigger xrun. This section describes kernel xrun.
 
 #### 3.2.6.1 xrun kmsg
 
-1. 使能 XRUN CONFIG
+1. Enable XRUN CONFIG
    ```
     CONFIG_SND_DEBUG
     CONFIG_SND_PCM_XRUN_DEBUG
     CONFIG_SND_VERBOSE_PROCFS
    ```
-   xrun 调试开关如下表 3-1 所示，如果需要支持所有开关，取和即可。
-    **表 3-1 xrun 调试开关**
+   The xrun debug switches are shown in Table 3-1 below. If you need to support all switches, use the sum.
+    **Table 3-1 xrun debug switches**
 
 | Bit | Value Description |
 |-----|-------------------|
 | 1   | Basic debugging - show xruns in ksyslog interface |
 | 2   | Dump stack - dump stack for basic debugging |
 | 4   | Jiffies check - compare the position with jiffies (a sort of in-kernel monotonic clock), show what's changed when basic debugging is enabled |
-2. 使能声卡0播放设备的所有 xrun 调试开关
+2. Enable all xrun debug switches for sound card 0 playback device
     ```
         # echo 7 > /proc/asound/card0/pcm0p/xrun_debug
     ```
-3. 当播放 dma ringbuffer empty 时，类似 log 举例如下：
+3. When the playback dma ringbuffer is empty, the log is as follows：
     ```
         asoc-simple-card rk809-sound: XRUN: pcmC0D0p:0
         CPU: 3 PID: 657 Comm: sh Not tainted 4.19.161 #509
@@ -1873,29 +1849,29 @@ Mono Playback Switch: On
 
 #### 3.2.6.2 xrun ftrace
 
-除了内核 log 的调试信息，xrun 的 trace event 提供了更详尽的调试信息，比如：hwptr，applptr等。该部分需要使能内核 trace debug。alsa 支持的内核trace event 如表 3-2 所示：
+In addition to kernel log debug information, xrun trace events provide more detailed debug information, such as hwptr, applptr, etc. This part requires enabling kernel trace debug. The kernel trace events supported by alsa are shown in Table 3-2:
 
-**表 3-2 Trace Event Description**
+**Table 3-2 Trace Event Description**
 
 | Event            | Description                     |
 |------------------|---------------------------------|
-| `snd_pcm:applptr`| 应用指针更新                     |
-| `snd_pcm:hw_ptr_error`| dma 指针出错                     |
+| `snd_pcm:applptr`| Application pointer update      |
+| `snd_pcm:hw_ptr_error`| DMA pointer error                |
 | `snd_pcm:xrun`   | xrun                            |
-| `snd_pcm:hwptr`  | dma 指针更新                     |
+| `snd_pcm:hwptr`  | DMA pointer update              |
 
-1. 使能 FTRACE CONFIG
+1. Enable FTRACE CONFIG
     ```
     CONFIG_FUNCTION_TRACER
     CONFIG_FUNCTION_GRAPH_TRACER
     CONFIG_STACK_TRACER
     CONFIG_DYNAMIC_FTRACE
     ```
-2. 后台播放音频
+2. Play audio in the background
     ```
         # aplay -D hw:0,0 --period-size=128 --buffer-size=256 -r 48000 -f dat /dev/zero &
     ```
-3. 使能音频 trace event，可以分析 buffer 生产者和消费者详细的读写信息，方便定位问题。
+3. Enable audio trace events to analyze detailed read/write information of buffer producers and consumers, which helps locate problems.
 
 ```bash
 # cd /sys/kernel/debug/tracing
@@ -1930,107 +1906,107 @@ buf=256
 buf=256
 ```
 
-更多功能详见内核文档：`kernel/Documentation/trace/*`
+For more features, see the kernel documentation: `kernel/Documentation/trace/*`
 
 #### 3.2.6.3 trace-cmd
 
-`trace-cmd` 是 `ftrace` 的前端应用，简化了 `ftrace` 的操作步骤，如下示例：
+`trace-cmd` is a front-end application for `ftrace`, simplifying the operation steps of `ftrace`, as shown below:
 ```
     # trace-cmd record -e snd_pcm:hwptr -e snd_pcm:applptr -e snd_pcm:xrun
     # trace-cmd report
 ```
-更多功能详见官方文档：`trace-cmd`
+For more features, see the official documentation: `trace-cmd`
 
 #### 3.2.6.4 KernelShark
 
-`KernelShark` 是 `trace-cmd` 的前端应用，将 `trace-cmd` 的数据图形化呈现。请参考官方文档：`KernelShark`
+`KernelShark` is a front-end application for `trace-cmd`, graphically presenting the data from `trace-cmd`. Please refer to the official documentation: `KernelShark`
 
-## 3.3 PC 工具
+## 3.3 PC Tools
 
-Audacity 和 Audition 都是 PC 平台音频分析处理工具，可用于分析音频问题，比如：断音，底噪，失真，恒频干扰等。
+Audacity and Audition are both audio analysis and processing tools on the PC platform, which can be used to analyze audio issues such as dropouts, background noise, distortion, constant frequency interference, etc.
 
 ## 4. FAQ
 
-### 4.1 芯片接口支持情况
+### 4.1 Chip Interface Support
 
-请参考 Rockchip 音频特性以及芯片手册。
+Please refer to Rockchip audio features and the chip manual.
 
-### 4.2 声卡注册失败
+### 4.2 Sound Card Registration Failure
 
-1. 根据声卡添加实例确认声卡驱动配置编译进系统。
-2. 根据 kmsg 定位原因：DAI，CODEC 或者 Machine，比如如下 log 表示 DAI 未注册上：
+1. Confirm that the sound card driver configuration is compiled into the system according to the sound card instance addition.
+2. Locate the cause according to kmsg: DAI, CODEC or Machine. For example, the following log indicates that DAI is not registered:
    ```
    [ 0.584114] rk-multicodecs vad-sound: ASoC: CPU DAI (null) not registered
    ```
-3. DAI fail：当 DMA 通道资源不足时，导致 DAI 注册失败，关闭其他使用 DMA 的模块，再次确认。
-4. CODEC fail：使用万用表和示波器测量 CODEC 电压，时钟；配合 i2c-tools 确认 i2c 设备通信是否正常。
+3. DAI fail: When DMA channel resources are insufficient, DAI registration fails. Close other modules using DMA and confirm again.
+4. CODEC fail: Use a multimeter and oscilloscope to measure CODEC voltage and clock; use i2c-tools to confirm whether i2c device communication is normal.
 
-### 4.3 播放无声
+### 4.3 No Sound During Playback
 
-1. 确认音频源为非静音文件。
-2. 使用 `aplay` 或者 `tinyplay` 播放，定位问题是发生在用户态还是内核态。
-3. 播放等待10秒以上确认是否为 I/O error 问题。
-4. 使用 `amixer` 或者 `tinymix` 检查 CODEC 内部 DAC 通路是否打开，音量是否静音。
-5. 查看寄存器配置，配合芯片手册或者 CODEC 手册确认配置是否正确：IOMUX，DAI，CODEC。
-6. 使用万用表和示波器测量电压，时钟，数据。确认电压，时钟正常，数据线上有波形；测量 CODEC 近端模拟输出信号是否正常，测量 PA 使能 gpio 电平，逐级定位问题点。
+1. Confirm that the audio source is not a mute file.
+2. Use `aplay` or `tinyplay` to play and locate whether the problem occurs in user space or kernel space.
+3. Wait for more than 10 seconds during playback to confirm whether it is an I/O error issue.
+4. Use `amixer` or `tinymix` to check whether the internal DAC path of the CODEC is open and whether the volume is muted.
+5. Check the register configuration and confirm with the chip manual or CODEC manual whether the configuration is correct: IOMUX, DAI, CODEC.
+6. Use a multimeter and oscilloscope to measure voltage, clock, and data. Confirm that voltage and clock are normal, and there is a waveform on the data line; measure whether the analog output signal near the CODEC is normal, measure the PA enable gpio level, and locate the problem step by step.
 
-### 4.4 播放失真
+### 4.4 Playback Distortion
 
-1. 使用 `aplay` 或者 `tinyplay` 播放 1k0 音频文件。
-2. 使用示波器测量模拟输出的正弦波是否正常，是否出现削顶失真。
-3. 调整数字或者模拟增益，观察 CODEC 芯片输出端波形，对比指标测试数据是否相符。
-4. 逐级检查引入失真的节点。
+1. Use `aplay` or `tinyplay` to play a 1k0 audio file.
+2. Use an oscilloscope to measure whether the analog output sine wave is normal and whether there is clipping distortion.
+3. Adjust digital or analog gain, observe the waveform at the CODEC chip output, and compare with the indicator test data.
+4. Check each node that introduces distortion step by step.
 
-### 4.5 录音无声
+### 4.5 No Sound During Recording
 
-1. CODEC 端通过信号发生器生成 1k0 波形输入。
-2. 使用 `arecord` 或者 `tinycap` 录音，定位问题是发生在用户态还是内核态。
-3. 录音等待10秒以上确认是否为 I/O error 问题。
-4. 使用 `amixer` 或者 `tinymix` 检查 CODEC 内部 ADC 通路是否打开，音量是否静音。
-5. 查看寄存器配置，配合芯片手册或者 CODEC 手册确认配置是否正确：IOMUX，DAI，CODEC。
-6. 使用万用表和示波器测量电压，时钟，数据。确认电压，时钟正常，数据线上有波形；测量 CODEC 近端模拟输入信号是否正常，逐级定位问题点。
+1. Generate a 1k0 waveform input at the CODEC end using a signal generator.
+2. Use `arecord` or `tinycap` to record and locate whether the problem occurs in user space or kernel space.
+3. Wait for more than 10 seconds during recording to confirm whether it is an I/O error issue.
+4. Use `amixer` or `tinymix` to check whether the internal ADC path of the CODEC is open and whether the volume is muted.
+5. Check the register configuration and confirm with the chip manual or CODEC manual whether the configuration is correct: IOMUX, DAI, CODEC.
+6. Use a multimeter and oscilloscope to measure voltage, clock, and data. Confirm that voltage and clock are normal, and there is a waveform on the data line; measure whether the analog input signal near the CODEC is normal, and locate the problem step by step.
 
-### 4.6 录音失真
+### 4.6 Recording Distortion
 
-1. CODEC 端通过信号发生器生成 1k0 波形输入。
-2. 使用 `arecord` 或者 `tinycap` 录音，通过 loopback 输出，使用示波器测量；或者通过 PC 工具分析。
-3. 调整数字或者模拟增益，观察 loopback 波形，对比指标测试数据是否相符。
-4. 逐级检查引入失真的节点。
+1. Generate a 1k0 waveform input at the CODEC end using a signal generator.
+2. Use `arecord` or `tinycap` to record, output through loopback, measure with an oscilloscope, or analyze with PC tools.
+3. Adjust digital or analog gain, observe the loopback waveform, and compare with the indicator test data.
+4. Check each node that introduces distortion step by step.
 
-### 4.7 速率过快或者过慢
+### 4.7 Too Fast or Too Slow Rate
 
-1. 查看 `clk summary` 确认时钟（MCLK, BCLK, LRCK）是否准确。
-2. 使用示波器确认时钟信号是否准确。
-3. 使用 PC 工具录制输出信号，通过波形或者频谱分析，确认数据是否丢失或者增加。
-4. 使用逻辑分析仪 dump 芯片输出端数据，确认数据是否丢失或者增加。
+1. Check `clk summary` to confirm whether the clocks (MCLK, BCLK, LRCK) are accurate.
+2. Use an oscilloscope to confirm whether the clock signals are accurate.
+3. Use PC tools to record the output signal, analyze the data through waveform or spectrum to confirm whether data is lost or added.
+4. Use a logic analyzer to dump the data at the chip output to confirm whether data is lost or added.
 
-### 4.8 规律性断音
+### 4.8 Periodic Dropouts
 
-规律性的断音问题通常发生于异源系统中，比如：UAC 应用场景，BT 语音应用场景，网络音频推流等。根本原因为时钟是异步的，随着时间的推移出现累积误差。该类问题可通过音频时钟补偿解决。buffer 边界的处理异常也会导致规律性的断音，杂音。可通过 xrun profiling 分析问题。
+Periodic dropout issues usually occur in asynchronous systems, such as UAC application scenarios, BT voice application scenarios, network audio streaming, etc. The root cause is asynchronous clocks, which accumulate errors over time. This type of problem can be solved by audio clock compensation. Abnormal handling of buffer boundaries can also cause periodic dropouts and noise. You can analyze the problem through xrun profiling.
 
-### 4.9 杂音
+### 4.9 Noise
 
-引起杂音的问题很多，如下列举常用定位方法：
-1. 确认时钟信号是否准确，检查 jitter 是否过大，比如，对于 HDA 音频，jitter 小于 0.5 ns。
-2. 确认时钟上是否有毛刺，特别是在边沿有效值判定范围电压内，如果出现毛刺，会被芯片识别为时钟，导致时序出现问题。RK 平台的 IO 具备 Smitter 触发器功能（支持情况请查阅芯片手册，比如 RV1126 上），可以有效滤除毛刺。解决由于硬件随机毛刺导致的杂音问题。
-3. 确认 CODEC 电源和地情况，CODEC 对电源噪声敏感，任何耦合进电源或地的噪声都将导致 CODEC 性能下降，底噪增大，出现杂音。
-4. 硬件采用差分电路抑制共模噪声。
-5. 检查硬件 PCB 布局，排查噪声来源。
+There are many causes of noise. The following lists common troubleshooting methods:
+1. Confirm whether the clock signal is accurate and check whether the jitter is too large. For example, for HDA audio, jitter should be less than 0.5 ns.
+2. Confirm whether there are glitches on the clock, especially within the voltage range of the edge valid value. If there are glitches, the chip will recognize them as clocks, causing timing issues. The IO of the RK platform has a Smitter trigger function (please refer to the chip manual for support, such as on RV1126), which can effectively filter out glitches. This solves the noise problem caused by random hardware glitches.
+3. Confirm the CODEC power supply and ground. CODEC is sensitive to power supply noise. Any noise coupled into the power supply or ground will degrade CODEC performance, increase background noise, and cause noise.
+4. Use differential circuits in hardware to suppress common-mode noise.
+5. Check the hardware PCB layout and troubleshoot noise sources.
 
 ### 4.10 XRUN
 
-内核 xrun 参照 xrun profiling 章节，如下列举其他分析点：
-1. 应用端使用多线程编程，拆分读写线程与音频处理线程，确保与内核的数据交互不被打断。
-2. 系统调度问题，通过 systrace 或者 ftrace 抓取分析。
-3. 存储 IO 阻塞，导致数据读取阻塞，使用 ram 设备文件（比如：`/dev/zero`）进行播放，问题是否消失。
-4. 时钟是否不准确，导致数据消耗过快，可参照问题 速率过快或者过慢，规律性断音。
+Refer to the xrun profiling section for kernel xrun. Other analysis points are listed below:
+1. Use multithreaded programming on the application side, separate read/write threads from audio processing threads, and ensure that data interaction with the kernel is not interrupted.
+2. System scheduling issues can be analyzed using systrace or ftrace.
+3. Storage IO blocking causes data read blocking. Use ram device files (such as `/dev/zero`) for playback to see if the problem disappears.
+4. If the clock is inaccurate, causing data to be consumed too quickly, refer to the issues of too fast or too slow rate and periodic dropouts.
 
 ### 4.11 I/O error
 
-播放录音10秒以上无响应时内核 log 打印：`playback/capture write error (DMA or IRQ trouble?`
-1. 通过寄存器查询 DAI 控制器 FIFO COUNT寄存器，是否已经停止计数。
-2. 通过 procfs 查看 dma 中断是否更新：`cat /proc/interrupts | grep dma`
-3. 通过寄存器查询 DMA 控制器 channel status 寄存器（偏移地址：0x100）是否异常停止。
-4. DAI 工作于 slave 时，请确保外设时钟在 DAI 的整个生命周期持续提供，如果无法保证，请保持常开。
+When playback or recording is unresponsive for more than 10 seconds, the kernel log prints: `playback/capture write error (DMA or IRQ trouble?`
+1. Query the DAI controller FIFO COUNT register through the register to see if it has stopped counting.
+2. Check whether the dma interrupt is updated through procfs: `cat /proc/interrupts | grep dma`
+3. Query the DMA controller channel status register (offset address: 0x100) through the register to see if it has abnormally stopped.
+4. When DAI works as a slave, please ensure that the peripheral clock is continuously provided during the entire lifecycle of DAI. If it cannot be guaranteed, please keep it always on.
 
 

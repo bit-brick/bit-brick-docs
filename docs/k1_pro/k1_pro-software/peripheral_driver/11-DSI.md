@@ -1,14 +1,12 @@
-
-
 #  MIPI DSI2
 
-## 芯片名称 内核版本
+## Chip Name Kernel Version
 - RK3576 LINUX Kernel 6.1
 - RK3588 LINUX Kernel 5.10/6.1
 
 
 ## 1. Introduction
-DSI-2 是 MIPI 联盟定义的一组通信协议的一部分，DWC-MIPI-DSI2 是一个实现 MIPI-DSI2 规范中定义的所有协议功能的数字核控制器，可以兼容 D-PHY 和 C-PHY 的物理接口，支持两路的 Display Stream Compression (DSC) 数据传输。
+DSI-2 is part of a set of communication protocols defined by the MIPI Alliance. DWC-MIPI-DSI2 is a digital core controller that implements all protocol functions defined in the MIPI-DSI2 specification. It is compatible with D-PHY and C-PHY physical interfaces and supports dual Display Stream Compression (DSC) data transmission.
 
 ![alt text](/pdf/rk/dsi/image.png)
 
@@ -28,47 +26,47 @@ C-PHY
 11. Up to 4.5 Gbps per lane in D-PHY
 12. Up to 2.0 Gsps per trio in C-PHY
 
-## 3. RK3576 与 RK3588 DSI 接口差别
-| 功能 | RK3576 | RK3588 |
+## 3. Differences Between RK3576 and RK3588 DSI Interfaces
+| Feature | RK3576 | RK3588 |
 | ---- | ------ | ------ |
-| Dual channel | Not support | Support |
+| Dual channel | Not supported | Supported |
 | Max resolution | 2560x1600@60Hz | 4096x2304@60Hz |
-| data lanes | 1/2/4 lanes | 1/2/4/8 lanes |
+| Data lanes | 1/2/4 lanes | 1/2/4/8 lanes |
 | Max lane rate | D-PHY: 2.5Gbps/lane<br/>C-PHY: 1.7Gsps/lane | D-PHY: 4.5Gbps/lane<br/>C-PHY: 2.0Gsps/lane |
 | Color Format | RGB | RGB |
 | Max Color Depth | 10 bit | 10 bit |
-| DSC | Not support | Support VESA DSC 1.1/1.2a |
-| C-PHY | Support | Support |
+| DSC | Not supported | Supported VESA DSC 1.1/1.2a |
+| C-PHY | Supported | Supported |
 
 
-## 4. MIPI DSI-2 Host 与 MIPI DSI Host 的差别
-MIPI DSI-2 除了可以兼容 MIPI DSI 的所有协议功能外，还增加支持 MIPI C-PHY。
+## 4. Differences Between MIPI DSI-2 Host and MIPI DSI Host
+MIPI DSI-2, in addition to being compatible with all protocol functions of MIPI DSI, also adds support for MIPI C-PHY.
 
 ![alt text](/pdf/rk/dsi/image-1.png)
 
-## 5. MIPI DPHY 差别
-RK3588 平台 MIPI DPHY 不同以往平台 MIPI DPHY 版本，其带宽最高可以到 4.5 Gbps。
+## 5. Differences in MIPI DPHY
+The MIPI DPHY on the RK3588 platform differs from previous platform versions, with a maximum bandwidth of up to 4.5 Gbps.
 
 ![alt text](/pdf/rk/dsi/image-2.png)
 
-## 6. 应用领域
-MIPI DSI 基于差分信号传输，可以降低引脚数量和硬件设计复杂度，并保持良好的硬件兼容性。另外，基于 MIPI DSI 协议的 IP 还具备低功耗、低 EMI 的特性。
+## 6. Application Areas
+MIPI DSI, based on differential signal transmission, can reduce the number of pins and hardware design complexity while maintaining good hardware compatibility. Additionally, MIPI DSI protocol-based IP features low power consumption and low EMI characteristics.
 
-其应用领域如下图： 
+Its application areas are shown in the figure below:
 
 ![alt text](/pdf/rk/dsi/image-3.png)
 
 
-## 7. 驱动代码说明
+## 7. Driver Code Description
 
 ### 7.1 uboot
 
-#### 7.1.1 驱动位置
+#### 7.1.1 Driver Location
 ```
  drivers/video/drm/dw_mipi_dsi2.c
  drivers/video/drm/samsung_mipi_dcphy.c
 ```
-#### 7.1.2 驱动配置
+#### 7.1.2 Driver Configuration
 
 ```bash
 CONFIG_DRM_ROCKCHIP_DW_MIPI_DSI2=y
@@ -77,7 +75,7 @@ CONFIG_DRM_ROCKCHIP_SAMSUNG_MIPI_DCPHY=y
 
 ### 7.2 kernel
 
-#### 7.2.1 驱动位置
+#### 7.2.1 Driver Location
 
 ```bash
 MIPI DSI-2 host controller:
@@ -86,15 +84,15 @@ MIPI DCPHY:
 drivers/phy/rockchip/phy-rockchip-samsung-dcphy.c
 ```
 
-#### 7.2.2 驱动配置
+#### 7.2.2 Driver Configuration
 
 ```bash
 CONFIG_ROCKCHIP_DW_MIPI_DSI=y
 CONFIG_PHY_ROCKCHIP_SAMSUNG_DCPHY=y
 ```
 
-#### 7.2.3 参考设备树
-DTS 路径：
+#### 7.2.3 Reference Device Tree
+DTS Path:
 ```
 arch/arm64/boot/dts/rockchip/rk3588-evb.dtsi
 arch/arm64/boot/dts/rockchip/rk3588-evb1-lp4.dtsi
@@ -107,7 +105,7 @@ arch/arm64/boot/dts/rockchip/rk3588s-evb2-lp5.dtsi
 arch/arm64/boot/dts/rockchip/rk3588s-evb4-lp4x.dtsi
 ```
 
-dts 配置用例场景说明：
+DTS configuration use case scenarios:
 ```
 rk3588-evb1: dsi0->dphy->1080p_panel && dsi1->dphy->1080p_panel;
 rk3588-evb2: dsi1->dphy->1080p_panel;
@@ -119,9 +117,9 @@ rk3588s-evb4: dsi0->dphy->1080p_panel && dsi1->dphy->cmd_dsc_panel;
 ```
 
 
-## 8. DSI 控制器和屏端配置
+## 8. DSI Controller and Panel Configuration
 
-### 8.1 DTS 配置
+### 8.1 DTS Configuration
 ```dts
 &dsi0 {
     status = "okay";
@@ -182,39 +180,39 @@ rk3588s-evb4: dsi0->dphy->1080p_panel && dsi1->dphy->cmd_dsc_panel;
 };
 ```
 
-### 8.2 配置说明
+### 8.2 Configuration Description
 
-#### 8.2.1 通用配置
+#### 8.2.1 General Configuration
 | Property | Description | Value |
 | -------- | ------------ | ----- |
-| rockchip,lane-rate | 选择手动指定 mipi 通道速率 | <br/>单位可以支持：<br/>D-PHY: Mbps/lane 或 Kbps/lane<br/>C-PHY: Msps/lane 或 Ksps/lane<br/>比如指定800Mbps：`rockchip,lane-rate = <800>`;<br/>或者`rockchip,lane-rate = <800000>`; |
-| auto-calculation-mode | 使能 Auto Calculation 工作模式 | 布尔类型 string  |
-| disable-hold-mode | 不配置 TE 也能刷帧 |  布尔类型 string |
-| support-psr | 使能 PSR 功能  | 布尔类型 string |
+| rockchip,lane-rate | Manually specify MIPI channel rate | <br/>Units supported:<br/>D-PHY: Mbps/lane or Kbps/lane<br/>C-PHY: Msps/lane or Ksps/lane<br/>For example, specify 800Mbps: `rockchip,lane-rate = <800>`;<br/>or `rockchip,lane-rate = <800000>`; |
+| auto-calculation-mode | Enable Auto Calculation mode | Boolean string  |
+| disable-hold-mode | Frame refresh without configuring TE |  Boolean string |
+| support-psr | Enable PSR function  | Boolean string |
 | compatible | Compatible string | simple-panel-dsi |
-| power-supply | `屏端供电 [option]`  | 相关 regulator 引用 |
-| backlight | 背光  | 背光引用|
-| enable-gpios | 屏使能 GPIO [option]  | GPIO 引用描述  |
-| reset-gpios | 屏复位 GPIO  | GPIO 引用描述  |
-| reset-delay-ms | **panel sequence delay** | 参考 panel spec |
+| power-supply | `Panel power supply [option]`  | Relevant regulator reference |
+| backlight | Backlight  | Backlight reference |
+| enable-gpios | Panel enable GPIO [option]  | GPIO reference description  |
+| reset-gpios | Panel reset GPIO  | GPIO reference description  |
+| reset-delay-ms | **Panel sequence delay** | Refer to panel spec |
 | enable-delay-ms |  |  |
 | prepare-delay-ms |  |  |
 | unprepare-delay-ms |  |  |
 | disable-delay-ms |  |  |
-| dsi,flags | **DSI2 工作模式** | cmd mode: <br/> MIPI_DSI_MODE_LPM \| <br/> MIPI_DSI_MODE_EOT_PACKET <br/><br/> video mode: <br/> MIPI_DSI_MODE_VIDEO \| <br/> MIPI_DSI_MODE_VIDEO_BURST \| <br/> MIPI_DSI_MODE_LPM \| <br/> MIPI_DSI_MODE_EOT_PACKET |
-| dsi,format | **像素数据格式** | MIPI_DSI_FMT_RGB888 <br/><br/> MIPI_DSI_FMT_RGB666 <br/><br/> MIPI_DSI_FMT_RGB666_PACKED <br/><br/> MIPI_DSI_FMT_RGB565 |
-| dsi,lanes | **mipi data 通道数** | 1/2/3 trios [cphy] <br/><br/> 6 trios [cphy 双通道] <br/><br/> 1/2/3/4 lanes [dphy] <br/><br/> 8 lanes [dphy 双通道] |
-| phy-c-option | **C-PHY panel [option]** | 布尔类型string | 
-| compressed-data | 带DSC panel [option] | 布尔类型string |
-| slice-width | **定义dsc slice宽 [option]** | **参照panel spec** |
-| slice-height | 定义dsc slice高 [option] |  |
-| version-major | **定义dsc版本 [option]** | **参照panel spec** |
+| dsi,flags | **DSI2 working mode** | cmd mode: <br/> MIPI_DSI_MODE_LPM \| <br/> MIPI_DSI_MODE_EOT_PACKET <br/><br/> video mode: <br/> MIPI_DSI_MODE_VIDEO \| <br/> MIPI_DSI_MODE_VIDEO_BURST \| <br/> MIPI_DSI_MODE_LPM \| <br/> MIPI_DSI_MODE_EOT_PACKET |
+| dsi,format | **Pixel data format** | MIPI_DSI_FMT_RGB888 <br/><br/> MIPI_DSI_FMT_RGB666 <br/><br/> MIPI_DSI_FMT_RGB666_PACKED <br/><br/> MIPI_DSI_FMT_RGB565 |
+| dsi,lanes | **MIPI data channels** | 1/2/3 trios [cphy] <br/><br/> 6 trios [cphy dual channel] <br/><br/> 1/2/3/4 lanes [dphy] <br/><br/> 8 lanes [dphy dual channel] |
+| phy-c-option | **C-PHY panel [option]** | Boolean string | 
+| compressed-data | Panel with DSC [option] | Boolean string |
+| slice-width | **Define DSC slice width [option]** | **Refer to panel spec** |
+| slice-height | Define DSC slice height [option] |  |
+| version-major | **Define DSC version [option]** | **Refer to panel spec** |
 | version-minor |  |  |
-| panel-init-sequence | 屏上电初始化序列 | `[hex] data_type delay_ms payload_lenth payload` |
-| panel-exit-sequence | 屏下电初始化序列 |  |
-| display-timing | panel timing | 参考panel spec | 
+| panel-init-sequence | Panel power-on initialization sequence | `[hex] data_type delay_ms payload_length payload` |
+| panel-exit-sequence | Panel power-off initialization sequence |  |
+| display-timing | Panel timing | Refer to panel spec | 
 
-#### 8.2.2 display Timing
+#### 8.2.2 Display Timing
 
 ![alt text](/pdf/rk/dsi/image-4.png)
 
@@ -222,60 +220,60 @@ rk3588s-evb4: dsi0->dphy->1080p_panel && dsi1->dphy->cmd_dsc_panel;
 
 
 ##### 8.2.3.1 CLK Type
-在 MIPI DSI 协议的 5.6.1 时钟要求章节介绍：所有DSI发射器和接收器都应在时钟通道上支持连续时钟行为，并且可以选择性地支持非连续时钟行为，所以显示应用中时钟通道工作在连续模式还是非连续模式取决于显示外设的需求。
+In section 5.6.1 of the MIPI DSI protocol clock requirements, it is introduced that all DSI transmitters and receivers should support continuous clock behavior on the clock channel and may optionally support non-continuous clock behavior. Therefore, whether the clock channel operates in continuous or non-continuous mode in display applications depends on the requirements of the display peripheral.
 
-默认情况，MIPI DPHY 的时钟通道工作在连续模式，是 DSI 显示系统中主从都支持的时钟行为，另外如果 DSI 外设需要依赖主机端的时钟工作时，则时钟通道必须工作在连续模式，如下图：  
+By default, the clock channel of MIPI DPHY operates in continuous mode, which is the clock behavior supported by both the master and slave in the DSI display system. Additionally, if the DSI peripheral relies on the clock from the host, the clock channel must operate in continuous mode, as shown below:  
 
 ![alt text](/pdf/rk/dsi/image-5.png)
 
-当系统需要考虑节省功耗时，尤其是在传输期间，可以配置成非连续时钟模式，可以避免在不需要数据传输时浪费电力，把 MIPI_DSI_CLOCK_NON_CONTINUOUS 追加到 dsi,flags 时，MIPI DPHY 的时钟通道将会配置成非连续模式，如下图：  
+When the system needs to consider power saving, especially during transmission, it can be configured to non-continuous clock mode to avoid wasting power when data transmission is not needed. By adding MIPI_DSI_CLOCK_NON_CONTINUOUS to the dsi,flags, the clock channel of MIPI DPHY will be configured to non-continuous mode, as shown below:  
 
 ![alt text](/pdf/rk/dsi/image-6.png)
 
 ##### 8.2.3.2 Eotp
-Eotp 在 DSI 规范版本 V1.0 以及更早版本是不支持的，只有符合 DSI V1.0 之后的较新规范版本的设备必须支持 Eotp 的生成和检测，RK3588/RK3576 DSI 版本是 V2.0，为了确保与早期设备的互操作性，主机应该能够启用和禁用生成和检测手段。总之，是否启用 Eotp 取决于屏端是否支持。
+Eotp is not supported in DSI specification version V1.0 and earlier versions. Only devices compliant with newer versions of the DSI specification after V1.0 must support the generation and detection of Eotp. The DSI version of RK3588/RK3576 is V2.0. To ensure interoperability with earlier devices, the host should be able to enable and disable the generation and detection mechanisms. In summary, whether to enable Eotp depends on whether the panel supports it.
 
-Eotp 是一个短包用于指示数据链路上高速传输的结束。Eotp 主要作用是增强系统高速传输通信的稳健性，出于这个目的，DSI 不需要在 LP 模式发送 Eotp。
+Eotp is a short packet used to indicate the end of high-speed transmission on the data link. The main purpose of Eotp is to enhance the robustness of high-speed transmission communication in the system. For this purpose, DSI does not need to send Eotp in LP mode.
 
-Eotp 不同于其他 DSI 包，它有固定的格式：
+Eotp differs from other DSI packets in that it has a fixed format:
 - Data Type = DI [5:0] = 0b001000
 - Virtual Channel = DI [7:6] = 0b00
 - Payload Data [15:0] = 0x0F0F
 - ECC [7:0] = 0x01
 
-将 MIPI_DSI_MODE_EOT_PACKET 追加到 dsi,flags 属性可以开关 Soc MIPI DSI TX 在高速模式发送 Eotp。
+Adding MIPI_DSI_MODE_EOT_PACKET to the dsi,flags property can enable or disable the transmission of Eotp in high-speed mode by the Soc MIPI DSI TX.
 
-如下是在 HSDT 模式下捕获 Eotp 波形：  
+Below is the waveform of Eotp captured in HSDT mode:  
 
 ![alt text](/pdf/rk/dsi/image-7.png)
 
 ##### 8.2.3.3 BLANK_HS_EN
-在数据通道，一般存在一行会有两个 LP11 消隐，如下图：  
+On the data channel, there are generally two LP11 blanks in one line, as shown below:  
 
 ![alt text](/pdf/rk/dsi/image-8.png)
 
-但往往有些显示模组或者外接 MIPI 转接芯片，不支持在 Hblank 阶段有两个 LP-11, 可以将 BLK_HFP_HS_EN 或 BLK_HBP_HS_EN 追加到 dsi,flags 属性，使 HFP 或 HBP 以高速的形式存在。
+However, some display modules or external MIPI conversion chips do not support two LP-11s during the Hblank phase. BLK_HFP_HS_EN or BLK_HBP_HS_EN can be added to the dsi,flags property to make HFP or HBP exist in high-speed form.
 
 ![alt text](/pdf/rk/dsi/image-9.png)
 
-#### 8.2.4 屏上电时序
+#### 8.2.4 Panel Power-On Timing
 
 ![alt text](/pdf/rk/dsi/image-10.png)
 
-#### 8.2.5 屏下电时序
+#### 8.2.5 Panel Power-Off Timing
 
 ![alt text](/pdf/rk/dsi/image-11.png)
-#### 8.2.6 初始化序列常见数据类型
-| data type | description | packet size |
+#### 8.2.6 Common Data Types for Initialization Sequence
+| Data Type | Description | Packet Size |
 | --------- | ----------- | ----------- |
-| 0x03 | Generic Short WRITE, no parameters | short |
-| 0x13 | Generic Short WRITE, 1 parameters | short |
-| 0x23 | Generic Short WRITE, 2 parameters | short |
-| 0x29 | Generic long WRITE | long |
-| 0x05 | DCS Short WRITE, no parameters | short |
-| 0x15 | DCS Short WRITE, 1 parameters | short |
-| 0x07 | DCS Short WRITE, 1 parameters, DSC EN | short |
-| 0x0a | DCS long WRITE, PPS, 128 bytes | long |
+| 0x03 | Generic Short WRITE, no parameters | Short |
+| 0x13 | Generic Short WRITE, 1 parameter | Short |
+| 0x23 | Generic Short WRITE, 2 parameters | Short |
+| 0x29 | Generic Long WRITE | Long |
+| 0x05 | DCS Short WRITE, no parameters | Short |
+| 0x15 | DCS Short WRITE, 1 parameter | Short |
+| 0x07 | DCS Short WRITE, 1 parameter, DSC EN | Short |
+| 0x0a | DCS Long WRITE, PPS, 128 bytes | Long |
 
 
 
@@ -285,73 +283,73 @@ Eotp 不同于其他 DSI 包，它有固定的格式：
 ![alt text](/pdf/rk/dsi/image-12.png)
 ## 10. Bandwidth
 
-MIPI DSI 驱动中会自动按如下公式根据不同的工作模式进行带宽的计算，当然在调试过程中也许对计算的结果想做些微调可以通过 DTS dsi 节点下 rockchip,lane-rate 属性进行指定，单位可以是 Kbps/Mbps(D-PHY) 或 Ksps/Msps (C-PHY)。如下带宽计算用例中可以发现，4K@60 的分辨率对于 RK3588 MIPI DSI DPHY 不需要 DSC 也完全可以支持，但 CPHY 会稍微超出本身最大带宽。
+The MIPI DSI driver automatically calculates bandwidth based on the following formulas for different operating modes. During debugging, you may want to fine-tune the calculated results by specifying the `rockchip,lane-rate` property in the DTS node under the DSI section. The unit can be Kbps/Mbps (D-PHY) or Ksps/Msps (C-PHY). In the bandwidth calculation example below, it can be observed that 4K@60 resolution is fully supported by RK3588 MIPI DSI DPHY without DSC, but CPHY slightly exceeds its maximum bandwidth.
 
 ![alt text](/pdf/rk/dsi/image-13.png)
 
 ## 11. DSC
 
-DSC 是 Display Stream Compression 缩写，如下是一个完整的 DSC 系统框图，整个系统为实时工作，未压缩的原始视频像素数据按光栅扫描顺序实时进入编码器并输出比特流，通过显示链路实时传输到解码器，解码器将接收的比特流解码为原始的视频像素数据并送到显示模块显示。从编码器解码输出的图像和输入到编码器前的图像数据信息格式是一样的。RK3588 具有两个 DSC 编码器，可以有效将高分辨率画质内容以低带宽、低延时传输，从而实现MIPI DSI 可以点更高分辨率的画面。
+DSC stands for Display Stream Compression. Below is a complete DSC system block diagram. The entire system works in real-time, where uncompressed raw video pixel data is input into the encoder in raster scan order and output as a bitstream. The bitstream is transmitted in real-time through the display link to the decoder, which decodes the received bitstream into the original video pixel data and sends it to the display module for display. The image data format output from the decoder is the same as the input to the encoder. RK3588 has two DSC encoders, which can effectively transmit high-resolution content with low bandwidth and low latency, enabling MIPI DSI to drive higher-resolution displays.
 
 ![alt text](/pdf/rk/dsi/image-14.png)
 
 ### 11.1 Slice
 
-DSC为加速编码过程，并减少经过压缩失真，DSC导入界面（slice），将每一帧的画面加以切割，切割出的截面同时进行编码。DSC可支持的截面数有1、2、4、8个，甚至更多的截面数。需要注意的是单位为slice/line，line是指画面成形时以raster-scan顺序为一行的像素。除不同截面数外，DSC也可以使用不同长宽的截面。如下图右上及右下两张图片，同样都是一行4个截面，但右上的图切割为长条形截面，右下的图则切割成较窄的长方形截面。要使用哪一种长宽的截面取决于Source Device及Sink Device DSC支持的截面数以及DSC压缩或解压缩率。
+To accelerate the encoding process and reduce distortion caused by compression, DSC introduces slices, which divide each frame into sections that are encoded simultaneously. DSC supports 1, 2, 4, 8, or even more slices per line. Note that the unit is slices/line, where a line refers to a row of pixels in raster-scan order. Besides different slice counts, DSC can also use slices of varying widths and heights. For example, in the images below, both have 4 slices per line, but the top-right image uses long, narrow slices, while the bottom-right image uses shorter, rectangular slices. The choice of slice dimensions depends on the DSC capabilities of the source and sink devices and the compression or decompression rate.
 
-RK3588 DSC0 最多支持 8 slices，DSC1 最多支持 2 slices。
+RK3588 DSC0 supports up to 8 slices, while DSC1 supports up to 2 slices.
 
 ![alt text](/pdf/rk/dsi/image-15.png)
 
-当实际显示方案中需要确认RK3588 DSC 是否能否支持某款什么分辨率具有多少Slices DSC时，参考如下公式：
+To determine whether RK3588 DSC can support a specific resolution with a certain number of slices, refer to the following formulas:
 
 - DSC_8K: `active_slice_num * slice_width <= 960 * 8`
 - DSC_4K: `active_slice_num * slice_width <= 2048 * 2`
 
 ### 11.2 DSC Encode
 
-在影像数据压缩之前，图像将由Source Device和Sink Device共同协商都能支持的slice数量进行网格均等切割，以3840x2160为例，假如Source Device和Sink Device DSC都能支持8slices，可以在水平方向均等切割4份，垂直方向均等切割2份，假如DSC encoder有4个独立并行处理影像数据压缩的core组成，这该图的左边切割的8个slice可以分成4组同时并行进行压缩，有效将4k画质内容以低带宽、低延时进行传输。
+Before compressing image data, the image is evenly divided into slices based on the number of slices supported by both the source and sink devices. For example, in a 3840x2160 resolution, if both devices support 8 slices, the image can be evenly divided into 4 slices horizontally and 2 slices vertically. If the DSC encoder consists of 4 independent cores that process image compression in parallel, the 8 slices on the left side of the image can be divided into 4 groups for simultaneous compression, effectively transmitting 4K content with low bandwidth and low latency.
 
 ![alt text](/pdf/rk/dsi/image-16.png)
 
 ### 11.3 DSC Bandwidth
 
-以4Kp60的分辨率为例子，启用DSC前后 MIPI D/C-PHY 带宽变化如下，使能DSC后，链路带宽可以降到原始带宽数据的三分之一到二分之一。
+Taking 4Kp60 resolution as an example, the bandwidth of MIPI D/C-PHY before and after enabling DSC changes as follows. After enabling DSC, the link bandwidth can be reduced to one-third to one-half of the original bandwidth.
 
 ![alt text](/pdf/rk/dsi/image-17.png)
 
-下图为RK3588 MIPI DSI 驱动 1440x3120p60 4lanes with DSC 显示模组时，分别测量以原始带宽和原始带宽的三分之一的信号波形。
+Below is the signal waveform measured when the RK3588 MIPI DSI driver drives a 1440x3120p60 4-lane display module with DSC enabled. The waveforms show the original bandwidth and one-third of the original bandwidth.
 
 ![alt text](/pdf/rk/dsi/image-18.png)
 
 ### 11.4 PPS
 
-PPS 一共有128 bytes 长度，如下表会描述一些 DSC 系统需要的重要信息：
+PPS (Picture Parameter Set) is 128 bytes long. The table below describes some key information required by the DSC system:
 
-1. DSC 版本；
-2. DSC 压缩编码前的 BPC;
-3. DSC 压缩编码后的 BPP;
-4. DSC 压缩编码前输入原始图像的宽高；
-5. DSC 压缩编码的 Slice 宽高。
-
+1. DSC version;
+2. Bits per component (BPC) before DSC compression;
+3. Bits per pixel (BPP) after DSC compression;
+4. Width and height of the original uncompressed image input to the DSC encoder;
+5. Width and height of the DSC slice.
 
 ![alt text](/pdf/rk/dsi/image-19.png)
-### 11.5 实例
 
-#### 11.5.1 何时启用 DSC
+### 11.5 Examples
 
-在具体项目 MIPI DSI 相关的显示方案中何时可以启用 DSC。以下面客户提供的显示模组参数为例说明启用 DSC 条件：
+#### 11.5.1 When to Enable DSC
 
-1. 该模组为一个 DPHY 4 data lanes 接口，最大速率为1Gbps/lane；
-2. 该模组为 Video Burst mode, 原始带宽：1.866Gbps 24 bits RGB 60帧；
-3. 该模组支持 DSC 1 Slice
-4. 该模组目标速率：676Mbps/lane
+In specific MIPI DSI display solutions, the conditions for enabling DSC can be determined. Below is an example based on the parameters of a display module provided by a customer:
+
+1. The module has a DPHY 4 data lanes interface with a maximum rate of 1Gbps/lane;
+2. The module operates in Video Burst mode, with an original bandwidth of 1.866Gbps for 24-bit RGB at 60fps;
+3. The module supports DSC with 1 slice;
+4. The target rate for the module is 676Mbps/lane.
 
 ![alt text](/pdf/rk/dsi/image-20.png)
 
-#### 11.5.2 双通道MIPI 如何启用 DSC
+#### 11.5.2 How to Enable DSC for Dual-Channel MIPI
 
-如下图为客户方案中点一款带DSC功能 2560x2560p120 双 mipi 显示模组，其实现的显示链路框图如下。
+Below is a customer's solution for driving a 2560x2560p120 dual MIPI display module with DSC enabled. The display link diagram is as follows:
 
 ![alt text](/pdf/rk/dsi/image-21.png)
 
@@ -366,11 +364,11 @@ PPS 一共有128 bytes 长度，如下表会描述一些 DSC 系统需要的重�
 ### 12.2 MIPI with DSC Bypass
 
 ![alt text](/pdf/rk/dsi/image-24.png)
-### 12.3 DTS 配置
+### 12.3 DTS Configuration
 
-如 DSI0 挂载在 VP3:
+For example, if DSI0 is mounted on VP3:
 
-```markdown
+```dts
 &dsi0_in_vp2 {
     status = "disabled";
 };
@@ -379,9 +377,9 @@ PPS 一共有128 bytes 长度，如下表会描述一些 DSC 系统需要的重�
 };
 ```
 
-如 DSI1 挂载 VP2:
+If DSI1 is mounted on VP2:
 
-```markdown
+```dts
 &dsi1_in_vp2 {
     status = "okay";
 };
@@ -390,219 +388,216 @@ PPS 一共有128 bytes 长度，如下表会描述一些 DSC 系统需要的重�
 };
 ```
 
-## 13. 开机LOGO
+## 13. Boot Logo
 
 ### 13.1 route_dsi0
 
-例如 vp3->dsi0 或 vp3->dsc0->dsi0:
+For example, vp3->dsi0 or vp3->dsc0->dsi0:
 
-```
+```dts
 &route_dsi0 {
- status = "okay";
- connect = <&vp3_out_dsi0>;
+    status = "okay";
+    connect = <&vp3_out_dsi0>;
 };
 ```
 
 ### 13.2 route_dsi1
 
-例如 vp2->dsi1 或 vp2->dsc1->dsi1:
+For example, vp2->dsi1 or vp2->dsc1->dsi1:
 
-```
+```dts
 &route_dsi1 {
- status = "okay";
- connect = <&vp2_out_dsi1>;
+    status = "okay";
+    connect = <&vp2_out_dsi1>;
 };
 ```
 
 ### 13.3 route_dsi0 && route_dsi1
 
-例如 （vp3->dsi0 或 vp3->dsc0->dsi0） && （vp2->dsi1 或 vp2->dsc1->dsi1）:
+For example, (vp3->dsi0 or vp3->dsc0->dsi0) && (vp2->dsi1 or vp2->dsc1->dsi1):
 
-```bash
+```dts
 &route_dsi0 {
- status = "okay";
- connect = <&vp3_out_dsi0>;
+    status = "okay";
+    connect = <&vp3_out_dsi0>;
 };
 &route_dsi1 {
- status = "okay";
- connect = <&vp2_out_dsi1>;
+    status = "okay";
+    connect = <&vp2_out_dsi1>;
 };
 ```
 
-## 14. DSI HOST
+## 14. DSI Host
 
-DSI 可以配置成 Manual/Auto-Calculation 模式，驱动默认时配置成 Manual 模式，用户可以选择配置成 Auto-Calculation 模式，该模式有如下特点：
+DSI can be configured in Manual or Auto-Calculation mode. By default, the driver is set to Manual mode. Users can choose to configure it in Auto-Calculation mode, which has the following features:
 
-主机被配置为从lPl和PPl接口自动提取所有必要的信息和时序参数，以满足视频模式中的帧时序要求。
-Auto-Calculation 模式具有以下优点：
-  - 无需用户配置一组寄存器
-  - 简化了配置流程，且控制器不易出现不期望的行为
-  - 允许IPI帧动态变化，同时控制器适应输出帧的变化
+- The host is configured to automatically extract all necessary information and timing parameters from the lPl and PPl interfaces to meet the frame timing requirements in video mode.
+- Auto-Calculation mode has the following advantages:
+  - No need for users to configure a set of registers.
+  - Simplifies the configuration process and reduces unexpected controller behavior.
+  - Allows dynamic changes to IPI frames while the controller adapts to output frame changes.
 
-ports
-以下实例中 ports 是用来 Dispaly Interface 和 panel 之间进行关联。
-详细配置说明参阅如下文档: `Documentation/devicetree/bindings/graph.txt`
-
-### 14.1 单 DSI
+### 14.1 Single DSI
 
 ![alt text](/pdf/rk/dsi/image-25.png)
 
 #### 14.1.1 DSI0
 
-```markdown
+```dts
 &dsi0 {
-    status = "okay";
-    //rockchip,lane-rate = <1000>;
-    //auto-calculation-mode;
-    //disable-hold-mode;
-    //support-psr;
- dsi0_panel: panel@0 {
- status = "okay";
- compatible = "simple-panel-dsi";
- ...
- ports {
- #address-cells = <1>;
- #size-cells = <0>;
- port@0 {
- reg = <0>;
- panel_in_dsi: endpoint {
- remote-endpoint = <&dsi_out_panel>;
- };
- };
- };
- };
- ports {
- #address-cells = <1>;
- #size-cells = <0>;
- port@1 {
- reg = <1>;
- dsi_out_panel: endpoint {
- remote-endpoint = <&panel_in_dsi>;
- };
- };
- };
+    status = "okay";
+    //rockchip,lane-rate = <1000>;
+    //auto-calculation-mode;
+    //disable-hold-mode;
+    //support-psr;
+    dsi0_panel: panel@0 {
+        status = "okay";
+        compatible = "simple-panel-dsi";
+        ...
+        ports {
+            #address-cells = <1>;
+            #size-cells = <0>;
+            port@0 {
+                reg = <0>;
+                panel_in_dsi: endpoint {
+                    remote-endpoint = <&dsi_out_panel>;
+                };
+            };
+        };
+    };
+    ports {
+        #address-cells = <1>;
+        #size-cells = <0>;
+        port@1 {
+            reg = <1>;
+            dsi_out_panel: endpoint {
+                remote-endpoint = <&panel_in_dsi>;
+            };
+        };
+    };
 };
 &mipi_dcphy0 {
- status = "okay";
+    status = "okay";
 };
 ```
 
 #### 14.1.2 DSI1
 
-```markdown
+```dts
 &dsi1 {
-    status = "okay";
-    //rockchip,lane-rate = <1000>;
-    //auto-calculation-mode;
-    //disable-hold-mode;
-    //support-psr;
- dsi1_panel: panel@0 {
- status = "okay";
- compatible = "simple-panel-dsi";
- ...
- ports {
- #address-cells = <1>;
- #size-cells = <0>;
- port@0 {
- reg = <0>;
- panel_in_dsi1: endpoint {
- remote-endpoint = <&dsi1_out_panel>;
- };
- };
- };
- };
- ports {
- #address-cells = <1>;
- #size-cells = <0>;
- port@1 {
- reg = <1>;
- dsi1_out_panel: endpoint {
- remote-endpoint = <&panel_in_dsi1>;
- };
- };
- };
+    status = "okay";
+    //rockchip,lane-rate = <1000>;
+    //auto-calculation-mode;
+    //disable-hold-mode;
+    //support-psr;
+    dsi1_panel: panel@0 {
+        status = "okay";
+        compatible = "simple-panel-dsi";
+        ...
+        ports {
+            #address-cells = <1>;
+            #size-cells = <0>;
+            port@0 {
+                reg = <0>;
+                panel_in_dsi1: endpoint {
+                    remote-endpoint = <&dsi1_out_panel>;
+                };
+            };
+        };
+    };
+    ports {
+        #address-cells = <1>;
+        #size-cells = <0>;
+        port@1 {
+            reg = <1>;
+            dsi1_out_panel: endpoint {
+                remote-endpoint = <&panel_in_dsi1>;
+            };
+        };
+    };
 };
 &mipi_dcphy1 {
- status = "okay";
+    status = "okay";
 };
 ```
 
-### 14.2 双通道 DSI
+### 14.2 Dual-Channel DSI
 
 MODE1:
 
 ![alt text](/pdf/rk/dsi/image-26.png)
+
 MODE2:
 
 ![alt text](/pdf/rk/dsi/image-27.png)
 
-双通道的配置注意如下标红属性：
+For dual-channel configuration, note the following highlighted properties:
 
-```
- rockchip,dual-channel = <&dsi1>
- dsi,lanes = <8>;//DPHY 屏, CPHY 屏值改成 6
+```dts
+rockchip,dual-channel = <&dsi1>;
+dsi,lanes = <8>; // For DPHY screens, change to 6 for CPHY screens.
 ```
 
-```markdown
+```dts
 &dsi0 {
- status = "okay";
- rockchip,dual-channel = <&dsi1>;
- //auto-calculation-mode;
- //disable-hold-mode;
- //support-psr;
- dsi0_panel {
- status = "okay";
- compatible = "simple-panel-dsi";
- dsi,lanes  = <8>;
- ...
- display-timings {
- native-mode = <&timing0>;
- timing0: timing0 {
- clock-frequency = <260000000>;
- hactive = <1440>;
- vactive = <2560>;
- hfront-porch = <150>;
- hsync-len = <30>;
- hback-porch = <60>;
- vfront-porch = <8>;
- vsync-len = <4>;
- vback-porch = <4>;
- hsync-active = <0>;
- vsync-active = <0>;
- de-active = <0>;
- pixelclk-active = <0>;
- };
- };
- ports {
- #address-cells = <1>;
- #size-cells = <0>;
- port@0 {
- reg = <0>;
- panel_in_dsi0: endpoint {
- remote-endpoint = <&dsi0_out_panel>;
- };
- };
- };
- };
- ports {
- #address-cells = <1>;
- #size-cells = <0>;
- port@1 {
- reg = <1>;
- dsi0_out_panel: endpoint {
- remote-endpoint = <&panel_in_dsi0>;
- };
- };
- };
+    status = "okay";
+    rockchip,dual-channel = <&dsi1>;
+    //auto-calculation-mode;
+    //disable-hold-mode;
+    //support-psr;
+    dsi0_panel {
+        status = "okay";
+        compatible = "simple-panel-dsi";
+        dsi,lanes = <8>;
+        ...
+        display-timings {
+            native-mode = <&timing0>;
+            timing0: timing0 {
+                clock-frequency = <260000000>;
+                hactive = <1440>;
+                vactive = <2560>;
+                hfront-porch = <150>;
+                hsync-len = <30>;
+                hback-porch = <60>;
+                vfront-porch = <8>;
+                vsync-len = <4>;
+                vback-porch = <4>;
+                hsync-active = <0>;
+                vsync-active = <0>;
+                de-active = <0>;
+                pixelclk-active = <0>;
+            };
+        };
+        ports {
+            #address-cells = <1>;
+            #size-cells = <0>;
+            port@0 {
+                reg = <0>;
+                panel_in_dsi0: endpoint {
+                    remote-endpoint = <&dsi0_out_panel>;
+                };
+            };
+        };
+    };
+    ports {
+        #address-cells = <1>;
+        #size-cells = <0>;
+        port@1 {
+            reg = <1>;
+            dsi0_out_panel: endpoint {
+                remote-endpoint = <&panel_in_dsi0>;
+            };
+        };
+    };
 };
 &dsi1 {
- status = "okay";
+    status = "okay";
 };
 &mipi_dcphy0 {
- status = "okay";
+    status = "okay";
 };
 &mipi_dcphy1 {
- status = "okay";
+    status = "okay";
 };
 ```
 
@@ -683,19 +678,19 @@ MODE2:
 };
 ```
 
-## 14.4 DSI 应用场景
+## 14.4 DSI Application Scenarios
 
-### 14.4.1 DSI + SerDer 方案
+### 14.4.1 DSI + SerDer Solution
 
 ![alt text](/pdf/rk/dsi/image-29.png)
 
-### 14.4.2 多屏屏接方案
+### 14.4.2 Multi-Screen Connection Solution
 
 ![alt text](/pdf/rk/dsi/image-30.png)
 
 ## 15. DC-PHY
 
-实际应用配置中默认是配置成D-PHY，通过屏端配置介绍可知，通过下述方式可以配置成C-PHY：
+In actual application configurations, it is usually set to D-PHY. As can be seen from the display end configuration introduction, it can be configured to C-PHY in the following way:
 
 ```plaintext
 dsi0_panel: panel@0 {
@@ -710,31 +705,31 @@ dsi0_panel: panel@0 {
 ![alt text](/pdf/rk/dsi/image-31.png)
 
 1. Up to 4.5 Gbps per lane in D-PHY；
-2. 一个D-PHY port 最多4lanes，每个lane由两条差分线组成；
-3. D指的是罗⻢数字500 or "D", D-PHY在推出初期时，数据最⼤速率为1G(DDR)，时钟对应的速率为500MHz，⽽现在的D-PHY速率已经不⽌这些，D也就没有什么含义。
+2. A D-PHY port can have up to 4 lanes, each lane consists of two differential lines；
+3. D stands for the Roman numeral 500 or "D". When D-PHY was first introduced, the maximum data rate was 1G (DDR), and the corresponding clock rate was 500MHz. Now the D-PHY rate is no longer limited to these, so the meaning of "D" is no longer relevant.
 
 ## 15.2 C-PHY
 
 ![alt text](/pdf/rk/dsi/image-32.png)
 
 1. Up to 2.0 Gsps per trio in C-PHY；
-2. 一个C-PHY port 最多3lanes，每个lane由 tree-wire-trios 组成；
-3. C-PHY没有单独的时钟通道，它的时钟隐藏在通信的时序中；
-4. C指的是Channel-limited, 通道被限制到3，C-PHY总共3条lanes，每条lane使⽤3线传输模式。
+2. A C-PHY port can have up to 3 lanes, each lane consists of tree-wire-trios；
+3. C-PHY does not have a separate clock channel, its clock is embedded in the communication timing；
+4. C stands for Channel-limited, the channel is limited to 3, C-PHY has a total of 3 lanes, each lane uses 3-wire transmission mode.
 
-## 16. 动态变帧
+## 16. Dynamic Frame Rate
 
-MIPI DSI 可以实现动态帧率切换，比如 `120fps <-> 60fps` 之间动态无感切换，更多细节参阅《Rockchip_RK3588_Developer_Guide_Vsync_Adjust_CN》相关文档。
+MIPI DSI can achieve dynamic frame rate switching, such as between `120fps <-> 60fps`, for more details refer to the related document 《Rockchip_RK3588_Developer_Guide_Vsync_Adjust_CN》.
 
 ![alt text](/pdf/rk/dsi/image-33.png)
 
 ## 17. PSR
 
-当 MIPI DSI 工作在 COMMAND 模式，屏端内置 GRAM，可以在显示系统刷静态帧的时候选择关闭主控的 DSI输出以减少功耗，屏端持续从 GRAM 刷静态帧，当新的一帧有任何显示内容变化时，主控端必须使能并往屏的 GRAM 中刷新帧以更新显示。
+When MIPI DSI works in COMMAND mode, the display panel has a built-in GRAM. It can choose to turn off the DSI output of the main control to reduce power consumption while the display system refreshes static frames. The display panel continues to refresh static frames from the GRAM, and when there is any change in the display content of the new frame, the main control side must enable and refresh the frame in the GRAM of the screen to update the display.
 
 ![alt text](/pdf/rk/dsi/image-34.png)
 
-## 18. 协议分析
+## 18. Protocol Analysis
 
 ### 18.1 DSI Layer Definitions
 
@@ -746,7 +741,7 @@ MIPI DSI 可以实现动态帧率切换，比如 `120fps <-> 60fps` 之间动态
 
 ![alt text](/pdf/rk/dsi/image-36.png)
 
-下表罗列在 DPHY Lane 正常操作中可能出现的所有通道状态。
+The table below lists all possible channel states that may occur during the normal operation of the DPHY Lane.
 
 ![alt text](/pdf/rk/dsi/image-37.png)
 
@@ -754,44 +749,44 @@ MIPI DSI 可以实现动态帧率切换，比如 `120fps <-> 60fps` 之间动态
 
 ![alt text](/pdf/rk/dsi/image-38.png)
 
-DSI 数据通道可以驱动到如下三种模式：
+The DSI data channel can be driven to the following three modes:
 
-1. Escape Mode (只有 Dp0/Dn0 会操作在该模式)；
-2. Bus Turnaround Request (只有 Dp0/Dn0 会操作在该模式);
+1. Escape Mode (only Dp0/Dn0 will operate in this mode)；
+2. Bus Turnaround Request (only Dp0/Dn0 will operate in this mode);
 3. High-Speed Data Transmission。
 
-这三种模式和它们进入对应模式的序列定义如下：
+These three modes and the sequence to enter the corresponding mode are defined as follows:
 
 ![alt text](/pdf/rk/dsi/image-39.png)
 
 #### 18.2.2.1 Escape Modes
 
-当数据通道处于 LP 模式，数据通道0用于 Escape Mode, 数据通道应通过 LP-11->LP-10->LP-00->LP 01->LP-00 进入 Escape Mode，通过 LP-00->LP-10->LP-11 退出 Escape Mode.
+When the data channel is in LP mode, data channel 0 is used for Escape Mode. The data channel should enter Escape Mode through the sequence LP-11->LP-10->LP-00->LP 01->LP-00, and exit Escape Mode through LP-00->LP-10->LP-11.
 
 ![alt text](/pdf/rk/dsi/image-40.png)
 
-#### 18.2.2.1.1 Escape Commands
+##### 18.2.2.1.1 Escape Commands
 
-一旦数据通道进入 Escape 模式，发送器应该发送 8-bit Escape Commands 指示请求行为，Escape Commands 如下：
+Once the data channel enters Escape mode, the transmitter should send 8-bit Escape Commands to indicate the requested behavior. The Escape Commands are as follows:
 
 ![alt text](/pdf/rk/dsi/image-41.png)
 
-#### 18.2.2.1.2 LPDT
+##### 18.2.2.1.2 LPDT
 
-当数据通道进入 Escape 模式且向显示模块发送 Low-Power Data Transmission(LPDT) 序列，Soc 的 MIPI DSI TX 可以通过 LPDT 模式向显示模块发送数据, 一般就是通过这种方式向 MIPI 显示模块下载初始化序列。
+When the data channel enters Escape mode and sends the Low-Power Data Transmission (LPDT) sequence to the display module, the MIPI DSI TX of the Soc can send data to the display module in LPDT mode, which is generally the way to download the initialization sequence to the MIPI display module.
 
 ![alt text](/pdf/rk/dsi/image-42.png)
-通过示波器捕获 LPDT 波形如下：
+The waveform captured by the oscilloscope in LPDT is as follows:
 
 ![alt text](/pdf/rk/dsi/image-43.png)
 
-#### 18.2.2.1.3 ULPS
+##### 18.2.2.1.3 ULPS
 
 ![alt text](/pdf/rk/dsi/image-44.png)
 
 #### 18.2.2.2 HSDT
 
-当 DPHY 的时钟通道在高速时钟模式时，显示模块可以进入高速数据传输模式，所有的数据通道同时进入高速数据传输模式，但可以不同时退出高速模式。数据通道通过如下序列进入高速模式：
+When the clock channel of DPHY is in high-speed clock mode, the display module can enter high-speed data transmission mode, all data channels simultaneously enter high-speed data transmission mode, but may not exit high-speed mode at the same time. The data channel enters high speed mode through the following sequence:
 
 1. Start: LP-11
 2. HS-Request: LP-01
@@ -799,27 +794,27 @@ DSI 数据通道可以驱动到如下三种模式：
 4. Rx Synchronization: SoT(0001_1101)
 5. End: High-Speed Data Transmission (HSDT) - Ready to receive High-Speed Data Load
 
-数据通道退出高速数据传输模式流程：在最后一个有效负载数据之后立即切换差分状态位并保持该状态一段时间 Ths-trail。
+The process of exiting high-speed data transmission mode: Immediately switch the differential state bit after the last有效负载数据 and maintain this state for a period of time Ths-trail.
 
 ![alt text](/pdf/rk/dsi/image-45.png)
 
-通过示波器捕获 HSDT 波形如下：
+The waveform captured by the oscilloscope in HSDT is as follows:
 
 ![alt text](/pdf/rk/dsi/image-46.png)
 
 #### 18.2.2.3 BTA
 
-当需要从显示模块获取信息时，Soc DPHY 的第一数据通道可以通过执行总线翻转步骤。操作步骤如下：
+When information needs to be obtained from the display module, the first data channel of Soc DPHY can execute the bus turnaround steps. The operation steps are as follows:
 
 ![alt text](/pdf/rk/dsi/image-47.png)
 
-通过示波器在 HSDT 时向显示模块回读并捕获 BTA 波形如下：
+The BTA waveform captured by the oscilloscope when reading back from the display module in HSDT is as follows:
 
 ![alt text](/pdf/rk/dsi/image-48.png)
 
 ### 18.2.3 Endian Policy
 
-无论是在 LP 和 HS 数据传输模式，数据都是以长包和短包形式打包并传输给显示模块。
+Whether in LP or HS data transmission mode, the data is packed and transmitted to the display module in the form of long packets and short packets.
 
 #### 18.2.3.1 SPa
 
@@ -829,15 +824,15 @@ Example:
 
 ![alt text](/pdf/rk/dsi/image-50.png)
 
-#### 18.2.3.1.1 LPDT-SPa
+##### 18.2.3.1.1 LPDT-SPa
 
-通过示波器在 LPDT 时向显示模块发送如上 SPa 并捕获波形如下：
+The SPa waveform sent to the display module in LPDT and captured by the oscilloscope is as follows:
 
 ![alt text](/pdf/rk/dsi/image-51.png)
 
-#### 18.2.3.1.2 HSDT-SPa
+##### 18.2.3.1.2 HSDT-SPa
 
-通过示波器在 HSDT 时向显示模块发送如上 SPa 并捕获波形如下：
+The SPa waveform sent to the display module in HSDT and captured by the oscilloscope is as follows:
 
 ![alt text](/pdf/rk/dsi/image-52.png)
 
@@ -848,25 +843,25 @@ Example:
 
 ![alt text](/pdf/rk/dsi/image-54.png)
 
-#### 18.2.3.2.1 LPDT-LPa
+##### 18.2.3.2.1 LPDT-LPa
 
-通过示波器在 LPDT 时向显示模块发送如上 LPa 并捕获波形如下：
+The LPa waveform sent to the display module in LPDT and captured by the oscilloscope is as follows:
 
 ![alt text](/pdf/rk/dsi/image-55.png)
 
-#### 18.2.3.2.2 HSDT-LPa
+##### 18.2.3.2.2 HSDT-LPa
 
-通过示波器在 HSDT 时向显示模块发送如上 LPa 并捕获波形如下：
+The LPa waveform sent to the display module in HSDT and captured by the oscilloscope is as follows:
 
 ![alt text](/pdf/rk/dsi/image-56.png)
 
 #### 18.2.3.3 DI
 
-如上 SPa 和 LPa 中都有一个 Data Identification (DI), 一个包是长短包就是由 DI 决定，DI 是包头的一部分，由两个部分组成：
+As mentioned above, both SPa and LPa have a Data Identification (DI). Whether a packet is a long or short packet is determined by the DI, which is part of the packet header and consists of two parts:
 
 ![alt text](/pdf/rk/dsi/image-57.png)
 
-MIPI 协议中目前定义的绝大部分数据类型如下：
+Most of the data types currently defined in the MIPI protocol are as follows:
 
 ![alt text](/pdf/rk/dsi/image-58.png)
 
@@ -884,22 +879,22 @@ MIPI 协议中目前定义的绝大部分数据类型如下：
 #### 18.2.4.3 Non-Burst Mode with Sync Pulses
 
 ![alt text](/pdf/rk/dsi/image-61.png)
-通过示波器捕获 Non Burst Sync Pulse 波形如下：
+The waveform captured by the oscilloscope for Non-Burst Sync Pulse is as follows：
 
 ![alt text](/pdf/rk/dsi/image-62.png)
 
-### 18.2.4.4 Burst Mode
+#### 18.2.4.4 Burst Mode
 
 ![alt text](/pdf/rk/dsi/image-63.png)
-通过示波器捕获 Video Burst 波形如下：
+The waveform captured by the oscilloscope for Video Burst is as follows：
 
 
 
 ![alt text](/pdf/rk/dsi/image-64.png)
 
-## 19. 常见问题
+## 19. Common Issues
 
-### 19.1 查看VOP timing 和 Connector 信息
+### 19.1 View VOP timing and Connector Information
 ```bash
 console:/ # cat /d/dri/0/summary
 Video Port0: DISABLED
@@ -925,16 +920,16 @@ Cluster3-win0: ACTIVE
  buf[0]: addr: 0x000000000376e000 pitch: 4352 offset: 0
 ```
 
-### 19.2 查看 DSI2 相关 clk tree
-当mipi工作在非DSC模式，mipi接口的速率是每个时钟周期4个pixel，相关时钟要满足如下关系：
+### 19.2 View DSI2 Related Clock Tree
+When MIPI works in non-DSC mode, the rate of the MIPI interface is 4 pixels per clock cycle, and the related clocks should meet the following relationship:
 ```
 video_timing_pixel_rate / 4 = mipi_pixel_clock × K = dclk_out × K = dclk_core
 ```
-当mipi工作在DSC模式，相关时钟要满足如下关系：
+When MIPI works in DSC mode, the related clocks should meet the following relationship：
 ```
 mipi_pixel_clock = cds_clk / 2
 ```
-注意! 默认K = 1, 当mipi配置为双通道显示模式，K = 2。
+Note! By default, K = 1, when MIPI is configured as dual-channel display mode, K = 2.
 
 ```bash
 console:/ # cat /d/clk/clk_summary | grep vop
@@ -975,8 +970,8 @@ console:/ # cat /d/clk/clk_summary | grep mipi
 console:/ #
 ```
 
-### 19.3 如何查看指定 DSI lane 速率
-DSI lane 速率的指定有两种，一种是驱动自动计算
+### 19.3 How to View the Specified DSI Lane Rate
+There are two ways to specify the DSI lane rate, one is automatic calculation by the driver
 
 ```
 dmesg | grep dsi
@@ -984,7 +979,7 @@ dmesg | grep dsi
 DSI-Link bandwidth: 879 x 4 Mbps
 
 ```
-一种是通过如下属性手动指定:
+The other is manually specified by the following property:
 ```
 &dsi0 {
  ...
@@ -992,8 +987,8 @@ DSI-Link bandwidth: 879 x 4 Mbps
  ...
 }
 ```
-### 19.4 MIPI DSI2 HOST 没有自己color bar 功能，通过如下命令可以让 VOP2 投显 color bar
-根据显示路由选择对应的命令：
+### 19.4 MIPI DSI2 HOST does not have its own color bar function, you can use the following commands to let VOP2 display the color bar
+Select the corresponding command according to the display route：
 
 
 ### 19.4.1 RK3588
@@ -1020,7 +1015,7 @@ vp2:
 io -4 0x27d00e08 0x1 && io -4 0x27d00000 0xffffffff
 ```
 
-### 19.5 如何判断显示异常的时候，MIPI DSI2 和 panel 是否通信正常
+### 19.5 How to Determine Whether MIPI DSI2 and Panel are Communicating Normally When Display Abnormalities Occur
 #### U-Boot
 ```diff
 --- a/drivers/video/drm/rockchip_panel.c
@@ -1080,23 +1075,23 @@ io -4 0x27d00e08 0x1 && io -4 0x27d00000 0xffffffff
  p->prepared = true;
  return 0;
 ```
-通信正常会有如下打印，否则排查屏端时序确保屏是否就绪：
+Normal communication will have the following print, otherwise check the screen end timing to ensure the screen is ready：
 ```bash
 ===> mode: 0x8
 ===> mode: 0x9c
 ```
 
-### 19.5.1 get_power_mode 两种回读波形
-#### 19.5.1.1 屏端正常返回0x08(未下发0x11、0x29)波形如下
+### 19.5.1 get_power_mode Two Types of Readback Waveforms
+#### 19.5.1.1 Screen End Normally Returns 0x08 (0x11, 0x29 Not Issued) Waveform as Follows
 
 ![alt text](/pdf/rk/dsi/image-65.png)
 
-#### 19.5.1.2 屏端正常返回0x9c(已下发0x11、0x29)波形如下
+#### 19.5.1.2 Screen End Normally Returns 0x9c (0x11, 0x29 Issued) Waveform as Follows
 
 ![alt text](/pdf/rk/dsi/image-66.png)
 
-### 19.6 drm 驱动没有bind起来
-通过如下命令，查看是否是某个组件 bound 异常，比如 DP 的 PHY 没有使能会导致 DP bound 异常：
+### 19.6 drm Driver Not Bound
+Use the following command to check if there is an abnormal binding of a component, for example, if the DP PHY is not enabled, it will cause DP binding exception：
 ```bash
 /sys/kernel/debug/device_component/display-subsystem                         <
  master name                                           status
@@ -1110,37 +1105,37 @@ io -4 0x27d00e08 0x1 && io -4 0x27d00000 0xffffffff
  fde50000.dp                                             bound
 ```
 
-### 19.7 backlight驱动probe失败
+### 19.7 backlight Driver Probe Failed
 
 ```bash
 console:/ # dmesg | grep backlight
 [    3.164274] pwm-backlight: probe of backlight failed with error -16
 ```
 
-### 19.8 Command Mode 显示模组如何配置 TE
-为防止图像显示撕裂，显示控制器刷帧的频率应该和显示模组从GRAM中刷图的频率保持一致。RK3588 和 RK3576 只支持显示模组将TE信号外部反馈的方式。
+### 19.8 Command Mode Display Module How to Configure TE
+To prevent image tearing, the refresh rate of the display controller should be consistent with the refresh rate of the display module from the GRAM. RK3588 and RK3576 only support the method of externally feeding back the TE signal from the display module.
 
-#### 19.8.1 硬件 TE
-MIPI DSI 有专门的 PIN 可以复用成 te。
+#### 19.8.1 Hardware TE
+MIPI DSI has dedicated PINs that can be reused as te.
 ```bash
 &dsi0 {
  ...
- /* 显示模组TE信号连接到MIPI_TE0 */
+ /* TE signal of the display module is connected to MIPI_TE0 */
  pinctrl-names = "default";
  pinctrl-0 = <&mipi_te0>;
  ...
 };
 &dsi1 {
  ...
- /* 显示模组TE信号连接到MIPI_TE1，only RK3588 support dsi1 */
+ /* TE signal of the display module is connected to MIPI_TE1, only RK3588 support dsi1 */
  pinctrl-names = "default";
  pinctrl-0 = <&mipi_te1>;
  ...
 };
 ```
 
-#### 19.8.2 软件 TE
-有时候硬件 TE 会被复用成其他功能，所以可以利用其他空闲 GPIO 作为输入来向显示系统通知 TE 中断。
+#### 19.8.2 Software TE
+Sometimes the hardware TE may be reused for other functions, so other unused GPIOs can be used as inputs to notify the display system of TE interrupts.
 ```bash
 &dsi0 {
  status = "okay";
@@ -1149,12 +1144,12 @@ MIPI DSI 有专门的 PIN 可以复用成 te。
  pinctrl-0 = <&lcd_te_gpio>;
 };
 ```
-下图捕获MIPI DSI发送数据信号场频和显示模组TE信号频率一致波形：
+The following figure captures the waveform of the MIPI DSI sending data signal field frequency and the display module TE signal frequency being consistent:
 
 ![alt text](/pdf/rk/dsi/image-67.png)
 
-### 19.9 双通道MIPI切换主从顺序
-如果硬件设计将双通道的两个MIPI Ports接反了，可以通过如下配置进行软件纠正：
+### 19.9 Dual-Channel MIPI Switch Master-Slave Order
+If the hardware design has reversed the two MIPI Ports of the dual channel, it can be corrected by the following software configuration:
 ```bash
 &dsi0 {
  ...
@@ -1166,8 +1161,8 @@ MIPI DSI 有专门的 PIN 可以复用成 te。
  status = "okay";
 };
 ```
-### 19.10 调试节点
-在MIPI DSI信号测试过程中需要对信号进行调整，如下是相关调试节点路径：
+### 19.10 Debug Nodes
+During the signal testing of MIPI DSI, it is necessary to adjust the signals, and the following are the relevant debug node paths:
 ```
 dcphy0：
 cd /sys/devices/platform/feda0000.phy/
@@ -1675,29 +1670,27 @@ regmap_write(samsung->regmap, BIAS_CON0, 0x0010);
 +
  pm_runtime_enable(dev);
  return 0;
-```
 
-#### 19.10.2 驱动强度
+```
+#### 19.10.2 Drive Strength
 
 ```
 echo level > output_voltage
 ```
 
-驱动默认如下配置：
+Default drive configuration:
 - D-PHY: 2'b00
 - C-PHY: 2'b10
 
-level 参考如下：
+Reference for level:
 - 2b'00 : 400mV
 - 2b'01 : 200mV
 - 2b'10 : 530mV
 - 2b'11 : 530mV
 
+#### 19.10.3 Common Mode Voltage
 
-
-#### 19.10.3 共模电压
-
-level 参考如下：
+Reference for level:
 1. 3'b000: 380mV / 230mV
 2. 3'b001: 390mV / 220mV
 3. 3'b010: 400mV / 210mV
@@ -1707,7 +1700,6 @@ level 参考如下：
 7. 3'b110: 440mV / 170mV
 8. 3'b111: 450mV / 160mV
 
-
 #### 19.10.4 Cap Peaking
 
 ```bash
@@ -1715,15 +1707,14 @@ echo level > cap_peaking
 level: 0~7
 ```
 
+#### 19.10.5 Signal Timing
 
-#### 19.10.5 信号 Timing
-
-如下图中信号红⾊框中的信号参数都是可以调整的。
+The signal parameters within the red boxes in the figure below can all be adjusted.
 
 ![alt text](/pdf/rk/dsi/image-68.png)
 ![alt text](/pdf/rk/dsi/image-69.png)
 
-如下信号调整count值可以在回读基础上做调整修改，比如Tlpx:
+You can adjust the count value for the following signals based on the readback value. For example, for Tlpx:
 ```
 cat lpx
 ```
