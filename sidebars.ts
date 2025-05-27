@@ -687,6 +687,14 @@ const sidebars: SidebarsConfig = {
                   type: 'doc',
                   id: 'k1_pro/k1_pro-software/debian/swap',
                 },
+                {
+                  type: 'doc',
+                  id: 'k1_pro/k1_pro-software/debian/termnal_input',
+                },
+                {
+                  type: 'doc',
+                  id: 'k1_pro/k1_pro-software/debian/vnc',
+                },
               ]
             },
             {
