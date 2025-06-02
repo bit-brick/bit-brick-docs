@@ -33,7 +33,22 @@ K1 系列板子都内置了 JTAG 调试功能，要使其正常工作，需要�
 ## 3.1 配置硬件
 
 - 打开 J-Llink 的外壳，将其中的跳线帽拔下，使得 J-Llink 不对外供电。
-- 连接 JTAG 检查 JTAG 信号对应的引脚是否被使用，参考 [MUSE Pi 用户使用指南](https://developer.spacemit.com/documentation?token=ZugWwIVmkiGNAik55hzc4C3Ln6d)文档中 [JTAG 调试接口](https://developer.spacemit.com/documentation?token=ZugWwIVmkiGNAik55hzc4C3Ln6d#part407)信息。
+- 连接 JTAG 检查 JTAG 信号对应的引脚是否被使用，以下是JTAG调试接口信息。
+
+K1在 40PinGPIO扩展接口中预留了Primary JTAG调试通道，线序如下
+|Pin Number|	网络名称|	JTAG信号名称|
+|---|---|---|
+|7 |	GPI0_70_3V3|	PRI_TDI|
+|11|	GPIO_71_3V3|	PRI_TMS|
+|13|	GPI0_72_3V3|	PRI_TCK|
+|15|	GPI0_73_3V3|	PRI_TDO|
+<span style={{ 
+  display: 'flex', 
+  justifyContent: 'center',
+  margin: '10px 0'
+}}>
+![jtad](/img/k1/tools/jtad.png)
+</span>
 
 ## 3.2 配置 USB 驱动
 

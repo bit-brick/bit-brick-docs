@@ -33,6 +33,22 @@ Taking J-Link as an example, you need to configure the USB driver. Please refer 
 ## 3.1 Hardware Setup
 
 Open the casing of the J-Link, and remove the jumper cap so that the J-Link does not supply power externally.
+- Connect the JTAG and check whether the pins corresponding to the JTAG signals are being used. The following is the JTAG debug interface information.
+
+K1 reserves a Primary JTAG debug channel in the 40-pin GPIO expansion interface. The pinout is as follows:
+|Pin Number|	Net Name|	JTAG Signal Name|
+|---|---|---|
+|7 |	GPIO_70_3V3|	PRI_TDI|
+|11|	GPIO_71_3V3|	PRI_TMS|
+|13|	GPIO_72_3V3|	PRI_TCK|
+|15|	GPIO_73_3V3|	PRI_TDO|
+<span style={{ 
+  display: 'flex', 
+  justifyContent: 'center',
+  margin: '10px 0'
+}}>
+![jtad](/img/k1/tools/jtad.png)
+</span>
 
 ## 3.2 Install the Driver
 
