@@ -1,7 +1,26 @@
-# K1 JOH5.0 方案 OTA 使用说明
+# K1 OH5.0 方案 OTA 使用说明
 
 
-# 概述
+# 修订记录
+
+<table>
+<tbody>
+<tr>
+<td>修订版本</td>
+<td>修订日期</td>
+<td>修订说明</td>
+</tr>
+<tr>
+<td>001</td>
+<td>2025-02-14</td>
+<td>初始版本</td>
+</tr>
+</tbody>
+</table>
+
+---
+
+# 1. 概述
 
 按照 OTA 升级方式分为：
 
@@ -14,11 +33,11 @@
 - 差分包升级（支持）
 - 变分区包升级（暂不支持）
 
-# OTA 包制作
+# 2. OTA 包制作
 
-## 准备工作
+## 2.1. 准备工作
 
-### 安装必要工具
+### 2.1.1. 安装必要工具
 
 ```c
 $ sudo apt update
@@ -27,13 +46,13 @@ $ sudo apt install bsdiff
 $ sudo pip install xmltodict asn1crypto imgdiff cryptography e2fsdroid
 ```
 
-### 修改代码
+### 2.1.2. 修改代码
 
 通过修改代码添加一些差异，比如明显的打印等，用于 OTA 升级后验证 OTA 是否升级成功。
 
-## 全量包制作
+## 2.2. 全量包制作
 
-### 全量编译源码
+### 2.2.1. 全量编译源码
 
 ```shell
 ./build.sh --product-name xxx --ccache --prebuilt-sdk
@@ -76,111 +95,111 @@ fuqiang@snode2:~/WorkSpace/oh5/out/musepaper2/packages/phone/images$ tree
 2 directories, 25 files
 ```
 
-- 二进制升级文件 updater\_binary，就是 `out\xxx\packages\phone\system\bin\updater_binary`
+- 二进制升级文件 `updater_binary`，就是 `out\xxx\packages\phone\system\bin\updater_binary`
 
-### 制作全量包
+### 2.2.2. 制作全量包
 
-1. 进入 OTA 打包工具目录，并创建 `target_package`、`output_package` 和 `sign_cert` 文件夹，如果已经存在文件夹，就不需要创建
+- 进入 OTA 打包工具目录，并创建 `target_package`、`output_package` 和 `sign_cert` 文件夹，如果已经存在文件夹，就不需要创建
 
 ```shell
 $ cd base/update/packaging_tools
 $ mkdir target_package output_package sign_cert
 ```
 
-1. `sign_cert` 文件夹中放入公钥，公钥来自
+- `sign_cert` 文件夹中放入公钥，公钥来自
 
 ```c
 base/update/updater/test/unittest/test_data/src/signing_cert.crt
 ```
 
-1. `target_packet` 文件夹中放入要打包生成 OTA 全量包的文件，包括：
-   1. 私钥，rsa\_private\_key2048.pem，来自
+- `target_packet` 文件夹中放入要打包生成 OTA 全量包的文件，包括：
+- 私钥，`rsa_private_key2048.pem`，来自
 
-   ```c
-   base/update/updater/test/unittest/test_data/src/rsa_private_key2048.pem
-   ```
+```c
+base/update/updater/test/unittest/test_data/src/rsa_private_key2048.pem
+```
 
-   1. 镜像文件，来自文件夹
+- 镜像文件，来自文件夹
 
-   ```c
-   out\xxx\packages\phone\images
-   ```
+```c
+out\xxx\packages\phone\images
+```
 
-   1. 二进制升级文件，`updater_binary`，来自
+- 二进制升级文件，`updater_binary`，来自
 
-   ```c
-   out\xxx\packages\phone\system\bin\updater_binary
-   ```
+```c
+out\xxx\packages\phone\system\bin\updater_binary
+```
 
-   1. 升级组件配置文件夹 `updater_config`，该文件夹内部包括：
-      1. 升级包支持的产品列表：BOARD.list，来自
+- 升级组件配置文件夹 `updater_config`，该文件夹内部包括：
+  - 升级包支持的产品列表：BOARD.list，来自
 
-      ```c
-      device/board/hisilicon/hispark_taurus/linux/updater/config/BOARD.list
-      ```
+  ```c
+  device/board/hisilicon/hispark_taurus/linux/updater/config/BOARD.list
+  ```
 
-      内容如下：
-      ```c
-      HI3516
-      MUSEPAPER
-      MUSEPAPER2
-      DEB1
-      ZT001H
-      ```
+  内容如下：
+  ```c
+  HI3516
+  MUSEPAPER
+  MUSEPAPER2
+  DEB1
+  ZT001H
+  ```
 
-      HI3516 必须有，否则 OTA 包校验失败而导致 OTA 升级失败，因为 `base/update/updater/utils/utils.cpp` 代码匹配 BOARD 时，固定了默认值，如下：
-      ```c
-      std::string GetLocalBoardId()
-      {
-          return "HI3516";
-      }
-      ```
+  HI3516 必须有，否则 OTA 包校验失败而导致 OTA 升级失败，因为 `base/update/updater/utils/utils.cpp` 代码匹配 BOARD 时，固定了默认值，如下：
+  ```c
+  std::string GetLocalBoardId()
+  {
+      return "HI3516";
+  }
+  ```
 
-      1. 升级包所支持的版本范围：VERSION.mbn，来自
+  - 升级包所支持的版本范围：`VERSION.mbn`，来自
 
-      ```c
-      device/board/hisilicon/hispark_taurus/linux/updater/config/VERSION.mbn
-      ```
+  ```c
+  device/board/hisilicon/hispark_taurus/linux/updater/config/VERSION.mbn
+  ```
 
-      VERSION.mbn 与设置的软件版本保持一致即可，
-      ```c
-      OpenHarmony 5.0.0.71
-      ```
+  `VERSION.mbn` 与设置的软件版本保持一致即可，
+  ```c
+  OpenHarmony 5.0.0.71
+  ```
 
-      1. 组件配置文件：updater\_specified\_config.xml，来自
+  - 组件配置文件：`updater_specified_config.xml`，来自
 
-      ```c
-      device/board/hisilicon/hispark_taurus/linux/system/updater_specified_config.xml
-      ```
+  ```c
+  device/board/hisilicon/hispark_taurus/linux/system/updater_specified_config.xml
 
-      - 修改 `fileVersion` 为 2（4.0 更新的校验方式）
-      - `softVersion` 改为当前软件版本
-      - `compType` 改为 0,表示全量(1 表示增量)
-      - 修改 img 打包路径，`/vendor.img` 和 `./system.img` 等
-        最终内容如下：
+  修改fileVersion为2（4.0更新的校验方式）
+  softVersion改为当前软件版本
+  compType改为0,表示全量(1 表示增量)
+  修改img打包路径，./vendor.img和./system.img等
+  ```
 
-      ```c
-      <?xml version="1.0"?>
-      <package>
-          <head name="Component header information">
-              <info fileVersion="02" prdID="123456" softVersion="OpenHarmony 5.0.0.71" date="2025-02-13" time="14:30">head info</info>
-          </head>
-          <group name = "Component information">
-              <component compAddr="vendor" compId="1" resType="05" compType="0" compVer="0o00">./vendor.img</component>
-              <component compAddr="system" compId="2" resType="05" compType="0" compVer="0o00">./system.img</component>
-              <component compAddr="boot" compId="3" resType="05" compType="0" compVer="0o00">./boot.img</component>
-              <component compAddr="uboot" compId="4" resType="05" compType="0" compVer="0o00">./u-boot.itb</component>
-              <component compAddr="fsbl" compId="5" resType="05" compType="0" compVer="0o00">./factory/FSBL.bin</component>
-              <component compAddr="env" compId="6" resType="05" compType="0" compVer="0o00">./env.bin</component>
-              <component compAddr="opensbi" compId="7" resType="05" compType="0" compVer="0o00">./fw_dynamic.itb</component>
-              <component compAddr="ramdisk" compId="8" resType="05" compType="0" compVer="0o00">./ramdisk.img</component>
-              <component compAddr="updater" compId="9" resType="05" compType="0" compVer="0o00">./updater.img</component>
-              <component compAddr="sys_prod" compId="10" resType="05" compType="0" compVer="0o00">./sys_prod.img</component>
-              <component compAddr="chip_prod" compId="11" resType="05" compType="0" compVer="0o00">./chip_prod.img</component>
-          </group>
-      </package>
+  最终内容如下：
+  ```c
+  <?xml version="1.0"?>
+  <package>
+      <head name="Component header information">
+          <info fileVersion="02" prdID="123456" softVersion="OpenHarmony 5.0.0.71" date="2025-02-13" time="14:30">head info</info>
+      </head>
+      <group name = "Component information">
+          <component compAddr="vendor" compId="1" resType="05" compType="0" compVer="0o00">./vendor.img</component>
+          <component compAddr="system" compId="2" resType="05" compType="0" compVer="0o00">./system.img</component>
+          <component compAddr="boot" compId="3" resType="05" compType="0" compVer="0o00">./boot.img</component>
+          <component compAddr="uboot" compId="4" resType="05" compType="0" compVer="0o00">./u-boot.itb</component>
+          <component compAddr="fsbl" compId="5" resType="05" compType="0" compVer="0o00">./factory/FSBL.bin</component>
+          <component compAddr="env" compId="6" resType="05" compType="0" compVer="0o00">./env.bin</component>
+          <component compAddr="opensbi" compId="7" resType="05" compType="0" compVer="0o00">./fw_dynamic.itb</component>
+          <component compAddr="ramdisk" compId="8" resType="05" compType="0" compVer="0o00">./ramdisk.img</component>
+          <component compAddr="updater" compId="9" resType="05" compType="0" compVer="0o00">./updater.img</component>
+          <component compAddr="sys_prod" compId="10" resType="05" compType="0" compVer="0o00">./sys_prod.img</component>
+          <component compAddr="chip_prod" compId="11" resType="05" compType="0" compVer="0o00">./chip_prod.img</component>
+      </group>
+  </package>
 
-      ```
+  ```
 
 `target_packet` 的完整内容如下：
 
@@ -224,7 +243,7 @@ fuqiang@snode2:~/WorkSpace/oh5/base/update/packaging_tools/target_package$ tree
 3 directories, 30 files
 ```
 
-1. 全量包打包，会在 `base/update/packaging_tools/output_package` 目录生成 `updater_full.zip` 全量包，命令如下：
+- 全量包打包，会在 `base/update/packaging_tools/output_package` 目录生成 `updater_full.zip` 全量包，命令如下：
 
 ```c
 python3 build_update.py ./target_package/ ./output_package/ -pk ./target_package/rsa_private_key2048.pem
@@ -335,9 +354,9 @@ fuqiang@snode2:~/WorkSpace/oh5/base/update/packaging_tools$ python3 build_update
 2025-02-13 20:57:51 INFO : Resource cleaning completed!
 ```
 
-## 差分包制作
+## 2.3. 差分包制作
 
-### 全量编译源码
+### 2.3.1. 全量编译源码
 
 ```shell
 ./build.sh --product-name xxx --ccache --prebuilt-sdk
@@ -383,9 +402,9 @@ fuqiang@snode2:~/WorkSpace/oh5/out/musepaper2/packages/phone/images$ tree
 
 - 二进制升级文件 updater\_binary，就是 `out\xxx\packages\phone\system\bin\updater_binary`
 
-### 制作差分包
+### 2.3.2. 制作差分包
 
-1. 创建 lib 文件夹,放入差分镜像二进制工具，如果已经存在这些文件，则忽略这步
+- 创建 lib 文件夹,放入差分镜像二进制工具，如果已经存在这些文件，则忽略这步
 
 ```shell
 fuqiang@snode2:~/WorkSpace/oh5/base/update/packaging_tools$ mkdir lib
@@ -413,41 +432,40 @@ fuqiang@snode2:~/WorkSpace/oh5base/update/packaging_tools/lib$ tree
 0 directories, 11 files
 ```
 
-1. packaging\_tools 目录下，拷贝上一次 target\_package 作为制作差分包的 source\_package
+- `packaging_tools` 目录下，拷贝上一次 `target_package` 作为制作差分包的 `source_package`
 
 ```shell
 fuqiang@snode2:~/WorkSpace/oh5/base/update/packaging_tools$ cp -rf target_package/* source_package/
 ```
 
-1. 更新 target\_package 目录中的文件
+- 更新 target\_package 目录中的文件
 
-   1. 替换成新的镜像文件
-   2. 替换成新的二进制升级文件
-   3. 更新 `target_package/updater_config/updater_specified_config.xml` 的 `softVersion` 和 `compType`，修改 softVersion 需大于当前系统版本； compType 设为 1，表示增量，部分小的 img 的 compType 还是设置为 0，使用全量升级
+  - 替换成新的镜像文件
+  - 替换成新的二进制升级文件
+  - 更新 `target_package/updater_config/updater_specified_config.xml` 的 `softVersion` 和 `compType`，修改 softVersion 需大于当前系统版本； compType 设为 1，表示增量，部分小的 img 的 compType 还是设置为 0，使用全量升级
 
-   ```shell
-   <?xml version="1.0"?>
-   <package>
-       <head name="Component header information">
-           <info fileVersion="02" prdID="123456" softVersion="OpenHarmony 5.0.0.72" date="2025-02-14" time="14:30">head info</info>
-       </head>
-       <group name = "Component information">
-           <component compAddr="vendor" compId="1" resType="05" compType="1" compVer="0o00">./vendor.img</component>
-           <component compAddr="system" compId="2" resType="05" compType="1" compVer="0o00">./system.img</component>
-           <component compAddr="boot" compId="3" resType="05" compType="0" compVer="0o00">./boot.img</component>
-           <component compAddr="uboot" compId="4" resType="05" compType="0" compVer="0o00">./u-boot.itb</component>
-           <component compAddr="fsbl" compId="5" resType="05" compType="0" compVer="0o00">./factory/FSBL.bin</component>
-           <component compAddr="env" compId="6" resType="05" compType="0" compVer="0o00">./env.bin</component>
-           <component compAddr="opensbi" compId="7" resType="05" compType="0" compVer="0o00">./fw_dynamic.itb</component>
-           <component compAddr="ramdisk" compId="8" resType="05" compType="0" compVer="0o00">./ramdisk.img</component>
-           <component compAddr="updater" compId="9" resType="05" compType="0" compVer="0o00">./updater.img</component>
-           <component compAddr="sys_prod" compId="10" resType="05" compType="1" compVer="0o00">./sys_prod.img</component>
-           <component compAddr="chip_prod" compId="11" resType="05" compType="1" compVer="0o00">./chip_prod.img</component>
-       </group>
-   </package>
-
-   ```
-2. 打包差分包：
+  ```
+  <?xml version="1.0"?>
+  <package>
+      <head name="Component header information">
+          <info fileVersion="02" prdID="123456" softVersion="OpenHarmony 5.0.0.72" date="2025-02-14" time="14:30">head info</info>
+      </head>
+      <group name = "Component information">
+          <component compAddr="vendor" compId="1" resType="05" compType="1" compVer="0o00">./vendor.img</component>
+          <component compAddr="system" compId="2" resType="05" compType="1" compVer="0o00">./system.img</component>
+          <component compAddr="boot" compId="3" resType="05" compType="0" compVer="0o00">./boot.img</component>
+          <component compAddr="uboot" compId="4" resType="05" compType="0" compVer="0o00">./u-boot.itb</component>
+          <component compAddr="fsbl" compId="5" resType="05" compType="0" compVer="0o00">./factory/FSBL.bin</component>
+          <component compAddr="env" compId="6" resType="05" compType="0" compVer="0o00">./env.bin</component>
+          <component compAddr="opensbi" compId="7" resType="05" compType="0" compVer="0o00">./fw_dynamic.itb</component>
+          <component compAddr="ramdisk" compId="8" resType="05" compType="0" compVer="0o00">./ramdisk.img</component>
+          <component compAddr="updater" compId="9" resType="05" compType="0" compVer="0o00">./updater.img</component>
+          <component compAddr="sys_prod" compId="10" resType="05" compType="1" compVer="0o00">./sys_prod.img</component>
+          <component compAddr="chip_prod" compId="11" resType="05" compType="1" compVer="0o00">./chip_prod.img</component>
+      </group>
+  </package>
+  ```
+- 打包差分包：
 
 ```shell
 python3 build_update.py ./target_package/ ./output_package/ -s ./source_package/ -pk ./target_package/rsa_private_key2048.pem
@@ -455,13 +473,13 @@ python3 build_update.py ./target_package/ ./output_package/ -s ./source_package/
 
 得到差分包 `base/update/packaging_tools/output_package/updater_diff.zip`
 
-# OTA 升级
+# 3. OTA 升级
 
-## 本地 OTA 升级
+## 3.1. 本地 OTA 升级
 
-将制作好的全量包 updater\_full.zip（或者差分包 updater\_diff.zip）放入设备，设置 reboot 模式
+将制作好的全量包 `updater_full.zip`（或者差分包 `updater_diff.zip`）放入设备，设置 reboot 模式
 
-```c
+```
 D:\>hdc file send Y:\WorkSpace/oh5/base/update/packaging_tools\output_package\updater_xxx.zip /data/updater/updater.zip
 D:\>hdc shell
 # write_updater updater /data/updater/updater.zip
@@ -470,13 +488,13 @@ D:\>hdc shell
 
 升级成功后，设备自动重启
 
-## 在线 OTA 升级
+## 3.2. 在线 OTA 升级
 
 待添加
 
-# 注意事项
+# 4. 注意事项
 
-## 分区
+## 4.1. 分区
 
 系统中需要有如下分区：
 
@@ -485,9 +503,9 @@ D:\>hdc shell
 
 其中，misc 分区是一个没有文件系统的分区
 
-# 问题处理
+# 5. 问题处理
 
-### misc 分区问题
+## 5.1. misc 分区问题
 
 执行
 
@@ -510,9 +528,9 @@ Line  843: [    9.229333] [pid=213][ueventd][INFO][ueventd_device_handler.c:85]s
 - 尝试使用 `/dev/block/mmcblk2p11`，不行
 - 尝试在 ramdisk 中将 misc 挂载，可行
 
-### updater\_binary 问题
+## 5.2. updater\_binary 问题
 
-OH5.0 上面遇到生成的二进制 updater\_binary 无法执行，执行会触发 signal11，经过和 OH4.0 对比，发现 OH5.0 没有把 updater\_binary 定义为 executable，怀疑这里存在问题，按照 OH4.0 修改即可，补丁如下：
+OH5.0 上面遇到生成的二进制 `updater_binary` 无法执行，执行会触发 signal11，经过和 OH4.0 对比，发现 OH5.0 没有把 `updater_binary` 定义为 `executable`，怀疑这里存在问题，按照 OH4.0 修改即可，补丁如下：
 
 ```
 commit bd630d88068992467681f2a2c39da41abfc688aa
@@ -568,5 +586,3 @@ index 754e1e2f..35efd13e 100644
      "${updater_path}/services/updater_binary/update_image_block.cpp",
 
 ```
-
-引用自 [进迭时空开发者文档](https://developer.spacemit.com/documentation?token=TYDVwpqfYiufN4kokUec4VtQn4d)

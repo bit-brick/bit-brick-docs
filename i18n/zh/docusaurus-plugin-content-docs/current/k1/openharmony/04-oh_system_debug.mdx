@@ -1,27 +1,126 @@
-# K1 JOH5.0 系统调试说明
+# K1 OH5.0 系统调试说明
 
-# 调试工具和方法
 
-## 串口调试
+# 修订记录
 
-可用，波特率 **115200**，直接使用即可，可以查看 uboot，kernel，OpenHarmony init 进程相关打印。
+<table>
+<tbody>
+<tr>
+<td>修订版本</td>
+<td>修订日期</td>
+<td>修订说明</td>
+</tr>
+<tr>
+<td>001</td>
+<td>2025-01-13</td>
+<td>初始版本</td>
+</tr>
+<tr>
+<td>002</td>
+<td>2025-04-11</td>
+<td>添加MUSE Pi Pro</td>
+</tr>
+</tbody>
+</table>
 
-## hdc
+---
 
-hdc 类似 android 的 adb，支持 usb 和 tcp 这 2 种连接模式，使用 tcp 模式，端口默认设置为 55555。配置文件为 device/board/spacemit/xxx/cfg 的 default.para，如下所示：
+# 1. 调试工具和方法
+
+## 1.1. 串口调试
+
+可用，波特率 **115200**，直接使用即可，可以查看 `uboot`，`kernel`，`OpenHarmony init` 进程相关打印。
+
+### 1.1.1. 调整串口打印等级
+
+#### 1.1.1.1. 仅本次启动有效
+
+串口中执行如下命令即可：
+
+```bash
+echo 8 > /proc/sys/kernel/printk
+```
+
+#### 1.1.1.2. 持续生效
+
+主要通过修改 `env_k1-x.txt` 文件中的 `loglevel` 值来实现，有 2 种方式：
+
+1. 修改代码并编译固件，修改 `device/board/spacemit/xxx/kernel/boot/bootfs/env_k1-x.txt` 中 `loglevel` 的值，重新编译固件并烧录即可
+2. 系统中直接修改，按照如下步骤进行：
+
+   - 挂载内核
+
+   ```
+   # cd dev/block/
+   # ls
+   by-name  loop5         mmcblk2p1   mmcblk2p3  mmcblk2p9  ram12  ram4
+   loop0    loop6         mmcblk2p10  mmcblk2p4  platform   ram13  ram5
+   loop1    loop7         mmcblk2p11  mmcblk2p5  ram0       ram14  ram6
+   loop2    mmcblk2       mmcblk2p12  mmcblk2p6  ram1       ram15  ram7
+   loop3    mmcblk2boot0  mmcblk2p13  mmcblk2p7  ram10      ram2   ram8
+   loop4    mmcblk2boot1  mmcblk2p2   mmcblk2p8  ram11      ram3   ram9
+   #
+   # mount mmcblk2p5 /tmp
+   # cd /tmp
+   # ls
+   Image.itb  bianbu.bmp  env_k1-x.txt  k1-x_ZT001H.dtb  lost+found
+   ```
+
+   - 通过 `hdc` 拉出 `env_k1-x.txt`，修改后，再推入 `/tmp` 文件夹
+
+   ```
+   D:\>hdc file recv /tmp/env_k1-x.txt
+   FileTransfer finish, Size:134 time:23ms rate:5.83kB/s
+
+   D:\>hdc file send env_k1-x.txt /tmp/
+   FileTransfer finish, Size:134, File count = 1, time:8ms rate:16.75kB/s
+   ```
+
+   - 取消挂载内核，重启即可生效
+
+   ```
+   # unmount /tmp
+   # reboot
+   ```
+
+### 1.1.2. 串口连接方式
+
+#### 1.1.2.1. MUSE Paper
+
+MUSE Paper 可以通过 TF 卡口来引出串口，需要单独购买配件，如下：
+
+![](https://developer.spacemit.com/resource/file/images?fileName=WDJZbsLHIoxe3NxhAOoc4Zs8nCc.jpg)
+
+将 TF 卡槽拿出来，将上面配件插入即可，上面配件的金手指朝向桌面。
+
+#### 1.1.2.2. MUSE Pi & MUSE Card
+
+MUSE Pi 和 MUSE Card 开发板上面有明显的串口连接标识 `（GND/RX/TX）`，按线序连接即可。
+
+#### 1.1.2.3. MUSE Pi Pro
+
+![](https://developer.spacemit.com/resource/file/images?fileName=J6nsb5JdPoQ2vjxS7mfcjmihnaf.png)
+
+#### 1.1.2.4. MUSE Book
+
+![](https://developer.spacemit.com/resource/file/images?fileName=Hyo7bguN5osDknxatkrcJyiAnWc.png)
+
+## 1.2. hdc
+
+`hdc` 类似 `android` 的 `adb`，支持 `usb` 和 `tcp` 这 2 种连接模式，使用 `tcp` 模式，端口默认设置为 `55555`。配置文件为 `device/board/spacemit/xxx/cfg的default.para`，如下所示：
 
 ```bash
 persist.hdc.mode=usb,tcp
 persist.hdc.port=55555
 ```
 
-### 主机支持 hdc
+### 1.2.1. 主机支持 hdc
 
-#### windows 系统
+#### 1.2.1.1. windows 系统
 
 windows 系统将 hdc.exe（[点我下载](https://archive.spacemit.com/tools/openharmony/hdc.zip)）放在特定目录，并设置环境变量路径。
 
-#### ubuntu 系统
+#### 1.2.1.2. ubuntu 系统
 
 - 安装依赖项‌：打开终端，输入以下命令来更新软件包列表并安装必要的开发工具和库
 
@@ -46,9 +145,9 @@ windows 系统将 hdc.exe（[点我下载](https://archive.spacemit.com/tools/op
   hdc help
   ```
 
-### hdc 连接
+### 1.2.2. hdc 连接
 
-#### 网络连接
+#### 1.2.2.1. 网络连接
 
 需确保 hdc 的服务端和客户端在同一个局域网内，连接方式如下：
 
@@ -60,7 +159,7 @@ D:\>hdc shell
 #
 ```
 
-#### usb 连接
+#### 1.2.2.2. usb 连接
 
 ```bash
 D:\>hdc list targets
@@ -70,7 +169,7 @@ D:\>hdc shell
 #
 ```
 
-#### 多设备连接
+#### 1.2.2.3. 多设备连接
 
 通过 `-t` 参数指定设备即可，如下：
 
@@ -83,7 +182,7 @@ D:\>hdc -t 0123456789ABCDEF shell
 #
 ```
 
-### hdc 常用命令
+### 1.2.3. hdc 常用命令
 
 <table>
 <tbody>
@@ -126,26 +225,31 @@ D:\>hdc -t 0123456789ABCDEF shell
 </tbody>
 </table>
 
-### 各设备的 hdc 连接口
+### 1.2.4. 各设备的 hdc 连接口
 
-#### MUSEPaper&MUSEPaper2
-<span style={{display: 'flex',justifyContent: 'center',margin: '10px 0'}}>![](https://developer.spacemit.com/resource/file/images?fileName=OiJhbcUsNo8MXpxnOJdcItoXnqg.png)</span>
+#### 1.2.4.1. MUSEPaper&MUSEPaper2
 
-#### MUSEPi
+![](https://developer.spacemit.com/resource/file/images?fileName=OiJhbcUsNo8MXpxnOJdcItoXnqg.png)
 
-<span style={{display: 'flex',justifyContent: 'center',margin: '10px 0'}}>![](https://developer.spacemit.com/resource/file/images?fileName=HYcSbQSkFoPKNRx6S1LcglSqnif.png)</span>
+#### 1.2.4.2. MUSEPi
 
-#### MUSECard
+![](https://developer.spacemit.com/resource/file/images?fileName=HYcSbQSkFoPKNRx6S1LcglSqnif.png)
 
-<span style={{display: 'flex',justifyContent: 'center',margin: '10px 0'}}>![](https://developer.spacemit.com/resource/file/images?fileName=IHl0bCtrRo0APYxkWZMcnPEBnEh.png)</span>
+#### 1.2.4.3. MUSECard
 
-#### MUSEBook
+![](https://developer.spacemit.com/resource/file/images?fileName=IHl0bCtrRo0APYxkWZMcnPEBnEh.png)
 
-<span style={{display: 'flex',justifyContent: 'center',margin: '10px 0'}}>![](https://developer.spacemit.com/resource/file/images?fileName=Kunebc9liojSTaxGyxrcntGfn6f.png)</span>
+#### 1.2.4.4. MUSEBook
 
-## hilog
+![](https://developer.spacemit.com/resource/file/images?fileName=Kunebc9liojSTaxGyxrcntGfn6f.png)
 
-### 基本使用方法
+#### 1.2.4.5. MUSEPiPro
+
+![](https://developer.spacemit.com/resource/file/images?fileName=LS0bb0JoQoun0ixGNQUcq58mnZ2.png)
+
+## 1.3. hilog
+
+### 1.3.1. 基本使用方法
 
 hilog 类似于 android 的 logcat，基本使用方法如下：
 
@@ -154,7 +258,7 @@ hilog
 hilog -r
 ```
 
-### 常用命令
+### 1.3.2. 常用命令
 
 <table>
 <tbody>
@@ -201,7 +305,7 @@ hilog -r
 </tbody>
 </table>
 
-### 日志落盘
+### 1.3.3. 日志落盘
 
 日志落盘意思就是将日志保存到文件中，导出来进行查看。
 
@@ -260,7 +364,7 @@ drwxrwx--- 6 system log     4096 1970-01-01 00:38 ..
 -rw-r----- 1 logd   system 13000 1970-01-02 03:35 hilog.003.19700102-033431.gz
 ```
 
-## hidumper
+## 1.4. hidumper
 
 hidumper 是 OpenHarmony 中为开发、测试人员，IDE 工具提供统一的系统信息获取工具，帮助使用者分析，定位问题。
 
@@ -297,7 +401,7 @@ hidumper 是 OpenHarmony 中为开发、测试人员，IDE 工具提供统一的
 </tbody>
 </table>
 
-## 参数管理
+## 1.5. 参数管理
 
 <table>
 <tbody>
@@ -328,11 +432,11 @@ hidumper 是 OpenHarmony 中为开发、测试人员，IDE 工具提供统一的
 </tbody>
 </table>
 
-## 模拟按键
+## 1.6. 模拟按键
 
-### 鼠标操作
+### 1.6.1. 鼠标操作
 
-```c
+```
 # uinput -?
 Usage: uinput <option> <command> <arg>...
 The option are:
@@ -365,7 +469,7 @@ commands for mouse:
                                                negative values are sliding forwards
 ```
 
-#### 命令示例
+#### 1.6.1.1. 命令示例
 
 <table>
 <tbody>
@@ -384,9 +488,9 @@ commands for mouse:
 </tbody>
 </table>
 
-### 键盘操作
+### 1.6.2. 键盘操作
 
-```c
+```
 # uinput -?
 Usage: uinput <option> <command> <arg>...
 The option are:
@@ -398,7 +502,7 @@ commands for keyboard:
 -i <time>                  --interval <time>  -the program interval for the (time) milliseconds
 ```
 
-#### 按键值
+#### 1.6.2.1. 按键值
 
 <table>
 <tbody>
@@ -457,7 +561,7 @@ commands for keyboard:
 </tbody>
 </table>
 
-#### 命令示例
+#### 1.6.2.2. 命令示例
 
 <table>
 <tbody>
@@ -476,9 +580,9 @@ commands for keyboard:
 </tbody>
 </table>
 
-### 触屏操作
+### 1.6.3. 触屏操作
 
-```c
+```
 # uinput -?
 Usage: uinput <option> <command> <arg>...
 The option are:
@@ -492,11 +596,11 @@ commands for touch:
 -c <dx1> <dy1> [click interval]               -touch screen click dx1 dy1
 ```
 
-#### 命令提示
+#### 1.6.3.1. 命令提示
 
 待完善
 
-## 服务管理
+## 1.7. 服务管理
 
 <table>
 <tbody>
@@ -515,11 +619,11 @@ commands for touch:
 </tbody>
 </table>
 
-## hiperf
+## 1.8. hiperf
 
 [https://device.harmonyos.com/cn/docs/documentation/guide/subsys-toolchain-hiperf-0000001186316470](https://device.harmonyos.com/cn/docs/documentation/guide/subsys-toolchain-hiperf-0000001186316470)
 
-## bytrace
+## 1.9. bytrace
 
 通过 hdc 来获取 trace 的方法如下：
 
@@ -541,37 +645,61 @@ https://ui.perfetto.dev（科学上网）
 
 查看 trace：
 
-## bootchart
+## 1.10. bootchart
 
 使用方法：
 
-```bash
-1. hdc shell
-2. begetctl bootchart enable
-3. reboot 或者断电重启
-4. begetctl bootchart stop
-5. begetctl bootchart disable
-6. 进入到/data/service/el0/startup/init/文件夹下查看是否有如下文件：
+- 抓数据
+
+```
+hdc shell begetctl bootchart enable
+hdc shell reboot                                                         # 重启
+...
+重启完成后
+...
+hdc shell begetctl bootchart stop
+hdc shell begetctl bootchart disable
+进入到/data/service/el0/startup/init/文件夹下查看是否有如下文件：
 header、proc_diskstats.log、proc_ps.log、proc_stat.log
-7. 在/data/service/el0/startup/init/目录下执行命令：tar -czf bootchart.tgz *  # 打包
-8. hdc_std file recv /data/service/el0/startup/init/bootchart.tgz ./        #导出
-9. 生成开机性能图片 java -jar bootchart.jar bootchart.tgz
+
+在/data/service/el0/startup/init/目录下执行命令：tar -czf bootchart.tgz *  # 打包
+hdc file recv /data/service/el0/startup/init/bootchart.tgz ./        # 导出
 ```
 
-## glmark
+- 下载 bootchart.jar，[点我下载](https://archive.spacemit.com/tools/openharmony/bootchart.zip)
+- 数据转图片，执行如下命名，会生成 `bootchart.png`
 
-使用方法：
-
-```bash
-执行下面3条命令可运行glmark老化：
-power-shell setmode 602
-cd /system/bin
-./glmark2-es2 --run-forever --size 720x720
+```
+java -jar bootchart.jar bootchart.tgz
 ```
 
-## wpa\_supplicant&wpa\_cli
+如果执行该命令报错，如下，需要升级本机 java 版本
 
-```bash
+```
+D:\>java -jar bootchart.jar bootchart.tgz
+Exception in thread "main" java.lang.UnsupportedClassVersionError: org/bootchart/Main has been compiled by a more recent version of the Java Runtime (class file version 55.0), this version of the Java Runtime only recognizes class file versions up to 52.0
+        at java.lang.ClassLoader.defineClass1(Native Method)
+        at java.lang.ClassLoader.defineClass(Unknown Source)
+        at java.security.SecureClassLoader.defineClass(Unknown Source)
+        at java.net.URLClassLoader.defineClass(Unknown Source)
+        at java.net.URLClassLoader.access$100(Unknown Source)
+        at java.net.URLClassLoader$1.run(Unknown Source)
+        at java.net.URLClassLoader$1.run(Unknown Source)
+        at java.security.AccessController.doPrivileged(Native Method)
+        at java.net.URLClassLoader.findClass(Unknown Source)
+        at java.lang.ClassLoader.loadClass(Unknown Source)
+        at sun.misc.Launcher$AppClassLoader.loadClass(Unknown Source)
+        at java.lang.ClassLoader.loadClass(Unknown Source)
+        at sun.launcher.LauncherHelper.checkAndLoadMain(Unknown Source)
+```
+
+- 生成的 `bootchart.png` 如下：
+
+![](https://developer.spacemit.com/resource/file/images?fileName=ScdFbQLSlovy45xkv5vcQrqfn1b.png)
+
+## 1.11. wpa\_supplicant&wpa\_cli
+
+```
 使用方法：
 1. 开启再关闭wifi
 2. cd /vendor/bin/
@@ -586,7 +714,7 @@ cd /system/bin
 11. > enable_network ID
 ```
 
-## snapshot\_display
+## 1.12. snapshot\_display
 
 ```bash
 param set const.security.developermode.state true
@@ -594,11 +722,11 @@ param set persist.hdc.root 1
 snapshot_display -f /data/local/tmp/test1.jpeg
 ```
 
-## wukong
+## 1.13. wukong
 
 待完善
 
-## power-shell
+## 1.14. power-shell
 
 ```
 power-shell setmode 602      #性能模式，关闭休眠
@@ -606,7 +734,7 @@ power-shell suspend          #休眠
 power-shell display -s xxx   #设置亮度
 ```
 
-## 重新挂载 system/vendor 分区为可读写
+## 1.15. 重新挂载 system/vendor 分区为可读写
 
 system/vendor 分区默认挂载为只读（ro），当调试的时候需要使用 `hdc file send` 推文件的时候，需要将其重新挂载为可读写，如下：
 
@@ -617,42 +745,184 @@ mount -o remount,rw /
 
 系统重启后失效，需要重新挂载
 
-## gdb 调试
+## 1.16. gdb 调试
 
 待添加
 
-# 常用测试方法
+## 1.17. 调频
 
-## monkey 测试
+### 1.17.1. CPU 频率
+
+```bash
+cd /sys/devices/system/cpu/cpufreq/policy0/
+
+cat scaling_cur_freq
+# 查看当前频率
+
+cat scaling_available_frequencies
+# 查看可用频率
+
+echo userspace > scaling_governor
+echo 1228800 > scaling_setspeed
+# 调整频率
+
+cat scaling_cur_freq
+# 查看调整是否生效
+```
+
+### 1.17.2. DDR 调频
+
+```
+# 频率表：
+# 2400M C
+# 1600M A
+# 1200M 8
+# 800M  4
+# 600M  2
+
+devmem 0xd4282980 4
+# 读取当前频率
+
+devmem 0xd4282980 4 0xX
+# 设置频率，0xX值要比频率表的值+1，相当于bit0写1
+# 比如设置2400M，devmem 0xd4282980 32 0xD
+```
+
+### 1.17.3. EMMC 调频
 
 待添加
 
-## 循环 reboot
+# 2. 常用测试方法
 
-待添加
+## 2.1. monkey 测试
 
-## 循环音乐播放
+### 2.1.1. 环境配置（windows）
 
-待添加
+1. 安装 Python（3.8 及以上版本）及相关库。
+2. 安装 `hdc` 设备链接工具并配置环境变量，保证 `cmd` 命令窗口中可以执行 `hdc shell` 或者 `hdc_std shell` 正确链接测试设备
+3. 下载 `stablility_test_tool_v1.0` 这个 `python` 测试工具包
 
-## 循环视频播放
+### 2.1.2. 执行测试
 
-待添加
+```
+D:\stablility_test_tool_v1.0>python.exe D:\stablility_test_tool_v1.0\monkey_test.py -d H1241200045 -p hdc -i 1000 -t 1000
+```
 
-# 常见问题调试手段
+参数说明：
 
-## 外设
+- -d：测试设备的 `sn` 序列号，可通过 `hdc list targets` 查询获取
+- -p：`hdc` 路径，有的是 `hdc_std`，根据配置的环境变量修改
+- -i：操作间隔时间，单位 ms, 建议间隔 `500ms`, 硬件配置低时，操作时间不能设置过短，否者系统压力过大
+- -t：测试时间长度，单位分钟
 
-### 屏幕背光无法调节
+## 2.2. 循环 reboot
+
+### 2.2.1. 环境配置（windows）
+
+1. 安装 Python（3.8 及以上版本）及相关库。
+2. 安装 `hdc` 设备链接工具并配置环境变量，保证 `cmd` 命令窗口中可以执行 `hdc shell` 或者 `hdc_std shell` 正确链接测试设备
+3. 下载 `stablility_test_tool_v1.0` 这个 `python` 测试工具包
+
+### 2.2.2. 执行测试
+
+```
+D:\stablility_test_tool_v1.0>python.exe D:\stablility_test_tool_v1.0\reboot_test.py -d H1241200045 -p hdc -c 2000
+```
+
+参数说明：
+
+- -d：测试设备的 `sn` 序列号，可通过 `hdc list targets` 查询获取
+- -p：`hdc` 路径，有的是 `hdc_std`，根据配置的环境变量修改
+- -c：开关机次数，默认 600 次，间隔 80s, 最大等待设备重启时间 300s，若想修改两次测试间隔时间，可以修改 REBOOT\_WAIT\_TIME，但不能比设备开机时间短
+
+## 2.3. 循环音乐播放
+
+直接打开“音乐”即可，自动循环播放音乐。
+
+## 2.4. 循环视频播放
+
+下载视频老化专用测试 hap（[在这里](https://archive.spacemit.com/tools/openharmony/hap/)），通过 hdc 安装
+
+```
+hdc install 视频老化测试.hap
+```
+
+安装完成后，直接点击 `Launcher` 桌面上的图标运行即可，会自动循环播放。
+
+## 2.5. GPU 老化测试（glmark）
+
+使用方法：
+
+```bash
+执行下面3条命令可运行glmark老化：
+power-shell setmode 602
+cd /system/bin
+./glmark2-es2 --run-forever --size 720x720
+```
+
+# 3. 常见问题调试手段
+
+## 3.1. 外设
+
+### 3.1.1. 屏幕背光无法调节
 
 - 通过查看和设置节点 `sys/class/backlight/backlight/brightness` 来确认驱动是否正常
 - 如果设置上述节点亮度无变化，说明驱动存在问题，需要查驱动，重点查看背光对应的 PWM 是否正常工作
 - 如果设置上述节点亮度有变化，说明是 OH 上层的问题，可以通过命令 power-shell display -s xxx(100\>xxx\>0)来查看亮度是否有变化
 
-## 系统
+## 3.2. 系统
 
-### cppcrash
+### 3.2.1. 替换内核
+
+- 挂载内核，可替换 `Image.itb` 和 `k1-x_ZT001H.dtb`（`dtb` 文件，不同方案的名称不一样）
+
+```
+# cd dev/block/
+# ls
+by-name  loop5         mmcblk2p1   mmcblk2p3  mmcblk2p9  ram12  ram4
+loop0    loop6         mmcblk2p10  mmcblk2p4  platform   ram13  ram5
+loop1    loop7         mmcblk2p11  mmcblk2p5  ram0       ram14  ram6
+loop2    mmcblk2       mmcblk2p12  mmcblk2p6  ram1       ram15  ram7
+loop3    mmcblk2boot0  mmcblk2p13  mmcblk2p7  ram10      ram2   ram8
+loop4    mmcblk2boot1  mmcblk2p2   mmcblk2p8  ram11      ram3   ram9
+#
+# mount mmcblk2p5 /tmp
+# cd /tmp
+# ls
+Image.itb  bianbu.bmp  env_k1-x.txt  k1-x_ZT001H.dtb  lost+found
+```
+
+- 通过 `hdc` 将更新的内核或者 `dtb` 文件推入 `/tmp` 文件夹
+
+```
+D:\>hdc file send Image.itb /tmp/
+D:\>hdc file send k1-x_ZT001H.dtb /tmp/
+```
+
+- 取消挂载内核，重启即可生效
+
+```
+# unmount /tmp
+# reboot
+```
+
+### 3.2.2. cppcrash
 
 待添加
 
-引用自 [进迭时空开发者文档](https://developer.spacemit.com/documentation?token=Mqo9wGcBOiUbKUk22cAcYAlOnce)
+## 3.3. 休眠唤醒异常
+
+### 3.3.1. 只关屏，无法深度休眠
+
+- 查看 `vendor/spacemit/xxx/power_config/power_mode_config.xml` 是否设置了禁止深度休眠，具体参考 `K1 OH5.0系统定制说明` 的 `电源管理定制` 章节
+- 通过 `power-shell dump -a` 查看系统是否拿了禁止休眠的锁，如下：
+
+```
+
+```
+
+- 查看 hilog 和内核 log 是否有异常打印
+
+### 3.3.2. 深度休眠失败
+
+### 3.3.3. 深度休眠后唤醒失败

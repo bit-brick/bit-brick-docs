@@ -1,20 +1,37 @@
-# K1 JOH5.0 系统定制说明
+# K1 OH5.0 系统定制说明
 
 
+# 修订记录
 
-# UI 定制
+<table>
+<tbody>
+<tr>
+<td>修订版本</td>
+<td>修订日期</td>
+<td>修订说明</td>
+</tr>
+<tr>
+<td>001</td>
+<td>2025-01-13</td>
+<td>初始版本</td>
+</tr>
+<tr>
+<td>002</td>
+<td>2025-04-18</td>
+<td>添加“camera通路定制”章节</td>
+</tr>
+</tbody>
+</table>
 
-## 更换 boot logo
+---
+
+# 1. UI 定制
+
+## 1.1. 更换 boot logo
 
 Boot logo 可放置在 2 个位置：
 
-所有方案共用的 boot logo 放置在：
-
-```bash
-device/soc/spacemit/k1/kernel/boot/bootfs
-```
-
-如下：
+- 所有方案共用的 boot logo 放置在 `device/soc/spacemit/k1/kernel/boot/bootfs`，如下，同一个图案的 boot logo 有 4 张图，分 4 个方向，每个方案根据需要选择不同方向的 logo，一般情况下，都是选用 0° 的 logo 图片。
 
 ```bash
 |-- boot_logo_spacemit_0.bmp
@@ -23,15 +40,7 @@ device/soc/spacemit/k1/kernel/boot/bootfs
 `-- boot_logo_spacemit_90.bmp
 ```
 
-同一个图案的 boot logo 有 4 张图，分 4 个方向，每个方案根据需要选择不同方向的 logo，一般情况下，都是选用 0° 的 logo 图片。
-
-特定方案定制的 boot logo 放置在：
-
-```bash
-device/board/spacemit/xxx/kernel/boot/bootfs
-```
-
-如下：
+- 特定方案定制的 boot logo 放置在 `device/board/spacemit/xxx/kernel/boot/bootfs`，如下：
 
 ```bash
 |-- boot_logo_ry_270.bmp
@@ -43,17 +52,11 @@ bootlogo 对于图像的要求为 32bit 的 bmp 图像，放置新的 boot logo 
 cp ${OHOS_SOURCE_ROOT}/device/soc/${DEVICE_BOARD}/k1/kernel/boot/bootfs/boot_logo_spacemit_0.bmp ${OHOS_IMAGES_DIR}/bootfs/bianbu.bmp
 ```
 
-## 更换 kernel logo
+## 1.2. 更换 kernel logo
 
 Kernel logo 是在 boot logo 之后和开机动画之间展示的 logo，目的是避免 boot logo 和开机动画之间黑屏太久，一般 kernel logo 的图案和 boot logo 保持一致。
 
-kernel\_logo 放置在
-
-```bash
-device/board/spacemit/common/kernel_logo
-```
-
-如下：
+kernel\_logo 放置在 `device/board/spacemit/common/kernel_logo`，如下：
 
 ```bash
 |-- kernel_logo_ry_270.ppm
@@ -63,13 +66,13 @@ device/board/spacemit/common/kernel_logo
 `-- kernel_logo_spacemit_90.ppm
 ```
 
-添加新的 kernel logo 后，再修改 `device/board/spacemit/musepaper/kernel` 的 `build_kernel.sh` 文件，拷贝 kernel logo 到内核的编译路径即可。
+Kernel logo 为 ppm 格式，添加新的 kernel logo 后，再修改 `device/board/spacemit/xxx/kernel` 的 `build_kernel.sh` 文件，拷贝 kernel logo 到内核的编译路径即可。
 
 ```bash
 cp -rf ${OHOS_SOURCE_ROOT}/device/board/${DEVICE_BOARD}/common/kernel_logo/kernel_logo_spacemit_0.ppm ${KERNEL_BUILD_ROOT}/drivers/video/logo/logo_linux_clut224.ppm
 ```
 
-### bmp 转 ppm
+### 1.2.1. bmp 转 ppm
 
 - 安装转换工具
 
@@ -108,11 +111,11 @@ sudo apt-get install netpbm
  rm $name.pnm $name.clut224.pnm
 ```
 
-## 更换开机动画
+## 1.3. 更换开机动画
 
 更换开机动画有 2 种方式，一个是更换原生开机动画，另一个是添加定制动画，下面分别说明：
 
-### 更换原生动画
+### 1.3.1. 更换原生动画
 
 原生开机动画是 `foundation/graphic/graphic_2d/frameworks/bootanimation/data` 的 `bootpic.zip`，可以替换这个 zip 包。
 
@@ -144,7 +147,7 @@ config.json 的内容为：
 
 自己定制开机动画需要按照上面的格式和内容来定制。
 
-### 添加定制动画
+### 1.3.2. 添加定制动画
 
 `vendor/spacemit/xxx` 目录下，加入 `bootanimation_custom_config.json` 配置文件，里面配置定制动画的路径，如下：
 
@@ -158,15 +161,15 @@ config.json 的内容为：
 
 并在上述文件对应的路径放入定制开机动画。
 
-## 更换开机音乐
+## 1.4. 更换开机音乐
 
 更换开机音乐有 2 种方式，一个是更换原生开机音乐，另一个是添加定制音乐，下面分别说明：
 
-### 更换原生音乐
+### 1.4.1. 更换原生音乐
 
 原生开机音乐是 `foundation/graphic/graphic_2d/frameworks/bootanimation/data` 的 `bootsound.wav`，可以替换这个 wav 文件，音乐的时长不用太长。
 
-### 添加定制音乐
+### 1.4.2. 添加定制音乐
 
 `vendor/spacemit` 目录下，加入 `bootanimation_custom_config.json` 配置文件，里面配置定制音乐的路径，如下：
 
@@ -180,15 +183,15 @@ config.json 的内容为：
 
 并在上述文件对应的路径放入定制开机音乐。
 
-## 更换开机视频
+## 1.5. 更换开机视频
 
 更换开机视频有 2 种方式，一个是更换原生开机视频，另一个是添加定制视频，下面分别说明：
 
-### 更换原生视频
+### 1.5.1. 更换原生视频
 
 原生开机视频是 `foundation/graphic/graphic_2d/frameworks/bootanimation/data` 的 `bootvideo.mp4`，可以替换这个 mp4 文件，确保开机视频的视频编码格式为 H.264，视频长宽比例与屏幕长宽比例一致。
 
-### 添加定制视频
+### 1.5.2. 添加定制视频
 
 `vendor/spacemit` 目录下，加入 `bootanimation_custom_config.json` 配置文件，里面配置定制视频的路径，如下：
 
@@ -202,15 +205,37 @@ config.json 的内容为：
 
 并在上述文件对应的路径放入定制开机视频。
 
-## 开机动画切换为开机视频
+## 1.6. 开机视频切换为开机动画
 
-待添加
+目前系统中默认开启了开机视频，没有使用开机动画，如果想要切换为开机动画，需要关闭开机视频播放，进行修改：`vendor/spacemit/xxx/config.json` 的 `"component": "graphic_2d"` 中添加 `graphic_2d_feature_player_framework_enable = false`，如下所示：
 
-# 应用定制
+```
+fuqiang@snode2:~/workspace/oh5_r_release/vendor/spacemit/musepaper2$ git diff
+diff --git a/musepaper2/config.json b/musepaper2/config.json
+index d70ad50..ef16ca6 100755
+--- a/musepaper2/config.json
++++ b/musepaper2/config.json
+@@ -21,7 +21,8 @@
+       "subsystem": "graphic",
+       "components": [
+         {
+           "component": "graphic_2d",
+           "features": [
+             "graphic_2d_feature_ace_enable_gpu = true",
+             "graphic_2d_feature_parallel_render_enable = true",
+-            "graphic_2d_feature_rs_enable_eglimage = true"
++            "graphic_2d_feature_rs_enable_eglimage = true",
++            "graphic_2d_feature_player_framework_enable = false"
+           ]
+         },
+         {
+```
 
-## 预置应用
+# 2. 应用定制
 
-### 预置应用
+## 2.1. 预置应用
+
+### 2.1.1. 添加预置应用
 
 - 将 hap 放置于 `applications/standard/hap`
 - 修改 `applications/standard/hap/BUILD.gn` 配置，如下例（以浏览器 hap 为例）：
@@ -266,11 +291,22 @@ index dd859c2..0107e85 100755
 
 ```
 
-### 删除预置应用
+### 2.1.2. 删除预置应用
 
 删除应用是添加应用的逆操作，可以参考上面章节，将 `vendor/spacemit/xxx/preinstall-config/install_list.json` 中的对应 hap 的配置删除即可。
 
-## 替换系统应用
+### 2.1.3. 预置应用可卸载
+
+很多预置的系统应用是不可拆卸的，如果想将预置应用修改为可拆卸，修改如下：`vendor/spacemit/xxx/preinstall-config/install_list.json` 中将对应应用的 `"removable"` 设置为 `true`，如下所示：
+
+```
+{
+    "app_dir" : "/system/app/com.ohos.note",
+    "removable" : true
+},
+```
+
+## 2.2. 替换系统应用
 
 通过 Ability 来区分的话，系统应用又会分为如下两类：
 
@@ -284,21 +320,21 @@ index dd859c2..0107e85 100755
 - 找到 Launcher 预置 hap 路径 `/system/app/com.ohos.launcher`，可以看到该路径下有 2 个 hap：`Launcher.hap` 和 `Launcher_Settings.hap`
 - 执行以下指令
 
-```sql
-hdc shell "mount -o remount,rw /"
-hdc shell "rm -rf /data/*"
+```
+hdc shell mount -o remount,rw /
+hdc shell rm -rf /data/*
 hdc file send Launcher.hap /system/app/com.ohos.launcher/Launcher.hap
 hdc file send Launcher_Settings.hap /system/app/com.ohos.launcher/Launcher_Settings.hap
-hdc shell "reboot"
+hdc shell reboot
 ```
 
 - 即可正常替换安装自己构建的 Launcher
 
-## 相册
+## 2.3. 相册
 
-### 推送视频
+### 2.3.1. 推送视频
 
-- 准备 xxx.mp4 视频
+- 准备 `xxx.mp4` 视频
 - 通过 hdc 将视频推入机器
 
 ```
@@ -315,9 +351,9 @@ D:\>hdc shell
 
 - 打开 `相册` 应用，播放视频，如果没有视频，将 `相册` 应用后台删除，重新进入
 
-### 推送图片
+### 2.3.2. 推送图片
 
-- 准备 xxx.jpg 或者 xxx.png 图片
+- 准备 `xxx.jpg` 或者 `xxx.png` 图片
 - 通过 hdc 将图片推入机器
 
 ```bash
@@ -334,17 +370,189 @@ D:\>hdc shell
 
 - 打开 `相册` 应用，显示图片，如果没有图片，将 `相册` 应用后台删除，重新进入
 
-## Launcher
+## 2.4. Launcher
 
-### 替换背景图片
+### 2.4.1. 替换背景图片
 
-背景图片的位置在：`applications/standard/launcher/product/phone/src/main/ets/common/pics/img_wallpaper_default.jpg`
+背景图片需要准备 2 张，1 张清晰，1 张模糊，配对使用，如下：
 
-替换该图片后，重新编译 Launcher，将新生成的 Launcher.hap 放入 `applications/standard/hap` 文件夹，生成新 img。
+![](https://developer.spacemit.com/resource/file/images?fileName=Sz3gb5RQGodQOvxSqArcw4zbnih.png)
 
-## 锁屏
+主要修改下面几个位置：
 
-### 去掉锁屏
+- 修改 systemui，替换下面图片后，重新编译 systemui，将新生成的 hap 放入 `applications/standard/hap` 文件夹
+
+  - `applications/standard/systemui/product/phone/dropdownpanel/src/main/resources/phone/media/dropdownpanel_bgc.jpg`
+- 修改 launcher，替换下面图片后，重新编译 launcher，将新生成的 hap 放入 `applications/standard/hap` 文件夹
+
+  - `applications/standard/launcher/product/phone/src/main/ets/common/pics`
+  - `applications/standard/launcher/feature/appcenter/src/main/ets/default/common/pics/ic_wallpaper_form_manager.jpg`
+  - `applications/standard/launcher/feature/form/src/main/ets/default/common/pics/ic_wallpaper_form_manager.jpg`
+  - `applications/standard/launcher/feature/recents/src/main/ets/default/common/pics/ic_wallpaper_recent.jpg`
+- 修改系统，替换下面图片后，和上面修改的 hap 一起编译生成新的 img
+
+  - `base/theme/wallpaper_mgr/frameworks/native/data/`
+
+### 2.4.2. 替换 launcher
+
+- 给自己的应用打上补丁，伪装成 launcher
+
+  ```
+  diff --git a/entry/src/main/ets/pages/Index.ets b/entry/src/main/ets/pages/Index.ets
+  index 8e2d24a..f72e81a 100644
+  --- a/entry/src/main/ets/pages/Index.ets
+  +++ b/entry/src/main/ets/pages/Index.ets
+  @@ -1,3 +1,8 @@
+  +import hilog from '@ohos.hilog';
+  +import systemParameterEnhance from '@ohos.systemParameterEnhance';
+  +
+  +const DOMAIN = 0x0000;
+  +
+   @Entry
+   @Component
+   struct Index {
+  @@ -20,4 +25,26 @@ struct Index {
+       .height('100%')
+       .width('100%')
+     }
+  +
+  +  onPageShow(): void {
+  +    hilog.info(DOMAIN, 'launcher', 'onPageShow');
+  +    let firstActivate:boolean | undefined = AppStorage.get('firstActivate');
+  +    if (typeof firstActivate !== 'boolean') {
+  +      hilog.info(DOMAIN, 'launcher', 'first activate not defined');
+  +      AppStorage.setOrCreate('firstActivate', true);
+  +      this.voteBootEvent();
+  +    } else if (firstActivate) {
+  +      this.voteBootEvent();
+  +    }
+  +  }
+  +
+  +  private voteBootEvent(): void {
+  +    try {
+  +      AppStorage.setOrCreate('firstActivate', false);
+  +      systemParameterEnhance.setSync('bootevent.launcher.ready', 'true');
+  +      hilog.info(DOMAIN, 'launcher', 'set bootevent.launcher.ready -> true');
+  +    } catch (err) {
+  +      hilog.error(DOMAIN, 'launcher', 'set voteBootEvent err: %{public}s', JSON.stringify(err));
+  +    }
+  +  }
+   }
+  \ No newline at end of file
+  diff --git a/entry/src/main/module.json5 b/entry/src/main/module.json5
+  index e691821..0812247 100644
+  --- a/entry/src/main/module.json5
+  +++ b/entry/src/main/module.json5
+  @@ -2,8 +2,9 @@
+     "module": {
+       "name": "entry",
+       "type": "entry",
+  +    "srcEntry": "./ets/entryability/EntryAbility.ets",
+       "description": "$string:module_desc",
+  -    "mainElement": "EntryAbility",
+  +    "mainElement": "com.ohos.launcher.MainAbility",
+       "deviceTypes": [
+         "default"
+       ],
+  @@ -12,7 +13,8 @@
+       "pages": "$profile:main_pages",
+       "abilities": [
+         {
+  -        "name": "EntryAbility",
+  +        "priority": 2,
+  +        "name": "com.ohos.launcher.MainAbility",
+           "srcEntry": "./ets/entryability/EntryAbility.ets",
+           "description": "$string:EntryAbility_desc",
+           "icon": "$media:layered_image",
+  @@ -23,28 +25,17 @@
+           "skills": [
+             {
+               "entities": [
+  -              "entity.system.home"
+  +              "entity.system.home",
+  +              "flag.home.intent.from.system"
+               ],
+               "actions": [
+  -              "action.system.home"
+  +              "action.system.home",
+  +              "com.ohos.action.main",
+  +              "action.form.publish",
+               ]
+             }
+           ]
+         }
+  -    ],
+  -    "extensionAbilities": [
+  -      {
+  -        "name": "EntryBackupAbility",
+  -        "srcEntry": "./ets/entrybackupability/EntryBackupAbility.ets",
+  -        "type": "backup",
+  -        "exported": false,
+  -        "metadata": [
+  -          {
+  -            "name": "ohos.extension.backup",
+  -            "resource": "$profile:backup_config"
+  -          }
+  -        ]
+  -      }
+       ]
+     }
+   }
+  \ No newline at end of file
+  ```
+- 获取应用的 fingerprint
+
+提高 hilog 打印等级并关闭隐私
+
+```bash
+hilog -b D
+hilog -p off
+hilog | grep fingerprint > /mnt/1.txt
+```
+
+尝试安装 hap，可以在 hilog 中检索到 fingerprint
+
+```
+hdc file send your_launcher.hap /mnt/Launcher.hap
+hdc shell bm install -p /mnt/Launcher.hap
+```
+
+- 更新 `install_list_capability.json`
+
+将新的 fingerprint 拷贝到 `install_list_capability.json` 中 launcher 对应的位置，并更新到 `/system/etc/app/install_list_capability.json`
+
+```
+hdc file send D:\_Resource\oh\install_list_capability.json /mnt/
+hdc shell mount -o rw,remount /
+hdc shell cp /mnt/install_list_capability.json /system/etc/app/install_list_capability.json
+```
+
+- 删除 `launcher_settings.hap`
+
+删除 `/system/hap/com.ohos.launcher/launcher_settings.hap`
+
+```
+hdc shell rm /system/hap/com.ohos.launcher/launcher_settings.hap
+```
+
+- 安装应用
+
+  ```bash
+
+  hdc file send your_launcher.hap /mnt/Launcher.hap
+  hdc shell mount -o rw,remount /
+  hdc shell cp /mnt/Launcher.hap /system/app/com.ohos.launcher/Launcher.hap
+  hdc shell rm -rf /data/*
+  ```
+- reboot
+
+  ```
+  hdc shell reboot
+  ```
+
+## 2.5. 锁屏
+
+### 2.5.1. 去掉锁屏
 
 - 在 `applications/standard/hap/BUILD.gn` 文件中去除锁屏应用相关的代码，如下：
 
@@ -421,9 +629,481 @@ index 32c6a60ec..98df12ffc 100644
 
 - 副作用：无下拉菜单
 
-# 系统定制
+## 2.6. USB 通信定制
 
-## 电源管理定制
+### 2.6.1. 使用 USB DDK 通信
+
+- 使用 Deveco Studio 创建 Native C++ 工程
+- 在 entry/build-profile.json5 添加 riscv64 适配
+
+```
+{
+  "apiType": "stageMode",
+  "buildOption": {
+    "externalNativeOptions": {
+      "path": "./src/main/cpp/CMakeLists.txt",
+      "arguments": "",
+      "abiFilters": [
+        "riscv64"
+      ],
+      "cppFlags": "",
+    }
+  },
+  "buildOptionSet": [
+    {
+      "name": "release",
+      "arkOptions": {
+        "obfuscation": {
+          "ruleOptions": {
+            "enable": false,
+            "files": [
+              "./obfuscation-rules.txt"
+            ]
+          }
+        }
+      },
+      "nativeLib": {
+        "debugSymbol": {
+          "strip": true,
+          "exclude": []
+        }
+      }
+    },
+  ],
+  "targets": [
+    {
+      "name": "default"
+    },
+    {
+      "name": "ohosTest",
+    }
+  ]
+}
+```
+
+- 在 entry/src/main/module.json5 申请权限：
+
+```cpp
+...
+"requestPermissions": [
+  {
+    "name": "ohos.permission.ACCESS_DDK_USB"
+  }
+]
+...
+```
+
+- 链接动态库
+
+修改 entry/src/main/cpp/CMakeLists.txt 添加相关 lib：
+
+```cpp
+target_link_libraries(entry PUBLIC libace_napi.z.so libhilog_ndk.z.so libusb_ndk.z.so)
+```
+
+- entry/src/main/cpp/napi\_init.cpp 中添加 USB 读写逻辑：
+
+```
+#include "napi/native_api.h"
+#include <usb/usb_ddk_api.h>
+#include <usb/usb_ddk_types.h>
+#include <hilog/log.h>
+
+uint64_t interfaceHandle = 0;
+struct UsbDeviceMemMap *devMmap = nullptr;
+
+
+static napi_value UsbInit(napi_env env, napi_callback_info info)
+{
+    napi_value result;
+    // 初始化USB DDK
+    OH_Usb_Init();
+    struct UsbDeviceDescriptor devDesc;
+    uint64_t deviceId =  0x0000000200000002; //对应耳机usb节点:/dev/bus/usb/001/003 001对应高八位 004对应第八位
+    // 获取设备描述符
+    OH_Usb_GetDeviceDescriptor(deviceId, &devDesc);
+    struct UsbDdkConfigDescriptor *config = nullptr;
+    // 获取配置描述符
+    OH_Usb_GetConfigDescriptor(deviceId, 1, &config);
+    // 根据配置描述符,找到所需要通信的interfaceIndex
+    uint8_t interfaceIndex = 0;
+    // 声明接口
+
+    int ret = OH_Usb_ClaimInterface(deviceId, interfaceIndex, &interfaceHandle);
+    // 释放配置描述符
+    OH_Usb_FreeConfigDescriptor(config);
+    
+    napi_create_int32(env, ret, &result);
+    return result;
+}
+   
+static napi_value UsbSend(napi_env env, napi_callback_info info)
+{
+    napi_value result;
+    // 超时时间，设置为1s;
+    uint32_t timeout = 1000;
+    
+    //获取deviceid、devicekey
+    struct UsbControlRequestSetup setupWrite1;
+    setupWrite1.bmRequestType = 0x40;
+    setupWrite1.bRequest = 0x09;
+    setupWrite1.wValue = 0x200;
+    setupWrite1.wIndex = 0x4;
+    setupWrite1.wLength = 0x10;
+    uint8_t dataWrite1[10] = {0xA5,0x5A,0xFA,0x02,0x02,0x00,0x16};
+    uint32_t dataWriteLen1 = 10;
+    // 发送控制写请求
+    OH_Usb_SendControlWriteRequest(interfaceHandle, &setupWrite1, timeout, dataWrite1, dataWriteLen1);
+
+    struct UsbControlRequestSetup setupRead;
+    setupRead.bmRequestType = 0xC0;
+    setupRead.bRequest = 0x01;
+    setupRead.wValue = 0x101;
+    setupRead.wIndex = 0x4;
+    setupRead.wLength = 0x100;
+    uint8_t dataRead[256] = {};
+    uint32_t dataReadLen = 256;
+     // 发送控制读请求
+    int ret = OH_Usb_SendControlReadRequest(interfaceHandle, &setupRead, timeout, dataRead, &dataReadLen);
+    for(int i = 0; i < 10; i++){
+        OH_LOG_Print(_LOG_APP_, _LOG_ERROR_, 0xff, "usb-ddk", "data read:%{public}x", dataRead[i]);
+    }
+    
+    napi_create_int32(env, ret, &result);
+    return result;
+}
+
+static napi_value UsbDestroy(napi_env env, napi_callback_info info)
+{
+    napi_value result;
+    // 销毁缓冲区
+    // 释放接口
+    int ret = OH_Usb_ReleaseInterface(interfaceHandle);
+    // 释放USB DDK
+    OH_Usb_Release();
+
+    napi_create_int32(env, ret, &result);
+    return result;
+}
+
+
+EXTERN_C_START
+static napi_value Init(napi_env env, napi_value exports)
+{
+    napi_property_descriptor desc[] = {
+        { "usbInit", nullptr, UsbInit, nullptr, nullptr, nullptr, _napi_default_, nullptr },
+        { "usbDestroy", nullptr, UsbDestroy, nullptr, nullptr, nullptr, _napi_default_, nullptr },
+        { "usbSend", nullptr, UsbSend, nullptr, nullptr, nullptr, _napi_default_, nullptr }
+    };
+    napi_define_properties(env, exports, sizeof(desc) / sizeof(desc[0]), desc);
+    return exports;
+}
+EXTERN_C_END
+
+static napi_module demoModule = {
+    .nm_version = 1,
+    .nm_flags = 0,
+    .nm_filename = nullptr,
+    .nm_register_func = Init,
+    .nm_modname = "entry",
+    .nm_priv = ((void*)0),
+    .reserved = { 0 },
+};
+
+extern "C" __attribute__((constructor)) void RegisterEntryModule(void)
+{
+    napi_module_register(&demoModule);
+}
+```
+
+- entry/src/main/cpp/types/libentry/Index.d.ts 中添加声明：
+
+```
+**export const **usbInit: () => number;
+**export **const usbDestroy: () => number;
+export const usbSend: () => number;
+```
+
+UI 中调用：
+
+```
+**import **testNapi **from **'libentry.so';
+
+@Entry
+@Component
+**struct **Index {
+  @State message: string = 'Control Red Led';
+  build() {
+    Row() {
+      Column() {
+        Text(**this**.message)
+          .fontSize(50)
+          .fontWeight(FontWeight.Bold)
+          .onClick(() => {
+            testNapi.usbInit(); //传入资源对象，以及访问的rawfile文件夹名称
+            testNapi.usbSend();
+            testNapi.usbDestroy();
+          })
+      }
+      .width('100%')
+    }
+    .height('100%')
+  }
+}
+```
+
+### 2.6.2. 使用 HID DDK 通信
+
+由于 OH5.0 版本 hid ddk 的功能实现尚未完全，可通过直接读写 hidraw 节点实现通信。
+
+- 内核打开 hidraw 配置（kernel\linux\spacemit\_kernel-6.6\arch\riscv\configs\k1\_defconfig）
+
+```cpp
+CONFIG_HIDRAW=y
+```
+
+- 修改 hidraw 节点读写权限（base\startup\init\ueventd\etc\ueventd.config）
+
+```cpp
+/dev/bus/usb/* 0666 0 0
+```
+
+- 使用 Deveco Studio 创建 Native C++ 工程
+- 在 entry/build-profile.json5 添加 riscv64 适配
+
+```
+{
+  "apiType": "stageMode",
+  "buildOption": {
+    "externalNativeOptions": {
+      "path": "./src/main/cpp/CMakeLists.txt",
+      "arguments": "",
+      "abiFilters": [
+        "riscv64"
+      ],
+      "cppFlags": "",
+    }
+  },
+  "buildOptionSet": [
+    {
+      "name": "release",
+      "arkOptions": {
+        "obfuscation": {
+          "ruleOptions": {
+            "enable": false,
+            "files": [
+              "./obfuscation-rules.txt"
+            ]
+          }
+        }
+      },
+      "nativeLib": {
+        "debugSymbol": {
+          "strip": true,
+          "exclude": []
+        }
+      }
+    },
+  ],
+  "targets": [
+    {
+      "name": "default"
+    },
+    {
+      "name": "ohosTest",
+    }
+  ]
+}
+```
+
+- 链接动态库
+
+修改 entry/src/main/cpp/CMakeLists.txt 添加相关 lib：
+
+```cpp
+target_link_libraries(entry PUBLIC libace_napi.z.so libhilog_ndk.z.so)
+```
+
+- entry/src/main/cpp/napi\_init.cpp 中添加 HID 节点读写逻辑，写数据示例如下：
+
+```
+#include "napi/native_api.h"
+#include <hilog/log.h>
+#include <iostream>
+#include <fcntl.h>
+#include <unistd.h>
+#include <cstdint>
+#include <cerrno>
+
+
+static napi_value HidTest(napi_env env, napi_callback_info info)
+{
+    napi_value result;
+    const uint8_t hid_data[] = {
+        0x2E, 0xAA, 0xEC, 0x6B, 0x00, 0x07, 0xA2, 0xA4,
+        0x43, 0xA5, 0xA5, 0xC1, 0x5A, 0xF6, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+    };
+    const size_t data_len = sizeof(hid_data);
+    
+    int fd = open("/dev/hidraw1", O_WRONLY);
+    if (fd == -1) {
+        OH_LOG_Print(_LOG_APP_, _LOG_ERROR_, 0xff, "hid-ddk", "open hidraw error");
+    }
+    
+    ssize_t write_result = write(fd, hid_data, data_len);
+    if (write_result == -1) {
+        OH_LOG_Print(_LOG_APP_, _LOG_ERROR_, 0xff, "hid-ddk", "write error:%{public}s",std::strerror(errno));
+    }
+    
+    if (write_result != static_cast<ssize_t>(data_len)) {
+        OH_LOG_Print(_LOG_APP_, _LOG_ERROR_, 0xff, "hid-ddk", "only write:%{public}zu",data_len);
+    } else {
+        OH_LOG_Print(_LOG_APP_, _LOG_ERROR_, 0xff, "hid-ddk", "write success:%{public}zu",write_result);
+    }
+    
+    close(fd);
+    fd = -1;
+    
+    napi_create_uint32(env, write_result, &result);
+    return result;
+}
+
+EXTERN_C_START
+static napi_value Init(napi_env env, napi_value exports)
+{
+    napi_property_descriptor desc[] = {
+        { "hidTest", nullptr, HidTest, nullptr, nullptr, nullptr, _napi_default_, nullptr },
+    };
+    napi_define_properties(env, exports, sizeof(desc) / sizeof(desc[0]), desc);
+    return exports;
+}
+EXTERN_C_END
+
+static napi_module demoModule = {
+    .nm_version = 1,
+    .nm_flags = 0,
+    .nm_filename = nullptr,
+    .nm_register_func = Init,
+    .nm_modname = "entry",
+    .nm_priv = ((void*)0),
+    .reserved = { 0 },
+};
+
+extern "C" __attribute__((constructor)) void RegisterEntryModule(void)
+{
+    napi_module_register(&demoModule);
+}
+```
+
+- entry/src/main/cpp/types/libentry/Index.d.ts 中添加声明：
+
+```
+**export const hidTest: () => number;**
+```
+
+- UI 中调用：
+
+```
+**import **testNapi **from **'libentry.so';
+
+@Entry
+@Component
+**struct **Index {
+  @State message: string = 'Control Red Led';
+  build() {
+    Row() {
+      Column() {
+        Text(**this**.message)
+          .fontSize(50)
+          .fontWeight(FontWeight.Bold)
+          .onClick(() => {
+            testNapi.hidTest();
+          })
+      }
+      .width('100%')
+    }
+    .height('100%')
+  }
+}
+```
+
+# 3. 系统定制
+
+## 3.1. 添加系统属性
+
+### 3.1.1. 固定值系统属性
+
+在 `vendor/spacemit/xxx/etc/param/product_xxx.para` 中添加即可，如下：
+
+```
+const.product.name="MUSEPAPER"
+const.product.manufacturer="SPACEMIT"
+const.product.brand="MUSEPAPER"
+const.software.model="1.0.0.1"
+const.product.hardwareversion="1.0.0.0"
+const.product.software.version="1.0.0.1"
+const.product.incremental.version="1.0.0.0"
+const.build.product="MUSEPAPER"
+```
+
+添加的属性可以是已经存在的系统属性，这里进行覆盖，也可以是新添加的自定义名称的属性。
+
+### 3.1.2. 读取值系统属性
+
+读取值系统属性不是固定值，是需要在开机阶段通过读取节点等方式动态获取并写入到属性中的，添加逻辑和固定值系统属性不同。
+
+主要在 `base/startup/init/services/init/standard/init.c` 中进行添加，代码中已经添加了获取 CPU 型号和 MEM 大小的例子，以获取内存大小为例说明：
+
+- 添加通过节点读取信息的接口
+
+```
+void get_memory_size(char *buffer) {
+    FILE *fp = fopen("/proc/meminfo", "r");
+    if (!fp) {
+        perror("Could not open /proc/meminfo");
+        return;
+    }
+
+    char line[BUFFER_SIZE];
+    while (fgets(line, sizeof(line), fp)) {
+        if (strstr(line, "MemTotal")) {
+            char *colon = strchr(line, ':');
+            if (colon) {
+                unsigned long mem_kb;
+                sscanf(colon + 1, "%lu", &mem_kb);
+                float mem_gb = mem_kb / (1024.0 * 1024.0);
+                snprintf(buffer, BUFFER_SIZE, "%d GB", closest_value(mem_gb));
+                break;
+            }
+        }
+    }
+    fclose(fp);
+}
+```
+
+- 在 RegisteSystemParameter 中调用接口写入属性
+
+```
+void RegisteSystemParameter(void){
+    ...
+    char memory_size[BUFFER_SIZE] = "Unknown";
+
+    ...
+    get_memory_size(memory_size);
+
+    ...
+    i = SystemWriteParameter("const.product.mem", memory_size);
+    INIT_LOGI("const.product.mem = %s, ret = %d", memory_size, i);
+}
+```
+
+## 3.2. 电源管理定制
 
 主要修改 `vendor/spacemit/xxx/power_config/power_mode_config.xml`，如下：
 
@@ -482,17 +1162,46 @@ index 32c6a60ec..98df12ffc 100644
 
 该文件主要定义了几种电源管理模式，包括正常/省电/性能/超级省电等，以及对应管理模式的参数，包括关屏时间，待机时间等。
 
-默认系统是在 MODE\_NORMAL 模式，可以通过命令切换到其他模式，比如不想让系统进入休眠，可以切换到性能模式，如下：
+### 3.2.1. 设置不关屏休眠
+
+默认系统是在 MODE\_NORMAL 模式，可以通过命令切换到其他模式，比如不想让系统进入休眠，可以通过命令切换到性能模式，如下：
 
 ```bash
 power-shell setmode 602
 ```
 
-## 窗口管理定制
+### 3.2.2. 设置关屏时间
+
+关屏时间主要通过 `DisplayOffTime（101）` 来修改，单位为 `毫秒（ms）`，举例如下：
+
+```
+<switch id="101" value="300000" recover_flag="0"/>
+//300000 表示开机后，3分钟后关屏
+
+<switch id="101" value="-1" recover_flag="0"/>
+//-1 表示永不关屏
+```
+
+### 3.2.3. 设置深度休眠时间
+
+深度休眠时间主要通过 `SystemAutoSleepTime（102）` 来修改，单位为 `毫秒（ms）`，举例如下：
+
+```
+<switch id="102" value="0" recover_flag="0"/>
+//0 表示关屏后马上休眠
+
+<switch id="102" value="5000" recover_flag="0"/>
+//5000 表示关屏5s后，进入休眠
+
+<switch id="102" value="-1" recover_flag="0"/>
+//-1 表示只关屏，不休眠
+```
+
+## 3.3. 窗口管理定制
 
 主要修改 `vendor/spacemit/musepaper2/window_config` 路径下的 `display_manager_config.xml` 和 `window_manager_config.xml`
 
-### display\_manager\_config.xml
+### 3.3.1. display\_manager\_config.xml
 
 ```xml
  <Configs>
@@ -545,19 +1254,19 @@ power-shell setmode 602
 - dpi：像素密度，dpi 越大图标越小
 - buildInDefaultOrientation：桌面旋转角度配置
 
-### window\_manager\_config.xml
+### 3.3.2. window\_manager\_config.xml
 
 主要用于配置窗口动画，效果等，修改不多
 
-## 网络管理定制
+## 3.4. 网络管理定制
 
-### wifi 定制
+### 3.4.1. wifi 定制
 
-#### 驱动调试
+#### 3.4.1.1. 驱动调试
 
 该调试功能主要由进迭进行，确保驱动层功能正常，并能够编译出 ko。
 
-#### 拷贝 ko（以 rtl8852bs 为例）
+#### 3.4.1.2. 拷贝 ko（以 rtl8852bs 为例）
 
 在 `device/board/spacemit/xxx/kernel` 的 `build_kernel.sh` 中进行拷贝，如下：
 
@@ -573,7 +1282,7 @@ function cp_ko(){
 
 在编译完内核后，将内核编译目录下的 ko 拷贝到 OpenHarmony 系统的目录下，在编译 OpenHarmony 的时候，会将这些 ko 拷贝到 vendor 分区并进行打包。
 
-#### 加载 ko（以 8852bs 为例）
+#### 3.4.1.3. 加载 ko（以 8852bs 为例）
 
 在 `device/board/spacemit/xxx/cfg` 的 `init.xxx.cfg` 中进行 ko 的加载，如下：
 
@@ -599,17 +1308,17 @@ typec                 323584  1 husb239
 
 ```
 
-### BT 定制
+### 3.4.2. BT 定制
 
 待添加
 
-### 4G 定制
+### 3.4.3. 4G 定制
 
 待添加
 
-## 多媒体系统定制
+## 3.5. 多媒体系统定制
 
-### 音频通路定制
+### 3.5.1. 音频通路定制
 
 在 `vendor\spacemit\xxx\hals\audio\alsa_adapter.json` 添加声卡信息。
 
@@ -684,21 +1393,770 @@ typec                 323584  1 husb239
         </adapter>
 ```
 
-### camera 通路定制
+### 3.5.2. camera 通路定制（mipi）
+
+完成 camera 通路的适配，包括以下三个步骤：
+
+1. 确保 camera 底层驱动正常，保证 `cam-test` 的 demo 正常出图
+2. 确保 `svivi` 虚拟摄像头驱动正常，保证 `v4l2_test_spacemit` 正常出图
+3. 适配 camera 到 OH 框架
+
+![](https://developer.spacemit.com/resource/file/images?fileName=ThS7bUHUZocepLxeJHPcO6pEnfl.png)
+
+下面分 3 个小结进行详细说明：
+
+#### **3.5.2.1.** **确保 camera 底层驱动正常**
+
+- **cam-test 应用点亮一款 OH 已支持的摄像头，只需两步**
+
+第一步：
+
+确定摄像头是接在开发板的哪个 MIPI CSI 接口上，假如是接在了 `MIPI CSI1` 硬件接口，则运行以下命令探测摄像头
+
+```
+cam-test /system/profile/csi1_camera_detect.json
+```
+
+（如果摄像头是接在了 `MIPI CSI2` 硬件接口则使用 `csi2_camera_detect.json`）
+
+运行结果如下：
+
+```
+......
+I: ./sensors/cam_sensors_module.c(235): "detect ov16a10_spm sensors in csi1: success, set 3840x2160 to 1920x1080"
+I: auto_detect_camera(1401): "auto detect sensor ===================== finish "
+I: update_json_file(672): "save json to /data/csi1_camera_auto.json success"
+```
+
+cam-test 将会自动探测 `mipi csi1` 上已支持的摄像头 id，如果成功探测到将生成可用的 json 文件到/data/目录，该 json 文件将在后面的步骤中使用到。如果没有探测到，说明没有支持此摄像头，或者硬件有问题，或者软件配置不正确，此情况下建议请求 `进迭工程师` 提供支持。
+
+从上述运行 log 还可以得出，`ov16a10 sensor` 生成的 json 默认使用模式 0，sensor 输出分辨率为 `3840x2160`，isp 输出分辨率为 `1920x1080`。json 配置文件的更多描述，请参阅[《camera 快速启动指南》](https://bianbu-linux.spacemit.com/camera/camera_development_guide)的 JSON 参数说明章节。
+
+第二步：
+
+运行下列命令，使用自动生成的 json 配置文件，启动摄像头出图 500 帧，并保存第 250 帧。
+
+```sql
+cam-test /data/csi1_camera_auto.json
+
+```
+
+如果观察到下列打印，则表明摄像头开流有后数据输出。该第一大步骤完成。
+
+```
+I: cpp_client_receive_mctf_buffers(1833): "CPP0: frameid 1, fps 30.0"
+```
+
+如果运行失败，建议请求 `进迭工程师` 提供支持。请提供 cam-test 测试 log 文件，dmesg 内核打印文件，以及测试情况说明。
+
+- **cam-test 应用点亮一款 OH 未支持的新摄像头**
+
+请参阅[《camera 快速启动指南》](https://bianbu-linux.spacemit.com/camera/camera_development_guide)快速点亮导览中的情况二，和文档有差别的地方是 `cam-test` 源码路径变更为
+
+```sql
+device/soc/spacemit/k1/hardware/camera
+```
+
+其余基本相同，此处不再赘述。
+
+#### **3.5.2.2.** **确保 svivi 虚拟摄像头驱动正常**
+
+经过第一步骤，已经可以确定 camera 的软硬件是正常可用的，接下来需要跑通 svivi 虚拟摄像头驱动，为后面 camera 摄像头适配 OH 做好准备工作。
+
+首先，需要按照以下步骤简单调整前面生成的 json 配置：
+
+- 新增 use\_v4l:1 字段，切换 cam-test 处于 v4l2 功能模式
+
+```
+{
+        "tuning_server_enable":1,
+        "show_fps":1,
+        "auto_run": 0,
+        //新增 "use_v4l":1,
+        "use_v4l":1,
+        ......
+}
+```
+
+- 如果该摄像头是后摄，则重命名该文件为 `svivi_cam1.json`；如果该摄像头是前摄，则重命名该文件为 `svivi_cam2.json`，并放置到 `/system/profile/` 目录。
+- 使用 `v4l2_test_spacemit` 执行下列命令测试 svivi 虚拟摄像头驱动。
+
+如果使用的摄像头是后摄，则操作 `/dev/video23`，执行的命令如下：
+
+```
+v4l2_test_spacemit --device /dev/video23 --set-fmt-video width=1920,height=1080,pixelformat=NV12 --verbose --stream-dmabuf --stream-loop  --stream-save 10 --stream-to=/data/test.yuv
+```
+
+如果使用的摄像头是前摄，则操作 `/dev/video24`，执行的命令如下：
+
+```
+v4l2_test_spacemit --device /dev/video24 --set-fmt-video width=1920,height=1080,pixelformat=NV12 --verbose --stream-dmabuf --stream-loop  --stream-save 10 --stream-to=/data/test.yuv
+```
+
+测试正常的输出 log 如下：
+
+```
+#v4l2_test_spacemit --device /dev/video24 --set-fmt-video width=1920,height=1080,pixelformat=NV12 --verbose --stream-dmabuf --stream-loop  --stream-save 10 --stream-to=test.yuv
+stream_save:10
+main:847 [WARN]can't get codec type
+
+VIDIOC_G_FMT: ok, type:9
+VIDIOC_S_FMT: ok, type:9
+Format Video Capture Multiplanar:
+        Width/Height      : 1920/1080
+        Pixel Format      : 'NV12'  (Y/UV 4:2:0)
+        Field             : None
+        Number of planes  : 1
+        Colorspace        : sRGB
+        Plane 0           :
+           Bytes per Line : 1920
+           Size Image     : 2073600
+start buffer preprocessing
+VIDIOC_REQBUFS: ok, type:9, count:4
+VIDIOC_QUERYBUF: ok, type:9
+        Index    : 0
+        Type     : V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE
+        Flags    : 0
+        Field    : 1
+        Sequence : 0
+        Length   : 1
+        Bytesused: 0
+        Timestamp: 0.000000s
+        Plane    : 0
+                Length     : 3110400
+                Bytesused  : 3110400
+                Data Offset: 0
+
+VIDIOC_QBUF: ok, type:9
+VIDIOC_QUERYBUF: ok, type:9
+VIDIOC_QBUF: ok, type:9
+VIDIOC_QUERYBUF: ok, type:9
+VIDIOC_QBUF: ok, type:9
+VIDIOC_QUERYBUF: ok, type:9
+VIDIOC_QBUF: ok, type:9
+start buffer queue
+start to VIDIOC_STREAMON
+VIDIOC_STREAMON: ok, type:9
+start select.
+VIDIOC_DQBUF: ok, type:9
+write_buffer_to_file:661 [INFO]capture w2f: 1 0 p:0x3f3b2c8000 0, 3110400
+VIDIOC_QBUF: ok, type:9
+do_handle_cap:736 [INFO]m2m capture dequeue----------------: 1
+start select.
+VIDIOC_DQBUF: ok, type:9
+write_buffer_to_file:661 [INFO]capture w2f: 1 1 p:0x3f3afd0000 0, 3110400
+VIDIOC_QBUF: ok, type:9
+do_handle_cap:736 [INFO]m2m capture dequeue----------------: 2
+start select.
+VIDIOC_DQBUF: ok, type:9
+write_buffer_to_file:661 [INFO]capture w2f: 1 2 p:0x3f3acd8000 0, 3110400
+VIDIOC_QBUF: ok, type:9
+do_handle_cap:736 [INFO]m2m capture dequeue----------------: 3
+start select.
+VIDIOC_DQBUF: ok, type:9
+write_buffer_to_file:661 [INFO]capture w2f: 1 3 p:0x3f3a9e0000 0, 3110400
+VIDIOC_QBUF: ok, type:9
+do_handle_cap:736 [INFO]m2m capture dequeue----------------: 4
+start select.
+VIDIOC_DQBUF: ok, type:9
+write_buffer_to_file:661 [INFO]capture w2f: 1 0 p:0x3f3b2c8000 0, 3110400
+VIDIOC_QBUF: ok, type:9
+do_handle_cap:736 [INFO]m2m capture dequeue----------------: 5
+start select.
+VIDIOC_DQBUF: ok, type:9
+write_buffer_to_file:661 [INFO]capture w2f: 1 1 p:0x3f3afd0000 0, 3110400
+VIDIOC_QBUF: ok, type:9
+do_handle_cap:736 [INFO]m2m capture dequeue----------------: 6
+start select.
+VIDIOC_DQBUF: ok, type:9
+write_buffer_to_file:661 [INFO]capture w2f: 1 2 p:0x3f3acd8000 0, 3110400
+VIDIOC_QBUF: ok, type:9
+do_handle_cap:736 [INFO]m2m capture dequeue----------------: 7
+start select.
+VIDIOC_DQBUF: ok, type:9
+write_buffer_to_file:661 [INFO]capture w2f: 1 3 p:0x3f3a9e0000 0, 3110400
+VIDIOC_QBUF: ok, type:9
+do_handle_cap:736 [INFO]m2m capture dequeue----------------: 8
+start select.
+VIDIOC_DQBUF: ok, type:9
+write_buffer_to_file:661 [INFO]capture w2f: 1 0 p:0x3f3b2c8000 0, 3110400
+VIDIOC_QBUF: ok, type:9
+do_handle_cap:736 [INFO]m2m capture dequeue----------------: 9
+start select.
+VIDIOC_DQBUF: ok, type:9
+write_buffer_to_file:661 [INFO]capture w2f: 1 1 p:0x3f3afd0000 0, 3110400
+VIDIOC_QBUF: ok, type:9
+do_handle_cap:736 [INFO]m2m capture dequeue----------------: 10
+start select.
+VIDIOC_DQBUF: ok, type:9
+VIDIOC_QBUF: ok, type:9
+do_handle_cap:736 [INFO]m2m capture dequeue----------------: 11
+start select.
+VIDIOC_DQBUF: ok, type:9
+VIDIOC_QBUF: ok, type:9
+do_handle_cap:736 [INFO]m2m capture dequeue----------------: 12
+start select.
+VIDIOC_DQBUF: ok, type:9
+VIDIOC_QBUF: ok, type:9
+do_handle_cap:736 [INFO]m2m capture dequeue----------------: 13
+start select.
+VIDIOC_DQBUF: ok, type:9
+VIDIOC_QBUF: ok, type:9
+do_handle_cap:736 [INFO]m2m capture dequeue----------------: 14
+start select.
+VIDIOC_DQBUF: ok, type:9
+VIDIOC_QBUF: ok, type:9
+do_handle_cap:736 [INFO]m2m capture dequeue----------------: 15
+start select.
+VIDIOC_DQBUF: ok, type:9
+VIDIOC_QBUF: ok, type:9
+do_handle_cap:736 [INFO]m2m capture dequeue----------------: 16
+start select.
+
+handle_sig
+VIDIOC_DQBUF: ok, type:9
+VIDIOC_QBUF: ok, type:9
+do_handle_cap:736 [INFO]m2m capture dequeue----------------: 17
+
+start to VIDIOC_STREAMOFF
+VIDIOC_STREAMOFF: ok, type:9
+exit v4l2_main!
+#
+```
+
+注意：分辨率最高仅能输出 `1080p`，且格式只能为 `NV12`。如果测试失败，请提供 `/data/svivi_cam1.log` 或 `/data/svivi_cam2.log` 测试 log 文件，dmesg 内核打印文件，以及测试情况说明。
+
+#### **3.5.2.3.** **适配 camera 到 OH 框架**
+
+1. 参考标案 device/board/spacemit/musepaper2/camera/代码，移植代码到对应的方案目录 `device/board/spacemit``/xxx/``camera/` 下
+2. 需要确保 `device/board/spacemit``/xxx/``camera/vdi_impl/v4l2/svivi_cam1.json` 和 `svivi_cam2.json` 用的是前面步骤调试好的 json 文件
+3. 编译烧写固件，启动系统，打开相机，观察图像输出是否正常。如果测试失败，请提供 `/data/svivi_cam1.log` 或 `/data/svivi_cam2.log` 测试 log 文件，dmesg 内核打印文件，hilog 测试 log 文件，以及测试情况说明
+
+### 3.5.3. Usb camera 通路定制
+
+Usb camera 通路支持通过修改 `vendor/spacemit/xxx/hdf_config/uhdf/camera/hdi_impl/``camera_host_config.hcs` 配置文件，实现以下各种应用场景的灵活定制 `（最大支持2路）`：
+
+- 双 USB 摄像头切换预览场景
+- 双 MIPI 摄像头切换预览场景
+- 单 USB 摄像头 + 单 MIPI 摄像头预览场景
+- 单 USB 摄像头预览场景
+- 单 MIPI 摄像头预览场景
+
+要实现以上定制化功能，需要在 `camera_host_config.hcs` 中定义四个 ability 节点，每个节点都代表一个相机。只有当节点的 cameraPosition 属性设置为 `OHOS_CAMERA_POSITION_BACK / OHOS_CAMERA_POSITION_FRONT` 状态时，`camera``的``hap` 才会打开对应的位置的相机使用，而对于设置为 `OHOS_CAMERA_POSITION_OTHER` 状态的节点将被忽略，不起效果。
+
+在 `camera_host_config.hcs` 中，`ability_01` 和 `ability_02` 分别对应第一个、第二个 mipi 摄像头；`ability_03` 和 `ability_04` 分别对应第一个、第二个 usb 摄像头。目前，最多只能支持两个相机切换使用。
+
+当拔掉 usb 相机后，要先退出相机应用再重新打开使用。并确保重新打开相机时候，使用到的 USB/MIPI 摄像头仍插着，否则将导致相机应用黑屏！
+
+上述功能已经在 `smt001` 方案进行验证，在支持新方案时可以作为参考。下面将针对上面几种常用情况，分别举例进行说明：
+
+#### 3.5.3.1 双 USB 摄像头切换预览场景
+
+在该配置中，lcam003 对应后摄，lcam004 对应前摄，也可以根据需求，调整前后摄位置，以及预览分辨（录像、拍照分辨率和预览分辨率大小一样）。
+
+另外，在拔插 USB 相机后，需要重启相机应用才能正常预览。
+
+```
+root {
+    module="sample";
+    vdiLibList = [
+        "libcamera_host_vdi_impl_1.0.z.so"
+    ];
+    camera_host_config {
+        match_attr = "camera_host_interface";
+        template ability {
+            logicCameraId = "lcam001";
+            physicsCameraIds = [
+                "CAMERA_FIRST"
+            ];
+            metadata {
+                aeAvailableAntiBandingModes = [
+                    "OHOS_CONTROL_AE_ANTIBANDING_MODE_OFF",
+                    "OHOS_CONTROL_AE_ANTIBANDING_MODE_50HZ",
+                    "OHOS_CONTROL_AE_ANTIBANDING_MODE_60HZ",
+                    "OHOS_CONTROL_AE_ANTIBANDING_MODE_AUTO"
+                ];
+                aeAvailableModes = ["OHOS_CONTROL_AE_MODE_ON"];
+                availableFpsRange = [15, 30];
+                aeCompensationRange = [0, 0];
+                aeCompensationSteps = [0, 1];
+                availableAwbModes = [
+                    "OHOS_CONTROL_AWB_MODE_OFF"
+                ];
+                sceneModesOverrides = [
+                    "OHOS_CONTROL_AE_MODE_ON",
+                    "OHOS_CONTROL_AWB_MODE_AUTO"
+                ];
+                aeLockAvailable = "OHOS_CONTROL_AE_LOCK_AVAILABLE_FALSE";
+                awbLockAvailable = "OHOS_CONTROL_AWB_LOCK_AVAILABLE_FALSE";
+                sensitivityRange = [32, 2400];
+                exposureTimeRange = [100000, 200000000];
+                faceDetectMode = "OHOS_STATISTICS_FACE_DETECT_MODE_OFF";
+                maxFaceCount = 0;
+                flashAvailable = "OHOS_FLASH_INFO_AVAILABLE_FALSE";
+                lensFacing = "OHOS_LENS_FACING_FRONT";
+                opticalStabilizations = ["OHOS_LENS_OPTICAL_STABILIZATION_MODE_OFF"];
+                maxDigitalZoom = "1";
+                availableCharacteristicsKeys = [
+                    ...
+                ];
+                availableRequestKeys = [
+                    ...
+                ];
+                availableResultKeys = [
+                    ...
+                ];
+            }
+        }
+        ability_01 :: ability {
+            ...
+        }
+        ability_02 :: ability {
+            ...
+        }
+**        **ability_03 :: ability {
+            logicCameraId = "lcam003";
+            physicsCameraIds = [
+                "CAMERA_THIRD"
+            ];
+            metadata {
+                aeAvailableAntiBandingModes = [
+                    "OHOS_CAMERA_AE_ANTIBANDING_MODE_OFF"
+                ];
+                aeAvailableModes = ["OHOS_CAMERA_AE_MODE_OFF"];
+                availableFpsRange = [5, 10];
+                cameraPosition = "OHOS_CAMERA_POSITION_BACK";
+                cameraType = "OHOS_CAMERA_TYPE_WIDE_ANGLE";
+                cameraConnectionType ="CAMERA_CONNECTION_USB_PLUGIN";
+                cameraMemoryType ="OHOS_CAMERA_MEMORY_USERPTR";
+                faceDetectMaxNum = "10";
+                aeCompensationRange = [0, 0];
+                aeCompensationSteps = [0, 0];
+                availableAwbModes = [
+                    "OHOS_CAMERA_AWB_MODE_OFF"
+                ];
+                sensitivityRange = [32, 2400];
+                faceDetectMode = "OHOS_CAMERA_FACE_DETECT_MODE_OFF";
+                availableCharacteristicsKeys = [
+                    ...
+                ];
+                availableRequestKeys = [
+                    ...
+                ];
+                availableResultKeys = [
+                    ...
+                ];
+                focalLength = "24.0";
+                focusAvailableModes = [
+                    ...
+                ];
+                exposureAvailableModes = [
+                    ...
+                ];
+                meterAvailableModes = [
+                    ...
+                ];
+                flashAvailableModes = [
+                    ...
+                ];
+                mirrorSupported = "OHOS_CAMERA_MIRROR_ON";
+                basicAvailableConfigurations = [
+                    1, 640, 480,
+                    1, 1080, 720,
+                    1, 1280, 960,
+                    1, 1920, 1080,
+                    4, 640, 480,
+                    4, 1080, 720,
+                    4, 1280, 960,
+                    4, 1920, 1080
+                    ];
+                sensorOrientationSupported = "270";
+                videoStabilizationAvailableModes = [
+                    "OHOS_CAMERA_VIDEO_STABILIZATION_OFF"
+                ];
+                flashAvailable = "OHOS_CAMERA_FLASH_FALSE";
+                afAvailable = [
+                    "OHOS_CAMERA_AF_MODE_OFF"
+                ];
+                zoomRatioRange = [
+                    "1.0",
+                    "1.0"
+                ];
+                jpegOrientation= "270";
+                jpegQuality= "2";
+            }
+        }
+        ability_04 :: ability {
+            logicCameraId = "lcam004";
+            physicsCameraIds = [
+                "CAMERA_FOURTH"
+            ];
+            metadata {
+                aeAvailableAntiBandingModes = [
+                    "OHOS_CAMERA_AE_ANTIBANDING_MODE_OFF"
+                ];
+                aeAvailableModes = ["OHOS_CAMERA_AE_MODE_OFF"];
+                availableFpsRange = [5, 10];
+                cameraPosition = "OHOS_CAMERA_POSITION_FRONT";
+                cameraType = "OHOS_CAMERA_TYPE_WIDE_ANGLE";
+                cameraConnectionType ="CAMERA_CONNECTION_USB_PLUGIN";
+                cameraMemoryType ="OHOS_CAMERA_MEMORY_USERPTR";
+                faceDetectMaxNum = "10";
+                aeCompensationRange = [0, 0];
+                aeCompensationSteps = [0, 0];
+                availableAwbModes = [
+                    "OHOS_CAMERA_AWB_MODE_OFF"
+                ];
+                sensitivityRange = [32, 2400];
+                faceDetectMode = "OHOS_CAMERA_FACE_DETECT_MODE_OFF";
+                availableCharacteristicsKeys = [
+                    ...
+                ];
+                availableRequestKeys = [
+                    ...
+                ];
+                availableResultKeys = [
+                    ...
+                ];
+                focalLength = "24.0";
+                focusAvailableModes = [
+                    ...
+                ];
+                exposureAvailableModes = [
+                    ...
+                ];
+                meterAvailableModes = [
+                    ...
+                ];
+                flashAvailableModes = [
+                    ...
+                ];
+                mirrorSupported = "OHOS_CAMERA_MIRROR_ON";
+                basicAvailableConfigurations = [
+                    1, 1280, 720,
+                    1, 1080, 720,
+                    1, 1280, 960,
+                    1, 1920, 1080,
+                    4, 640, 480,
+                    4, 1080, 720,
+                    4, 1280, 960,
+                    4, 1920, 1080
+                    ];
+                sensorOrientationSupported = "270";
+                videoStabilizationAvailableModes = [
+                    "OHOS_CAMERA_VIDEO_STABILIZATION_OFF"
+                ];
+                flashAvailable = "OHOS_CAMERA_FLASH_FALSE";
+                afAvailable = [
+                    "OHOS_CAMERA_AF_MODE_OFF"
+                ];
+                zoomRatioRange = [
+                    "1.0",
+                    "1.0"
+                ];
+                jpegOrientation= "270";
+                jpegQuality= "2";
+            }
+        }
+    }
+}
+```
+
+#### 3.5.3.2 双 MIPI 摄像头切换预览场景
+
+在该配置中，lcam001 对应后摄，lcam002 对应前摄，也可以根据需求，调整前后摄位置，以及预览分辨（录像、拍照分辨率和预览分辨率大小一样）。
+
+```
+root {
+        ......
+        ability_01 :: ability {
+            logicCameraId = "lcam001";
+            physicsCameraIds = [
+                "CAMERA_FIRST"
+            ];
+            metadata {
+                aeAvailableAntiBandingModes = [
+                    "OHOS_CAMERA_AE_ANTIBANDING_MODE_OFF"
+                ];
+                aeAvailableModes = ["OHOS_CAMERA_AE_MODE_OFF"];
+                availableFpsRange = [5, 10];
+                cameraPosition = "OHOS_CAMERA_POSITION_BACK";
+                ......
+            }
+        }
+        ability_02 :: ability {
+            logicCameraId = "lcam002";
+            physicsCameraIds = [
+                "CAMERA_SECOND"
+            ];
+            metadata {
+                aeAvailableAntiBandingModes = [
+                    "OHOS_CAMERA_AE_ANTIBANDING_MODE_OFF"
+                ];
+                aeAvailableModes = ["OHOS_CAMERA_AE_MODE_OFF"];
+                availableFpsRange = [5, 10];
+                cameraPosition = "OHOS_CAMERA_POSITION_FRONT";
+                ......
+            }
+        }
+        ability_03 :: ability {
+                ......
+        }
+        ability_04 :: ability {
+                ......
+        }
+    }
+}
+```
+
+#### 3.5.3.3 单 USB 摄像头 + 单 MIPI 摄像头预览场景
+
+在该配置中，lcam001 对应 MIPI 后摄，lcam003 对应 USB 前摄，也可以根据需求，调整前后摄位置，以及预览分辨（录像、拍照分辨率和预览分辨率大小一样）。
+
+```
+root {
+        ......
+        ability_01 :: ability {
+            logicCameraId = "lcam001";
+            physicsCameraIds = [
+                "CAMERA_FIRST"
+            ];
+            metadata {
+                ......
+                cameraPosition = "OHOS_CAMERA_POSITION_BACK";
+                ......
+            }
+        }
+        ability_02 :: ability {
+            logicCameraId = "lcam002";
+            physicsCameraIds = [
+                "CAMERA_SECOND"
+            ];
+            metadata {
+                ......
+                cameraPosition = "OHOS_CAMERA_POSITION_OTHER";
+                ......
+            }
+        }
+        ability_03 :: ability {
+            logicCameraId = "lcam003";
+            physicsCameraIds = [
+                "CAMERA_THIRD"
+            ];
+            metadata {
+                ......
+                cameraPosition = "OHOS_CAMERA_POSITION_FRONT";
+                ......
+            }
+        }
+        ability_04 :: ability {
+            logicCameraId = "lcam004";
+            physicsCameraIds = [
+                "CAMERA_FOURTH"
+            ];
+            metadata {
+                ......
+                cameraPosition = "OHOS_CAMERA_POSITION_OTHER";
+                ......
+            }
+        }
+    }
+}
+```
+
+#### 3.5.3.4 单 USB 摄像头预览场景
+
+在该配置中，lcam003 对应 USB 后摄，也可以根据需求，调整预览分辨大小（录像、拍照分辨率和预览分辨率大小一样），或者前后摄配置。
+
+```
+root {
+        ......
+        ability_01 :: ability {
+            logicCameraId = "lcam001";
+            physicsCameraIds = [
+                "CAMERA_FIRST"
+            ];
+            metadata {
+                ......
+                cameraPosition = "OHOS_CAMERA_POSITION_OTHER";
+                ......
+            }
+        }
+        ability_02 :: ability {
+            logicCameraId = "lcam002";
+            physicsCameraIds = [
+                "CAMERA_SECOND"
+            ];
+            metadata {
+                ......
+                cameraPosition = "OHOS_CAMERA_POSITION_OTHER";
+                ......
+            }
+        }
+        ability_03 :: ability {
+            logicCameraId = "lcam003";
+            physicsCameraIds = [
+                "CAMERA_THIRD"
+            ];
+            metadata {
+                ......
+                cameraPosition = "OHOS_CAMERA_POSITION_BACK";
+                ......
+            }
+        }
+        ability_04 :: ability {
+            logicCameraId = "lcam004";
+            physicsCameraIds = [
+                "CAMERA_FOURTH"
+            ];
+            metadata {
+                ......
+                cameraPosition = "OHOS_CAMERA_POSITION_OTHER";
+                ......
+            }
+        }
+    }
+}
+```
+
+#### 3.5.3.5 单 MIPI 摄像头预览场景
+
+在该配置中，lcam001 对应 MIPI 后摄，也可以根据需求，调整预览分辨大小（录像、拍照分辨率和预览分辨率大小一样）。但需注意，当只有一个摄像头时，不能定义 `OHOS_CAMERA_POSITION_FRONT` 状态。
+
+```
+root {
+        ......
+        ability_01 :: ability {
+            logicCameraId = "lcam001";
+            physicsCameraIds = [
+                "CAMERA_FIRST"
+            ];
+            metadata {
+                ......
+                cameraPosition = "OHOS_CAMERA_POSITION_BACK";
+                ......
+            }
+        }
+        ability_02 :: ability {
+            logicCameraId = "lcam002";
+            physicsCameraIds = [
+                "CAMERA_SECOND"
+            ];
+            metadata {
+                ......
+                cameraPosition = "OHOS_CAMERA_POSITION_OTHER";
+                ......
+            }
+        }
+        ability_03 :: ability {
+            logicCameraId = "lcam003";
+            physicsCameraIds = [
+                "CAMERA_THIRD"
+            ];
+            metadata {
+                ......
+                cameraPosition = "OHOS_CAMERA_POSITION_OTHER";
+                ......
+            }
+        }
+        ability_04 :: ability {
+            logicCameraId = "lcam004";
+            physicsCameraIds = [
+                "CAMERA_FOURTH"
+            ];
+            metadata {
+                ......
+                cameraPosition = "OHOS_CAMERA_POSITION_OTHER";
+                ......
+            }
+        }
+    }
+}
+```
+
+### 3.5.4 硬件编解码通路定制
 
 待添加
 
-### 硬件编解码通路定制
+## 3.6. 支持存储外设
+
+支持存储外设的方法基本都是在 `foundation/filemanagement/storage_service/services/storage_daemon/disk_config` 中配置存储路径
+
+### 3.6.1. 支持 U 盘
+
+在 `foundation/filemanagement/storage_service/services/storage_daemon/services/storage_daemon/disk_config` 中，添加配置如下：
+
+```
+sysPattern /devices/platform/soc/c0900100.udc/* label disk flag 0
+sysPattern /devices/platform/soc/c0980100.ehci1/* label disk flag 0
+sysPattern /devices/platform/soc/d4282bc8.usb3/c0a00000.dwc3/* label disk flag 0
+```
+
+正常情况下，插入 U 盘，内核会有识别和挂载的相关打印，如下：
+
+```
+  900.645659] usb 1-1.2: new high-speed USB device number 6 using mv-ehci
+[  900.777124] usb-storage 1-1.2:1.0: USB Mass Storage device detected
+[  900.784363] scsi host0: usb-storage 1-1.2:1.0
+[  900.789390] [I/USB_PNP_NOTIFY] UsbPnpNotifyCallback: action=0x1\x0d
+[  900.795540] [I/USB_PNP_NOTIFY] UsbPnpNotifyAddInitInfo:207 i=0, interfaceInfo=0x8-0x6-0x50-0x0\x0d
+[  900.804612] [I/USB_PNP_NOTIFY] UsbPnpNotifyReportThread: UsbPnpNotifyReportThread start!\x0d
+[  900.813047] [I/USB_PNP_NOTIFY] UsbPnpNotifyHdfSendEvent:373 device information, 3 usbDevAddr=18446743907588270080, devNum=6, busNum=1, infoTable=1-0x2ba3-0x1220!\x0d
+[  901.803764] scsi 0:0:0:0: Direct-Access     Generic- SD/MMC           1.00 PQ: 0 ANSI: 6
+[  902.301131] sd 0:0:0:0: [sda] 61962240 512-byte logical blocks: (31.7 GB/29.5 GiB)
+[  902.311249] sd 0:0:0:0: [sda] Write Protect is off
+[  902.316369] sd 0:0:0:0: [sda] Mode Sense: 23 00 00 00
+[  902.323998] sd 0:0:0:0: [sda] Write cache: disabled, read cache: disabled, doesn't support DPO or FUA
+[  902.343818] sd 0:0:0:0: [sda] Attached SCSI removable disk
+[  902.344243] StorageDaemon: [IsMatch:38] config sysPattern /devices/platform/soc/d4280000.sdh/mmc_host/mmc0/*, device sysPattern /devices/platform/soc/c0980100.ehci1/usb1/1-1/1-1.2/1-1.2:1.0/host0/target0:0:0/0:0:0:0/block/sda
+[  902.345181] [pid=172][ueventd][INFO][ueventd_device_handler.c:85]symlink /dev/block/sda->/dev/block/platform/soc/c0980100.ehci1/sda
+[  902.370378] StorageDaemon: [IsMatch:38] config sysPattern /devices/platform/soc/c0900100.udc/*, device sysPattern /devices/platform/soc/c0980100.ehci1/usb1/1-1/1-1.2/1-1.2:1.0/host0/target0:0:0/0:0:0:0/block/sda
+[  902.401442] StorageDaemon: [IsMatch:38] config sysPattern /devices/platform/soc/d4282bc8.usb3/c0a00000.dwc3/*, device sysPattern /devices/platform/soc/c0980100.ehci1/usb1/1-1/1-1.2/1-1.2:1.0/host0/target0:0:0/0:0:0:0/block/sda
+[  902.421825] StorageDaemon: [IsMatch:38] config sysPattern /devices/platform/soc/c0980100.ehci1/*, device sysPattern /devices/platform/soc/c0980100.ehci1/usb1/1-1/1-1.2/1-1.2:1.0/host0/target0:0:0/0:0:0:0/block/sda
+[  902.442433] StorageDaemon: [ReadMetadata:178] Read metadata /sys/devices/platform/soc/c0980100.ehci1/usb1/1-1/1-1.2/1-1.2:1.0/host0/target0:0:0/0:0:0:0/block/sda/device/vendor
+[  902.490636] StorageDaemon: [CreateUnknownTabVol:239] disk-8-0 has unknown table
+[  902.583652] StorageDaemon: [ReadMetadata:93] ReadMetadata, fsUuid=6******9, fsType=ntfs, fsLabel=.
+[  902.592817] StorageDaemon: [CreateVolume:320] disk read volume metadata
+[  902.599618] StorageDaemon: [CreateVolume:55] create volume vol-8-0.
+[  902.607288] StorageDaemon: [Check:116] Handle Check
+[  902.695922] StorageDaemon: [ReadMetadata:93] ReadMetadata, fsUuid=6******9, fsType=ntfs, fsLabel=.
+[  902.752558] StorageDaemon: [Mount:84] Handle Mount
+[  902.841254] StorageDaemon: [ReadMetadata:93] ReadMetadata, fsUuid=6******9, fsType=ntfs, fsLabel=.
+[  902.888210] StorageDaemon: [DoMount:176] Ready to mount: external volume fstype is ntfs, mountflag is 0
+```
+
+执行 `mount` 命令，会看到 U 盘已经挂载，如下：
+
+```
+...
+/dev/block/vol-8-0 on /mnt/data/external/662A30B72A308659 type fuseblk (rw,relatime,user_id=0,group_id=0,default_permissions,allow_other,blksize=4096)
+...
+```
+
+### 3.6.2. 支持 tf 卡
+
+在 `foundation/filemanagement/storage_service/services/storage_daemon/services/storage_daemon/disk_config` 中，添加配置如下：
+
+```
+sysPattern /devices/platform/soc/d4280000.sdh/mmc_host/mmc0/* label disk flag 0
+```
+
+### 3.6.3. 支持 ssd 硬盘
+
+在 `foundation/filemanagement/storage_service/services/storage_daemon/services/storage_daemon/disk_config` 中，添加配置如下：
+
+```
+sysPattern /devices/platform/soc/ca800000.pcie/* label disk flag 0
+sysPattern /devices/platform/soc/ca400000.pcie/* label disk flag 0
+```
+
+## 3.7. 恢复出厂模式定制
 
 待添加
 
-## 恢复出厂模式定制
+# 4. 内核定制
 
-待添加
-
-# 内核定制
-
-## 修改内核 defconfig 配置
+## 4.1. 修改内核 defconfig 配置
 
 内核 defconfig 的位置在：
 
@@ -713,7 +2171,7 @@ kernel/linux/spacemit_kernel-6.6/arch/riscv/configs/k1_defconfig
 ./build/gen_zip.sh xxx
 ```
 
-## 修改内核 dts 配置
+## 4.2. 修改内核 dts 配置
 
 内核的 dts 配置的位置在：
 
@@ -775,11 +2233,11 @@ kernel/linux/spacemit_kernel-6.6/arch/riscv/boot/dts/spacemit
 ./build/gen_zip.sh xxx
 ```
 
-## 添加需要加载的 ko
+## 4.3. 添加需要加载的 ko
 
 如果需要将内核编译出来的 ko 文件在系统开机的时候加载，需要修改 OpenHarmony 上层的配置，主要分为 2 步：
 
-### 拷贝 ko
+### 4.3.1. 拷贝 ko
 
 在 `device/board/spacemit/xxx/kernel` 的 `build_kernel.sh` 中进行拷贝，如下：
 
@@ -795,7 +2253,7 @@ function cp_ko(){
 
 在编译完内核后，将内核编译目录下的 ko 拷贝到 OpenHarmony 系统的目录下。
 
-### 加载 ko
+### 4.3.2. 加载 ko
 
 在 `device/board/spacemit/xxx/cfg` 的 `init.xxx.cfg` 中进行 ko 的加载，如下：
 
@@ -812,7 +2270,7 @@ function cp_ko(){
 
 开机后，会在 init 进程中，加载这些 ko。
 
-## 给内核打补丁
+## 4.4. 给内核打补丁
 
 先将对内核的修改生成补丁，然后将生成的补丁放置于 OpenHarmony 的配置目录下。
 
@@ -836,6 +2294,4 @@ patch -p1 <${OHOS_SOURCE_ROOT}/device/board/spacemit/kernel_patches/linux-6.6/00
 patch -p1 <${OHOS_SOURCE_ROOT}/device/board/${DEVICE_BOARD}/${DEVICE_NAME}/kernel/kernel_patch/0001-kernel-audio.patch
 ```
 
-# FAQ
-
-引用自 [进迭时空开发者文档](https://developer.spacemit.com/documentation?token=Z1vowF27PiUCHrkAtVicCGBjnJd)
+# 5. FAQ
