@@ -202,14 +202,14 @@ const sidebars: SidebarsConfig = {
               type: 'doc',
               id: 'k1/openharmony/oh_build',
             },
-            // {
-            //   type: 'doc',
-            //   id: 'k1/openharmony/oh_third_app_build',
-            // },
-            // {
-            //   type: 'doc',
-            //   id: 'k1/openharmony/oh-ai-build',
-            // },
+            {
+              type: 'doc',
+              id: 'k1/openharmony/oh_third_app_build',
+            },
+            {
+              type: 'doc',
+              id: 'k1/openharmony/oh-ai-build',
+            },
             {
               type: 'doc',
               id: 'k1/openharmony/oh_solution_add',
