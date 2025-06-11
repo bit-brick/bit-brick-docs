@@ -1,0 +1,510 @@
+# K1 OH5.0 Application Development Guide
+
+# Revision History
+
+<table>
+<tbody>
+<tr>
+<td>Revision Version</td>
+<td>Revision Date</td>
+<td>Revision Description</td>
+</tr>
+<tr>
+<td>001</td>
+<td>2025-06-10</td>
+<td>Initial version</td>
+</tr>
+</tbody>
+</table>
+
+---
+
+# 1. OpenHarmony Application Development Overview
+
+## 1.1. ArkTS
+
+ArkTS is the official primary application development language for the HarmonyOS/OpenHarmony ecosystem. It is an extension based on TypeScript (TS), a superset of TS, inheriting TypeScript syntax style, enhancing static type checking (compile-time error detection to improve code robustness), compatible with JS/TS ecosystem, supports efficient interoperability, and lowers migration barriers.
+
+### 1.1.1. Core Technical Features
+
+- Declarative UI development paradigm
+
+  - Define components using decorators (such as `@Entry`, `@Component`) to build UI logic with concise declarative syntax
+  - Provide state management (such as `@State`), automatically updating UI on data changes
+- Distributed and concurrency enhancements
+
+  - Optimized concurrent programming APIs, support multi-threaded task scheduling (such as Taskpool mechanism), improve cross-device collaboration performance
+  - Provide underlying support for "develop once, deploy everywhere", adapting to all-scenario devices such as phones, tablets, and car systems
+- Performance and stability optimization
+
+  - Static type constraints reduce runtime type checks, improving execution efficiency
+  - Enforce explicit initialization of properties (such as class member variables) to avoid runtime crashes caused by undefined errors
+
+## 1.2. ArkUI
+
+ArkUI (Ark UI Framework) is a declarative UI development framework built by Huawei for the HarmonyOS/OpenHarmony ecosystem, focusing on efficient, high-performance cross-device application UI development. Based on ArkTS language extension (TypeScript superset), it simplifies UI construction logic through componentization and state-driven mechanisms, provides minimal UI syntax (such as the `@Component` decorator), and allows developers to describe UI structure declaratively instead of imperative operations.
+
+![](https://developer.spacemit.com/resource/file/images?fileName=N0bobhh5morn8pxOPA5cIAOknfe.png)
+
+### 1.2.1. Core Technical Features
+
+- High-performance rendering architecture
+
+  - Optimized UI update mechanism: upgrades the Diff algorithm from tree structure comparison to single-node functional updates, greatly improving rendering efficiency
+  - Unified rendering engine ensures smooth animations and reduces main thread stutter
+- Decoupling logic and UI
+
+  - Simplifies state management through two-way data binding, reducing cross-end development code by more than 40%
+  - Supports state management (such as `@State`, `@Link`), enabling automatic UI refresh on data changes
+- Polymorphic component library
+
+  - Provides rich built-in components (text, buttons, lists, etc.) and layout capabilities, covering basic UI to complex interaction scenarios
+  - Supports custom component development to meet business customization needs
+
+## 1.3. Ark Runtime
+
+Ark Runtime (also known as Ark Runtime) is the core engine in the HarmonyOS/OpenHarmony ecosystem that supports the execution of ArkTS/JS/TS languages, responsible for bytecode execution, memory management, and cross-language interoperability.
+
+### 1.3.1. Core Architecture Components
+
+- Core Subsystem
+
+  - Provides basic runtime libraries, supports bytecode file parsing (File component), debugging toolchain (Tooling component), and system call adaptation (Base library)
+- Execution Subsystem
+
+  - Includes bytecode interpreter, inline cache optimization mechanism, and efficiently executes Ark bytecode (.abc files)
+- Compiler Subsystem
+
+  - Supports AOT (ahead-of-time optimization), JIT (dynamic compilation experimental stage), and IR-based compilation framework to improve code execution efficiency
+- Runtime Subsystem
+
+  - Memory management: CMS-GC garbage collector implements concurrent marking and partial memory compaction
+  - Cross-language interface: supports multi-language hybrid development such as TS/JS/C++ via Node-API
+
+### 1.3.2. Key Technical Features
+
+- Multi-mode execution engine
+
+  - Supports interpretation, AOT pre-compilation, and experimental JIT dynamic compilation, balancing startup speed and runtime efficiency
+- High-performance memory management
+
+  - Uses parallel marking CMS-GC algorithm to reduce pause time; supports partial memory compaction to optimize memory fragmentation
+- Distributed debugging support
+
+  - Built-in Debugger toolchain enables real-time diagnostics and performance analysis during cross-device collaborative development
+- Standard library compatibility
+
+  - Fully implements ECMAScript specification, provides efficient container libraries (such as Map/Set), ensuring JS/TS ecosystem compatibility
+
+# 2. Development Environment Setup (Windows)
+
+## 2.1. DevEco Studio Installation and Configuration
+
+- Download tool: [Click to Download DevEcoStudio5.0.5.310](https://archive.spacemit.com/tools/openharmony/devecostudio-windows-5.0.5.310.zip)
+- Double-click the downloaded `deveco-studio-xxxx.exe` to enter the DevEco Studio installation wizard. By default, it installs to `C:\Program Files`, or you can install to a specified location (do not use Chinese or special characters), then click NEXT.
+
+## 2.2. SDK Toolchain Configuration
+
+### 2.2.1. Public SDK and Full SDK
+
+In `OpenHarmony`, `Public SDK` and `Full SDK` are toolkits for different development scenarios. The core differences are as follows:
+
+- API Permissions
+
+<table>
+<tbody>
+<tr>
+<td>Type</td>
+<td>Permission Description</td>
+</tr>
+<tr>
+<td>Public SDK</td>
+<td>For general application developers, contains only open APIs, does not involve system-sensitive permissions (such as `@ohos.app.ability.abilityManager`, Bluetooth control, and other high-permission interfaces)</td>
+</tr>
+<tr>
+<td>Full SDK</td>
+<td>For OEMs and system application developers, contains all system-level APIs (including interfaces requiring high-permission calls)</td>
+</tr>
+</tbody>
+</table>
+
+- Acquisition and Deployment
+
+<table>
+<tbody>
+<tr>
+<td>Type</td>
+<td>Acquisition Method</td>
+</tr>
+<tr>
+<td>Public SDK</td>
+<td>Download in DevEco Studio, no extra steps required</td>
+</tr>
+<tr>
+<td>Full SDK</td>
+<td>Must be downloaded separately (from OpenHarmony mirror site or by compiling source code), and replace the Public SDK</td>
+</tr>
+</tbody>
+</table>
+
+- Applicable Scenarios
+
+<table>
+<tbody>
+<tr>
+<td>Scenario</td>
+<td>Recommended SDK</td>
+<td>Reason</td>
+</tr>
+<tr>
+<td>General third-party application development</td>
+<td>Public SDK</td>
+<td>Meets basic functional needs, avoids risk of permission abuse</td>
+</tr>
+<tr>
+<td>System-level applications (such as Launcher)</td>
+<td>Full SDK</td>
+<td>Requires high-permission interfaces for system management, hardware control, etc.</td>
+</tr>
+<tr>
+<td>Functions relying on non-open APIs</td>
+<td>Full SDK</td>
+<td>Such as using `mediaLibrary` for advanced media processing or customizing system services</td>
+</tr>
+</tbody>
+</table>
+
+### 2.2.2. Download Public SDK
+
+`DevEco Studio` provides an out-of-the-box development experience, integrating `HarmonyOS SDK`, `Node.js`, `Hvigor`, `OHPM`, emulator platform, etc., simplifying the installation and configuration process.
+
+`HarmonyOS SDK` is embedded in `DevEco Studio`, no extra download or configuration is needed. However, the `OpenHarmony` SDK is not integrated. For OpenHarmony application development, go to `File` -> `Settings` -> `OpenHarmony SDK` tab to download the `OpenHarmony SDK`.
+
+![](https://developer.spacemit.com/resource/file/images?fileName=DGPfbGjSTob8xjx2Hz9cUJjNnjh.png)
+
+In the figure above, three SDKs for `API10/API11/API12` are downloaded and saved in the path `Z:\workspace\ohsdk`
+
+### 2.2.3. Replace Full SDK
+
+- Download the Full SDK for K1 OH5.0, [Click to Download](https://archive.spacemit.com/tools/openharmony/sdk/12/). Currently, K1 OH5.0 only supports API12. The system supports windows/macos/ubuntu, download according to your development machine.
+- After downloading the Full SDK, extract it and replace the corresponding directory in the Public SDK.
+
+## 2.3. Real Device Debugging
+
+After successfully connecting the development device via hdc, the connected device and some run/debug buttons will be displayed in the upper right corner of Deveco Studio.
+
+![](https://developer.spacemit.com/resource/file/images?fileName=ByxAbGy8JowdFTx79CMcr16Bnid.png)
+
+The compiled application can be run and debugged on the real device by clicking the green arrow. For hdc installation and usage, refer to section 1.2 of [K1 OH5.0 System Debugging Guide](baseurl?Mqo9wGcBOiUbKUk22cAcYAlOnce).
+
+# 3. HelloWorld
+
+## 3.1. Create Project
+
+- Double-click to run the `Deveco Studio` application, enter the configuration import page, and choose not to import any configuration (there are no projects or configurations the first time)
+- According to the project creation wizard, choose to create an `Application` service or `Atomic Service`. Then select the required Ability project template and click Next.
+
+![](https://developer.spacemit.com/resource/file/images?fileName=KoBkb4zNnofjWkxIxJAcTMCFnPd.png)
+
+- On the project configuration page, configure the basic information according to the wizard
+  - `Project name`: The name of the project, customizable, consisting of letters, numbers, and underscores.
+  - `Bundle name`: The package name identifying the application, used for uniqueness.
+  - `Save location`: The local storage path for project files, consisting of letters, numbers, and underscores, and cannot contain Chinese characters.
+  - `Compatible SDK`: The minimum compatible API Version.
+  - `Device type`: The device types supported by this project template.
+
+![](https://developer.spacemit.com/resource/file/images?fileName=WBs6bUZSdomPYuxUT9McA441nQf.png)
+
+- Click Finish, the tool will automatically generate sample code and related resources, wait for the project creation to complete
+
+## 3.2. Project Structure
+
+![](https://developer.spacemit.com/resource/file/images?fileName=Mxq8baFZoo70jXx313bcgQninhh.png)
+
+- `AppScope `-\> `app.json5`: Global configuration information of the application
+- `entry`: `OpenHarmony` project module, compiled to generate a HAP package
+- `entry` -\> `src` -\> `main` -\> `ets`: Used to store ArkTS sources
+- `entry` -\> `src` -\> `main` -\> `ets` -\> `entryability`: Entry point for the application/service.
+- `entry` -\> `src` -\> `main` -\> `ets` -\> `entrybackupability`: Provides extended backup and restore capabilities for the application.
+- `entry` -\> `src` -\> `main` -\> `ets` -\> `pages`: Pages included in the application/service.
+- `entry` -\> `src` -\> `main` -\> `resources`: Used to store resource files used by the application/service, such as graphics, multimedia, strings, layout files, etc.
+- `entry` -\> `src` -\> `main` -\> `module.json5`: Module configuration file. Mainly contains HAP package configuration, application/service configuration on specific devices, and global configuration of the application/service.
+- `entry` -\> `build-profile.json5`: Current module information and build configuration items, including buildOption, targets configuration, etc.
+- `entry` -\> `hvigorfile.ts`: Module-level build task script.
+- `entry` -\> `obfuscation-rules.txt`: Obfuscation rules file. When obfuscation is enabled, compiling in Release mode will compile, obfuscate, and compress the code to protect code assets.
+- `entry` -\> `oh-package.json5`: Describes package name, version, entry file (type declaration file), dependencies, etc.
+- `oh_modules`: Used to store third-party library dependency information.
+- `build-profile.json5`: Project-level configuration information, including signingConfigs, product configuration, etc. The products section can configure the current runtime environment, default is HarmonyOS.
+- `oh-package.json5`: Mainly used to describe global configuration, such as: dependency overrides, overrideDependencyMap, and parameterFile, etc.
+
+## 3.3. Page Development
+
+Click `entry` -> `src` -> `main` -> `ets` -> `pages`, open the `Index.ets` file, and write the page.
+
+## 3.4. Modify build-profile.json5
+
+In the `build-profile.json5` at the root of the application, change
+
+```json
+"products": [
+  {
+    "name": "default",
+    "signingConfig": "default",
+    "compatibleSdkVersion": "5.0.0(12)",
+    "runtimeOS": "HarmonyOS",
+    "buildOption": {
+      "strictMode": {
+        "caseSensitiveCheck": true,
+        "useNormalizedOHMUrl": true
+      }
+    }
+  }
+],
+```
+
+to
+
+```json
+"products": [
+  {
+    "name": "default",
+    "signingConfig": "default",
+    "compileSdkVersion": 12,
+    "compatibleSdkVersion": 12,
+    "runtimeOS": "OpenHarmony"
+  }
+],
+```
+
+## 3.5. Signing
+
+Click `File` -> `Project Structure` -> `Signing Configs`, enter the signing page, set as follows, click `Apply`, then click `OK`.
+
+![](https://developer.spacemit.com/resource/file/images?fileName=CeQLbnVnIoKJiexjaiEcWn5TnX7.png)
+
+## 3.6. Build
+
+Click `Build` -> `Build Hap(s)/APP(s)` -> `Build Hap(s)` to build. If the following output appears in Build Output, the build is successful.
+
+```
+> hvigor Finished :entry:default@SignHap... after 3 ms 
+> hvigor Finished :entry:assembleHap... after 1 ms 
+> hvigor BUILD SUCCESSFUL in 35 s 204 ms 
+
+Process finished with exit code 0
+
+Build Analyzer results available
+```
+
+## 3.7. Run on Real Device
+
+Click the run button in the upper right corner to install and run.
+
+![](https://developer.spacemit.com/resource/file/images?fileName=YbQ7bzXoLoxxHvx9VkdcMBminrh.png)
+
+# 4. System Application Build and Installation
+
+Take launcher as an example to explain the process of building and installing a system application.
+
+Note: Building system applications requires the Full SDK.
+
+## 4.1. Open Application Project
+
+Copy `applications/standard/launcher` to the D drive. The directory should not contain Chinese characters, otherwise there may be problems. In Deveco Studio, click File -> Open, select the launcher folder to open.
+
+## 4.2. Build
+
+Click `Build` -> `Build Hap(s)/APP(s)` -> `Build Hap(s)` to build. If the following output appears in Build Output, the build is successful.
+
+```
+> hvigor Finished :pad_launcher:assembleHap... after 1 ms 
+> hvigor Finished :phone_launcher:default@SignHap... after 3 s 484 ms 
+> hvigor Finished :phone_launcher:assembleHap... after 1 ms 
+> hvigor BUILD SUCCESSFUL in 4 min 16 s 555 ms 
+
+Process finished with exit code 0
+
+Build Analyzer results available
+```
+
+After the launcher is built, 2 hap files will be generated: `launcher\product\phone\build\default\outputs\default\phone_launcher-default-signed.hap` and `launcher\feature\settings\build\default\outputs\default\launcher_settings-phone_launcher-default-signed.hap`
+
+## 4.3. Installation
+
+System applications cannot be installed directly by clicking the install button like non-system applications. A series of operations are required. You can write a script for one-click installation as follows:
+
+```bash
+hdc shell mount -o rw,remount /
+hdc shell rm -rf /system/app/com.ohos.launcher/*
+hdc shell rm -rf /data/*
+hdc file send D:\HAP_CODE\launcher\product\phone\build\default\outputs\default\phone_launcher-default-signed.hap /system/app/com.ohos.launcher/Launcher.hap
+hdc file send D:\HAP_CODE\launcher\feature\settings\build\default\outputs\default\launcher_settings-phone_launcher-default-signed.hap /system/app/com.ohos.launcher/Launcher_Settings.hap
+hdc shell rm -rf /data/*
+hdc shell sync /system/bin/udevadm trigger
+
+pause
+
+hdc shell reboot
+```
+
+# 5. System Signature
+
+How to grant system permissions to a normal application? That is to use the Full SDK for system signing. The process of system signing is introduced below.
+
+## 5.1. Introduction to Signing Tools
+
+The path of the signing tool is `ohsdk\12\toolchains\lib`, as follows:
+
+```
+fuqiang@snode1:~/workspace/ohsdk/12/toolchains/lib$ tree
+.
+├── app_check_tool.jar
+├── app_packing_tool.jar
+├── app_unpacking_tool.jar
+├── hap-sign-tool.jar
+├── OpenHarmony.p12
+├── OpenHarmonyProfileDebug.pem
+├── OpenHarmonyProfileRelease.pem
+├── UnsgnedDebugProfileTemplate.json
+└── UnsgnedReleasedProfileTemplate.json
+
+0 directories, 9 files
+```
+
+## 5.2. Modify Configuration
+
+Modify the application package name, permissions, and application type in `UnsgnedDebugProfileTemplate.json` and `UnsgnedReleasedProfileTemplate.json` as follows:
+
+```json
+"bundle-name":"com.example.myapplication",
+"apl":"normal",
+"app-feature":"hos_normal_app"
+```
+
+Change to:
+
+```json
+"bundle-name":"com.example.myapplication",
+"apl":"system_core",
+"app-feature":"hos_system_app"
+```
+
+## 5.3. Generate p12
+
+```json
+java -jar hap-sign-tool.jar generate-keypair -keyAlias "ohos-app" -keyAlg "ECC"  -keySize "NIST-P-256" -keystoreFile "app.p12" -keyPwd "ohos123456" -keystorePwd "ohos123456"
+```
+
+## 5.4. Generate csr
+
+```json
+java -jar hap-sign-tool.jar generate-csr -keyAlias "ohos-app" -keyPwd "ohos123456" -subject "C=CN,O=OpenHarmony,OU=OpenHarmony Team,CN=OpenHarmony Application Release" -signAlg "SHA256withRSA" -keystoreFile "app.p12" -keystorePwd "ohos123456" -outFile "app.csr"
+```
+
+## 5.5. Generate cer
+
+```
+keytool -gencert -alias "OpenHarmony Application CA" -infile app.csr -outfile app-release.cer -keystore OpenHarmony.p12 -sigalg SHA384withECDSA -storepass 123456 -ext KeyUsage:“critical=digitalSignature” -validity 36500 -rfc
+```
+
+## 5.6. Generate p7b
+
+```json
+java -jar hap-sign-tool.jar sign-profile -keyAlias "openharmony application profile release" -signAlg "SHA256withECDSA" -mode "localSign" -profileCertFile "OpenHarmonyProfileRelease.pem" -inFile "UnsgnedReleasedProfileTemplate.json" -keystoreFile "OpenHarmony.p12" -outFile "app-release-profile.p7b" -keyPwd "123456" -keystorePwd "123456"
+```
+
+## 5.7. Configure Signing in Deveco Studio
+
+```
+Store file(*.p12):    app.12
+keyAlias:             ohos-app
+Store Password:       ohos123456
+key Password:         ohos123456
+Profile file(*.p7b):  app-release-profile.p7b
+Certpath file(*.cer): app-release.cer
+```
+
+# 6. FAQ
+
+## 6.1. What is the difference between application and atomic service when creating a new project in Deveco Studio?
+
+When creating a new project in DevEco Studio, Application (normal application) and Atomic Service (atomic service) are two different project types. The core differences are as follows:
+
+### Functional Positioning and Entry Form
+
+Typical scenarios:
+
+- Weather forecast card (Atomic Service) can display information without installation
+- Shopping application (Application) requires user installation and active opening
+
+### Project Structure and Deployment
+
+Key configuration differences:
+
+- Atomic Service needs to declare `abilities.formEnabled: true` in `module.json5` to support card form
+- If you mistakenly select Atomic Service but need a desktop icon, modify `installationFree: false` in `config.json`
+
+### Development Restrictions and Compatibility
+
+### Applicable Scenario Summary
+
+- Choose Application:
+  Applications that require independent installation and complete interaction (such as games, social software)
+- Choose Atomic Service:
+  Scenario-based services that do not require installation (such as express cards, smart home control cards)
+
+## 6.2. Signature error when installing application
+
+Error:
+
+```
+Install Failed: error: failed to install bundle.
+code:9568393
+error: verify code signature failed.
+The target device does not work with apps with an OpenHarmony signature. Sign the app with a HarmonyOS signature before installing it on the device.
+Open signing configs
+06/10 19:21:15:585: $ hdc shell rm -rf data/local/tmp/23b3eb890bb24bfb9d7ec34993386a6a
+06/10 19:21:15:586: Launch com.example.myapplication failed, starting handle failure progress
+Error while Deploy Hap
+```
+
+Solution:
+
+- In the `build-profile.json5` at the root of the application, change
+
+```json
+"products": [
+  {
+    "name": "default",
+    "signingConfig": "default",
+    "compatibleSdkVersion": "5.0.0(12)",
+    "runtimeOS": "HarmonyOS",
+    "buildOption": {
+      "strictMode": {
+        "caseSensitiveCheck": true,
+        "useNormalizedOHMUrl": true
+      }
+    }
+  }
+],
+```
+
+to
+
+```json
+"products": [
+  {
+    "name": "default",
+    "signingConfig": "default",
+    "compileSdkVersion": 12,
+    "compatibleSdkVersion": 12,
+    "runtimeOS": "OpenHarmony"
+  }
+],
+```
+
+- Go to the signing settings page, check `Automatically generate signature`, do not check `Support HarmonyOS`, then click `Apply` and `OK`.
+
+![](https://developer.spacemit.com/resource/file/images?fileName=UziHby6xloSWDPxNmm2cercMnfe.png)
+
+- Rebuild and install the application
