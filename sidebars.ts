@@ -367,6 +367,10 @@ const sidebars: SidebarsConfig = {
               type: 'category',
               collapsed: true,
               label: 'Peripheral Driver',
+              link: {
+                type: 'doc',
+                id: 'k1/k1-software/peripheral_driver/index', // 指定要链接到的文档 ID
+              },
               items: [
                 {
                   type: 'doc',
@@ -411,7 +415,7 @@ const sidebars: SidebarsConfig = {
                 {
                   type: 'doc',
                   label: 'K1 GMAC',
-                  id: 'k1/k1-software/peripheral_driver/gmac',
+                  id: 'k1/k1-software/peripheral_driver/GMAC',
                 },
                 {
                   type: 'doc',
@@ -425,23 +429,84 @@ const sidebars: SidebarsConfig = {
                 },
                 {
                   type: 'doc',
-                  label: 'K1 Camera',
-                  id: 'k1/k1-software/peripheral_driver/Camera',
+                  label: 'K1 Display',
+                  id: 'k1/k1-software/peripheral_driver/Display',
                 },
                 {
                   type: 'doc',
-                  label: 'K1 DSI',
-                  id: 'k1/k1-software/peripheral_driver/DSI',
+                  label: 'K1 V2D',
+                  id: 'k1/k1-software/peripheral_driver/V2D',
                 },
-                {
-                  type: 'doc',
-                  label: 'K1 HDMI',
-                  id: 'k1/k1-software/peripheral_driver/HDMI',
-                },
+               
                 {
                   type: 'doc',
                   label: 'K1 PMIC',
                   id: 'k1/k1-software/peripheral_driver/PMIC',
+                },
+                 {
+                  type: 'doc',
+                  label: 'K1 CAN',
+                  id: 'k1/k1-software/peripheral_driver/CAN',
+                },
+                 {
+                  type: 'doc',
+                  label: 'K1 CPUFREQ',
+                  id: 'k1/k1-software/peripheral_driver/Cpufreq',
+                },
+                 {
+                  type: 'doc',
+                  label: 'K1 Clock',
+                  id: 'k1/k1-software/peripheral_driver/Clock',
+                },
+                 {
+                  type: 'doc',
+                  label: 'K1 Audio',
+                  id: 'k1/k1-software/peripheral_driver/Audio',
+                },
+                 {
+                  type: 'doc',
+                  label: 'K1 Crypto-Engine',
+                  id: 'k1/k1-software/peripheral_driver/CRYPTO',
+                },
+                 {
+                  type: 'doc',
+                  label: 'K1 DMA',
+                  id: 'k1/k1-software/peripheral_driver/DMA',
+                },
+                 {
+                  type: 'doc',
+                  label: 'K1 EtherCAT',
+                  id: 'k1/k1-software/peripheral_driver/EtherCAT',
+                },
+                 {
+                  type: 'doc',
+                  label: 'K1 BT',
+                  id: 'k1/k1-software/peripheral_driver/BT',
+                },
+                 {
+                  type: 'doc',
+                  label: 'K1 SPI',
+                  id: 'k1/k1-software/peripheral_driver/SPI',
+                },
+                 {
+                  type: 'doc',
+                  label: 'K1 WIFI',
+                  id: 'k1/k1-software/peripheral_driver/WIFI',
+                },
+                 {
+                  type: 'doc',
+                  label: 'K1 GPADC',
+                  id: 'k1/k1-software/peripheral_driver/gpadc',
+                },
+                 {
+                  type: 'doc',
+                  label: 'K1 RTC',
+                  id: 'k1/k1-software/peripheral_driver/rtc',
+                },
+                 {
+                  type: 'doc',
+                  label: 'K1 Thermal',
+                  id: 'k1/k1-software/peripheral_driver/thermal',
                 },
               ]
             },
