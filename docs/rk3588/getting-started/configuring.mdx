@@ -1,0 +1,36 @@
+# Boot and Configuration
+
+### Boot Methods
+
+SSOM-3588 supports booting from SD card and eMMC
+
+- If there is an image on the SD card, the system will boot from the SD card first
+- If there is no image on the SD card but there is an image on the eMMC, the system will boot from the eMMC image
+- If neither the SD card nor the eMMC has an image, the system will not boot
+
+### Boot Notes
+
+After burning the Linux system image to the SD card or eMMC, the board will automatically run when powered on.
+
+#### Boot Precautions:
+
+1. Properly connect all peripherals on the board and use the provided screws to secure them, especially for devices that do not support hot-plugging (MIPI display, MIPI camera, wireless module, hard disk, etc.). Plugging or unplugging these devices while the board is powered on may damage the device and cause it to malfunction.
+
+   <span style={{ 
+     display: 'flex', 
+     justifyContent: 'center',
+     margin: '10px 0'
+   }}>
+   ![sd_formatter](/img/3588/getting-started/all_devices.png)
+   </span>
+2. When using a display, note that the MIPI screen interface does not support hot-plugging. The HDMI interface comes in two forms: standard HDMI and Micro-HDMI. These two interfaces cannot be directly connected and require an adapter for conversion. If you are using a VGA/DP monitor, you can also use an adapter for display.
+3. Use the power supply to power the board. Note: The labeled power specification is the minimum requirement. If you connect more peripherals, please use a power supply with the same voltage but higher power.
+
+##  Username and Password
+
+| Username | Password  |
+| ------ | ----- |
+| linaro | linaro |
+
+
+**Note**: The first boot after burning the image will configure the machine. The system will automatically reboot after one or two minutes of power-on, after which the system will run normally.

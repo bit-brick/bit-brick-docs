@@ -17,6 +17,8 @@ const sidebars: SidebarsConfig = {
   // But you can create a sidebar manually
 
   tutorialSidebar: [
+
+    // k1 docs
     {
       type: 'category',
       collapsed: true,
@@ -669,6 +671,7 @@ const sidebars: SidebarsConfig = {
       ],
     },
 
+    // k1pro docs 
     {
       type: 'category',
       collapsed: true,
@@ -917,7 +920,259 @@ const sidebars: SidebarsConfig = {
         
 
       ],
+    },
+    // 3588 docs
+     {
+      type: 'category',
+      collapsed: true,
+      label: 'K1 Pro-3588',
+      items: [
+        {
+          type: 'category',
+          collapsed: true,
+          label: 'Getting Started',
+          items: [
+            {
+              type: 'doc',
+              id: 'rk3588/getting-started/preparation',
+            },
+            {
+              type: 'doc',
+              id: 'rk3588/getting-started/install',
+            },
+            {
+              type: 'doc',
+              id: 'rk3588/getting-started/configuring',
+            }
+
+          ],
+        },
+        
+        // {
+        //   type: 'category',
+        //   collapsed: true,
+        //   label: 'Hardware Development Guide',
+        //   items: [
+        //     {
+        //       type: 'doc',
+        //       id: 'rk3588/hardware/hardware-brief',
+        //     },
+        //     {
+        //       type: 'doc',
+        //       id: 'rk3588/hardware/processor-brief',
+        //     },
+        //     {
+        //       type: 'doc',
+        //       id: 'rk3588/hardware/GPIO-and-40-pin-header',
+        //     },
+        //     {
+        //       type: 'doc',
+        //       id: 'rk3588/hardware/m2-interface',
+        //     },
+        //     {
+        //       type: 'doc',
+        //       id: 'rk3588/hardware/camera-interface',
+        //     },
+        //     {
+        //       type: 'doc',
+        //       id: 'rk3588/hardware/display-interface',
+        //     },
+
+        //     {
+        //       type: 'doc',
+        //       id: 'rk3588/hardware/audio-hardware-introduction',
+        //     },
+        //     // {
+        //     //   type: 'doc',
+        //     //   label: 'K1 Power Sequence',
+        //     //   id: 'k1_pro/k1_pro-hardware/power-sequence',
+        //     // },
+        //     {
+        //       type: 'doc',
+        //       id: 'rk3588/hardware/hardware-file-download',
+        //     },
+
+
+        //   ],
+        // },
+        {
+          type: 'category',
+          collapsed: true,
+          label: 'Software Development Guide',
+          items: [
+            {
+              type: 'category',
+              collapsed: true,
+              label: 'Debian',
+              items: [
+                {
+                  type: 'doc',
+                  id: 'rk3588/software/debian/linux',
+                },
+                {
+                  type: 'doc',
+                  id: 'rk3588/software/debian/system_config',
+                },
+                {
+                  type: 'doc',
+                  id: 'rk3588/software/debian/swap',
+                },
+                {
+                  type: 'doc',
+                  id: 'rk3588/software/debian/terminal_input',
+                },
+                {
+                  type: 'doc',
+                  id: 'rk3588/software/debian/vnc',
+                },
+              ]
+            },
+            {
+              type: 'category',
+              collapsed: true,
+              label: 'Peripheral Driver',
+              items: [
+                {
+                  type: 'doc',
+                  id: 'rk3588/software/peripheral_driver/PINCTRL',
+                },
+                {
+                  type: 'doc',
+                  id: 'rk3588/software/peripheral_driver/PWM',
+                },
+                {
+                  type: 'doc',
+                  id: 'rk3588/software/peripheral_driver/UART',
+                },
+                {
+                  type: 'doc',
+                  id: 'rk3588/software/peripheral_driver/I2C',
+                },
+                {
+                  type: 'doc',
+                  id: 'rk3588/software/peripheral_driver/QSPI',
+                },         
+                {
+                  type: 'doc',
+                  id: 'rk3588/software/peripheral_driver/gmac',
+                },
+                {
+                  type: 'doc',
+                  id: 'rk3588/software/peripheral_driver/USB',
+                },
+                {
+                  type: 'doc',
+                  id: 'rk3588/software/peripheral_driver/PCIe',
+                },
+                {
+                  type: 'doc',
+                  id: 'rk3588/software/peripheral_driver/DSI',
+                },
+                {
+                  type: 'doc',
+                  id: 'rk3588/software/peripheral_driver/HDMI',
+                },
+                {
+                  type: 'doc',
+                  id: 'rk3588/software/peripheral_driver/AUDIO',
+                },
+                {
+                  type: 'doc',
+                  id: 'rk3588/software/peripheral_driver/CLOCK',
+                },
+                {
+                  type: 'doc',
+                  id: 'rk3588/software/peripheral_driver/CAN',
+                },
+                {
+                  type: 'doc',
+                  id: 'rk3588/software/peripheral_driver/DSMC',
+                },
+                {
+                  type: 'doc',
+                  id: 'rk3588/software/peripheral_driver/DP',
+                },
+              ]
+            },
+            {
+              type: 'category',
+              collapsed: true,
+              label: 'Media',
+              items: [
+                {
+                  type: 'doc',
+                  id: 'rk3588/software/media/mpp',
+                },
+                {
+                  type: 'doc',
+                  id: 'rk3588/software/media/gstream_mpp',
+                },
+              ]
+            },
+          ],
+        },
+        {
+          type: 'category',
+          collapsed: true,
+          label: 'System Development Guide',
+          items: [
+            {
+              type: 'doc',
+              id: 'rk3588/system_dev/kernel_dev',
+            }, 
+            {
+              type: 'doc',
+              id: 'rk3588/system_dev/uboot_dev',
+            }, 
+
+            
+
+          ],
+        },
+        {
+          type: 'category',
+          collapsed: true,
+          label: 'Machine Learning',
+          items: [
+            {
+              type: 'doc',
+              id: 'rk3588/ml/env/env',
+            }, 
+            {
+              type: 'doc',
+              id: 'rk3588/ml/env/rknn_toolkit2',
+            },
+            {
+              type: 'doc',
+              id: 'rk3588/ml/env/rknn_toolkit_lite2',
+            },
+            {
+              type: 'doc',
+              id: 'rk3588/ml/env/rk_model_zoo',
+            },
+            {
+              type: 'doc',
+              id: 'rk3588/ml/env/rkllm',
+            },
+          ],
+        },
+        {
+          type: 'category',
+          collapsed: true,
+          label: 'Data Manual',
+          items: [
+            {
+              type: 'doc',
+              id: 'rk3588/datasheets/datasheets',
+            },
+          ],
+        },
+        
+
+      ],
     }
+
+
   ],
 
 };

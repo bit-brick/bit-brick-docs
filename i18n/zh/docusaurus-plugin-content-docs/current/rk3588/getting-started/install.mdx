@@ -1,12 +1,12 @@
 # 下载和安装操作系统
 
-K1 Pro出厂默认烧录了系统镜像， 如果不需要烧录新镜像的话可以跳过本章内容。
+SSOM-3588出厂默认烧录了系统镜像， 如果不需要烧录新镜像的话可以跳过本章内容。
 
 ## 烧录镜像到eMMC
 
 镜像地址：
-- [K1pro_Debian Baidu Cloud](https://pan.baidu.com/s/1AvvPxCaF9EDkc0shuRwt3w?pwd=n3zs)
-- [K1pro_Android Baidu Cloud](https://pan.baidu.com/s/1JzsEQcZn4m8RXQwwo4aYWw?pwd=kxv3)
+- [3588_Debian Baidu Cloud](https://pan.baidu.com/s/1vzXWgSRY-JYjEkMSJAGFDA?pwd=vxvu)
+- [3588_Android Baidu Cloud ](https://pan.baidu.com/s/1I71Vi-k3dW3hv8EcuXy8Lg?pwd=2feq)
 
 ### 工具获取和安装
 
@@ -14,7 +14,7 @@ K1 Pro出厂默认烧录了系统镜像， 如果不需要烧录新镜像的话�
 
 [百度云盘](https://pan.baidu.com/s/1rsxSt4PT4A2Xqy7Y-3IAPg?pwd=1xtb)
 
-**注**：RK3576系列必须使用v3.30及以上版本的RKDevTool工具。
+**注**：RK3588系列必须使用v3.30及以上版本的RKDevTool工具。
 
 ### 安装DriverAssitant
 
@@ -45,53 +45,70 @@ K1 Pro出厂默认烧录了系统镜像， 如果不需要烧录新镜像的话�
 </span>
 
 ### Loader模式烧录镜像
+将SSOM-3588核心板安装固定到评估底板上，准备1根Type-c线，用于镜像烧录
 
-打开 RKDevTool 烧录工具，并设置板卡进入烧录模式
-
-1. 准备一根Type-c线和一根供电线，Type-c线用于镜像烧录
-2. 使用跳线帽短路选择图示标记1`DL`跳线的引脚，进入固件下载模式
-3. 使用一根Type-C线一端连接到板卡的OTG接口，按住K1 Pro的Download键，随后为K1 Pro接上电源，进入Loader模式
+打开开发工具RKDevTool，点击进入升级固件页面
 
 <span style={{ 
   display: 'flex', 
   justifyContent: 'center',
   margin: '10px 0'
 }}>
-![rk_devtools](/img/k1pro/getting-started/k1pro_loader.png)
+![rk_devtools](/img/3588/getting-started/loader1.png)
 </span>
+使用Type-C线一端连接到评估底板的Downlad接口，另一端连接电脑的USB接口，然后给板卡接上电源；
+
 
 <span style={{ 
   display: 'flex', 
   justifyContent: 'center',
   margin: '10px 0'
 }}>
-![rk_devtools](/img/k1pro/getting-started/loader_devtools1.png)
+![rk_devtools](/img/3588/getting-started/3588_loader.png)
 </span>
-点击升级固件，选择要烧录的镜像，点击升级开始烧录固件
+识别到ADB设备后，点击切换，将ADB设备切换成LOADER设备；
 <span style={{ 
   display: 'flex', 
   justifyContent: 'center',
   margin: '10px 0'
 }}>
-![rk_devtools](/img/k1pro/getting-started/loader_devtools2.png)
+![rk_devtools](/img/3588/getting-started/loader2.png)
 </span>
-
-
+<span style={{ 
+  display: 'flex', 
+  justifyContent: 'center',
+  margin: '10px 0'
+}}>
+![rk_devtools](/img/3588/getting-started/loader3.png)
+</span>
+点击固件,选择要烧录的镜像
+<span style={{ 
+  display: 'flex', 
+  justifyContent: 'center',
+  margin: '10px 0'
+}}>
+![rk_devtools](/img/3588/getting-started/loader4.png)
+</span>
+点击升级，开始烧录固件
+<span style={{ 
+  display: 'flex', 
+  justifyContent: 'center',
+  margin: '10px 0'
+}}>
+![rk_devtools](/img/3588/getting-started/loader5.png)
+</span>
 镜像烧录成功，如下图
-
 <span style={{ 
   display: 'flex', 
   justifyContent: 'center',
   margin: '10px 0'
 }}>
-![rk_devtools](/img/k1pro/getting-started/rk_devtools_4.png)
+![rk_devtools](/img/3588/getting-started/loader6.png)
 </span>
 
-### MASKROM模式烧录镜像
 
-```
-[烧录过程说明]
-```
+
+
 
 ## 烧录镜像到SD卡
 
@@ -111,7 +128,7 @@ K1 Pro出厂默认烧录了系统镜像， 如果不需要烧录新镜像的话�
 ![sd_formatter](/img/k1pro/getting-started/sd_formatter.png)
 </span>
 
-**注**：RK3576必须使用v1.78及以上的SDDiskTool。
+**注**：RK3588必须使用v1.78及以上的SDDiskTool。
 
 1. 安装 SDCardFormatter 后打开软件，识别到SD卡后点击Format即可。若识别不到可先用Windows自带的格式化工具格式化，再使用此工具
 2. SD_Firmware_Tool解压压缩包后无需安装即可使用，双击进入软件界面。
@@ -136,7 +153,7 @@ K1 Pro出厂默认烧录了系统镜像， 如果不需要烧录新镜像的话�
   justifyContent: 'center',
   margin: '10px 0'
 }}>
-![sd_formatter](/img/k1pro/getting-started/sd_tools_2.png)
+![sd_formatter](/img/3588/getting-started/sd_tools.png)
 </span>
 
 **注**：点击开始创建会有一定概率报错说无法烧录，可以关闭错误窗口再进行开始创建

@@ -1,0 +1,70 @@
+# K1 Pro 显示接口说明
+
+K1 Pro主板支持HDMI和MIPI DSI2接口定义的LCD显示屏作为图形输出接口。
+
+![图1 处理器显示子系统框图](/img/k1/hardware/display-interface/display_framework.png)
+<div style={{textAlign: 'center'}}>图1 处理器显示子系统框图</div>
+
+
+## 1.HDMI
+
+高清多媒体接口（High Definition Multimedia Interface，HDMI [1]）是一种全数字化视频和声音发送接口，可以发送未压缩的音频及视频信号。HDMI可用于机顶盒、DVD播放机、个人计算机、电视、游戏主机、综合扩大机、数字音响与电视机等设备。HDMI可以同时发送音频和视频信号，由于音频和视频信号采用同一条线材，大大简化系统线路的安装难度。
+
+
+<span style={{ 
+  display: 'flex', 
+  justifyContent: 'center',
+  margin: '10px 0'
+}}>
+![图1 K1 Pro板载MIPI DSI接口](/img/k1pro/hardware/k1pro_hdmi.png)
+</span>
+
+K1 Pro 支持HDMI2.1版本，最大分辨率支持4K@120fps。其主要特点如下：
+- Compliant with HDMI Specification v1.4
+- HDMI v2.1
+- Supports up to 4K@120Hz
+- Output data format: RGB/YUV444/YUV422/YUV420 8/10-bit
+- Supports CEC (Consumer Electronic Control) and ARC (Audio Return Channel)
+HDCP v2.3 and HDCP v1.4
+
+![图2 HDMI 发送框图](/img/k1/hardware/display-interface/hdmi_send_framework.png)
+<div style={{textAlign: 'center'}}>图2 HDMI 发送框图</div>
+
+你可以直接使用标准的HDMI线将K1和显示器连接（如果显示的接口不是HDMI的，你可以购买HDMI转换器，比如HDMI转DP等）
+
+
+<span style={{ 
+  display: 'flex', 
+  justifyContent: 'center',
+  margin: '10px 0'
+}}>
+![图2 HDMI 发送框图](/img/k1/hardware/display-interface/hdmi_demo.png)
+</span>
+
+你可以从以下链接找到更多关于HDMI的详细信息：
+
+[HDMI Wikipedia](https://en.wikipedia.org/wiki/HDMI)
+
+[HDMI Official](https://www.hdmi.org/)
+
+## 2.MIPI DSI
+
+MIPI联盟，即移动产业处理器接口（Mobile Industry Processor Interface 简称MIPI）联盟。MIPI（移动产业处理器接口）是MIPI联盟发起的为移动应用处理器制定的开放标准和一个规范。是2003年由ARM，TI，ST，Nokia等公司成立的联盟。MIPI协议被广泛应用于各种嵌入式图像设备中，如智能手机，VR，智能可穿戴设备等。DSI则是处理器与显示模块之间的高速接口。
+
+关于MIPI DSI的详细规范可以参考：
+
+[MIPI DSI Specifications](https://www.mipi.org/specifications/dsi)
+
+
+![Figure 3 K1 pro Onboard MIPI DSI Interface](/img/k1pro/hardware/mip_ldc.png)
+<div style={{textAlign: 'center'}}>图3 K1板载MIPI DSI接口</div>
+
+
+K1 Pro主板集成了一个支持MIPI DSI的显示接口用来支持屏幕的显示。其特性如下：
+
+- One MIPI DSI-2 v1.1 interface with D-PHY v2.0 or C-PHY v1.1
+- Supports 4 data lanes on D-PHY
+- Supports 3 data trios on C-PHY
+- Supports up to 2560x1600@60Hz
+- Supports RGB (up to 10bit) data format
+

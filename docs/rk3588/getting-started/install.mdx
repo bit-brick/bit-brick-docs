@@ -1,0 +1,169 @@
+# Download and Install Operating System
+
+SSOM-3588 comes with a pre-installed system image by default. If you do not need to burn a new image, you can skip this chapter.
+
+## Burn Image to eMMC
+
+Image address:
+- [3588_Debian Baidu Cloud](https://pan.baidu.com/s/1vzXWgSRY-JYjEkMSJAGFDA?pwd=vxvu)
+- [3588_Android Baidu Cloud](https://pan.baidu.com/s/1I71Vi-k3dW3hv8EcuXy8Lg?pwd=2feq)
+
+### Tool Acquisition and Installation
+
+To burn an image to eMMC, you need to use the burning tool RKDevTool and the driver program DriverAssitant
+
+[Baidu Cloud](https://pan.baidu.com/s/1rsxSt4PT4A2Xqy7Y-3IAPg?pwd=1xtb)
+
+**Note**: RK3588 series must use RKDevTool version v3.30 or above.
+
+### Install DriverAssitant
+
+1. Unzip the DriverAssitant software package and double-click DriverInstall.exe to enter the driver installation interface.
+2. Click "Install Driver" to start the installation. If you are not sure whether an old version of the driver was installed before, click "Uninstall Driver" to remove the old version first, then click "Install Driver".
+
+<span style={{ 
+  display: 'flex', 
+  justifyContent: 'center',
+  margin: '10px 0'
+}}>
+![driver_install](/img/k1pro/getting-started/driver_install.png)
+</span>
+
+### Install RKDevTool
+
+Rockchip's dedicated USB burning tool for Windows platform, used to download the system image to the board via USB.
+
+1. After unzipping the package, you can use it without installation. Double-click RKDevTool.exe to enter the software interface.
+2. The software mainly has three parts: download image, upgrade firmware, and advanced functions
+
+<span style={{ 
+  display: 'flex', 
+  justifyContent: 'center',
+  margin: '10px 0'
+}}>
+![rk_devtools](/img/k1pro/getting-started/rk_devtools.png)
+</span>
+
+### Loader模式烧录镜像
+将SSOM-3588核心板安装固定到评估底板上，准备1根Type-c线，用于镜像烧录
+
+打开开发工具RKDevTool，点击进入升级固件页面
+
+<span style={{ 
+  display: 'flex', 
+  justifyContent: 'center',
+  margin: '10px 0'
+}}>
+![rk_devtools](/img/3588/getting-started/loader1.png)
+</span>
+使用Type-C线一端连接到评估底板的Downlad接口，另一端连接电脑的USB接口，然后给板卡接上电源；
+
+
+<span style={{ 
+  display: 'flex', 
+  justifyContent: 'center',
+  margin: '10px 0'
+}}>
+![rk_devtools](/img/3588/getting-started/3588_loader.png)
+</span>
+识别到ADB设备后，点击切换，将ADB设备切换成LOADER设备；
+<span style={{ 
+  display: 'flex', 
+  justifyContent: 'center',
+  margin: '10px 0'
+}}>
+![rk_devtools](/img/3588/getting-started/loader2.png)
+</span>
+<span style={{ 
+  display: 'flex', 
+  justifyContent: 'center',
+  margin: '10px 0'
+}}>
+![rk_devtools](/img/3588/getting-started/loader3.png)
+</span>
+点击固件,选择要烧录的镜像
+<span style={{ 
+  display: 'flex', 
+  justifyContent: 'center',
+  margin: '10px 0'
+}}>
+![rk_devtools](/img/3588/getting-started/loader4.png)
+</span>
+点击升级，开始烧录固件
+<span style={{ 
+  display: 'flex', 
+  justifyContent: 'center',
+  margin: '10px 0'
+}}>
+![rk_devtools](/img/3588/getting-started/loader5.png)
+</span>
+镜像烧录成功，如下图
+<span style={{ 
+  display: 'flex', 
+  justifyContent: 'center',
+  margin: '10px 0'
+}}>
+![rk_devtools](/img/3588/getting-started/loader6.png)
+</span>
+
+
+
+
+
+## 烧录镜像到SD卡
+
+镜像烧录到SD卡需要专用烧录软件和读卡器
+
+### 安装SDDiskTool
+
+烧录镜像到SD卡需要使用到烧录工具 SD_Firmware_Tool.exe和SD卡格式化工具SDCardFormatter
+
+[百度云盘](https://pan.baidu.com/s/1rsxSt4PT4A2Xqy7Y-3IAPg?pwd=1xtb)
+
+<span style={{ 
+  display: 'flex', 
+  justifyContent: 'center',
+  margin: '10px 0'
+}}>
+![sd_formatter](/img/k1pro/getting-started/sd_formatter.png)
+</span>
+
+**注**：RK3588必须使用v1.78及以上的SDDiskTool。
+
+1. 安装 SDCardFormatter 后打开软件，识别到SD卡后点击Format即可。若识别不到可先用Windows自带的格式化工具格式化，再使用此工具
+2. SD_Firmware_Tool解压压缩包后无需安装即可使用，双击进入软件界面。
+
+<span style={{ 
+  display: 'flex', 
+  justifyContent: 'center',
+  margin: '10px 0'
+}}>
+![sd_formatter](/img/k1pro/getting-started/sd_tools_1.png)
+</span>
+
+### 烧录镜像
+
+打开烧录SDDiskTool的可执行文件SD_Firmware_Tool.exe并插入SD卡。
+
+1. 首先选择正确的要烧录的SD卡，然后将功能模式选择位SD启动 ，再选择要烧录的镜像，最后点击开始创建烧录镜像到SD卡。
+2. 耐心等待SD卡烧录完整，当镜像较大时，烧录的时间会相应变长。
+
+<span style={{ 
+  display: 'flex', 
+  justifyContent: 'center',
+  margin: '10px 0'
+}}>
+![sd_formatter](/img/3588/getting-started/sd_tools.png)
+</span>
+
+**注**：点击开始创建会有一定概率报错说无法烧录，可以关闭错误窗口再进行开始创建
+
+烧录成功，如下图
+
+<span style={{ 
+  display: 'flex', 
+  justifyContent: 'center',
+  margin: '10px 0'
+}}>
+![sd_formatter](/img/k1pro/getting-started/sd_tools_3.png)
+</span>
