@@ -934,15 +934,15 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'doc',
-              id: 'rk3588/getting-started/preparation',
+              id: 'ssom_3588/getting-started/preparation',
             },
             {
               type: 'doc',
-              id: 'rk3588/getting-started/install',
+              id: 'ssom_3588/getting-started/install',
             },
             {
               type: 'doc',
-              id: 'rk3588/getting-started/configuring',
+              id: 'ssom_3588/getting-started/configuring',
             }
 
           ],
@@ -955,32 +955,32 @@ const sidebars: SidebarsConfig = {
         //   items: [
         //     {
         //       type: 'doc',
-        //       id: 'rk3588/hardware/hardware-brief',
+        //       id: 'ssom_3588/hardware/hardware-brief',
         //     },
         //     {
         //       type: 'doc',
-        //       id: 'rk3588/hardware/processor-brief',
+        //       id: 'ssom_3588/hardware/processor-brief',
         //     },
         //     {
         //       type: 'doc',
-        //       id: 'rk3588/hardware/GPIO-and-40-pin-header',
+        //       id: 'ssom_3588/hardware/GPIO-and-40-pin-header',
         //     },
         //     {
         //       type: 'doc',
-        //       id: 'rk3588/hardware/m2-interface',
+        //       id: 'ssom_3588/hardware/m2-interface',
         //     },
         //     {
         //       type: 'doc',
-        //       id: 'rk3588/hardware/camera-interface',
+        //       id: 'ssom_3588/hardware/camera-interface',
         //     },
         //     {
         //       type: 'doc',
-        //       id: 'rk3588/hardware/display-interface',
+        //       id: 'ssom_3588/hardware/display-interface',
         //     },
 
         //     {
         //       type: 'doc',
-        //       id: 'rk3588/hardware/audio-hardware-introduction',
+        //       id: 'ssom_3588/hardware/audio-hardware-introduction',
         //     },
         //     // {
         //     //   type: 'doc',
@@ -989,7 +989,7 @@ const sidebars: SidebarsConfig = {
         //     // },
         //     {
         //       type: 'doc',
-        //       id: 'rk3588/hardware/hardware-file-download',
+        //       id: 'ssom_3588/hardware/hardware-file-download',
         //     },
 
 
@@ -1007,23 +1007,23 @@ const sidebars: SidebarsConfig = {
               items: [
                 {
                   type: 'doc',
-                  id: 'rk3588/software/debian/linux',
+                  id: 'ssom_3588/software/debian/linux',
                 },
                 {
                   type: 'doc',
-                  id: 'rk3588/software/debian/system_config',
+                  id: 'ssom_3588/software/debian/system_config',
                 },
                 {
                   type: 'doc',
-                  id: 'rk3588/software/debian/swap',
+                  id: 'ssom_3588/software/debian/swap',
                 },
                 {
                   type: 'doc',
-                  id: 'rk3588/software/debian/terminal_input',
+                  id: 'ssom_3588/software/debian/terminal_input',
                 },
                 {
                   type: 'doc',
-                  id: 'rk3588/software/debian/vnc',
+                  id: 'ssom_3588/software/debian/vnc',
                 },
               ]
             },
@@ -1034,63 +1034,63 @@ const sidebars: SidebarsConfig = {
               items: [
                 {
                   type: 'doc',
-                  id: 'rk3588/software/peripheral_driver/PINCTRL',
+                  id: 'ssom_3588/software/peripheral_driver/PINCTRL',
                 },
                 {
                   type: 'doc',
-                  id: 'rk3588/software/peripheral_driver/PWM',
+                  id: 'ssom_3588/software/peripheral_driver/PWM',
                 },
                 {
                   type: 'doc',
-                  id: 'rk3588/software/peripheral_driver/UART',
+                  id: 'ssom_3588/software/peripheral_driver/UART',
                 },
                 {
                   type: 'doc',
-                  id: 'rk3588/software/peripheral_driver/I2C',
+                  id: 'ssom_3588/software/peripheral_driver/I2C',
                 },
                 {
                   type: 'doc',
-                  id: 'rk3588/software/peripheral_driver/QSPI',
+                  id: 'ssom_3588/software/peripheral_driver/QSPI',
                 },         
                 {
                   type: 'doc',
-                  id: 'rk3588/software/peripheral_driver/gmac',
+                  id: 'ssom_3588/software/peripheral_driver/gmac',
                 },
                 {
                   type: 'doc',
-                  id: 'rk3588/software/peripheral_driver/USB',
+                  id: 'ssom_3588/software/peripheral_driver/USB',
                 },
                 {
                   type: 'doc',
-                  id: 'rk3588/software/peripheral_driver/PCIe',
+                  id: 'ssom_3588/software/peripheral_driver/PCIe',
                 },
                 {
                   type: 'doc',
-                  id: 'rk3588/software/peripheral_driver/DSI',
+                  id: 'ssom_3588/software/peripheral_driver/DSI',
                 },
                 {
                   type: 'doc',
-                  id: 'rk3588/software/peripheral_driver/HDMI',
+                  id: 'ssom_3588/software/peripheral_driver/HDMI',
                 },
                 {
                   type: 'doc',
-                  id: 'rk3588/software/peripheral_driver/AUDIO',
+                  id: 'ssom_3588/software/peripheral_driver/AUDIO',
                 },
                 {
                   type: 'doc',
-                  id: 'rk3588/software/peripheral_driver/CLOCK',
+                  id: 'ssom_3588/software/peripheral_driver/CLOCK',
                 },
                 {
                   type: 'doc',
-                  id: 'rk3588/software/peripheral_driver/CAN',
+                  id: 'ssom_3588/software/peripheral_driver/CAN',
                 },
                 {
                   type: 'doc',
-                  id: 'rk3588/software/peripheral_driver/DSMC',
+                  id: 'ssom_3588/software/peripheral_driver/DSMC',
                 },
                 {
                   type: 'doc',
-                  id: 'rk3588/software/peripheral_driver/DP',
+                  id: 'ssom_3588/software/peripheral_driver/DP',
                 },
               ]
             },
@@ -1101,11 +1101,11 @@ const sidebars: SidebarsConfig = {
               items: [
                 {
                   type: 'doc',
-                  id: 'rk3588/software/media/mpp',
+                  id: 'ssom_3588/software/media/mpp',
                 },
                 {
                   type: 'doc',
-                  id: 'rk3588/software/media/gstream_mpp',
+                  id: 'ssom_3588/software/media/gstream_mpp',
                 },
               ]
             },
@@ -1118,11 +1118,11 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'doc',
-              id: 'rk3588/system_dev/kernel_dev',
+              id: 'ssom_3588/system_dev/kernel_dev',
             }, 
             {
               type: 'doc',
-              id: 'rk3588/system_dev/uboot_dev',
+              id: 'ssom_3588/system_dev/uboot_dev',
             }, 
 
             
@@ -1136,23 +1136,23 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'doc',
-              id: 'rk3588/ml/env/env',
+              id: 'ssom_3588/ml/env/env',
             }, 
             {
               type: 'doc',
-              id: 'rk3588/ml/env/rknn_toolkit2',
+              id: 'ssom_3588/ml/env/rknn_toolkit2',
             },
             {
               type: 'doc',
-              id: 'rk3588/ml/env/rknn_toolkit_lite2',
+              id: 'ssom_3588/ml/env/rknn_toolkit_lite2',
             },
             {
               type: 'doc',
-              id: 'rk3588/ml/env/rk_model_zoo',
+              id: 'ssom_3588/ml/env/rk_model_zoo',
             },
             {
               type: 'doc',
-              id: 'rk3588/ml/env/rkllm',
+              id: 'ssom_3588/ml/env/rkllm',
             },
           ],
         },
@@ -1163,7 +1163,7 @@ const sidebars: SidebarsConfig = {
           items: [
             {
               type: 'doc',
-              id: 'rk3588/datasheets/datasheets',
+              id: 'ssom_3588/datasheets/datasheets',
             },
           ],
         },

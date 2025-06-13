@@ -194,6 +194,37 @@
   "k1pro.block5.desc": {
     "message": "带你一起了解K1-Pro的软件部分"
   },
+
+  "ssom_3588.block1.title": {
+    "message": "快速开始"
+  },
+  "ssom_3588.block1.desc": {
+    "message": "让你快速入门使用SSOM_3588"
+  },
+  "ssom_3588.block2.title": {
+    "message": "操作系统"
+  },
+  "ssom_3588.block2.desc": {
+    "message": "SSOM_3588 定制的专属系统"
+  },
+  "ssom_3588.block3.title": {
+    "message": "Linux Kernel"
+  },
+  "ssom_3588.block3.desc": {
+    "message": "快速配置与编译linux kernel"
+  },
+  "ssom_3588.block4.title": {
+    "message": "硬件"
+  },
+  "ssom_3588.block4.desc": {
+    "message": "带你一起了解SSOM_3588的硬件部分"
+  },
+  "ssom_3588.block5.title": {
+    "message": "软件"
+  },
+  "ssom_3588.block5.desc": {
+    "message": "带你一起了解SSOM_3588的软件部分"
+  },
   
   "theme.ErrorPageContent.title": {
     "message": "页面已崩溃。",

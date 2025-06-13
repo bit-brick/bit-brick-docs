@@ -96,7 +96,7 @@ const K1_Pro: FeatureItem[] = [
   {
     title: <Translate id='k1pro.block5.title'>Software</Translate>,
     imageSrc: require('@site/static/img/index/icon/software.png').default,
-    description: (<><Translate id='k1pro.block5.desc'>The drivers and applications guide for the K1</Translate></>),
+    description: (<><Translate id='k1pro.block5.desc'>The drivers and applications guide for the K1-Pro</Translate></>),
     url: "docs/k1_pro/k1_pro-software/debian/linux"
   },
   {
@@ -104,6 +104,45 @@ const K1_Pro: FeatureItem[] = [
     imageSrc: require('@site/static/img/index/icon/ml.png').default,
     description: (<><Translate id='pione.block8.desc'>How to use hardware accelation for AI</Translate></>),
     url: "docs/k1_pro/k1_pro-ml/env"
+  },
+];
+
+const SSOM_3588: FeatureItem[] = [
+  {
+    title: <Translate id='ssom_3588.block1.title'>Getting started</Translate>,
+    imageSrc: require('@site/static/img/index/icon/gettingstarted.png').default,
+    description: (<><Translate id='ssom_3588.block1.desc'>How to get started with your SSOM_3588</Translate></>),
+    url: "docs/ssom_3588/getting-started/preparation"
+  },
+  {
+    title: <Translate id='ssom_3588.block2.title'> OS</Translate>,
+    imageSrc: require('@site/static/img/index/icon/os.png').default,
+    description: (<><Translate id='ssom_3588.block2.desc'>The official SSOM_3588 operation system</Translate></>),
+    url: "docs/ssom_3588/os/debian/os-intro"
+  },
+  {
+    title: <Translate id='ssom_3588.block3.title'>Linux kernel</Translate>,
+    imageSrc: require('@site/static/img/index/icon/kernel.png').default,
+    description: (<><Translate id='ssom_3588.block3.desc'>How to configure and build your own kernel for SSOM_3588</Translate></>),
+    url: "docs/ssom_3588/ystem_dev/kernel_dev"
+  },
+  {
+    title: <Translate id='ssom_3588.block4.title'>Hardware</Translate>,
+    imageSrc: require('@site/static/img/index/icon/hardware.png').default,
+    description: (<><Translate id='ssom_3588.block4.desc'>The information help you to undertand the hardware of SSOM_3588</Translate></>),
+    url: "docs/ssom_3588/hardware/hardware-brief"
+  },
+  {
+    title: <Translate id='ssom_3588.block5.title'>Software</Translate>,
+    imageSrc: require('@site/static/img/index/icon/software.png').default,
+    description: (<><Translate id='ssom_3588.block5.desc'>The drivers and applications guide for the SSOM_3588</Translate></>),
+    url: "docs/ssom_3588/software/debian/linux"
+  },
+  {
+    title: <Translate id='pione.block8.title'>Machine learning</Translate>,
+    imageSrc: require('@site/static/img/index/icon/ml.png').default,
+    description: (<><Translate id='pione.block8.desc'>How to use hardware accelation for AI</Translate></>),
+    url: "docs/ssom_3588/ml/env"
   },
 ];
 
@@ -115,6 +154,10 @@ const ProductList = [
   {
     title: 'K1-Pro',
     features: K1_Pro,
+  },
+  {
+    title: 'SSOM-3588',
+    features: SSOM_3588,
   },
 ]
 
