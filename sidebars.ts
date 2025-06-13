@@ -925,7 +925,7 @@ const sidebars: SidebarsConfig = {
      {
       type: 'category',
       collapsed: true,
-      label: 'K1 Pro-3588',
+      label: 'SSOM-3588',
       items: [
         {
           type: 'category',
