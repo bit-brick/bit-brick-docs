@@ -1280,9 +1280,9 @@ RK3588 OTG 可以支持 Micro USB 2.0 的接口设计，以 `arch/arm64/boot/dts
 
 在 DT 配置中要新增如下节点及属性：
 
-1. vcc5v0_otg 节点用于控制 vbus 供给；
-2. u2phy0_otg 节点添加 vbus-supply 属性；
-3. usbdrd_dwc3_0 节点中添加 extcon = <&u2phy0>; 属性。
+1. `vcc5v0_otg` 节点用于控制 `vbus` 供给；
+2. `u2phy0_otg` 节点添加 `vbus-supply` 属性；
+3. `usbdrd_dwc3_0` 节点中添加 `extcon = <&u2phy0>;` 属性。
 
 ```plaintext
 [...] # VBUS GPIO 配置, 在 USB2.0 PHY 驱动中控制该 GPIO

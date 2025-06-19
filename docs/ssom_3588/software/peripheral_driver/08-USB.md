@@ -1258,9 +1258,9 @@ The following nodes and properties need to be deleted in the DT configuration:
 
 The following nodes and properties need to be added in the DT configuration:
 
-1. vcc5v0_otg node for controlling vbus supply;
-2. Add vbus-supply property to the u2phy0_otg node;
-3. Add extcon = <&u2phy0>; property to the usbdrd_dwc3_0 node.
+1. `vcc5v0_otg` node for controlling vbus supply;
+2. Add `vbus-supply` property to the `u2phy0_otg` node;
+3. Add `extcon = <&u2phy0>`; property to the `usbdrd_dwc3_0` node.
 
 ```plaintext
 [...] # VBUS GPIO configuration, this GPIO is controlled in the USB2.0 PHY driver
