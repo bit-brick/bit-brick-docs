@@ -22,25 +22,25 @@ const K1: FeatureItem[] = [
     title: <Translate id='pione.block2.title'>Bianbu OS</Translate>,
     imageSrc: require('@site/static/img/index/icon/os.png').default,
     description: (<><Translate id='pione.block2.desc'>The official K1 operation system</Translate></>),
-    url: "docs/k1/k1-os/desktop/os-intro"
+    url: "docs/k1/os/desktop/os-intro"
   },
   {
     title: <Translate id='pione.block3.title'>Linux kernel</Translate>,
     imageSrc: require('@site/static/img/index/icon/kernel.png').default,
     description: (<><Translate id='pione.block3.desc'>How to configure and build your own kernel for K1</Translate></>),
-    url: "docs/k1/k1-bianbu-linux/bianbu-linux/build-bit-os"
+    url: "docs/k1/bianbu-linux/bianbu-linux/build-bit-os"
   },
   {
     title: <Translate id='pione.block4.title'>Hardware</Translate>,
     imageSrc: require('@site/static/img/index/icon/hardware.png').default,
     description: (<><Translate id='pione.block4.desc'>The information help you to undertand the hardware of K1</Translate></>),
-    url: "docs/k1/k1-hardware/hardware-brief"
+    url: "docs/k1/hardware/hardware-brief"
   },
   {
     title: <Translate id='pione.block5.title'>Software</Translate>,
     imageSrc: require('@site/static/img/index/icon/software.png').default,
     description: (<><Translate id='pione.block5.desc'>The drivers and applications guide for the K1</Translate></>),
-    url: "docs/k1/k1-software/peripheral_driver/PINCTRL"
+    url: "docs/k1/software/peripheral_driver/PINCTRL"
   },
   {
     title: <Translate id='pione.block6.title'>Datasheets</Translate>,
@@ -52,13 +52,13 @@ const K1: FeatureItem[] = [
     title: <Translate id='pione.block7.title'>Camera software</Translate>,
     imageSrc: require('@site/static/img/index/icon/cam.png').default,
     description: (<><Translate id='pione.block7.desc'>Software and libraries for K1 camera hardware</Translate></>),
-    url: "docs/k1/k1-hardware/camera-interface"
+    url: "docs/k1/hardware/camera-interface"
   },
   {
     title: <Translate id='pione.block8.title'>Machine learning</Translate>,
     imageSrc: require('@site/static/img/index/icon/ml.png').default,
     description: (<><Translate id='pione.block8.desc'>How to use hardware accelation for AI</Translate></>),
-    url: "docs/k1/k1-ml/ai-arch"
+    url: "docs/k1/ml/ai-arch"
   },
   {
     title: <Translate id='pione.block9.title'>ROS2</Translate>,
@@ -85,25 +85,25 @@ const K1_Pro: FeatureItem[] = [
     title: <Translate id='k1pro.block3.title'>Linux kernel</Translate>,
     imageSrc: require('@site/static/img/index/icon/kernel.png').default,
     description: (<><Translate id='k1pro.block3.desc'>How to configure and build your own kernel for K1-Pro</Translate></>),
-    url: "docs/k1_pro/k1_pro_system_dev/kernel_dev"
+    url: "docs/k1_pro/system_dev/kernel_dev"
   },
   {
     title: <Translate id='k1pro.block4.title'>Hardware</Translate>,
     imageSrc: require('@site/static/img/index/icon/hardware.png').default,
     description: (<><Translate id='k1pro.block4.desc'>The information help you to undertand the hardware of K1-Pro</Translate></>),
-    url: "docs/k1_pro/k1_pro-hardware/hardware-brief"
+    url: "docs/k1_pro/hardware/hardware-brief"
   },
   {
     title: <Translate id='k1pro.block5.title'>Software</Translate>,
     imageSrc: require('@site/static/img/index/icon/software.png').default,
     description: (<><Translate id='k1pro.block5.desc'>The drivers and applications guide for the K1-Pro</Translate></>),
-    url: "docs/k1_pro/k1_pro-software/debian/linux"
+    url: "docs/k1_pro/software/debian/linux"
   },
   {
     title: <Translate id='pione.block8.title'>Machine learning</Translate>,
     imageSrc: require('@site/static/img/index/icon/ml.png').default,
     description: (<><Translate id='pione.block8.desc'>How to use hardware accelation for AI</Translate></>),
-    url: "docs/k1_pro/k1_pro-ml/env"
+    url: "docs/k1_pro/ml/env"
   },
 ];
 
