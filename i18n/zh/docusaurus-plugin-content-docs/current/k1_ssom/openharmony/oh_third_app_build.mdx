@@ -1,0 +1,58 @@
+# K1 OH5.0 三方库移植说明
+
+
+# 修订记录
+
+<table>
+<tbody>
+<tr>
+<td>修订版本</td>
+<td>修订日期</td>
+<td>修订说明</td>
+</tr>
+<tr>
+<td>001</td>
+<td>2025-04-01</td>
+<td>初始版本</td>
+</tr>
+</tbody>
+</table>
+
+---
+
+# 1. 源码中编译三方库
+
+## 1.1. 前置准备
+
+参考编译文档完成系统编译、烧录：[K1 OH5.0 下载编译烧录说明](oh_build)
+
+# 2. NDK 编译三方库
+
+## 2.1. 前置准备
+
+下载特定版本的 NDK 并解压出来，NDK 下载路径如下：[NDK 下载路径](https://archive.spacemit.com/tools/openharmony/sdk/)，下载的是完整的 SDK，NDK 包含在 SDK 内部。解压后的 NDK 如下所示：
+
+```
+fuqiang@snode2:/data/home/fuqiang/workspace/native$ tree -L 1
+.
+|-- build
+|-- build-tools
+|-- compatible_config.json
+|-- llvm
+|-- nativeapi_syscap_config.json
+|-- ndk_system_capability.json
+|-- oh-uni-package.json
+`-- sysroot
+
+4 directories, 4 files
+```
+
+## 2.2. 三方库编译
+
+这里介绍通过 NDK 编译三方库的流程，以几个典型的例子进行说明
+
+### 2.2.1. 编译 libaio
+
+### 2.2.2. 编译 fio
+
+# 3. FAQ

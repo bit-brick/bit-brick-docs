@@ -1,0 +1,77 @@
+# VNC Remote Desktop Configuration Guide
+
+## 1. Install VNC Server
+
+Use apt to install `x11vnc`:
+
+```bash
+sudo apt update
+sudo apt install x11vnc
+```
+
+## 2. Set Access Password
+
+Create a VNC connection password:
+
+```bash
+x11vnc -storepasswd
+```
+
+A password file will be generated and saved by default at `~/.vnc/passwd`.
+
+## 3. Test VNC Service
+
+Start the VNC service:
+
+```bash
+x11vnc -usepw -display :0
+```
+
+```bash
+export DISPLAY=:0
+x11vnc -auth guess -once -loop -noxdamage -repeat -rfbauth /home/linaro/.vnc/passwd -rfbport 5900 -shared
+```
+Manually start the VNC service, set the connection port to 5900. If the port is occupied, you can use another port.
+
+Use MobaXterm or VNC Viewer client to connect. The IP address is the board's LAN IP.
+
+## 4. Configure Auto Start on Boot
+
+Create a new `vnc.desktop` in the `~/.config/autostart/` directory. Example content:
+```bash
+# For example, using the linaro user
+mkdir /home/linaro/.config/autostart
+
+# Create the configuration file
+vim /home/linaro/.config/autostart/vnc.desktop
+```
+
+```ini
+[Desktop Entry]
+Type=Application
+Exec=/usr/bin/x11vnc -auth guess -display :0 -rfbauth /home/linaro/.vnc/passwd -rfbport 5900 -forever -loop -noxdamage -repeat -shared -capslock -nomodtweak
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+Name=VNC
+Comment=Start VNC on login
+```
+
+## 5. Disable Sleep Settings
+
+To avoid remote connection interruption due to sleep. Disable screensaver and power management:
+
+```bash
+xset s off
+xset -dpms
+```
+
+You can write these commands into `~/.xprofile` or startup scripts.
+
+## 6. Recommended VNC Clients
+
+- [RealVNC Viewer](https://www.realvnc.com/en/connect/download/viewer/)
+- MobaXterm
+- remmina
+
+

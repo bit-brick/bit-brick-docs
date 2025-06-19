@@ -1,0 +1,57 @@
+# K1 OH5.0 Third-party Library Porting Instructions
+
+# Revision History
+
+<table>
+<tbody>
+<tr>
+<td>Revision Version</td>
+<td>Revision Date</td>
+<td>Revision Description</td>
+</tr>
+<tr>
+<td>001</td>
+<td>2025-04-01</td>
+<td>Initial version</td>
+</tr>
+</tbody>
+</table>
+
+---
+
+# 1. Compile Third-party Libraries in Source Code
+
+## 1.1. Prerequisites
+
+Refer to the compilation documentation to complete system compilation and flashing: [K1 OH5.0 Download, Compile, and Flash Instructions](oh_build)
+
+# 2. NDK Compilation of Third-party Libraries
+
+## 2.1. Prerequisites
+
+Download the specified version of the NDK and extract it. The NDK download path is as follows: [NDK Download Path](https://archive.spacemit.com/tools/openharmony/sdk/). The downloaded package is the complete SDK, and the NDK is included within the SDK. The extracted NDK is as follows:
+
+```
+fuqiang@snode2:/data/home/fuqiang/workspace/native$ tree -L 1
+.
+|-- build
+|-- build-tools
+|-- compatible_config.json
+|-- llvm
+|-- nativeapi_syscap_config.json
+|-- ndk_system_capability.json
+|-- oh-uni-package.json
+`-- sysroot
+
+4 directories, 4 files
+```
+
+## 2.2. Third-party Library Compilation
+
+This section introduces the process of compiling third-party libraries using the NDK, illustrated with several typical examples.
+
+### 2.2.1. Compile libaio
+
+### 2.2.2. Compile fio
+
+# 3. FAQ

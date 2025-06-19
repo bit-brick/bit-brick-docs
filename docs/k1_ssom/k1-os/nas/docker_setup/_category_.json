@@ -1,0 +1,8 @@
+{
+  "label": "Docker Services",
+  "position": 5,
+  "link": {
+    "type": "generated-index",
+    "description": "Introduction to Docker service setup, listing migrated Docker images, and deployment of mainstream Docker applications."
+  }
+}

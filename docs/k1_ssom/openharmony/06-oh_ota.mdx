@@ -1,0 +1,571 @@
+# K1 JOH5.0 Solution OTA Usage Guide
+
+# Overview
+
+OTA upgrade methods are classified as:
+
+- Local upgrade (Supported)
+- Network upgrade (Supported)
+
+OTA package types are classified as:
+
+- Full package upgrade (Supported)
+- Differential package upgrade (Supported)
+- Partition variation package upgrade (Not supported currently)
+
+# OTA Package Creation
+
+## Preparation
+
+### Install Required Tools
+
+```c
+$ sudo apt update
+$ sudo apt upgrade
+$ sudo apt install bsdiff
+$ sudo pip install xmltodict asn1crypto imgdiff cryptography e2fsdroid
+```
+
+### Modify Code
+
+Add some differences by modifying the code, such as obvious prints, to verify whether the OTA upgrade is successful after the upgrade.
+
+## Full Package Creation
+
+### Full Source Code Compilation
+
+```shell
+./build.sh --product-name xxx --ccache --prebuilt-sdk
+```
+
+The required content is as follows:
+
+- System image files located in `out\xxx\packages\phone\images`, as shown below:
+
+```shell
+fuqiang@snode2:~/WorkSpace/oh5/out/musepaper2/packages/phone/images$ tree
+.
+|-- bootfs
+|   |-- bianbu.bmp
+|   |-- env_k1-x.txt
+|   |-- Image.itb
+|   `-- k1-x_MUSE-Paper2.dtb
+|-- boot.img
+|-- chip_prod.img
+|-- eng_system.img
+|-- env.bin
+|-- factory
+|   |-- bootinfo_emmc.bin
+|   |-- bootinfo_sd.bin
+|   |-- bootinfo_spinand.bin
+|   |-- bootinfo_spinor.bin
+|   `-- FSBL.bin
+|-- fastboot.yaml
+|-- fw_dynamic.itb
+|-- genimage.cfg
+|-- partition_universal.json
+|-- ramdisk.img
+|-- sys_prod.img
+|-- system.img
+|-- u-boot.itb
+|-- updater.img
+|-- userdata.img
+`-- vendor.img
+
+2 directories, 25 files
+```
+
+- Binary upgrade file `updater_binary`, located at `out\xxx\packages\phone\system\bin\updater_binary`
+
+### Create Full Package
+
+1. Navigate to the OTA packaging tools directory and create `target_package`, `output_package`, and `sign_cert` folders. If the folders already exist, skip this step.
+
+```shell
+$ cd base/update/packaging_tools
+$ mkdir target_package output_package sign_cert
+```
+
+2. Place the public key in the `sign_cert` folder. The public key is located at:
+
+```c
+base/update/updater/test/unittest/test_data/src/signing_cert.crt
+```
+
+3. Place the files required to generate the OTA full package in the `target_package` folder, including:
+   - Private key `rsa_private_key2048.pem`, located at:
+
+   ```c
+   base/update/updater/test/unittest/test_data/src/rsa_private_key2048.pem
+   ```
+
+   - Image files, located in the folder:
+
+   ```c
+   out\xxx\packages\phone\images
+   ```
+
+   - Binary upgrade file `updater_binary`, located at:
+
+   ```c
+   out\xxx\packages\phone\system\bin\updater_binary
+   ```
+
+   - Upgrade component configuration folder `updater_config`, which includes:
+      - List of supported products: `BOARD.list`, located at:
+
+      ```c
+      device/board/hisilicon/hispark_taurus/linux/updater/config/BOARD.list
+      ```
+
+      Content:
+      ```c
+      HI3516
+      MUSEPAPER
+      MUSEPAPER2
+      DEB1
+      ZT001H
+      ```
+
+      HI3516 must be included; otherwise, OTA package verification will fail, causing the OTA upgrade to fail. This is because the code in `base/update/updater/utils/utils.cpp` matches BOARD with a fixed default value:
+
+      ```c
+      std::string GetLocalBoardId()
+      {
+          return "HI3516";
+      }
+      ```
+
+      - Supported version range of the upgrade package: `VERSION.mbn`, located at:
+
+      ```c
+      device/board/hisilicon/hispark_taurus/linux/updater/config/VERSION.mbn
+      ```
+
+      `VERSION.mbn` should match the set software version:
+      ```c
+      OpenHarmony 5.0.0.71
+      ```
+
+      - Component configuration file: `updater_specified_config.xml`, located at:
+
+      ```c
+      device/board/hisilicon/hispark_taurus/linux/system/updater_specified_config.xml
+      ```
+
+      - Modify `fileVersion` to 2 (4.0 updated verification method)
+      - Change `softVersion` to the current software version
+      - Set `compType` to 0, indicating full package (1 indicates incremental)
+      - Modify the img packaging path, such as `/vendor.img` and `./system.img`
+        Final content:
+
+      ```c
+      <?xml version="1.0"?>
+      <package>
+          <head name="Component header information">
+              <info fileVersion="02" prdID="123456" softVersion="OpenHarmony 5.0.0.71" date="2025-02-13" time="14:30">head info</info>
+          </head>
+          <group name = "Component information">
+              <component compAddr="vendor" compId="1" resType="05" compType="0" compVer="0o00">./vendor.img</component>
+              <component compAddr="system" compId="2" resType="05" compType="0" compVer="0o00">./system.img</component>
+              <component compAddr="boot" compId="3" resType="05" compType="0" compVer="0o00">./boot.img</component>
+              <component compAddr="uboot" compId="4" resType="05" compType="0" compVer="0o00">./u-boot.itb</component>
+              <component compAddr="fsbl" compId="5" resType="05" compType="0" compVer="0o00">./factory/FSBL.bin</component>
+              <component compAddr="env" compId="6" resType="05" compType="0" compVer="0o00">./env.bin</component>
+              <component compAddr="opensbi" compId="7" resType="05" compType="0" compVer="0o00">./fw_dynamic.itb</component>
+              <component compAddr="ramdisk" compId="8" resType="05" compType="0" compVer="0o00">./ramdisk.img</component>
+              <component compAddr="updater" compId="9" resType="05" compType="0" compVer="0o00">./updater.img</component>
+              <component compAddr="sys_prod" compId="10" resType="05" compType="0" compVer="0o00">./sys_prod.img</component>
+              <component compAddr="chip_prod" compId="11" resType="05" compType="0" compVer="0o00">./chip_prod.img</component>
+          </group>
+      </package>
+      ```
+
+`target_package` complete content:
+
+```c
+fuqiang@snode2:~/WorkSpace/oh5/base/update/packaging_tools/target_package$ tree
+.
+|-- bootfs
+|   |-- bianbu.bmp
+|   |-- env_k1-x.txt
+|   |-- Image.itb
+|   |-- k1-x_MUSE-Paper2.dtb
+|   `-- Thumbs.db
+|-- boot.img
+|-- chip_prod.img
+|-- eng_system.img
+|-- env.bin
+|-- factory
+|   |-- bootinfo_emmc.bin
+|   |-- bootinfo_sd.bin
+|   |-- bootinfo_spinand.bin
+|   |-- bootinfo_spinor.bin
+|   `-- FSBL.bin
+|-- fastboot.yaml
+|-- fw_dynamic.itb
+|-- genimage.cfg
+|-- partition_universal.json
+|-- ramdisk.img
+|-- rsa_private_key2048.pem
+|-- sys_prod.img
+|-- system.img
+|-- u-boot.itb
+|-- updater_binary
+|-- updater_config
+|   |-- BOARD.list
+|   |-- updater_specified_config.xml
+|   `-- VERSION.mbn
+|-- updater.img
+|-- userdata.img
+`-- vendor.img
+
+3 directories, 30 files
+```
+
+4. Package the full package. The `updater_full.zip` full package will be generated in the `base/update/packaging_tools/output_package` directory. Command:
+
+```c
+python3 build_update.py ./target_package/ ./output_package/ -pk ./target_package/rsa_private_key2048.pem
+```
+
+Normal log:
+
+```c
+fuqiang@snode2:~/WorkSpace/oh5/base/update/packaging_tools$ python3 build_update.py ./target_package/ ./output_package/ -pk ./target_package/rsa_private_key2048.pem
+2025-02-13 20:56:04 INFO : []
+2025-02-13 20:56:04 INFO : VERSION.mbn file parsing complete! path: ./target_package/updater_config/VERSION.mbn
+2025-02-13 20:56:04 INFO : BOARD.list file parsing complete! path: ./target_package/updater_config/BOARD.list
+2025-02-13 20:56:04 INFO : []
+2025-02-13 20:56:04 INFO : XML file parsing completed!
+2025-02-13 20:56:04 INFO : []
+2025-02-13 20:56:05 INFO : Image vendor full processing completed
+2025-02-13 20:56:08 INFO : Image system full processing completed
+2025-02-13 20:56:09 INFO : Image boot full processing completed
+2025-02-13 20:56:09 INFO : Image u-boot full processing completed
+2025-02-13 20:56:09 INFO : Image FSBL full processing completed
+2025-02-13 20:56:09 INFO : Image env full processing completed
+2025-02-13 20:56:09 INFO : Image fw_dynamic full processing completed
+2025-02-13 20:56:09 INFO : Image ramdisk full processing completed
+2025-02-13 20:56:09 INFO : Image updater full processing completed
+2025-02-13 20:56:09 INFO : Image sys_prod full processing completed
+2025-02-13 20:56:09 INFO : Image chip_prod full processing completed
+2025-02-13 20:56:09 INFO : All full image processing completed! image count: 11
+2025-02-13 20:56:09 INFO : []
+2025-02-13 20:56:09 INFO : []
+2025-02-13 20:56:09 INFO : []
+2025-02-13 20:56:09 INFO : Get hash content success! path: ./target_package/updater_config/VERSION.mbn
+2025-02-13 20:56:09 INFO : Get hash content success! path: ./target_package/updater_config/BOARD.list
+2025-02-13 20:56:11 INFO : Get hash content success! path: /data/home2/fuqiang/WorkSpace/oh5/oh5_r_release/base/update/packaging_tools/target_package/full_imagevendoru8blfa8f
+2025-02-13 20:56:22 INFO : Get hash content success! path: /data/home2/fuqiang/WorkSpace/oh5/oh5_r_release/base/update/packaging_tools/target_package/full_imagesystem2124936b
+2025-02-13 20:56:24 INFO : Get hash content success! path: /data/home2/fuqiang/WorkSpace/oh5/oh5_r_release/base/update/packaging_tools/target_package/full_imagebootolvjuuro
+2025-02-13 20:56:24 INFO : Get hash content success! path: /data/home2/fuqiang/WorkSpace/oh5/oh5_r_release/base/update/packaging_tools/target_package/full_imageu-bootyx5utu44
+2025-02-13 20:56:24 INFO : Get hash content success! path: /data/home2/fuqiang/WorkSpace/oh5/oh5_r_release/base/update/packaging_tools/target_package/full_imageFSBLgyd5y0tc
+2025-02-13 20:56:24 INFO : Get hash content success! path: /data/home2/fuqiang/WorkSpace/oh5/oh5_r_release/base/update/packaging_tools/target_package/full_imageenv48uz1h5n
+2025-02-13 20:56:24 INFO : Get hash content success! path: /data/home2/fuqiang/WorkSpace/oh5/oh5_r_release/base/update/packaging_tools/target_package/full_imagefw_dynamicd_lhhf2r
+2025-02-13 20:56:24 INFO : Get hash content success! path: /data/home2/fuqiang/WorkSpace/oh5/oh5_r_release/base/update/packaging_tools/target_package/full_imageramdisk_xd3t7d3
+2025-02-13 20:56:24 INFO : Get hash content success! path: /data/home2/fuqiang/WorkSpace/oh5/oh5_r_release/base/update/packaging_tools/target_package/full_imageupdatertarhn6ph
+2025-02-13 20:56:24 INFO : Get hash content success! path: /data/home2/fuqiang/WorkSpace/oh5/oh5_r_release/base/update/packaging_tools/target_package/full_imagesys_prodgj47qc31
+2025-02-13 20:56:25 INFO : Get hash content success! path: /data/home2/fuqiang/WorkSpace/oh5/oh5_r_release/base/update/packaging_tools/target_package/full_imagechip_prod1l3n34w4
+2025-02-13 20:56:25 INFO : Write package header complete
+2025-02-13 20:56:25 INFO : Add component b'/version_list'
+2025-02-13 20:56:25 INFO : component information  StartOffset:180
+2025-02-13 20:56:25 INFO : Add component b'/board_list'
+2025-02-13 20:56:25 INFO : component information  StartOffset:267
+2025-02-13 20:56:25 INFO : Add component b'/vendor'
+2025-02-13 20:56:25 INFO : component information  StartOffset:354
+2025-02-13 20:56:25 INFO : Add component b'/system'
+2025-02-13 20:56:25 INFO : component information  StartOffset:441
+2025-02-13 20:56:25 INFO : Add component b'/boot'
+2025-02-13 20:56:25 INFO : component information  StartOffset:528
+2025-02-13 20:56:25 INFO : Add component b'/uboot'
+2025-02-13 20:56:25 INFO : component information  StartOffset:615
+2025-02-13 20:56:25 INFO : Add component b'/fsbl'
+2025-02-13 20:56:25 INFO : component information  StartOffset:702
+2025-02-13 20:56:25 INFO : Add component b'/env'
+2025-02-13 20:56:25 INFO : component information  StartOffset:789
+2025-02-13 20:56:25 INFO : Add component b'/opensbi'
+2025-02-13 20:56:25 INFO : component information  StartOffset:876
+2025-02-13 20:56:25 INFO : Add component b'/ramdisk'
+2025-02-13 20:56:25 INFO : component information  StartOffset:963
+2025-02-13 20:56:25 INFO : Add component b'/updater'
+2025-02-13 20:56:25 INFO : component information  StartOffset:1050
+2025-02-13 20:56:25 INFO : Add component b'/sys_prod'
+2025-02-13 20:56:25 INFO : component information  StartOffset:1137
+2025-02-13 20:56:25 INFO : Add component b'/chip_prod'
+2025-02-13 20:56:25 INFO : component information  StartOffset:1224
+2025-02-13 20:56:25 INFO : Write hashdata sign tlv complete
+2025-02-13 20:56:25 INFO : .bin package header signing success! SignOffset: 1589
+2025-02-13 20:56:25 INFO : Add component to package  StartOffset:1589
+2025-02-13 20:56:25 INFO : Write component complete  ComponentSize:22
+2025-02-13 20:56:25 INFO : Add component to package  StartOffset:1611
+2025-02-13 20:56:25 INFO : Write component complete  ComponentSize:40
+2025-02-13 20:56:25 INFO : Add component to package  StartOffset:1651
+2025-02-13 20:56:25 INFO : Write component complete  ComponentSize:268431360
+2025-02-13 20:56:25 INFO : Add component to package  StartOffset:268433011
+2025-02-13 20:56:29 INFO : Write component complete  ComponentSize:2097152000
+2025-02-13 20:56:29 INFO : Add component to package  StartOffset:2365585011
+2025-02-13 20:56:29 INFO : Write component complete  ComponentSize:268435456
+2025-02-13 20:56:29 INFO : Add component to package  StartOffset:2634020467
+2025-02-13 20:56:29 INFO : Write component complete  ComponentSize:1965474
+2025-02-13 20:56:29 INFO : Add component to package  StartOffset:2635985941
+2025-02-13 20:56:29 INFO : Write component complete  ComponentSize:189728
+2025-02-13 20:56:29 INFO : Add component to package  StartOffset:2636175669
+2025-02-13 20:56:29 INFO : Write component complete  ComponentSize:16384
+2025-02-13 20:56:29 INFO : Add component to package  StartOffset:2636192053
+2025-02-13 20:56:29 INFO : Write component complete  ComponentSize:136599
+2025-02-13 20:56:29 INFO : Add component to package  StartOffset:2636328652
+2025-02-13 20:56:29 INFO : Write component complete  ComponentSize:3035582
+2025-02-13 20:56:29 INFO : Add component to package  StartOffset:2639364234
+2025-02-13 20:56:29 INFO : Write component complete  ComponentSize:19612459
+2025-02-13 20:56:29 INFO : Add component to package  StartOffset:2658976693
+2025-02-13 20:56:29 INFO : Write component complete  ComponentSize:52428800
+2025-02-13 20:56:29 INFO : Add component to package  StartOffset:2711405493
+2025-02-13 20:56:30 INFO : Write component complete  ComponentSize:52428800
+2025-02-13 20:56:30 INFO : Write update package complete
+2025-02-13 20:56:30 INFO : Create update package .bin complete! path: /data/home2/fuqiang/WorkSpace/oh5/oh5_r_release/base/update/packaging_tools/output_package/update_bin-bap8m1xh
+2025-02-13 20:56:30 INFO : Verse-script.us generation complete!
+2025-02-13 20:56:30 INFO : loadScript.us generation complete!
+2025-02-13 20:56:30 INFO : []
+2025-02-13 20:56:30 INFO : []
+2025-02-13 20:56:30 INFO : []
+2025-02-13 20:57:45 INFO : []
+2025-02-13 20:57:45 INFO : []
+2025-02-13 20:57:51 INFO : Resource cleaning completed!
+```
+
+## Differential Package Creation
+
+### Full Source Code Compilation
+
+```shell
+./build.sh --product-name xxx --ccache --prebuilt-sdk
+```
+
+The required content is as follows:
+
+- System image files located in `out\xxx\packages\phone\images`, as shown below:
+
+```shell
+fuqiang@snode2:~/WorkSpace/oh5/out/musepaper2/packages/phone/images$ tree
+.
+|-- bootfs
+|   |-- bianbu.bmp
+|   |-- env_k1-x.txt
+|   |-- Image.itb
+|   `-- k1-x_MUSE-Paper2.dtb
+|-- boot.img
+|-- chip_prod.img
+|-- eng_system.img
+|-- env.bin
+|-- factory
+|   |-- bootinfo_emmc.bin
+|   |-- bootinfo_sd.bin
+|   |-- bootinfo_spinand.bin
+|   |-- bootinfo_spinor.bin
+|   `-- FSBL.bin
+|-- fastboot.yaml
+|-- fw_dynamic.itb
+|-- genimage.cfg
+|-- openharmony-spacemit-musepaper2.zip
+|-- partition_universal.json
+|-- ramdisk.img
+|-- sys_prod.img
+|-- system.img
+|-- u-boot.itb
+|-- updater.img
+|-- userdata.img
+`-- vendor.img
+
+2 directories, 25 files
+```
+
+- Binary upgrade file `updater_binary`, located at `out\xxx\packages\phone\system\bin\updater_binary`
+
+### Create Differential Package
+
+1. Create a `lib` folder and place the differential image binary tools inside. If these files already exist, skip this step.
+
+```shell
+fuqiang@snode2:~/WorkSpace/oh5/base/update/packaging_tools$ mkdir lib
+fuqiang@snode2:~/WorkSpace/oh5/base/update/packaging_tools$ cp -rf ../../../out/musepaper2/clang_x64/updater/updater/diff lib/
+fuqiang@snode2:~/WorkSpace/oh5/base/update/packaging_tools$ cp -rf ../../../out/musepaper2/clang_x64/thirdparty/e2fsprogs/* lib/
+```
+
+Contents of the `lib` folder:
+
+```shell
+fuqiang@snode2:~/WorkSpace/oh5base/update/packaging_tools/lib$ tree
+.
+|-- diff
+|-- e2fsck
+|-- e2fsdroid
+|-- libext2_blkid.so
+|-- libext2_com_err.so
+|-- libext2_e2p.so
+|-- libext2fs.so
+|-- libext2_misc.so
+|-- libext2_quota.so
+|-- libext2_uuid.so
+`-- mke2fs
+
+0 directories, 11 files
+```
+
+2. In the `packaging_tools` directory, copy the previous `target_package` as the `source_package` for creating the differential package.
+
+```shell
+fuqiang@snode2:~/WorkSpace/oh5/base/update/packaging_tools$ cp -rf target_package/* source_package/
+```
+
+3. Update the files in the `target_package` directory:
+
+   - Replace with new image files
+   - Replace with new binary upgrade files
+   - Update `target_package/updater_config/updater_specified_config.xml` with new `softVersion` and `compType`. The `softVersion` must be greater than the current system version. Set `compType` to 1 for incremental upgrade. For smaller img files, set `compType` to 0 for full upgrade.
+
+   ```shell
+   <?xml version="1.0"?>
+   <package>
+       <head name="Component header information">
+           <info fileVersion="02" prdID="123456" softVersion="OpenHarmony 5.0.0.72" date="2025-02-14" time="14:30">head info</info>
+       </head>
+       <group name = "Component information">
+           <component compAddr="vendor" compId="1" resType="05" compType="1" compVer="0o00">./vendor.img</component>
+           <component compAddr="system" compId="2" resType="05" compType="1" compVer="0o00">./system.img</component>
+           <component compAddr="boot" compId="3" resType="05" compType="0" compVer="0o00">./boot.img</component>
+           <component compAddr="uboot" compId="4" resType="05" compType="0" compVer="0o00">./u-boot.itb</component>
+           <component compAddr="fsbl" compId="5" resType="05" compType="0" compVer="0o00">./factory/FSBL.bin</component>
+           <component compAddr="env" compId="6" resType="05" compType="0" compVer="0o00">./env.bin</component>
+           <component compAddr="opensbi" compId="7" resType="05" compType="0" compVer="0o00">./fw_dynamic.itb</component>
+           <component compAddr="ramdisk" compId="8" resType="05" compType="0" compVer="0o00">./ramdisk.img</component>
+           <component compAddr="updater" compId="9" resType="05" compType="0" compVer="0o00">./updater.img</component>
+           <component compAddr="sys_prod" compId="10" resType="05" compType="1" compVer="0o00">./sys_prod.img</component>
+           <component compAddr="chip_prod" compId="11" resType="05" compType="1" compVer="0o00">./chip_prod.img</component>
+       </group>
+   </package>
+   ```
+
+4. Package the differential package:
+
+```shell
+python3 build_update.py ./target_package/ ./output_package/ -s ./source_package/ -pk ./target_package/rsa_private_key2048.pem
+```
+
+The differential package `base/update/packaging_tools/output_package/updater_diff.zip` is generated.
+
+# OTA Upgrade
+
+## Local OTA Upgrade
+
+Place the created full package `updater_full.zip` (or differential package `updater_diff.zip`) on the device and set the reboot mode:
+
+```c
+D:\>hdc file send Y:\WorkSpace/oh5/base/update/packaging_tools\output_package\updater_xxx.zip /data/updater/updater.zip
+D:\>hdc shell
+# write_updater updater /data/updater/updater.zip
+# reboot updater
+```
+
+After a successful upgrade, the device will automatically restart.
+
+## Online OTA Upgrade
+
+To be added.
+
+# Notes
+
+## Partition
+
+The system must have the following partitions:
+
+- updater
+- misc
+
+The `misc` partition is a partition without a file system.
+
+# Troubleshooting
+
+### Misc Partition Issue
+
+After executing:
+
+```shell
+reboot updater
+```
+
+The system directly restarts without entering upgrade mode, with the following error logs:
+
+```shell
+Line  700: [    7.014566] [pid=1][BEGET][ERROR][reboot_misc.c:80]Failed to get misc info
+Line  842: [    9.214689] [pid=213][ueventd][INFO][ueventd_device_handler.c:85]symlink /dev/block/mmcblk2p11->/dev/block/platform/soc/d4281000.sdh/by-name/misc
+Line  843: [    9.229333] [pid=213][ueventd][INFO][ueventd_device_handler.c:85]symlink /dev/block/mmcblk2p11->/dev/block/by-name/misc
+```
+
+It is found that when reading the `misc` partition, the path `/dev/block/platform/soc/d4281000.sdh/by-name/misc` is used, but this path has not been generated yet.
+
+Attempted solutions:
+
+- Tried using `/dev/block/mmcblk2p11`, but it didn't work.
+- Tried mounting `misc` in the ramdisk, which worked.
+
+### Updater Binary Issue
+
+On OH5.0, the generated binary `updater_binary` cannot be executed. Executing it triggers signal 11. After comparing with OH4.0, it is found that OH5.0 does not define `updater_binary` as executable, which is suspected to be the issue. Modify it according to OH4.0. Patch:
+
+```
+commit bd630d88068992467681f2a2c39da41abfc688aa
+Author: Fu Qiang <qiang.fu@spacemit.com>
+Date:   Thu Oct 31 18:58:11 2024 +0800
+
+    fix bug: ota fail: When executing updater-binary, it reports signal 11.
+
+diff --git a/bundle.json b/bundle.json
+index 3bd29e92..925dec8d 100644
+--- a/bundle.json
++++ b/bundle.json
+@@ -173,16 +173,6 @@
+                         ]
+                     }
+                 },
+-                {
+-                    "name": "//base/update/updater/services/updater_binary:libupdater_binary",
+-                    "header": {
+-                        "header_files": [],
+-                        "header_base": [
+-                            "//base/update/updater/interfaces/kits/include",
+-                            "//base/update/updater/services/updater_binary"
+-                        ]
+-                    }
+-                },
+                 {
+                     "name": "//base/update/updater/services/applypatch:libapplypatch",
+                     "header": {
+diff --git a/services/updater_binary/BUILD.gn b/services/updater_binary/BUILD.gn
+index 754e1e2f..35efd13e 100644
+--- a/services/updater_binary/BUILD.gn
++++ b/services/updater_binary/BUILD.gn
+@@ -32,18 +32,7 @@ config("updater_config") {
+   ]
+ }
+
+-config("updater_binary_lc++") {
+-  ldflags = [ "-lc++" ]
+-}
+-
+-updater_gen("updater_binary") {
+-  deps = [ "${updater_path}/services/updater_binary:libupdater_binary" ]
+-  configs = [ ":updater_binary_lc++" ]
+-  part_name = "updater"
+-  subsystem_name = "updater"
+-}
+-
+-ohos_static_library("libupdater_binary") {
++ohos_executable("updater_binary") {
+   sources = [
+     "${updater_path}/services/updater_binary/main.cpp",
+     "${updater_path}/services/updater_binary/update_image_block.cpp",
+
+```
+
+Referenced from [Spacemit Developer Documentation](https://developer.spacemit.com/documentation?token=TYDVwpqfYiufN4kokUec4VtQn4d)

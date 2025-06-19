@@ -1,0 +1,152 @@
+# 下载和安装操作系统
+
+K1 Pro出厂默认烧录了系统镜像， 如果不需要烧录新镜像的话可以跳过本章内容。
+
+## 烧录镜像到eMMC
+
+镜像地址：
+- [K1pro_Debian Baidu Cloud](https://pan.baidu.com/s/1AvvPxCaF9EDkc0shuRwt3w?pwd=n3zs)
+- [K1pro_Android Baidu Cloud](https://pan.baidu.com/s/1JzsEQcZn4m8RXQwwo4aYWw?pwd=kxv3)
+
+### 工具获取和安装
+
+烧录镜像到eMMC需要使用到烧录工具RKDevTool和驱动程序DriverAssitant
+
+[百度云盘](https://pan.baidu.com/s/1rsxSt4PT4A2Xqy7Y-3IAPg?pwd=1xtb)
+
+**注**：RK3576系列必须使用v3.30及以上版本的RKDevTool工具。
+
+### 安装DriverAssitant
+
+1. 解压DriverAssitant软件压缩包，双击 DriverInstall.exe 进入驱动安装界面。
+2. 点击驱动安装即可开始安装驱动。如果不确定以前是否安装过旧版驱动，先点击驱动卸载移除旧版本驱动程序，再点击驱动安装。
+
+<span style={{ 
+  display: 'flex', 
+  justifyContent: 'center',
+  margin: '10px 0'
+}}>
+![driver_install](/img/k1pro/getting-started/driver_install.png)
+</span>
+
+### 安装RKDevTool
+
+瑞芯微专用USB烧录工具，Windows平台，使用USB接口将系统镜像下载到板卡中。
+
+1. 解压压缩包后无需安装即可使用，双击 RKDevTool.exe进入软件界面。
+2. 软件主要有三大部分，分别是下载镜像、升级固件和高级功能
+
+<span style={{ 
+  display: 'flex', 
+  justifyContent: 'center',
+  margin: '10px 0'
+}}>
+![rk_devtools](/img/k1pro/getting-started/rk_devtools.png)
+</span>
+
+### Loader模式烧录镜像
+
+打开 RKDevTool 烧录工具，并设置板卡进入烧录模式
+
+1. 准备一根Type-c线和一根供电线，Type-c线用于镜像烧录
+2. 使用跳线帽短路选择图示标记1`DL`跳线的引脚，进入固件下载模式
+3. 使用一根Type-C线一端连接到板卡的OTG接口，按住K1 Pro的Download键，随后为K1 Pro接上电源，进入Loader模式
+
+<span style={{ 
+  display: 'flex', 
+  justifyContent: 'center',
+  margin: '10px 0'
+}}>
+![rk_devtools](/img/k1pro/getting-started/k1pro_loader.png)
+</span>
+
+<span style={{ 
+  display: 'flex', 
+  justifyContent: 'center',
+  margin: '10px 0'
+}}>
+![rk_devtools](/img/k1pro/getting-started/loader_devtools1.png)
+</span>
+点击升级固件，选择要烧录的镜像，点击升级开始烧录固件
+<span style={{ 
+  display: 'flex', 
+  justifyContent: 'center',
+  margin: '10px 0'
+}}>
+![rk_devtools](/img/k1pro/getting-started/loader_devtools2.png)
+</span>
+
+
+镜像烧录成功，如下图
+
+<span style={{ 
+  display: 'flex', 
+  justifyContent: 'center',
+  margin: '10px 0'
+}}>
+![rk_devtools](/img/k1pro/getting-started/rk_devtools_4.png)
+</span>
+
+### MASKROM模式烧录镜像
+
+```
+[烧录过程说明]
+```
+
+## 烧录镜像到SD卡
+
+镜像烧录到SD卡需要专用烧录软件和读卡器
+
+### 安装SDDiskTool
+
+烧录镜像到SD卡需要使用到烧录工具 SD_Firmware_Tool.exe和SD卡格式化工具SDCardFormatter
+
+[百度云盘](https://pan.baidu.com/s/1rsxSt4PT4A2Xqy7Y-3IAPg?pwd=1xtb)
+
+<span style={{ 
+  display: 'flex', 
+  justifyContent: 'center',
+  margin: '10px 0'
+}}>
+![sd_formatter](/img/k1pro/getting-started/sd_formatter.png)
+</span>
+
+**注**：RK3576必须使用v1.78及以上的SDDiskTool。
+
+1. 安装 SDCardFormatter 后打开软件，识别到SD卡后点击Format即可。若识别不到可先用Windows自带的格式化工具格式化，再使用此工具
+2. SD_Firmware_Tool解压压缩包后无需安装即可使用，双击进入软件界面。
+
+<span style={{ 
+  display: 'flex', 
+  justifyContent: 'center',
+  margin: '10px 0'
+}}>
+![sd_formatter](/img/k1pro/getting-started/sd_tools_1.png)
+</span>
+
+### 烧录镜像
+
+打开烧录SDDiskTool的可执行文件SD_Firmware_Tool.exe并插入SD卡。
+
+1. 首先选择正确的要烧录的SD卡，然后将功能模式选择位SD启动 ，再选择要烧录的镜像，最后点击开始创建烧录镜像到SD卡。
+2. 耐心等待SD卡烧录完整，当镜像较大时，烧录的时间会相应变长。
+
+<span style={{ 
+  display: 'flex', 
+  justifyContent: 'center',
+  margin: '10px 0'
+}}>
+![sd_formatter](/img/k1pro/getting-started/sd_tools_2.png)
+</span>
+
+**注**：点击开始创建会有一定概率报错说无法烧录，可以关闭错误窗口再进行开始创建
+
+烧录成功，如下图
+
+<span style={{ 
+  display: 'flex', 
+  justifyContent: 'center',
+  margin: '10px 0'
+}}>
+![sd_formatter](/img/k1pro/getting-started/sd_tools_3.png)
+</span>

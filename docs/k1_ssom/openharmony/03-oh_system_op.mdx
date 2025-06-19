@@ -1,0 +1,831 @@
+# K1 JOH5.0 System Customization Guide
+
+# UI Customization
+
+## Changing Boot Logo
+
+Boot logo can be placed in 2 locations:
+
+Boot logos shared by all solutions are placed in:
+
+```bash
+device/soc/spacemit/k1/kernel/boot/bootfs
+```
+
+As shown below:
+
+```bash
+|-- boot_logo_spacemit_0.bmp
+|-- boot_logo_spacemit_180.bmp
+|-- boot_logo_spacemit_270.bmp
+`-- boot_logo_spacemit_90.bmp
+```
+
+The same boot logo design has 4 images, each in 4 different orientations. Each solution selects the logo orientation as needed, typically using the 0° logo image.
+
+Boot logos customized for specific solutions are placed in:
+
+```bash
+device/board/spacemit/xxx/kernel/boot/bootfs
+```
+
+As shown below:
+
+```bash
+|-- boot_logo_ry_270.bmp
+```
+
+Boot logos must be 32-bit BMP images. Place the new boot logo in the directories mentioned above, then modify the `build_kernel.sh` file in `device/board/spacemit/musepaper/kernel` to copy the boot logo to the packaging path.
+
+```bash
+cp ${OHOS_SOURCE_ROOT}/device/soc/${DEVICE_BOARD}/k1/kernel/boot/bootfs/boot_logo_spacemit_0.bmp ${OHOS_IMAGES_DIR}/bootfs/bianbu.bmp
+```
+
+## Changing Kernel Logo
+
+The kernel logo is displayed after the boot logo and before the boot animation, to avoid prolonged black screen between the boot logo and boot animation. Typically, the kernel logo design matches the boot logo.
+
+Kernel logos are placed in:
+
+```bash
+device/board/spacemit/common/kernel_logo
+```
+
+As shown below:
+
+```bash
+|-- kernel_logo_ry_270.ppm
+|-- kernel_logo_spacemit_0.ppm
+|-- kernel_logo_spacemit_180.ppm
+|-- kernel_logo_spacemit_270.ppm
+`-- kernel_logo_spacemit_90.ppm
+```
+
+After adding a new kernel logo, modify the `build_kernel.sh` file in `device/board/spacemit/musepaper/kernel` to copy the kernel logo to the kernel compilation path.
+
+```bash
+cp -rf ${OHOS_SOURCE_ROOT}/device/board/${DEVICE_BOARD}/common/kernel_logo/kernel_logo_spacemit_0.ppm ${KERNEL_BUILD_ROOT}/drivers/video/logo/logo_linux_clut224.ppm
+```
+
+### BMP to PPM Conversion
+
+- Install the conversion tool:
+
+```bash
+sudo apt-get install netpbm
+```
+
+- Run the script to generate xxx.ppm in the current directory:
+
+```bash
+./bmp2ppm.sh xxx.bmp
+```
+
+Script content:
+
+```bash
+#!/bin/bash
+if [ "$1" == "" ];
+then
+    echo "usage:$0 bmp_file"
+    exit 0
+fi
+
+if [ -f "$1" ]
+then
+    echo $1
+else
+    echo "no find file [$1]"
+    exit 0
+fi
+
+name=${1%%.*}
+bmptopnm $1 > $name.pnm
+pnmquant 224 $name.pnm > $name.clut224.pnm
+pnmtoplainpnm $name.clut224.pnm > $name.ppm
+rm $name.pnm $name.clut224.pnm
+```
+
+## Changing Boot Animation
+
+There are two ways to change the boot animation: replacing the native boot animation or adding a custom animation. Details are as follows:
+
+### Replacing Native Animation
+
+The native boot animation is located in `foundation/graphic/graphic_2d/frameworks/bootanimation/data` as `bootpic.zip`. Replace this zip file.
+
+The boot animation zip file includes:
+
+```bash
+|-- config.json
+`-- OH_bootAni compressed
+    |-- OH_bootAni_00000.jpg
+    |-- OH_bootAni_00001.jpg
+    |-- OH_bootAni_00002.jpg
+    |-- OH_bootAni_00003.jpg
+    |-- ...
+    |-- OH_bootAni_00146.jpg
+    |-- OH_bootAni_00147.jpg
+    |-- OH_bootAni_00148.jpg
+    `-- OH_bootAni_00149.jpg
+```
+
+Content of config.json:
+
+```bash
+{
+        "Remark": "FrameRate Support 30, 60 frame rate configuration",
+        "FrameRate": 30
+}
+```
+
+Custom boot animations must follow the format and content above.
+
+### Adding Custom Animation
+
+Add a `bootanimation_custom_config.json` configuration file in the `vendor/spacemit/xxx` directory, specifying the path to the custom animation:
+
+```bash
+{
+        "cust.bootanimation.pics": "/sys_prod/etc/bootanimation/cust_bootpic.zip",
+        "cust.bootanimation.sounds": "/sys_prod/etc/bootanimation/cust_bootsound.wav",
+        "cust.bootanimation.video": "/sys_prod/etc/bootanimation/cust_bootvideo.mp4"
+}
+```
+
+Place the custom boot animation in the corresponding paths specified in the file.
+
+## Changing Boot Music
+
+There are two ways to change the boot music: replacing the native boot music or adding custom music. Details are as follows:
+
+### Replacing Native Music
+
+The native boot music is located in `foundation/graphic/graphic_2d/frameworks/bootanimation/data` as `bootsound.wav`. Replace this wav file. The music duration should not be too long.
+
+### Adding Custom Music
+
+Add a `bootanimation_custom_config.json` configuration file in the `vendor/spacemit` directory, specifying the path to the custom music:
+
+```bash
+{
+        "cust.bootanimation.pics": "/sys_prod/etc/bootanimation/cust_bootpic.zip",
+        "cust.bootanimation.sounds": "/sys_prod/etc/bootanimation/cust_bootsound.wav",
+        "cust.bootanimation.video": "/sys_prod/etc/bootanimation/cust_bootvideo.mp4"
+}
+```
+
+Place the custom boot music in the corresponding paths specified in the file.
+
+## Changing Boot Video
+
+There are two ways to change the boot video: replacing the native boot video or adding a custom video. Details are as follows:
+
+### Replacing Native Video
+
+The native boot video is located in `foundation/graphic/graphic_2d/frameworks/bootanimation/data` as `bootvideo.mp4`. Replace this mp4 file. Ensure the boot video uses H.264 encoding and the video aspect ratio matches the screen aspect ratio.
+
+### Adding Custom Video
+
+Add a `bootanimation_custom_config.json` configuration file in the `vendor/spacemit` directory, specifying the path to the custom video:
+
+```bash
+{
+        "cust.bootanimation.pics": "/sys_prod/etc/bootanimation/cust_bootpic.zip",
+        "cust.bootanimation.sounds": "/sys_prod/etc/bootanimation/cust_bootsound.wav",
+        "cust.bootanimation.video": "/sys_prod/etc/bootanimation/cust_bootvideo.mp4"
+}
+```
+
+Place the custom boot video in the corresponding paths specified in the file.
+
+## Switching Boot Animation to Boot Video
+
+To be added.
+
+# Application Customization
+
+## Pre-installed Applications
+
+### Adding Pre-installed Applications
+
+- Place the hap file in `applications/standard/hap`.
+- Modify the `applications/standard/hap/BUILD.gn` configuration, as shown below (example for browser hap):
+
+```bash
+diff --git a/BUILD.gn b/BUILD.gn
+index c9ea451..87ed7aa 100755
+--- a/BUILD.gn
++++ b/BUILD.gn
+@@ -407,6 +407,13 @@ ohos_prebuilt_etc("tetris_hap") {
+   subsystem_name = "applications"
+ }
+
++ohos_prebuilt_etc("broswer_hap") {
++  source = "Broswer.hap"
++  module_install_dir = "app/ohos.samples.browser"
++  part_name = "prebuilt_hap"
++  subsystem_name = "applications"
++}
++
+ group("hap") {
+   deps = [
+     ":calendarData_hap",
+@@ -464,6 +471,7 @@ group("hap") {
+     "//applications/standard/hap:wuziqi_hap",
+     "//applications/standard/hap:deviceinfo_hap",
+     "//applications/standard/hap:tetris_hap",
++    "//applications/standard/hap:broswer_hap",
+   ]
+   if (defined(product_name) && product_name == "watchos") {
+     deps -= [
+```
+
+- Modify the `vendor/spacemit/xxx/preinstall-config/install_list.json` configuration for installation, as shown below:
+
+```bash
+diff --git a/musepaper/preinstall-config/install_list.json b/musepaper/preinstall-config/install_list.json
+index dd859c2..0107e85 100755
+--- a/musepaper/preinstall-config/install_list.json
++++ b/musepaper/preinstall-config/install_list.json
+@@ -220,6 +220,10 @@
+             "app_dir": "/system/app/ohos.samples.game2048",
+             "removable": false
+         },
++        {
++            "app_dir": "/system/app/ohos.samples.label",
++            "removable": false
++        },
+         {
+             "app_dir": "/system/app/com.example.Digital_Huarong_Road",
+             "removable": false
+```
+
+### Removing Pre-installed Applications
+
+Removing applications is the reverse operation of adding applications. Refer to the above section and delete the corresponding hap configuration in `vendor/spacemit/xxx/preinstall-config/install_list.json`.
+
+## Replacing System Applications
+
+System applications can be categorized into two types based on Ability:
+
+- UIAbility: Examples include Settings, Photos, Camera, etc. These system applications can be displayed on the desktop.
+- ExtensionAbility: Examples include Launcher, SystemUI, Settingsdata, etc. Some of these system applications create windows to display interfaces, while others are persistent services without pages that provide specific capabilities.
+
+Traditional `hdc install` commands and IDE auto-installation cannot install these applications properly. In such cases, system application replacement is required.
+
+Taking Launcher as an example, the steps to replace a system application are as follows:
+
+- Locate the Launcher pre-installed hap path `/system/app/com.ohos.launcher`. You will find two hap files: `Launcher.hap` and `Launcher_Settings.hap`.
+- Execute the following commands:
+
+```bash
+hdc shell "mount -o remount,rw /"
+hdc shell "rm -rf /data/*"
+hdc file send Launcher.hap /system/app/com.ohos.launcher/Launcher.hap
+hdc file send Launcher_Settings.hap /system/app/com.ohos.launcher/Launcher_Settings.hap
+hdc shell "reboot"
+```
+
+- This will replace the Launcher with your own built version.
+
+## Gallery
+
+### Pushing Videos
+
+- Prepare xxx.mp4 video.
+- Use hdc to push the video to the device:
+
+```bash
+D:\>hdc file send D:\xxx.mp4 /storage/media/100/local/files/Videos/
+```
+
+- Trigger media scanning:
+
+```bash
+D:\>hdc shell
+# scanner
+#
+```
+
+- Open the `Gallery` app to play the video. If the video is not visible, remove the `Gallery` app from the background and reopen it.
+
+### Pushing Images
+
+- Prepare xxx.jpg or xxx.png image.
+- Use hdc to push the image to the device:
+
+```bash
+D:\>hdc file send D:\xxx.jpg /storage/media/100/local/files/Pictures/
+```
+
+- Trigger media scanning:
+
+```bash
+D:\>hdc shell
+# scanner
+#
+```
+
+- Open the `Gallery` app to view the image. If the image is not visible, remove the `Gallery` app from the background and reopen it.
+
+## Launcher
+
+### Replacing Background Image
+
+The background image is located at: `applications/standard/launcher/product/phone/src/main/ets/common/pics/img_wallpaper_default.jpg`.
+
+Replace the image, recompile the Launcher, place the newly generated Launcher.hap in the `applications/standard/hap` folder, and generate a new img.
+
+## Lock Screen
+
+### Removing Lock Screen
+
+- Remove lock screen application-related code in the `applications/standard/hap/BUILD.gn` file, as shown below:
+
+```bash
+diff --git a/BUILD.gn b/BUILD.gn
+index e213683..7382b97 100755
+--- a/BUILD.gn
++++ b/BUILD.gn
+@@ -463,7 +463,6 @@ group("hap") {
+     "//applications/standard/hap:note_hap",
+     "//applications/standard/hap:notificationManagement_hap",
+     "//applications/standard/hap:photos_hap",
+-    "//applications/standard/hap:screenLock_hap",
+     "//applications/standard/hap:screen_shot_hap",
+     "//applications/standard/hap:settingsData_hap",
+     "//applications/standard/hap:settings_faceauth_hap",
+@@ -518,7 +517,6 @@ group("hap") {
+       "//applications/standard/hap:navigationBar_hap",
+       "//applications/standard/hap:notificationManagement_hap",
+       "//applications/standard/hap:photos_hap",
+-      "//applications/standard/hap:screenLock_hap",
+       "//applications/standard/hap:screen_shot_hap",
+       "//applications/standard/hap:settingsData_hap",
+       "//applications/standard/hap:settings_faceauth_hap",
+```
+
+- Remove lock screen application state detection during boot in the `foundation/systemabilitymgr/safwk/etc/profile/foundation.cfg` file, as shown below:
+
+```bash
+diff --git a/etc/profile/foundation.cfg b/etc/profile/foundation.cfg
+index f2573fa..1a21510 100644
+--- a/etc/profile/foundation.cfg
++++ b/etc/profile/foundation.cfg
+@@ -25,7 +25,6 @@
+             "name" : "services:restartfoundation",
+             "cmds" : [
+                 "unset_bootevent bootevent.appfwk.ready",
+-                "unset_bootevent bootevent.lockscreen.ready",
+                 "unset_bootevent bootevent.launcher.ready",
+                 "reset appspawn",
+                 "reset accountmgr",
+@@ -141,7 +140,6 @@
+             "bootevents": [
+                 "bootevent.wms.fullscreen.ready",
+                 "bootevent.appfwk.ready",
+-                "bootevent.lockscreen.ready",
+                 "bootevent.launcher.ready",
+                 "bootevent.wms.ready"
+             ],
+```
+
+- Remove window controller response to lock screen signals. Since we only removed the lock screen application, the lock screen trigger mechanism still exists (e.g., key press or remote control trigger). Without actual response, triggering the lock screen mechanism may freeze the application interface. Modify the `foundation/window/window_manager/wmserver/src/window_controller.cpp` file, as shown below:
+
+```bash
+diff --git a/wmserver/src/window_controller.cpp b/wmserver/src/window_controller.cpp
+index 32c6a60ec..98df12ffc 100644
+--- a/wmserver/src/window_controller.cpp
++++ b/wmserver/src/window_controller.cpp
+@@ -783,8 +783,8 @@ void WindowController::NotifyDisplayStateChange(DisplayId defaultDisplayId, sptr
+     WLOGFD("NotifyDisplayStateChange start: %{public}u", type);
+     switch (type) {
+         case DisplayStateChangeType::BEFORE_SUSPEND: {
+-            isScreenLocked_ = true;
+-            windowRoot_->ProcessWindowStateChange(WindowState::STATE_FROZEN, WindowStateChangeReason::KEYGUARD);
++            //isScreenLocked_ = true;
++            //windowRoot_->ProcessWindowStateChange(WindowState::STATE_FROZEN, WindowStateChangeReason::KEYGUARD);
+             break;
+         }
+         case DisplayStateChangeType::BEFORE_UNLOCK: {
+```
+
+- Side effect: No dropdown menu.
+
+# System Customization
+
+## Power Management Customization
+
+Modify `vendor/spacemit/xxx/power_config/power_mode_config.xml` as shown below:
+
+```bash
+<!--
+    Power Mode Definitions:
+    MODE_NORMAL = 600,
+    MODE_POWER_SAVE = 601,
+    MODE_PERFORMANCE = 602,
+    MODE_EXTREME_POWER_SAVE = 603,
+-->
+<!--
+    Action Definitions:
+    DisplayOffTime = 101,
+    SystemAutoSleepTime = 102,
+    AutoAdjustBrightness = 103,
+    AutoWindowRotation = 107,
+    SystemBrightness = 115,
+    VibratorsState = 120,
+-->
+<switch_proxy version="1">
+    <proxy id="600">
+        <switch id="101" value="300000" recover_flag="0"/>
+        <switch id="102" value="0" recover_flag="0"/>
+        <switch id="103" value="-1" recover_flag="0"/>
+        <switch id="107" value="1" recover_flag="0"/>
+        <switch id="115" value="76" recover_flag="0"/>
+        <switch id="120" value="1" recover_flag="0"/>
+    </proxy>
+    <proxy id="601">
+        <switch id="101" value="10000" recover_flag="0"/>
+        <switch id="102" value="5000" recover_flag="0"/>
+        <switch id="103" value="-1" recover_flag="0"/>
+        <switch id="107" value="-1" recover_flag="0"/>
+        <switch id="115" value="50" recover_flag="0"/>
+        <switch id="120" value="-1" recover_flag="0"/>
+    </proxy>
+    <proxy id="602">
+        <switch id="101" value="-1" recover_flag="0"/>
+        <switch id="102" value="-1" recover_flag="0"/>
+        <switch id="103" value="-1" recover_flag="0"/>
+        <switch id="107" value="1" recover_flag="0"/>
+        <switch id="115" value="255" recover_flag="0"/>
+        <switch id="120" value="1" recover_flag="0"/>
+    </proxy>
+    <proxy id="603">
+        <switch id="101" value="5000" recover_flag="0"/>
+        <switch id="102" value="1000" recover_flag="0"/>
+        <switch id="103" value="-1" recover_flag="0"/>
+        <switch id="107" value="-1" recover_flag="0"/>
+        <switch id="115" value="25" recover_flag="0"/>
+        <switch id="120" value="-1" recover_flag="0"/>
+    </proxy>
+</switch_proxy>
+```
+
+This file defines several power management modes, including normal, power-saving, performance, and extreme power-saving modes, along with parameters for each mode, such as screen-off time and standby time.
+
+The default system mode is MODE_NORMAL. To prevent the system from entering sleep mode, switch to performance mode using the following command:
+
+```bash
+power-shell setmode 602
+```
+
+## Window Management Customization
+
+Modify `vendor/spacemit/musepaper2/window_config` directory files: `display_manager_config.xml` and `window_manager_config.xml`.
+
+### display_manager_config.xml
+
+```xml
+<Configs>
+    <!--Window display dpi, valid range is 80~640, use 0 if no configuration is requeired-->
+    <dpi>240</dpi>
+    <!-- Indicate the deviation between the default device display direction and the direction -->
+    <!-- of the sensor. Use 0 in default, available values are {0, 90, 180, 270} -->
+    <defaultDeviceRotationOffset>0</defaultDeviceRotationOffset>
+    <!-- Svg path for cutout, use empty string if there is not cutout on the screen -->
+    <!-- format: string -->
+    <!-- default value: empty string -->
+    <!-- sample: M 100,100 m -75,0 a 75,75 0 1,0 150,0 a 75,75 0 1,0 -150,0 z -->
+    <defaultDisplayCutoutPath></defaultDisplayCutoutPath>
+    <!-- Indicates the boundary of the curved screen, each value corresponds to the px from each edge -->
+    <!-- format: number(left) number(top) number(right) number(bottom) -->
+    <!-- default value: 0 0 0 0 -->
+    <!-- sample: 150 150 0 0 -->
+    <curvedScreenBoundary>0 0 0 0</curvedScreenBoundary>
+    <!-- Indicates whether the built-in display is a waterfall display -->
+    <!-- format: boolean -->
+    <!-- default value: false -->
+    <!-- sample: false -->
+    <isWaterfallDisplay enable="false"></isWaterfallDisplay>
+
+    <!-- Indicate whether to enable display area compression for waterfall display when displayed in landscape -->
+    <!-- or landscape_inverted mode. -->
+    <!-- This configuration item takes effect only when isWaterfallDisplay above is true -->
+    <!-- format: boolean -->
+    <!-- default value: false -->
+    <isWaterfallAreaCompressionEnableWhenHorizontal enable="false"></isWaterfallAreaCompressionEnableWhenHorizontal>
+
+    <!-- Indicate the size of both sides of the waterfall display which to be compressed when displayed in landscape -->
+    <!-- or landscape_inverted mode. -->
+    <!-- This configuration item takes effect only when isWaterfallDisplay above is true -->
+    <!-- format: uint32_t, the unit is vp. -->
+    <!-- default value: 0 -->
+    <waterfallAreaCompressionSizeWhenHorzontal>0</waterfallAreaCompressionSizeWhenHorzontal>
+
+    <!-- Indicates orientation of the built-in screen -->
+    <!-- 0: Orientation::UNSPECIFIED -->
+    <!-- 1: Orientation::VERTICAL         2: Orientation::HORIZONTAL-->
+    <!-- 3: Orientation::REVERSE_VERTICAL 4: Orientation::REVERSE_HORIZONTAL -->
+    <buildInDefaultOrientation>0</buildInDefaultOrientation>
+</Configs>
+```
+
+Key configurations:
+
+- dpi: Pixel density. Higher dpi results in smaller icons.
+- buildInDefaultOrientation: Desktop rotation angle configuration.
+
+### window_manager_config.xml
+
+Primarily used for configuring window animations and effects. Minimal modifications.
+
+## Network Management Customization
+
+### Wi-Fi Customization
+
+#### Driver Debugging
+
+Driver debugging is primarily performed by the chip vendor to ensure driver functionality and successful compilation of ko files.
+
+#### Copying ko (Example: rtl8852bs)
+
+In `device/board/spacemit/xxx/kernel`, modify `build_kernel.sh` to copy ko files:
+
+```bash
+function cp_ko(){
+  # cp ko to userspace
+  cp ${KERNEL_BUILD_ROOT}/drivers/usb/typec/typec.ko ${OHOS_SOURCE_ROOT}/device/board/${DEVICE_BOARD}/${DEVICE_NAME}/kernel/ko
+  cp ${KERNEL_BUILD_ROOT}/drivers/usb/typec/husb239.ko ${OHOS_SOURCE_ROOT}/device/board/${DEVICE_BOARD}/${DEVICE_NAME}/kernel/ko
+  cp ${KERNEL_BUILD_ROOT}/drivers/net/wireless/realtek/rtl8852be/8852be.ko ${OHOS_SOURCE_ROOT}/device/board/${DEVICE_BOARD}/${DEVICE_NAME}/kernel/ko
+  cp ${KERNEL_BUILD_ROOT}/drivers/net/wireless/realtek/rtl8852bs/8852bs.ko ${OHOS_SOURCE_ROOT}/device/board/${DEVICE_BOARD}/${DEVICE_NAME}/kernel/ko
+}
+```
+
+After compiling the kernel, copy the ko files from the kernel compilation directory to the OpenHarmony system directory. During OpenHarmony compilation, these ko files will be copied to the vendor partition and packaged.
+
+#### Loading ko (Example: 8852bs)
+
+In `device/board/spacemit/xxx/cfg`, modify `init.xxx.cfg` to load ko files:
+
+```bash
+{
+  "name" : "fs",
+    "cmds" : [
+      "insmod /vendor/modules/8852bs.ko ifname=wlan0 if2name=p2p0",
+      "insmod /vendor/modules/typec.ko",
+      "insmod /vendor/modules/husb239.ko"
+    ]
+},
+```
+
+After booting, the init process will load these ko files. Use `lsmod` to verify successful loading:
+
+```bash
+# lsmod
+Module                  Size  Used by
+husb239               110592  0
+typec                 323584  1 husb239
+8852bs              10031104  0
+```
+
+### Bluetooth Customization
+
+To be added.
+
+### 4G Customization
+
+To be added.
+
+## Multimedia System Customization
+
+### Audio Path Customization
+
+Add sound card information in `vendor/spacemit/xxx/hals/audio/alsa_adapter.json`:
+
+```json
+{
+    "adapters": [
+        {
+            "name": "primary",
+            "cardId": 0,
+            "cardName": "sndes8326"
+        },
+        {
+            "name": "usb",
+            "cardId": 1,
+            "cardName": "C"
+        }
+    ]
+}
+```
+
+Configure audio attributes for different sound cards in playback and recording modes in `vendor/spacemit/xxx/hals/audio/config/riscv64/audio_policy_config.xml`:
+
+```xml
+<adapter name="primary" supportSelectScene="0">
+    <pipes>
+        <pipe name="primary_output" role="output">
+            <paProp lib="libmodule-hdi-sink.z.so" role="sink" fixed_latency="1" render_in_idle_state="1" moduleName="Speaker"/>
+            <streamProps>
+                <streamProp format="s16le" sampleRates="48000" channelLayout="CH_LAYOUT_STEREO" bufferSize="4096"/>
+            </streamProps>
+            <attributes>
+                <attribute name="preload" value="true"/>
+            </attributes>
+        </pipe>
+        <pipe name="primary_input" role="input">
+            <paProp lib="libmodule-hdi-source.z.so" role="source" moduleName="Built_in_mic"/>
+            <streamProps>
+                <streamProp format="s16le" sampleRates="48000" channelLayout="CH_LAYOUT_STEREO" bufferSize="4096"/>
+            </streamProps>
+        </pipe>
+    </pipes>
+    <devices>
+        <device name="Speaker_Out" type="DEVICE_TYPE_SPEAKER" pin="PIN_OUT_SPEAKER" role="output" supportPipes="primary_output"/>
+        <device name="Wired_Headset_Out" type="DEVICE_TYPE_WIRED_HEADSET" pin="PIN_OUT_HEADSET" role="output" supportPipes="primary_output"/>
+        <device name="Wired_Headphones_Out" type="DEVICE_TYPE_WIRED_HEADPHONES" pin="PIN_OUT_HEADPHONE" role="output" supportPipes="primary_output"/>
+        <device name="Builtin_Mic_In" type="DEVICE_TYPE_MIC" pin="PIN_IN_MIC" role="input" supportPipes="primary_input"/>
+        <device name="Wired_Headset_In" type="DEVICE_TYPE_WIRED_HEADSET" pin="PIN_IN_HS_MIC" role="input" supportPipes="primary_input"/>
+    </devices>
+</adapter>
+<adapter name="usb">
+    <pipes>
+        <pipe name="usb_output" role="output">
+            <paProp lib="libmodule-hdi-sink.z.so" role="sink" fixed_latency="1" render_in_idle_state="1" moduleName="Usb_arm_speaker"/>
+            <streamProps>
+                <streamProp format="s16le" sampleRates="48000" channelLayout="CH_LAYOUT_STEREO" bufferSize="4096"/>
+            </streamProps>
+            <attributes>
+                <attribute name="preload" value="true"/>
+            </attributes>
+        </pipe>
+        <pipe name="usb_input" role="input">
+            <paProp lib="libmodule-hdi-source.z.so" role="source" moduleName="Usb_arm_mic"/>
+            <streamProps>
+                <streamProp format="s16le" sampleRates="48000" channelLayout="CH_LAYOUT_STEREO" bufferSize="19200"/>
+            </streamProps>
+        </pipe>
+    </pipes>
+    <devices>
+        <device name="Usb_Headset_Out" type="DEVICE_TYPE_USB_HEADSET" pin="PIN_OUT_USB_HEADSET" role="output" supportPipes="usb_output"/>
+        <device name="Usb_Headset_In" type="DEVICE_TYPE_USB_HEADSET" pin="PIN_IN_USB_HEADSET" role="input" supportPipes="usb_input"/>
+    </devices>
+</adapter>
+```
+
+### Camera Path Customization
+
+To be added.
+
+### Hardware Codec Path Customization
+
+To be added.
+
+## Factory Reset Customization
+
+To be added.
+
+# Kernel Customization
+
+## Modifying Kernel defconfig Configuration
+
+Kernel defconfig is located at:
+
+```bash
+kernel/linux/spacemit_kernel-6.6/arch/riscv/configs/k1_defconfig
+```
+
+After modification, compile the kernel separately and package it:
+
+```bash
+./build.sh --product-name xxx --ccache --prebuilt-sdk -T build_kernel
+./build/gen_zip.sh xxx
+```
+
+## Modifying Kernel DTS Configuration
+
+Kernel DTS configuration is located at:
+
+```bash
+kernel/linux/spacemit_kernel-6.6/arch/riscv/boot/dts/spacemit
+```
+
+Example:
+
+```bash
+|-- k1-x-camera-reserved-mm.dtsi
+|-- k1-x-camera-sdk.dtsi
+|-- k1-x-camera-sensor.dtsi
+|-- k1-x_deb1.dts
+|-- k1-x_deb2.dts
+|-- k1-x.dtsi
+|-- k1-x-efuse.dtsi
+|-- k1-x_evb.dts
+|-- k1-x-hdmi.dtsi
+|-- k1-x_hs450.dts
+|-- k1-x_kx312.dts
+|-- k1-x-lcd.dtsi
+|-- k1-x_lpi3a.dts
+|-- k1-x_milkv-jupiter.dts
+|-- k1-x_mingo.dts
+|-- k1-x_MINI-PC.dts
+|-- k1-x_MUSE-Book.dts
+|-- k1-x_MUSE-Card.dts
+|-- k1-x_MUSE-N1.dts
+|-- k1-x_MUSE-Paper2.dts
+|-- k1-x_MUSE-Paper.dts
+|-- k1-x_MUSE-Paper-mini-4g.dts
+|-- k1-x_MUSE-Pi.dts
+|-- k1-x_opp_table.dtsi
+|-- k1-x_pinctrl.dtsi
+|-- k1-x_SMT001.dts
+|-- k1-x_thermal_cooling.dtsi
+|-- k1-x_ZT001H.dts
+|-- lcd
+|   |-- lcd_ft8201sinx101_mipi.dtsi
+|   |-- lcd_gc9503v_mipi.dtsi
+|   |-- lcd_gx09inx101_mipi.dtsi
+|   |-- lcd_icnl9911c_mipi.dtsi
+|   |-- lcd_icnl9951r_mipi.dtsi
+|   |-- lcd_jd9365dah3_mipi.dtsi
+|   |-- lcd_jd9365da_mipi_1280x800.dtsi
+|   |-- lcd_lt8911_edp_1920x1080.dtsi
+|   |-- lcd_lt8911_edp_1920x1200.dtsi
+|   |-- lcd_lt9711_dp_1920x1080.dtsi
+|   `-- lcd_orisetech_ota7290b_mipi.dtsi
+|-- m1-x_milkv-jupiter.dts
+`-- Makefile
+```
+
+Modify the DTS configuration for the specific solution, compile the kernel separately, and package it:
+
+```bash
+./build.sh --product-name xxx --ccache --prebuilt-sdk -T build_kernel
+./build/gen_zip.sh xxx
+```
+
+## Adding ko to Load
+
+To load ko files compiled from the kernel during system boot, modify the OpenHarmony upper-layer configuration in two steps:
+
+### Copying ko
+
+In `device/board/spacemit/xxx/kernel`, modify `build_kernel.sh` to copy ko files:
+
+```bash
+function cp_ko(){
+  # cp ko to userspace
+  cp ${KERNEL_BUILD_ROOT}/drivers/usb/typec/typec.ko ${OHOS_SOURCE_ROOT}/device/board/${DEVICE_BOARD}/${DEVICE_NAME}/kernel/ko
+  cp ${KERNEL_BUILD_ROOT}/drivers/usb/typec/husb239.ko ${OHOS_SOURCE_ROOT}/device/board/${DEVICE_BOARD}/${DEVICE_NAME}/kernel/ko
+  cp ${KERNEL_BUILD_ROOT}/drivers/net/wireless/realtek/rtl8852be/8852be.ko ${OHOS_SOURCE_ROOT}/device/board/${DEVICE_BOARD}/${DEVICE_NAME}/kernel/ko
+  cp ${KERNEL_BUILD_ROOT}/drivers/net/wireless/realtek/rtl8852bs/8852bs.ko ${OHOS_SOURCE_ROOT}/device/board/${DEVICE_BOARD}/${DEVICE_NAME}/kernel/ko
+}
+```
+
+After compiling the kernel, copy the ko files from the kernel compilation directory to the OpenHarmony system directory.
+
+### Loading ko
+
+In `device/board/spacemit/xxx/cfg`, modify `init.xxx.cfg` to load ko files:
+
+```bash
+{
+  "name" : "fs",
+    "cmds" : [
+      "insmod /vendor/modules/8852bs.ko ifname=wlan0 if2name=p2p0",
+      "insmod /vendor/modules/typec.ko",
+      "insmod /vendor/modules/husb239.ko"
+    ]
+},
+```
+
+After booting, the init process will load these ko files.
+
+## Applying Kernel Patches
+
+Generate patches for kernel modifications and place them in the OpenHarmony configuration directory.
+
+For patches applicable to all platforms, place them in:
+
+```bash
+device/board/spacemit/kernel_patches/linux-6.6
+```
+
+For patches specific to a platform, place them in:
+
+```bash
+device/board/spacemit/xxx/kernel/kernel_patch
+```
+
+In `device/board/spacemit/xxx/kernel`, modify `build_kernel.sh` to apply patches:
+
+```bash
+patch -p1 <${OHOS_SOURCE_ROOT}/device/board/spacemit/kernel_patches/linux-6.6/0001-bounds_checking_function-include.patch
+patch -p1 <${OHOS_SOURCE_ROOT}/device/board/spacemit/kernel_patches/linux-6.6/0002-fix-hmdfs-permission.patch
+patch -p1 <${OHOS_SOURCE_ROOT}/device/board/${DEVICE_BOARD}/${DEVICE_NAME}/kernel/kernel_patch/0001-kernel-audio.patch
+```
+
+# FAQ
+
+Referenced from [Spacemit Developer Documentation](https://developer.spacemit.com/documentation?token=Z1vowF27PiUCHrkAtVicCGBjnJd)

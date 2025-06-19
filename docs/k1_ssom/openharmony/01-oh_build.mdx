@@ -1,0 +1,365 @@
+# K1 OH5.0 Download, Build and Flash Guide
+
+# Environment Setup
+
+## Ubuntu Environment (Recommended 22.04, other versions not yet verified)
+
+Install dependencies:
+
+```
+sudo apt-get update
+
+sudo apt-get install binutils git git-lfs gnupg gperf build-essential zip curl zlib1g-dev gcc-multilib lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z1-dev libxml2-utils xsltproc unzip m4 bc gnutls-bin python3-pip ruby ccache libgl1-mesa-dev g++-multilib libc6-dev-i386 flex bison openjdk-19-jdk openssl libelf-dev lz4 genext2fs libncurses5 libssl-dev u-boot-tools dosfstools mtools libstdc++-12-dev repo python2 cpio nodejs npm
+```
+
+## Install make_exf4fs
+
+Download the attached bin.zip ([Click to Download](https://archive.spacemit.com/tools/openharmony/bin.zip)) and extract it to the server. Add it to PATH in ~/.bashrc:
+
+```cpp
+export PATH=$PATH:~/WorkSpace/bin
+```
+
+# Source Code Preparation
+
+## Gitee
+
+The code repository is hosted on Gitee ([Repository Path](https://gitee.com/riscv-sig)). To download the code, follow these steps:
+
+- Create a Gitee account.
+- Upload the server's SSH key to Gitee ("Settings" - "Security Settings" - "SSH Public Key").
+
+## Download Source Code
+
+```bash
+mkdir oh5
+cd oh5
+repo init -u git@gitee.com:riscv-sig/manifest.git -b riscv/OpenHarmony-v5.0.0-Release --no-repo-verify
+## If repo init fails to download repo (rare occurrence), use a domestic source
+## Add the parameter --repo-url=https://gerrit-googlesource.lug.ustc.edu.cn/git-repo
+
+repo sync -j4 -c --fail-fast
+## Takes around 3 hours
+## Handle errors promptly
+
+repo forall -c 'git lfs pull'
+## Pull large files, haps, audio-video, etc., takes around 2 hours
+
+repo start OpenHarmony-v5.0.0-Release --all
+```
+
+## Install Compiler
+
+Run the script in the source code root directory to install the compiler and binary tools.
+
+```bash
+bash build/prebuilts_download.sh
+```
+
+The downloaded files are stored by default in `openharmony_prebuilts` located in the same directory as `OpenHarmony`.
+
+```bash
+fuqiang@snode2:~/WorkSpace$ tree -L 1
+.
+|-- oh5
+`-- openharmony_prebuilts
+
+2 directories, 0 files
+```
+
+Contents of `openharmony_prebuilts`:
+
+```bash
+fuqiang@snode2:~/WorkSpace/openharmony_prebuilts$ ls -al
+total 4970668
+drwxr-xr-x 2 fuqiang dc-sw-users       4096 Oct 28 08:39 .
+drwxr-xr-x 6 fuqiang dc-sw-users       4096 Oct 26 18:06 ..
+-rw-r--r-- 1 fuqiang dc-sw-users   70959548 Sep 27 17:35 015654433b541c15ac605ecb2dd32f11.libcxx-ndk_ohos-arm64-5fbff2-20240727.tar.gz
+-rw-r--r-- 1 fuqiang dc-sw-users    1151488 Sep 27 17:27 03a7b98353c5261f51bc2e5ec28dfed9.gn-linux-x86-20240510.tar.gz
+-rw-r--r-- 1 fuqiang dc-sw-users  118696253 Sep 27 17:38 0c65e233a7c5b1ecf6585a38903cc52e.clang-mingw-20240510.tar.gz
+-rw-r--r-- 1 fuqiang dc-sw-users   70970417 Oct 28 08:40 1822bea68b38ab77f1714d89e8453c34.libcxx-ndk_linux-x86_64-ef33c3-20240828.tar.gz
+-rw-r--r-- 1 fuqiang dc-sw-users     298786 Sep 27 17:27 1ad55caffc571c067e7748967b86f477.ninja-windows-x86-1.12.0-20240523.tar.gz
+-rw-r--r-- 1 fuqiang dc-sw-users     530721 Sep 27 17:28 20738011b324e100f6aab09353a7e7fa.bpftool_v5.10.93_20221114.tar.gz
+-rw-r--r-- 1 fuqiang dc-sw-users   29078522 Sep 27 17:31 44e99f695a2058603263903a1198b79e.rust-std-nightly-x86_64-pc-windows-gnullvm_20240528.tar.gz
+-rw-r--r-- 1 fuqiang dc-sw-users   35031005 Sep 27 17:32 44f2993d118ed3cefe4792a2fd62547f.node-v14.21.1-linux-x64.tar.gz
+-rw-r--r-- 1 fuqiang dc-sw-users   31562008 Sep 27 17:32 46e8165e2cfa7799732c23615c5a3fa1.rust-std-nightly-x86_64-unknown-linux-ohos_20240528.tar.gz
+-rw-r--r-- 1 fuqiang dc-sw-users  620135753 Sep 27 17:46 4fe01b604194d203f0371902cd6b4473.clang_windows-x86_64-5fbff2-20240727.tar.gz
+-rw-r--r-- 1 fuqiang dc-sw-users 1446576155 Sep 27 17:51 5211242bf5608753c7488874c758dd0f.clang_ohos-arm64-5fbff2-20240727.tar.gz
+-rw-r--r-- 1 fuqiang dc-sw-users  194623101 Sep 27 17:38 59325cdd5538f70910f66328acedea7d.prebuilts_gcc_linux-x86_arm_gcc-linaro-7.5.0-arm-linux-gnueabi.tar.gz
+-rw-r--r-- 1 fuqiang dc-sw-users  329772635 Sep 27 17:41 6a4909fc4262070aea24465c9a3aabc4.ark_js_prebuilts_20230713.tar.gz
+-rw-r--r-- 1 fuqiang dc-sw-users   70953802 Sep 27 17:35 6be4fdb05760c8b2887f96c08ebff7b8.libcxx-ndk_windows-x86_64-5fbff2-20240727.tar.gz
+-rw-r--r-- 1 fuqiang dc-sw-users    9048182 Oct 28 08:39 6c3294e4d1c73219c2bed617e6ab9676.python-linux-x86-Ubuntu_18.04-3.11.4_20240823.tar.gz
+-rw-r--r-- 1 fuqiang dc-sw-users   30678419 Sep 27 17:31 6ea2077dceef4e1f0953819bc7c96e1f.rust-std-nightly-aarch64-unknown-linux-ohos_20240528.tar.gz
+-rw-r--r-- 1 fuqiang dc-sw-users    9254059 Sep 27 17:29 741544d67d8d0281ba0d670b561b379b.python-linux-x86-Ubuntu_18.04-3.11.4_20240715.tar.gz
+-rw-r--r-- 1 fuqiang dc-sw-users   27628068 Sep 27 17:32 76a4e507e09cb3693edaa91f5985ab8f.rust-std-nightly-armv7-unknown-linux-ohos_20240528.tar.gz
+-rw-r--r-- 1 fuqiang dc-sw-users   17297524 Sep 27 17:29 7bcb19ee6150676833e5aa5d6a7bfe03.cmake-ohos-3.28.2.tar.gz
+-rw-r--r-- 1 fuqiang dc-sw-users  106664705 Sep 27 17:36 8038bbe7160f809232e8df72e3980c92.rust-nightly-x86_64-unknown-linux-gnu_20240528.tar.gz
+-rw-r--r-- 1 fuqiang dc-sw-users   52840113 Sep 27 17:33 9b1ca53ad98ebfaa0fbfa26d20d534df.cmake-linux-x86-3.28.2.tar.gz
+-rw-r--r-- 1 fuqiang dc-sw-users   12397424 Sep 27 17:30 ae867132e2a2bdbbae5b58aa89eb883e.pahole_v1.21_20221124.tar.gz
+-rw-r--r-- 1 fuqiang dc-sw-users   70969730 Oct 28 08:41 c9b9261adf5c264aa35312aeb8261419.libcxx-ndk_ohos-arm64-ef33c3-20240828.tar.gz
+-rw-r--r-- 1 fuqiang dc-sw-users  117896452 Sep 27 17:36 cd98ff85e2af3869cf318497e6a1d559.gcc-linaro-7.5.0-2019.12-x86_64_aarch64-linux-gnu.tar.xz
+-rw-r--r-- 1 fuqiang dc-sw-users   15135801 Oct 28 08:39 d699eb29e0a9c9febb2b13bb779c1ebb.cmake-ohos-3.28.2-20240827.tar.gz
+-rw-r--r-- 1 fuqiang dc-sw-users   70960099 Sep 27 17:35 d991cf9857b70074d0e7981807f280de.libcxx-ndk_linux-x86_64-5fbff2-20240727.tar.gz
+-rw-r--r-- 1 fuqiang dc-sw-users     128365 Sep 27 17:27 dfcaa71177f12992d9542b6c8e60d363.ninja-linux-x86-1.12.0-20240523.tar.gz
+-rw-r--r-- 1 fuqiang dc-sw-users     270405 Oct 28 08:39 e0c9e1b221277cd431bc9dcba432c3e1.ninja-ohos-1.12.0-20240827.tar.gz
+-rw-r--r-- 1 fuqiang dc-sw-users   33784208 Sep 27 17:33 e778f29e95d22f8e3cb6e604936229dc.node-v16.20.2-linux-x64.tar.gz
+-rw-r--r-- 1 fuqiang dc-sw-users   39492529 Sep 27 17:33 ebe7c49b8fdbb8cebc06adb7fef9cb4b.cmake-windows-x86-3.28.2.tar.gz
+-rw-r--r-- 1 fuqiang dc-sw-users    2052940 Sep 27 17:28 ecc8770b5ab13932696406bf43a5401b.packing_tool_libs_20240730.zip
+-rw-r--r-- 1 fuqiang dc-sw-users     462116 Sep 27 17:27 f8dea77cc089365ea9b35880dbc252b3.ninja-ohos-1.12.0-20240527.tar.gz
+-rw-r--r-- 1 fuqiang dc-sw-users 1452493082 Oct 28 08:52 f997ab75c9658a9e47bb4db7b91b89a3.clang_ohos-arm64-ef33c3-20240828.tar.gz
+```
+
+# Full Build
+
+## Build Process Description
+
+Enter the source code root directory and execute:
+
+```bash
+cd oh5
+./build.sh --product-name **xxx** --ccache --prebuilt-sdk
+```
+
+to build the version. Here, xxx represents the product scheme. Currently supported product schemes include:
+
+- deb1
+- musepaper
+- musepaper2
+- musepapermini4g
+- musecard
+- musepi
+- musebook
+
+For example, to build the firmware for musepaper, use the following command:
+
+```bash
+./build.sh --product-name musepaper --ccache --prebuilt-sdk
+```
+
+## Build Card Boot Firmware
+
+The system defaults to building non-card boot firmware, usually emmc boot firmware (MUSEBook is nor+ssd boot firmware). These firmwares cannot boot when burned to a tf card. You need to modify the source code and then compile as described above to build normal card boot firmware. The source code modification method is as follows (taking MUSEPi as an example):
+
+1. Search for `d4281000` in the board-level configuration directory:
+
+```
+fuqiang@snode:~/workspace/oh5/device/board/spacemit/musepi$ grep -r d4281000 ./
+./ramdisk_res/fstab.required:/dev/block/platform/soc/d4281000.sdh/by-name/system                /usr            ext4    ro,barrier=1                    wait,required
+./ramdisk_res/fstab.required:/dev/block/platform/soc/d4281000.sdh/by-name/vendor                /vendor         ext4    ro,barrier=1                    wait,required
+./ramdisk_res/fstab.required:/dev/block/platform/soc/d4281000.sdh/by-name/userdata              /data           ext4    nosuid,nodev,noatime,barrier=1,data=ordered,noauto_da_alloc wait,reservedsize=1073741824
+./ramdisk_res/fstab.required:/dev/block/platform/soc/d4281000.sdh/by-name/misc               /misc           none    none                            wait,required
+./updater/config/init.cfg:                "wait /dev/block/platform/soc/d4281000.sdh/by-name",
+./updater/config/init.cfg:                "symlink /dev/block/platform/soc/d4281000.sdh/by-name /dev/block/by-name"
+./updater/config/fstab.updater:/dev/block/platform/soc/d4281000.sdh/by-name/system              /system         ext4    ro,barrier=1                    wait
+./updater/config/fstab.updater:/dev/block/platform/soc/d4281000.sdh/by-name/vendor              /vendor         ext4    ro,barrier=1                    wait
+./updater/config/fstab.updater:/dev/block/platform/soc/d4281000.sdh/by-name/userdata            /data           ext4    discard,noatime,nosuid,nodev wait,check,fileencryption=software,quota
+./updater/config/fstab.updater:/dev/block/platform/soc/d4281000.sdh/by-name/misc               /misc           none    none                            wait
+./cfg/init.musepi.cfg:                "symlink /dev/block/platform/soc/d4281000.sdh/by-name /dev/block/by-name"
+./cfg/fstab.musepi:/dev/block/platform/soc/d4281000.sdh/by-name/system          /usr            ext4    ro,barrier=1                    wait,required
+./cfg/fstab.musepi:/dev/block/platform/soc/d4281000.sdh/by-name/vendor          /vendor         ext4    ro,barrier=1                    wait,required
+./cfg/fstab.musepi:/dev/block/platform/soc/d4281000.sdh/by-name/sys_prod                /sys_prod       ext4    ro,barrier=1                    wait
+./cfg/fstab.musepi:/dev/block/platform/soc/d4281000.sdh/by-name/chip_prod               /chip_prod      ext4    ro,barrier=1                    wait
+./cfg/fstab.musepi:/dev/block/platform/soc/d4281000.sdh/by-name/userdata                /data           ext4    nosuid,nodev,noatime,barrier=1,data=ordered,noauto_da_alloc wait,reservedsize=104857600
+./cfg/fstab.musepi:/dev/block/platform/soc/d4281000.sdh/by-name/userdisk        /storage        ext4    rw,barrier=1
+./cfg/fstab.musepi:/dev/block/platform/soc/d4281000.sdh/by-name/misc               /misc           none    none                            wait,required
+./kernel/boot/bootfs/env_k1-x.txt:default_boot_device=soc/d4281000.sdh
+
+```
+
+2. Change all `d4281000` to `d4280000`.
+3. Recompile the firmware.
+
+## MIPI-DSI vs HDMI
+
+Currently, `OpenHarmony` supports only one display output per firmware. To switch output devices, you need to modify the code and recompile the firmware. The main file to modify is the board's corresponding `dts` file. Taking `MUSE Pi` as an example, `MUSE Pi` defaults to using `MIPI-DSI` output. To change to HDMI output, modify the file `kernel/linux/spacemit_kernel-6.6/arch/riscv/boot/dts/spacemit/k1-x_MUSE-Pi.dts` as follows. Disable the 3 configurations related to `MIPI-DSI`:
+
+```
+index 44950b5c2..5b1f2b30c 100644
+--- a/arch/riscv/boot/dts/spacemit/k1-x_MUSE-Pi.dts
++++ b/arch/riscv/boot/dts/spacemit/k1-x_MUSE-Pi.dts
+@@ -200,11 +200,11 @@ &dpu_online2_dsi {
+        spacemit-dpu-escclk = <76800000>;
+        dsi_1v2-supply = <&ldo_5>;
+        vin-supply-names = "dsi_1v2";
+-       status = "okay";
++       status = "disabled";
+ };
+
+ &dsi2 {
+-       status = "okay";
++       status = "disabled";
+
+        panel2: panel2@0 {
+                status = "ok";
+@@ -220,7 +220,7 @@ panel2: panel2@0 {
+ };
+
+ &lcds {
+-       status = "okay";
++       status = "disabled";
+ };
+
+ &dpu_online2_hdmi {
+```
+
+Conversely, to switch to `MIPI-DSI` output, enable the above 3 configurations.
+
+After modifying the configuration, recompile the firmware.
+
+## Common Build Parameters Description
+
+### --fast-rebuild
+
+```
+./build.sh --product-name rk3568 --ccache --no-prebuilt-sdk --fast-rebuild
+## The build process mainly includes: preloader->loader->gn->ninja
+## Without modifying gn and product configuration files locally, --fast-rebuild starts directly from ninja compilation
+## This parameter can reduce total build time
+```
+
+### --prebuilt-sdk
+
+Before performing a full build, compile the SDK and organize/copy the SDK to `prebuilts/ohos-sdk`. build.sh supports specifying the SDK's runtime platform via the parameter `sdk_platform=xxx`, supporting mac/win/linux/ohos/default. Default on a Linux host is {`windows`,`linux`,`ohos`}, on a Mac host is {`mac`}.
+
+For example:
+
+```bash
+./build.sh --product-name xxx --ccache --prebuilt-sdk sdk_platform=default
+```
+
+# Generate Flashable img
+
+```bash
+./build/gen_zip.sh **xxx**
+```
+
+Here, xxx represents the product scheme. Currently supported product schemes include:
+
+- deb1
+- musepaper
+- musepaper2
+- musepapermini4g
+- musecard
+- musepi
+- musebook
+
+The generated flashable img is located at:
+
+```bash
+out/**xxx**/packages/phone/images/**openharmony-spacemit-xxx.zip**
+```
+
+This img can be flashed using the TitanFlasher tool. The usage and download link for the TitanFlasher tool are as follows: [Click to View](https://developer.spacemit.com/documentation?token=O6wlwlXcoiBZUikVNh2cczhin5d)
+
+# Build Individual Modules
+
+## Build Kernel Individually
+
+```bash
+./build.sh -product-name xxx --ccache --prebuilt-sdk -T build_kernel
+```
+
+The above `build_kernel` is defined in `device/board/spacemit/xxx/kernel/BUILD.gn`:
+
+```bash
+action("build_kernel") {
+  script = "build_kernel.sh"
+  sources = [ kernel_source_dir ]
+  outputs = [ "$root_build_dir/packages/phone/images/Image" ]
+  args = [
+      rebase_path(kernel_build_script_dir,root_build_dir),
+      rebase_path("$root_build_dir/../.."),
+      rebase_path("$root_build_dir/packages/phone/images"),
+      rebase_path(kernel_source_dir),
+      rebase_path(kernel_build_script_dir),
+      kernel_ramdisk,
+      product_company,
+      product_name,
+  ]
+}
+
+```
+
+Kernel source code path: `kernel/linux/spacemit_kernel-6.6`
+
+Patched kernel source code path in the out directory: `out/kernel/OBJ/xxx`
+
+Compiled kernel image path: `out/kernel/OBJ/xxx/arch/riscv/boot/Image.itb`
+
+Compiled dtb file path: `out/kernel/OBJ/xxx/arch/riscv/boot/dts/spacemit/k1-x_xxx.dtb`
+
+The generated kernel image and dtb files are automatically copied to the `out/xxx/packages/phone/images/bootfs` directory, and the packaging script includes them in the img.
+
+## Build HDF Adaptation Layer Individually
+
+Take display as an example:
+
+```c
+./build.sh -product-name xxx --ccache --prebuilt-sdk -T display_composer_vendor
+```
+
+Display adaptation code is located at `device/soc/spacemit/k1/hardware/display`. `display_composer_vendor` is defined in `device/soc/spacemit/k1/hardware/display/BUILD.gn`:
+
+```bash
+ohos_shared_library("display_composer_vendor") {
+  sources = [
+    "src/display_device/drm_connector.cpp",
+    "src/display_device/drm_crtc.cpp",
+    "src/display_device/drm_device.cpp",
+    ...
+```
+
+Compiled so is located at:
+
+```bash
+-rwxr-x---+ 1 fuqiang dc-sw-users 181000 Jun  7 08:55 ./out/deb1/hdf/spacemit_products/libdisplay_composer_vendor.z.so
+```
+
+The so in the following folder is not updated; pay attention to the update time and md5 value:
+
+```bash
+-rwxr-x---+ 1 fuqiang dc-sw-users 180968 Jun  6 16:02 ./out/deb1/packages/phone/vendor/lib64/libdisplay_composer_vendor.z.so
+```
+
+The generated dynamic library can be pushed to the machine via hdc for debugging, avoiding reflashing the firmware. Command:
+
+```
+D:\>hdc shell
+# mount -o remount,rw /                #system partition writable
+# mount -o remount,rw /vendor          #vendor partition writable
+# exit
+
+D:\>hdc file send xxx.so /vendor/lib64/
+D:\>hdc shell
+# reboot
+```
+
+## Build SDK Individually
+
+```bash
+./build.py --product-name ohos-sdk --ccache=true --xcache=false --load-test-config=false --get-warning-list=false --stat-ccache=false --compute-overlap-rate=false --deps-guard=false --generate-ninja-trace=false --gn-args skip_generate_module_list_file=true **sdk_platform=linux** **ndk_platform=linux** use_cfi=false use_thin_lto=false enable_lto_O0=true sdk_check_flag=false enable_ndk_doxygen=false archive_ndk=false sdk_for_hap_build=true enable_archive_sdk=false enable_notice_collection=false enable_process_notice=false
+```
+
+By changing the `sdk_platform` and `ndk_platform` parameters, you can compile SDKs running on different OSs. NDK output is located at `out/sdk/sdk-native`.
+
+## Fast Compilation
+
+Use the following command to compile target modules faster:
+
+```sql
+ninja -w dupbuild=warn -C out/xxx yyy -j8
+
+# xxx represents the scheme name
+# yyy represents the build target
+```
+
+For example, to compile the libomxvpu_dec target for the MUSEPaper scheme, use the command:
+
+```sql
+ninja -w dupbuild=warn -C out/musepaper libomxvpu_dec -j8
+```
+
+# FAQ
+
+Referenced from [Spacemit Developer Documentation](https://developer.spacemit.com/documentation?token=OQRQwIzlAiPAxikkNSJcKvFJnQf)
+```

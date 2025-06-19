@@ -1,0 +1,74 @@
+---
+sidebar_position: 6
+slug: /development_guide/peripheral_driver
+---
+
+# Peripheral Driver
+
+Introduction to the purpose, scope, and relevant personnel of this documentation.
+
+## Purpose
+
+This document introduces the board-level configuration, CONFIG configuration, testing, debugging interfaces, and common issues for each interface and peripheral of the SpacemiT K1 CPU, to facilitate secondary development by developers.
+
+## Scope
+
+Applicable to SpacemiT K1 CPU.
+
+## Relevant Personnel
+
+- Driver Engineer
+- System Engineer
+
+## Function Introduction
+
+Peripheral drivers (or device drivers) are the interface that controls hardware devices and the operating system. Linux system peripheral drivers are modular components that act as a bridge between hardware and the operating system, responsible for hardware initialization, configuration, management, data transfer, and error handling.
+
+SpacemiT K1 includes a variety of rich IO capabilities, integrating multiple PCIe, USB, GMAC, SPI, and other interfaces, providing comprehensive peripheral connection options. This document contains usage instructions for high-speed expansion interface drivers, audio and video interface drivers, industrial expansion interface drivers, storage interface drivers, etc., involved in K1.
+
+- High-speed expansion interface drivers: PCIe, USB, GMAC, etc.
+- Audio and video interface drivers: DSI, HDMI, CSI, etc.
+- Industrial expansion interface drivers: CAN-FD, UART, I2C, SPI, PWM, etc.
+- Storage interface drivers: SDHC, SPI-Flash, etc.
+
+## Quick Index
+High-speed expansion interface drivers
+- [GMAC](09-GMAC.md)  
+- [USB](10-USB.md)  
+- [PCIe](11-PCIe.md)   
+
+Audio and video interface drivers
+- [Display](12-Display.md)  
+- [V2D](13-V2D.md)  
+- [Audio](17-Audio.md)
+
+Low-speed expansion interface drivers
+- [PWM](03-PWM.md)  
+- [IR-RX](04-IR-RX.md)
+- [UART](05-UART.md)
+- [I2C](06-I2C.md)  
+- [QSPI](07-QSPI.md) 
+- [SPI](SPI.md) 
+- [GPADC](gpadc.md)
+
+Storage interface drivers
+- [SDHC](08-SDHC.md)
+
+System basic drivers
+- [PINCTRL](01-PINCTRL.md) 
+- [GPIO](02-GPIO.md)    
+- [Clock](16-Clock.md)  
+- [DMA](21-DMA.md)
+- [RTC](rtc.md)
+
+Power subsystem drivers
+- [Thermal](thermal.md)  
+- [CPUFREQ](15-Cpufreq.md)  
+- [Standby](../standby.md)
+
+Third-party peripheral drivers
+- [WIFI](WIFI.md)
+- [BT](BT.md)
+
+Others
+- [CRYPTO](18-CRYPTO.md)

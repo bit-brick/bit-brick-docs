@@ -1,0 +1,96 @@
+# 入门指南
+
+如果你是第一次拿到 K1 Pro的单板电脑，我们建议你先阅读我们的入门指南，这样可以让你快速的了解K1 Pro单板电脑的基本特性，并进行初步的体验。
+
+在准备开始使用K1 pro单板电脑之前，你需要先准备下面的一些东西：
+
+- 电源适配器
+- Micro SD卡
+- TYPEC的USB线
+- 支持HDMI的显示器
+- HDMI线
+- 键盘和鼠标
+- USB转串口调试线
+- NVME 2280的固态硬盘
+
+如果不需要界面显示，那你可能只需要电源适配器和一张SD卡就可以，你可以通过网线或者USB串口调试线将K1 Pro连接到你的电脑，并通过终端工具对设备进行操作。
+
+### 1.1 电源适配器
+
+K1 Pro不带一些外设的情况下，整体功耗约2W左右，不过我们建议你使用10W或者更高功率的电源适配器（当然，你也可以通过你的电脑USB口为K1 Pro进行供电），因为K1 Pro单板电脑采用TYPEC作为电源口，所以你需要一根TYPEC USB线。
+
+| 产品型号 <img width="150"/>| 推荐参数<img width="150"/> | 参考产品 |
+|----------|----------|----------|
+| 电源适配器  | 5V/2A或者更大电流版本 |<img src="/img/k1/getting-started/preparation/power_adapter.png" alt="power" width="150" />   |
+| USB TYPE C线 | 长度根据需求自行选择 |<img src="/img/k1/getting-started/preparation/usb_typec.png" alt="usb" width="150" />  |
+
+:::warning
+
+电源适配器必须是5V/2A或者更高，否则K1可能无法正常工作。
+
+:::
+### 1.2 Micro SD卡
+
+K1 Pro支持SD卡启动，如果你想使用卡启动，按照下面的烧录系统镜像步骤后，你就可以将卡直接插入到K1 Pro的Micro SD卡插槽即可
+我们推荐Micro SD卡至少是32GB以上。
+
+| 产品型号<img width="150"/> | 推荐参数<img width="150"/> | 参考产品 |
+|----------|----------|----------|
+| Micro SD卡 | 32GB或者更大容量 | <img src="/img/k1/getting-started/preparation/sdcard.png" alt="sdcard" width="150" />  |
+
+### 1.3 显示、鼠标和键盘
+
+如果你想要将K1 pro当成一个入门级的桌面系统来使用，那你还需要为它配置一个HDMI的屏幕以及鼠标和键盘。你可以使用常规的电脑显示器即可，因为一般的显示器都是支持HDMI的，鼠标键盘也是一样，主流的鼠标键盘是可以即插即用的。你可能需要确认你的HDMI线连接主板端的必须要A型的接口，如果你不了解HDMI接口类型，可以参考下面信息：
+
+<span style={{ 
+  display: 'flex', 
+  justifyContent: 'center',
+  margin: '10px 0'
+}}>
+![alt text](/img/k1/getting-started/preparation/hdmi_type.png)
+</span>
+
+<div style={{textAlign: 'center'}}>图1 HDMI接口类型</div>
+
+| 产品型号 <img width="150"/>| 推荐参数<img width="150"/> | 参考产品 |
+|----------|----------|----------|
+| LCD显示器 | 4K分辨率最佳 | <img src="/img/k1/getting-started/preparation/lcd.png" alt="lcd" width="150" /> |
+| 鼠标 | 通用 | <img src="/img/k1/getting-started/preparation/mouse.png" alt="mouse" width="150" /> |
+| 键盘 | 通用 | <img src="/img/k1/getting-started/preparation/keybord.png" alt="keybord" width="150" /> |
+| HDMI数据线 | 通用 | <img src="/img/k1/getting-started/preparation/hdmi_line.png" alt="hdmi_line" width="150" /> |
+
+### 1.4 网络
+
+K1 Pro默认支持千兆以太网，如果想要使用无线网络，则需要外接无线模块。我们建议你优先选择有线网络，因为默认是没有配置无线网卡的。网络连接示意图如下：
+
+<span style={{ 
+  display: 'flex', 
+  justifyContent: 'center',
+  margin: '10px 0'
+}}>
+![net](/img/k1pro/getting-started/net.png)
+</span>
+
+### 1.5 调试
+
+K1 Pro预留了一个串口作为深度学习的调试口，这个串口只能支持TTL的电平，所以如果你的电脑如果只有USB口，那你需要一个USB转串口的设备，才能使用：
+
+| 产品型号 <img width="150"/>| 推荐参数<img width="150"/> | 参考产品 |
+|----------|----------|----------|
+| USB转串口 | USB转TTL |<img src="/img/k1/getting-started/preparation/ust_to_ttl.png" alt="ust_to_ttl" width="150" />  |
+
+跟主板的连接方式如下：
+波特率为:1500000
+
+<span style={{ 
+  display: 'flex', 
+  justifyContent: 'center',
+  margin: '10px 0'
+}}>
+![usb2ttl](/img/k1pro/getting-started/port_debug.png)
+</span>
+
+当这些准备好了以后，我们将开始准备安装操作系统的步骤。
+
+
+

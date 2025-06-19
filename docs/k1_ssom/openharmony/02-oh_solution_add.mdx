@@ -1,0 +1,444 @@
+# K1 JOH5.0 Solution Adding and Porting Guide
+
+# Currently Supported Solutions in SDK
+
+<table>
+<tbody>
+<tr>
+<td><strong>Ecosystem Product</strong></td>
+<td><strong>Form</strong></td>
+<td><strong>Boot Method</strong></td>
+<td><strong>Display</strong></td>
+<td><strong>Touch</strong></td>
+<td><strong>WiFi</strong></td>
+<td><strong>BT</strong></td>
+<td><strong>ETH</strong></td>
+<td><strong>USB</strong></td>
+<td><strong>Keyboard/Mouse</strong></td>
+<td><strong>Camera</strong></td>
+</tr>
+<tr>
+<td><strong>MUSEPaper2</strong><br/></td>
+<td>Tablet<br/></td>
+<td>Emmc<br/>TF Card</td>
+<td>Mipi DSI</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>×</td>
+<td>√</td>
+<td>×</td>
+<td>√</td>
+</tr>
+<tr>
+<td><strong>MUSEPaper</strong><br/></td>
+<td>Tablet</td>
+<td>Emmc<br/>TF Card</td>
+<td>Mipi DSI<br/></td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>×</td>
+<td>√</td>
+<td>×</td>
+<td>√</td>
+</tr>
+</tbody>
+</table>
+
+# Adding Custom Solutions
+
+The key repositories related to product solutions are as follows:
+
+- build: Add build whitelist, mainly modify files: `compile_standard_whitelist.json` and `subsystem_compoents_whitelist.json`
+- vendor/spacemit: Enter the vendor customization adaptation directory
+- device/board/spacemit: Enter the vendor board-level adaptation directory
+- device/soc/spacemit: Enter the vendor chip adaptation directory
+- kernel/linux/spacemit_kernel-6.6: Enter the vendor kernel
+
+There are two ways to add custom solutions:
+
+- Adapt a new solution by modifying an existing one, for example, if you need to adapt a new development board, you can modify the configurations of the already adapted development boards like deb1 and MUSEPi.
+- Add a completely new solution.
+
+Below are the instructions for the two methods:
+
+## Customizing by Modifying Existing Solutions
+
+### Customizing U-Boot
+
+Currently, U-Boot source code is not uploaded. You can provide schematics to the vendor, who will configure and compile it, and provide the related U-Boot bin files. Below is the explanation of how to add the provided U-Boot files to the system.
+
+The general U-Boot files are located in the `device/soc/spacemit/k1/kernel/boot` directory, applicable to all solutions, as follows:
+
+```cpp
+|-- bootfs
+|   |-- boot_logo_spacemit_0.bmp
+|   |-- boot_logo_spacemit_180.bmp
+|   |-- boot_logo_spacemit_270.bmp
+|   `-- boot_logo_spacemit_90.bmp
+|-- env.bin
+|-- factory
+|   |-- bootinfo_emmc.bin
+|   |-- bootinfo_sd.bin
+|   |-- bootinfo_spinand.bin
+|   |-- bootinfo_spinor.bin
+|   `-- FSBL.bin
+|-- fastboot.yaml
+|-- fw_dynamic.itb
+|-- genimage.cfg
+|-- partition_2M.json
+|-- partition_flash.json
+`-- u-boot.itb
+```
+
+Frequently updated files include `env.bin`, `FSBL.bin`, `u-boot.bin`. These files are copied to the packaging directory in `device/board/spacemit/xxx/kernel/build_kernel.sh`, as follows:
+
+```cpp
+cp ${OHOS_SOURCE_ROOT}/device/soc/${DEVICE_BOARD}/k1/kernel/boot/bootfs/boot_logo_spacemit_0.bmp ${OHOS_IMAGES_DIR}/bootfs/bianbu.bmp
+cp ${OHOS_SOURCE_ROOT}/device/board/${DEVICE_BOARD}/${DEVICE_NAME}/kernel/boot/bootfs/env_k1-x.txt ${OHOS_IMAGES_DIR}/bootfs/env_k1-x.txt
+cp ${OHOS_SOURCE_ROOT}/device/soc/${DEVICE_BOARD}/k1/kernel/boot/env.bin ${OHOS_IMAGES_DIR}/env.bin
+cp ${OHOS_SOURCE_ROOT}/device/soc/${DEVICE_BOARD}/k1/kernel/boot/u-boot.itb ${OHOS_IMAGES_DIR}/u-boot.itb
+cp ${OHOS_SOURCE_ROOT}/device/soc/${DEVICE_BOARD}/k1/kernel/boot/fw_dynamic.itb ${OHOS_IMAGES_DIR}/fw_dynamic.itb
+cp ${OHOS_SOURCE_ROOT}/device/board/${DEVICE_BOARD}/${DEVICE_NAME}/kernel/boot/partition_universal.json ${OHOS_IMAGES_DIR}/partition_universal.json
+cp ${OHOS_SOURCE_ROOT}/device/soc/${DEVICE_BOARD}/k1/kernel/boot/fastboot.yaml ${OHOS_IMAGES_DIR}/fastboot.yaml
+cp ${OHOS_SOURCE_ROOT}/device/soc/${DEVICE_BOARD}/k1/kernel/boot/genimage.cfg ${OHOS_IMAGES_DIR}/genimage.cfg
+cp -r ${OHOS_SOURCE_ROOT}/device/soc/${DEVICE_BOARD}/k1/kernel/boot/factory ${OHOS_IMAGES_DIR}/
+```
+
+If a solution has special customization for U-Boot, the U-Boot bin files need to be placed separately in the solution directory `device/board/spacemit/xxx/kernel/boot`. Additionally, the `build_kernel.sh` file needs to be modified to copy the U-Boot files from the solution directory to the packaging directory.
+
+### Customizing Kernel
+
+#### Modifying DTS
+
+Kernel DTS files are uniformly placed in: `kernel/linux/spacemit_kernel-6.6/arch/riscv/boot/dts/spacemit`, as shown below:
+
+```cpp
+|-- k1-x-camera-reserved-mm.dtsi
+|-- k1-x-camera-sdk.dtsi
+|-- k1-x-camera-sensor.dtsi
+|-- k1-x_deb1.dts
+|-- k1-x_deb2.dts
+|-- k1-x.dtsi
+|-- k1-x-efuse.dtsi
+|-- k1-x_evb.dts
+|-- k1-x-hdmi.dtsi
+|-- k1-x_hs450.dts
+|-- k1-x_kx312.dts
+|-- k1-x-lcd.dtsi
+|-- k1-x_lpi3a.dts
+|-- k1-x_milkv-jupiter.dts
+|-- k1-x_mingo.dts
+|-- k1-x_MINI-PC.dts
+|-- k1-x_MUSE-Book.dts
+|-- k1-x_MUSE-Card.dts
+|-- k1-x_MUSE-N1.dts
+|-- k1-x_MUSE-Paper2.dts
+|-- k1-x_MUSE-Paper.dts
+|-- k1-x_MUSE-Paper-mini-4g.dts
+|-- k1-x_MUSE-Pi.dts
+|-- k1-x_opp_table.dtsi
+|-- k1-x_pinctrl.dtsi
+|-- k1-x_SMT001.dts
+|-- k1-x_thermal_cooling.dtsi
+|-- k1-x_ZT001H.dts
+|-- lcd
+|   |-- lcd_ft8201sinx101_mipi.dtsi
+|   |-- lcd_gc9503v_mipi.dtsi
+|   |-- lcd_gx09inx101_mipi.dtsi
+|   |-- lcd_icnl9911c_mipi.dtsi
+|   |-- lcd_icnl9951r_mipi.dtsi
+|   |-- lcd_jd9365dah3_mipi.dtsi
+|   |-- lcd_jd9365da_mipi_1280x800.dtsi
+|   |-- lcd_lt8911_edp_1920x1080.dtsi
+|   |-- lcd_lt8911_edp_1920x1200.dtsi
+|   |-- lcd_lt9711_dp_1920x1080.dtsi
+|   `-- lcd_orisetech_ota7290b_mipi.dtsi
+|-- m1-x_milkv-jupiter.dts
+`-- Makefile
+```
+
+You can modify the corresponding DTS file based on the solution name. After modification, recompile the kernel as follows:
+
+```cpp
+./build.sh --product-name xxx --ccache -T build_kernel
+```
+
+#### Modifying Defconfig
+
+Kernel defconfig files are located in: `kernel/linux/spacemit_kernel-6.6/arch/riscv/configs/k1_defconfig`. This defconfig is shared by all solutions. If modifications are specific to a particular solution, they need to be made as patches. The process is as follows:
+
+- Generate patch: fix.patch
+- Place fix.patch in `device/board/spacemit/xxx/kernel/kernel_patch`
+- Apply patch in `device/board/spacemit/musebook/kernel/build_kernel.sh`, as follows:
+
+```cpp
+patch -p1 <${OHOS_SOURCE_ROOT}/device/board/${DEVICE_BOARD}/${DEVICE_NAME}/kernel/kernel_patch/fix.patch
+```
+
+### Customizing Vendor Directory
+
+Below is a brief explanation of the directories and files under `vendor/spacemit/xxx`:
+
+- bluetooth: Vendor adaptation layer for Bluetooth modules, mainly modify this folder
+- config.json: Components included in the solution, can add/remove components and their properties
+- default_app_config: No modifications for now
+- etc: Add system properties, e.g., const.product.name="XXX"
+- hals: Internal audio directory mainly adapts audio paths, etc.
+- hdf_config: HDF configuration file for the solution
+- image_conf: No modifications for now
+- ohos.build: Add build modules
+- power_config: Configure power management modes, including NORMAL, POWER_SAVE, PERFORMANCE, EXTREME_POWER_SAVE, etc. Configure behaviors for each mode, such as screen-off time, standby time, etc.
+- preinstall-config: Manage installed application hap packages and permissions
+- product.gni: Some property configurations
+- resourceschedule: No modifications for now
+- security_config: No modifications for now
+- updater_config: No modifications for now
+- window_config: Window-related configurations, such as screen rotation direction, transition animation time, etc.
+
+### Customizing Device Directory
+
+The device directory is divided into board and soc. The soc directory contains adaptations for the K1 chip, while the board directory contains adaptations for specific product solutions. The structure of the device directory is as follows:
+
+```cpp
+|-- board
+|   `-- spacemit
+|       |-- common
+|       |-- deb1
+|       |-- kernel_patches
+|       |-- musebook
+|       |-- musecard
+|       |-- musepaper
+|       |-- musepaper2
+|       |-- musepapermini4g
+|       |-- musepi
+|       |-- smt001
+|       `-- zt001h
+`-- soc
+    `-- spacemit
+        |-- common
+        `-- k1
+```
+
+The main modification points under `device/board/spacemit/xxx` include:
+
+- cfg/default.para: Some system configuration parameters
+- cfg/fstab.xxx: File system mount configuration
+- cfg/init.xxx.cfg: Startup configuration
+- cfg/init.xxx.usb.cfg: USB startup configuration
+- kernel: Kernel-related configurations and files
+- kernel/boot: U-Boot related files
+- kernel/build_kernel.sh: Kernel build script
+- kernel/kernel_patch: Kernel patches
+- kernel/ko: Kernel modules to be loaded
+
+The main modification points under `device/soc/spacemit/k1` include:
+
+- hardware: Adaptation layer for K1 hardware, including hardware codecs, GPU, etc.
+- kernel/boot: U-Boot related files
+- tools: Some command-line tools
+
+## Adding a Completely New Solution
+
+### Customizing U-Boot
+
+Currently, U-Boot source code is not uploaded. You can provide schematics and a solution code, e.g., ABC. The vendor will configure and compile it, and provide the related U-Boot bin files. Below is the explanation of how to add the provided U-Boot files to the system.
+
+The general U-Boot files are located in the `device/soc/spacemit/k1/kernel/boot` directory, as follows:
+
+```cpp
+|-- bootfs
+|   |-- boot_logo_spacemit_0.bmp
+|   |-- boot_logo_spacemit_180.bmp
+|   |-- boot_logo_spacemit_270.bmp
+|   `-- boot_logo_spacemit_90.bmp
+|-- env.bin
+|-- factory
+|   |-- bootinfo_emmc.bin
+|   |-- bootinfo_sd.bin
+|   |-- bootinfo_spinand.bin
+|   |-- bootinfo_spinor.bin
+|   `-- FSBL.bin
+|-- fastboot.yaml
+|-- fw_dynamic.itb
+|-- genimage.cfg
+|-- partition_2M.json
+|-- partition_flash.json
+`-- u-boot.itb
+```
+
+Frequently updated files include `env.bin`, `FSBL.bin`, `u-boot.bin`. These files are copied to the packaging directory in `device/board/spacemit/xxx/kernel/build_kernel.sh`, as follows:
+
+```cpp
+cp ${OHOS_SOURCE_ROOT}/device/soc/${DEVICE_BOARD}/k1/kernel/boot/bootfs/boot_logo_spacemit_0.bmp ${OHOS_IMAGES_DIR}/bootfs/bianbu.bmp
+cp ${OHOS_SOURCE_ROOT}/device/board/${DEVICE_BOARD}/${DEVICE_NAME}/kernel/boot/bootfs/env_k1-x.txt ${OHOS_IMAGES_DIR}/bootfs/env_k1-x.txt
+cp ${OHOS_SOURCE_ROOT}/device/soc/${DEVICE_BOARD}/k1/kernel/boot/env.bin ${OHOS_IMAGES_DIR}/env.bin
+cp ${OHOS_SOURCE_ROOT}/device/soc/${DEVICE_BOARD}/k1/kernel/boot/u-boot.itb ${OHOS_IMAGES_DIR}/u-boot.itb
+cp ${OHOS_SOURCE_ROOT}/device/soc/${DEVICE_BOARD}/k1/kernel/boot/fw_dynamic.itb ${OHOS_IMAGES_DIR}/fw_dynamic.itb
+cp ${OHOS_SOURCE_ROOT}/device/board/${DEVICE_BOARD}/${DEVICE_NAME}/kernel/boot/partition_universal.json ${OHOS_IMAGES_DIR}/partition_universal.json
+cp ${OHOS_SOURCE_ROOT}/device/soc/${DEVICE_BOARD}/k1/kernel/boot/fastboot.yaml ${OHOS_IMAGES_DIR}/fastboot.yaml
+cp ${OHOS_SOURCE_ROOT}/device/soc/${DEVICE_BOARD}/k1/kernel/boot/genimage.cfg ${OHOS_IMAGES_DIR}/genimage.cfg
+cp -r ${OHOS_SOURCE_ROOT}/device/soc/${DEVICE_BOARD}/k1/kernel/boot/factory ${OHOS_IMAGES_DIR}/
+```
+
+If a solution has special customization for U-Boot, the U-Boot bin files need to be placed separately in the solution directory `device/board/spacemit/xxx/kernel/boot`. Additionally, the `build_kernel.sh` file needs to be modified to copy the U-Boot files from the solution directory to the packaging directory.
+
+### Customizing Kernel
+
+#### Modifying DTS
+
+Kernel DTS files are uniformly placed in: `kernel/linux/spacemit_kernel-6.6/arch/riscv/boot/dts/spacemit`, as shown below:
+
+```cpp
+|-- k1-x-camera-reserved-mm.dtsi
+|-- k1-x-camera-sdk.dtsi
+|-- k1-x-camera-sensor.dtsi
+|-- k1-x_deb1.dts
+|-- k1-x_deb2.dts
+|-- k1-x.dtsi
+|-- k1-x-efuse.dtsi
+|-- k1-x_evb.dts
+|-- k1-x-hdmi.dtsi
+|-- k1-x_hs450.dts
+|-- k1-x_kx312.dts
+|-- k1-x-lcd.dtsi
+|-- k1-x_lpi3a.dts
+|-- k1-x_milkv-jupiter.dts
+|-- k1-x_mingo.dts
+|-- k1-x_MINI-PC.dts
+|-- k1-x_MUSE-Book.dts
+|-- k1-x_MUSE-Card.dts
+|-- k1-x_MUSE-N1.dts
+|-- k1-x_MUSE-Paper2.dts
+|-- k1-x_MUSE-Paper.dts
+|-- k1-x_MUSE-Paper-mini-4g.dts
+|-- k1-x_MUSE-Pi.dts
+|-- k1-x_opp_table.dtsi
+|-- k1-x_pinctrl.dtsi
+|-- k1-x_SMT001.dts
+|-- k1-x_thermal_cooling.dtsi
+|-- k1-x_ZT001H.dts
+|-- lcd
+|   |-- lcd_ft8201sinx101_mipi.dtsi
+|   |-- lcd_gc9503v_mipi.dtsi
+|   |-- lcd_gx09inx101_mipi.dtsi
+|   |-- lcd_icnl9911c_mipi.dtsi
+|   |-- lcd_icnl9951r_mipi.dtsi
+|   |-- lcd_jd9365dah3_mipi.dtsi
+|   |-- lcd_jd9365da_mipi_1280x800.dtsi
+|   |-- lcd_lt8911_edp_1920x1080.dtsi
+|   |-- lcd_lt8911_edp_1920x1200.dtsi
+|   |-- lcd_lt9711_dp_1920x1080.dtsi
+|   `-- lcd_orisetech_ota7290b_mipi.dtsi
+|-- m1-x_milkv-jupiter.dts
+`-- Makefile
+```
+
+You can add the corresponding DTS file based on the solution name, e.g., k1-x_ABC.dts. After modification, add it to the above directory and modify the Makefile file, as follows:
+
+```cpp
+diff --git a/arch/riscv/boot/dts/spacemit/Makefile b/arch/riscv/boot/dts/spacemit/Makefile
+index ea48d28cedda..36beb0761dd7 100644
+--- a/arch/riscv/boot/dts/spacemit/Makefile
++++ b/arch/riscv/boot/dts/spacemit/Makefile
+@@ -3,5 +3,5 @@ dtb-$(CONFIG_SOC_SPACEMIT_K1X) += k1-x_evb.dtb k1-x_deb2.dtb k1-x_deb1.dtb k1-x_
+                                  k1-x_MUSE-Pi.dtb k1-x_milkv-jupiter.dtb m1-x_milkv-jupiter.dtb \
+                                  k1-x_MUSE-Book.dtb k1-x_lpi3a.dtb k1-x_MUSE-Card.dtb \
+                                  k1-x_MUSE-Paper.dtb k1-x_MUSE-Paper-mini-4g.dtb \
+-                                 k1-x_ZT001H.dtb k1-x_MUSE-Paper2.dtb
++                                 k1-x_ZT001H.dtb k1-x_MUSE-Paper2.dtb k1-x_ABC.dtb
+ obj-$(CONFIG_BUILTIN_DTB) += $(addsuffix .o, $(dtb-y))
+
+```
+
+Recompile the kernel as follows:
+
+```cpp
+./build.sh --product-name xxx --ccache -T build_kernel
+```
+
+#### Modifying Defconfig
+
+Kernel defconfig files are located in: `kernel/linux/spacemit_kernel-6.6/arch/riscv/configs/k1_defconfig`. This defconfig is shared by all solutions. If modifications are specific to a particular solution, they need to be made as patches. The process is as follows:
+
+- Generate patch: fix.patch
+- Place fix.patch in `device/board/xxx/musebook/kernel/kernel_patch`
+- Apply patch in `device/board/spacemit/xxx/kernel/build_kernel.sh`, as follows:
+
+```cpp
+patch -p1 <${OHOS_SOURCE_ROOT}/device/board/${DEVICE_BOARD}/${DEVICE_NAME}/kernel/kernel_patch/fix.patch
+```
+
+### Customizing Vendor Directory
+
+The customization of the vendor directory differs from section 2.1.3 because a completely new solution is being added. The `vendor/spacemit` directory does not yet contain this solution. The customization method is to copy an existing solution directory, then uniformly modify the solution name, and then proceed with specific content modifications.
+
+- Copy an existing solution: Choose a similar solution to copy, e.g., for a development board, choose deb1; for a tablet, choose musepaper. Create a new solution, e.g., development board abc, as follows:
+
+```cpp
+cd vendor/spacemit
+cp -r deb1 abc
+```
+
+- Uniformly modify the solution name: Replace all occurrences of deb1 with abc, and rename all files containing deb1 to include abc.
+
+```cpp
+# sed -i "s/deb1/abc/g" `grep -rl deb1 ./`
+# find . -name *deb1*
+./etc/param/product_deb1.para
+./etc/param/hardware_deb1.para
+# mv ./etc/param/product_deb1.para ./etc/param/product_abc.para
+# mv ./etc/param/hardware_deb1.para ./etc/param/hardware_abc.para
+```
+
+- Proceed with customization
+
+### Customizing Device Directory
+
+The customization of the device directory differs from section 2.1.4 because a completely new solution is being added. The `device/board/spacemit` directory does not yet contain this solution. The customization method is to copy an existing solution directory, then uniformly modify the solution name, and then proceed with specific content modifications.
+
+- Copy an existing solution: Choose a similar solution to copy, e.g., for a development board, choose deb1; for a tablet, choose musepaper. Create a new solution, e.g., development board abc, as follows:
+
+```cpp
+cd device/board/spacemit
+cp -r deb1 abc
+```
+
+- Uniformly modify the solution name: Replace all occurrences of deb1 with abc, and rename all files containing deb1 to include abc.
+
+```cpp
+# sed -i "s/deb1/abc/g" `grep -rl deb1 ./`
+# find . -name *deb1*
+./etc/param/product_deb1.para
+./etc/param/hardware_deb1.para
+# mv ./etc/param/product_deb1.para ./etc/param/product_abc.para
+# mv ./etc/param/hardware_deb1.para ./etc/param/hardware_abc.para
+```
+
+- Proceed with customization
+
+### Adding Permissions in Build Directory
+
+- Add solution configuration in `subsystem_compoents_whitelist.json`
+
+```
+diff --git a/subsystem_compoents_whitelist.json b/subsystem_compoents_whitelist.json
+index ee125742..a01e2e1c 100644
+--- a/subsystem_compoents_whitelist.json
++++ b/subsystem_compoents_whitelist.json
+@@ -15,6 +15,7 @@
+   "device_smt001" :"device_smt001",
+   "device_musepaper" :"device_musepaper",
+   "device_musepi" :"device_musepi",
+   "device_musecard" :"device_musecard",
++  "device_abc" :"device_abc",
+   "device_musepaper2" :"device_musepaper2",
+   "device_musepapermini4g" :"device_musepapermini4g",
+   "device_zt001h" :"device_zt001h",
+
+```
+
+- Add module whitelist in `compile_standard_whitelist.json`. The changes are relatively extensive. The method is to search for the name of the original solution copied, e.g., deb1. Copy all modules containing deb1, and modify the solution name to abc.
+
+Reference from [Spacemit Developer Documentation](https://developer.spacemit.com/documentation?token=RY47wkcNoi99UNkdueEcpQStn8f)

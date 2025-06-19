@@ -1,0 +1,659 @@
+# K1 JOH5.0 System Debugging Guide
+
+# Debugging Tools and Methods
+
+## Serial Port Debugging
+
+Available, baud rate **115200**, can be used directly to view uboot, kernel, and OpenHarmony init process related prints.
+
+## hdc
+
+hdc is similar to Android's adb, supporting both USB and TCP connection modes. TCP mode is used with default port set to 55555. The configuration file is device/board/spacemit/xxx/cfg's default.para, as shown below:
+
+```bash
+persist.hdc.mode=usb,tcp
+persist.hdc.port=55555
+```
+
+### Host hdc Support
+
+#### Windows System
+
+For Windows systems, place hdc.exe ([Download here](https://archive.spacemit.com/tools/openharmony/hdc.zip)) in a specific directory and set up the environment variable path.
+
+#### Ubuntu System
+
+- Install dependencies: Open terminal and enter the following commands to update package list and install necessary development tools and libraries
+
+  ```bash
+  sudo apt-get update
+  sudo apt-get install build-essential libstdc++6 libc++1·
+  ```
+- Download HDC toolkit: Visit OpenHarmony official website to download the latest HDC toolkit for Linux platform. Place it in a suitable location and perform extraction operation. Adjust extraction path as needed.
+
+  ```bash
+  tar -zxvf hdc_std_<version>_linux.tar.gz -C /opt/hdc/
+  ```
+- Set environment variables: Edit the user's shell initialization script (e.g., `.bashrc`), add the following lines to the end of the file:
+
+  ```bash
+  export PATH=$PATH:/opt/hdc/bin
+  source ~/.bashrc
+  ```
+- Verify installation success: In a new terminal window, try running a simple help command to confirm everything is ready. If you can see detailed help documentation, the process is complete.
+
+  ```bash
+  hdc help
+  ```
+
+### hdc Connection
+
+#### Network Connection
+
+Ensure hdc's server and client are in the same local area network. Connection method is as follows:
+
+```bash
+D:\>hdc tconn 10.0.90.142:55555
+Connect OK
+
+D:\>hdc shell
+#
+```
+
+#### USB Connection
+
+```bash
+D:\>hdc list targets
+0123456789ABCDEF
+
+D:\>hdc shell
+#
+```
+
+#### Multiple Device Connection
+
+Specify the device using the `-t` parameter, as shown below:
+
+```bash
+D:\>hdc list targets
+0123456789ABCDEF
+ABCDEF
+
+D:\>hdc -t 0123456789ABCDEF shell
+#
+```
+
+### Common hdc Commands
+
+<table>
+<tbody>
+<tr>
+<td>Command</td>
+<td>Purpose</td>
+</tr>
+<tr>
+<td>hdc list targets</td>
+<td>View all current devices</td>
+</tr>
+<tr>
+<td>hdc shell reboot</td>
+<td>Reboot</td>
+</tr>
+<tr>
+<td>hdc uninstall com.example.myapp</td>
+<td>Uninstall hap package</td>
+</tr>
+<tr>
+<td>hdc install -r xxx.hap</td>
+<td>Reinstall hap package</td>
+</tr>
+<tr>
+<td>hdc shell aa start -a EntryAbility -b com.example.myapp</td>
+<td>Start hap</td>
+</tr>
+<tr>
+<td>hdc file recv  /xxx  D:/</td>
+<td>Copy file from device to local</td>
+</tr>
+<tr>
+<td>hdc file send  D:/xxx  /data/</td>
+<td>Send local file to device</td>
+</tr>
+<tr>
+<td>hdc start -r</td>
+<td>Restart server</td>
+</tr>
+</tbody>
+</table>
+
+### hdc Connection Ports for Devices
+
+#### MUSEPaper&MUSEPaper2
+
+<span style={{display: 'flex',justifyContent: 'center',margin: '10px 0'}}>![](https://developer.spacemit.com/resource/file/images?fileName=OiJhbcUsNo8MXpxnOJdcItoXnqg.png)</span>
+
+#### MUSEPi
+
+<span style={{display: 'flex',justifyContent: 'center',margin: '10px 0'}}>![](https://developer.spacemit.com/resource/file/images?fileName=HYcSbQSkFoPKNRx6S1LcglSqnif.png)</span>
+
+#### MUSECard
+
+<span style={{display: 'flex',justifyContent: 'center',margin: '10px 0'}}>![](https://developer.spacemit.com/resource/file/images?fileName=IHl0bCtrRo0APYxkWZMcnPEBnEh.png)</span>
+
+#### MUSEBook
+
+<span style={{display: 'flex',justifyContent: 'center',margin: '10px 0'}}>![](https://developer.spacemit.com/resource/file/images?fileName=Kunebc9liojSTaxGyxrcntGfn6f.png)</span>
+
+## hilog
+
+### Basic Usage
+
+hilog is similar to Android's logcat. Basic usage is as follows:
+
+```bash
+hilog
+hilog -r
+```
+
+### Common Commands
+
+<table>
+<tbody>
+<tr>
+<td>Command</td>
+<td>Purpose</td>
+<td>Example</td>
+</tr>
+<tr>
+<td>hilog -h</td>
+<td>Get help</td>
+<td></td>
+</tr>
+<tr>
+<td>hilog -t app|core|kmsg|init</td>
+<td>- Blocking real-time query of module logs<br/>- Can be used with other parameters</td>
+<td>hilog -t core</td>
+</tr>
+<tr>
+<td>hilog -t app|core|kmsg|init -x</td>
+<td>- Non-blocking real-time query of module logs<br/>- Can be used with other parameters</td>
+<td>hilog -t core -x</td>
+</tr>
+<tr>
+<td>hilog -T &lt;tag&gt;</td>
+<td>- Specify tag within module<br/>- Can be used with other parameters</td>
+<td>hilog -T Launcher_Default</td>
+</tr>
+<tr>
+<td>hilog -L D|I|W|E|F</td>
+<td>- Specify level query<br/>- D:debug, I:info, W:warning, E:error, F:fatal</td>
+<td>hilog -L I</td>
+</tr>
+<tr>
+<td>hilog -D &lt;domain&gt;<br/></td>
+<td>- Log service domain for specifying output log's business domain<br/>- A hexadecimal integer ranging from 0x0 to 0xFFFFF.<br/>- Recommended format: 0xAAABB, where AAA represents subsystem, BB represents module<br/>- Specify domain query<br/>- Can be used with other parameters</td>
+<td>hilog -D 0x0<br/></td>
+</tr>
+<tr>
+<td>^</td>
+<td>- Exclude</td>
+<td>hilog -t ^app -T ^BatteryThread</td>
+</tr>
+</tbody>
+</table>
+
+### Log Persistence
+
+Log persistence means saving logs to a file for later viewing.
+
+<table>
+<tbody>
+<tr>
+<td>Command</td>
+<td>Purpose</td>
+</tr>
+<tr>
+<td>hilog -w start [-f "xxx"] [-l &lt;length&gt;] [-j &lt;jobid&gt;] [-m &lt;algorithm&gt;] [-n &lt;number&gt;]</td>
+<td>Start persistence task</td>
+</tr>
+<tr>
+<td>hilog -w query [-j &lt;jobid&gt;]</td>
+<td>Query persistence task</td>
+</tr>
+<tr>
+<td>hilog -w stop [-j &lt;jobid&gt;]</td>
+<td>Stop persistence task</td>
+</tr>
+</tbody>
+</table>
+
+Example:
+
+```
+# hilog -w query
+#
+#hilog -w start -f "hilog" -l 66k -j 222 -m zlib -n 2                          
+Persist task [jobid:222] started successfully
+#cd /data/log/hilog
+# ls -al
+total 100
+drwxr-x--- 2 logd   log     4096 1970-01-02 03:34 .
+drwxrwx--- 6 system log     4096 1970-01-01 00:38 ..
+-rw-r----- 1 logd   system 65540 1970-01-02 03:34 .persisterInfo_222
+-rw-r----- 1 logd   system   132 1970-01-02 03:34 .persisterInfo_222.info
+-rw-r----- 1 logd   system 12239 1970-01-02 03:34 hilog.002.19700102-033431.gz
+-rw-r----- 1 logd   system  6883 1970-01-02 03:34 hilog.003.19700102-033431.gz
+#
+# hilog -w query -j 222 #Specify jobid query
+222 core,app zlib /data/log/hilog/hilog 67584 2
+#
+# hilog -w query    #Query all persistence tasks
+222 core,app zlib /data/log/hilog/hilog 67584 2
+#
+# hilog -w stop -j 222
+Persist task [jobid:222] stopped successfully
+#
+# ls -al
+total 36
+drwxr-x--- 2 logd   log     4096 1970-01-02 03:35 .
+drwxrwx--- 6 system log     4096 1970-01-01 00:38 ..
+-rw-r----- 1 logd   system 12239 1970-01-02 03:34 hilog.002.19700102-033431.gz
+-rw-r----- 1 logd   system 13000 1970-01-02 03:35 hilog.003.19700102-033431.gz
+```
+
+## hidumper
+
+hidumper is a unified system information retrieval tool in OpenHarmony for developers, testers, and IDE tools, helping users analyze and locate issues.
+
+<table>
+<tbody>
+<tr>
+<td>Command</td>
+<td>Purpose</td>
+</tr>
+<tr>
+<td>hidumper -h</td>
+<td>Get help</td>
+</tr>
+<tr>
+<td>hidumper --cpuusage [pid]</td>
+<td>View CPU usage information of a process</td>
+</tr>
+<tr>
+<td>hidumper --mem [pid]</td>
+<td>View memory usage of a process</td>
+</tr>
+<tr>
+<td>hidumper  --cpufreq</td>
+<td>View CPU frequency</td>
+</tr>
+<tr>
+<td>hidumper --storage</td>
+<td>View storage information</td>
+</tr>
+<tr>
+<td>hidumper --net</td>
+<td>View network information</td>
+</tr>
+</tbody>
+</table>
+
+## Parameter Management
+
+<table>
+<tbody>
+<tr>
+<td>Command</td>
+<td>Purpose</td>
+</tr>
+<tr>
+<td>param -h</td>
+<td>Get help</td>
+</tr>
+<tr>
+<td>param ls -r</td>
+<td>View all system parameters</td>
+</tr>
+<tr>
+<td>param ls -r persist.sys.hilog.debug.on</td>
+<td>View system parameter</td>
+</tr>
+<tr>
+<td>param get persist.sys.hilog.debug.on</td>
+<td>Get system parameter</td>
+</tr>
+<tr>
+<td>param set persist.sys.hilog.debug.on true</td>
+<td>Set system parameter</td>
+</tr>
+</tbody>
+</table>
+
+## Simulated Key Press
+
+### Mouse Operations
+
+```c
+# uinput -?
+Usage: uinput <option> <command> <arg>...
+The option are:
+-M  --mouse
+commands for mouse:
+-m <dx> <dy>              --move   <dx> <dy>  -move to relative position (dx,dy),
+   <dx1> <dy1> <dx2> <dy2> [smooth time] --trace -dx1 dy1 to dx2 dy2 smooth movement
+-d <key>                  --down   key        -press down a button,
+                                               0 is the left button, 1 is the right,
+                                               2 is the middle
+-u <key>                  --up     <key>      -release a button
+-c <key>                  --click  <key>      -press the left button down,then raise
+-b <dx1> <dy1> <id> [press time] [click interval time]                --double click
+  [press time] the time range is more than 1ms but less than 300ms,
+  [click interval time] the time range is more than 1ms but less than 450ms,
+  Otherwise the operation result may produce error or invalid operation
+ -press the left button down,then raise
+   key value:0 - button left
+   key value:1 - button right
+   key value:2 - button middle
+   key value:3 - button side
+   key value:4 - button extra
+   key value:5 - button forward
+   key value:6 - button back
+   key value:7 - button task
+-s <key>                  --scroll <key>      -positive values are sliding backwards
+-g <dx1> <dy1> <dx2> <dy2> [total time]       --drag <dx1> <dy1> <dx2> <dy2> [total time],
+                                              dx1 dy1 to dx2 dy2 smooth drag
+-i <time>                 --interval <time>   -the program interval for the (time) milliseconds
+                                               negative values are sliding forwards
+```
+
+#### Command Examples
+
+<table>
+<tbody>
+<tr>
+<td>Command</td>
+<td>Purpose</td>
+</tr>
+<tr>
+<td>uinput -M -m 50 50</td>
+<td>Move mouse cursor to position (50,50)</td>
+</tr>
+<tr>
+<td>Uinput -M -b 50 200 0 100 300</td>
+<td>Double-click left mouse button at (50,200), click event duration 100ms, double-click interval 300ms</td>
+</tr>
+</tbody>
+</table>
+
+### Keyboard Operations
+
+```c
+# uinput -?
+Usage: uinput <option> <command> <arg>...
+The option are:
+-K  --keyboard
+commands for keyboard:
+-d <key>                   --down   <key>     -press down a key
+-u <key>                   --up     <key>     -release a key
+-l <key> [long press time] --long_press <key> [long press time] -press and hold the key
+-i <time>                  --interval <time>  -the program interval for the (time) milliseconds
+```
+
+#### Key Values
+
+<table>
+<tbody>
+<tr>
+<td>Key</td>
+<td>Keycode</td>
+</tr>
+<tr>
+<td>KEYCODE_HOME</td>
+<td>1</td>
+</tr>
+<tr>
+<td>KEYCODE_BACK</td>
+<td>2</td>
+</tr>
+<tr>
+<td>KEYCODE_VOLUME_UP</td>
+<td>16</td>
+</tr>
+<tr>
+<td>KEYCODE_VOLUME_DOWN</td>
+<td>17</td>
+</tr>
+<tr>
+<td>KEYCODE_POWER</td>
+<td>18</td>
+</tr>
+<tr>
+<td>KEYCODE_VOLUME_MUTE</td>
+<td>22</td>
+</tr>
+<tr>
+<td>KEYCODE_DPAD_UP</td>
+<td>2012</td>
+</tr>
+<tr>
+<td>KEYCODE_DPAD_DOWN</td>
+<td>2013</td>
+</tr>
+<tr>
+<td>KEYCODE_DPAD_LEFT</td>
+<td>2014</td>
+</tr>
+<tr>
+<td>KEYCODE_DPAD_RIGHT</td>
+<td>2015</td>
+</tr>
+<tr>
+<td>KEYCODE_DPAD_CENTER</td>
+<td>2016</td>
+</tr>
+<tr>
+<td>KEYCODE_TAB</td>
+<td>2049</td>
+</tr>
+</tbody>
+</table>
+
+#### Command Examples
+
+<table>
+<tbody>
+<tr>
+<td>Command</td>
+<td>Purpose</td>
+</tr>
+<tr>
+<td>uinput -K -d 1 -u 1</td>
+<td>Press HOME key to return to main screen</td>
+</tr>
+<tr>
+<td>uinput -K -d 1 -u 1</td>
+<td>Increase volume</td>
+</tr>
+</tbody>
+</table>
+
+### Touchscreen Operations
+
+```c
+# uinput -?
+Usage: uinput <option> <command> <arg>...
+The option are:
+-T  --touch
+commands for touch:
+-d <dx1> <dy1>             --down   <dx1> <dy1> -press down a position  dx1 dy1,
+-u <dx1> <dy1>             --up     <dx1> <dy1> -release a position dx1 dy1,
+-m <dx1> <dy1> <dx2> <dy2> [smooth time]      --smooth movement
+   <dx1> <dy1> <dx2> <dy2> [smooth time]      -smooth movement,
+                                              dx1 dy1 to dx2 dy2 smooth movement
+-c <dx1> <dy1> [click interval]               -touch screen click dx1 dy1
+```
+
+#### Command Examples
+
+To be completed.
+
+## Service Management
+
+<table>
+<tbody>
+<tr>
+<td>Command</td>
+<td>Purpose</td>
+</tr>
+<tr>
+<td>service_control start pulseaudio</td>
+<td>Start pulseaudio service</td>
+</tr>
+<tr>
+<td>service_control stop pulseaudio</td>
+<td>Stop pulseaudio service</td>
+</tr>
+</tbody>
+</table>
+
+## hiperf
+
+[https://device.harmonyos.com/cn/docs/documentation/guide/subsys-toolchain-hiperf-0000001186316470](https://device.harmonyos.com/cn/docs/documentation/guide/subsys-toolchain-hiperf-0000001186316470)
+
+## bytrace
+
+To obtain trace using hdc:
+
+- Capture trace:
+
+```
+D:\>hdc shell
+# param set const.security.developermode.state true
+# param set persist.hdc.root 1
+# echo > /sys/kernel/debug/tracing/trace
+# echo 4096 > /sys/kernel/debug/tracing/saved_cmdlines_size
+# bytrace -t 10 -b 4096 --overwrite ohos zimage zmedia zcamera zaudio ability distributeddatamgr graphic freq irq mdfs workq  mmc idle notification sync pagecache ace app > /mnt/mynewtrace.ftrace
+# echo > /sys/kernel/debug/tracing/trace
+# exit
+D:\>hdc file recv /mnt/mynewtrace.ftrace
+View trace:
+https://ui.perfetto.dev (requires internet access)
+```
+
+View trace:
+
+## bootchart
+
+Usage:
+
+```bash
+1. hdc shell
+2. begetctl bootchart enable
+3. reboot or power cycle
+4. begetctl bootchart stop
+5. begetctl bootchart disable
+6. Check if the following files exist in /data/service/el0/startup/init/ directory:
+header, proc_diskstats.log, proc_ps.log, proc_stat.log
+7. Execute command in /data/service/el0/startup/init/: tar -czf bootchart.tgz *  # Package files
+8. hdc_std file recv /data/service/el0/startup/init/bootchart.tgz ./        # Export files
+9. Generate boot performance image: java -jar bootchart.jar bootchart.tgz
+```
+
+## glmark
+
+Usage:
+
+```bash
+Run the following three commands to perform glmark aging test:
+power-shell setmode 602
+cd /system/bin
+./glmark2-es2 --run-forever --size 720x720
+```
+
+## wpa_supplicant&wpa_cli
+
+```bash
+Usage:
+1. Enable and disable WiFi
+2. cd /vendor/bin/
+3. ./wpa_supplicant -B -i wlan0 -c /data/service/el1/public/wifi/wpa_supplicant/wpa_supplicant.conf
+4. ps -ef | grep wpa to check if wpa_supplicant is running
+5. /wpa_cli -p /data/service/el1/public/wifi/sockets/wpa
+6. > scan
+7. > scan_results
+8. > add_network, returns an ID
+9. > set_network ID ssid "WiFi name"
+10. > set_network ID psk "WiFi password"
+11. > enable_network ID
+```
+
+## snapshot_display
+
+```bash
+param set const.security.developermode.state true
+param set persist.hdc.root 1
+snapshot_display -f /data/local/tmp/test1.jpeg
+```
+
+## wukong
+
+To be completed.
+
+## power-shell
+
+```
+power-shell setmode 602      # Performance mode, disable sleep
+power-shell suspend          # Sleep
+power-shell display -s xxx   # Set brightness
+```
+
+## Remount system/vendor partition as read-write
+
+The system/vendor partition is mounted as read-only (ro) by default. When debugging and using `hdc file send` to push files, remount it as read-write as follows:
+
+```shell
+mount -o remount,rw /vendor
+mount -o remount,rw /
+```
+
+This setting is lost after system reboot and needs to be remounted.
+
+## gdb Debugging
+
+To be added.
+
+# Common Testing Methods
+
+## Monkey Testing
+
+To be added.
+
+## Loop Reboot
+
+To be added.
+
+## Loop Music Playback
+
+To be added.
+
+## Loop Video Playback
+
+To be added.
+
+# Common Issue Debugging Methods
+
+## Peripherals
+
+### Screen Backlight Adjustment Failure
+
+- Check and set the node `sys/class/backlight/backlight/brightness` to confirm if the driver is functioning properly.
+- If setting the above node brightness has no effect, the driver has issues. Investigate the driver, focusing on whether the PWM corresponding to the backlight is functioning correctly.
+- If setting the above node brightness has an effect, the issue lies in the OH upper layer. Use the command power-shell display -s xxx (100>xxx>0) to check if brightness changes.
+
+## System
+
+### cppcrash
+
+To be added.
+
+Referenced from [Spacemit Developer Documentation](https://developer.spacemit.com/documentation?token=Mqo9wGcBOiUbKUk22cAcYAlOnce)

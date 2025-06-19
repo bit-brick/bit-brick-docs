@@ -1,0 +1,32 @@
+# Swap Partition
+When the system's physical memory is insufficient, you can add a Debian swap virtual memory partition for use by currently running programs. For example, creating a 2G virtual memory:
+
+- Create a swap file
+```bash
+cd /opt
+mkdir swap
+dd if=/dev/zero of=swapfile bs=1024 count=2000000
+## count represents the size, here it's 2G
+```
+- Convert the file to swap file
+```bash
+sudo mkswap swapfile
+```
+- Activate the swap file
+```bash
+swapon /opt/swapfile
+Deactivate:
+swapoff /opt/swapfile
+```
+
+To automatically mount after system boot, add it to the /etc/fstab file
+`eg : /opt/swapfile swap swap defaults 0 0`
+
+Verify if it's working
+```bash
+root@linaro-alip:/opt# free -h
+               total       used       free     shared buff/cache   available
+Memory:     1.9Gi       390Mi       91Mi       75Mi       1.5Gi       1.4Gi
+Swap:       1.9Gi         0B       1.9Gi
+e =h
+```

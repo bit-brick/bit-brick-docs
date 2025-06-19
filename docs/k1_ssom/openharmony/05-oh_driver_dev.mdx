@@ -1,0 +1,323 @@
+# K1 JOH5.0 Driver Development Guide
+
+# Sensor Driver Development
+
+## Overview
+
+Sensors are common input devices used to perceive environmental states and implement corresponding responses. Compared to the original Linux driver mode, OH implements Sensor drivers in the HDF (Hardware Driver Foundation) layer. This implementation method enables one-time development with support for deployment in different kernel environments, such as lightweight systems, small systems, or standard Linux systems. Additionally, in the HDF framework, different drivers can be uniformly managed, with each driver providing services externally. For the application layer, only calling HDI (Hardware Device Interface) interfaces is needed to access driver service capabilities.
+
+## Sensor Driver Model
+
+The Sensor driver model based on the HDF driver framework in OpenHarmony is as follows:
+
+<span style={{display: 'flex',justifyContent: 'center',margin: '10px 0'}}>![](https://developer.spacemit.com/resource/file/images?fileName=C6azbk8T8oYBHcxBSeRcDqVXnpg.png)</span>
+
+Sensor driver models shield hardware device differences and provide stable Sensor basic capability interfaces for the upper Sensor service system, including Sensor list queries, Sensor start/stop, Sensor subscription and unsubscription, Sensor parameter configuration, and other functions.
+
+The development of Sensor device drivers is based on the HDF driver framework, combined with the operating system abstraction layer (OSAL, Operating System Abstraction Layer) and platform driver interface (such as I2C/SPI/UART bus and other platform resources) capabilities, shielding differences in operating systems and platform bus resources, to achieve the goal of "one-time development, multi-system deployment" for Sensor drivers.
+
+In OpenHarmony, the Sensor driver model is divided into the following levels:
+
+- **Hardware**: This layer determines how Sensor devices are connected to the CPU, the communication method used by peripherals (such as I2C, SPI, GPIO, etc.), and so on.
+- **Driver**: This layer implements hardware peripheral drivers, including the bindInit and release functions in HdfDriverEntry, as well as ReadData in OpsCall.
+- **HDI**: Interface definition and implementation. The interface mainly includes stable interfaces such as querying all Sensor information, Sensor start/stop, Sensor subscription/unsubscription, Sensor parameter configuration, simplifying service development.
+- **Framework**: Upper Sensor services.
+
+## HCS Configuration
+
+For different platforms, the corresponding hcs file needs to be modified in the platform directory. The following example shows the modification method for adding a sensor module under the MusePaper platform.
+
+### **Configure device\_info.hcs**
+
+- **File Path**: vendor/spacemit/musepaper/hdf\_config/khdf/device\_info/device\_info.hcs
+- **Configuration Description**: Add the following information to device\_info.hcs.
+- **Main Field Description**:
+- **policy**: Service policy. A value of "0" means the service is not published, "1" means the service is published to the kernel state, and "2" means the service is published to the user state.
+- **moduleName**: Same as the moduleName in the HdfDriverEntry structure implemented by the driver.
+- **deviceMatchAttr**: Private configuration information of the driver.
+- **serviceName**: Service name. A node with the serviceName will be generated under the /dev/ node (the prerequisite for generating the node is that the policy configuration is greater than or equal to 1).
+
+### **Configure sensor\_config.hcs**
+
+- **File Path**: vendor/spacemit/musepaper/hdf\_config/khdf/sensor/sensor\_config.hcs
+- **Configuration Description**: Add the following content to sensor\_config.hcs: #include"accel/accel\_qm8658\_config.hcs"
+
+### **Configure accel\_qm8658\_config.hcs**
+
+- **File Path**: vendor/spacemit/musepaper/hdf\_config/khdf/sensor/accel/accel\_qm8658\_config.hcs
+- **Configuration Description**:
+- Create a new folder named accel and create a new file accel\_qm8658\_config.hcs with the following content:
+
+```cpp
+#include"../sensor_common.hcs"
+root{
+    accel_qm8658_chip_config:sensorConfig{
+        match_attr="hdf_sensor_accel_qm8658_driver";
+        sensorInfo::sensorDeviceInfo{
+            sensorName="accelerometer";
+            vendorName="qmi8658";//maxstringlengthis16bytes
+            sensorTypeId=1; //enum SensorTypeTag
+            sensorId=1;//userdefinesensorid
+            power=230;
+        }
+        sensorBusConfig::sensorBusInfo{
+            busType=0; //0:i2c1:spi
+            busNum=3;
+            busAddr=0x6a;
+            regWidth=1;//1btye
+        }
+        sensorIdAttr::sensorIdInfo{
+            chipName="qm8658";
+            chipIdRegister=0x00;
+            chipIdValue=0x05;
+        }
+        sensorRegConfig{
+            /*regAddr:registeraddress
+            value:configregistervalue
+            len:sizeofvalue
+            mask:maskofvalue
+            delay:configregisterdelaytime(ms)
+            opsType:enumSensorOpsType0-none1-read2-write3-read_check4-update_bit
+            calType:enumSensorBitCalType0-none1-set2-revert3-xor4-leftshift5-rightshift
+            shiftNum:shiftbits
+            debug:0-nodebug1-debug
+            save:0-nosave1-save
+            */
+            /*regAddr,value,mask,len,delay,opsType,calType,shiftNum,debug,save*/
+            initSeqConfig=[
+                0x02,0x78, 0xff,1,5, 2,0,0,0,0,
+                0x03,0x26, 0xff,1,5, 2,0,0,0,0,
+                0x08,0x00,0x03,1,5, 2,0,0,0,0
+            ];
+            enableSeqConfig=[
+                0x08,0x01,0x03,1,5, 2,0,0,0,0
+            ];
+            disableSeqConfig=[
+                0x08,0x00,0x03,1,5, 2,0,0,0,0
+            ];
+        }
+    }
+}
+```
+
+## Compilation Option Modification
+
+1. Add the following content to drivers/adapter/khdf/linux/model/sensor/Kconfig:
+
+```cpp
+config DRIVERS_HDF_SENSOR_ACCEL_QM8658
+    bool "Enable HDF accel qm8658 sensor driver"
+    default n
+    depends on DRIVERS_HDF_SENSOR_ACCEL
+    help
+        Answer Y to enable HDF accel qm8658 sensor driver.
+```
+
+1. Add the following content to drivers/adapter/khdf/linux/model/sensor/Makefile:
+
+```cpp
+obj-$(CONFIG_DRIVERS_HDF_SENSOR_ACCEL_QM8658)+=$(SENSOR_ROOT_DIR)/chipset/accel/accel_qm8658.o
+```
+
+1. Modify the Makefile corresponding to the driver implementation file as follows:
+
+- drivers/framework/model/sensor/driver/chipset/accel/accel\_qm8658.c
+- drivers/framework/model/sensor/driver/chipset/accel/accel\_qm8658.h
+
+1. Kernel defconfig configuration
+
+Add the following content to the kernel/linux/spacemit\_kernel-6.6/arch/riscv/configs/k1\_defconfig file:
+
+```cpp
+CONFIG_DRIVERS_HDF_SENSOR=y
+CONFIG_DRIVERS_HDF_SENSOR_ACCEL=y
+CONFIG_DRIVERS_HDF_SENSOR_ACCEL_QM8658=y
+```
+
+## Application Code Directory Description
+
+The interface implementation of Sensor drivers providing services externally is located under the drivers/peripheral/sensor path. The functional description of the directory is as follows:
+
+```bash
+/drivers/peripheral/sensor
+├── hal
+    └── include
+    └── src
+├── interfaces
+    └── include
+├── test
+    └── unit
+```
+
+- **hal**: Sensor module hal layer code
+- **include**: Internal header files of the sensor module hal layer
+- **src**: Implementation of the sensor module hal layer code
+- **interfaces**: Driver capability interfaces provided by the sensor module to upper-layer services
+- **include**: Interface definitions provided externally by the sensor module
+- **test**: Sensor module test code
+- **unit**: Sensor module unit test code
+
+## Common Issue Handling
+
+1. Confirm the accuracy of HCS configuration, including I2C bus, Sensor register initialization, Sensor enablement, and other information.
+2. Confirm whether the compilation options have been modified to compile normally.
+3. If the application cannot be enabled, confirm whether the module needs to configure permissions and whether hdf.hcs needs to be touched to change the timestamp.
+
+# TouchScreen Driver Development
+
+## Overview
+
+TouchScreen is a common input device used to perceive user touches on the screen and implement corresponding responses. Compared to the original Linux driver mode, OpenHarmony implements TouchScreen drivers in the HDF layer. This implementation method enables one-time development with support for deployment in different kernel environments, such as lightweight systems, small systems, or standard Linux systems. Additionally, in the HDF framework, different drivers can be uniformly managed, with each driver providing services externally. For the application layer, only calling HDI interfaces is needed to access driver service capabilities.
+
+## TouchScreen Driver Model
+
+The TouchScreen driver model based on the HDF driver framework in OpenHarmony is as follows:
+
+<span style={{display: 'flex',justifyContent: 'center',margin: '10px 0'}}>![](https://developer.spacemit.com/resource/file/images?fileName=UUAZbn5qxoNRORxB4WlcS4eAnqf.png)</span>
+
+In OpenHarmony, the TouchScreen driver model is divided into the following levels:
+
+- **Hardware**: This layer determines how TouchScreen devices are connected to the CPU, which IO ports are used for configuration, and the communication method used (such as I2C, SPI, UART, etc.).
+- **Kernel**: This layer mainly selects the appropriate kernel (Linux/LiteOS/RTOS) based on project requirements; the OSAL APIs in the Kernel layer mainly normalize different kernels to provide standardized operation interfaces for the HDF Drivers layer, minimizing modifications caused by differences between kernels.
+- **HDF Drivers**: This layer implements hardware peripheral drivers, completing the initialization of different peripherals, such as implementing the Init, Detect, Resume, Suspend, DataHandle, UpdateFirmware functions in struct TouchChipOps ops for TouchScreen.
+- **Input HDI**: This layer implements driver interface capabilities such as TouchScreen device management, business control, and data reporting, providing hardware driver capabilities to the upper layer.
+- **Framework**: Upper TouchScreen services.
+
+## HCS Configuration
+
+For different platforms, the corresponding hcs file needs to be modified in the platform directory. The following example shows the modification method for adding the GT9271 touchscreen under the MUSEPaper platform.
+
+### **Configure device\_info.hcs**
+
+- **File Path**: vendor/spacemit/musepaper/hdf\_config/khdf/device\_info/device\_info.hcs
+- **Configuration Description**: Add the following content to device\_info.hcs.
+- **Main Field Description**:
+- **policy**: Service policy. A value of "0" means the service is not published, "1" means the service is published to the kernel state, and "2" means the service is published to the user state.
+- **moduleName**: Same as the moduleName in the HdfDriverEntry structure implemented by the driver.
+- **deviceMatchAttr**: Private configuration information of the driver.
+- **serviceName**: Service name. A node with the serviceName will be generated under the /dev/ node (the prerequisite for generating the node is that the policy configuration is greater than or equal to 1).
+
+### **Configure input\_config.hcs**
+
+- **File Path**: vendor/spacemit/musepaper/hdf\_config/khdf/input/input\_config.hcs
+- **Configuration Description**: Modify the following configuration in input\_config.hcs.
+
+### **Modify Configuration**
+
+Add chip4 to the chipConfig field, indicating the addition of a new touchscreen driver.
+
+## Compilation Option Modification
+
+The following example introduces the relevant compilation option modifications for adding the GT9271 touchscreen driver.
+
+Add the following content to drivers/adapter/khdf/linux/model/input/Kconfig:
+
+```cpp
+config DRIVERS_HDF_TP_10P10_GT9271
+    bool "Enable HDF tp10P10 GT9271
+```
+
+# UART Driver Development
+
+## Overview
+
+UART refers to Universal Asynchronous Receiver/Transmitter. In the HDF framework, the interface adaptation mode of UART adopts an independent service mode.
+
+In this mode, each device object independently publishes a device service to handle external access. When the device manager receives an API access request, it achieves the purpose of calling the corresponding internal method of the actual device object by extracting the parameters of the request.
+
+The advantage of the independent service mode is that it can directly utilize the service management capabilities of HDFDeviceManager, but it also has certain disadvantages, such as the need to configure device nodes separately for each device, which increases memory usage.
+
+The structure diagram of the UART independent service mode is as follows.
+
+<span style={{display: 'flex',justifyContent: 'center',margin: '10px 0'}}>![](https://developer.spacemit.com/resource/file/images?fileName=SEwUbFOKboX1SwxB5xAc5Sy1nbb.png)</span>
+
+## DTS Configuration
+
+**Configuration Description**
+
+Configure the corresponding serial port device node, such as configuring serial port 2:
+
+```cpp
+&uart2 {
+    pinctrl-names = "default";
+    pinctrl-0 = <&pinctrl_uart2>;
+    status = "okay";
+};
+```
+
+## HCS Configuration
+
+For different platforms, the corresponding hcs file needs to be modified in the platform directory.
+
+### **Configure device\_info.hcs**
+
+**File Path**
+
+vendor/spacemit/xxx/hdf\_config/khdf/device\_info/device\_info.hcs
+
+**Configuration Description**
+
+Add the following content to device\_info.hcs:
+
+During the configuration process, pay attention to the following points:
+
+- **Policy**: Set node visibility. A value of "1" means hidden, i.e., the HDF node is not displayed in the dev directory; a value of "2" means visible, i.e., the HDF node is displayed in the dev directory.
+- **Permission**: File permissions.
+- **Priority**: Startup order, the larger the value, the later the startup.
+- **serviceName "HDF\_PLATFORM\_UART\_2" suffix "2"**: Corresponds to the port parameter of the application open function.
+- **deviceMatchAttr**: Must be consistent with the match\_attr value in rk3568\_uart\_config.hcs.
+
+### **Configure rk3568\_uart\_config.hcs**
+
+**File Path**
+
+vendor/spacemit/xxx/hdf\_config/khdf/platform/rk3568\_uart\_config.hcs
+
+**Configuration Description**
+
+Modify the following in rk3568\_uart\_config.hcs:
+
+During the configuration process, pay attention to the following points:
+
+- **device\_uart\_0x0002 suffix "0x0002"**: Serial port number, starting from 0x0000.
+- **Num**: Combined with the driver\_name value "ttyS" to form the driver device name, such as ttyS9.
+
+If the driver device name does not start with ttyS, such as the driver device names of serial ports A ~ D on the RK3568A board starting with ttyXRUSB, additional modifications to driver\_name are required. For example:
+
+```bash
+device_uart_0x0002 :: uart_device {
+    num = 9;
+    driver_name = "ttyXRUSB"
+    match_attr = "rockchip_rk3568_uart_9";
+}
+```
+
+If no additional modifications to driver\_name are made, the default value of driver\_name in the template, i.e., "ttyS", is used.
+
+## Application Usage Process
+
+The API interface usage of UART is detailed in the OHOS API documentation.
+
+Common UART API descriptions are as follows:
+
+- **uartOpen(port: number)**: Where port is the suffix number of serviceName in the "Configure device\_info.hcs" section.
+- **uartSetBaud**: Set the baud rate of the specified serial port.
+- **uartSetAttribute**: Set the basic attributes of the specified serial port.
+
+## Common Issue Handling
+
+- Confirm whether tty devices are generated under /dev/. If not, refer to the "DTS Configuration" section to check the configuration.
+- Confirm whether HDF\_PLATFORM\_UART\_x is generated under /dev/ (x is the configured service\_name). If not, refer to the "HCS Configuration" section to check the configuration.
+
+**Data read/write not effective**:
+
+- Short-circuit RX and TX, test through two hdc terminals, one cat tty node, and one echo tty node. If the cat end does not receive data:
+- Confirm that the correct serial port pin is selected in pinctrl - 0 in the "DTS Configuration" section.
+- Check and ensure the hardware circuit is normal.
+
+**Sending is normal, data reading is lost**:
+
+- Check whether other applications are competing for data.
+- Check whether there is hardware interference.
+
+Referenced from [Spacemit Developer Documentation](https://developer.spacemit.com/documentation?token=VzVbwUe9DignkzkXBTzcHMconub)

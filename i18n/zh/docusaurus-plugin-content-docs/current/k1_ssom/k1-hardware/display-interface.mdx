@@ -1,0 +1,117 @@
+# K1显示接口说明
+
+K1主板支持HDMI和MIPI DSI2接口定义的LCD显示屏作为图形输出接口。
+
+<span style={{
+display: 'flex',
+justifyContent: 'center',
+margin: '10px 0'
+}}>
+![图1 处理器显示子系统框图](/img/k1/hardware/display-interface/display_framework.png)
+</span>
+<div style={{textAlign: 'center'}}>图1 处理器显示子系统框图</div>
+
+
+## 1.HDMI
+
+高清多媒体接口（High Definition Multimedia Interface，HDMI [1]）是一种全数字化视频和声音发送接口，可以发送未压缩的音频及视频信号。HDMI可用于机顶盒、DVD播放机、个人计算机、电视、游戏主机、综合扩大机、数字音响与电视机等设备。HDMI可以同时发送音频和视频信号，由于音频和视频信号采用同一条线材，大大简化系统线路的安装难度。
+
+<span style={{
+display: 'flex',
+justifyContent: 'center',
+margin: '10px 0'
+}}>
+![图1 K1板载MIPI DSI接口](/img/k1/hardware/display-interface/k1_hdmi.png)
+</span>
+
+K1支持HDMI1.4a版本，最大分辨率支持1920*1080@60fps。主要特性如下：
+
+- Compliant with HDMI Specification v1.4
+- Physical lane speed: up to 2.4Gbps/lane × 3lane
+- Support resolution: up to 1920*1440@60Hz
+- Support RGB, YcbCr4: 2: 2/4: 4: 4 input video
+- Support RGB, YcbCr4: 2: 2/4: 4: 4 output video
+- Support 8bpc/10bpc/12bpc input and output color depth
+- Support EIA/CEA-861-F video timing and InfoFrame structure
+- Support L-PCM(IEC 60958), 32KHz ~ 192KHz dual channel audio data
+- Support Consumer Electronic Control (CEC)
+- Internal I2C Master, support 100Kbps ~ 400Kbps
+
+<span style={{
+display: 'flex',
+justifyContent: 'center',
+margin: '10px 0'
+}}>
+![图2 HDMI 发送框图](/img/k1/hardware/display-interface/hdmi_send_framework.png)
+</span>
+<div style={{textAlign: 'center'}}>图2 HDMI 发送框图</div>
+
+你可以直接使用标准的HDMI线将K1和显示器连接（如果显示的接口不是HDMI的，你可以购买HDMI转换器，比如HDMI转DP等）
+
+<span style={{
+display: 'flex',
+justifyContent: 'center',
+margin: '10px 0'
+}}>
+![图2 HDMI 发送框图](/img/k1/hardware/display-interface/hdmi_demo.png)
+</span>
+
+你可以从以下链接找到更多关于HDMI的详细信息：
+
+[HDMI Wikipedia](https://en.wikipedia.org/wiki/HDMI)
+
+[HDMI Official](https://www.hdmi.org/)
+
+## 2.MIPI DSI
+
+MIPI联盟，即移动产业处理器接口（Mobile Industry Processor Interface 简称MIPI）联盟。MIPI（移动产业处理器接口）是MIPI联盟发起的为移动应用处理器制定的开放标准和一个规范。是2003年由ARM，TI，ST，Nokia等公司成立的联盟。MIPI协议被广泛应用于各种嵌入式图像设备中，如智能手机，VR，智能可穿戴设备等。DSI则是处理器与显示模块之间的高速接口。
+
+关于MIPI DSI的详细规范可以参考：
+
+[MIPI DSI Specifications](https://www.mipi.org/specifications/dsi)
+
+
+<span style={{
+display: 'flex',
+justifyContent: 'center',
+margin: '10px 0'
+}}>
+![图3 K1板载MIPI DSI接口](/img/k1/hardware/display-interface/mip_ldc.png)
+</span>
+<div style={{textAlign: 'center'}}>图3 K1板载MIPI DSI接口</div>
+
+
+K1主板集成了一个支持MIPI DSI的显示接口用来支持屏幕的显示。其特性如下：
+
+- Support MIPI Display Serial Interface (DSI) standard
+- Support MIPI DPHY up to 4 data lanes, up to 1200Mbps
+- Support 1 active panel in 1 DPHY link
+- Support Display Command Set (DCS) standard
+- Support all pixel formats defined in DSI and DCS
+- Support video burst mode with DPHY up to 1.2Ghz per lane
+- Support virtual channel in MIPI Link
+- Support up to 1080p resolution
+- Support command, video, and burst modes
+- Support HS-TX, LP-TX, LP-RX, and LP-CD
+
+## 3.DSI的引脚定义
+
+DSI的引脚定义如下：
+
+<span style={{
+display: 'flex',
+justifyContent: 'center',
+margin: '10px 0'
+}}>
+![图4 K1 MIPI显示接口定义](/img/k1/hardware/display-interface/display_gpio.png)
+</span>
+
+从上图中可以看出，这个显示接口中同时增加了I2C和控制引脚的功能，这个主要是用于触摸屏控制。这个在软件部分会描述如何使用这个接口来为系统增加触摸屏的功能。
+
+K1默认支持BIT-BRICK开发的10.1寸显示屏，如果需要支持其他的显示屏，可以按照接口定义将对应的信号对应上，然后根据规格书修改屏的配置文件即可。
+
+## 备注
+
+用户如果想要了解更多的关于芯片端的显示相关的资料，可以参考下面链接：
+
+[Chip Display Documentation](https://developer.spacemit.com/documentation?token=BWbGwbx7liGW21kq9lucSA6Vnpb)

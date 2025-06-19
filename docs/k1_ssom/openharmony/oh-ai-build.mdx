@@ -1,0 +1,419 @@
+# K1 OH5.0 AI Build and Development Instructions
+
+# Revision History
+
+<table>
+<tbody>
+<tr>
+<td>Revision Version</td>
+<td>Revision Date</td>
+<td>Revision Description</td>
+</tr>
+<tr>
+<td>001</td>
+<td>2025-03-28</td>
+<td>Initial version</td>
+</tr>
+<tr>
+<td>002</td>
+<td>2025-04-12</td>
+<td>Format optimization</td>
+</tr>
+</tbody>
+</table>
+
+---
+
+# 1. Prerequisites
+
+Refer to the compilation documentation to complete system compilation and flashing: [K1 OH5.0 Download, Compile, and Flash Instructions](oh_build)
+
+## 1.1. ollama+deepseek Resource Preparation
+
+Download link: [Click to Download](https://archive.spacemit.com/tools/openharmony/ai/)
+
+```
+deepseek-r1-distill-qwen-1.5b-q4_0.gguf
+Modelfile
+Ollama
+```
+
+### deepSeek-r1-distill-qwen-1.5b-q4\_0.gguf
+
+A compressed and optimized model file. It uses the GGUF format, which is designed for efficient inference and compression. This format can run efficiently in resource-constrained environments, such as embedded or mobile devices.
+
+### modefile
+
+Defines how to configure and use the `deepseek-r1-distill-qwen-1.5b-q4_0.gguf` model file.
+
+### ollama
+
+Runs and manages various machine learning models. It supports multiple model versions and formats, including the DeepSeek series. With Ollama, you can easily deploy, run, and manage the DeepSeek-R1-Distill-Qwen-1.5B-Q4\_0.gguf model.
+
+## 1.2. Environment and Tool Preparation
+
+1. One set of MUSE Paper and power supply
+2. Type-C cable (for flashing and hdc connection)
+3. Windows-side hdc (for transferring files between PC and board)
+4. IDE (DevEco 4.0)
+5. K1 OH5.0 build environment
+
+# 2. Install ollama+deepseek-r1-1.5b
+
+To help developers quickly experience, a one-click installation package is provided.
+
+## 2.1. Connect Windows and Muse Paper with a Type-C Cable
+
+Ensure `hdc shell` can connect to MUSE Paper
+
+```
+D:\>hdc list targets
+0123456789ABCDEF
+```
+
+## 2.2. Download the installation package to your Windows PC and extract it to any location
+
+Download link: [Click to Download](https://archive.spacemit.com/tools/openharmony/ai/) (already downloaded above, can be ignored). The package includes the installer, programs needed for secondary development, and development manuals.
+
+### 2.2.1. One-click Automatic Installation of deepseek
+
+Double-click the installation script circled in red in the figure: `setup_ohos_ollama_env_v1.0.bat` to install all LLM dependencies and applications for OH:
+
+![](https://developer.spacemit.com/resource/file/images?fileName=AQ1DbbQjYogPk7xbnzWcbJrlnDd.png)
+
+### 2.2.2. Run and Debug
+
+After installation, the application can perform LLM Q&A.
+
+- Run ollama, if the following is displayed, ollama is working properly:
+
+![](https://developer.spacemit.com/resource/file/images?fileName=MWxZb7N6hoxGYWxrZW1c23rPnUc.png)
+
+- If the list is empty, it means the model is not installed and needs to be loaded
+
+![](https://developer.spacemit.com/resource/file/images?fileName=RpNqbIKVRo92PMxbuGXcvyFvned.png)
+
+- Load the large model
+
+![](https://developer.spacemit.com/resource/file/images?fileName=E4XzbkXgMoy62pxWDAvcJnSUnIg.png)
+
+- Check the model list again
+
+![](https://developer.spacemit.com/resource/file/images?fileName=A4rAbKEoAoojqLxdKhfcDD6KnSh.png)
+
+- Run the large model for conversation in the command line
+
+![](https://developer.spacemit.com/resource/file/images?fileName=X0f3bNxbLoyy72xIQRicx5g8nEc.png)
+
+- Open the OH HAP application
+
+![](https://developer.spacemit.com/resource/file/images?fileName=Y7vhbD6EWoxFe2xeqIScNNXynrc.jpg)
+
+- Test the HAP user interface
+
+![](https://developer.spacemit.com/resource/file/images?fileName=UqXAbZb5Bo1YkSxxRkUcQFK9nth.jpg)
+
+# 3. Secondary Development
+
+## 3.1. Development Environment Preparation
+
+- OH system development: VSCode + ubuntu Linux server
+- HAP development: DevEco 4.0 【deveco-studio-4.1.0.400.exe】
+- Required development files: [Click to Download](https://archive.spacemit.com/tools/openharmony/ai/) (already downloaded above, can be ignored)
+
+  - chatgpt: oh chatgpt lib code + testNAPI code
+  - deepseek: demo HAP code
+
+![](https://developer.spacemit.com/resource/file/images?fileName=EFXobVplCozFpbx6jNGcFcDKnZg.png)
+
+## 3.2. OH System Build
+
+Place the `chatgpt` folder into the `oh5.0\foundation\communication\chatgpt` directory, configure the module build settings, and you can compile the corresponding library. This library provides the interface for the upper HAP to access ollama.
+
+### 3.2.1. Edit Development Code
+
+Modify the code as needed.
+
+![](https://developer.spacemit.com/resource/file/images?fileName=DFCpbttQxoUUZAx36Gqc6473nZg.png)
+
+### 3.2.2. Compile the Image
+
+Command:
+
+```
+./build.sh --product-name musepaper2 --ccache --prebuilt-sdk
+```
+
+The two libraries related to this project are:
+
+- libchatgpt\_napi.z.so
+- libchatgpt\_core.z.so
+
+The newly compiled image contains these two so files, which can be flashed or pushed using the hdc file send command, as follows:
+
+```
+hdc file send libchatgpt_napi.z.so /lib64/module/
+hdc file send libchatgpt_core.z.so /lib64/
+```
+
+## 3.3. HAP Test Project
+
+`OH5.0\foundation\communication\chatgpt\testNapi` is mainly for secondary developers to refer to when developing their own AI large model applications. Open the project with the following version of DevEco, compile to generate the testNapi HAP needed for testing, which can be used to test and help develop your own LLM applications.
+
+![](https://developer.spacemit.com/resource/file/images?fileName=LRc7bdRm8oosKpxAzXSccCtYnjf.png)
+
+## 3.4. Development and Debugging
+
+### 3.4.1. View Logs
+
+1. hdc shell higlog | grep Chatgpt
+2. hdc shell hilog | grep Index
+3. Set ollama debug:
+
+   1. export OLLAMA\_DEBUG=1    //enable log output
+   2. export OLLAMA\_HOST='0.0.0.0'  //allow external access to OLLAMA
+
+   ```
+   02-28 12:35:58.260  4086  4086 I C01650/ChatGPT: ChatGPT instance created
+   02-28 12:35:58.260  4086  4086 I C01650/ChatGPT: Generating streaming response for input: who are you
+   02-28 12:35:58.261  4086  7595 I C01650/ChatGPT: Request payload: {"model":"deepseek-r1-1.5b","prompt":"who are you","stream":true}
+   02-28 12:35:58.262  4086  7595 I C01650/ChatGPT: Making request to Ollama API at [http://localhost:11434/api/generate](http://localhost:11434/api/generate)
+   02-28 12:35:58.266  4086  7595 I C01650/ChatGPT: CURL request completed after 1 attempts
+   02-28 12:35:58.267  4086  7595 I C01650/ChatGPT: Request completed successfully
+   ```
+
+## 3.5. Demo HAP Project
+
+Similarly, use DevEco Studio 4.1 Release to open the corresponding code project and compile the demo HAP.
+
+![](https://developer.spacemit.com/resource/file/images?fileName=R6O9bfkiMoGUBcxtenyc2N2hnLe.png)
+
+# 4. oh+ollama+deepseek Design Description
+
+## 4.1. Architecture
+
+1. Frontend Layer (ArkTS)
+
+   - UI and business logic
+2. Service Layer (ArkTS)
+
+   - Cross-NAPI callback implementation (ArkTS ↔ OS Native)
+   - Callback registration and management
+   - Business logic, API interaction, and data processing
+3. NAPI Layer
+
+   - Interface between JavaScript/TypeScript and C++
+   - Parameter parsing and passing
+   - Callback registration
+4. C++ Implementation Layer
+
+   - Core functionality and native API interaction
+   - napi\_async\_work implementation (to prevent main thread blocking and app main thread block crash)
+   - Cross-napi callback implementation (arkts \<---\> os native)
+   - ollama integration
+   - deepSeek integration
+
+## 4.2. llm(chatgpt) Subsystem Component Design & Implementation
+
+- ChatGPTService uses singleton
+- C++ ChatGPT class uses singleton
+- Asynchronous processing
+
+  - NAPI layer uses `napi_async_work`
+  - C++ layer uses `std::thread`
+  - Smart pointers prevent memory leaks, increase robustness, replace `new`
+  - UI layer uses real-time callbacks
+  - Stream processing
+  - Detailed log tracking
+
+### 4.2.1. Call Flow
+
+1. User enters text in UI → triggers `onClick` event
+2. `ChatGPTService` calls the NAPI module's `generateResponse`
+3. NAPI layer converts parameters, creates async work
+4. C++ layer executes HTTP request, returns result via callback
+5. Result is returned to frontend via callback chain, frontend renders in real time
+
+![](https://developer.spacemit.com/resource/file/images?fileName=Ml1Ib63Tpo06SmxiU1hcaxTFn9b.png)
+
+### 4.2.2. chatgpt\_napi.cpp Design
+
+Data structure:
+
+```
+struct AsyncCallbackData {
+    napi_env env;                    // NAPI environment
+    napi_ref streamCallbackRef;      // Stream callback reference
+    napi_ref completionCallbackRef;  // Completion callback reference
+    std::string chunk;               // Data chunk
+    std::string result;              // Result
+    napi_value resourceName;         // Resource name
+};
+```
+
+Callback handling
+
+- `StreamCallbackComplete`: Handles stream data callback, processes when a data chunk appears
+
+  - Get callback function reference
+  - Create parameter array
+  - Call JavaScript callback function
+  - Clean up resources
+- `CompletionCallbackComplete`: Handles completion callback, processes when completed
+
+  - Similar to stream callback process
+  - Additionally cleans up all callback references
+
+Main interface function
+
+```
+napi_value GenerateResponse(napi_env env, napi_callback_info info) {
+    // Get parameters
+    // Create callback reference
+    // Set async work
+    // Call native method
+}
+```
+
+Module initialization
+
+```
+napi_value Init(napi_env env, napi_value exports) {
+    // Register module methods
+    napi_property_descriptor desc[] = {
+        { "generateResponse", nullptr, GenerateResponse, nullptr, nullptr, nullptr, 
+            napi_default, nullptr }
+    };
+    napi_define_properties(env, exports, 1, desc);
+    return exports;
+}
+
+NAPI_MODULE(chatgpt_napi, Init)
+```
+
+Code flow:
+
+- Module initialization
+
+```bash
+NAPI_MODULE(chatgpt_napi, Init)  // Register module
+↓
+Init(napi_env env, napi_value exports)  // Initialization function
+↓
+napi_define_properties  // Register generateResponse method
+
+ChatGPT initialization:
+ChatGPT::ChatGPT()
+↓
+std::call_once(initFlag, [this]() {
+    InitializeCurl()  // CURL global initialization
+})
+```
+
+UI layer trigger:
+
+```bash
+// Click event in Index.ets
+this.chatGPTService.generateResponseStream(
+    this.userInput,
+    (chunk: string) => { this.response += chunk },
+    (result: string) => { this.isLoading = false }
+)
+```
+
+- Service layer processing:
+
+```bash
+// ChatGPTService.ets
+public generateResponseStream(input: string, streamCallback, completionCallback): void {
+    this.nativeChatGPT.generateResponse(input, streamCallback, completionCallback)
+}
+```
+
+- NAPI layer conversion:
+
+```bash
+// chatgpt_napi.cpp
+napi_value GenerateResponse(napi_env env, napi_callback_info info) {
+    // Parameter conversion
+    // Create async work
+    OHOS::Communication::ChatGPT::GetInstance().GenerateResponseStream(
+        input, streamCallback, completionCallback);
+}
+```
+
+- C++ core implementation:
+
+```bash
+// chatgpt.cpp
+void ChatGPT::GenerateResponseStream(
+    const std::string& input,
+    StreamCallback streamCallback,
+    CompletionCallback completionCallback) {
+    // Execute HTTP request
+    // Handle stream response
+}
+```
+
+# 5. FAQ
+
+## 5.1. To ensure inference CPU resources are not monopolized, bind the CPU-consuming processes
+
+```
+taskset -p 240 $(pidof render_service) 
+taskset -p 240 $(pidof com.example.deepseek) 
+taskset -p 240 $(pidof com.example.testnapi) 
+
+Parameter description:
+240 (hex 0xf0, binary 11110000) means CPU 4-7
+Command description:
+taskset -p 240 $(pidof render_service)
+pidof render_service: Find the thread ID (PID) of the corresponding thread
+taskset -p 240 [PID] binds the process to run on CPU 240 (binary: 11110000)
+
+For productization, you can call the sched_setaffinity() function to set CPU binding
+int sched_setaffinity(pid_t pid, size_t cpusetsize, const cpu_set_t *mask);
+```
+
+## 5.2. How to export ollama logs
+
+![](https://developer.spacemit.com/resource/file/images?fileName=YFhPbKC20obOPoxtp7Qcg4RMn5c.png)
+
+## 5.3. MUSE Paper frequently turns off the screen
+
+Set the screen to stay on
+
+```
+power-shell setmode 602
+```
+
+## 5.4. ollama cannot run
+
+May be missing `ld-linux-riscv64-lp64d.so.1`
+
+```
+/lib/ld-linux-riscv64-lp64d.so.1
+
+Copy this file to the corresponding directory in ohos and grant execute permission _chmod +x /lib/ld-linux-riscv64-lp64d.so.1_
+```
+
+## 5.5. Not enough space
+
+![](https://developer.spacemit.com/resource/file/images?fileName=N2iIbnsliooSsQxtKaZcprMcnWf.png)
+
+Solution: Link the /.ollama directory to /data/deepseek/.ollama
+
+```
+ln -s /data/deepseek/.ollama /.ollama
+```
+
+## 5.6. How to input and display Chinese in Windows command line for debugging
+
+```
+Set CMD to support Chinese <in windows console>
+  To enable Chinese input and display in CMD Console:
+  chcp 65001:
+  
+chcp stands for "Change Code Page", used to change the current console code page. 65001 means UTF-8 encoding.
+After executing this command, the CMD window will switch to UTF-8 encoding, and Chinese can be displayed and input normally.
+```
