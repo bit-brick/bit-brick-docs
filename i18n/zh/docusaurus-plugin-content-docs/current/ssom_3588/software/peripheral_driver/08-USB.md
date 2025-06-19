@@ -1371,7 +1371,7 @@ vcc5v0_otg: vcc5v0-otg {
 
 #### 5.9.1.3 USBDP Combo PHY
 
-1. "rockchip,dp-lane-mux"，非全功能 Type-C 方案中，配置 DP 映射的 Lane number。DP 支持 2 条或 4 条 lane，如 "rockchip,dp-lane-mux = <2, 3>;" 表示 DP Lane0 mapping 至 USBDP PHY 的 Lane2，DP Lane1 mapping 至 USBDP PHY 的 Lane3；同理，"rockchip,dp-lane-mux = <0, 1, 2, 3>;" 表示 DP Lane0 mapping 至 USBDP PHY 的 Lane0 等等，依次类推。
+1. `"rockchip,dp-lane-mux"`，非全功能 Type-C 方案中，配置 DP 映射的 Lane number。DP 支持 2 条或 4 条 lane，如 `"rockchip,dp-lane-mux = <2, 3>;"` 表示 DP Lane0 mapping 至 USBDP PHY 的 Lane2，DP Lane1 mapping 至 USBDP PHY 的 Lane3；同理，`"rockchip,dp-lane-mux = <0, 1, 2, 3>;"` 表示 DP Lane0 mapping 至 USBDP PHY 的 Lane0 等等，依次类推。
 
 ## 6. RK3588 USB OTG mode 切换命令
 

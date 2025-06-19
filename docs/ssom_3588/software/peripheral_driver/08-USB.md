@@ -1349,7 +1349,7 @@ vcc5v0_otg: vcc5v0-otg {
 
 #### 5.9.1.3 USBDP Combo PHY
 
-1. "rockchip,dp-lane-mux", in non-full-featured Type-C schemes, configures the Lane number mapped by DP. DP supports 2 or 4 lanes, for example, "rockchip,dp-lane-mux = <2, 3>;" means DP Lane0 maps to USBDP PHY Lane2, DP Lane1 maps to USBDP PHY Lane3; similarly, "rockchip,dp-lane-mux = <0, 1, 2, 3>;" means DP Lane0 maps to USBDP PHY Lane0, and so on.
+1. "rockchip,dp-lane-mux", in non-full-featured Type-C schemes, configures the Lane number mapped by DP. DP supports 2 or 4 lanes, for example, `"rockchip,dp-lane-mux = <2, 3>;"` means DP Lane0 maps to USBDP PHY Lane2, DP Lane1 maps to USBDP PHY Lane3; similarly, `"rockchip,dp-lane-mux = <0, 1, 2, 3>;"` means DP Lane0 maps to USBDP PHY Lane0, and so on.
 
 ## 6. RK3588 USB OTG mode switching commands
 
