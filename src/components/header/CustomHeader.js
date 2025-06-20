@@ -1,11 +1,13 @@
 // src/components/CustomHeader.js
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Translate, {translate} from '@docusaurus/Translate';
 
 
 const CustomHeader = () => {
 
   const [selectedLang, setSelectedLang] = useState('/');
+  const [communityDropdownOpen, setCommunityDropdownOpen] = useState(false);
+  const communityRef = useRef(null);
 
   useEffect(() => {
     // 检查当前的路径是否包含 '/zh'
@@ -16,6 +18,22 @@ const CustomHeader = () => {
       setSelectedLang('/');
     }
   }, []);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (communityRef.current && !communityRef.current.contains(event.target)) {
+        setCommunityDropdownOpen(false);
+      }
+    }
+    if (communityDropdownOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [communityDropdownOpen]);
 
   const handleLanguageChange = (event) => {
     const selectedValue = event.target.value;
@@ -42,7 +60,7 @@ const CustomHeader = () => {
 
   return (
   <div className='custom-header'>
-    <header className="site-header header-main-layout-1 ast-primary-menu-enabled ast-logo-title-inline ast-hide-custom-menu-mobile ast-builder-menu-toggle-icon ast-mobile-header-inline" id="masthead" itemType="https://schema.org/WPHeader" itemScope itemID="#masthead">
+  <header className="site-header header-main-layout-1 ast-primary-menu-enabled ast-logo-title-inline ast-hide-custom-menu-mobile ast-builder-menu-toggle-icon ast-mobile-header-inline" id="masthead" itemType="https://schema.org/WPHeader" itemScope itemID="#masthead">
     <div id="ast-desktop-header" data-toggle-type="dropdown">
       <div className="ast-main-header-wrap main-header-bar-wrap">
         <div className="ast-primary-header-bar ast-primary-header main-header-bar site-header-focus-item" data-section="section-primary-header-builder">
@@ -74,7 +92,61 @@ const CustomHeader = () => {
                             {/* <li id="menu-item-231" className="menu-item menu-item-type-custom menu-item-object-custom menu-item-231"><a href="https://github.com/bit-brick" className="menu-link">Github</a></li> */}
                             <li id="menu-item-547" className="menu-item menu-item-type-post_type menu-item-object-page menu-item-547"><a href={selectedLang == '/zh' ? "https://www.bit-brick.com/zh/博客/":"https://www.bit-brick.com/blog/"} aria-current="page" className="menu-link"><Translate id='menu.news'>News</Translate></a></li>
                             <li id="menu-item-525" className="menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-533 current_page_item  menu-item-525"><a href={selectedLang == '/zh' ? "/zh":"/"} className="menu-link"><Translate id='menu.document'>Documentation</Translate></a></li>
-                            <li id="menu-item-249" className="menu-item menu-item-type-custom menu-item-object-custom menu-item-249"><a href="https://discourse.bit-brick.com/" className="menu-link"><Translate id='menu.community'>Community</Translate></a></li>
+                            <li id="menu-item-249" className="menu-item menu-item-type-custom menu-item-object-custom menu-item-249" ref={communityRef} style={{position: 'relative'}}>
+                              <button
+                                className="menu-link"
+                                style={{
+                                  border: 'none',
+                                  cursor: 'pointer',
+                                  padding: 0,
+                                  background: 'none',
+                                  borderRadius: 0,
+                                  boxShadow: 'none',
+                                  outline: 'none',
+                                }}
+                                onClick={() => setCommunityDropdownOpen((open) => !open)}
+                                onMouseDown={e => e.preventDefault()} // 防止点击时出现 outline
+                              >
+                                <Translate id='menu.community'>Community</Translate>
+                              </button>
+                              {communityDropdownOpen && (
+                                <ul
+                                  style={{
+                                    position: 'absolute',
+                                    top: '100%',
+                                    left: 0,
+                                    background: '#fff',
+                                    boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                                    listStyle: 'none',
+                                    margin: 0,
+                                    padding: '8px 0',
+                                    minWidth: '160px',
+                                    zIndex: 1000,
+                                  }}
+                                >
+                                  <li>
+                                    <a
+                                      href="https://discourse.bit-brick.com/"
+                                      className="menu-link"
+                                      style={{ display: 'block', padding: '8px 16px', color: '#222', textDecoration: 'none' }}
+                                      target="_blank" rel="noopener noreferrer"
+                                    >
+                                      Forum
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a
+                                      href="https://redmine.bit-brick.com/"
+                                      className="menu-link"
+                                      style={{ display: 'block', padding: '8px 16px', color: '#222', textDecoration: 'none' }}
+                                      target="_blank" rel="noopener noreferrer"
+                                    >
+                                      Redmine
+                                    </a>
+                                  </li>
+                                </ul>
+                              )}
+                            </li>
                             <li id="menu-item-98" className="menu-item menu-item-type-post_type menu-item-object-page menu-item-98"><a href={selectedLang == '/zh' ? "https://www.bit-brick.com/zh/关于我们/":"https://www.bit-brick.com/about-us/"} className="menu-link"><Translate id='menu.about'>About us</Translate></a></li>
                           </ul>
                         </div>

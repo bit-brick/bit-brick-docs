@@ -83,148 +83,184 @@
   "banner.desc": {
     "message": "BIT-BRICK的官方文档"
   },
-  "pione.block1.title": {
-    "message": "快速开始"
+  "sbc_k1.desc": {
+    "message": "基于8核RISC-V应用处理器的高性能单板电脑"
   },
-  "pione.block1.desc": {
-    "message": "让你快速入门使用K1"
+  "sbc_k1_pro.desc": {
+    "message": "基于RK3576应用处理器的高性能单板电脑"
   },
-  "pione.block1.url": {
-    "message": "zh/docs/k1/getting-started/preparation"
+  "sbc_imx8mp.desc": {
+    "message": "基于i.MX 8M Plus应用处理器的高性能单板电脑"
   },
-  "pione.block2.title": {
-    "message": "Bianbu OS"
+  "sbc_cluster_k1.desc": {
+    "message": "适配SSOM-K1/SSOM-3576核心模块的高性能计算集群"
   },
-  "pione.block2.desc": {
-    "message": "K1 定制的专属系统"
+  "ssom_k1.desc": {
+    "message": "基于8核RISC-V应用处理器的高性能核心模块"
   },
-  "pione.block2.url": {
-    "message": "zh/docs/k1/k1-os/desktop/os-intro"
+  "ssom_3576.desc": {
+    "message": "基于RK3576应用处理器的高性能核心模块"
   },
-  "pione.block3.title": {
-    "message": "Linux Kernel"
+  "ssom_3588.desc": {
+    "message": "基于RK3588应用处理器的高性能核心模块"
   },
-  "pione.block3.desc": {
-    "message": "快速配置与编译linux kernel"
+  "ssom_3588_v2.desc": {
+    "message": "基于RK3588应用处理器的小尺寸高性能核心模块"
   },
-  "pione.block3.url": {
-    "message": "zh/docs/k1/k1-bianbu-linux/bianbu-linux/build-bit-os-zh"
+  "ssom_3588s.desc": {
+    "message": "基于RK3588S应用处理器的小尺寸高性能核心模块"
   },
-  "pione.block4.title": {
-    "message": "硬件"
+   "ssom_imx9352.desc": {
+    "message": "基于i.MX9352应用处理器的小尺寸高性能核心模块"
   },
-  "pione.block4.desc": {
-    "message": "带你一起了解K1的硬件部分"
+   "ssom_imx8mp.desc": {
+    "message": "基于i.MX 8M Plus应用处理器的小尺寸高性能核心模块"
   },
-  "pione.block4.url": {
-    "message": "zh/docs/k1/k1-hardware/hardware-brief"
+   "ssom_imx8mm.desc": {
+    "message": "基于i.MX 8M Mini应用处理器的小尺寸高性能核心模块"
   },
-  "pione.block5.title": {
-    "message": "软件"
-  },
-  "pione.block5.desc": {
-    "message": "带你一起了解K1的软件部分"
-  },
-  "pione.block5.url": {
-    "message": "zh/docs/k1/k1-software/PINCTRL"
-  },
-  "pione.block6.title": {
-    "message": "规格书"
-  },
-  "pione.block6.desc": {
-    "message": "PDF格式的标准文档"
-  },
-  "pione.block6.url": {
-    "message": "zh/docs/k1/datasheets"
-  },
-  "pione.block7.title": {
-    "message": "摄像头软件"
-  },
-  "pione.block7.desc": {
-    "message": "K1摄像头的相关软件与库文件"
-  },
-  "pione.block7.url": {
-    "message": "zh/docs/k1/k1-hardware/camera-interface"
-  },
-  "pione.block8.title": {
-    "message": "机器学习"
-  },
-  "pione.block8.desc": {
-    "message": "使用硬件来加速你的机器学习软件"
-  },
-  "pione.block8.url": {
-    "message": "zh/docs/k1/k1-ml/ai-arch-zh"
-  },
-  "pione.block9.title": {
-    "message": "ROS2"
-  },
-  "pione.block9.desc": {
-    "message": "教你如何在K1上使用ROS2"
-  },
-  "pione.block9.url": {
-    "message": "zh/docs/k1/news/ros2-zh"
-  },
-  "k1pro.block1.title": {
-    "message": "快速开始"
-  },
-  "k1pro.block1.desc": {
-    "message": "让你快速入门使用K1-Pro"
-  },
-  "k1pro.block2.title": {
-    "message": "操作系统"
-  },
-  "k1pro.block2.desc": {
-    "message": "K1-Pro 定制的专属系统"
-  },
-  "k1pro.block3.title": {
-    "message": "Linux Kernel"
-  },
-  "k1pro.block3.desc": {
-    "message": "快速配置与编译linux kernel"
-  },
-  "k1pro.block4.title": {
-    "message": "硬件"
-  },
-  "k1pro.block4.desc": {
-    "message": "带你一起了解K1-Pro的硬件部分"
-  },
-  "k1pro.block5.title": {
-    "message": "软件"
-  },
-  "k1pro.block5.desc": {
-    "message": "带你一起了解K1-Pro的软件部分"
-  },
+  // "pione.block1.title": {
+  //   "message": "快速开始"
+  // },
+  // "pione.block1.desc": {
+  //   "message": "让你快速入门使用K1"
+  // },
+  // "pione.block1.url": {
+  //   "message": "zh/docs/k1/getting-started/preparation"
+  // },
+  // "pione.block2.title": {
+  //   "message": "Bianbu OS"
+  // },
+  // "pione.block2.desc": {
+  //   "message": "K1 定制的专属系统"
+  // },
+  // "pione.block2.url": {
+  //   "message": "zh/docs/k1/k1-os/desktop/os-intro"
+  // },
+  // "pione.block3.title": {
+  //   "message": "Linux Kernel"
+  // },
+  // "pione.block3.desc": {
+  //   "message": "快速配置与编译linux kernel"
+  // },
+  // "pione.block3.url": {
+  //   "message": "zh/docs/k1/k1-bianbu-linux/bianbu-linux/build-bit-os-zh"
+  // },
+  // "pione.block4.title": {
+  //   "message": "硬件"
+  // },
+  // "pione.block4.desc": {
+  //   "message": "带你一起了解K1的硬件部分"
+  // },
+  // "pione.block4.url": {
+  //   "message": "zh/docs/k1/k1-hardware/hardware-brief"
+  // },
+  // "pione.block5.title": {
+  //   "message": "软件"
+  // },
+  // "pione.block5.desc": {
+  //   "message": "带你一起了解K1的软件部分"
+  // },
+  // "pione.block5.url": {
+  //   "message": "zh/docs/k1/k1-software/PINCTRL"
+  // },
+  // "pione.block6.title": {
+  //   "message": "规格书"
+  // },
+  // "pione.block6.desc": {
+  //   "message": "PDF格式的标准文档"
+  // },
+  // "pione.block6.url": {
+  //   "message": "zh/docs/k1/datasheets"
+  // },
+  // "pione.block7.title": {
+  //   "message": "摄像头软件"
+  // },
+  // "pione.block7.desc": {
+  //   "message": "K1摄像头的相关软件与库文件"
+  // },
+  // "pione.block7.url": {
+  //   "message": "zh/docs/k1/k1-hardware/camera-interface"
+  // },
+  // "pione.block8.title": {
+  //   "message": "机器学习"
+  // },
+  // "pione.block8.desc": {
+  //   "message": "使用硬件来加速你的机器学习软件"
+  // },
+  // "pione.block8.url": {
+  //   "message": "zh/docs/k1/k1-ml/ai-arch-zh"
+  // },
+  // "pione.block9.title": {
+  //   "message": "ROS2"
+  // },
+  // "pione.block9.desc": {
+  //   "message": "教你如何在K1上使用ROS2"
+  // },
+  // "pione.block9.url": {
+  //   "message": "zh/docs/k1/news/ros2-zh"
+  // },
+  // "k1pro.block1.title": {
+  //   "message": "快速开始"
+  // },
+  // "k1pro.block1.desc": {
+  //   "message": "让你快速入门使用K1-Pro"
+  // },
+  // "k1pro.block2.title": {
+  //   "message": "操作系统"
+  // },
+  // "k1pro.block2.desc": {
+  //   "message": "K1-Pro 定制的专属系统"
+  // },
+  // "k1pro.block3.title": {
+  //   "message": "Linux Kernel"
+  // },
+  // "k1pro.block3.desc": {
+  //   "message": "快速配置与编译linux kernel"
+  // },
+  // "k1pro.block4.title": {
+  //   "message": "硬件"
+  // },
+  // "k1pro.block4.desc": {
+  //   "message": "带你一起了解K1-Pro的硬件部分"
+  // },
+  // "k1pro.block5.title": {
+  //   "message": "软件"
+  // },
+  // "k1pro.block5.desc": {
+  //   "message": "带你一起了解K1-Pro的软件部分"
+  // },
 
-  "ssom_3588.block1.title": {
-    "message": "快速开始"
-  },
-  "ssom_3588.block1.desc": {
-    "message": "让你快速入门使用SSOM_3588"
-  },
-  "ssom_3588.block2.title": {
-    "message": "操作系统"
-  },
-  "ssom_3588.block2.desc": {
-    "message": "SSOM_3588 定制的专属系统"
-  },
-  "ssom_3588.block3.title": {
-    "message": "Linux Kernel"
-  },
-  "ssom_3588.block3.desc": {
-    "message": "快速配置与编译linux kernel"
-  },
-  "ssom_3588.block4.title": {
-    "message": "硬件"
-  },
-  "ssom_3588.block4.desc": {
-    "message": "带你一起了解SSOM_3588的硬件部分"
-  },
-  "ssom_3588.block5.title": {
-    "message": "软件"
-  },
-  "ssom_3588.block5.desc": {
-    "message": "带你一起了解SSOM_3588的软件部分"
-  },
+  // "ssom_3588.block1.title": {
+  //   "message": "快速开始"
+  // },
+  // "ssom_3588.block1.desc": {
+  //   "message": "让你快速入门使用SSOM_3588"
+  // },
+  // "ssom_3588.block2.title": {
+  //   "message": "操作系统"
+  // },
+  // "ssom_3588.block2.desc": {
+  //   "message": "SSOM_3588 定制的专属系统"
+  // },
+  // "ssom_3588.block3.title": {
+  //   "message": "Linux Kernel"
+  // },
+  // "ssom_3588.block3.desc": {
+  //   "message": "快速配置与编译linux kernel"
+  // },
+  // "ssom_3588.block4.title": {
+  //   "message": "硬件"
+  // },
+  // "ssom_3588.block4.desc": {
+  //   "message": "带你一起了解SSOM_3588的硬件部分"
+  // },
+  // "ssom_3588.block5.title": {
+  //   "message": "软件"
+  // },
+  // "ssom_3588.block5.desc": {
+  //   "message": "带你一起了解SSOM_3588的软件部分"
+  // },
   
   "theme.ErrorPageContent.title": {
     "message": "页面已崩溃。",

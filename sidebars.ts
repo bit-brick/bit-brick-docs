@@ -930,7 +930,7 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           collapsed: true,
-          label: 'I.MX8MP-HMI',
+          label: 'IMX8MP-HMI',
           items: [
             {
               type: 'doc',
@@ -2142,12 +2142,29 @@ const sidebars: SidebarsConfig = {
           ]
         },
         // ssom-3588s docs ends
+ // ssom-imx9352 docs
+        {
+          type: 'category',
+          collapsed: true,
+          label: 'SSOM-IMX9352',
+          items: [
+            {
+              type: 'doc',
+              id: 'ssom_imx9352/intro/intro',
+            },
+            {
+              type: 'doc',
+              id: 'ssom_imx9352/hardware/datasheet',
+            },
+          ]
+        },
 
+        // ssom-imx9352 docs ends
         // ssom-imx8mp docs
         {
           type: 'category',
           collapsed: true,
-          label: 'SSOM-I.MX8MP',
+          label: 'SSOM-IMX8MP',
           items: [
             {
               type: 'doc',
@@ -2165,7 +2182,7 @@ const sidebars: SidebarsConfig = {
         {
           type: 'category',
           collapsed: true,
-          label: 'SSOM-I.MX8MM',
+          label: 'SSOM-IMX8MM',
           items: [
             {
               type: 'doc',
@@ -2179,24 +2196,7 @@ const sidebars: SidebarsConfig = {
         },
         // ssom-imx8mm docs ends
 
-        // ssom-imx9352 docs
-        {
-          type: 'category',
-          collapsed: true,
-          label: 'SSOM-I.MX9352',
-          items: [
-            {
-              type: 'doc',
-              id: 'ssom_imx9352/intro/intro',
-            },
-            {
-              type: 'doc',
-              id: 'ssom_imx9352/hardware/datasheet',
-            },
-          ]
-        },
-
-        // ssom-imx9352 docs ends
+       
       ]
     },
 
