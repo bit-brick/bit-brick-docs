@@ -2107,23 +2107,23 @@ const sidebars: SidebarsConfig = {
           ],
         },
 
-        // ssom-3588-v2 docs
+        // ssom-3588-x2 docs
         {
           type: 'category',
           collapsed: true,
-          label: 'SSOM-3588-V2',
+          label: 'SSOM-3588-X2',
           items: [
             {
               type: 'doc',
-              id: 'ssom_3588_v2/intro/intro',
+              id: 'ssom_3588_x2/intro/intro',
             },
             {
               type: 'doc',
-              id: 'ssom_3588_v2/hardware/datasheet',
+              id: 'ssom_3588_x2/hardware/datasheet',
             },
           ]
         },
-        // ssom-3588-v2 docs ends
+        // ssom-3588-x2 docs ends
 
         // ssom-3588s docs
         {

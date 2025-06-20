@@ -61,10 +61,10 @@ const SSOM: FeatureItem[] = [
     url: "docs/ssom_3588/getting-started/preparation"
   },
   {
-    title: <Translate id='ssom_3588_v2.title'>SSOM-3588-V2</Translate>,
-    imageSrc: require('@site/static/img/index/devices/ssom_3588_v2.png').default,
-    description: (<><Translate id='ssom_3588_v2.desc'>The compact size&high-performance SoM Based on RK3588 Application Processor</Translate></>),
-    url: "docs/ssom_3588_v2/intro/intro"
+    title: <Translate id='ssom_3588_x2.title'>SSOM-3588-X2</Translate>,
+    imageSrc: require('@site/static/img/index/devices/ssom_3588_x2.png').default,
+    description: (<><Translate id='ssom_3588_x2.desc'>The compact size&high-performance SoM Based on RK3588 Application Processor</Translate></>),
+    url: "docs/ssom_3588_x2/intro/intro"
   },
   {
     title: <Translate id='ssom_3588s.title'>SSOM-3588S</Translate>,
