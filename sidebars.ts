@@ -25,534 +25,536 @@ const sidebars: SidebarsConfig = {
       label: 'SBC',
       items: [
 
-    // k1 docs
-    {
-      type: 'category',
-      collapsed: true,
-      label: 'K1 SBC',
-      items: [
+        // k1 docs
         {
           type: 'category',
           collapsed: true,
-          label: 'Getting Started',
+          label: 'K1',
           items: [
             {
-              type: 'doc',
+              type: 'category',
+              collapsed: true,
               label: 'Getting Started',
-              id: 'k1/getting-started/preparation',
-            },
-            {
-              type: 'doc',
-              label: 'Downloading and Installing the OS',
-              id: 'k1/getting-started/install',
-            },
-            {
-              type: 'doc',
-              label: 'Starting and Configuring K1',
-              id: 'k1/getting-started/configuring',
-            },
-          ],
-        },
-        {
-          type: 'category',
-          collapsed: true,
-          label: 'Bianbu OS',
-          items: [
-            {
-              type: 'category',
-              collapsed: true,
-              label: 'Desktop',
               items: [
                 {
                   type: 'doc',
-                  label: 'Introduction to Bianbu OS',
-                  id: 'k1/os/desktop/os-intro',
+                  label: 'Getting Started',
+                  id: 'k1/getting-started/preparation',
                 },
                 {
                   type: 'doc',
-                  id: 'k1/os/desktop/bianbu_desktop_2.0',
+                  label: 'Downloading and Installing the OS',
+                  id: 'k1/getting-started/install',
                 },
                 {
                   type: 'doc',
-                  id: 'k1/os/desktop/bianbu_desktop_2.1',
+                  label: 'Starting and Configuring K1',
+                  id: 'k1/getting-started/configuring',
                 },
-                {
-                  type: 'doc',
-                  label: 'Networking and Upgrading',
-                  id: 'k1/os/desktop/installation-and-upgrade',
-                },
-                {
-                  type: 'doc',
-                  label: 'Package Management',
-                  id: 'k1/os/desktop/package-management',
-                },
-              ]
+              ],
             },
             {
               type: 'category',
               collapsed: true,
-              label: 'NAS',
+              label: 'Bianbu OS',
               items: [
                 {
-                  type: 'doc',
-                  id: 'k1/os/nas/README',
-                },
-                {
-                  type: 'doc',
-                  id: 'k1/os/nas/login',
-                },
-                {
-                  type: 'doc',
-                  id: 'k1/os/nas/base_setup',
-                },
-                {
-                  type: 'doc',
-                  id: 'k1/os/nas/shared_services_setup',
+                  type: 'category',
+                  collapsed: true,
+                  label: 'Desktop',
+                  items: [
+                    {
+                      type: 'doc',
+                      label: 'Introduction to Bianbu OS',
+                      id: 'k1/os/desktop/os-intro',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'k1/os/desktop/bianbu_desktop_2.0',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'k1/os/desktop/bianbu_desktop_2.1',
+                    },
+                    {
+                      type: 'doc',
+                      label: 'Networking and Upgrading',
+                      id: 'k1/os/desktop/installation-and-upgrade',
+                    },
+                    {
+                      type: 'doc',
+                      label: 'Package Management',
+                      id: 'k1/os/desktop/package-management',
+                    },
+                  ]
                 },
                 {
                   type: 'category',
                   collapsed: true,
-                  label: 'Docker Service',
+                  label: 'NAS',
                   items: [
                     {
                       type: 'doc',
-                      id: 'k1/os/nas/docker_setup/applications',
+                      id: 'k1/os/nas/README',
                     },
                     {
                       type: 'doc',
-                      id: 'k1/os/nas/docker_setup/docker-compose',
+                      id: 'k1/os/nas/login',
                     },
                     {
                       type: 'doc',
-                      id: 'k1/os/nas/docker_setup/nextcloud',
+                      id: 'k1/os/nas/base_setup',
                     },
                     {
                       type: 'doc',
-                      id: 'k1/os/nas/docker_setup/kodbox',
+                      id: 'k1/os/nas/shared_services_setup',
                     },
                     {
-                      type: 'doc',
-                      id: 'k1/os/nas/docker_setup/frigate',
+                      type: 'category',
+                      collapsed: true,
+                      label: 'Docker Service',
+                      items: [
+                        {
+                          type: 'doc',
+                          id: 'k1/os/nas/docker_setup/applications',
+                        },
+                        {
+                          type: 'doc',
+                          id: 'k1/os/nas/docker_setup/docker-compose',
+                        },
+                        {
+                          type: 'doc',
+                          id: 'k1/os/nas/docker_setup/nextcloud',
+                        },
+                        {
+                          type: 'doc',
+                          id: 'k1/os/nas/docker_setup/kodbox',
+                        },
+                        {
+                          type: 'doc',
+                          id: 'k1/os/nas/docker_setup/frigate',
+                        },
+                        {
+                          type: 'doc',
+                          id: 'k1/os/nas/docker_setup/immich',
+                        },
+                      ]
                     },
-                    {
-                      type: 'doc',
-                      id: 'k1/os/nas/docker_setup/immich',
-                    },
-                  ]},
-              ]
+                  ]
+                },
+                {
+                  type: 'category',
+                  collapsed: true,
+                  label: 'Development Guide',
+                  items: [{
+                    type: 'doc',
+                    label: 'ROS2 Installation',
+                    id: 'k1/news/ros2',
+                  },
+                  {
+                    type: 'doc',
+                    label: 'Docker ',
+                    id: 'k1/os/software/docker',
+                  },
+                  {
+                    type: 'doc',
+                    label: 'JavaScript Use Guide',
+                    id: 'k1/os/software/electron',
+                  },
+                  {
+                    type: 'doc',
+                    label: 'Python Use Guide',
+                    id: 'k1/os/software/python',
+                  },
+                  {
+                    type: 'doc',
+                    label: 'QT Use Guide',
+                    id: 'k1/os/software/qt',
+                  },
+                  {
+                    type: 'doc',
+                    label: 'Remote Development',
+                    id: 'k1/os/software/remote_development',
+                  },
+                  {
+                    type: 'doc',
+                    label: 'Perf Usage Note',
+                    id: 'k1/os/software/perf',
+                  },]
+                },
+                {
+                  type: 'category',
+                  collapsed: true,
+                  label: 'System Integration',
+                  items: [{
+                    type: 'doc',
+                    label: 'Bianbu 2.0 ROOTFS Creation Guide',
+                    id: 'k1/os/rootfs/bianbu_2.0_rootfs_create',
+                  },
+                  ]
+                },
+              ],
             },
             {
               type: 'category',
               collapsed: true,
-              label: 'Development Guide',
-              items: [{
-                type: 'doc',
-                label: 'ROS2 Installation',
-                id: 'k1/news/ros2',
-              },
-              {
-                type: 'doc',
-                label: 'Docker ',
-                id: 'k1/os/software/docker',
-              },
-              {
-                type: 'doc',
-                label: 'JavaScript Use Guide',
-                id: 'k1/os/software/electron',
-              },
-              {
-                type: 'doc',
-                label: 'Python Use Guide',
-                id: 'k1/os/software/python',
-              },
-              {
-                type: 'doc',
-                label: 'QT Use Guide',
-                id: 'k1/os/software/qt',
-              },
-              {
-                type: 'doc',
-                label: 'Remote Development',
-                id: 'k1/os/software/remote_development',
-              },
-              {
-                type: 'doc',
-                label: 'Perf Usage Note',
-                id: 'k1/os/software/perf',
-              },]
-            },
-            {
-              type: 'category',
-              collapsed: true,
-              label: 'System Integration',
-              items: [{
-                type: 'doc',
-                label: 'Bianbu 2.0 ROOTFS Creation Guide',
-                id: 'k1/os/rootfs/bianbu_2.0_rootfs_create',
-              },
-            ]
-            },
-          ],
-        },
-        {
-          type: 'category',
-          collapsed: true,
-          label: 'OpenHarmony',
-          items: [
-            {
-              type: 'doc',
-              id: 'k1/openharmony/oh_build',
-            },
-            {
-              type: 'doc',
-              id: 'k1/openharmony/oh_third_app_build',
-            },
-            {
-              type: 'doc',
-              id: 'k1/openharmony/oh_application_dev',
-            },
-            {
-              type: 'doc',
-              id: 'k1/openharmony/oh-ai-build',
-            },
-            {
-              type: 'doc',
-              id: 'k1/openharmony/oh_solution_add',
-            },
-            {
-              type: 'doc',
-              id: 'k1/openharmony/oh_system_op',
-            },
-            {
-              type: 'doc',
-              id: 'k1/openharmony/oh_system_debug',
-            },
-            {
-              type: 'doc',
-              id: 'k1/openharmony/oh_driver_dev',
-            },
-            {
-              type: 'doc',
-              id: 'k1/openharmony/oh_ota',
-            },
-            
-          ],
-        },
-        {
-          type: 'category',
-          collapsed: true,
-          label: 'System Development Guide',
-          items: [
-            {
-              type: 'category',
-              collapsed: true,
-              label: 'Bianbu Linux',
+              label: 'OpenHarmony',
               items: [
                 {
                   type: 'doc',
-                  id: 'k1/bianbu-linux/bianbu-linux/bianbu-linux-intro',
+                  id: 'k1/openharmony/oh_build',
                 },
                 {
                   type: 'doc',
-                  id: 'k1/bianbu-linux/bianbu-linux/build-bit-os',
+                  id: 'k1/openharmony/oh_third_app_build',
                 },
                 {
                   type: 'doc',
-                  label: 'U-Boot Development',
-                  id: 'k1/bianbu-linux/bianbu-linux/boot',
+                  id: 'k1/openharmony/oh_application_dev',
                 },
                 {
                   type: 'doc',
-                  id: 'k1/bianbu-linux/bianbu-linux/kernel-build',
+                  id: 'k1/openharmony/oh-ai-build',
                 },
                 {
                   type: 'doc',
-                  id: 'k1/bianbu-linux/bianbu-linux/device-manage',
+                  id: 'k1/openharmony/oh_solution_add',
                 },
                 {
                   type: 'doc',
-                  id: 'k1/bianbu-linux/bianbu-linux/solution-manage',
-                },
-              ]
-            }, 
-            {
-              type: 'category',
-              collapsed: true,
-              label: 'OpenWrt',
-              items: [
-                {
-                  type: 'doc',
-                  id: 'k1/bianbu-linux/openwrt/openwrt_intro',
+                  id: 'k1/openharmony/oh_system_op',
                 },
                 {
                   type: 'doc',
-                  id: 'k1/bianbu-linux/openwrt/openwrt_quickstart',
+                  id: 'k1/openharmony/oh_system_debug',
                 },
                 {
                   type: 'doc',
-                  id: 'k1/bianbu-linux/openwrt/openwrt_device_management',
+                  id: 'k1/openharmony/oh_driver_dev',
                 },
                 {
                   type: 'doc',
-                  id: 'k1/bianbu-linux/openwrt/openwrt_solution_management',
+                  id: 'k1/openharmony/oh_ota',
                 },
-                
-              ]
-            },   
 
-            
-
-          ],
-        },
-        {
-          type: 'category',
-          collapsed: true,
-          label: 'Hardware Development Guide',
-          items: [
-            {
-              type: 'doc',
-              label: 'K1 Hardware Specifications',
-              id: 'k1/hardware/hardware-brief',
-            },
-            {
-              type: 'doc',
-              label: 'K1 Application Processor',
-              id: 'k1/hardware/processor-brief',
-            },
-            {
-              type: 'doc',
-              label: 'K1 GPIO Expansion Interface',
-              id: 'k1/hardware/GPIO-and-40-pin-header',
-            },
-            {
-              type: 'doc',
-              label: 'K1 M.2 Interface',
-              id: 'k1/hardware/m2-interface',
-            },
-            {
-              type: 'doc',
-              label: 'K1 Camera Interface',
-              id: 'k1/hardware/camera-interface',
-            },
-            {
-              type: 'doc',
-              label: 'K1 Display Interface',
-              id: 'k1/hardware/display-interface',
-            },
-
-            {
-              type: 'doc',
-              label: 'K1 Audio Interface',
-              id: 'k1/hardware/audio-hardware-introduction',
-            },
-            // {
-            //   type: 'doc',
-            //   label: 'K1 Power Sequence',
-            //   id: 'k1/hardware/power-sequence',
-            // },
-            {
-              type: 'doc',
-              label: 'Download of K1 Hardware Documentation',
-              id: 'k1/hardware/hardware-file-download',
-            },
-
-
-          ],
-        },
-        {
-          type: 'category',
-          collapsed: true,
-          label: 'Software Development Guide',
-          items: [
-            {
-              type: 'category',
-              collapsed: true,
-              label: 'Peripheral Driver',
-              link: {
-                type: 'doc',
-                id: 'k1/software/peripheral_driver/index', // 指定要链接到的文档 ID
-              },
-              items: [
-                {
-                  type: 'doc',
-                  label: 'K1 PINCTRL',
-                  id: 'k1/software/peripheral_driver/PINCTRL',
-                },
-                {
-                  type: 'doc',
-                  label: 'K1 GPIO',
-                  id: 'k1/software/peripheral_driver/GPIO',
-                },
-                {
-                  type: 'doc',
-                  label: 'K1 PWM',
-                  id: 'k1/software/peripheral_driver/PWM',
-                },
-                {
-                  type: 'doc',
-                  label: 'K1 IR-RX',
-                  id: 'k1/software/peripheral_driver/IR-RX',
-                },
-                {
-                  type: 'doc',
-                  label: 'K1 UART',
-                  id: 'k1/software/peripheral_driver/UART',
-                },
-                {
-                  type: 'doc',
-                  label: 'K1 I2C',
-                  id: 'k1/software/peripheral_driver/I2C',
-                },
-                {
-                  type: 'doc',
-                  label: 'K1 QSPI',
-                  id: 'k1/software/peripheral_driver/QSPI',
-                },
-                {
-                  type: 'doc',
-                  label: 'K1 SDHC',
-                  id: 'k1/software/peripheral_driver/SDHC',
-                },
-                {
-                  type: 'doc',
-                  label: 'K1 GMAC',
-                  id: 'k1/software/peripheral_driver/GMAC',
-                },
-                {
-                  type: 'doc',
-                  label: 'K1 USB',
-                  id: 'k1/software/peripheral_driver/USB',
-                },
-                {
-                  type: 'doc',
-                  label: 'K1 PCIE',
-                  id: 'k1/software/peripheral_driver/PCIe',
-                },
-                {
-                  type: 'doc',
-                  label: 'K1 Display',
-                  id: 'k1/software/peripheral_driver/Display',
-                },
-                {
-                  type: 'doc',
-                  label: 'K1 V2D',
-                  id: 'k1/software/peripheral_driver/V2D',
-                },
-               
-                {
-                  type: 'doc',
-                  label: 'K1 PMIC',
-                  id: 'k1/software/peripheral_driver/PMIC',
-                },
-                 {
-                  type: 'doc',
-                  label: 'K1 CAN',
-                  id: 'k1/software/peripheral_driver/CAN',
-                },
-                 {
-                  type: 'doc',
-                  label: 'K1 CPUFREQ',
-                  id: 'k1/software/peripheral_driver/Cpufreq',
-                },
-                 {
-                  type: 'doc',
-                  label: 'K1 Clock',
-                  id: 'k1/software/peripheral_driver/Clock',
-                },
-                 {
-                  type: 'doc',
-                  label: 'K1 Audio',
-                  id: 'k1/software/peripheral_driver/Audio',
-                },
-                 {
-                  type: 'doc',
-                  label: 'K1 Crypto-Engine',
-                  id: 'k1/software/peripheral_driver/CRYPTO',
-                },
-                 {
-                  type: 'doc',
-                  label: 'K1 DMA',
-                  id: 'k1/software/peripheral_driver/DMA',
-                },
-                 {
-                  type: 'doc',
-                  label: 'K1 EtherCAT',
-                  id: 'k1/software/peripheral_driver/EtherCAT',
-                },
-                 {
-                  type: 'doc',
-                  label: 'K1 BT',
-                  id: 'k1/software/peripheral_driver/BT',
-                },
-                 {
-                  type: 'doc',
-                  label: 'K1 SPI',
-                  id: 'k1/software/peripheral_driver/SPI',
-                },
-                 {
-                  type: 'doc',
-                  label: 'K1 WIFI',
-                  id: 'k1/software/peripheral_driver/WIFI',
-                },
-                 {
-                  type: 'doc',
-                  label: 'K1 GPADC',
-                  id: 'k1/software/peripheral_driver/gpadc',
-                },
-                 {
-                  type: 'doc',
-                  label: 'K1 RTC',
-                  id: 'k1/software/peripheral_driver/rtc',
-                },
-                 {
-                  type: 'doc',
-                  label: 'K1 Thermal',
-                  id: 'k1/software/peripheral_driver/thermal',
-                },
-              ]
+              ],
             },
             {
               type: 'category',
               collapsed: true,
-              label: 'Media',
+              label: 'System Development Guide',
+              items: [
+                {
+                  type: 'category',
+                  collapsed: true,
+                  label: 'Bianbu Linux',
+                  items: [
+                    {
+                      type: 'doc',
+                      id: 'k1/bianbu-linux/bianbu-linux/bianbu-linux-intro',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'k1/bianbu-linux/bianbu-linux/build-bit-os',
+                    },
+                    {
+                      type: 'doc',
+                      label: 'U-Boot Development',
+                      id: 'k1/bianbu-linux/bianbu-linux/boot',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'k1/bianbu-linux/bianbu-linux/kernel-build',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'k1/bianbu-linux/bianbu-linux/device-manage',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'k1/bianbu-linux/bianbu-linux/solution-manage',
+                    },
+                  ]
+                },
+                {
+                  type: 'category',
+                  collapsed: true,
+                  label: 'OpenWrt',
+                  items: [
+                    {
+                      type: 'doc',
+                      id: 'k1/bianbu-linux/openwrt/openwrt_intro',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'k1/bianbu-linux/openwrt/openwrt_quickstart',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'k1/bianbu-linux/openwrt/openwrt_device_management',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'k1/bianbu-linux/openwrt/openwrt_solution_management',
+                    },
+
+                  ]
+                },
+
+
+
+              ],
+            },
+            {
+              type: 'category',
+              collapsed: true,
+              label: 'Hardware Development Guide',
               items: [
                 {
                   type: 'doc',
-                  id: 'k1/software/media/mpp',
+                  label: 'K1 Hardware Specifications',
+                  id: 'k1/hardware/hardware-brief',
                 },
                 {
                   type: 'doc',
-                  id: 'k1/software/media/gstreamer_user_guide',
+                  label: 'K1 Application Processor',
+                  id: 'k1/hardware/processor-brief',
                 },
-              ]
+                {
+                  type: 'doc',
+                  label: 'K1 GPIO Expansion Interface',
+                  id: 'k1/hardware/GPIO-and-40-pin-header',
+                },
+                {
+                  type: 'doc',
+                  label: 'K1 M.2 Interface',
+                  id: 'k1/hardware/m2-interface',
+                },
+                {
+                  type: 'doc',
+                  label: 'K1 Camera Interface',
+                  id: 'k1/hardware/camera-interface',
+                },
+                {
+                  type: 'doc',
+                  label: 'K1 Display Interface',
+                  id: 'k1/hardware/display-interface',
+                },
+
+                {
+                  type: 'doc',
+                  label: 'K1 Audio Interface',
+                  id: 'k1/hardware/audio-hardware-introduction',
+                },
+                // {
+                //   type: 'doc',
+                //   label: 'K1 Power Sequence',
+                //   id: 'k1/hardware/power-sequence',
+                // },
+                {
+                  type: 'doc',
+                  label: 'Download of K1 Hardware Documentation',
+                  id: 'k1/hardware/hardware-file-download',
+                },
+
+
+              ],
             },
             {
-                type: 'category',
-                collapsed: true,
-                label: 'Graphics Development',
-                items: [
-                  {
+              type: 'category',
+              collapsed: true,
+              label: 'Software Development Guide',
+              items: [
+                {
+                  type: 'category',
+                  collapsed: true,
+                  label: 'Peripheral Driver',
+                  link: {
                     type: 'doc',
-                    id: 'k1/software/graphics/AMD_graphics_card_adaptation_reference',
+                    id: 'k1/software/peripheral_driver/index', // 指定要链接到的文档 ID
                   },
-                  {
-                    type: 'doc',
-                    id: 'k1/software/graphics/graphics_driver_framework',
-                  },
-                  {
-                    type: 'doc',
-                    id: 'k1/software/graphics/graphics_programming_guide',
-                  },
-                  {
-                    type: 'doc',
-                    id: 'k1/software/graphics/openCL_programming_guide',
-                  },
-  
-                  {
-                    type: 'doc',
-                    id: 'k1/software/graphics/panel_porting_guide',
-                  },
-                ]},
+                  items: [
+                    {
+                      type: 'doc',
+                      label: 'K1 PINCTRL',
+                      id: 'k1/software/peripheral_driver/PINCTRL',
+                    },
+                    {
+                      type: 'doc',
+                      label: 'K1 GPIO',
+                      id: 'k1/software/peripheral_driver/GPIO',
+                    },
+                    {
+                      type: 'doc',
+                      label: 'K1 PWM',
+                      id: 'k1/software/peripheral_driver/PWM',
+                    },
+                    {
+                      type: 'doc',
+                      label: 'K1 IR-RX',
+                      id: 'k1/software/peripheral_driver/IR-RX',
+                    },
+                    {
+                      type: 'doc',
+                      label: 'K1 UART',
+                      id: 'k1/software/peripheral_driver/UART',
+                    },
+                    {
+                      type: 'doc',
+                      label: 'K1 I2C',
+                      id: 'k1/software/peripheral_driver/I2C',
+                    },
+                    {
+                      type: 'doc',
+                      label: 'K1 QSPI',
+                      id: 'k1/software/peripheral_driver/QSPI',
+                    },
+                    {
+                      type: 'doc',
+                      label: 'K1 SDHC',
+                      id: 'k1/software/peripheral_driver/SDHC',
+                    },
+                    {
+                      type: 'doc',
+                      label: 'K1 GMAC',
+                      id: 'k1/software/peripheral_driver/GMAC',
+                    },
+                    {
+                      type: 'doc',
+                      label: 'K1 USB',
+                      id: 'k1/software/peripheral_driver/USB',
+                    },
+                    {
+                      type: 'doc',
+                      label: 'K1 PCIE',
+                      id: 'k1/software/peripheral_driver/PCIe',
+                    },
+                    {
+                      type: 'doc',
+                      label: 'K1 Display',
+                      id: 'k1/software/peripheral_driver/Display',
+                    },
+                    {
+                      type: 'doc',
+                      label: 'K1 V2D',
+                      id: 'k1/software/peripheral_driver/V2D',
+                    },
+
+                    {
+                      type: 'doc',
+                      label: 'K1 PMIC',
+                      id: 'k1/software/peripheral_driver/PMIC',
+                    },
+                    {
+                      type: 'doc',
+                      label: 'K1 CAN',
+                      id: 'k1/software/peripheral_driver/CAN',
+                    },
+                    {
+                      type: 'doc',
+                      label: 'K1 CPUFREQ',
+                      id: 'k1/software/peripheral_driver/Cpufreq',
+                    },
+                    {
+                      type: 'doc',
+                      label: 'K1 Clock',
+                      id: 'k1/software/peripheral_driver/Clock',
+                    },
+                    {
+                      type: 'doc',
+                      label: 'K1 Audio',
+                      id: 'k1/software/peripheral_driver/Audio',
+                    },
+                    {
+                      type: 'doc',
+                      label: 'K1 Crypto-Engine',
+                      id: 'k1/software/peripheral_driver/CRYPTO',
+                    },
+                    {
+                      type: 'doc',
+                      label: 'K1 DMA',
+                      id: 'k1/software/peripheral_driver/DMA',
+                    },
+                    {
+                      type: 'doc',
+                      label: 'K1 EtherCAT',
+                      id: 'k1/software/peripheral_driver/EtherCAT',
+                    },
+                    {
+                      type: 'doc',
+                      label: 'K1 BT',
+                      id: 'k1/software/peripheral_driver/BT',
+                    },
+                    {
+                      type: 'doc',
+                      label: 'K1 SPI',
+                      id: 'k1/software/peripheral_driver/SPI',
+                    },
+                    {
+                      type: 'doc',
+                      label: 'K1 WIFI',
+                      id: 'k1/software/peripheral_driver/WIFI',
+                    },
+                    {
+                      type: 'doc',
+                      label: 'K1 GPADC',
+                      id: 'k1/software/peripheral_driver/gpadc',
+                    },
+                    {
+                      type: 'doc',
+                      label: 'K1 RTC',
+                      id: 'k1/software/peripheral_driver/rtc',
+                    },
+                    {
+                      type: 'doc',
+                      label: 'K1 Thermal',
+                      id: 'k1/software/peripheral_driver/thermal',
+                    },
+                  ]
+                },
+                {
+                  type: 'category',
+                  collapsed: true,
+                  label: 'Media',
+                  items: [
+                    {
+                      type: 'doc',
+                      id: 'k1/software/media/mpp',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'k1/software/media/gstreamer_user_guide',
+                    },
+                  ]
+                },
+                {
+                  type: 'category',
+                  collapsed: true,
+                  label: 'Graphics Development',
+                  items: [
+                    {
+                      type: 'doc',
+                      id: 'k1/software/graphics/AMD_graphics_card_adaptation_reference',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'k1/software/graphics/graphics_driver_framework',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'k1/software/graphics/graphics_programming_guide',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'k1/software/graphics/openCL_programming_guide',
+                    },
+
+                    {
+                      type: 'doc',
+                      id: 'k1/software/graphics/panel_porting_guide',
+                    },
+                  ]
+                },
                 {
                   type: 'category',
                   collapsed: true,
@@ -570,359 +572,378 @@ const sidebars: SidebarsConfig = {
                       type: 'doc',
                       id: 'k1/software/camera/isp_pq_tools_user_guide',
                     },
-                  ]},
-
-
-          ],
-        },
-        {
-          type: 'category',
-          collapsed: true,
-          label: 'Machine Learning',
-          items: [
-            {
-              type: 'doc',
-              label: 'Introduction to Computing Architecture',
-              id: 'k1/ml/ai-arch',
-            },
-            {
-              type: 'doc',
-              label: 'Overview of Tools',
-              id: 'k1/ml/tools-overview',
-            },
-            {
-              type: 'doc',
-              label: 'Quick Start',
-              id: 'k1/ml/ai-quick-start',
-            },
-            {
-              type: 'doc',
-              label: 'Model Translation',
-              id: 'k1/ml/model-translate',
-            },
-            {
-              type: 'doc',
-              label: 'Model Optimization',
-              id: 'k1/ml/model-optimization',
-            },
-            {
-              type: 'doc',
-              label: 'Model Simulation and Testing',
-              id: 'k1/ml/model-simulation-testing',
-            },
-            {
-              type: 'doc',
-              label: 'Model Deployment',
-              id: 'k1/ml/model-deploy',
-            },
-            {
-              type: 'doc',
-              id: 'k1/ml/model-zoo',
-            },
-            {
-              type: 'doc',
-              id: 'k1/ml/llm-deploy',
-            },
-            {
-              type: 'doc',
-              id: 'k1/ml/ollama',
-            },
-            {
-              type: 'doc',
-              id: 'k1/ml/openwebui',
-            },
-
-          ],
-        },
-        {
-          type: 'category',
-          collapsed: true,
-          label: 'Data Manual',
-          items: [
-            {
-              type: 'doc',
-              id: 'k1/datasheets/datasheets',
-            },
-          ],
-        },
-        {
-          type: 'category',
-          collapsed: true,
-          label: 'Tools',
-          items: [
-            {
-              type: 'doc',
-              id: 'k1/tools/titan',
-            },
-            {
-              type: 'doc',
-              id: 'k1/tools/cross_compiling',
-            },
-            {
-              type: 'doc',
-              id: 'k1/tools/jtad_debug',
-            }
-
-          ],
-        },
-        
-
-      ],
-    },
-    // k1 docs ends
-
-    // k1pro docs 
-    {
-      type: 'category',
-      collapsed: true,
-      label: 'K1 Pro',
-      items: [
-        {
-          type: 'category',
-          collapsed: true,
-          label: 'Getting Started',
-          items: [
-            {
-              type: 'doc',
-              id: 'k1_pro/getting-started/preparation',
-            },
-            {
-              type: 'doc',
-              id: 'k1_pro/getting-started/install',
-            },
-            {
-              type: 'doc',
-              id: 'k1_pro/getting-started/configuring',
-            }
-
-          ],
-        },
-        
-        {
-          type: 'category',
-          collapsed: true,
-          label: 'Hardware Development Guide',
-          items: [
-            {
-              type: 'doc',
-              id: 'k1_pro/hardware/hardware-brief',
-            },
-            {
-              type: 'doc',
-              id: 'k1_pro/hardware/processor-brief',
-            },
-            {
-              type: 'doc',
-              id: 'k1_pro/hardware/GPIO-and-40-pin-header',
-            },
-            {
-              type: 'doc',
-              id: 'k1_pro/hardware/m2-interface',
-            },
-            {
-              type: 'doc',
-              id: 'k1_pro/hardware/camera-interface',
-            },
-            {
-              type: 'doc',
-              id: 'k1_pro/hardware/display-interface',
-            },
-
-            {
-              type: 'doc',
-              id: 'k1_pro/hardware/audio-hardware-introduction',
-            },
-            // {
-            //   type: 'doc',
-            //   label: 'K1 Power Sequence',
-            //   id: 'k1_pro/hardware/power-sequence',
-            // },
-            {
-              type: 'doc',
-              id: 'k1_pro/hardware/hardware-file-download',
-            },
-
-
-          ],
-        },
-        {
-          type: 'category',
-          collapsed: true,
-          label: 'Software Development Guide',
-          items: [
-            {
-              type: 'category',
-              collapsed: true,
-              label: 'Debian',
-              items: [
-                {
-                  type: 'doc',
-                  id: 'k1_pro/software/debian/linux',
+                  ]
                 },
-                {
-                  type: 'doc',
-                  id: 'k1_pro/software/debian/system_config',
-                },
-                {
-                  type: 'doc',
-                  id: 'k1_pro/software/debian/swap',
-                },
-                {
-                  type: 'doc',
-                  id: 'k1_pro/software/debian/terminal_input',
-                },
-                {
-                  type: 'doc',
-                  id: 'k1_pro/software/debian/vnc',
-                },
-              ]
+
+
+              ],
             },
             {
               type: 'category',
               collapsed: true,
-              label: 'Peripheral Driver',
+              label: 'Machine Learning',
               items: [
                 {
                   type: 'doc',
-                  id: 'k1_pro/software/peripheral_driver/PINCTRL',
+                  label: 'Introduction to Computing Architecture',
+                  id: 'k1/ml/ai-arch',
                 },
                 {
                   type: 'doc',
-                  id: 'k1_pro/software/peripheral_driver/PWM',
+                  label: 'Overview of Tools',
+                  id: 'k1/ml/tools-overview',
                 },
                 {
                   type: 'doc',
-                  id: 'k1_pro/software/peripheral_driver/UART',
+                  label: 'Quick Start',
+                  id: 'k1/ml/ai-quick-start',
                 },
                 {
                   type: 'doc',
-                  id: 'k1_pro/software/peripheral_driver/I2C',
+                  label: 'Model Translation',
+                  id: 'k1/ml/model-translate',
                 },
                 {
                   type: 'doc',
-                  id: 'k1_pro/software/peripheral_driver/QSPI',
-                },         
-                {
-                  type: 'doc',
-                  id: 'k1_pro/software/peripheral_driver/gmac',
+                  label: 'Model Optimization',
+                  id: 'k1/ml/model-optimization',
                 },
                 {
                   type: 'doc',
-                  id: 'k1_pro/software/peripheral_driver/USB',
+                  label: 'Model Simulation and Testing',
+                  id: 'k1/ml/model-simulation-testing',
                 },
                 {
                   type: 'doc',
-                  id: 'k1_pro/software/peripheral_driver/PCIe',
+                  label: 'Model Deployment',
+                  id: 'k1/ml/model-deploy',
                 },
                 {
                   type: 'doc',
-                  id: 'k1_pro/software/peripheral_driver/DSI',
+                  id: 'k1/ml/model-zoo',
                 },
                 {
                   type: 'doc',
-                  id: 'k1_pro/software/peripheral_driver/HDMI',
+                  id: 'k1/ml/llm-deploy',
                 },
                 {
                   type: 'doc',
-                  id: 'k1_pro/software/peripheral_driver/AUDIO',
+                  id: 'k1/ml/ollama',
                 },
                 {
                   type: 'doc',
-                  id: 'k1_pro/software/peripheral_driver/CLOCK',
+                  id: 'k1/ml/openwebui',
                 },
-                {
-                  type: 'doc',
-                  id: 'k1_pro/software/peripheral_driver/CAN',
-                },
-                {
-                  type: 'doc',
-                  id: 'k1_pro/software/peripheral_driver/DSMC',
-                },
-                {
-                  type: 'doc',
-                  id: 'k1_pro/software/peripheral_driver/DP',
-                },
-              ]
+
+              ],
             },
             {
               type: 'category',
               collapsed: true,
-              label: 'Media',
+              label: 'Data Manual',
               items: [
                 {
                   type: 'doc',
-                  id: 'k1_pro/software/media/mpp',
+                  id: 'k1/datasheets/datasheets',
+                },
+              ],
+            },
+            {
+              type: 'category',
+              collapsed: true,
+              label: 'Tools',
+              items: [
+                {
+                  type: 'doc',
+                  id: 'k1/tools/titan',
                 },
                 {
                   type: 'doc',
-                  id: 'k1_pro/software/media/gstream_mpp',
+                  id: 'k1/tools/cross_compiling',
                 },
-              ]
+                {
+                  type: 'doc',
+                  id: 'k1/tools/jtad_debug',
+                }
+
+              ],
             },
+
+
           ],
         },
+        // k1 docs ends
+
+        // k1pro docs 
         {
           type: 'category',
           collapsed: true,
-          label: 'System Development Guide',
+          label: 'K1 Pro',
           items: [
             {
-              type: 'doc',
-              id: 'k1_pro/system_dev/kernel_dev',
-            }, 
-            {
-              type: 'doc',
-              id: 'k1_pro/system_dev/uboot_dev',
-            }, 
+              type: 'category',
+              collapsed: true,
+              label: 'Getting Started',
+              items: [
+                {
+                  type: 'doc',
+                  id: 'k1_pro/getting-started/preparation',
+                },
+                {
+                  type: 'doc',
+                  id: 'k1_pro/getting-started/install',
+                },
+                {
+                  type: 'doc',
+                  id: 'k1_pro/getting-started/configuring',
+                }
 
-            
+              ],
+            },
+
+            {
+              type: 'category',
+              collapsed: true,
+              label: 'Hardware Development Guide',
+              items: [
+                {
+                  type: 'doc',
+                  id: 'k1_pro/hardware/hardware-brief',
+                },
+                {
+                  type: 'doc',
+                  id: 'k1_pro/hardware/processor-brief',
+                },
+                {
+                  type: 'doc',
+                  id: 'k1_pro/hardware/GPIO-and-40-pin-header',
+                },
+                {
+                  type: 'doc',
+                  id: 'k1_pro/hardware/m2-interface',
+                },
+                {
+                  type: 'doc',
+                  id: 'k1_pro/hardware/camera-interface',
+                },
+                {
+                  type: 'doc',
+                  id: 'k1_pro/hardware/display-interface',
+                },
+
+                {
+                  type: 'doc',
+                  id: 'k1_pro/hardware/audio-hardware-introduction',
+                },
+                // {
+                //   type: 'doc',
+                //   label: 'K1 Power Sequence',
+                //   id: 'k1_pro/hardware/power-sequence',
+                // },
+                {
+                  type: 'doc',
+                  id: 'k1_pro/hardware/hardware-file-download',
+                },
+
+
+              ],
+            },
+            {
+              type: 'category',
+              collapsed: true,
+              label: 'Software Development Guide',
+              items: [
+                {
+                  type: 'category',
+                  collapsed: true,
+                  label: 'Debian',
+                  items: [
+                    {
+                      type: 'doc',
+                      id: 'k1_pro/software/debian/linux',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'k1_pro/software/debian/system_config',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'k1_pro/software/debian/swap',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'k1_pro/software/debian/terminal_input',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'k1_pro/software/debian/vnc',
+                    },
+                  ]
+                },
+                {
+                  type: 'category',
+                  collapsed: true,
+                  label: 'Peripheral Driver',
+                  items: [
+                    {
+                      type: 'doc',
+                      id: 'k1_pro/software/peripheral_driver/PINCTRL',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'k1_pro/software/peripheral_driver/PWM',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'k1_pro/software/peripheral_driver/UART',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'k1_pro/software/peripheral_driver/I2C',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'k1_pro/software/peripheral_driver/QSPI',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'k1_pro/software/peripheral_driver/gmac',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'k1_pro/software/peripheral_driver/USB',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'k1_pro/software/peripheral_driver/PCIe',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'k1_pro/software/peripheral_driver/DSI',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'k1_pro/software/peripheral_driver/HDMI',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'k1_pro/software/peripheral_driver/AUDIO',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'k1_pro/software/peripheral_driver/CLOCK',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'k1_pro/software/peripheral_driver/CAN',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'k1_pro/software/peripheral_driver/DSMC',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'k1_pro/software/peripheral_driver/DP',
+                    },
+                  ]
+                },
+                {
+                  type: 'category',
+                  collapsed: true,
+                  label: 'Media',
+                  items: [
+                    {
+                      type: 'doc',
+                      id: 'k1_pro/software/media/mpp',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'k1_pro/software/media/gstream_mpp',
+                    },
+                  ]
+                },
+              ],
+            },
+            {
+              type: 'category',
+              collapsed: true,
+              label: 'System Development Guide',
+              items: [
+                {
+                  type: 'doc',
+                  id: 'k1_pro/system_dev/kernel_dev',
+                },
+                {
+                  type: 'doc',
+                  id: 'k1_pro/system_dev/uboot_dev',
+                },
+
+
+
+              ],
+            },
+            {
+              type: 'category',
+              collapsed: true,
+              label: 'Machine Learning',
+              items: [
+                {
+                  type: 'doc',
+                  id: 'k1_pro/ml/env/env',
+                },
+                {
+                  type: 'doc',
+                  id: 'k1_pro/ml/env/rknn_toolkit2',
+                },
+                {
+                  type: 'doc',
+                  id: 'k1_pro/ml/env/rknn_toolkit_lite2',
+                },
+                {
+                  type: 'doc',
+                  id: 'k1_pro/ml/env/rk_model_zoo',
+                },
+                {
+                  type: 'doc',
+                  id: 'k1_pro/ml/env/rkllm',
+                },
+              ],
+            },
+            {
+              type: 'category',
+              collapsed: true,
+              label: 'Data Manual',
+              items: [
+                {
+                  type: 'doc',
+                  id: 'k1_pro/datasheets/datasheets',
+                },
+              ],
+            },
+
 
           ],
         },
+        // k1pro docs ends
+
+        // imx8mp-hmi docs
         {
           type: 'category',
           collapsed: true,
-          label: 'Machine Learning',
+          label: 'I.MX8MP-HMI',
           items: [
             {
               type: 'doc',
-              id: 'k1_pro/ml/env/env',
-            }, 
-            {
-              type: 'doc',
-              id: 'k1_pro/ml/env/rknn_toolkit2',
+              id: 'imx8mp/intro/intro',
             },
             {
               type: 'doc',
-              id: 'k1_pro/ml/env/rknn_toolkit_lite2',
+              id: 'imx8mp/hardware/datasheet',
             },
-            {
-              type: 'doc',
-              id: 'k1_pro/ml/env/rk_model_zoo',
-            },
-            {
-              type: 'doc',
-              id: 'k1_pro/ml/env/rkllm',
-            },
-          ],
+          ]
         },
-        {
-          type: 'category',
-          collapsed: true,
-          label: 'Data Manual',
-          items: [
-            {
-              type: 'doc',
-              id: 'k1_pro/datasheets/datasheets',
-            },
-          ],
-        },
-        
 
-      ],
-    },
-     // k1pro docs ends
-
+        // imx8mp-hmi docs ends
       ]
     },
 
@@ -932,532 +953,534 @@ const sidebars: SidebarsConfig = {
       collapsed: false,
       label: 'SOM',
       items: [
-    // k1-ssom docs 
-    {
-      type: 'category',
-      collapsed: true,
-      label: 'K1 SSOM',
-      items: [
+        // ssom-k1 docs 
         {
           type: 'category',
           collapsed: true,
-          label: 'Getting Started',
-          items: [
-            {
-              type: 'doc',
-              id: 'k1_ssom/getting-started/k1_cluster_preparation',
-            },
-            {
-              type: 'doc',
-              id: 'k1_ssom/getting-started/k1_ssom_install',
-            },
-             {
-              type: 'doc',
-              label: 'Starting and Configuring K1',
-              id: 'k1_ssom/getting-started/configuring',
-            },
-          ],
-        },
-        {
-          type: 'category',
-          collapsed: true,
-          label: 'Bianbu OS',
+          label: 'SSOM-K1',
           items: [
             {
               type: 'category',
               collapsed: true,
-              label: 'Desktop',
+              label: 'Getting Started',
               items: [
                 {
                   type: 'doc',
-                  label: 'Introduction to Bianbu OS',
-                  id: 'k1_ssom/os/desktop/os-intro',
+                  id: 'ssom_k1/getting-started/k1_cluster_preparation',
                 },
                 {
                   type: 'doc',
-                  id: 'k1_ssom/os/desktop/bianbu_desktop_2.0',
+                  id: 'ssom_k1/getting-started/ssom_k1_install',
                 },
                 {
                   type: 'doc',
-                  id: 'k1_ssom/os/desktop/bianbu_desktop_2.1',
+                  label: 'Starting and Configuring K1',
+                  id: 'ssom_k1/getting-started/configuring',
                 },
-                {
-                  type: 'doc',
-                  label: 'Networking and Upgrading',
-                  id: 'k1_ssom/os/desktop/installation-and-upgrade',
-                },
-                {
-                  type: 'doc',
-                  label: 'Package Management',
-                  id: 'k1_ssom/os/desktop/package-management',
-                },
-              ]
+              ],
             },
             {
               type: 'category',
               collapsed: true,
-              label: 'NAS',
+              label: 'Bianbu OS',
               items: [
                 {
-                  type: 'doc',
-                  id: 'k1_ssom/os/nas/README',
-                },
-                {
-                  type: 'doc',
-                  id: 'k1_ssom/os/nas/login',
-                },
-                {
-                  type: 'doc',
-                  id: 'k1_ssom/os/nas/base_setup',
-                },
-                {
-                  type: 'doc',
-                  id: 'k1_ssom/os/nas/shared_services_setup',
+                  type: 'category',
+                  collapsed: true,
+                  label: 'Desktop',
+                  items: [
+                    {
+                      type: 'doc',
+                      label: 'Introduction to Bianbu OS',
+                      id: 'ssom_k1/os/desktop/os-intro',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'ssom_k1/os/desktop/bianbu_desktop_2.0',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'ssom_k1/os/desktop/bianbu_desktop_2.1',
+                    },
+                    {
+                      type: 'doc',
+                      label: 'Networking and Upgrading',
+                      id: 'ssom_k1/os/desktop/installation-and-upgrade',
+                    },
+                    {
+                      type: 'doc',
+                      label: 'Package Management',
+                      id: 'ssom_k1/os/desktop/package-management',
+                    },
+                  ]
                 },
                 {
                   type: 'category',
                   collapsed: true,
-                  label: 'Docker Service',
+                  label: 'NAS',
                   items: [
                     {
                       type: 'doc',
-                      id: 'k1_ssom/os/nas/docker_setup/applications',
+                      id: 'ssom_k1/os/nas/README',
                     },
                     {
                       type: 'doc',
-                      id: 'k1_ssom/os/nas/docker_setup/docker-compose',
+                      id: 'ssom_k1/os/nas/login',
                     },
                     {
                       type: 'doc',
-                      id: 'k1_ssom/os/nas/docker_setup/nextcloud',
+                      id: 'ssom_k1/os/nas/base_setup',
                     },
                     {
                       type: 'doc',
-                      id: 'k1_ssom/os/nas/docker_setup/kodbox',
+                      id: 'ssom_k1/os/nas/shared_services_setup',
                     },
                     {
-                      type: 'doc',
-                      id: 'k1_ssom/os/nas/docker_setup/frigate',
+                      type: 'category',
+                      collapsed: true,
+                      label: 'Docker Service',
+                      items: [
+                        {
+                          type: 'doc',
+                          id: 'ssom_k1/os/nas/docker_setup/applications',
+                        },
+                        {
+                          type: 'doc',
+                          id: 'ssom_k1/os/nas/docker_setup/docker-compose',
+                        },
+                        {
+                          type: 'doc',
+                          id: 'ssom_k1/os/nas/docker_setup/nextcloud',
+                        },
+                        {
+                          type: 'doc',
+                          id: 'ssom_k1/os/nas/docker_setup/kodbox',
+                        },
+                        {
+                          type: 'doc',
+                          id: 'ssom_k1/os/nas/docker_setup/frigate',
+                        },
+                        {
+                          type: 'doc',
+                          id: 'ssom_k1/os/nas/docker_setup/immich',
+                        },
+                      ]
                     },
-                    {
-                      type: 'doc',
-                      id: 'k1_ssom/os/nas/docker_setup/immich',
-                    },
-                  ]},
-              ]
+                  ]
+                },
+                {
+                  type: 'category',
+                  collapsed: true,
+                  label: 'Development Guide',
+                  items: [{
+                    type: 'doc',
+                    label: 'ROS2 Installation',
+                    id: 'ssom_k1/news/ros2',
+                  },
+                  {
+                    type: 'doc',
+                    label: 'Docker ',
+                    id: 'ssom_k1/os/software/docker',
+                  },
+                  {
+                    type: 'doc',
+                    label: 'JavaScript Use Guide',
+                    id: 'ssom_k1/os/software/electron',
+                  },
+                  {
+                    type: 'doc',
+                    label: 'Python Use Guide',
+                    id: 'ssom_k1/os/software/python',
+                  },
+                  {
+                    type: 'doc',
+                    label: 'QT Use Guide',
+                    id: 'ssom_k1/os/software/qt',
+                  },
+                  {
+                    type: 'doc',
+                    label: 'Remote Development',
+                    id: 'ssom_k1/os/software/remote_development',
+                  },
+                  {
+                    type: 'doc',
+                    label: 'Perf Usage Note',
+                    id: 'ssom_k1/os/software/perf',
+                  },]
+                },
+                {
+                  type: 'category',
+                  collapsed: true,
+                  label: 'System Integration',
+                  items: [{
+                    type: 'doc',
+                    label: 'Bianbu 2.0 ROOTFS Creation Guide',
+                    id: 'ssom_k1/os/rootfs/bianbu_2.0_rootfs_create',
+                  },
+                  ]
+                },
+              ],
             },
             {
               type: 'category',
               collapsed: true,
-              label: 'Development Guide',
-              items: [{
-                type: 'doc',
-                label: 'ROS2 Installation',
-                id: 'k1_ssom/news/ros2',
-              },
-              {
-                type: 'doc',
-                label: 'Docker ',
-                id: 'k1_ssom/os/software/docker',
-              },
-              {
-                type: 'doc',
-                label: 'JavaScript Use Guide',
-                id: 'k1_ssom/os/software/electron',
-              },
-              {
-                type: 'doc',
-                label: 'Python Use Guide',
-                id: 'k1_ssom/os/software/python',
-              },
-              {
-                type: 'doc',
-                label: 'QT Use Guide',
-                id: 'k1_ssom/os/software/qt',
-              },
-              {
-                type: 'doc',
-                label: 'Remote Development',
-                id: 'k1_ssom/os/software/remote_development',
-              },
-              {
-                type: 'doc',
-                label: 'Perf Usage Note',
-                id: 'k1_ssom/os/software/perf',
-              },]
-            },
-            {
-              type: 'category',
-              collapsed: true,
-              label: 'System Integration',
-              items: [{
-                type: 'doc',
-                label: 'Bianbu 2.0 ROOTFS Creation Guide',
-                id: 'k1_ssom/os/rootfs/bianbu_2.0_rootfs_create',
-              },
-            ]
-            },
-          ],
-        },
-        {
-          type: 'category',
-          collapsed: true,
-          label: 'OpenHarmony',
-          items: [
-            {
-              type: 'doc',
-              id: 'k1_ssom/openharmony/oh_build',
-            },
-            {
-              type: 'doc',
-              id: 'k1_ssom/openharmony/oh_third_app_build',
-            },
-            {
-              type: 'doc',
-              id: 'k1_ssom/openharmony/oh_application_dev',
-            },
-            {
-              type: 'doc',
-              id: 'k1_ssom/openharmony/oh-ai-build',
-            },
-            {
-              type: 'doc',
-              id: 'k1_ssom/openharmony/oh_solution_add',
-            },
-            {
-              type: 'doc',
-              id: 'k1_ssom/openharmony/oh_system_op',
-            },
-            {
-              type: 'doc',
-              id: 'k1_ssom/openharmony/oh_system_debug',
-            },
-            {
-              type: 'doc',
-              id: 'k1_ssom/openharmony/oh_driver_dev',
-            },
-            {
-              type: 'doc',
-              id: 'k1_ssom/openharmony/oh_ota',
-            },
-            
-          ],
-        },
-        {
-          type: 'category',
-          collapsed: true,
-          label: 'System Development Guide',
-          items: [
-            {
-              type: 'category',
-              collapsed: true,
-              label: 'Bianbu Linux',
+              label: 'OpenHarmony',
               items: [
                 {
                   type: 'doc',
-                  id: 'k1_ssom/bianbu-linux/bianbu-linux/bianbu-linux-intro',
+                  id: 'ssom_k1/openharmony/oh_build',
                 },
                 {
                   type: 'doc',
-                  id: 'k1_ssom/bianbu-linux/bianbu-linux/build-bit-os',
+                  id: 'ssom_k1/openharmony/oh_third_app_build',
                 },
                 {
                   type: 'doc',
-                  label: 'U-Boot Development',
-                  id: 'k1_ssom/bianbu-linux/bianbu-linux/boot',
+                  id: 'ssom_k1/openharmony/oh_application_dev',
                 },
                 {
                   type: 'doc',
-                  id: 'k1_ssom/bianbu-linux/bianbu-linux/kernel-build',
+                  id: 'ssom_k1/openharmony/oh-ai-build',
                 },
                 {
                   type: 'doc',
-                  id: 'k1_ssom/bianbu-linux/bianbu-linux/device-manage',
+                  id: 'ssom_k1/openharmony/oh_solution_add',
                 },
                 {
                   type: 'doc',
-                  id: 'k1_ssom/bianbu-linux/bianbu-linux/solution-manage',
-                },
-              ]
-            }, 
-            {
-              type: 'category',
-              collapsed: true,
-              label: 'OpenWrt',
-              items: [
-                {
-                  type: 'doc',
-                  id: 'k1_ssom/bianbu-linux/openwrt/openwrt_intro',
+                  id: 'ssom_k1/openharmony/oh_system_op',
                 },
                 {
                   type: 'doc',
-                  id: 'k1_ssom/bianbu-linux/openwrt/openwrt_quickstart',
+                  id: 'ssom_k1/openharmony/oh_system_debug',
                 },
                 {
                   type: 'doc',
-                  id: 'k1_ssom/bianbu-linux/openwrt/openwrt_device_management',
+                  id: 'ssom_k1/openharmony/oh_driver_dev',
                 },
                 {
                   type: 'doc',
-                  id: 'k1_ssom/bianbu-linux/openwrt/openwrt_solution_management',
+                  id: 'ssom_k1/openharmony/oh_ota',
                 },
-                
-              ]
-            },   
 
-            
-
-          ],
-        },
-        {
-          type: 'category',
-          collapsed: true,
-          label: 'Hardware Development Guide',
-          items: [
-            {
-              type: 'doc',
-              label: 'K1 Hardware Specifications',
-              id: 'k1_ssom/hardware/hardware-brief',
-            },
-            {
-              type: 'doc',
-              label: 'K1 Application Processor',
-              id: 'k1_ssom/hardware/processor-brief',
-            },
-            {
-              type: 'doc',
-              label: 'K1 GPIO Expansion Interface',
-              id: 'k1_ssom/hardware/GPIO-and-40-pin-header',
-            },
-            {
-              type: 'doc',
-              label: 'K1 M.2 Interface',
-              id: 'k1_ssom/hardware/m2-interface',
-            },
-            {
-              type: 'doc',
-              label: 'K1 Camera Interface',
-              id: 'k1_ssom/hardware/camera-interface',
-            },
-            {
-              type: 'doc',
-              label: 'K1 Display Interface',
-              id: 'k1_ssom/hardware/display-interface',
-            },
-
-            {
-              type: 'doc',
-              label: 'K1 Audio Interface',
-              id: 'k1_ssom/hardware/audio-hardware-introduction',
-            },
-            // {
-            //   type: 'doc',
-            //   label: 'K1 Power Sequence',
-            //   id: 'k1/hardware/power-sequence',
-            // },
-            {
-              type: 'doc',
-              label: 'Download of K1 Hardware Documentation',
-              id: 'k1_ssom/hardware/hardware-file-download',
-            },
-
-
-          ],
-        },
-        {
-          type: 'category',
-          collapsed: true,
-          label: 'Software Development Guide',
-          items: [
-            {
-              type: 'category',
-              collapsed: true,
-              label: 'Peripheral Driver',
-              link: {
-                type: 'doc',
-                id: 'k1_ssom/software/peripheral_driver/index', // 指定要链接到的文档 ID
-              },
-              items: [
-                {
-                  type: 'doc',
-                  label: 'K1 PINCTRL',
-                  id: 'k1_ssom/software/peripheral_driver/PINCTRL',
-                },
-                {
-                  type: 'doc',
-                  label: 'K1 GPIO',
-                  id: 'k1_ssom/software/peripheral_driver/GPIO',
-                },
-                {
-                  type: 'doc',
-                  label: 'K1 PWM',
-                  id: 'k1_ssom/software/peripheral_driver/PWM',
-                },
-                {
-                  type: 'doc',
-                  label: 'K1 IR-RX',
-                  id: 'k1_ssom/software/peripheral_driver/IR-RX',
-                },
-                {
-                  type: 'doc',
-                  label: 'K1 UART',
-                  id: 'k1_ssom/software/peripheral_driver/UART',
-                },
-                {
-                  type: 'doc',
-                  label: 'K1 I2C',
-                  id: 'k1_ssom/software/peripheral_driver/I2C',
-                },
-                {
-                  type: 'doc',
-                  label: 'K1 QSPI',
-                  id: 'k1_ssom/software/peripheral_driver/QSPI',
-                },
-                {
-                  type: 'doc',
-                  label: 'K1 SDHC',
-                  id: 'k1_ssom/software/peripheral_driver/SDHC',
-                },
-                {
-                  type: 'doc',
-                  label: 'K1 GMAC',
-                  id: 'k1_ssom/software/peripheral_driver/GMAC',
-                },
-                {
-                  type: 'doc',
-                  label: 'K1 USB',
-                  id: 'k1_ssom/software/peripheral_driver/USB',
-                },
-                {
-                  type: 'doc',
-                  label: 'K1 PCIE',
-                  id: 'k1_ssom/software/peripheral_driver/PCIe',
-                },
-                {
-                  type: 'doc',
-                  label: 'K1 Display',
-                  id: 'k1_ssom/software/peripheral_driver/Display',
-                },
-                {
-                  type: 'doc',
-                  label: 'K1 V2D',
-                  id: 'k1_ssom/software/peripheral_driver/V2D',
-                },
-               
-                {
-                  type: 'doc',
-                  label: 'K1 PMIC',
-                  id: 'k1_ssom/software/peripheral_driver/PMIC',
-                },
-                 {
-                  type: 'doc',
-                  label: 'K1 CAN',
-                  id: 'k1_ssom/software/peripheral_driver/CAN',
-                },
-                 {
-                  type: 'doc',
-                  label: 'K1 CPUFREQ',
-                  id: 'k1_ssom/software/peripheral_driver/Cpufreq',
-                },
-                 {
-                  type: 'doc',
-                  label: 'K1 Clock',
-                  id: 'k1_ssom/software/peripheral_driver/Clock',
-                },
-                 {
-                  type: 'doc',
-                  label: 'K1 Audio',
-                  id: 'k1_ssom/software/peripheral_driver/Audio',
-                },
-                 {
-                  type: 'doc',
-                  label: 'K1 Crypto-Engine',
-                  id: 'k1_ssom/software/peripheral_driver/CRYPTO',
-                },
-                 {
-                  type: 'doc',
-                  label: 'K1 DMA',
-                  id: 'k1_ssom/software/peripheral_driver/DMA',
-                },
-                 {
-                  type: 'doc',
-                  label: 'K1 EtherCAT',
-                  id: 'k1_ssom/software/peripheral_driver/EtherCAT',
-                },
-                 {
-                  type: 'doc',
-                  label: 'K1 BT',
-                  id: 'k1_ssom/software/peripheral_driver/BT',
-                },
-                 {
-                  type: 'doc',
-                  label: 'K1 SPI',
-                  id: 'k1_ssom/software/peripheral_driver/SPI',
-                },
-                 {
-                  type: 'doc',
-                  label: 'K1 WIFI',
-                  id: 'k1_ssom/software/peripheral_driver/WIFI',
-                },
-                 {
-                  type: 'doc',
-                  label: 'K1 GPADC',
-                  id: 'k1_ssom/software/peripheral_driver/gpadc',
-                },
-                 {
-                  type: 'doc',
-                  label: 'K1 RTC',
-                  id: 'k1_ssom/software/peripheral_driver/rtc',
-                },
-                 {
-                  type: 'doc',
-                  label: 'K1 Thermal',
-                  id: 'k1_ssom/software/peripheral_driver/thermal',
-                },
-              ]
+              ],
             },
             {
               type: 'category',
               collapsed: true,
-              label: 'Media',
+              label: 'System Development Guide',
+              items: [
+                {
+                  type: 'category',
+                  collapsed: true,
+                  label: 'Bianbu Linux',
+                  items: [
+                    {
+                      type: 'doc',
+                      id: 'ssom_k1/bianbu-linux/bianbu-linux/bianbu-linux-intro',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'ssom_k1/bianbu-linux/bianbu-linux/build-bit-os',
+                    },
+                    {
+                      type: 'doc',
+                      label: 'U-Boot Development',
+                      id: 'ssom_k1/bianbu-linux/bianbu-linux/boot',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'ssom_k1/bianbu-linux/bianbu-linux/kernel-build',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'ssom_k1/bianbu-linux/bianbu-linux/device-manage',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'ssom_k1/bianbu-linux/bianbu-linux/solution-manage',
+                    },
+                  ]
+                },
+                {
+                  type: 'category',
+                  collapsed: true,
+                  label: 'OpenWrt',
+                  items: [
+                    {
+                      type: 'doc',
+                      id: 'ssom_k1/bianbu-linux/openwrt/openwrt_intro',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'ssom_k1/bianbu-linux/openwrt/openwrt_quickstart',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'ssom_k1/bianbu-linux/openwrt/openwrt_device_management',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'ssom_k1/bianbu-linux/openwrt/openwrt_solution_management',
+                    },
+
+                  ]
+                },
+
+
+
+              ],
+            },
+            {
+              type: 'category',
+              collapsed: true,
+              label: 'Hardware Development Guide',
               items: [
                 {
                   type: 'doc',
-                  id: 'k1_ssom/software/media/mpp',
+                  label: 'K1 Hardware Specifications',
+                  id: 'ssom_k1/hardware/hardware-brief',
                 },
                 {
                   type: 'doc',
-                  id: 'k1_ssom/software/media/gstreamer_user_guide',
+                  label: 'K1 Application Processor',
+                  id: 'ssom_k1/hardware/processor-brief',
                 },
-              ]
+                {
+                  type: 'doc',
+                  label: 'K1 GPIO Expansion Interface',
+                  id: 'ssom_k1/hardware/GPIO-and-40-pin-header',
+                },
+                {
+                  type: 'doc',
+                  label: 'K1 M.2 Interface',
+                  id: 'ssom_k1/hardware/m2-interface',
+                },
+                {
+                  type: 'doc',
+                  label: 'K1 Camera Interface',
+                  id: 'ssom_k1/hardware/camera-interface',
+                },
+                {
+                  type: 'doc',
+                  label: 'K1 Display Interface',
+                  id: 'ssom_k1/hardware/display-interface',
+                },
+
+                {
+                  type: 'doc',
+                  label: 'K1 Audio Interface',
+                  id: 'ssom_k1/hardware/audio-hardware-introduction',
+                },
+                // {
+                //   type: 'doc',
+                //   label: 'K1 Power Sequence',
+                //   id: 'k1/hardware/power-sequence',
+                // },
+                {
+                  type: 'doc',
+                  label: 'Download of K1 Hardware Documentation',
+                  id: 'ssom_k1/hardware/hardware-file-download',
+                },
+
+
+              ],
             },
             {
-                type: 'category',
-                collapsed: true,
-                label: 'Graphics Development',
-                items: [
-                  {
+              type: 'category',
+              collapsed: true,
+              label: 'Software Development Guide',
+              items: [
+                {
+                  type: 'category',
+                  collapsed: true,
+                  label: 'Peripheral Driver',
+                  link: {
                     type: 'doc',
-                    id: 'k1_ssom/software/graphics/AMD_graphics_card_adaptation_reference',
+                    id: 'ssom_k1/software/peripheral_driver/index', // 指定要链接到的文档 ID
                   },
-                  {
-                    type: 'doc',
-                    id: 'k1_ssom/software/graphics/graphics_driver_framework',
-                  },
-                  {
-                    type: 'doc',
-                    id: 'k1_ssom/software/graphics/graphics_programming_guide',
-                  },
-                  {
-                    type: 'doc',
-                    id: 'k1_ssom/software/graphics/openCL_programming_guide',
-                  },
-  
-                  {
-                    type: 'doc',
-                    id: 'k1_ssom/software/graphics/panel_porting_guide',
-                  },
-                ]},
+                  items: [
+                    {
+                      type: 'doc',
+                      label: 'K1 PINCTRL',
+                      id: 'ssom_k1/software/peripheral_driver/PINCTRL',
+                    },
+                    {
+                      type: 'doc',
+                      label: 'K1 GPIO',
+                      id: 'ssom_k1/software/peripheral_driver/GPIO',
+                    },
+                    {
+                      type: 'doc',
+                      label: 'K1 PWM',
+                      id: 'ssom_k1/software/peripheral_driver/PWM',
+                    },
+                    {
+                      type: 'doc',
+                      label: 'K1 IR-RX',
+                      id: 'ssom_k1/software/peripheral_driver/IR-RX',
+                    },
+                    {
+                      type: 'doc',
+                      label: 'K1 UART',
+                      id: 'ssom_k1/software/peripheral_driver/UART',
+                    },
+                    {
+                      type: 'doc',
+                      label: 'K1 I2C',
+                      id: 'ssom_k1/software/peripheral_driver/I2C',
+                    },
+                    {
+                      type: 'doc',
+                      label: 'K1 QSPI',
+                      id: 'ssom_k1/software/peripheral_driver/QSPI',
+                    },
+                    {
+                      type: 'doc',
+                      label: 'K1 SDHC',
+                      id: 'ssom_k1/software/peripheral_driver/SDHC',
+                    },
+                    {
+                      type: 'doc',
+                      label: 'K1 GMAC',
+                      id: 'ssom_k1/software/peripheral_driver/GMAC',
+                    },
+                    {
+                      type: 'doc',
+                      label: 'K1 USB',
+                      id: 'ssom_k1/software/peripheral_driver/USB',
+                    },
+                    {
+                      type: 'doc',
+                      label: 'K1 PCIE',
+                      id: 'ssom_k1/software/peripheral_driver/PCIe',
+                    },
+                    {
+                      type: 'doc',
+                      label: 'K1 Display',
+                      id: 'ssom_k1/software/peripheral_driver/Display',
+                    },
+                    {
+                      type: 'doc',
+                      label: 'K1 V2D',
+                      id: 'ssom_k1/software/peripheral_driver/V2D',
+                    },
+
+                    {
+                      type: 'doc',
+                      label: 'K1 PMIC',
+                      id: 'ssom_k1/software/peripheral_driver/PMIC',
+                    },
+                    {
+                      type: 'doc',
+                      label: 'K1 CAN',
+                      id: 'ssom_k1/software/peripheral_driver/CAN',
+                    },
+                    {
+                      type: 'doc',
+                      label: 'K1 CPUFREQ',
+                      id: 'ssom_k1/software/peripheral_driver/Cpufreq',
+                    },
+                    {
+                      type: 'doc',
+                      label: 'K1 Clock',
+                      id: 'ssom_k1/software/peripheral_driver/Clock',
+                    },
+                    {
+                      type: 'doc',
+                      label: 'K1 Audio',
+                      id: 'ssom_k1/software/peripheral_driver/Audio',
+                    },
+                    {
+                      type: 'doc',
+                      label: 'K1 Crypto-Engine',
+                      id: 'ssom_k1/software/peripheral_driver/CRYPTO',
+                    },
+                    {
+                      type: 'doc',
+                      label: 'K1 DMA',
+                      id: 'ssom_k1/software/peripheral_driver/DMA',
+                    },
+                    {
+                      type: 'doc',
+                      label: 'K1 EtherCAT',
+                      id: 'ssom_k1/software/peripheral_driver/EtherCAT',
+                    },
+                    {
+                      type: 'doc',
+                      label: 'K1 BT',
+                      id: 'ssom_k1/software/peripheral_driver/BT',
+                    },
+                    {
+                      type: 'doc',
+                      label: 'K1 SPI',
+                      id: 'ssom_k1/software/peripheral_driver/SPI',
+                    },
+                    {
+                      type: 'doc',
+                      label: 'K1 WIFI',
+                      id: 'ssom_k1/software/peripheral_driver/WIFI',
+                    },
+                    {
+                      type: 'doc',
+                      label: 'K1 GPADC',
+                      id: 'ssom_k1/software/peripheral_driver/gpadc',
+                    },
+                    {
+                      type: 'doc',
+                      label: 'K1 RTC',
+                      id: 'ssom_k1/software/peripheral_driver/rtc',
+                    },
+                    {
+                      type: 'doc',
+                      label: 'K1 Thermal',
+                      id: 'ssom_k1/software/peripheral_driver/thermal',
+                    },
+                  ]
+                },
+                {
+                  type: 'category',
+                  collapsed: true,
+                  label: 'Media',
+                  items: [
+                    {
+                      type: 'doc',
+                      id: 'ssom_k1/software/media/mpp',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'ssom_k1/software/media/gstreamer_user_guide',
+                    },
+                  ]
+                },
+                {
+                  type: 'category',
+                  collapsed: true,
+                  label: 'Graphics Development',
+                  items: [
+                    {
+                      type: 'doc',
+                      id: 'ssom_k1/software/graphics/AMD_graphics_card_adaptation_reference',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'ssom_k1/software/graphics/graphics_driver_framework',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'ssom_k1/software/graphics/graphics_programming_guide',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'ssom_k1/software/graphics/openCL_programming_guide',
+                    },
+
+                    {
+                      type: 'doc',
+                      id: 'ssom_k1/software/graphics/panel_porting_guide',
+                    },
+                  ]
+                },
                 {
                   type: 'category',
                   collapsed: true,
@@ -1465,630 +1488,722 @@ const sidebars: SidebarsConfig = {
                   items: [
                     {
                       type: 'doc',
-                      id: 'k1_ssom/software/camera/camera_development_guide',
+                      id: 'ssom_k1/software/camera/camera_development_guide',
                     },
                     {
                       type: 'doc',
-                      id: 'k1_ssom/software/camera/isp_api_development_guide',
+                      id: 'ssom_k1/software/camera/isp_api_development_guide',
                     },
                     {
                       type: 'doc',
-                      id: 'k1_ssom/software/camera/isp_pq_tools_user_guide',
+                      id: 'ssom_k1/software/camera/isp_pq_tools_user_guide',
                     },
-                  ]},
+                  ]
+                },
+
+
+              ],
+            },
+            {
+              type: 'category',
+              collapsed: true,
+              label: 'Machine Learning',
+              items: [
+                {
+                  type: 'doc',
+                  label: 'Introduction to Computing Architecture',
+                  id: 'ssom_k1/ml/ai-arch',
+                },
+                {
+                  type: 'doc',
+                  label: 'Overview of Tools',
+                  id: 'ssom_k1/ml/tools-overview',
+                },
+                {
+                  type: 'doc',
+                  label: 'Quick Start',
+                  id: 'ssom_k1/ml/ai-quick-start',
+                },
+                {
+                  type: 'doc',
+                  label: 'Model Translation',
+                  id: 'ssom_k1/ml/model-translate',
+                },
+                {
+                  type: 'doc',
+                  label: 'Model Optimization',
+                  id: 'ssom_k1/ml/model-optimization',
+                },
+                {
+                  type: 'doc',
+                  label: 'Model Simulation and Testing',
+                  id: 'ssom_k1/ml/model-simulation-testing',
+                },
+                {
+                  type: 'doc',
+                  label: 'Model Deployment',
+                  id: 'ssom_k1/ml/model-deploy',
+                },
+                {
+                  type: 'doc',
+                  id: 'ssom_k1/ml/model-zoo',
+                },
+                {
+                  type: 'doc',
+                  id: 'ssom_k1/ml/llm-deploy',
+                },
+                {
+                  type: 'doc',
+                  id: 'ssom_k1/ml/ollama',
+                },
+                {
+                  type: 'doc',
+                  id: 'ssom_k1/ml/openwebui',
+                },
+
+              ],
+            },
+            {
+              type: 'category',
+              collapsed: true,
+              label: 'Data Manual',
+              items: [
+                {
+                  type: 'doc',
+                  id: 'ssom_k1/datasheets/datasheets',
+                },
+              ],
+            },
+            {
+              type: 'category',
+              collapsed: true,
+              label: 'Tools',
+              items: [
+                {
+                  type: 'doc',
+                  id: 'ssom_k1/tools/titan',
+                },
+                {
+                  type: 'doc',
+                  id: 'ssom_k1/tools/cross_compiling',
+                },
+                {
+                  type: 'doc',
+                  id: 'ssom_k1/tools/jtad_debug',
+                }
+
+              ],
+            },
 
 
           ],
         },
+        // ssom-k1 docs ends
+
+
+
+
+        // SSOM-3576 docs 
         {
           type: 'category',
           collapsed: true,
-          label: 'Machine Learning',
+          label: 'SSOM-3576',
           items: [
             {
-              type: 'doc',
-              label: 'Introduction to Computing Architecture',
-              id: 'k1_ssom/ml/ai-arch',
+              type: 'category',
+              collapsed: true,
+              label: 'Getting Started',
+              items: [
+                {
+                  type: 'doc',
+                  id: 'ssom_3576/getting-started/preparation',
+                },
+                {
+                  type: 'doc',
+                  id: 'ssom_3576/getting-started/install',
+                },
+                {
+                  type: 'doc',
+                  id: 'ssom_3576/getting-started/configuring',
+                }
+
+              ],
+            },
+
+            {
+              type: 'category',
+              collapsed: true,
+              label: 'Hardware Development Guide',
+              items: [
+                {
+                  type: 'doc',
+                  id: 'ssom_3576/hardware/hardware-brief',
+                },
+                {
+                  type: 'doc',
+                  id: 'ssom_3576/hardware/processor-brief',
+                },
+                {
+                  type: 'doc',
+                  id: 'ssom_3576/hardware/GPIO-and-40-pin-header',
+                },
+                {
+                  type: 'doc',
+                  id: 'ssom_3576/hardware/m2-interface',
+                },
+                {
+                  type: 'doc',
+                  id: 'ssom_3576/hardware/camera-interface',
+                },
+                {
+                  type: 'doc',
+                  id: 'ssom_3576/hardware/display-interface',
+                },
+
+                {
+                  type: 'doc',
+                  id: 'ssom_3576/hardware/audio-hardware-introduction',
+                },
+                // {
+                //   type: 'doc',
+                //   label: 'K1 Power Sequence',
+                //   id: 'ssom_3576/hardware/power-sequence',
+                // },
+                {
+                  type: 'doc',
+                  id: 'ssom_3576/hardware/hardware-file-download',
+                },
+
+
+              ],
             },
             {
-              type: 'doc',
-              label: 'Overview of Tools',
-              id: 'k1_ssom/ml/tools-overview',
+              type: 'category',
+              collapsed: true,
+              label: 'Software Development Guide',
+              items: [
+                {
+                  type: 'category',
+                  collapsed: true,
+                  label: 'Debian',
+                  items: [
+                    {
+                      type: 'doc',
+                      id: 'ssom_3576/software/debian/linux',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'ssom_3576/software/debian/system_config',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'ssom_3576/software/debian/swap',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'ssom_3576/software/debian/terminal_input',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'ssom_3576/software/debian/vnc',
+                    },
+                  ]
+                },
+                {
+                  type: 'category',
+                  collapsed: true,
+                  label: 'Peripheral Driver',
+                  items: [
+                    {
+                      type: 'doc',
+                      id: 'ssom_3576/software/peripheral_driver/PINCTRL',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'ssom_3576/software/peripheral_driver/PWM',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'ssom_3576/software/peripheral_driver/UART',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'ssom_3576/software/peripheral_driver/I2C',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'ssom_3576/software/peripheral_driver/QSPI',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'ssom_3576/software/peripheral_driver/gmac',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'ssom_3576/software/peripheral_driver/USB',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'ssom_3576/software/peripheral_driver/PCIe',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'ssom_3576/software/peripheral_driver/DSI',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'ssom_3576/software/peripheral_driver/HDMI',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'ssom_3576/software/peripheral_driver/AUDIO',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'ssom_3576/software/peripheral_driver/CLOCK',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'ssom_3576/software/peripheral_driver/CAN',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'ssom_3576/software/peripheral_driver/DSMC',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'ssom_3576/software/peripheral_driver/DP',
+                    },
+                  ]
+                },
+                {
+                  type: 'category',
+                  collapsed: true,
+                  label: 'Media',
+                  items: [
+                    {
+                      type: 'doc',
+                      id: 'ssom_3576/software/media/mpp',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'ssom_3576/software/media/gstream_mpp',
+                    },
+                  ]
+                },
+              ],
             },
             {
-              type: 'doc',
-              label: 'Quick Start',
-              id: 'k1_ssom/ml/ai-quick-start',
+              type: 'category',
+              collapsed: true,
+              label: 'System Development Guide',
+              items: [
+                {
+                  type: 'doc',
+                  id: 'ssom_3576/system_dev/kernel_dev',
+                },
+                {
+                  type: 'doc',
+                  id: 'ssom_3576/system_dev/uboot_dev',
+                },
+
+
+
+              ],
             },
             {
-              type: 'doc',
-              label: 'Model Translation',
-              id: 'k1_ssom/ml/model-translate',
+              type: 'category',
+              collapsed: true,
+              label: 'Machine Learning',
+              items: [
+                {
+                  type: 'doc',
+                  id: 'ssom_3576/ml/env/env',
+                },
+                {
+                  type: 'doc',
+                  id: 'ssom_3576/ml/env/rknn_toolkit2',
+                },
+                {
+                  type: 'doc',
+                  id: 'ssom_3576/ml/env/rknn_toolkit_lite2',
+                },
+                {
+                  type: 'doc',
+                  id: 'ssom_3576/ml/env/rk_model_zoo',
+                },
+                {
+                  type: 'doc',
+                  id: 'ssom_3576/ml/env/rkllm',
+                },
+              ],
             },
             {
-              type: 'doc',
-              label: 'Model Optimization',
-              id: 'k1_ssom/ml/model-optimization',
+              type: 'category',
+              collapsed: true,
+              label: 'Data Manual',
+              items: [
+                {
+                  type: 'doc',
+                  id: 'ssom_3576/datasheets/datasheets',
+                },
+              ],
             },
-            {
-              type: 'doc',
-              label: 'Model Simulation and Testing',
-              id: 'k1_ssom/ml/model-simulation-testing',
-            },
-            {
-              type: 'doc',
-              label: 'Model Deployment',
-              id: 'k1_ssom/ml/model-deploy',
-            },
-            {
-              type: 'doc',
-              id: 'k1_ssom/ml/model-zoo',
-            },
-            {
-              type: 'doc',
-              id: 'k1_ssom/ml/llm-deploy',
-            },
-            {
-              type: 'doc',
-              id: 'k1_ssom/ml/ollama',
-            },
-            {
-              type: 'doc',
-              id: 'k1_ssom/ml/openwebui',
-            },
+
 
           ],
         },
+        // SSOM-3576 docs ends
+
+
+        // ssom-3588 docs
         {
           type: 'category',
           collapsed: true,
-          label: 'Data Manual',
+          label: 'SSOM-3588',
           items: [
             {
-              type: 'doc',
-              id: 'k1_ssom/datasheets/datasheets',
-            },
-          ],
-        },
-        {
-          type: 'category',
-          collapsed: true,
-          label: 'Tools',
-          items: [
-            {
-              type: 'doc',
-              id: 'k1_ssom/tools/titan',
-            },
-            {
-              type: 'doc',
-              id: 'k1_ssom/tools/cross_compiling',
-            },
-            {
-              type: 'doc',
-              id: 'k1_ssom/tools/jtad_debug',
-            }
+              type: 'category',
+              collapsed: true,
+              label: 'Getting Started',
+              items: [
+                {
+                  type: 'doc',
+                  id: 'ssom_3588/getting-started/preparation',
+                },
+                {
+                  type: 'doc',
+                  id: 'ssom_3588/getting-started/install',
+                },
+                {
+                  type: 'doc',
+                  id: 'ssom_3588/getting-started/configuring',
+                }
 
-          ],
-        },
-        
-
-      ],
-    },
-    // k1-ssom docs ends
-
-
-
-
-    // k1pro-SSOM docs 
-    {
-      type: 'category',
-      collapsed: true,
-      label: 'K1 Pro SSOM',
-      items: [
-        {
-          type: 'category',
-          collapsed: true,
-          label: 'Getting Started',
-          items: [
-            {
-              type: 'doc',
-              id: 'k1_pro_ssom/getting-started/preparation',
-            },
-            {
-              type: 'doc',
-              id: 'k1_pro_ssom/getting-started/install',
-            },
-            {
-              type: 'doc',
-              id: 'k1_pro_ssom/getting-started/configuring',
-            }
-
-          ],
-        },
-        
-        {
-          type: 'category',
-          collapsed: true,
-          label: 'Hardware Development Guide',
-          items: [
-            {
-              type: 'doc',
-              id: 'k1_pro_ssom/hardware/hardware-brief',
-            },
-            {
-              type: 'doc',
-              id: 'k1_pro_ssom/hardware/processor-brief',
-            },
-            {
-              type: 'doc',
-              id: 'k1_pro_ssom/hardware/GPIO-and-40-pin-header',
-            },
-            {
-              type: 'doc',
-              id: 'k1_pro_ssom/hardware/m2-interface',
-            },
-            {
-              type: 'doc',
-              id: 'k1_pro_ssom/hardware/camera-interface',
-            },
-            {
-              type: 'doc',
-              id: 'k1_pro_ssom/hardware/display-interface',
+              ],
             },
 
-            {
-              type: 'doc',
-              id: 'k1_pro_ssom/hardware/audio-hardware-introduction',
-            },
             // {
-            //   type: 'doc',
-            //   label: 'K1 Power Sequence',
-            //   id: 'k1_pro_ssom/hardware/power-sequence',
+            //   type: 'category',
+            //   collapsed: true,
+            //   label: 'Hardware Development Guide',
+            //   items: [
+            //     {
+            //       type: 'doc',
+            //       id: 'ssom_3588/hardware/hardware-brief',
+            //     },
+            //     {
+            //       type: 'doc',
+            //       id: 'ssom_3588/hardware/processor-brief',
+            //     },
+            //     {
+            //       type: 'doc',
+            //       id: 'ssom_3588/hardware/GPIO-and-40-pin-header',
+            //     },
+            //     {
+            //       type: 'doc',
+            //       id: 'ssom_3588/hardware/m2-interface',
+            //     },
+            //     {
+            //       type: 'doc',
+            //       id: 'ssom_3588/hardware/camera-interface',
+            //     },
+            //     {
+            //       type: 'doc',
+            //       id: 'ssom_3588/hardware/display-interface',
+            //     },
+
+            //     {
+            //       type: 'doc',
+            //       id: 'ssom_3588/hardware/audio-hardware-introduction',
+            //     },
+            //     // {
+            //     //   type: 'doc',
+            //     //   label: 'K1 Power Sequence',
+            //     //   id: 'k1_pro/hardware/power-sequence',
+            //     // },
+            //     {
+            //       type: 'doc',
+            //       id: 'ssom_3588/hardware/hardware-file-download',
+            //     },
+
+
+            //   ],
             // },
             {
-              type: 'doc',
-              id: 'k1_pro_ssom/hardware/hardware-file-download',
-            },
-
-
-          ],
-        },
-        {
-          type: 'category',
-          collapsed: true,
-          label: 'Software Development Guide',
-          items: [
-            {
               type: 'category',
               collapsed: true,
-              label: 'Debian',
+              label: 'Software Development Guide',
               items: [
                 {
-                  type: 'doc',
-                  id: 'k1_pro_ssom/software/debian/linux',
+                  type: 'category',
+                  collapsed: true,
+                  label: 'Debian',
+                  items: [
+                    {
+                      type: 'doc',
+                      id: 'ssom_3588/software/debian/linux',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'ssom_3588/software/debian/system_config',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'ssom_3588/software/debian/swap',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'ssom_3588/software/debian/terminal_input',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'ssom_3588/software/debian/vnc',
+                    },
+                  ]
                 },
                 {
-                  type: 'doc',
-                  id: 'k1_pro_ssom/software/debian/system_config',
+                  type: 'category',
+                  collapsed: true,
+                  label: 'Peripheral Driver',
+                  items: [
+                    {
+                      type: 'doc',
+                      id: 'ssom_3588/software/peripheral_driver/PINCTRL',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'ssom_3588/software/peripheral_driver/PWM',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'ssom_3588/software/peripheral_driver/UART',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'ssom_3588/software/peripheral_driver/I2C',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'ssom_3588/software/peripheral_driver/QSPI',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'ssom_3588/software/peripheral_driver/gmac',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'ssom_3588/software/peripheral_driver/USB',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'ssom_3588/software/peripheral_driver/PCIe',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'ssom_3588/software/peripheral_driver/DSI',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'ssom_3588/software/peripheral_driver/HDMI',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'ssom_3588/software/peripheral_driver/AUDIO',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'ssom_3588/software/peripheral_driver/CLOCK',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'ssom_3588/software/peripheral_driver/CAN',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'ssom_3588/software/peripheral_driver/DSMC',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'ssom_3588/software/peripheral_driver/DP',
+                    },
+                  ]
                 },
                 {
-                  type: 'doc',
-                  id: 'k1_pro_ssom/software/debian/swap',
+                  type: 'category',
+                  collapsed: true,
+                  label: 'Media',
+                  items: [
+                    {
+                      type: 'doc',
+                      id: 'ssom_3588/software/media/mpp',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'ssom_3588/software/media/gstream_mpp',
+                    },
+                  ]
                 },
-                {
-                  type: 'doc',
-                  id: 'k1_pro_ssom/software/debian/terminal_input',
-                },
-                {
-                  type: 'doc',
-                  id: 'k1_pro_ssom/software/debian/vnc',
-                },
-              ]
-            },
-            {
-              type: 'category',
-              collapsed: true,
-              label: 'Peripheral Driver',
-              items: [
-                {
-                  type: 'doc',
-                  id: 'k1_pro_ssom/software/peripheral_driver/PINCTRL',
-                },
-                {
-                  type: 'doc',
-                  id: 'k1_pro_ssom/software/peripheral_driver/PWM',
-                },
-                {
-                  type: 'doc',
-                  id: 'k1_pro_ssom/software/peripheral_driver/UART',
-                },
-                {
-                  type: 'doc',
-                  id: 'k1_pro_ssom/software/peripheral_driver/I2C',
-                },
-                {
-                  type: 'doc',
-                  id: 'k1_pro_ssom/software/peripheral_driver/QSPI',
-                },         
-                {
-                  type: 'doc',
-                  id: 'k1_pro_ssom/software/peripheral_driver/gmac',
-                },
-                {
-                  type: 'doc',
-                  id: 'k1_pro_ssom/software/peripheral_driver/USB',
-                },
-                {
-                  type: 'doc',
-                  id: 'k1_pro_ssom/software/peripheral_driver/PCIe',
-                },
-                {
-                  type: 'doc',
-                  id: 'k1_pro_ssom/software/peripheral_driver/DSI',
-                },
-                {
-                  type: 'doc',
-                  id: 'k1_pro_ssom/software/peripheral_driver/HDMI',
-                },
-                {
-                  type: 'doc',
-                  id: 'k1_pro_ssom/software/peripheral_driver/AUDIO',
-                },
-                {
-                  type: 'doc',
-                  id: 'k1_pro_ssom/software/peripheral_driver/CLOCK',
-                },
-                {
-                  type: 'doc',
-                  id: 'k1_pro_ssom/software/peripheral_driver/CAN',
-                },
-                {
-                  type: 'doc',
-                  id: 'k1_pro_ssom/software/peripheral_driver/DSMC',
-                },
-                {
-                  type: 'doc',
-                  id: 'k1_pro_ssom/software/peripheral_driver/DP',
-                },
-              ]
-            },
-            {
-              type: 'category',
-              collapsed: true,
-              label: 'Media',
-              items: [
-                {
-                  type: 'doc',
-                  id: 'k1_pro_ssom/software/media/mpp',
-                },
-                {
-                  type: 'doc',
-                  id: 'k1_pro_ssom/software/media/gstream_mpp',
-                },
-              ]
-            },
-          ],
-        },
-        {
-          type: 'category',
-          collapsed: true,
-          label: 'System Development Guide',
-          items: [
-            {
-              type: 'doc',
-              id: 'k1_pro_ssom/system_dev/kernel_dev',
-            }, 
-            {
-              type: 'doc',
-              id: 'k1_pro_ssom/system_dev/uboot_dev',
-            }, 
-
-            
-
-          ],
-        },
-        {
-          type: 'category',
-          collapsed: true,
-          label: 'Machine Learning',
-          items: [
-            {
-              type: 'doc',
-              id: 'k1_pro_ssom/ml/env/env',
-            }, 
-            {
-              type: 'doc',
-              id: 'k1_pro_ssom/ml/env/rknn_toolkit2',
-            },
-            {
-              type: 'doc',
-              id: 'k1_pro_ssom/ml/env/rknn_toolkit_lite2',
-            },
-            {
-              type: 'doc',
-              id: 'k1_pro_ssom/ml/env/rk_model_zoo',
-            },
-            {
-              type: 'doc',
-              id: 'k1_pro_ssom/ml/env/rkllm',
-            },
-          ],
-        },
-        {
-          type: 'category',
-          collapsed: true,
-          label: 'Data Manual',
-          items: [
-            {
-              type: 'doc',
-              id: 'k1_pro_ssom/datasheets/datasheets',
-            },
-          ],
-        },
-        
-
-      ],
-    },
-    // k1pro-SSOM docs ends
-
-
-    // ssom-3588 docs
-     {
-      type: 'category',
-      collapsed: true,
-      label: 'SSOM-3588',
-      items: [
-        {
-          type: 'category',
-          collapsed: true,
-          label: 'Getting Started',
-          items: [
-            {
-              type: 'doc',
-              id: 'ssom_3588/getting-started/preparation',
-            },
-            {
-              type: 'doc',
-              id: 'ssom_3588/getting-started/install',
-            },
-            {
-              type: 'doc',
-              id: 'ssom_3588/getting-started/configuring',
-            }
-
-          ],
-        },
-        
-        // {
-        //   type: 'category',
-        //   collapsed: true,
-        //   label: 'Hardware Development Guide',
-        //   items: [
-        //     {
-        //       type: 'doc',
-        //       id: 'ssom_3588/hardware/hardware-brief',
-        //     },
-        //     {
-        //       type: 'doc',
-        //       id: 'ssom_3588/hardware/processor-brief',
-        //     },
-        //     {
-        //       type: 'doc',
-        //       id: 'ssom_3588/hardware/GPIO-and-40-pin-header',
-        //     },
-        //     {
-        //       type: 'doc',
-        //       id: 'ssom_3588/hardware/m2-interface',
-        //     },
-        //     {
-        //       type: 'doc',
-        //       id: 'ssom_3588/hardware/camera-interface',
-        //     },
-        //     {
-        //       type: 'doc',
-        //       id: 'ssom_3588/hardware/display-interface',
-        //     },
-
-        //     {
-        //       type: 'doc',
-        //       id: 'ssom_3588/hardware/audio-hardware-introduction',
-        //     },
-        //     // {
-        //     //   type: 'doc',
-        //     //   label: 'K1 Power Sequence',
-        //     //   id: 'k1_pro/hardware/power-sequence',
-        //     // },
-        //     {
-        //       type: 'doc',
-        //       id: 'ssom_3588/hardware/hardware-file-download',
-        //     },
-
-
-        //   ],
-        // },
-        {
-          type: 'category',
-          collapsed: true,
-          label: 'Software Development Guide',
-          items: [
-            {
-              type: 'category',
-              collapsed: true,
-              label: 'Debian',
-              items: [
-                {
-                  type: 'doc',
-                  id: 'ssom_3588/software/debian/linux',
-                },
-                {
-                  type: 'doc',
-                  id: 'ssom_3588/software/debian/system_config',
-                },
-                {
-                  type: 'doc',
-                  id: 'ssom_3588/software/debian/swap',
-                },
-                {
-                  type: 'doc',
-                  id: 'ssom_3588/software/debian/terminal_input',
-                },
-                {
-                  type: 'doc',
-                  id: 'ssom_3588/software/debian/vnc',
-                },
-              ]
+              ],
             },
             {
               type: 'category',
               collapsed: true,
-              label: 'Peripheral Driver',
+              label: 'System Development Guide',
               items: [
                 {
                   type: 'doc',
-                  id: 'ssom_3588/software/peripheral_driver/PINCTRL',
+                  id: 'ssom_3588/system_dev/kernel_dev',
                 },
                 {
                   type: 'doc',
-                  id: 'ssom_3588/software/peripheral_driver/PWM',
+                  id: 'ssom_3588/system_dev/uboot_dev',
                 },
-                {
-                  type: 'doc',
-                  id: 'ssom_3588/software/peripheral_driver/UART',
-                },
-                {
-                  type: 'doc',
-                  id: 'ssom_3588/software/peripheral_driver/I2C',
-                },
-                {
-                  type: 'doc',
-                  id: 'ssom_3588/software/peripheral_driver/QSPI',
-                },         
-                {
-                  type: 'doc',
-                  id: 'ssom_3588/software/peripheral_driver/gmac',
-                },
-                {
-                  type: 'doc',
-                  id: 'ssom_3588/software/peripheral_driver/USB',
-                },
-                {
-                  type: 'doc',
-                  id: 'ssom_3588/software/peripheral_driver/PCIe',
-                },
-                {
-                  type: 'doc',
-                  id: 'ssom_3588/software/peripheral_driver/DSI',
-                },
-                {
-                  type: 'doc',
-                  id: 'ssom_3588/software/peripheral_driver/HDMI',
-                },
-                {
-                  type: 'doc',
-                  id: 'ssom_3588/software/peripheral_driver/AUDIO',
-                },
-                {
-                  type: 'doc',
-                  id: 'ssom_3588/software/peripheral_driver/CLOCK',
-                },
-                {
-                  type: 'doc',
-                  id: 'ssom_3588/software/peripheral_driver/CAN',
-                },
-                {
-                  type: 'doc',
-                  id: 'ssom_3588/software/peripheral_driver/DSMC',
-                },
-                {
-                  type: 'doc',
-                  id: 'ssom_3588/software/peripheral_driver/DP',
-                },
-              ]
+
+
+
+              ],
             },
             {
               type: 'category',
               collapsed: true,
-              label: 'Media',
+              label: 'Machine Learning',
               items: [
                 {
                   type: 'doc',
-                  id: 'ssom_3588/software/media/mpp',
+                  id: 'ssom_3588/ml/env/env',
                 },
                 {
                   type: 'doc',
-                  id: 'ssom_3588/software/media/gstream_mpp',
+                  id: 'ssom_3588/ml/env/rknn_toolkit2',
                 },
-              ]
+                {
+                  type: 'doc',
+                  id: 'ssom_3588/ml/env/rknn_toolkit_lite2',
+                },
+                {
+                  type: 'doc',
+                  id: 'ssom_3588/ml/env/rk_model_zoo',
+                },
+                {
+                  type: 'doc',
+                  id: 'ssom_3588/ml/env/rkllm',
+                },
+              ],
             },
+            {
+              type: 'category',
+              collapsed: true,
+              label: 'Data Manual',
+              items: [
+                {
+                  type: 'doc',
+                  id: 'ssom_3588/datasheets/datasheets',
+                },
+              ],
+            },
+
+
           ],
         },
+
+        // ssom-3588-v2 docs
         {
           type: 'category',
           collapsed: true,
-          label: 'System Development Guide',
+          label: 'SSOM-3588-V2',
           items: [
             {
               type: 'doc',
-              id: 'ssom_3588/system_dev/kernel_dev',
-            }, 
+              id: 'ssom_3588_v2/intro/intro',
+            },
             {
               type: 'doc',
-              id: 'ssom_3588/system_dev/uboot_dev',
-            }, 
-
-            
-
-          ],
+              id: 'ssom_3588_v2/hardware/datasheet',
+            },
+          ]
         },
+        // ssom-3588-v2 docs ends
+
+        // ssom-3588s docs
         {
           type: 'category',
           collapsed: true,
-          label: 'Machine Learning',
+          label: 'SSOM-3588S',
           items: [
             {
               type: 'doc',
-              id: 'ssom_3588/ml/env/env',
-            }, 
-            {
-              type: 'doc',
-              id: 'ssom_3588/ml/env/rknn_toolkit2',
+              id: 'ssom_3588s/intro/intro',
             },
             {
               type: 'doc',
-              id: 'ssom_3588/ml/env/rknn_toolkit_lite2',
+              id: 'ssom_3588s/hardware/datasheet',
             },
-            {
-              type: 'doc',
-              id: 'ssom_3588/ml/env/rk_model_zoo',
-            },
-            {
-              type: 'doc',
-              id: 'ssom_3588/ml/env/rkllm',
-            },
-          ],
+          ]
         },
+        // ssom-3588s docs ends
+
+        // ssom-imx8mp docs
         {
           type: 'category',
           collapsed: true,
-          label: 'Data Manual',
+          label: 'SSOM-I.MX8MP',
           items: [
             {
               type: 'doc',
-              id: 'ssom_3588/datasheets/datasheets',
+              id: 'ssom_imx8mp/intro/intro',
             },
-          ],
+            {
+              type: 'doc',
+              id: 'ssom_imx8mp/hardware/datasheet',
+            },
+          ]
         },
-        
+        // ssom-imx8mp docs ends
 
-      ],
-    }
+        // ssom-imx8mm docs
+        {
+          type: 'category',
+          collapsed: true,
+          label: 'SSOM-I.MX8MM',
+          items: [
+            {
+              type: 'doc',
+              id: 'ssom_imx8mm/intro/intro',
+            },
+            {
+              type: 'doc',
+              id: 'ssom_imx8mm/hardware/datasheet',
+            },
+          ]
+        },
+        // ssom-imx8mm docs ends
+
+        // ssom-imx9352 docs
+        {
+          type: 'category',
+          collapsed: true,
+          label: 'SSOM-I.MX9352',
+          items: [
+            {
+              type: 'doc',
+              id: 'ssom_imx9352/intro/intro',
+            },
+            {
+              type: 'doc',
+              id: 'ssom_imx9352/hardware/datasheet',
+            },
+          ]
+        },
+
+        // ssom-imx9352 docs ends
       ]
     },
 
-    
 
 
-   
+
+
 
 
   ],
