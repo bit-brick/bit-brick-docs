@@ -30,7 +30,7 @@ const SBC: FeatureItem[] = [
     title: <Translate id='sbc_imx8mp.title'>IMX8MP-HMI</Translate>,
     imageSrc: require('@site/static/img/index/devices/sbc_imx8mp.png').default,
     description: (<><Translate id='sbc_imx8mp.desc'>The High-performance Single-board Computer Based on i.MX 8M Plus Application Processor</Translate></>),
-    url: "docs/imx8mp/intro/intro"
+    url: "docs/imx8mp/intro"
   },
   {
     title: <Translate id='sbc_cluster_k1.title'>Cluster_K1</Translate>,
