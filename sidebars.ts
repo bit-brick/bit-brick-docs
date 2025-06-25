@@ -1892,53 +1892,48 @@ const sidebars: SidebarsConfig = {
               ],
             },
 
-            // {
-            //   type: 'category',
-            //   collapsed: true,
-            //   label: 'Hardware Development Guide',
-            //   items: [
-            //     {
-            //       type: 'doc',
-            //       id: 'ssom_3588/hardware/hardware-brief',
-            //     },
-            //     {
-            //       type: 'doc',
-            //       id: 'ssom_3588/hardware/processor-brief',
-            //     },
-            //     {
-            //       type: 'doc',
-            //       id: 'ssom_3588/hardware/GPIO-and-40-pin-header',
-            //     },
-            //     {
-            //       type: 'doc',
-            //       id: 'ssom_3588/hardware/m2-interface',
-            //     },
-            //     {
-            //       type: 'doc',
-            //       id: 'ssom_3588/hardware/camera-interface',
-            //     },
-            //     {
-            //       type: 'doc',
-            //       id: 'ssom_3588/hardware/display-interface',
-            //     },
+            {
+              type: 'category',
+              collapsed: true,
+              label: 'Hardware Development Guide',
+              items: [
+                {
+                  type: 'doc',
+                  id: 'ssom_3588/hardware/datasheet',
+                },
+                // {
+                //   type: 'doc',
+                //   id: 'ssom_3588/hardware/processor-brief',
+                // },
+                // {
+                //   type: 'doc',
+                //   id: 'ssom_3588/hardware/GPIO-and-40-pin-header',
+                // },
+                // {
+                //   type: 'doc',
+                //   id: 'ssom_3588/hardware/m2-interface',
+                // },
+                // {
+                //   type: 'doc',
+                //   id: 'ssom_3588/hardware/camera-interface',
+                // },
+                // {
+                //   type: 'doc',
+                //   id: 'ssom_3588/hardware/display-interface',
+                // },
 
-            //     {
-            //       type: 'doc',
-            //       id: 'ssom_3588/hardware/audio-hardware-introduction',
-            //     },
-            //     // {
-            //     //   type: 'doc',
-            //     //   label: 'K1 Power Sequence',
-            //     //   id: 'k1_pro/hardware/power-sequence',
-            //     // },
-            //     {
-            //       type: 'doc',
-            //       id: 'ssom_3588/hardware/hardware-file-download',
-            //     },
+                // {
+                //   type: 'doc',
+                //   id: 'ssom_3588/hardware/audio-hardware-introduction',
+                // },
+                // {
+                //   type: 'doc',
+                //   id: 'ssom_3588/hardware/hardware-file-download',
+                // },
 
 
-            //   ],
-            // },
+              ],
+            },
             {
               type: 'category',
               collapsed: true,
