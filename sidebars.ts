@@ -1609,246 +1609,255 @@ const sidebars: SidebarsConfig = {
           collapsed: true,
           label: 'SSOM-3576',
           items: [
-            {
-              type: 'category',
-              collapsed: true,
-              label: 'Getting Started',
-              items: [
-                {
-                  type: 'doc',
-                  id: 'ssom_3576/getting-started/preparation',
-                },
-                {
-                  type: 'doc',
-                  id: 'ssom_3576/getting-started/install',
-                },
-                {
-                  type: 'doc',
-                  id: 'ssom_3576/getting-started/configuring',
-                }
-
-              ],
-            },
-
-            {
-              type: 'category',
-              collapsed: true,
-              label: 'Hardware Development Guide',
-              items: [
-                {
-                  type: 'doc',
-                  id: 'ssom_3576/hardware/hardware-brief',
-                },
-                {
-                  type: 'doc',
-                  id: 'ssom_3576/hardware/processor-brief',
-                },
-                {
-                  type: 'doc',
-                  id: 'ssom_3576/hardware/GPIO-and-40-pin-header',
-                },
-                {
-                  type: 'doc',
-                  id: 'ssom_3576/hardware/m2-interface',
-                },
-                {
-                  type: 'doc',
-                  id: 'ssom_3576/hardware/camera-interface',
-                },
-                {
-                  type: 'doc',
-                  id: 'ssom_3576/hardware/display-interface',
-                },
-
-                {
-                  type: 'doc',
-                  id: 'ssom_3576/hardware/audio-hardware-introduction',
-                },
-                // {
-                //   type: 'doc',
-                //   label: 'K1 Power Sequence',
-                //   id: 'ssom_3576/hardware/power-sequence',
-                // },
-                {
-                  type: 'doc',
-                  id: 'ssom_3576/hardware/hardware-file-download',
-                },
-
-
-              ],
+              {
+              type: 'doc',
+              id: 'ssom_3576/intro/intro',
             },
             {
-              type: 'category',
-              collapsed: true,
-              label: 'Software Development Guide',
-              items: [
-                {
-                  type: 'category',
-                  collapsed: true,
-                  label: 'Debian',
-                  items: [
-                    {
-                      type: 'doc',
-                      id: 'ssom_3576/software/debian/linux',
-                    },
-                    {
-                      type: 'doc',
-                      id: 'ssom_3576/software/debian/system_config',
-                    },
-                    {
-                      type: 'doc',
-                      id: 'ssom_3576/software/debian/swap',
-                    },
-                    {
-                      type: 'doc',
-                      id: 'ssom_3576/software/debian/terminal_input',
-                    },
-                    {
-                      type: 'doc',
-                      id: 'ssom_3576/software/debian/vnc',
-                    },
-                  ]
-                },
-                {
-                  type: 'category',
-                  collapsed: true,
-                  label: 'Peripheral Driver',
-                  items: [
-                    {
-                      type: 'doc',
-                      id: 'ssom_3576/software/peripheral_driver/PINCTRL',
-                    },
-                    {
-                      type: 'doc',
-                      id: 'ssom_3576/software/peripheral_driver/PWM',
-                    },
-                    {
-                      type: 'doc',
-                      id: 'ssom_3576/software/peripheral_driver/UART',
-                    },
-                    {
-                      type: 'doc',
-                      id: 'ssom_3576/software/peripheral_driver/I2C',
-                    },
-                    {
-                      type: 'doc',
-                      id: 'ssom_3576/software/peripheral_driver/QSPI',
-                    },
-                    {
-                      type: 'doc',
-                      id: 'ssom_3576/software/peripheral_driver/gmac',
-                    },
-                    {
-                      type: 'doc',
-                      id: 'ssom_3576/software/peripheral_driver/USB',
-                    },
-                    {
-                      type: 'doc',
-                      id: 'ssom_3576/software/peripheral_driver/PCIe',
-                    },
-                    {
-                      type: 'doc',
-                      id: 'ssom_3576/software/peripheral_driver/DSI',
-                    },
-                    {
-                      type: 'doc',
-                      id: 'ssom_3576/software/peripheral_driver/HDMI',
-                    },
-                    {
-                      type: 'doc',
-                      id: 'ssom_3576/software/peripheral_driver/AUDIO',
-                    },
-                    {
-                      type: 'doc',
-                      id: 'ssom_3576/software/peripheral_driver/CLOCK',
-                    },
-                    {
-                      type: 'doc',
-                      id: 'ssom_3576/software/peripheral_driver/CAN',
-                    },
-                    {
-                      type: 'doc',
-                      id: 'ssom_3576/software/peripheral_driver/DSMC',
-                    },
-                    {
-                      type: 'doc',
-                      id: 'ssom_3576/software/peripheral_driver/DP',
-                    },
-                  ]
-                },
-                {
-                  type: 'category',
-                  collapsed: true,
-                  label: 'Media',
-                  items: [
-                    {
-                      type: 'doc',
-                      id: 'ssom_3576/software/media/mpp',
-                    },
-                    {
-                      type: 'doc',
-                      id: 'ssom_3576/software/media/gstream_mpp',
-                    },
-                  ]
-                },
-              ],
+              type: 'doc',
+              id: 'ssom_3576/hardware/datasheet',
             },
-            {
-              type: 'category',
-              collapsed: true,
-              label: 'System Development Guide',
-              items: [
-                {
-                  type: 'doc',
-                  id: 'ssom_3576/system_dev/kernel_dev',
-                },
-                {
-                  type: 'doc',
-                  id: 'ssom_3576/system_dev/uboot_dev',
-                },
+
+            // {
+            //   type: 'category',
+            //   collapsed: true,
+            //   label: 'Getting Started',
+            //   items: [
+            //     {
+            //       type: 'doc',
+            //       id: 'ssom_3576/getting-started/preparation',
+            //     },
+            //     {
+            //       type: 'doc',
+            //       id: 'ssom_3576/getting-started/install',
+            //     },
+            //     {
+            //       type: 'doc',
+            //       id: 'ssom_3576/getting-started/configuring',
+            //     }
+
+            //   ],
+            // },
+
+            // {
+            //   type: 'category',
+            //   collapsed: true,
+            //   label: 'Hardware Development Guide',
+            //   items: [
+            //     {
+            //       type: 'doc',
+            //       id: 'ssom_3576/hardware/hardware-brief',
+            //     },
+            //     {
+            //       type: 'doc',
+            //       id: 'ssom_3576/hardware/processor-brief',
+            //     },
+            //     {
+            //       type: 'doc',
+            //       id: 'ssom_3576/hardware/GPIO-and-40-pin-header',
+            //     },
+            //     {
+            //       type: 'doc',
+            //       id: 'ssom_3576/hardware/m2-interface',
+            //     },
+            //     {
+            //       type: 'doc',
+            //       id: 'ssom_3576/hardware/camera-interface',
+            //     },
+            //     {
+            //       type: 'doc',
+            //       id: 'ssom_3576/hardware/display-interface',
+            //     },
+
+            //     {
+            //       type: 'doc',
+            //       id: 'ssom_3576/hardware/audio-hardware-introduction',
+            //     },
+            //     // {
+            //     //   type: 'doc',
+            //     //   label: 'K1 Power Sequence',
+            //     //   id: 'ssom_3576/hardware/power-sequence',
+            //     // },
+            //     {
+            //       type: 'doc',
+            //       id: 'ssom_3576/hardware/hardware-file-download',
+            //     },
+
+
+            //   ],
+            // },
+            // {
+            //   type: 'category',
+            //   collapsed: true,
+            //   label: 'Software Development Guide',
+            //   items: [
+            //     {
+            //       type: 'category',
+            //       collapsed: true,
+            //       label: 'Debian',
+            //       items: [
+            //         {
+            //           type: 'doc',
+            //           id: 'ssom_3576/software/debian/linux',
+            //         },
+            //         {
+            //           type: 'doc',
+            //           id: 'ssom_3576/software/debian/system_config',
+            //         },
+            //         {
+            //           type: 'doc',
+            //           id: 'ssom_3576/software/debian/swap',
+            //         },
+            //         {
+            //           type: 'doc',
+            //           id: 'ssom_3576/software/debian/terminal_input',
+            //         },
+            //         {
+            //           type: 'doc',
+            //           id: 'ssom_3576/software/debian/vnc',
+            //         },
+            //       ]
+            //     },
+            //     {
+            //       type: 'category',
+            //       collapsed: true,
+            //       label: 'Peripheral Driver',
+            //       items: [
+            //         {
+            //           type: 'doc',
+            //           id: 'ssom_3576/software/peripheral_driver/PINCTRL',
+            //         },
+            //         {
+            //           type: 'doc',
+            //           id: 'ssom_3576/software/peripheral_driver/PWM',
+            //         },
+            //         {
+            //           type: 'doc',
+            //           id: 'ssom_3576/software/peripheral_driver/UART',
+            //         },
+            //         {
+            //           type: 'doc',
+            //           id: 'ssom_3576/software/peripheral_driver/I2C',
+            //         },
+            //         {
+            //           type: 'doc',
+            //           id: 'ssom_3576/software/peripheral_driver/QSPI',
+            //         },
+            //         {
+            //           type: 'doc',
+            //           id: 'ssom_3576/software/peripheral_driver/gmac',
+            //         },
+            //         {
+            //           type: 'doc',
+            //           id: 'ssom_3576/software/peripheral_driver/USB',
+            //         },
+            //         {
+            //           type: 'doc',
+            //           id: 'ssom_3576/software/peripheral_driver/PCIe',
+            //         },
+            //         {
+            //           type: 'doc',
+            //           id: 'ssom_3576/software/peripheral_driver/DSI',
+            //         },
+            //         {
+            //           type: 'doc',
+            //           id: 'ssom_3576/software/peripheral_driver/HDMI',
+            //         },
+            //         {
+            //           type: 'doc',
+            //           id: 'ssom_3576/software/peripheral_driver/AUDIO',
+            //         },
+            //         {
+            //           type: 'doc',
+            //           id: 'ssom_3576/software/peripheral_driver/CLOCK',
+            //         },
+            //         {
+            //           type: 'doc',
+            //           id: 'ssom_3576/software/peripheral_driver/CAN',
+            //         },
+            //         {
+            //           type: 'doc',
+            //           id: 'ssom_3576/software/peripheral_driver/DSMC',
+            //         },
+            //         {
+            //           type: 'doc',
+            //           id: 'ssom_3576/software/peripheral_driver/DP',
+            //         },
+            //       ]
+            //     },
+            //     {
+            //       type: 'category',
+            //       collapsed: true,
+            //       label: 'Media',
+            //       items: [
+            //         {
+            //           type: 'doc',
+            //           id: 'ssom_3576/software/media/mpp',
+            //         },
+            //         {
+            //           type: 'doc',
+            //           id: 'ssom_3576/software/media/gstream_mpp',
+            //         },
+            //       ]
+            //     },
+            //   ],
+            // },
+            // {
+            //   type: 'category',
+            //   collapsed: true,
+            //   label: 'System Development Guide',
+            //   items: [
+            //     {
+            //       type: 'doc',
+            //       id: 'ssom_3576/system_dev/kernel_dev',
+            //     },
+            //     {
+            //       type: 'doc',
+            //       id: 'ssom_3576/system_dev/uboot_dev',
+            //     },
 
 
 
-              ],
-            },
-            {
-              type: 'category',
-              collapsed: true,
-              label: 'Machine Learning',
-              items: [
-                {
-                  type: 'doc',
-                  id: 'ssom_3576/ml/env/env',
-                },
-                {
-                  type: 'doc',
-                  id: 'ssom_3576/ml/env/rknn_toolkit2',
-                },
-                {
-                  type: 'doc',
-                  id: 'ssom_3576/ml/env/rknn_toolkit_lite2',
-                },
-                {
-                  type: 'doc',
-                  id: 'ssom_3576/ml/env/rk_model_zoo',
-                },
-                {
-                  type: 'doc',
-                  id: 'ssom_3576/ml/env/rkllm',
-                },
-              ],
-            },
-            {
-              type: 'category',
-              collapsed: true,
-              label: 'Data Manual',
-              items: [
-                {
-                  type: 'doc',
-                  id: 'ssom_3576/datasheets/datasheets',
-                },
-              ],
-            },
+            //   ],
+            // },
+            // {
+            //   type: 'category',
+            //   collapsed: true,
+            //   label: 'Machine Learning',
+            //   items: [
+            //     {
+            //       type: 'doc',
+            //       id: 'ssom_3576/ml/env/env',
+            //     },
+            //     {
+            //       type: 'doc',
+            //       id: 'ssom_3576/ml/env/rknn_toolkit2',
+            //     },
+            //     {
+            //       type: 'doc',
+            //       id: 'ssom_3576/ml/env/rknn_toolkit_lite2',
+            //     },
+            //     {
+            //       type: 'doc',
+            //       id: 'ssom_3576/ml/env/rk_model_zoo',
+            //     },
+            //     {
+            //       type: 'doc',
+            //       id: 'ssom_3576/ml/env/rkllm',
+            //     },
+            //   ],
+            // },
+            // {
+            //   type: 'category',
+            //   collapsed: true,
+            //   label: 'Data Manual',
+            //   items: [
+            //     {
+            //       type: 'doc',
+            //       id: 'ssom_3576/datasheets/datasheets',
+            //     },
+            //   ],
+            // },
 
 
           ],
