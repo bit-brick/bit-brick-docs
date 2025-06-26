@@ -1,6 +1,12 @@
 # Product Introduction
 
+<span style={{
+  display: 'flex',
+  justifyContent: 'center',
+  margin: '10px 0',
+  }}>
 ![alt text](./static/image.png)
+</span>
 
 SSOM-3588S is a small-sized, high-performance core module developed and designed based on the Rockchip RK3588S processor. It integrates a quad-core Cortex-A76 and a quad-core Cortex-A55 CPU, Mali-G610 MP4 GPU, and an NPU with up to 6 TOPs of computing power. It supports 8K encoding and decoding; equipped with a new generation 48MP image signal processor, supporting HDR, 3DNR, etc. It includes LPDDR4X, eMMC, PMIC, and four board-to-board connectors. Since most SoC signals can be transmitted through the board-to-board connectors, most of the SoC's functions can be realized.
 

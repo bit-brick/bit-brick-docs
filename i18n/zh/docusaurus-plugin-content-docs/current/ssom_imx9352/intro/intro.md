@@ -1,7 +1,12 @@
 # 产品介绍
 
-![alt text](./static/image.png)
-
+<span style={{
+  display: 'flex',
+  justifyContent: 'center',
+  margin: '10px 0',
+  }}>
+ ![alt text](./static/image.png)
+</span>
 
 SSOM-IMX9352是一款基于NXP i.MX9352处理器开发设计的高性能低成本核心模组。集成双核Cortex-A55和Cortex-M33实时核，主频最高可达1.7 GHz。引出UART、2 路千兆以太网（其中1路支持TSN）、USB 2.0、CANFD 等常用接口。集成0.5 TOPS NPU（神经网络处理单元），可加速边缘机器学习应用。 	
 

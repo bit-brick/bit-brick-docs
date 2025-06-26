@@ -1,6 +1,12 @@
 # 产品介绍
 
-![alt text](./static/image.png)
+<span style={{
+  display: 'flex',
+  justifyContent: 'center',
+  margin: '10px 0',
+  }}>
+ ![alt text](./static/image.png)
+</span>
 
 SSOM-3576是一款基于瑞芯微RK3576处理器开发设计的高性能核心模组，适合智能终端、工业控制和边缘计算等应用领域。
 集成四核Cortex-A72和四核Cortex-A53 CPU，主频最高可达2.2GHz。集成ARM Mali-G52 MP4 GPU，为多任务处理和高级图形处理提供了强大能力。内置NPU具备高达6 TOPS的AI算力，可实现高效的终端AI工作负载推理，支持边缘计算和智能交互等应用。

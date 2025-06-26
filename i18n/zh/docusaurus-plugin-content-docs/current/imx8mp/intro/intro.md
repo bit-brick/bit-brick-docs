@@ -1,6 +1,12 @@
 # 产品介绍
 
-![alt text](./static/image.png)
+<span style={{
+  display: 'flex',
+  justifyContent: 'center',
+  margin: '10px 0',
+  }}>
+ ![alt text](./static/image.png)
+</span>
 
 IMX8MP-HMI是一款基于NXP i.MX 8M Plus处理器开发设计的高性能开发板。集成四核ARM Cortex-A53和单核ARM Cortex-M7 CPU，主频最高可达1.8 GHz。集成2.3 TOPS NPU、双图像信号处理器和双核GPU引擎，支持HDMI、MIPI-DSI和LVDS显示输出，支持1080p@60fps视频编解码，适合工业自动化、智能设备、多媒体处理和边缘计算等广泛应用场景。
 
