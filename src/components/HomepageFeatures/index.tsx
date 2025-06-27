@@ -52,7 +52,7 @@ const SSOM: FeatureItem[] = [
     title: <Translate id='ssom_3576.title'>SSOM-3576</Translate>,
     imageSrc: require('@site/static/img/index/devices/ssom_3576.png').default,
     description: (<><Translate id='ssom_3576.desc'>The high-performance SoM Based on RK3576 Application Processor</Translate></>),
-    url: "docs/ssom_3576/getting-started/preparation"
+    url: "docs/ssom_3576/intro"
   },
   {
     title: <Translate id='ssom_3588.title'>SSOM-3588</Translate>,
@@ -64,31 +64,31 @@ const SSOM: FeatureItem[] = [
     title: <Translate id='ssom_3588_x2.title'>SSOM-3588-X2</Translate>,
     imageSrc: require('@site/static/img/index/devices/ssom_3588_x2.png').default,
     description: (<><Translate id='ssom_3588_x2.desc'>The compact size&high-performance SoM Based on RK3588 Application Processor</Translate></>),
-    url: "docs/ssom_3588_x2/intro/intro"
+    url: "docs/ssom_3588_x2/intro"
   },
   {
     title: <Translate id='ssom_3588s.title'>SSOM-3588S</Translate>,
     imageSrc: require('@site/static/img/index/devices/ssom_3588s.png').default,
     description: (<><Translate id='ssom_3588s.desc'>The compact size&high-performance SoM Based on RK3588S Application Processor</Translate></>),
-    url: "docs/ssom_3588s/intro/intro"
+    url: "docs/ssom_3588s/intro"
   },
   {
     title: <Translate id='ssom_imx9352.title'>SSOM-IMX9352</Translate>,
     imageSrc: require('@site/static/img/index/devices/ssom_imx9352.png').default,
     description: (<><Translate id='ssom_imx9352.desc'>The compact size&high-performance SoM Based on i.MX9352 Application Processor</Translate></>),
-    url: "docs/ssom_imx9352/intro/intro"
+    url: "docs/ssom_imx9352/intro"
   },
   {
     title: <Translate id='ssom_imx8mp.title'>SSOM-IMX8MP</Translate>,
     imageSrc: require('@site/static/img/index/devices/ssom_imx8mp.png').default,
     description: (<><Translate id='ssom_imx8mp.desc'>The compact size&high-performance SoM Based on i.MX 8M Plus Application Processor</Translate></>),
-    url: "docs/ssom_imx8mp/intro/intro"
+    url: "docs/ssom_imx8mp/intro"
   },
   {
     title: <Translate id='ssom_imx8mm.title'>SSOM-IMX8MM</Translate>,
     imageSrc: require('@site/static/img/index/devices/ssom_imx8mm.png').default,
     description: (<><Translate id='ssom_imx8mm.desc'>The compact size&high-performance SoM Based on i.MX 8M Mini Application Processor</Translate></>),
-    url: "docs/ssom_imx8mm/intro/intro"
+    url: "docs/ssom_imx8mm/intro"
   },
 ];
 const ProductList = [
