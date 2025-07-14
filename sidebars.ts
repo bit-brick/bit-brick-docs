@@ -776,6 +776,10 @@ const sidebars: SidebarsConfig = {
                     },
                     {
                       type: 'doc',
+                      id: 'k1_pro/software/debian/terminal_input',
+                    },
+                    {
+                      type: 'doc',
                       id: 'k1_pro/software/debian/vnc',
                     },
                   ]
@@ -1621,6 +1625,10 @@ const sidebars: SidebarsConfig = {
                     {
                       type: 'doc',
                       id: 'ssom_3576/software/debian/terminal_input',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'ssom_3576/software/debian/locale_change',
                     },
                     {
                       type: 'doc',
