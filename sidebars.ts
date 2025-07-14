@@ -776,7 +776,7 @@ const sidebars: SidebarsConfig = {
                     },
                     {
                       type: 'doc',
-                      id: 'k1_pro/software/debian/terminal_input',
+                      id: 'k1_pro/software/debian/locale_change',
                     },
                     {
                       type: 'doc',
