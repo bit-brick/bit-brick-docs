@@ -190,10 +190,26 @@ const sidebars: SidebarsConfig = {
                   type: 'category',
                   collapsed: true,
                   label: 'System Integration',
-                  items: [{
+                  items: [
+                    {
                     type: 'doc',
-                    label: 'Bianbu 2.0 ROOTFS Creation Guide',
                     id: 'k1/os/rootfs/bianbu_2.0_rootfs_create',
+                  },
+                  {
+                    type: 'doc',
+                    id: 'k1/os/rootfs/bianbu_2.1_rootfs_create',
+                  },
+                  {
+                    type: 'doc',
+                    id: 'k1/os/rootfs/single_app_rootfs_create',
+                  },
+                  {
+                    type: 'doc',
+                    id: 'k1/os/rootfs/image',
+                  },
+                  {
+                    type: 'doc',
+                    id: 'k1/os/rootfs/uefi_image',
                   },
                   ]
                 },
@@ -1150,10 +1166,26 @@ const sidebars: SidebarsConfig = {
                   type: 'category',
                   collapsed: true,
                   label: 'System Integration',
-                  items: [{
+                  items: [
+                    {
                     type: 'doc',
-                    label: 'Bianbu 2.0 ROOTFS Creation Guide',
                     id: 'ssom_k1/os/rootfs/bianbu_2.0_rootfs_create',
+                  },
+                  {
+                    type: 'doc',
+                    id: 'ssom_k1/os/rootfs/bianbu_2.1_rootfs_create',
+                  },
+                  {
+                    type: 'doc',
+                    id: 'ssom_k1/os/rootfs/single_app_rootfs_create',
+                  },
+                  {
+                    type: 'doc',
+                    id: 'ssom_k1/os/rootfs/image',
+                  },
+                  {
+                    type: 'doc',
+                    id: 'ssom_k1/os/rootfs/uefi_image',
                   },
                   ]
                 },
