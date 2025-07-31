@@ -156,6 +156,10 @@ const sidebars: SidebarsConfig = {
                     label: 'Docker ',
                     id: 'k1/os/software/docker',
                   },
+                   {
+                    type: 'doc',
+                    id: 'k1/os/software/ide',
+                  },
                   {
                     type: 'doc',
                     label: 'JavaScript Use Guide',
@@ -632,7 +636,15 @@ const sidebars: SidebarsConfig = {
                 },
                 {
                   type: 'doc',
+                  id: 'k1/ml/llama-cpp',
+                },
+                {
+                  type: 'doc',
                   id: 'k1/ml/openwebui',
+                },
+                {
+                  type: 'doc',
+                  id: 'k1/ml/spacemit-demo',
                 },
 
               ],
@@ -1106,6 +1118,10 @@ const sidebars: SidebarsConfig = {
                   },
                   {
                     type: 'doc',
+                    id: 'ssom_k1/os/software/ide',
+                  },
+                  {
+                    type: 'doc',
                     label: 'JavaScript Use Guide',
                     id: 'ssom_k1/os/software/electron',
                   },
@@ -1537,8 +1553,17 @@ const sidebars: SidebarsConfig = {
                 },
                 {
                   type: 'doc',
+                  id: 'ssom_k1/ml/llama-cpp',
+                },
+                {
+                  type: 'doc',
                   id: 'ssom_k1/ml/openwebui',
                 },
+                {
+                  type: 'doc',
+                  id: 'ssom_k1/ml/spacemit-demo',
+                },
+
 
               ],
             },
