@@ -78,6 +78,14 @@ const sidebars: SidebarsConfig = {
                     },
                     {
                       type: 'doc',
+                      id: 'k1/os/desktop/bianbu_desktop_2.2',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'k1/os/desktop/bianbu_desktop_3.0',
+                    },
+                    {
+                      type: 'doc',
                       label: 'Networking and Upgrading',
                       id: 'k1/os/desktop/installation-and-upgrade',
                     },
@@ -198,6 +206,10 @@ const sidebars: SidebarsConfig = {
                   {
                     type: 'doc',
                     id: 'k1/os/rootfs/bianbu_2.1_rootfs_create',
+                  },
+                  {
+                    type: 'doc',
+                    id: 'k1/os/rootfs/bianbu_3.0_rootfs_create',
                   },
                   {
                     type: 'doc',
@@ -1054,6 +1066,14 @@ const sidebars: SidebarsConfig = {
                     },
                     {
                       type: 'doc',
+                      id: 'ssom_k1/os/desktop/bianbu_desktop_2.2',
+                    },
+                    {
+                      type: 'doc',
+                      id: 'ssom_k1/os/desktop/bianbu_desktop_3.0',
+                    },
+                    {
+                      type: 'doc',
                       label: 'Networking and Upgrading',
                       id: 'ssom_k1/os/desktop/installation-and-upgrade',
                     },
@@ -1174,6 +1194,10 @@ const sidebars: SidebarsConfig = {
                   {
                     type: 'doc',
                     id: 'ssom_k1/os/rootfs/bianbu_2.1_rootfs_create',
+                  },
+                  {
+                    type: 'doc',
+                    id: 'ssom_k1/os/rootfs/bianbu_3.0_rootfs_create',
                   },
                   {
                     type: 'doc',
