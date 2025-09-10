@@ -2258,6 +2258,61 @@ const sidebars: SidebarsConfig = {
       ]
     },
 
+      // SBC 
+    {
+      type: 'category',
+      collapsed: false,
+      label: 'Edge',
+      items: [
+
+
+        // edge_epc1000 docs
+        {
+          type: 'category',
+          collapsed: true,
+          label: 'EPC1000',
+          items: [
+             {
+              type: 'category',
+              collapsed: true,
+              label: 'Hardware Development Guide',
+              items: [
+                {
+                  type: 'doc',
+                  id: 'edge_epc1000/intro/intro',
+                }
+              ],
+            },
+            
+          ]
+        },
+
+        // edge_epc1000 docs ends
+
+        // edge_epc1001 docs
+        {
+          type: 'category',
+          collapsed: true,
+          label: 'EPC1001',
+          items: [
+             {
+              type: 'category',
+              collapsed: true,
+              label: 'Hardware Development Guide',
+              items: [
+                {
+                  type: 'doc',
+                  id: 'edge_epc1001/intro/intro',
+                }
+              ],
+            },
+            
+          ]
+        },
+
+        // edge_epc1001 docs ends
+      ]
+    },
 
 
 

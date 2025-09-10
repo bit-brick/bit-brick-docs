@@ -91,6 +91,23 @@ const SSOM: FeatureItem[] = [
     url: "docs/ssom_imx8mm/intro"
   },
 ];
+
+const Edge: FeatureItem[] = [
+  {
+    title: <Translate id='epc1000.title'>EPC 1000</Translate>,
+    imageSrc: require('@site/static/img/index/devices/edge_epc1000.png').default,
+    description: (<><Translate id='edge_epc1000.desc'>Edge Computing Box Based on an 8-Core RISC-V Application Processor</Translate></>),
+    url: "docs/edge_epc1000/intro"
+  },
+  {
+    title: <Translate id='epc1001.title'>EPC 1001</Translate>,
+    imageSrc: require('@site/static/img/index/devices/edge_epc1000.png').default,
+    description: (<><Translate id='edge_epc1001.desc'>Edge Computing Box Based on the RK3576 Application Processor</Translate></>),
+    url: "docs/edge_epc1001/intro"
+  },
+  
+  
+];
 const ProductList = [
   {
     title: 'SBC',
@@ -99,6 +116,10 @@ const ProductList = [
   {
     title: 'SSOM',
     features: SSOM,
+  },
+  {
+    title: 'Edge',
+    features: Edge,
   },
 ]
 
