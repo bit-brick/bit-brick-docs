@@ -86,12 +86,13 @@ const CustomHeader = () => {
                     <div className="main-header-bar-navigation">
                       <nav className="site-navigation ast-flex-grow-1 navigation-accessibility site-header-focus-item" id="primary-site-navigation-desktop" aria-label="Site Navigation" itemType="https://schema.org/SiteNavigationElement" itemScope>
                         <div className="main-navigation ast-inline-flex">
-                          <ul id="ast-hf-menu-1" className="main-header-menu ast-menu-shadow ast-nav-menu ast-flex submenu-with-border stack-on-mobile">
+                          <ul id="ast-hf-menu-1" className="main-header-menu ast-menu-shadow ast-nav-menu ast-flex submenu-with-border stack-on-mobile" style={{padding: 0, margin: 0, fontSize: '15px', gap: '8px'}}>
                             <li id="menu-item-547" className="menu-item menu-item-type-post_type menu-item-object-page menu-item-547"><a href={selectedLang == '/zh' ? "https://www.bit-brick.com/zh/软件/":"https://www.bit-brick.com/software/"} aria-current="page" className="menu-link"><Translate id='menu.software'>Software</Translate></a></li>
                             <li id="menu-item-547" className="menu-item menu-item-type-post_type menu-item-object-page menu-item-547"><a href={selectedLang == '/zh' ? "https://www.bit-brick.com/zh/硬件/":"https://www.bit-brick.com/products/"} aria-current="page" className="menu-link"><Translate id='menu.hardware'>Hardware</Translate></a></li>
                             {/* <li id="menu-item-231" className="menu-item menu-item-type-custom menu-item-object-custom menu-item-231"><a href="https://github.com/bit-brick" className="menu-link">Github</a></li> */}
                             <li id="menu-item-547" className="menu-item menu-item-type-post_type menu-item-object-page menu-item-547"><a href={selectedLang == '/zh' ? "https://www.bit-brick.com/zh/博客/":"https://www.bit-brick.com/blog/"} aria-current="page" className="menu-link"><Translate id='menu.news'>News</Translate></a></li>
                             <li id="menu-item-525" className="menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-533 current_page_item  menu-item-525"><a href={selectedLang == '/zh' ? "/zh":"/"} className="menu-link"><Translate id='menu.document'>Documentation</Translate></a></li>
+                            <li id="menu-item-547" className="menu-item menu-item-type-post_type menu-item-object-page menu-item-547"><a href={selectedLang == '/zh' ? "/zh/docs/downloads":"/docs/downloads"} aria-current="page" className="menu-link"><Translate id='menu.downloads'>Downloads</Translate></a></li>
                             <li id="menu-item-249" className="menu-item menu-item-type-custom menu-item-object-custom menu-item-249" ref={communityRef} style={{position: 'relative'}}>
                               <button
                                 className="menu-link"
@@ -103,6 +104,7 @@ const CustomHeader = () => {
                                   borderRadius: 0,
                                   boxShadow: 'none',
                                   outline: 'none',
+                                  fontSize: '15px', // Ensure consistent font size
                                 }}
                                 onClick={() => setCommunityDropdownOpen((open) => !open)}
                                 onMouseDown={e => e.preventDefault()} // 防止点击时出现 outline

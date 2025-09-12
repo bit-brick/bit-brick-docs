@@ -62,6 +62,9 @@
   "menu.document":{
     "message": "文档"
   },
+  "menu.downloads":{
+    "message": "下载"
+  },
   "menu.community":{
     "message": "社区"
   },
