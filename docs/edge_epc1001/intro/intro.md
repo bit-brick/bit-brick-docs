@@ -51,6 +51,10 @@ With rich interfaces and powerful functions, it can be widely used in industrial
 |                   | Dimensions   | 164.0x100.0x45.0mm                                           |
 | OS                |              | Debian / Ubuntu / Android                                    |
 
+## Interface Description
+ ![alt text](./static/image-8.png)
+ ![alt text](./static/image-9.png)
+
  
 
  ## Six Views of the Product

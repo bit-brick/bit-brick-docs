@@ -2306,6 +2306,17 @@ const sidebars: SidebarsConfig = {
                 }
               ],
             },
+            {
+              type: 'category',
+              collapsed: true,
+              label: 'Install Guide',
+              items: [
+                {
+                  type: 'doc',
+                  id: 'edge_epc1001/install/install',
+                }
+              ],
+            },
             
           ]
         },
