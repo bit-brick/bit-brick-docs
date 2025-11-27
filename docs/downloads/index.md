@@ -1,6 +1,6 @@
 # Downloads
 
-## RISC-V Series
+# Development Boards
 
 ---
 
@@ -40,29 +40,6 @@
 
 ---
 
-## SSOM-K1 Core Board
-### Firmware Downloads
-
-[Bianbu 3.0](https://archive.spacemit.com/image/k1/version/bianbu/v3.0/)
-- Files ending with img.zip are SDcard firmware, which can be written to SDcard using dd command or balenaEtcher after extraction. Note that this firmware is not suitable for eMMC.
-- Files ending with .zip can be flashed using Titan Flasher, or using fastboot after extraction.
-
-### Hardware Resources
-
-- [Mechanical drawings for SSOM-K1 (PDF Version)](https://github.com/bit-brick/datasheets/blob/main/K1_SSOM/k1_sodimm_board_v1_1-Dimension.pdf)
-- [STEP file for SSOM-K1](https://github.com/bit-brick/datasheets/blob/main/K1_SSOM/K1_SSOM_STEP.zip)
-- [Circuit Diagram Files for SSOM- K1 Carrier Board (Cadence Version)](https://github.com/bit-brick/datasheets/blob/main/K1_SSOM/SSOM_K1_circuit_diagram.DSN)
-- [Circuit Diagram Files for SSOM- K1 Carrier Board (PDF Version)](https://github.com/bit-brick/datasheets/blob/main/K1_SSOM/Circuit%20Diagram%20Files%20for%20SSOM-%20K1%20Carrier%20Board.pdf)
-- [Layout Files for SSOM- K1 Carrier Board (Allego Version)](https://github.com/bit-brick/datasheets/blob/main/K1_SSOM/SSOM_K1_Layout.brd)
-- [BOM file for SSOM- K1 Carrier Board](https://github.com/bit-brick/datasheets/blob/main/K1_SSOM/SSOM_K1_BOM.xlsx)
-- [SSOM- K1 Datasheets](https://github.com/bit-brick/datasheets/blob/main/K1_SSOM/SSOM_K1_Datasheets.pdf)
-
----
-
-## RK Series
-
----
-
 ## K1 Pro Development Board
 
 ### Firmware Downloads
@@ -91,6 +68,35 @@
 - [Circuit Diagram Files for Bit-Brick K1 Pro NFC Module (Cadence Version)](https://github.com/bit-brick/datasheets/blob/main/M.2_Model/M2_KEY_E_NFC_V1_0.DSN)
 
 ---
+
+
+## IMX8MP-HMI
+### Hardware Resources
+- [Bit-Brick_IMX8MP_HMI_DATASHEET](https://github.com/bit-brick/datasheets/blob/main/IMX8MP-HMI/Bit-Brick_IMX8MP_HMI_DATASHEET.pdf)
+---
+
+# Core Boards
+
+---
+## SSOM-K1 Core Board
+### Firmware Downloads
+
+[Bianbu 3.0](https://archive.spacemit.com/image/k1/version/bianbu/v3.0/)
+- Files ending with img.zip are SDcard firmware, which can be written to SDcard using dd command or balenaEtcher after extraction. Note that this firmware is not suitable for eMMC.
+- Files ending with .zip can be flashed using Titan Flasher, or using fastboot after extraction.
+
+### Hardware Resources
+
+- [Mechanical drawings for SSOM-K1 (PDF Version)](https://github.com/bit-brick/datasheets/blob/main/K1_SSOM/k1_sodimm_board_v1_1-Dimension.pdf)
+- [STEP file for SSOM-K1](https://github.com/bit-brick/datasheets/blob/main/K1_SSOM/K1_SSOM_STEP.zip)
+- [Circuit Diagram Files for SSOM- K1 Carrier Board (Cadence Version)](https://github.com/bit-brick/datasheets/blob/main/K1_SSOM/SSOM_K1_circuit_diagram.DSN)
+- [Circuit Diagram Files for SSOM- K1 Carrier Board (PDF Version)](https://github.com/bit-brick/datasheets/blob/main/K1_SSOM/Circuit%20Diagram%20Files%20for%20SSOM-%20K1%20Carrier%20Board.pdf)
+- [Layout Files for SSOM- K1 Carrier Board (Allego Version)](https://github.com/bit-brick/datasheets/blob/main/K1_SSOM/SSOM_K1_Layout.brd)
+- [BOM file for SSOM- K1 Carrier Board](https://github.com/bit-brick/datasheets/blob/main/K1_SSOM/SSOM_K1_BOM.xlsx)
+- [SSOM- K1 Datasheets](https://github.com/bit-brick/datasheets/blob/main/K1_SSOM/SSOM_K1_Datasheets.pdf)
+
+---
+
 
 ## SSOM-3576 Core Board
 
@@ -124,11 +130,7 @@
 
 --- -->
 
-# NXP Series
----
-## IMX8MP-HMI
-### Hardware Resources
-- [Bit-Brick_IMX8MP_HMI_DATASHEET](https://github.com/bit-brick/datasheets/blob/main/IMX8MP-HMI/Bit-Brick_IMX8MP_HMI_DATASHEET.pdf)
+
 ---
 
 ## SSOM-9352 Core Board
@@ -147,13 +149,10 @@
 - [Bit-Brick_SSOM-IMX8MM_DATASHEET](https://github.com/bit-brick/datasheets/blob/main/SSOM-IMX8MP/Bit-Brick_SSOM-IMX8MM_DATASHEET.pdf)
 ---
 
-## Cluster Board
-
-[K1 Cluster Board User Manual](../ssom_k1/getting-started/ssom_k1_install.mdx)
 
 ---
 
-## Edge Computing Box
+# Edge Computing Box
 ---
 
 ## EPC1000
@@ -163,3 +162,7 @@
 
 ## EPC1001
 [EPC1001 Edge Computing Box](../edge_epc1001/intro/intro.md)
+
+# Other
+
+[K1 Cluster Board User Manual](../ssom_k1/getting-started/ssom_k1_install.mdx)
