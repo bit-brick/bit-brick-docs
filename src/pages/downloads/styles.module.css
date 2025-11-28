@@ -16,15 +16,26 @@
   margin-bottom: 2rem;
 }
 
+/* 删除或清空 heroTextWrapper，确保没有背景/内边距/圆角 */
+.heroTextWrapper {
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+  display: inline-block; /* 保留 display 以防别处引用，但已无视觉影响 */
+}
+
 .heroTitle {
   font-size: 2.2rem;
   font-weight: 700;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.25rem; /* 让标题和副标题更紧凑 */
+  color: #fff;
 }
 
 .heroSubtitle {
   font-size: 1rem;
-  opacity: 0.9;
+  opacity: 0.95;
+  margin: 0;
+  color: rgba(255,255,255,0.95);
 }
 
 .mainWrapper {
@@ -214,5 +225,14 @@
     position: relative;
     top: 0;
     max-height: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .heroTextWrapper {
+    display: block;
+    width: calc(100% - 2rem);
+    text-align: center;
+    padding: 12px 16px;
   }
 }

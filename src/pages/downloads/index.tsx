@@ -86,8 +86,8 @@ export default function Downloads() {
       description={translate({id: 'download.pageDesc', message: 'Resources and Firmware Downloads'})}>
       
       <div className={styles.heroBanner}>
+        {/* 直接把标题与副标题放在 banner 上，不使用背景容器 */}
         <h1 className={styles.heroTitle}>
-          {/* default to English; translations (if present) will override */}
           <Translate id="download.heroTitle">Downloads</Translate>
         </h1>
         <p className={styles.heroSubtitle}>

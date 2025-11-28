@@ -4,86 +4,132 @@
     "boards": [
       {
         "id": "k1-dev-board",
-        "name": "K1 Development Board",
+        "name": "K1",
         "sections": [
           {
-            "title": "Firmware Downloads",
+            "title": "工具",
             "items": [
               {
-                "label": "Bianbu 3.0",
-                "link": "https://archive.spacemit.com/image/k1/version/bianbu/v3.0/",
-                "desc": "Files ending with img.zip are SDcard firmware, which can be written to SDcard using dd command or balenaEtcher after extraction. Note that this firmware is not suitable for eMMC. Files ending with .zip can be flashed using Titan Flasher, or using fastboot after extraction."
+                "label": "TitanTools for Windows (X86|X64)",
+                "link": "https://cloud.spacemit.com/prod-api/release/download/tools?token=titantools_for_windows_X86_X64"
+              },
+              {
+                "label": "TitanTools for Linux (X86|X64)",
+                "link": "https://cloud.spacemit.com/prod-api/release/download/tools?token=titantools_for_linux_64BIT_APPIMAGE"
               }
             ]
           },
           {
-            "title": "Hardware Resources",
+            "title": " 固件下载",
             "items": [
-              { "label": "Mechanical drawings (PDF)", "link": "https://github.com/bit-brick/datasheets/blob/main/K1_SBC/K1_DVP_BOARD_V1_1_DIMENSION.pdf" },
-              { "label": "STEP file", "link": "https://github.com/bit-brick/datasheets/blob/main/K1_SBC/K1_DVP_BRD_STEP.txt" },
-              { "label": "Circuit Diagram (Cadence)", "link": "https://github.com/bit-brick/datasheets/blob/main/K1_SBC/K1_circuit_diagram.zip" },
-              { "label": "Circuit Diagram (PDF)", "link": "https://github.com/bit-brick/datasheets/blob/main/K1_SBC/Circuit%20Diagram%20Files%20for%20Bit-Brick%20K1%20SBC.pdf" },
-              { "label": "Layout Files (Allego)", "link": "https://github.com/bit-brick/datasheets/blob/main/K1_SBC/K1_Layout.zip" },
-              { "label": "BOM file", "link": "https://github.com/bit-brick/datasheets/blob/main/K1_SBC/K1_BOM.xlsx" },
-              { "label": "Datasheets", "link": "https://github.com/bit-brick/datasheets/blob/main/datasheet/Bit-Brick_K1_DATASHEET.pdf" },
-              { "label": "Processor Specifications", "link": "https://github.com/bit-brick/datasheets/blob/main/datasheet/specifications.pdf" },
-              { "label": "EMMC FLASH Data Book", "link": "https://github.com/bit-brick/datasheets/blob/main/datasheet/SSOM-K1%20EMMC%20FLASH.PDF" },
-              { "label": "ES8326B Data Manual", "link": "https://github.com/bit-brick/datasheets/blob/main/datasheet/ES8326%20PB.pdf" },
-              { "label": "RTL8211F Data Manual", "link": "https://github.com/bit-brick/datasheets/blob/main/datasheet/RTL8211F%20Data%20Manual.PDF" }
+              {
+                "label": "Bianbu 3.0",
+                "link": "https://archive.spacemit.com/image/k1/version/bianbu/v3.0/"
+              },
+              {
+                "label": "Bianbu 2.2-7in-mipi",
+                "link": "https://pan.baidu.com/s/1cITZqJzmxbQD8BLy15MXOw?pwd=bsm5"
+              },
+              {
+                "label": "OpenHarmony",
+                "link": "https://pan.baidu.com/s/1lwfhk2WaVJKCLAXe67tiyw?pwd=e2te"
+              },
+              {
+                "label": "OpenHarmony-7in-mipi",
+                "link": "https://pan.baidu.com/s/14hZipebcxu88fKSOY8uVoQ?pwd=ne9e"
+              }
             ]
           },
           {
-            "title": "Modules",
+            "title": "硬件资料",
             "items": [
-              { "label": "WIFI Module Schematic", "link": "https://github.com/bit-brick/datasheets/blob/main/M.2_Model/M2_KEY_E_WIFI_V1_1.DSN" },
-              { "label": "4G CAT-1 Module Schematic", "link": "https://github.com/bit-brick/datasheets/blob/main/M.2_Model/M2_KEY_E_4G_CAT1_V1_0.DSN" },
-              { "label": "LORA Module Schematic", "link": "https://github.com/bit-brick/datasheets/blob/main/M.2_Model/M2_KEY_E_LORA_V1_0.DSN" },
-              { "label": "GPS Module Schematic", "link": "https://github.com/bit-brick/datasheets/blob/main/M.2_Model/M2_KEY_E_GPS_V1_0.DSN" },
-              { "label": "ADC Module Schematic", "link": "https://github.com/bit-brick/datasheets/blob/main/M.2_Model/M2_KEY_E_ADC_V1_0.DSN" },
-              { "label": "Gsensor Module Schematic", "link": "https://github.com/bit-brick/datasheets/blob/main/M.2_Model/M2_KEY_E_Gsensor_V1_0.DSN" },
-              { "label": "TOUCH Module Schematic", "link": "https://github.com/bit-brick/datasheets/blob/main/M.2_Model/M2_KEY_E_TOUCH_V1_0.DSN" },
-              { "label": "Tsensor Module Schematic", "link": "https://github.com/bit-brick/datasheets/blob/main/M.2_Model/M2_KEY_E_Tsensor_V1_0.DSN" },
-              { "label": "NEARLINK Module Schematic", "link": "https://github.com/bit-brick/datasheets/blob/main/M.2_Model/M2_KEY_E_NEAR_LINK_V1_1.DSN" },
-              { "label": "NFC Module Schematic", "link": "https://github.com/bit-brick/datasheets/blob/main/M.2_Model/M2_KEY_E_NFC_V1_0.DSN" }
+              { "label": "Mechanical drawings (PDF)", "link": "https://gitee.com/bit-brick/datasheets/blob/main/K1_SBC/K1_DVP_BOARD_V1_1_DIMENSION.pdf" },
+              { "label": "STEP file", "link": "https://gitee.com/bit-brick/datasheets/blob/main/K1_SBC/K1_DVP_BRD_STEP.txt" },
+              { "label": "Circuit Diagram (Cadence)", "link": "https://gitee.com/bit-brick/datasheets/blob/main/K1_SBC/K1_circuit_diagram.zip" },
+              { "label": "Circuit Diagram (PDF)", "link": "https://gitee.com/bit-brick/datasheets/blob/main/K1_SBC/Circuit%20Diagram%20Files%20for%20Bit-Brick%20K1%20SBC.pdf" },
+              { "label": "Layout Files (Allego)", "link": "https://gitee.com/bit-brick/datasheets/blob/main/K1_SBC/K1_Layout.zip" },
+              { "label": "BOM file", "link": "https://gitee.com/bit-brick/datasheets/blob/main/K1_SBC/K1_BOM.xlsx" },
+              { "label": "Datasheets", "link": "https://gitee.com/bit-brick/datasheets/blob/main/datasheet/Bit-Brick_K1_DATASHEET.pdf" },
+              { "label": "Processor Specifications", "link": "https://gitee.com/bit-brick/datasheets/blob/main/datasheet/specifications.pdf" },
+              { "label": "EMMC FLASH Data Book", "link": "https://gitee.com/bit-brick/datasheets/blob/main/datasheet/SSOM-K1%20EMMC%20FLASH.PDF" },
+              { "label": "ES8326B Data Manual", "link": "https://gitee.com/bit-brick/datasheets/blob/main/datasheet/ES8326%20PB.pdf" },
+              { "label": "RTL8211F Data Manual", "link": "https://gitee.com/bit-brick/datasheets/blob/main/datasheet/RTL8211F%20Data%20Manual.PDF" }
+            ]
+          },
+          {
+            "title": "模块",
+            "items": [
+              { "label": "WIFI Module Schematic", "link": "https://gitee.com/bit-brick/datasheets/blob/main/M.2_Model/M2_KEY_E_WIFI_V1_1.DSN" },
+              { "label": "4G CAT-1 Module Schematic", "link": "https://gitee.com/bit-brick/datasheets/blob/main/M.2_Model/M2_KEY_E_4G_CAT1_V1_0.DSN" },
+              { "label": "LORA Module Schematic", "link": "https://gitee.com/bit-brick/datasheets/blob/main/M.2_Model/M2_KEY_E_LORA_V1_0.DSN" },
+              { "label": "GPS Module Schematic", "link": "https://gitee.com/bit-brick/datasheets/blob/main/M.2_Model/M2_KEY_E_GPS_V1_0.DSN" },
+              { "label": "ADC Module Schematic", "link": "https://gitee.com/bit-brick/datasheets/blob/main/M.2_Model/M2_KEY_E_ADC_V1_0.DSN" },
+              { "label": "Gsensor Module Schematic", "link": "https://gitee.com/bit-brick/datasheets/blob/main/M.2_Model/M2_KEY_E_Gsensor_V1_0.DSN" },
+              { "label": "TOUCH Module Schematic", "link": "https://gitee.com/bit-brick/datasheets/blob/main/M.2_Model/M2_KEY_E_TOUCH_V1_0.DSN" },
+              { "label": "Tsensor Module Schematic", "link": "https://gitee.com/bit-brick/datasheets/blob/main/M.2_Model/M2_KEY_E_Tsensor_V1_0.DSN" },
+              { "label": "NEARLINK Module Schematic", "link": "https://gitee.com/bit-brick/datasheets/blob/main/M.2_Model/M2_KEY_E_NEAR_LINK_V1_1.DSN" },
+              { "label": "NFC Module Schematic", "link": "https://gitee.com/bit-brick/datasheets/blob/main/M.2_Model/M2_KEY_E_NFC_V1_0.DSN" }
             ]
           }
         ]
       },
       {
         "id": "k1-pro",
-        "name": "K1 Pro Development Board",
+        "name": "K1 Pro",
         "sections": [
           {
-            "title": "Firmware Downloads",
+            "title": "工具",
             "items": [
-              { "label": "Debian 12", "link": "https://pan.baidu.com/s/1AvvPxCaF9EDkc0shuRwt3w?pwd=n3zs" },
-              { "label": "Android 14", "link": "https://pan.baidu.com/s/1JzsEQcZn4m8RXQwwo4aYWw?pwd=kxv3" }
+              { 
+                "label": "RKDevtools", 
+                "link": "https://pan.baidu.com/s/1wKILdYuw84tDnyg0UjH7eQ?pwd=qrz5"
+              },
+              { 
+                "label": "SD_Firmware_Tool", 
+                "link": "https://pan.baidu.com/s/1A41g8p9pyQfAkftTQWtFjg?pwd=zft1"
+              },
+              { 
+                "label": "SDCardFormatter", 
+                "link": "https://pan.baidu.com/s/1B4x4uDYp7y4g-J8A24BvHw?pwd=pmec"
+              },
+              { 
+                "label": "DriverAssitant", 
+                "link": "https://pan.baidu.com/s/1BedMA_9X8wDqofaXWcQYDg?pwd=tfsp"
+              }
             ]
           },
           {
-            "title": "Hardware Resources",
+            "title": " 固件下载",
             "items": [
-              { "label": "Datasheet (PDF)", "link": "https://github.com/bit-brick/datasheets/blob/main/K1_Pro/K1%20Pro_DATASHEET.pdf" },
-              { "label": "Circuit Diagram (PDF)", "link": "https://github.com/bit-brick/datasheets/blob/main/K1_Pro/K1%20Pro_DVP_BOARD_V1_1.pdf" },
-              { "label": "Circuit Diagram (DSN)", "link": "https://github.com/bit-brick/datasheets/blob/main/K1_Pro/RK3576_DVP_BOARD_V1_1.DSN" },
-              { "label": "Dimension Drawing (PDF)", "link": "https://github.com/bit-brick/datasheets/blob/main/K1_Pro/K1Pro_Dimension_Drawing.pdf" },
-              { "label": "3D file", "link": "https://github.com/bit-brick/datasheets/blob/main/K1_Pro/RK3576_DVP_BOARD_V1_1_3D.rar" },
-              { "label": "Bitmap file", "link": "https://github.com/bit-brick/datasheets/blob/main/K1_Pro/K1%20Pro_DVP_BOARD_Bitmap_V1_1_PCB.pdf" }
+              { "label": "Debian12", "link": "https://pan.baidu.com/s/1rshRMfBYdknOC3IvF_MQJw?pwd=emqs" },
+              { "label": "Ubuntu22.04", "link": "https://pan.baidu.com/s/17GKRx-pvEC_I1t4M4Kl9PQ?pwd=xae4" },
+              { "label": "Android 14", "link": "https://pan.baidu.com/s/1R69vyRV3MCU2XGYHQMSKUg?pwd=k3ys" }
             ]
           },
           {
-            "title": "Modules",
+            "title": "硬件资料",
             "items": [
-              { "label": "WIFI Module Schematic", "link": "https://github.com/bit-brick/datasheets/blob/main/M.2_Model/M2_KEY_E_WIFI_V1_1.DSN" },
-              { "label": "4G CAT-1 Module Schematic", "link": "https://github.com/bit-brick/datasheets/blob/main/M.2_Model/M2_KEY_E_4G_CAT1_V1_0.DSN" },
-              { "label": "LORA Module Schematic", "link": "https://github.com/bit-brick/datasheets/blob/main/M.2_Model/M2_KEY_E_LORA_V1_0.DSN" },
-              { "label": "GPS Module Schematic", "link": "https://github.com/bit-brick/datasheets/blob/main/M.2_Model/M2_KEY_E_GPS_V1_0.DSN" },
-              { "label": "ADC Module Schematic", "link": "https://github.com/bit-brick/datasheets/blob/main/M.2_Model/M2_KEY_E_ADC_V1_0.DSN" },
-              { "label": "Gsensor Module Schematic", "link": "https://github.com/bit-brick/datasheets/blob/main/M.2_Model/M2_KEY_E_Gsensor_V1_0.DSN" },
-              { "label": "TOUCH Module Schematic", "link": "https://github.com/bit-brick/datasheets/blob/main/M.2_Model/M2_KEY_E_TOUCH_V1_0.DSN" },
-              { "label": "Tsensor Module Schematic", "link": "https://github.com/bit-brick/datasheets/blob/main/M.2_Model/M2_KEY_E_Tsensor_V1_0.DSN" },
-              { "label": "NEARLINK Module Schematic", "link": "https://github.com/bit-brick/datasheets/blob/main/M.2_Model/M2_KEY_E_NEAR_LINK_V1_1.DSN" },
-              { "label": "NFC Module Schematic", "link": "https://github.com/bit-brick/datasheets/blob/main/M.2_Model/M2_KEY_E_NFC_V1_0.DSN" }
+              { "label": "Datasheet (PDF)", "link": "https://gitee.com/bit-brick/datasheets/blob/main/K1_Pro/K1%20Pro_DATASHEET.pdf" },
+              { "label": "Circuit Diagram (PDF)", "link": "https://gitee.com/bit-brick/datasheets/blob/main/K1_Pro/K1%20Pro_DVP_BOARD_V1_1.pdf" },
+              { "label": "Circuit Diagram (DSN)", "link": "https://gitee.com/bit-brick/datasheets/blob/main/K1_Pro/RK3576_DVP_BOARD_V1_1.DSN" },
+              { "label": "Dimension Drawing (PDF)", "link": "https://gitee.com/bit-brick/datasheets/blob/main/K1_Pro/K1Pro_Dimension_Drawing.pdf" },
+              { "label": "3D file", "link": "https://gitee.com/bit-brick/datasheets/blob/main/K1_Pro/RK3576_DVP_BOARD_V1_1_3D.rar" },
+              { "label": "Bitmap file", "link": "https://gitee.com/bit-brick/datasheets/blob/main/K1_Pro/K1%20Pro_DVP_BOARD_Bitmap_V1_1_PCB.pdf" }
+            ]
+          },
+          {
+            "title": "模块",
+            "items": [
+              { "label": "WIFI Module Schematic", "link": "https://gitee.com/bit-brick/datasheets/blob/main/M.2_Model/M2_KEY_E_WIFI_V1_1.DSN" },
+              { "label": "4G CAT-1 Module Schematic", "link": "https://gitee.com/bit-brick/datasheets/blob/main/M.2_Model/M2_KEY_E_4G_CAT1_V1_0.DSN" },
+              { "label": "LORA Module Schematic", "link": "https://gitee.com/bit-brick/datasheets/blob/main/M.2_Model/M2_KEY_E_LORA_V1_0.DSN" },
+              { "label": "GPS Module Schematic", "link": "https://gitee.com/bit-brick/datasheets/blob/main/M.2_Model/M2_KEY_E_GPS_V1_0.DSN" },
+              { "label": "ADC Module Schematic", "link": "https://gitee.com/bit-brick/datasheets/blob/main/M.2_Model/M2_KEY_E_ADC_V1_0.DSN" },
+              { "label": "Gsensor Module Schematic", "link": "https://gitee.com/bit-brick/datasheets/blob/main/M.2_Model/M2_KEY_E_Gsensor_V1_0.DSN" },
+              { "label": "TOUCH Module Schematic", "link": "https://gitee.com/bit-brick/datasheets/blob/main/M.2_Model/M2_KEY_E_TOUCH_V1_0.DSN" },
+              { "label": "Tsensor Module Schematic", "link": "https://gitee.com/bit-brick/datasheets/blob/main/M.2_Model/M2_KEY_E_Tsensor_V1_0.DSN" },
+              { "label": "NEARLINK Module Schematic", "link": "https://gitee.com/bit-brick/datasheets/blob/main/M.2_Model/M2_KEY_E_NEAR_LINK_V1_1.DSN" },
+              { "label": "NFC Module Schematic", "link": "https://gitee.com/bit-brick/datasheets/blob/main/M.2_Model/M2_KEY_E_NFC_V1_0.DSN" }
             ]
           }
         ]
@@ -93,9 +139,9 @@
         "name": "IMX8MP-HMI",
         "sections": [
           {
-            "title": "Hardware Resources",
+            "title": "硬件资料",
             "items": [
-              { "label": "Datasheet", "link": "https://github.com/bit-brick/datasheets/blob/main/IMX8MP-HMI/Bit-Brick_IMX8MP_HMI_DATASHEET.pdf" }
+              { "label": "Datasheet", "link": "https://gitee.com/bit-brick/datasheets/blob/main/IMX8MP-HMI/Bit-Brick_IMX8MP_HMI_DATASHEET.pdf" }
             ]
           }
         ]
@@ -103,58 +149,140 @@
     ]
   },
   {
-    "category": "Core Boards",
+    "category": "核心板",
     "boards": [
       {
         "id": "ssom-k1",
-        "name": "SSOM-K1 Core Board",
+        "name": "SSOM-K1",
         "sections": [
           {
-            "title": "Firmware Downloads",
+            "title": "工具",
             "items": [
               {
-                "label": "Bianbu 3.0",
-                "link": "https://archive.spacemit.com/image/k1/version/bianbu/v3.0/",
-                "desc": "Files ending with img.zip are SDcard firmware, which can be written to SDcard using dd command or balenaEtcher after extraction. Note that this firmware is not suitable for eMMC. Files ending with .zip can be flashed using Titan Flasher, or using fastboot after extraction."
+                "label": "TitanTools for Windows (X86|X64)",
+                "link": "https://cloud.spacemit.com/prod-api/release/download/tools?token=titantools_for_windows_X86_X64"
+              },
+              {
+                "label": "TitanTools for Linux (X86|X64)",
+                "link": "https://cloud.spacemit.com/prod-api/release/download/tools?token=titantools_for_linux_64BIT_APPIMAGE"
               }
             ]
           },
           {
-            "title": "Hardware Resources",
+            "title": " 固件下载",
             "items": [
-              { "label": "Mechanical drawings (PDF)", "link": "https://github.com/bit-brick/datasheets/blob/main/K1_SSOM/k1_sodimm_board_v1_1-Dimension.pdf" },
-              { "label": "STEP file", "link": "https://github.com/bit-brick/datasheets/blob/main/K1_SSOM/K1_SSOM_STEP.zip" },
-              { "label": "Circuit Diagram (Cadence)", "link": "https://github.com/bit-brick/datasheets/blob/main/K1_SSOM/SSOM_K1_circuit_diagram.DSN" },
-              { "label": "Circuit Diagram (PDF)", "link": "https://github.com/bit-brick/datasheets/blob/main/K1_SSOM/Circuit%20Diagram%20Files%20for%20SSOM-%20K1%20Carrier%20Board.pdf" },
-              { "label": "Layout Files (Allego)", "link": "https://github.com/bit-brick/datasheets/blob/main/K1_SSOM/SSOM_K1_Layout.brd" },
-              { "label": "BOM file", "link": "https://github.com/bit-brick/datasheets/blob/main/K1_SSOM/SSOM_K1_BOM.xlsx" },
-              { "label": "Datasheets", "link": "https://github.com/bit-brick/datasheets/blob/main/K1_SSOM/SSOM_K1_Datasheets.pdf" }
+              {
+                "label": "Bianbu 3.0",
+                "link": "https://archive.spacemit.com/image/k1/version/bianbu/v3.0/"
+              },
+              {
+                "label": "Bianbu 2.2-7in-mipi",
+                "link": "https://pan.baidu.com/s/1cITZqJzmxbQD8BLy15MXOw?pwd=bsm5"
+              },
+              {
+                "label": "OpenHarmony",
+                "link": "https://pan.baidu.com/s/1lwfhk2WaVJKCLAXe67tiyw?pwd=e2te"
+              },
+              {
+                "label": "OpenHarmony-7in-mipi",
+                "link": "https://pan.baidu.com/s/14hZipebcxu88fKSOY8uVoQ?pwd=ne9e"
+              }
+            ]
+          },
+          {
+            "title": "硬件资料",
+            "items": [
+              { "label": "Mechanical drawings (PDF)", "link": "https://gitee.com/bit-brick/datasheets/blob/main/K1_SSOM/k1_sodimm_board_v1_1-Dimension.pdf" },
+              { "label": "STEP file", "link": "https://gitee.com/bit-brick/datasheets/blob/main/K1_SSOM/K1_SSOM_STEP.zip" },
+              { "label": "Circuit Diagram (Cadence)", "link": "https://gitee.com/bit-brick/datasheets/blob/main/K1_SSOM/SSOM_K1_circuit_diagram.DSN" },
+              { "label": "Circuit Diagram (PDF)", "link": "https://gitee.com/bit-brick/datasheets/blob/main/K1_SSOM/Circuit%20Diagram%20Files%20for%20SSOM-%20K1%20Carrier%20Board.pdf" },
+              { "label": "Layout Files (Allego)", "link": "https://gitee.com/bit-brick/datasheets/blob/main/K1_SSOM/SSOM_K1_Layout.brd" },
+              { "label": "BOM file", "link": "https://gitee.com/bit-brick/datasheets/blob/main/K1_SSOM/SSOM_K1_BOM.xlsx" },
+              { "label": "Datasheets", "link": "https://gitee.com/bit-brick/datasheets/blob/main/K1_SSOM/SSOM_K1_Datasheets.pdf" }
             ]
           }
         ]
       },
       {
         "id": "ssom-3576",
-        "name": "SSOM-3576 Core Board",
+        "name": "SSOM-3576",
         "sections": [
           {
-            "title": "Hardware Resources",
+            "title": "工具",
             "items": [
-              { "label": "Datasheet", "link": "https://github.com/bit-brick/datasheets/blob/main/SSOM-3576/Bit-Brick_SSOM-3576_DATASHEET.pdf" }
+              { 
+                "label": "RKDevtools", 
+                "link": "https://pan.baidu.com/s/1wKILdYuw84tDnyg0UjH7eQ?pwd=qrz5"
+              },
+              { 
+                "label": "SD_Firmware_Tool", 
+                "link": "https://pan.baidu.com/s/1A41g8p9pyQfAkftTQWtFjg?pwd=zft1"
+              },
+              { 
+                "label": "SDCardFormatter", 
+                "link": "https://pan.baidu.com/s/1B4x4uDYp7y4g-J8A24BvHw?pwd=pmec"
+              },
+              { 
+                "label": "DriverAssitant", 
+                "link": "https://pan.baidu.com/s/1BedMA_9X8wDqofaXWcQYDg?pwd=tfsp"
+              }
+            ]
+          },
+          {
+            "title": " 固件下载",
+            "items": [
+              { "label": "Debian12", "link": "https://pan.baidu.com/s/1Z_uBQroxcraaPBvSaA2gGA?pwd=vnmq" },
+              { "label": "Ubuntu22.04", "link": "https://pan.baidu.com/s/12jLI5bGu06pePtYIJiHFWg?pwd=586p" },
+              { "label": "Android 14", "link": "#" ,"desc": "Coming soon" }
+            ]
+          },
+          {
+            "title": "硬件资料",
+            "items": [
+              { "label": "Datasheet", "link": "https://gitee.com/bit-brick/datasheets/blob/main/SSOM-3576/Bit-Brick_SSOM-3576_DATASHEET.pdf" }
             ]
           }
         ]
       },
       {
         "id": "ssom-3588",
-        "name": "SSOM-3588 Core Board",
+        "name": "SSOM-3588",
         "sections": [
           {
-            "title": "Hardware Resources",
+            "title": "工具",
             "items": [
-              { "label": "Datasheet", "link": "https://github.com/bit-brick/datasheets/blob/main/SSOM-3588/Bit-Brick_SSOM-3588_DATASHEET.pdf" },
-              { "label": "Schematic Diagram", "link": "https://github.com/bit-brick/datasheets/blob/main/SSOM-3588/Bit-Brick_RK3588_SOM_Schematic_Diagram.pdf" },
-              { "label": "Dimension Drawing", "link": "https://github.com/bit-brick/datasheets/blob/main/SSOM-3588/Bit-Brick_RK3588_SOM_Dimension_Drawing.pdf" }
+              { 
+                "label": "RKDevtools", 
+                "link": "https://pan.baidu.com/s/1wKILdYuw84tDnyg0UjH7eQ?pwd=qrz5"
+              },
+              { 
+                "label": "SD_Firmware_Tool", 
+                "link": "https://pan.baidu.com/s/1A41g8p9pyQfAkftTQWtFjg?pwd=zft1"
+              },
+              { 
+                "label": "SDCardFormatter", 
+                "link": "https://pan.baidu.com/s/1B4x4uDYp7y4g-J8A24BvHw?pwd=pmec"
+              },
+              { 
+                "label": "DriverAssitant", 
+                "link": "https://pan.baidu.com/s/1BedMA_9X8wDqofaXWcQYDg?pwd=tfsp"
+              }
+            ]
+          },
+          {
+            "title": " 固件下载",
+            "items": [
+              { "label": "Debian12", "link": "https://pan.baidu.com/s/1r9yHtl7mslJMzZD2O3zFNw?pwd=9dmh" },
+              { "label": "Ubuntu22.04", "link": "#","desc": "Coming soon" },
+              { "label": "Android 14", "link": "https://pan.baidu.com/s/1oPctCRbvlZVmqUjWWi9Kyw?pwd=bt2m"  }
+            ]
+          },
+          {
+            "title": "硬件资料",
+            "items": [
+              { "label": "Datasheet", "link": "https://gitee.com/bit-brick/datasheets/blob/main/SSOM-3588/Bit-Brick_SSOM-3588_DATASHEET.pdf" },
+              { "label": "Schematic Diagram", "link": "https://gitee.com/bit-brick/datasheets/blob/main/SSOM-3588/Bit-Brick_RK3588_SOM_Schematic_Diagram.pdf" },
+              { "label": "Dimension Drawing", "link": "https://gitee.com/bit-brick/datasheets/blob/main/SSOM-3588/Bit-Brick_RK3588_SOM_Dimension_Drawing.pdf" }
             ]
           }
         ]
@@ -164,45 +292,45 @@
         "name": "SSOM-3588-X2",
         "sections": [
           {
-            "title": "Hardware Resources",
+            "title": "硬件资料",
             "items": [
-              { "label": "Datasheet", "link": "https://github.com/bit-brick/datasheets/blob/main/SSOM-3588-X2/Bit-Brick_SSOM-3588_X2_DATASHEET.pdf" }
+              { "label": "Datasheet", "link": "https://gitee.com/bit-brick/datasheets/blob/main/SSOM-3588-X2/Bit-Brick_SSOM-3588_X2_DATASHEET.pdf" }
             ]
           }
         ]
       },
       {
         "id": "ssom-9352",
-        "name": "SSOM-9352 Core Board",
+        "name": "SSOM-9352 ",
         "sections": [
           {
-            "title": "Hardware Resources",
+            "title": "硬件资料",
             "items": [
-              { "label": "Datasheet", "link": "https://github.com/bit-brick/datasheets/blob/main/SSOM-IMX9352/Bit-Brick_SSOM-IMX9352_DATASHEET.pdf" }
+              { "label": "Datasheet", "link": "https://gitee.com/bit-brick/datasheets/blob/main/SSOM-IMX9352/Bit-Brick_SSOM-IMX9352_DATASHEET.pdf" }
             ]
           }
         ]
       },
       {
         "id": "ssom-imx8mp",
-        "name": "SSOM-IMX8MP Core Board",
+        "name": "SSOM-IMX8MP",
         "sections": [
           {
-            "title": "Hardware Resources",
+            "title": "硬件资料",
             "items": [
-              { "label": "Datasheet", "link": "https://github.com/bit-brick/datasheets/blob/main/SSOM-IMX8MP/Bit-Brick_SSOM-IMX8MP_DATASHEET.pdf" }
+              { "label": "Datasheet", "link": "https://gitee.com/bit-brick/datasheets/blob/main/SSOM-IMX8MP/Bit-Brick_SSOM-IMX8MP_DATASHEET.pdf" }
             ]
           }
         ]
       },
       {
         "id": "ssom-imx8mm",
-        "name": "SSOM-IMX8MM Core Board",
+        "name": "SSOM-IMX8MM",
         "sections": [
           {
-            "title": "Hardware Resources",
+            "title": "硬件资料",
             "items": [
-              { "label": "Datasheet", "link": "https://github.com/bit-brick/datasheets/blob/main/SSOM-IMX8MP/Bit-Brick_SSOM-IMX8MM_DATASHEET.pdf" }
+              { "label": "Datasheet", "link": "https://gitee.com/bit-brick/datasheets/blob/main/SSOM-IMX8MP/Bit-Brick_SSOM-IMX8MM_DATASHEET.pdf" }
             ]
           }
         ]
@@ -210,7 +338,7 @@
     ]
   },
   {
-    "category": "Edge Computing Box",
+    "category": "边缘盒子",
     "boards": [
       {
         "id": "epc1000",
@@ -233,13 +361,43 @@
             "items": [
               { "label": "EPC1001 Edge Computing Box", "link": "../edge_epc1001/intro/intro.md" }
             ]
+          },
+          {
+            "title": "Tools",
+            "items": [
+              { 
+                "label": "RKDevtools", 
+                "link": "https://pan.baidu.com/s/1wKILdYuw84tDnyg0UjH7eQ?pwd=qrz5"
+              },
+              { 
+                "label": "SD_Firmware_Tool", 
+                "link": "https://pan.baidu.com/s/1A41g8p9pyQfAkftTQWtFjg?pwd=zft1"
+              },
+              { 
+                "label": "SDCardFormatter", 
+                "link": "https://pan.baidu.com/s/1B4x4uDYp7y4g-J8A24BvHw?pwd=pmec"
+              },
+              { 
+                "label": "DriverAssitant", 
+                "link": "https://pan.baidu.com/s/1BedMA_9X8wDqofaXWcQYDg?pwd=tfsp"
+              }
+            ]
+          },
+          {
+            "title": " 固件下载",
+            "items": [
+              { "label": "Debian12", "link": "https://pan.baidu.com/s/1Z_uBQroxcraaPBvSaA2gGA?pwd=vnmq" },
+              { "label": "Ubuntu22.04", "link": "https://pan.baidu.com/s/12jLI5bGu06pePtYIJiHFWg?pwd=586p" },
+              { "label": "Android 14", "link": "#" ,"desc": "Coming soon" }
+            ]
           }
+          
         ]
       }
     ]
   },
   {
-    "category": "Other",
+    "category": "其他",
     "boards": [
       {
         "id": "k1-cluster-board",

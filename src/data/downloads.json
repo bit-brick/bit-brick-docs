@@ -4,15 +4,39 @@
     "boards": [
       {
         "id": "k1-dev-board",
-        "name": "K1 Development Board",
+        "name": "K1",
         "sections": [
+          {
+            "title": "Tools",
+            "items": [
+              {
+                "label": "TitanTools for Windows (X86|X64)",
+                "link": "https://cloud.spacemit.com/prod-api/release/download/tools?token=titantools_for_windows_X86_X64"
+              },
+              {
+                "label": "TitanTools for Linux (X86|X64)",
+                "link": "https://cloud.spacemit.com/prod-api/release/download/tools?token=titantools_for_linux_64BIT_APPIMAGE"
+              }
+            ]
+          },
           {
             "title": "Firmware Downloads",
             "items": [
               {
                 "label": "Bianbu 3.0",
-                "link": "https://archive.spacemit.com/image/k1/version/bianbu/v3.0/",
-                "desc": "Files ending with img.zip are SDcard firmware, which can be written to SDcard using dd command or balenaEtcher after extraction. Note that this firmware is not suitable for eMMC. Files ending with .zip can be flashed using Titan Flasher, or using fastboot after extraction."
+                "link": "https://archive.spacemit.com/image/k1/version/bianbu/v3.0/"
+              },
+              {
+                "label": "Bianbu 2.2-7in-mipi",
+                "link": "https://pan.baidu.com/s/1cITZqJzmxbQD8BLy15MXOw?pwd=bsm5"
+              },
+              {
+                "label": "OpenHarmony",
+                "link": "https://pan.baidu.com/s/1lwfhk2WaVJKCLAXe67tiyw?pwd=e2te"
+              },
+              {
+                "label": "OpenHarmony-7in-mipi",
+                "link": "https://pan.baidu.com/s/14hZipebcxu88fKSOY8uVoQ?pwd=ne9e"
               }
             ]
           },
@@ -51,13 +75,35 @@
       },
       {
         "id": "k1-pro",
-        "name": "K1 Pro Development Board",
+        "name": "K1 Pro",
         "sections": [
+          {
+            "title": "Tools",
+            "items": [
+              { 
+                "label": "RKDevtools", 
+                "link": "https://pan.baidu.com/s/1wKILdYuw84tDnyg0UjH7eQ?pwd=qrz5"
+              },
+              { 
+                "label": "SD_Firmware_Tool", 
+                "link": "https://pan.baidu.com/s/1A41g8p9pyQfAkftTQWtFjg?pwd=zft1"
+              },
+              { 
+                "label": "SDCardFormatter", 
+                "link": "https://pan.baidu.com/s/1B4x4uDYp7y4g-J8A24BvHw?pwd=pmec"
+              },
+              { 
+                "label": "DriverAssitant", 
+                "link": "https://pan.baidu.com/s/1BedMA_9X8wDqofaXWcQYDg?pwd=tfsp"
+              }
+            ]
+          },
           {
             "title": "Firmware Downloads",
             "items": [
-              { "label": "Debian 12", "link": "https://pan.baidu.com/s/1AvvPxCaF9EDkc0shuRwt3w?pwd=n3zs" },
-              { "label": "Android 14", "link": "https://pan.baidu.com/s/1JzsEQcZn4m8RXQwwo4aYWw?pwd=kxv3" }
+              { "label": "Debian12", "link": "https://pan.baidu.com/s/1rshRMfBYdknOC3IvF_MQJw?pwd=emqs" },
+              { "label": "Ubuntu22.04", "link": "https://pan.baidu.com/s/17GKRx-pvEC_I1t4M4Kl9PQ?pwd=xae4" },
+              { "label": "Android 14", "link": "https://pan.baidu.com/s/1R69vyRV3MCU2XGYHQMSKUg?pwd=k3ys" }
             ]
           },
           {
@@ -107,15 +153,39 @@
     "boards": [
       {
         "id": "ssom-k1",
-        "name": "SSOM-K1 Core Board",
+        "name": "SSOM-K1",
         "sections": [
+          {
+            "title": "Tools",
+            "items": [
+              {
+                "label": "TitanTools for Windows (X86|X64)",
+                "link": "https://cloud.spacemit.com/prod-api/release/download/tools?token=titantools_for_windows_X86_X64"
+              },
+              {
+                "label": "TitanTools for Linux (X86|X64)",
+                "link": "https://cloud.spacemit.com/prod-api/release/download/tools?token=titantools_for_linux_64BIT_APPIMAGE"
+              }
+            ]
+          },
           {
             "title": "Firmware Downloads",
             "items": [
               {
                 "label": "Bianbu 3.0",
-                "link": "https://archive.spacemit.com/image/k1/version/bianbu/v3.0/",
-                "desc": "Files ending with img.zip are SDcard firmware, which can be written to SDcard using dd command or balenaEtcher after extraction. Note that this firmware is not suitable for eMMC. Files ending with .zip can be flashed using Titan Flasher, or using fastboot after extraction."
+                "link": "https://archive.spacemit.com/image/k1/version/bianbu/v3.0/"
+              },
+              {
+                "label": "Bianbu 2.2-7in-mipi",
+                "link": "https://pan.baidu.com/s/1cITZqJzmxbQD8BLy15MXOw?pwd=bsm5"
+              },
+              {
+                "label": "OpenHarmony",
+                "link": "https://pan.baidu.com/s/1lwfhk2WaVJKCLAXe67tiyw?pwd=e2te"
+              },
+              {
+                "label": "OpenHarmony-7in-mipi",
+                "link": "https://pan.baidu.com/s/14hZipebcxu88fKSOY8uVoQ?pwd=ne9e"
               }
             ]
           },
@@ -135,8 +205,37 @@
       },
       {
         "id": "ssom-3576",
-        "name": "SSOM-3576 Core Board",
+        "name": "SSOM-3576",
         "sections": [
+          {
+            "title": "Tools",
+            "items": [
+              { 
+                "label": "RKDevtools", 
+                "link": "https://pan.baidu.com/s/1wKILdYuw84tDnyg0UjH7eQ?pwd=qrz5"
+              },
+              { 
+                "label": "SD_Firmware_Tool", 
+                "link": "https://pan.baidu.com/s/1A41g8p9pyQfAkftTQWtFjg?pwd=zft1"
+              },
+              { 
+                "label": "SDCardFormatter", 
+                "link": "https://pan.baidu.com/s/1B4x4uDYp7y4g-J8A24BvHw?pwd=pmec"
+              },
+              { 
+                "label": "DriverAssitant", 
+                "link": "https://pan.baidu.com/s/1BedMA_9X8wDqofaXWcQYDg?pwd=tfsp"
+              }
+            ]
+          },
+          {
+            "title": "Firmware Downloads",
+            "items": [
+              { "label": "Debian12", "link": "https://pan.baidu.com/s/1Z_uBQroxcraaPBvSaA2gGA?pwd=vnmq" },
+              { "label": "Ubuntu22.04", "link": "https://pan.baidu.com/s/12jLI5bGu06pePtYIJiHFWg?pwd=586p" },
+              { "label": "Android 14", "link": "#" ,"desc": "Coming soon" }
+            ]
+          },
           {
             "title": "Hardware Resources",
             "items": [
@@ -147,8 +246,37 @@
       },
       {
         "id": "ssom-3588",
-        "name": "SSOM-3588 Core Board",
+        "name": "SSOM-3588",
         "sections": [
+          {
+            "title": "Tools",
+            "items": [
+              { 
+                "label": "RKDevtools", 
+                "link": "https://pan.baidu.com/s/1wKILdYuw84tDnyg0UjH7eQ?pwd=qrz5"
+              },
+              { 
+                "label": "SD_Firmware_Tool", 
+                "link": "https://pan.baidu.com/s/1A41g8p9pyQfAkftTQWtFjg?pwd=zft1"
+              },
+              { 
+                "label": "SDCardFormatter", 
+                "link": "https://pan.baidu.com/s/1B4x4uDYp7y4g-J8A24BvHw?pwd=pmec"
+              },
+              { 
+                "label": "DriverAssitant", 
+                "link": "https://pan.baidu.com/s/1BedMA_9X8wDqofaXWcQYDg?pwd=tfsp"
+              }
+            ]
+          },
+          {
+            "title": "Firmware Downloads",
+            "items": [
+              { "label": "Debian12", "link": "https://pan.baidu.com/s/1r9yHtl7mslJMzZD2O3zFNw?pwd=9dmh" },
+              { "label": "Ubuntu22.04", "link": "#","desc": "Coming soon" },
+              { "label": "Android 14", "link": "https://pan.baidu.com/s/1oPctCRbvlZVmqUjWWi9Kyw?pwd=bt2m"  }
+            ]
+          },
           {
             "title": "Hardware Resources",
             "items": [
@@ -173,7 +301,7 @@
       },
       {
         "id": "ssom-9352",
-        "name": "SSOM-9352 Core Board",
+        "name": "SSOM-9352 ",
         "sections": [
           {
             "title": "Hardware Resources",
@@ -185,7 +313,7 @@
       },
       {
         "id": "ssom-imx8mp",
-        "name": "SSOM-IMX8MP Core Board",
+        "name": "SSOM-IMX8MP",
         "sections": [
           {
             "title": "Hardware Resources",
@@ -197,7 +325,7 @@
       },
       {
         "id": "ssom-imx8mm",
-        "name": "SSOM-IMX8MM Core Board",
+        "name": "SSOM-IMX8MM",
         "sections": [
           {
             "title": "Hardware Resources",
@@ -233,7 +361,37 @@
             "items": [
               { "label": "EPC1001 Edge Computing Box", "link": "../edge_epc1001/intro/intro.md" }
             ]
+          },
+          {
+            "title": "Tools",
+            "items": [
+              { 
+                "label": "RKDevtools", 
+                "link": "https://pan.baidu.com/s/1wKILdYuw84tDnyg0UjH7eQ?pwd=qrz5"
+              },
+              { 
+                "label": "SD_Firmware_Tool", 
+                "link": "https://pan.baidu.com/s/1A41g8p9pyQfAkftTQWtFjg?pwd=zft1"
+              },
+              { 
+                "label": "SDCardFormatter", 
+                "link": "https://pan.baidu.com/s/1B4x4uDYp7y4g-J8A24BvHw?pwd=pmec"
+              },
+              { 
+                "label": "DriverAssitant", 
+                "link": "https://pan.baidu.com/s/1BedMA_9X8wDqofaXWcQYDg?pwd=tfsp"
+              }
+            ]
+          },
+          {
+            "title": "Firmware Downloads",
+            "items": [
+              { "label": "Debian12", "link": "https://pan.baidu.com/s/1Z_uBQroxcraaPBvSaA2gGA?pwd=vnmq" },
+              { "label": "Ubuntu22.04", "link": "https://pan.baidu.com/s/12jLI5bGu06pePtYIJiHFWg?pwd=586p" },
+              { "label": "Android 14", "link": "#" ,"desc": "Coming soon" }
+            ]
           }
+          
         ]
       }
     ]
