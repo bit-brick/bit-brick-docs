@@ -128,6 +128,24 @@
   "edge_epc1001.desc": {
     "message": "基于RK3576应用处理器的边缘计算盒子"
   },
+  "download.heroTitle": {
+    "message": "资料下载"
+  },
+  "download.heroSubtitle": {
+    "message": "完整的 SDK 免费开放，配套完善的软硬件资料"
+  },
+  "download.pageTitle": {
+    "message": "下载中心"
+  },
+  "download.pageDesc": {
+    "message": "资源与固件下载"
+  },
+  "download.noData": {
+    "message": "暂无相关资料下载"
+  },
+  "download.loading": {
+    "message": "加载中..."
+  },
   "theme.ErrorPageContent.title": {
     "message": "页面已崩溃。",
     "description": "The title of the fallback page when the page crashed"

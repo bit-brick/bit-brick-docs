@@ -9,8 +9,6 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Translate, { translate } from '@docusaurus/Translate';
 
 // --- 2. 引入两份数据源 ---
-// 假设 downloads.json 是英文(或默认)，downloads_zh.json 是中文
-// 如果你的文件名不一样，请在这里修改
 import dataEn from '../../data/downloads.json';
 import dataZh from '../../data/downloads_zh.json';
 
@@ -39,9 +37,9 @@ export default function Downloads() {
   const currentLocale = i18n.currentLocale;
 
   // --- 4. 根据语言动态选择数据 ---
-  // 注意：'zh-Hans' 需要和你 docusaurus.config.js 中配置的 locale 字符串一致
-  // 如果你配置的是 'zh-CN'，请把下面的 'zh-Hans' 改为 'zh-CN'
-  const downloadData = currentLocale === 'zh-Hans' ? dataZh : dataEn;
+  // 更稳健的判断：凡是以 zh 开头的 locale 视为中文，否则视为英文
+  const isZh = /^zh/i.test(currentLocale || '');
+  const downloadData = isZh ? dataZh : dataEn;
 
   const [activeBoardId, setActiveBoardId] = useState('');
   const [collapsedCategories, setCollapsedCategories] = useState({});
@@ -84,17 +82,16 @@ export default function Downloads() {
 
   return (
     <Layout
-      // 使用 translate 函数翻译页面元数据
       title={translate({id: 'download.pageTitle', message: 'Download Center'})}
       description={translate({id: 'download.pageDesc', message: 'Resources and Firmware Downloads'})}>
       
       <div className={styles.heroBanner}>
         <h1 className={styles.heroTitle}>
-          {/* 使用组件翻译静态文本 */}
-          <Translate id="download.heroTitle">资料下载</Translate>
+          {/* default to English; translations (if present) will override */}
+          <Translate id="download.heroTitle">Downloads</Translate>
         </h1>
         <p className={styles.heroSubtitle}>
-          <Translate id="download.heroSubtitle">完整的 SDK 免费开放，配套完善的软硬件资料</Translate>
+          <Translate id="download.heroSubtitle">Complete SDKs, firmware and hardware resources</Translate>
         </p>
       </div>
       
@@ -167,7 +164,7 @@ export default function Downloads() {
                 ))
               ) : (
                 <div className="alert alert--warning" role="alert">
-                  <Translate id="download.noData">暂无相关资料下载</Translate>
+                  <Translate id="download.noData">No resources available for this board</Translate>
                 </div>
               )}
             </div>
