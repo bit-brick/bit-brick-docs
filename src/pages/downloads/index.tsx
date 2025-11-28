@@ -44,22 +44,71 @@ export default function Downloads() {
   const [activeBoardId, setActiveBoardId] = useState('');
   const [collapsedCategories, setCollapsedCategories] = useState({});
 
-  // --- 5. 初始化与语言切换处理 ---
-  useEffect(() => {
-    // 如果没有任何选中项，或者数据源变了（比如切换语言后），
-    // 我们需要确保 activeBoardId 依然有效，或者重置为第一个
-    if (downloadData.length > 0 && downloadData[0].boards.length > 0) {
-      // 检查当前选中的ID在新的数据源里是否存在
-      const boardExists = downloadData.some(cat => 
-        cat.boards.some(b => b.id === activeBoardId)
-      );
+  // 选择板子并更新 URL hash（不触发页面跳动）
+  const handleSelectBoard = (id) => {
+    setActiveBoardId(id);
+    // 使用 replaceState 更新 URL 的 hash，使其可被分享且不产生多余历史记录
+    if (typeof window !== 'undefined' && window.history && window.location) {
+      const newUrl = `${window.location.pathname}#${id}`;
+      window.history.replaceState(null, '', newUrl);
+    }
+  };
 
-      // 如果未选中，或者选中的ID在当前语言数据里找不到（理论上ID应该一样，但为了安全），则重置
-      if (!activeBoardId || !boardExists) {
-        setActiveBoardId(downloadData[0].boards[0].id);
+  // --- 5. 初始化与语言切换处理（含 hash 支持） ---
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    // 尝试从 URL hash 获取目标板子 id
+    const hashId = (window.location.hash || '').replace('#', '');
+    let hashBoardExists = false;
+    if (hashId) {
+      hashBoardExists = downloadData.some(cat => cat.boards.some(b => b.id === hashId));
+    }
+
+    // 如果 hash 对应有效板子，则优先使用 hash
+    if (hashBoardExists) {
+      if (activeBoardId !== hashId) setActiveBoardId(hashId);
+    } else {
+      // 否则使用原来的逻辑：选中第一个板子（如果未设置或不在数据中）
+      if (downloadData.length > 0 && downloadData[0].boards.length > 0) {
+        const boardExists = downloadData.some(cat => 
+          cat.boards.some(b => b.id === activeBoardId)
+        );
+        if (!activeBoardId || !boardExists) {
+          setActiveBoardId(downloadData[0].boards[0].id);
+        }
       }
     }
-  }, [currentLocale, downloadData, activeBoardId]); 
+
+    // 监听浏览器 hash 变化（前进/后退或外部修改）
+    const onHashChange = () => {
+      const newHash = (window.location.hash || '').replace('#', '');
+      if (newHash) {
+        const exists = downloadData.some(cat => cat.boards.some(b => b.id === newHash));
+        if (exists) setActiveBoardId(newHash);
+      }
+    };
+    window.addEventListener('hashchange', onHashChange);
+
+    return () => {
+      window.removeEventListener('hashchange', onHashChange);
+    };
+  }, [currentLocale, downloadData, activeBoardId]);
+
+  // 当 activeBoardId 变化时，尝试滚动到对应的内容元素（便于锚点定位）
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    if (!activeBoardId) return;
+    // 延迟一点以确保元素已渲染
+    const t = setTimeout(() => {
+      const el = document.getElementById(activeBoardId);
+      if (el) {
+        // 平滑滚动到元素顶部（可调整 behavior）
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 50);
+    return () => clearTimeout(t);
+  }, [activeBoardId]);
 
   // 获取当前选中的板子数据
   const getActiveBoardData = () => {
@@ -119,7 +168,7 @@ export default function Downloads() {
                         className={clsx(styles.menuItem, {
                           [styles.activeItem]: activeBoardId === board.id
                         })}
-                        onClick={() => setActiveBoardId(board.id)}
+                        onClick={() => handleSelectBoard(board.id)}
                       >
                         {board.name}
                       </li>
@@ -134,7 +183,8 @@ export default function Downloads() {
         {/* 右侧内容 */}
         <main className={styles.content}>
           {activeBoard ? (
-            <div className="animate__animated animate__fadeIn">
+            // 给当前板块容器添加 id，方便通过 #id 定位
+            <div id={activeBoard.id} className="animate__animated animate__fadeIn">
               <h2 className={styles.boardTitle}>{activeBoard.name}</h2>
               
               {activeBoard.sections && activeBoard.sections.length > 0 ? (
