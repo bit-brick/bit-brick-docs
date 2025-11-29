@@ -51,7 +51,7 @@ ArkTS 是鸿蒙（HarmonyOS/OpenHarmony）生态的官方主力应用开发语�
 
 ArkUI（方舟 UI 框架）是华为为 HarmonyOS/OpenHarmony 生态系统构建的声明式 UI 开发框架，专注于实现高效、高性能的跨设备应用界面开发。基于 ArkTS 语言扩展（TypeScript 超集），通过组件化、状态驱动等机制简化 UI 构建逻辑，提供极简的 UI 语法（如装饰器 `@Component`），开发者通过声明式描述界面结构而非命令式操作。
 
-![](baseurl/resource/file/images?fileName=N0bobhh5morn8pxOPA5cIAOknfe.png)
+![](https://developer.spacemit.com/resource/file/images?fileName=N0bobhh5morn8pxOPA5cIAOknfe.png)
 
 ### 1.2.1. 核心技术特性
 
@@ -189,7 +189,7 @@ OpenHarmony 的 SDK 是专为 OpenHarmony 系统设计的软件开发工具包�
 
 `HarmonyOS SDK` 已嵌入 `DevEco Studio` 中，无需额外下载配置。但 `OpenHarmony` 的 SDK 没有集成，如需进行 OpenHarmony 应用开发，可通过 `File` -\> `Settings` -\> `OpenHarmony SDK` 页签下载 `OpenHarmony SDK`。
 
-![](baseurl/resource/file/images?fileName=DGPfbGjSTob8xjx2Hz9cUJjNnjh.png)
+![](https://developer.spacemit.com/resource/file/images?fileName=DGPfbGjSTob8xjx2Hz9cUJjNnjh.png)
 
 上图中，下载了 `API10/API11/API12` 的 3 个 SDK，保存在 `Z:\workspace\ohsdk` 的路径下
 
@@ -197,7 +197,7 @@ OpenHarmony 的 SDK 是专为 OpenHarmony 系统设计的软件开发工具包�
 
 - 下载 K1 OH5.0 的 Full SDK，[点我下载](https://archive.spacemit.com/tools/openharmony/sdk/12/)，目前 K1 OH5.0 仅支持 API12，系统支持 windows/macos/ubuntu 等，按照自己的开发机系统来下载。
 
-![](baseurl/resource/file/images?fileName=Y7D5bQuhMonm86xZvlLcSRYtn9g.png)
+![](https://developer.spacemit.com/resource/file/images?fileName=Y7D5bQuhMonm86xZvlLcSRYtn9g.png)
 
 - 下载了 Full SDK 后，进行解压，并将 Public SDK 中对应的目录替换掉即可。
 
@@ -205,7 +205,7 @@ OpenHarmony 的 SDK 是专为 OpenHarmony 系统设计的软件开发工具包�
 
 通过 hdc 成功连接开发设备后，如下图，Deveco Studio 右上角会显示连接的设备，以及一些运行调试的按键。
 
-![](baseurl/resource/file/images?fileName=ByxAbGy8JowdFTx79CMcr16Bnid.png)
+![](https://developer.spacemit.com/resource/file/images?fileName=ByxAbGy8JowdFTx79CMcr16Bnid.png)
 
 编译好的应用可以点击绿色的箭头在真机运行调试。hdc 的安装与使用方法请参照 [K1 OH5.0 系统调试说明](baseurl?Mqo9wGcBOiUbKUk22cAcYAlOnce) 的 1.2 章节进行。
 
@@ -216,7 +216,7 @@ OpenHarmony 的 SDK 是专为 OpenHarmony 系统设计的软件开发工具包�
 - 双击运行 `Deveco Studio` 应用，进入配置导入页面，选择不导入任何配置（第一次是没有项目和配置的）
 - 如下图，根据工程创建向导，选择创建 `Application` 应用服务或 `Atomic Service` 元服务。再选择需要的 Ability 工程模板，然后单击 Next。
 
-![](baseurl/resource/file/images?fileName=KoBkb4zNnofjWkxIxJAcTMCFnPd.png)
+![](https://developer.spacemit.com/resource/file/images?fileName=KoBkb4zNnofjWkxIxJAcTMCFnPd.png)
 
 - 在工程配置页面（如下图），需要根据向导配置工程的基本信息
   - `Project name`：工程的名称，可以自定义，由大小写字母、数字和下划线组成。
@@ -225,13 +225,13 @@ OpenHarmony 的 SDK 是专为 OpenHarmony 系统设计的软件开发工具包�
   - `Compatible SDK`：兼容的最低 API Version。
   - `Device type`：该工程模板支持的设备类型。
 
-![](baseurl/resource/file/images?fileName=WBs6bUZSdomPYuxUT9McA441nQf.png)
+![](https://developer.spacemit.com/resource/file/images?fileName=WBs6bUZSdomPYuxUT9McA441nQf.png)
 
 - 单击 Finish，工具会自动生成示例代码和相关资源，等待工程创建完成
 
 ## 3.2 项目结构
 
-![](baseurl/resource/file/images?fileName=Mxq8baFZoo70jXx313bcgQninhh.png)
+![](https://developer.spacemit.com/resource/file/images?fileName=Mxq8baFZoo70jXx313bcgQninhh.png)
 
 - `AppScope `-\> `app.json5`： 应用的全局配置信息
 - `entry`： `OpenHarmony` 工程模块，编译构建生成一个 HAP 包
@@ -298,7 +298,7 @@ OpenHarmony 的 SDK 是专为 OpenHarmony 系统设计的软件开发工具包�
 
 点击 `File` -\> `Project Structure` -\> `Signing Configs`，进入签名页面，进行如下设置，点击 `Apply`，再点击 `OK` 即可。
 
-![](baseurl/resource/file/images?fileName=CeQLbnVnIoKJiexjaiEcWn5TnX7.png)
+![](https://developer.spacemit.com/resource/file/images?fileName=CeQLbnVnIoKJiexjaiEcWn5TnX7.png)
 
 注意：上面绿框标注的 Support HarmonyOS 不用勾选
 
@@ -320,7 +320,7 @@ Build Analyzer results available
 
 点击右上角的运行按键，进行安装和运行。
 
-![](baseurl/resource/file/images?fileName=YbQ7bzXoLoxxHvx9VkdcMBminrh.png)
+![](https://developer.spacemit.com/resource/file/images?fileName=YbQ7bzXoLoxxHvx9VkdcMBminrh.png)
 
 # 4. 系统应用编译安装
 
@@ -582,11 +582,11 @@ index 62ed2e4..01a0e37 100644
 
 将 `abiFilters` 修改为 `riscv64`
 
-![](baseurl/resource/file/images?fileName=FhiTbk4NZoP4CgxW4QtcLAVTneg.png)
+![](https://developer.spacemit.com/resource/file/images?fileName=FhiTbk4NZoP4CgxW4QtcLAVTneg.png)
 
 并将项目更改为 OpenHarmony 项目，设置 SDK 版本号
 
-![](baseurl/resource/file/images?fileName=EEiCbDjiso9ZGqxFxc3cSzdfnEh.png)
+![](https://developer.spacemit.com/resource/file/images?fileName=EEiCbDjiso9ZGqxFxc3cSzdfnEh.png)
 
 ```bash
 {
@@ -1064,7 +1064,7 @@ Error while Deploy Hap
 
 - 进入签名设置页面，勾选 `Automatically generate signature`，不要勾选 `Support HarmonyOS`，再点击 `Apply` 和 `OK` 即可。
 
-![](baseurl/resource/file/images?fileName=UziHby6xloSWDPxNmm2cercMnfe.png)
+![](https://developer.spacemit.com/resource/file/images?fileName=UziHby6xloSWDPxNmm2cercMnfe.png)
 
 - 重新编译安装应用
 

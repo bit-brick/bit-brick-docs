@@ -85,7 +85,7 @@ D:\>hdc list targets
 
 双击图中的红色圈住的安装脚本：`setup_ohos_ollama_env_v1.0.bat `， 系统将自动为 OH 安装所有 LLM 的依赖库和应用程序:
 
-![](baseurl/resource/file/images?fileName=AQ1DbbQjYogPk7xbnzWcbJrlnDd.png)
+![](https://developer.spacemit.com/resource/file/images?fileName=AQ1DbbQjYogPk7xbnzWcbJrlnDd.png)
 
 ### 2.2.2. 运行**调试**
 
@@ -93,31 +93,31 @@ D:\>hdc list targets
 
 - 运行 Ollama，显示如下图表示 Ollama 正常工作：
 
-![](baseurl/resource/file/images?fileName=MWxZb7N6hoxGYWxrZW1c23rPnUc.png)
+![](https://developer.spacemit.com/resource/file/images?fileName=MWxZb7N6hoxGYWxrZW1c23rPnUc.png)
 
 - 如下图，若 `list` 为空，表示模型没有安装，需要加载大模型
 
-![](baseurl/resource/file/images?fileName=RpNqbIKVRo92PMxbuGXcvyFvned.png)
+![](https://developer.spacemit.com/resource/file/images?fileName=RpNqbIKVRo92PMxbuGXcvyFvned.png)
 
 - 加载大模型
 
-![](baseurl/resource/file/images?fileName=E4XzbkXgMoy62pxWDAvcJnSUnIg.png)
+![](https://developer.spacemit.com/resource/file/images?fileName=E4XzbkXgMoy62pxWDAvcJnSUnIg.png)
 
 - 再查看模型列表
 
-![](baseurl/resource/file/images?fileName=A4rAbKEoAoojqLxdKhfcDD6KnSh.png)
+![](https://developer.spacemit.com/resource/file/images?fileName=A4rAbKEoAoojqLxdKhfcDD6KnSh.png)
 
 - 在命令行运行大模型进行对话
 
-![](baseurl/resource/file/images?fileName=X0f3bNxbLoyy72xIQRicx5g8nEc.png)
+![](https://developer.spacemit.com/resource/file/images?fileName=X0f3bNxbLoyy72xIQRicx5g8nEc.png)
 
 - 打开 OH 的 HAP 程序
 
-![](baseurl/resource/file/images?fileName=Y7vhbD6EWoxFe2xeqIScNNXynrc.jpg)
+![](https://developer.spacemit.com/resource/file/images?fileName=Y7vhbD6EWoxFe2xeqIScNNXynrc.jpg)
 
 - 测试 HAP 的使用界面
 
-![](baseurl/resource/file/images?fileName=UqXAbZb5Bo1YkSxxRkUcQFK9nth.jpg)
+![](https://developer.spacemit.com/resource/file/images?fileName=UqXAbZb5Bo1YkSxxRkUcQFK9nth.jpg)
 
 # 3. 二次开发
 
@@ -130,7 +130,7 @@ D:\>hdc list targets
   - `c``hatgpt`: 包含 OH ChatGPT 库代码与 TestNAPI 测试代码
   - `d``eepseek`：演示 HAP 代码
 
-![](baseurl/resource/file/images?fileName=EFXobVplCozFpbx6jNGcFcDKnZg.png)
+![](https://developer.spacemit.com/resource/file/images?fileName=EFXobVplCozFpbx6jNGcFcDKnZg.png)
 
 ## 3.2. OH 系统构建
 
@@ -141,7 +141,7 @@ D:\>hdc list targets
 
 根据实际需求修改源代码。
 
-![](baseurl/resource/file/images?fileName=DFCpbttQxoUUZAx36Gqc6473nZg.png)
+![](https://developer.spacemit.com/resource/file/images?fileName=DFCpbttQxoUUZAx36Gqc6473nZg.png)
 
 ### 3.2.2. 编译镜像
 
@@ -167,7 +167,7 @@ hdc file send libchatgpt_core.z.so /lib64/
 
 `OH5.0\foundation\communication\chatgpt\testNapi` 目录主要用于为二次开发者提供参考示例，以便其基于该工程开发自定义的 AI 大模型应用。使用指定版本的 DevEco Studio 打开并编译该工程，可生成测试用的 `testNapi` HAP 文件，用于验证功能及辅助后续 LLM 应用开发。
 
-![](baseurl/resource/file/images?fileName=LRc7bdRm8oosKpxAzXSccCtYnjf.png)
+![](https://developer.spacemit.com/resource/file/images?fileName=LRc7bdRm8oosKpxAzXSccCtYnjf.png)
 
 ## 3.4 开发调试
 
@@ -193,7 +193,7 @@ hdc file send libchatgpt_core.z.so /lib64/
 
 同样使用 DevEco Studio 4.1 Release 打开对应代码工程，编译演示 HAP。
 
-![](baseurl/resource/file/images?fileName=R6O9bfkiMoGUBcxtenyc2N2hnLe.png)
+![](https://developer.spacemit.com/resource/file/images?fileName=R6O9bfkiMoGUBcxtenyc2N2hnLe.png)
 
 # 4. OH + Ollama + Deepseek 设计说明
 
@@ -241,7 +241,7 @@ hdc file send libchatgpt_core.z.so /lib64/
 4. C++ 层执行 HTTP 请求，通过回调返回结果
 5. 结果通过回调链传回前端显示，前端实时渲染
 
-![](baseurl/resource/file/images?fileName=Ml1Ib63Tpo06SmxiU1hcaxTFn9b.png)
+![](https://developer.spacemit.com/resource/file/images?fileName=Ml1Ib63Tpo06SmxiU1hcaxTFn9b.png)
 
 ### 4.2.2. chatgpt\_napi.cpp 设计
 
@@ -384,7 +384,7 @@ int sched_setaffinity(pid_t pid, size_t cpusetsize, const cpu_set_t *mask);
 
 ## 5.2. 如何导出 Ollama 日志
 
-![](baseurl/resource/file/images?fileName=YFhPbKC20obOPoxtp7Qcg4RMn5c.png)
+![](https://developer.spacemit.com/resource/file/images?fileName=YFhPbKC20obOPoxtp7Qcg4RMn5c.png)
 
 ## 5.3. MUSE Paper 经常熄屏
 
@@ -406,7 +406,7 @@ power-shell setmode 602
 
 ## 5.5. 空间不够
 
-![](baseurl/resource/file/images?fileName=N2iIbnsliooSsQxtKaZcprMcnWf.png)
+![](https://developer.spacemit.com/resource/file/images?fileName=N2iIbnsliooSsQxtKaZcprMcnWf.png)
 
 解决方法： 把这个 /.ollama 目录链接到 /data/deepseek/.ollama
 
