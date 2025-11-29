@@ -234,6 +234,14 @@ const sidebars: SidebarsConfig = {
               items: [
                 {
                   type: 'doc',
+                  id: 'k1/openharmony/oh-intro',
+                },
+                {
+                  type: 'doc',
+                  id: 'k1/openharmony/oh-factory-test',
+                },
+                {
+                  type: 'doc',
                   id: 'k1/openharmony/oh_build',
                 },
                 {

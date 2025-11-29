@@ -1,75 +1,171 @@
-# K1 JOH5.0 Solution Adding and Porting Guide
+# K1 OH5.0 方案添加移植说明
 
-# Currently Supported Solutions in SDK
+
+# 修订记录
 
 <table>
 <tbody>
 <tr>
-<td><strong>Ecosystem Product</strong></td>
-<td><strong>Form</strong></td>
-<td><strong>Boot Method</strong></td>
-<td><strong>Display</strong></td>
-<td><strong>Touch</strong></td>
-<td><strong>WiFi</strong></td>
-<td><strong>BT</strong></td>
-<td><strong>ETH</strong></td>
-<td><strong>USB</strong></td>
-<td><strong>Keyboard/Mouse</strong></td>
-<td><strong>Camera</strong></td>
+<td>修订版本</td>
+<td>修订日期</td>
+<td>修订说明</td>
 </tr>
 <tr>
-<td><strong>MUSEPaper2</strong><br/></td>
-<td>Tablet<br/></td>
-<td>Emmc<br/>TF Card</td>
-<td>Mipi DSI</td>
-<td>√</td>
-<td>√</td>
-<td>√</td>
-<td>×</td>
-<td>√</td>
-<td>×</td>
-<td>√</td>
+<td>001</td>
+<td>2025-01-13</td>
+<td>初始版本</td>
 </tr>
 <tr>
-<td><strong>MUSEPaper</strong><br/></td>
-<td>Tablet</td>
-<td>Emmc<br/>TF Card</td>
-<td>Mipi DSI<br/></td>
-<td>√</td>
-<td>√</td>
-<td>√</td>
-<td>×</td>
-<td>√</td>
-<td>×</td>
-<td>√</td>
+<td>002</td>
+<td>2025-04-11</td>
+<td>添加MUSE Pi Pro</td>
 </tr>
 </tbody>
 </table>
 
-# Adding Custom Solutions
+---
 
-The key repositories related to product solutions are as follows:
+# 1. SDK 目前支持方案
 
-- build: Add build whitelist, mainly modify files: `compile_standard_whitelist.json` and `subsystem_compoents_whitelist.json`
-- vendor/spacemit: Enter the vendor customization adaptation directory
-- device/board/spacemit: Enter the vendor board-level adaptation directory
-- device/soc/spacemit: Enter the vendor chip adaptation directory
-- kernel/linux/spacemit_kernel-6.6: Enter the vendor kernel
+<table>
+<tbody>
+<tr>
+<td>生态产品</td>
+<td><strong>MUSE Paper2</strong><br/>（新版硬件）<br/><strong>MUSE Paper</strong><br/>（旧版硬件）<br/><a href="https://developer.spacemit.com/documentation?token=HIrmwMT2piFuTRkusIrcO0ADngg&type=pdf">点我了解</a></td>
+<td><strong>MUSE Card</strong><br/><a href="https://developer.spacemit.com/documentation?token=MPFBwlWwxiWc2WkZ2Cdc8fZynje&type=pdf">点我了解</a></td>
+<td><strong>MUSE Pi</strong><br/><a href="https://developer.spacemit.com/documentation?token=IraAwPDzPiLwFBkm3WBcwzmhnph&type=pdf">点我了解</a></td>
+<td><strong>MUSE Pi Pro</strong><br/><a href="https://developer.spacemit.com/documentation?token=KHRWwjlZziiObikHeUScjbVEnMg&type=pdf">点我了解</a></td>
+<td><strong>MUSE Book</strong><br/><a href="https://developer.spacemit.com/documentation?token=KKPGwQryziN7qokFxzlcEwDFnng&type=pdf">点我了解</a></td>
+</tr>
+<tr>
+<td>产品形态</td>
+<td>平板电脑</td>
+<td>开发板</td>
+<td>开发板</td>
+<td>开发板</td>
+<td>笔记本电脑</td>
+</tr>
+<tr>
+<td>启动方式</td>
+<td>Emmc<br/>tf卡</td>
+<td>tf卡</td>
+<td>emmc</td>
+<td>emmc</td>
+<td>nor+ssd</td>
+</tr>
+<tr>
+<td>显示输出</td>
+<td>MipiDSI</td>
+<td>MipiDSI<br/>HDMI</td>
+<td>MipiDSI<br/>HDMI</td>
+<td>MipiDSI</td>
+<td>MipiDSI转edp</td>
+</tr>
+<tr>
+<td>屏幕触摸</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>×</td>
+</tr>
+<tr>
+<td>wifi</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+</tr>
+<tr>
+<td>BT</td>
+<td>√</td>
+<td>×</td>
+<td>×</td>
+<td>×</td>
+<td>×</td>
+</tr>
+<tr>
+<td>ethnet</td>
+<td>√（usb转）</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>×</td>
+</tr>
+<tr>
+<td>USB</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+</tr>
+<tr>
+<td>键鼠</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+</tr>
+<tr>
+<td>摄像头</td>
+<td>√（支持双摄）</td>
+<td>×</td>
+<td>×</td>
+<td>×</td>
+<td>×</td>
+</tr>
+<tr>
+<td>双屏显示</td>
+<td>×</td>
+<td>×</td>
+<td>×</td>
+<td>×</td>
+<td>√（接HDMI）</td>
+</tr>
+</tbody>
+</table>
 
-There are two ways to add custom solutions:
+# 2. 添加定制方案
 
-- Adapt a new solution by modifying an existing one, for example, if you need to adapt a new development board, you can modify the configurations of the already adapted development boards like deb1 and MUSEPi.
-- Add a completely new solution.
+产品方案定制涉及以下核心代码仓库：
 
-Below are the instructions for the two methods:
+- `build`：添加构建白名单，主要修改文件为：
 
-## Customizing by Modifying Existing Solutions
+  - `compile_standard_whitelist.json`
+  - `subsystem_compoents_whitelist.json`
+- `vendor/spacemit`：进迭厂商定制适配目录
+- `device/board/spacemit`：进迭厂商板级适配目录
+- `device/soc/spacemit`：进迭厂商芯片适配目录
+- `kernel/linux/spacemit_kernel-6.6`：进迭厂商内核
 
-### Customizing U-Boot
+添加定制方案通过以下两种方式实现：
 
-Currently, U-Boot source code is not uploaded. You can provide schematics to the vendor, who will configure and compile it, and provide the related U-Boot bin files. Below is the explanation of how to add the provided U-Boot files to the system.
+- **通过修改现有方案进行定制**
+  适用于在现有开发板基础上快速适配新的方案。例如，源码中已包含 `deb1` 和 `MUSE Pi` 两款开发板的适配配置，可通过修改其中的参数来支持新的开发板。
 
-The general U-Boot files are located in the `device/soc/spacemit/k1/kernel/boot` directory, applicable to all solutions, as follows:
+  - 适配流程简单，开发速度快。
+  - 注意：新开发板的板号需与原开发板保持一致（例如，仍命名为 `deb1`）。
+- **通过添加全新方案定制**
+  适用于需要完全独立配置的场景。
+
+  - 前期需进行一定的适配工作。
+  - 不会与现有开发板配置冲突，可灵活进行自定义和修改。
+
+下面分别对两种定制方案的操作进行说明：
+
+## 2.1 通过修改现有方案定制
+
+### 2.1.1 定制 U-Boot
+
+- 在大多数场景下，现有 U-Boot 能够正常引导内核启动，则可忽略此步。若有一些特殊需求，请联系进迭时空。
+- 如遇 U-Boot 无法正常启动的情况（较小概率），因目前 U-Boot 未上传源码，需联系进迭时空进行定制。定制流程：提供完整硬件原理图给进迭时空 → 进迭时空配置并编译 → 获取定制版 U-Boot 相关的 bin 文件。
+
+以下对进迭时空提供的  U-Boot 文件如何添加到系统进行说明。
+
+通用 U-Boot 文件位于 `device/soc/spacemit/k1/kernel/boot/` 目录，适用于所有标准方案：
 
 ```cpp
 |-- bootfs
@@ -92,9 +188,21 @@ The general U-Boot files are located in the `device/soc/spacemit/k1/kernel/boot`
 `-- u-boot.itb
 ```
 
-Frequently updated files include `env.bin`, `FSBL.bin`, `u-boot.bin`. These files are copied to the packaging directory in `device/board/spacemit/xxx/kernel/build_kernel.sh`, as follows:
+编译过程中常更新的文件包括：
 
-```cpp
+- `env.bin`
+- `FSBL.bin`
+- `u-boot.bin`
+
+这些文件会在构建阶段通过以下脚本自动拷贝至打包目录：
+
+```yaml
+device/board/spacemit/xxx/kernel/build_kernel.sh
+```
+
+脚本中的拷贝示例如下：
+
+```
 cp ${OHOS_SOURCE_ROOT}/device/soc/${DEVICE_BOARD}/k1/kernel/boot/bootfs/boot_logo_spacemit_0.bmp ${OHOS_IMAGES_DIR}/bootfs/bianbu.bmp
 cp ${OHOS_SOURCE_ROOT}/device/board/${DEVICE_BOARD}/${DEVICE_NAME}/kernel/boot/bootfs/env_k1-x.txt ${OHOS_IMAGES_DIR}/bootfs/env_k1-x.txt
 cp ${OHOS_SOURCE_ROOT}/device/soc/${DEVICE_BOARD}/k1/kernel/boot/env.bin ${OHOS_IMAGES_DIR}/env.bin
@@ -106,13 +214,19 @@ cp ${OHOS_SOURCE_ROOT}/device/soc/${DEVICE_BOARD}/k1/kernel/boot/genimage.cfg ${
 cp -r ${OHOS_SOURCE_ROOT}/device/soc/${DEVICE_BOARD}/k1/kernel/boot/factory ${OHOS_IMAGES_DIR}/
 ```
 
-If a solution has special customization for U-Boot, the U-Boot bin files need to be placed separately in the solution directory `device/board/spacemit/xxx/kernel/boot`. Additionally, the `build_kernel.sh` file needs to be modified to copy the U-Boot files from the solution directory to the packaging directory.
+若某一方案的 U-Boot 存在专属定制需求，则需将对应的 U-Boot 的 bin 文件单独放置在该方案目录下：
 
-### Customizing Kernel
+```yaml
+device/board/spacemit/xxx/kernel/boot
+```
 
-#### Modifying DTS
+同时，应修改 `build_kernel.sh` 文件，将该方案目录中的 U-Boot 文件拷贝至打包目录。
 
-Kernel DTS files are uniformly placed in: `kernel/linux/spacemit_kernel-6.6/arch/riscv/boot/dts/spacemit`, as shown below:
+### 2.1.2 定制 kernel
+
+#### 2.1.2.1 修改 dts
+
+内核的 dts 文件统一放置在：`kernel/linux/spacemit_kernel-6.6/arch/riscv/boot/dts/spacemit`，如下所示：
 
 ```cpp
 |-- k1-x-camera-reserved-mm.dtsi
@@ -159,47 +273,65 @@ Kernel DTS files are uniformly placed in: `kernel/linux/spacemit_kernel-6.6/arch
 `-- Makefile
 ```
 
-You can modify the corresponding DTS file based on the solution name. After modification, recompile the kernel as follows:
+可以根据方案名称修改对应的 dts 文件即可，修改完成后，重新编译内核，或者重新编译系统，为避免缓存影响，建议先清理旧的编译缓存：
 
 ```cpp
-./build.sh --product-name xxx --ccache -T build_kernel
+cd oh5
+rm -rf out/kernel
+
+./build.sh --product-name xxx --ccache --no-prebuilt-sdk -T build_kernel
+or
+./build.sh --product-name xxx --ccache --no-prebuilt-sdk
 ```
 
-#### Modifying Defconfig
+#### 2.1.2.2 修改 defconfig
 
-Kernel defconfig files are located in: `kernel/linux/spacemit_kernel-6.6/arch/riscv/configs/k1_defconfig`. This defconfig is shared by all solutions. If modifications are specific to a particular solution, they need to be made as patches. The process is as follows:
+内核的 defconfig 文件位于：
 
-- Generate patch: fix.patch
-- Place fix.patch in `device/board/spacemit/xxx/kernel/kernel_patch`
-- Apply patch in `device/board/spacemit/musebook/kernel/build_kernel.sh`, as follows:
+```yaml
+kernel/linux/spacemit_kernel-6.6/arch/riscv/configs/k1_defconfig
+```
+
+该 defconfig 是所有方案共用的，修改后，对所有的方案生效。
+
+如果只是针对某个特定方案的修改，需要通过 patch 的形式来修改，过程如下：
+
+- 生成 patch：`fix.patch`
+- 将生成的 `fix.patch` 放置于 `device/board/spacemit/xxx/kernel/kernel_patch` 中
+- `device/board/spacemit/xxx/kernel/build_kernel.sh` 中打 patch，如下：
 
 ```cpp
 patch -p1 <${OHOS_SOURCE_ROOT}/device/board/${DEVICE_BOARD}/${DEVICE_NAME}/kernel/kernel_patch/fix.patch
 ```
 
-### Customizing Vendor Directory
+### 2.1.3 定制 vendor 目录
 
-Below is a brief explanation of the directories and files under `vendor/spacemit/xxx`:
+`vendor/spacemit/xxx` 目录中主要文件和用途如下：
 
-- bluetooth: Vendor adaptation layer for Bluetooth modules, mainly modify this folder
-- config.json: Components included in the solution, can add/remove components and their properties
-- default_app_config: No modifications for now
-- etc: Add system properties, e.g., const.product.name="XXX"
-- hals: Internal audio directory mainly adapts audio paths, etc.
-- hdf_config: HDF configuration file for the solution
-- image_conf: No modifications for now
-- ohos.build: Add build modules
-- power_config: Configure power management modes, including NORMAL, POWER_SAVE, PERFORMANCE, EXTREME_POWER_SAVE, etc. Configure behaviors for each mode, such as screen-off time, standby time, etc.
-- preinstall-config: Manage installed application hap packages and permissions
-- product.gni: Some property configurations
-- resourceschedule: No modifications for now
-- security_config: No modifications for now
-- updater_config: No modifications for now
-- window_config: Window-related configurations, such as screen rotation direction, transition animation time, etc.
+- `bluetooth`：蓝牙厂商适配层，适配蓝牙模组主要修改该文件夹，目前默认适配 AP6256 的蓝牙
+- `config.json`：该方案包含的组件，可以对组件进行增删和组件属性的增删
+- `default_app_config`：暂无修改
+- `etc`：添加一些系统属性，如 `const.product.name="XXX"`
+- `hals`：目前主要适配音频通路等
+- `hdf_config`：方案的 hdf 配置文件
+- `image_conf`：暂无修改
+- `ohos.build`：添加构建模块
+- `power_config`：配置电源管理模式，分为 `NORMAL`，`POWER_SAVE`，`PERFORMANCE`，`EXTREME_POWER_SAVE` 几种，可以配置每种模式的行为，包括关屏时间，待机时间等
+- `preinstall-config`：安装的应用 hap 包管理和权限管理
+- `product.gni`：一些属性配置
+- `resourceschedule`：暂无修改
+- `security_config`：暂无修改
+- `updater_config`：暂无修改
+- `window_config`：窗口相关配置，比如屏幕旋转方向，过场动画时间配置等
 
-### Customizing Device Directory
+### 2.1.4 定制 device 目录
 
-The device directory is divided into board and soc. The soc directory contains adaptations for the K1 chip, while the board directory contains adaptations for specific product solutions. The structure of the device directory is as follows:
+device 目录包含 **board** 和 **soc** 两部分：
+
+- **soc：**针对 K1 芯片平台的适配，是各产品方案通用的部分
+- **board：**针对各产品方案的适配，是各产品方案不通用的部分
+
+device 下面的目录结构如下所示：
 
 ```cpp
 |-- board
@@ -221,31 +353,34 @@ The device directory is divided into board and soc. The soc directory contains a
         `-- k1
 ```
 
-The main modification points under `device/board/spacemit/xxx` include:
+`device/board/spacemit/xxx` 下面的主要修改点包括：
 
-- cfg/default.para: Some system configuration parameters
-- cfg/fstab.xxx: File system mount configuration
-- cfg/init.xxx.cfg: Startup configuration
-- cfg/init.xxx.usb.cfg: USB startup configuration
-- kernel: Kernel-related configurations and files
-- kernel/boot: U-Boot related files
-- kernel/build_kernel.sh: Kernel build script
-- kernel/kernel_patch: Kernel patches
-- kernel/ko: Kernel modules to be loaded
+- `cfg/default.para`：一些系统配置参数
+- `cfg/fstab.xxx`：文件系统挂载配置
+- `cfg/init.xxx.cfg`：启动配置
+- `cfg/init.xxx.usb.cfg`：USB 启动配置
+- `kernel`：内核相关的配置和文件
+- `kernel/boot`：U-Boot 相关文件
+- `kernel/build_kernel.sh`：内核构建脚本
+- `kernel/kernel_patch`：内核补丁
+- `kernel/ko`：需要加载的 ko
 
-The main modification points under `device/soc/spacemit/k1` include:
+`device/soc/spacemit/k1` 下面的主要修改点包括：
 
-- hardware: Adaptation layer for K1 hardware, including hardware codecs, GPU, etc.
-- kernel/boot: U-Boot related files
-- tools: Some command-line tools
+- `hardware`：K1 适配硬件的适配层，包括硬件编解码，GPU 等
+- `kernel/boot`：U-Boot 相关文件
+- `tools`：一些命令行工具
 
-## Adding a Completely New Solution
+## 2.2 通过添加全新方案定制
 
-### Customizing U-Boot
+### 2.2.1 定制 U-boot
 
-Currently, U-Boot source code is not uploaded. You can provide schematics and a solution code, e.g., ABC. The vendor will configure and compile it, and provide the related U-Boot bin files. Below is the explanation of how to add the provided U-Boot files to the system.
+- 在大多数场景下，现有 U-Boot 能够正常引导内核启动，则可忽略此步。若有一些特殊需求，请联系进迭时空。
+- 如遇 U-Boot 无法正常启动的情况（较小概率），因目前 U-Boot 未上传源码，需联系进迭时空进行定制。定制流程：提供完整硬件原理图及方案代号（如 ABC）给进迭时空 → 进迭时空完成配置并编译 → 获取定制版 U-Boot 相关的 bin 文件。
 
-The general U-Boot files are located in the `device/soc/spacemit/k1/kernel/boot` directory, as follows:
+以下对进迭时空提供的  U-Boot 文件如何添加到系统进行说明。
+
+通用 U-Boot 文件位于 `device/soc/spacemit/k1/kernel/boot/` 目录，如下：
 
 ```cpp
 |-- bootfs
@@ -268,9 +403,15 @@ The general U-Boot files are located in the `device/soc/spacemit/k1/kernel/boot`
 `-- u-boot.itb
 ```
 
-Frequently updated files include `env.bin`, `FSBL.bin`, `u-boot.bin`. These files are copied to the packaging directory in `device/board/spacemit/xxx/kernel/build_kernel.sh`, as follows:
+编译过程中常更新的文件包括：
 
-```cpp
+- `env.bin`
+- `FSBL.bin`
+- `u-boot.bin`
+
+这些文件会在构建阶段通过以下脚本自动拷贝至打包目录：
+
+```
 cp ${OHOS_SOURCE_ROOT}/device/soc/${DEVICE_BOARD}/k1/kernel/boot/bootfs/boot_logo_spacemit_0.bmp ${OHOS_IMAGES_DIR}/bootfs/bianbu.bmp
 cp ${OHOS_SOURCE_ROOT}/device/board/${DEVICE_BOARD}/${DEVICE_NAME}/kernel/boot/bootfs/env_k1-x.txt ${OHOS_IMAGES_DIR}/bootfs/env_k1-x.txt
 cp ${OHOS_SOURCE_ROOT}/device/soc/${DEVICE_BOARD}/k1/kernel/boot/env.bin ${OHOS_IMAGES_DIR}/env.bin
@@ -282,13 +423,19 @@ cp ${OHOS_SOURCE_ROOT}/device/soc/${DEVICE_BOARD}/k1/kernel/boot/genimage.cfg ${
 cp -r ${OHOS_SOURCE_ROOT}/device/soc/${DEVICE_BOARD}/k1/kernel/boot/factory ${OHOS_IMAGES_DIR}/
 ```
 
-If a solution has special customization for U-Boot, the U-Boot bin files need to be placed separately in the solution directory `device/board/spacemit/xxx/kernel/boot`. Additionally, the `build_kernel.sh` file needs to be modified to copy the U-Boot files from the solution directory to the packaging directory.
+若某一方案的 U-Boot 存在专属定制需求，则需将对应的 U-Boot 的 bin 文件单独放置在该方案目录下：
 
-### Customizing Kernel
+```yaml
+device/board/spacemit/xxx/kernel/boot
+```
 
-#### Modifying DTS
+同时，应修改 `build_kernel.sh` 文件，将该方案目录中的 U-Boot 文件拷贝至打包目录。
 
-Kernel DTS files are uniformly placed in: `kernel/linux/spacemit_kernel-6.6/arch/riscv/boot/dts/spacemit`, as shown below:
+### 2.2.2 定制 Kernel
+
+#### 2.2.2.1 修改 dts
+
+内核的 dts 文件统一放置在：`kernel/linux/spacemit_kernel-6.6/arch/riscv/boot/dts/spacemit`，目录结构示例如下：
 
 ```cpp
 |-- k1-x-camera-reserved-mm.dtsi
@@ -335,7 +482,7 @@ Kernel DTS files are uniformly placed in: `kernel/linux/spacemit_kernel-6.6/arch
 `-- Makefile
 ```
 
-You can add the corresponding DTS file based on the solution name, e.g., k1-x_ABC.dts. After modification, add it to the above directory and modify the Makefile file, as follows:
+可根据方案名称新增对应的 dts 文件，如 `k1-x_ABC.dts`，添加到上述目录后，在同目录的 `Makefile` 中加入编译项即可。示例如下：
 
 ```cpp
 diff --git a/arch/riscv/boot/dts/spacemit/Makefile b/arch/riscv/boot/dts/spacemit/Makefile
@@ -352,38 +499,51 @@ index ea48d28cedda..36beb0761dd7 100644
 
 ```
 
-Recompile the kernel as follows:
+重新编译内核，或者重新编译系统，保险起见，建议删除原来的编译缓存，如下：
 
 ```cpp
-./build.sh --product-name xxx --ccache -T build_kernel
+cd oh5
+rm -rf out/kernel
+
+./build.sh --product-name xxx --ccache --no-prebuilt-sdk -T build_kernel
+or
+./build.sh --product-name xxx --ccache --no-prebuilt-sdk
 ```
 
-#### Modifying Defconfig
+#### 2.2.2.2 修改 defconfig
 
-Kernel defconfig files are located in: `kernel/linux/spacemit_kernel-6.6/arch/riscv/configs/k1_defconfig`. This defconfig is shared by all solutions. If modifications are specific to a particular solution, they need to be made as patches. The process is as follows:
+内核的 defconfig 文件位于：
 
-- Generate patch: fix.patch
-- Place fix.patch in `device/board/xxx/musebook/kernel/kernel_patch`
-- Apply patch in `device/board/spacemit/xxx/kernel/build_kernel.sh`, as follows:
+```yaml
+kernel/linux/spacemit_kernel-6.6/arch/riscv/configs/k1_defconfig
+```
+
+该 defconfig 是所有方案共用的，修改后，对所有的方案生效。
+
+如果只是针对某个特定方案的修改，需要通过 patch 的形式来修改，过程如下：
+
+- 生成 patch：`fix.patch`
+- 将生成的 `fix.patch` 放置于 `device/board/spacemit/xxx/kernel/kernel_patch` 中
+- `device/board/spacemit/xxx/kernel/build_kernel.sh` 中打 patch，如下：
 
 ```cpp
 patch -p1 <${OHOS_SOURCE_ROOT}/device/board/${DEVICE_BOARD}/${DEVICE_NAME}/kernel/kernel_patch/fix.patch
 ```
 
-### Customizing Vendor Directory
+### 2.2.3 定制 vendor 目录
 
-The customization of the vendor directory differs from section 2.1.3 because a completely new solution is being added. The `vendor/spacemit` directory does not yet contain this solution. The customization method is to copy an existing solution directory, then uniformly modify the solution name, and then proceed with specific content modifications.
+vendor 目录的定制和前面章节有差别，由于添加的是全新方案，`vendor/spacemit` 下尚无对应目录。定制方法为先拷贝一个现有方案目录，再统一修改方案相关名称，最后进行具体内容的定制。
 
-- Copy an existing solution: Choose a similar solution to copy, e.g., for a development board, choose deb1; for a tablet, choose musepaper. Create a new solution, e.g., development board abc, as follows:
+- 拷贝现有方案：选择一个相似的方案进行拷贝，例如要适配开发板，可选择 `deb1`；要适配平板，可选择 `musepaper`。新建方案以开发板 abc 为例，如下：
 
 ```cpp
 cd vendor/spacemit
 cp -r deb1 abc
 ```
 
-- Uniformly modify the solution name: Replace all occurrences of deb1 with abc, and rename all files containing deb1 to include abc.
+- 统一修改方案名，将所有 `deb1` 替换为 `abc`，并修改相应文件名：
 
-```cpp
+```
 # sed -i "s/deb1/abc/g" `grep -rl deb1 ./`
 # find . -name *deb1*
 ./etc/param/product_deb1.para
@@ -392,35 +552,47 @@ cp -r deb1 abc
 # mv ./etc/param/hardware_deb1.para ./etc/param/hardware_abc.para
 ```
 
-- Proceed with customization
+- 删除之前的编译缓存避免编译报错）：
 
-### Customizing Device Directory
+```bash
+cd abc
+rm hdf_config/khdf/.built-in.a.cmd hdf_config/khdf/.hdf_hcs_hex.o.d hdf_config/khdf/.modules.order.cmd hdf_config/khdf/built-in.a hdf_config/khdf/hdf_hcs.hcb hdf_config/khdf/hdf_hcs_hex.o hdf_config/khdf/modules.order
+```
 
-The customization of the device directory differs from section 2.1.4 because a completely new solution is being added. The `device/board/spacemit` directory does not yet contain this solution. The customization method is to copy an existing solution directory, then uniformly modify the solution name, and then proceed with specific content modifications.
+- 进行修改定制。
 
-- Copy an existing solution: Choose a similar solution to copy, e.g., for a development board, choose deb1; for a tablet, choose musepaper. Create a new solution, e.g., development board abc, as follows:
+### 2.2.4. 定制 device 目录
+
+device 目录的定制和前面章节有差别，由于添加的是全新方案，`device/board/spacemit` 下尚无对应目录。定制方法为先拷贝一个现有方案目录，再统一修改方案相关名称，最后进行具体内容的定制。
+
+- 拷贝现有方案：选择一个相似的方案进行拷贝，例如要适配开发板，可选择 `deb1`；要适配平板，可选择 `musepaper`。新建方案以开发板 abc 为例，如下：
 
 ```cpp
 cd device/board/spacemit
 cp -r deb1 abc
 ```
 
-- Uniformly modify the solution name: Replace all occurrences of deb1 with abc, and rename all files containing deb1 to include abc.
+- 统一修改方案名，将所有 `deb1` 替换为 `abc`，并重命名相关文件：
 
-```cpp
+```
 # sed -i "s/deb1/abc/g" `grep -rl deb1 ./`
 # find . -name *deb1*
-./etc/param/product_deb1.para
-./etc/param/hardware_deb1.para
-# mv ./etc/param/product_deb1.para ./etc/param/product_abc.para
-# mv ./etc/param/hardware_deb1.para ./etc/param/hardware_abc.para
+./updater/config/init.deb1.usb.cfg
+./cfg/init.deb1.usb.cfg
+./cfg/fstab.deb1
+./cfg/init.deb1.cfg
+# mv ./updater/config/init.deb1.usb.cfg ./updater/config/init.abc.usb.cfg
+# mv ./cfg/init.deb1.usb.cfg ./cfg/init.abc.usb.cfg
+# mv ./cfg/fstab.deb1 ./cfg/fstab.abc
+# mv ./cfg/init.deb1.cfg ./cfg/init.abc.cfg
 ```
 
-- Proceed with customization
+- 在 `kernel/build_kernel.sh` 中更新 `dtb` 文件名称，使其与内核对应的 `dtb` 名称一致。
+- 进行修改定制。
 
-### Adding Permissions in Build Directory
+### 2.2.5. build 目录添加权限
 
-- Add solution configuration in `subsystem_compoents_whitelist.json`
+- 在 `subsystem_compoents_whitelist.json` 中添加方案配置：
 
 ```
 diff --git a/subsystem_compoents_whitelist.json b/subsystem_compoents_whitelist.json
@@ -439,6 +611,7 @@ index ee125742..a01e2e1c 100644
 
 ```
 
-- Add module whitelist in `compile_standard_whitelist.json`. The changes are relatively extensive. The method is to search for the name of the original solution copied, e.g., deb1. Copy all modules containing deb1, and modify the solution name to abc.
+- 在 `compile_standard_whitelist.json` 中添加模块的白名单：搜索该方案拷贝的原方案的名字，比如 `deb1`，包含 `deb1` 的模块都拷贝一份，并将方案名称修改为 `abc`
+- 在 `core/gn/ohos_exec_script_allowlist.gni` 中，参考现有方案（如 `deb1`）的写法，添加新方案 `abc` 的脚本路径，确保编译时可正常执行相关脚本。
 
-Reference from [Spacemit Developer Documentation](https://developer.spacemit.com/documentation?token=RY47wkcNoi99UNkdueEcpQStn8f)
+# 3. FAQ

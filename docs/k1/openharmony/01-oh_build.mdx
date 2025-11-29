@@ -1,62 +1,150 @@
-# K1 OH5.0 Download, Build and Flash Guide
+# K1 OH5.0 下载编译烧录说明
 
-# Environment Setup
 
-## Ubuntu Environment (Recommended 22.04, other versions not yet verified)
 
-Install dependencies:
+# 修订记录
+
+<table>
+<tbody>
+<tr>
+<td>修订版本</td>
+<td>修订日期</td>
+<td>修订说明</td>
+</tr>
+<tr>
+<td>001</td>
+<td>2024-11-18</td>
+<td>初始版本</td>
+</tr>
+<tr>
+<td>002</td>
+<td>2025-03-22</td>
+<td>添加“编译卡启动固件”章节</td>
+</tr>
+<tr>
+<td>003</td>
+<td>2025-04-11</td>
+<td>添加MUSE Pi Pro相关说明</td>
+</tr>
+<tr>
+<td>004</td>
+<td>2025-04-12</td>
+<td>添加“进入烧录模式”章节</td>
+</tr>
+<tr>
+<td>005</td>
+<td>2025-07-24</td>
+<td>添加“卡刷机”，“修改内核config”章节</td>
+</tr>
+</tbody>
+</table>
+
+---
+
+# 1. 环境准备
+
+## 1.1. Ubuntu 环境（推荐 22.04，其他版本暂未验证）
+
+执行以下命令安装依赖：
 
 ```
 sudo apt-get update
 
-sudo apt-get install binutils git git-lfs gnupg gperf build-essential zip curl zlib1g-dev gcc-multilib lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z1-dev libxml2-utils xsltproc unzip m4 bc gnutls-bin python3-pip ruby ccache libgl1-mesa-dev g++-multilib libc6-dev-i386 flex bison openjdk-19-jdk openssl libelf-dev lz4 genext2fs libncurses5 libssl-dev u-boot-tools dosfstools mtools libstdc++-12-dev repo python2 cpio nodejs npm
+sudo apt-get install binutils git git-lfs gnupg gperf build-essential zip curl zlib1g-dev gcc-multilib lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z1-dev libxml2-utils xsltproc unzip m4 bc gnutls-bin python3-pip ruby ccache libgl1-mesa-dev g++-multilib libc6-dev-i386 flex bison openjdk-19-jdk openssl libelf-dev lz4 genext2fs libncurses5 libssl-dev u-boot-tools dosfstools mtools libstdc++-12-dev repo python2 cpio nodejs npm default-jdk mtd-utils scons gcc-arm-none-eabi
 ```
 
-## Install make_exf4fs
+## 1.2. 安装 make\_exf4fs（如果已安装，请忽略）
 
-Download the attached bin.zip ([Click to Download](https://archive.spacemit.com/tools/openharmony/bin.zip)) and extract it to the server. Add it to PATH in ~/.bashrc:
+1. 下载 `bin.zip` 工具包（[点我下载](https://archive.spacemit.com/tools/openharmony/bin.zip)）并解压至服务器指定目录。
+2. 在 `~/.bashrc` 文件中添加工具路径：
 
-```cpp
-export PATH=$PATH:~/WorkSpace/bin
-```
+   ```cpp
+   export PATH=$PATH:~/WorkSpace/bin
+   ```
+3. 执行 `make_ext4fs` 验证安装，若显示以下提示，说明安装成功：
 
-# Source Code Preparation
+   ```bash
+   fuqiang@snode2:~/workspace/oh5$ make_ext4fs
+   Expected filename after options
+   make_ext4fs [ -l <len> ] [ -j <journal size> ] [ -b <block_size> ]
+       [ -g <blocks per group> ] [ -i <inodes> ] [ -I <inode size> ]
+       [ -L <label> ] [ -f ] [ -a <android mountpoint> ]
+       [ -S file_contexts ] [ -C fs_config ] [ -T timestamp ]
+       [ -z | -s ] [ -w ] [ -c ] [ -J ] [ -o ] [ -v ] [ -B <block_list_file> ]
+       <filename> [<directory>]
+   ```
 
-## Gitee
+# 2. 源码准备
 
-The code repository is hosted on Gitee ([Repository Path](https://gitee.com/riscv-sig)). To download the code, follow these steps:
+## 2.1. 访问 Gitee 仓库
 
-- Create a Gitee account.
-- Upload the server's SSH key to Gitee ("Settings" - "Security Settings" - "SSH Public Key").
+代码仓托管于 Gitee（[代码仓库路径](https://gitee.com/riscv-sig)）中，下载代码需要进行如下准备：
 
-## Download Source Code
+- 注册并登录 Gitee 账号 （若无 Gitee 账号）。
+- 将本地主机的 SSH 公钥添加到 Gitee 账户（路径：“设置” → “安全设置” → “SSH 公钥”）。
+
+## 2.2. 下载源码
 
 ```bash
 mkdir oh5
 cd oh5
 repo init -u git@gitee.com:riscv-sig/manifest.git -b riscv/OpenHarmony-v5.0.0-Release --no-repo-verify
-## If repo init fails to download repo (rare occurrence), use a domestic source
-## Add the parameter --repo-url=https://gerrit-googlesource.lug.ustc.edu.cn/git-repo
-
+## 如果repo init过程中下载repo失败（概率出现过），使用国内源
+## 后面添加参数 --repo-url=https://gerrit-googlesource.lug.ustc.edu.cn/git-repo
+ 
 repo sync -j4 -c --fail-fast
-## Takes around 3 hours
-## Handle errors promptly
+## 2-3小时左右
+## 出现报错及时处理
 
 repo forall -c 'git lfs pull'
-## Pull large files, haps, audio-video, etc., takes around 2 hours
+## 拉一些大文件，haps，音视频等，1-2小时左右
+## 如果对源码不熟悉，建议每次repo sync后，都执行此命令
 
 repo start OpenHarmony-v5.0.0-Release --all
 ```
 
-## Install Compiler
-
-Run the script in the source code root directory to install the compiler and binary tools.
+下载完成后的目录结构如下：
 
 ```bash
+fuqiang@snode5:~/WorkSpace2/oh5$ tree -L 1
+.
+|-- applications
+|-- arkcompiler
+|-- base
+|-- build
+|-- build.py -> build/build_scripts/build.py
+|-- build.sh -> build/build_scripts/build.sh
+|-- commonlibrary
+|-- developtools
+|-- device
+|-- docs
+|-- domains
+|-- drivers
+|-- foundation
+|-- ide
+|-- interface
+|-- kernel
+|-- napi_generator
+|-- out
+|-- prebuilts
+|-- productdefine
+|-- test
+|-- third_party
+`-- vendor
+
+21 directories, 2 files
+```
+
+## 2.3. 安装编译器
+
+在源码根目录下执行以下脚本，安装编译器及二进制工具。
+
+```bash
+cd oh5
 bash build/prebuilts_download.sh
 ```
 
-The downloaded files are stored by default in `openharmony_prebuilts` located in the same directory as `OpenHarmony`.
+下载的文件默认存放在与 `OpenHarmony` 同目录下的 `openharmony_prebuilts` 下。
 
 ```bash
 fuqiang@snode2:~/WorkSpace$ tree -L 1
@@ -67,7 +155,7 @@ fuqiang@snode2:~/WorkSpace$ tree -L 1
 2 directories, 0 files
 ```
 
-Contents of `openharmony_prebuilts`:
+`openharmony_prebuilts` 里面的内容如下：
 
 ```bash
 fuqiang@snode2:~/WorkSpace/openharmony_prebuilts$ ls -al
@@ -109,69 +197,87 @@ drwxr-xr-x 6 fuqiang dc-sw-users       4096 Oct 26 18:06 ..
 -rw-r--r-- 1 fuqiang dc-sw-users 1452493082 Oct 28 08:52 f997ab75c9658a9e47bb4db7b91b89a3.clang_ohos-arm64-ef33c3-20240828.tar.gz
 ```
 
-# Full Build
+# 3. 完整编译
 
-## Build Process Description
+## 3.1. 编译流程说明
 
-Enter the source code root directory and execute:
+进入源码根目录，执行以下命令进行版本编译。
 
 ```bash
 cd oh5
-./build.sh --product-name **xxx** --ccache --prebuilt-sdk
+./build.sh --product-name xxx --ccache --prebuilt-sdk
 ```
 
-to build the version. Here, xxx represents the product scheme. Currently supported product schemes include:
+其中，`xxx` 代表产品方案，目前支持的产品方案包括：
 
-- deb1
-- musepaper
-- musepaper2
-- musepapermini4g
-- musecard
-- musepi
-- musebook
+- deb1（内部研发用开发版）
+- musepaper（生态产品平板电脑 MUSE Paper，旧版硬件）
+- musepaper2（生态产品平板电脑 MUSE Paper，新版硬件，目前在售的都是新版硬件）
+- musepapermini4g（带 4G 模组的 8 英寸通讯平板电脑）
+- musecard（生态产品开发板 MUSE Card）
+- musepi（生态产品开发板 MUSE Pi）
+- musepipro（生态产品新款开发板 MUSE Pi Pro）
+- musebook（生态产品笔记本电脑 MUSE Book）
 
-For example, to build the firmware for musepaper, use the following command:
+示例： 编译 MUSE Paper 新版硬件固件：
 
 ```bash
-./build.sh --product-name musepaper --ccache --prebuilt-sdk
+./build.sh --product-name musepaper2 --ccache --prebuilt-sdk
 ```
 
-## Build Card Boot Firmware
+## 3.2. 编译卡启动固件
 
-The system defaults to building non-card boot firmware, usually emmc boot firmware (MUSEBook is nor+ssd boot firmware). These firmwares cannot boot when burned to a tf card. You need to modify the source code and then compile as described above to build normal card boot firmware. The source code modification method is as follows (taking MUSEPi as an example):
+系统默认编译生成的是 非卡启动固件（一般为 eMMC 启动固件）。例如，MUSE Book 使用的是 NOR + SSD 启动固件。
 
-1. Search for `d4281000` in the board-level configuration directory:
+如果将这些默认固件直接烧录到 TF 卡 上，是 无法启动 的。因此，需要 先修改源码配置，再按照前面的编译步骤进行编译，才能生成可以正常启动的 TF 卡启动固件。
 
-```
-fuqiang@snode:~/workspace/oh5/device/board/spacemit/musepi$ grep -r d4281000 ./
-./ramdisk_res/fstab.required:/dev/block/platform/soc/d4281000.sdh/by-name/system                /usr            ext4    ro,barrier=1                    wait,required
-./ramdisk_res/fstab.required:/dev/block/platform/soc/d4281000.sdh/by-name/vendor                /vendor         ext4    ro,barrier=1                    wait,required
-./ramdisk_res/fstab.required:/dev/block/platform/soc/d4281000.sdh/by-name/userdata              /data           ext4    nosuid,nodev,noatime,barrier=1,data=ordered,noauto_da_alloc wait,reservedsize=1073741824
-./ramdisk_res/fstab.required:/dev/block/platform/soc/d4281000.sdh/by-name/misc               /misc           none    none                            wait,required
-./updater/config/init.cfg:                "wait /dev/block/platform/soc/d4281000.sdh/by-name",
-./updater/config/init.cfg:                "symlink /dev/block/platform/soc/d4281000.sdh/by-name /dev/block/by-name"
-./updater/config/fstab.updater:/dev/block/platform/soc/d4281000.sdh/by-name/system              /system         ext4    ro,barrier=1                    wait
-./updater/config/fstab.updater:/dev/block/platform/soc/d4281000.sdh/by-name/vendor              /vendor         ext4    ro,barrier=1                    wait
-./updater/config/fstab.updater:/dev/block/platform/soc/d4281000.sdh/by-name/userdata            /data           ext4    discard,noatime,nosuid,nodev wait,check,fileencryption=software,quota
-./updater/config/fstab.updater:/dev/block/platform/soc/d4281000.sdh/by-name/misc               /misc           none    none                            wait
-./cfg/init.musepi.cfg:                "symlink /dev/block/platform/soc/d4281000.sdh/by-name /dev/block/by-name"
-./cfg/fstab.musepi:/dev/block/platform/soc/d4281000.sdh/by-name/system          /usr            ext4    ro,barrier=1                    wait,required
-./cfg/fstab.musepi:/dev/block/platform/soc/d4281000.sdh/by-name/vendor          /vendor         ext4    ro,barrier=1                    wait,required
-./cfg/fstab.musepi:/dev/block/platform/soc/d4281000.sdh/by-name/sys_prod                /sys_prod       ext4    ro,barrier=1                    wait
-./cfg/fstab.musepi:/dev/block/platform/soc/d4281000.sdh/by-name/chip_prod               /chip_prod      ext4    ro,barrier=1                    wait
-./cfg/fstab.musepi:/dev/block/platform/soc/d4281000.sdh/by-name/userdata                /data           ext4    nosuid,nodev,noatime,barrier=1,data=ordered,noauto_da_alloc wait,reservedsize=104857600
-./cfg/fstab.musepi:/dev/block/platform/soc/d4281000.sdh/by-name/userdisk        /storage        ext4    rw,barrier=1
-./cfg/fstab.musepi:/dev/block/platform/soc/d4281000.sdh/by-name/misc               /misc           none    none                            wait,required
-./kernel/boot/bootfs/env_k1-x.txt:default_boot_device=soc/d4281000.sdh
+以下以 MUSE Pi 为例，说明源码修改方法：
 
-```
+1. 在板级配置目录搜索 `d4281000`
 
-2. Change all `d4281000` to `d4280000`.
-3. Recompile the firmware.
+   ```
+   fuqiang@snode:~/workspace/oh5/device/board/spacemit/musepi$ grep -r d4281000 ./
+   ./ramdisk_res/fstab.required:/dev/block/platform/soc/d4281000.sdh/by-name/system                /usr            ext4    ro,barrier=1                    wait,required
+   ./ramdisk_res/fstab.required:/dev/block/platform/soc/d4281000.sdh/by-name/vendor                /vendor         ext4    ro,barrier=1                    wait,required
+   ./ramdisk_res/fstab.required:/dev/block/platform/soc/d4281000.sdh/by-name/userdata              /data           ext4    nosuid,nodev,noatime,barrier=1,data=ordered,noauto_da_alloc wait,reservedsize=1073741824
+   ./ramdisk_res/fstab.required:/dev/block/platform/soc/d4281000.sdh/by-name/misc               /misc           none    none                            wait,required
+   ./updater/config/init.cfg:                "wait /dev/block/platform/soc/d4281000.sdh/by-name",
+   ./updater/config/init.cfg:                "symlink /dev/block/platform/soc/d4281000.sdh/by-name /dev/block/by-name"
+   ./updater/config/fstab.updater:/dev/block/platform/soc/d4281000.sdh/by-name/system              /system         ext4    ro,barrier=1                    wait
+   ./updater/config/fstab.updater:/dev/block/platform/soc/d4281000.sdh/by-name/vendor              /vendor         ext4    ro,barrier=1                    wait
+   ./updater/config/fstab.updater:/dev/block/platform/soc/d4281000.sdh/by-name/userdata            /data           ext4    discard,noatime,nosuid,nodev wait,check,fileencryption=software,quota
+   ./updater/config/fstab.updater:/dev/block/platform/soc/d4281000.sdh/by-name/misc               /misc           none    none                            wait
+   ./cfg/init.musepi.cfg:                "symlink /dev/block/platform/soc/d4281000.sdh/by-name /dev/block/by-name"
+   ./cfg/fstab.musepi:/dev/block/platform/soc/d4281000.sdh/by-name/system          /usr            ext4    ro,barrier=1                    wait,required
+   ./cfg/fstab.musepi:/dev/block/platform/soc/d4281000.sdh/by-name/vendor          /vendor         ext4    ro,barrier=1                    wait,required
+   ./cfg/fstab.musepi:/dev/block/platform/soc/d4281000.sdh/by-name/sys_prod                /sys_prod       ext4    ro,barrier=1                    wait
+   ./cfg/fstab.musepi:/dev/block/platform/soc/d4281000.sdh/by-name/chip_prod               /chip_prod      ext4    ro,barrier=1                    wait
+   ./cfg/fstab.musepi:/dev/block/platform/soc/d4281000.sdh/by-name/userdata                /data           ext4    nosuid,nodev,noatime,barrier=1,data=ordered,noauto_da_alloc wait,reservedsize=104857600
+   ./cfg/fstab.musepi:/dev/block/platform/soc/d4281000.sdh/by-name/userdisk        /storage        ext4    rw,barrier=1
+   ./cfg/fstab.musepi:/dev/block/platform/soc/d4281000.sdh/by-name/misc               /misc           none    none                            wait,required
+   ./kernel/boot/bootfs/env_k1-x.txt:default_boot_device=soc/d4281000.sdh
 
-## MIPI-DSI vs HDMI
+   ```
+2. 将所有的 `d4281000` 修改为 `d4280000`
 
-Currently, `OpenHarmony` supports only one display output per firmware. To switch output devices, you need to modify the code and recompile the firmware. The main file to modify is the board's corresponding `dts` file. Taking `MUSE Pi` as an example, `MUSE Pi` defaults to using `MIPI-DSI` output. To change to HDMI output, modify the file `kernel/linux/spacemit_kernel-6.6/arch/riscv/boot/dts/spacemit/k1-x_MUSE-Pi.dts` as follows. Disable the 3 configurations related to `MIPI-DSI`:
+   ```
+   sed -i "s/d4281000/d4280000/g" `grep -rl d4281000 ./`
+   ```
+3. 重新编译固件
+4. 烧录方式参考《TitanFlasher 工具使用手册》[点我查看](https://developer.spacemit.com/documentation?token=O6wlwlXcoiBZUikVNh2cczhin5d) 第 3.2.2.2 章 “卡启动”。
+
+## 3.3. MIPI-DSI vs HDMI
+
+在当前的 OpenHarmony 系统中， 一个固件 只支持一种显示输出方式。如果需要切换显示输出设备（例如从 MIPI-DSI 切换到 HDMI），就必须 修改代码并重新编译固件。主要需要修改的文件是 对应开发板的 `dts` 文件。
+
+下面以 MUSE Pi 为例说明：
+
+- MUSE Pi 默认使用 MIPI-DSI 输出。
+- 如果想改为 HDMI 输出，需要修改以下文件：
+
+`kernel/linux/spacemit_kernel-6.6/arch/riscv/boot/dts/spacemit/k1-x_MUSE-Pi.dts`
+
+- 在该文件中，将与 MIPI-DSI 相关的 3 个配置项关闭，即以下配置项的 `status` 由 `"okay"` 改为 `"disabled"`。
 
 ```
 index 44950b5c2..5b1f2b30c 100644
@@ -202,64 +308,217 @@ index 44950b5c2..5b1f2b30c 100644
  &dpu_online2_hdmi {
 ```
 
-Conversely, to switch to `MIPI-DSI` output, enable the above 3 configurations.
+若切换回 MIPI-DSI 输出：将上述 3 个配置项的 `status` 改回 `"okay"`。
 
-After modifying the configuration, recompile the firmware.
+配置修改完成后，重新编译固件。
 
-## Common Build Parameters Description
+## 3.4. 常用构建参数说明
 
-### --fast-rebuild
+### 3.4.1. --fast-rebuild
 
 ```
-./build.sh --product-name rk3568 --ccache --no-prebuilt-sdk --fast-rebuild
-## The build process mainly includes: preloader->loader->gn->ninja
-## Without modifying gn and product configuration files locally, --fast-rebuild starts directly from ninja compilation
-## This parameter can reduce total build time
+./build.sh --product-name musepaper2 --ccache --no-prebuilt-sdk --fast-rebuild
+## 编译流程主要分为四个阶段：preloader->loader->gn->ninja
+## 如果本地 没有修改 gn 或产品配置相关文件，则使用参数 --fast-rebuild 时，
+## 编译会 直接从 ninja 阶段开始，从而 显著减少编译时间。
 ```
 
-### --prebuilt-sdk
+### 3.4.2. --prebuilt-sdk
 
-Before performing a full build, compile the SDK and organize/copy the SDK to `prebuilts/ohos-sdk`. build.sh supports specifying the SDK's runtime platform via the parameter `sdk_platform=xxx`, supporting mac/win/linux/ohos/default. Default on a Linux host is {`windows`,`linux`,`ohos`}, on a Mac host is {`mac`}.
+在执行完整编译前，建议 **先编译 SDK**。编译完成后，将生成的 SDK **拷贝到** 目录：`prebuilts/ohos-sdk`。
 
-For example:
+`build.sh` 脚本支持通过参数 `sdk_platform=xxx` 来指定 SDK 的运行平台，包括：**mac、win、linux、ohos、default。**
 
-```bash
+注意：
+
+- 当平台为 **Linux 主机** 时，`default` 表示 `{windows, linux, ohos}`。
+- 当平台为 **Mac 主机** 时，`default` 表示 `{mac}`。
+
+示例命令：
+
+```yaml
 ./build.sh --product-name xxx --ccache --prebuilt-sdk sdk_platform=default
 ```
 
-# Generate Flashable img
+如果后续 **SDK 没有变化**，或者 **无需重新编译 SDK**，可使用参数 `--no-prebuilt-sdk`，以 **加快编译速度**。
+
+# 4. 生成可烧录镜像
+
+执行：
 
 ```bash
-./build/gen_zip.sh **xxx**
+./build/gen_zip.sh xxx
 ```
 
-Here, xxx represents the product scheme. Currently supported product schemes include:
+其中，`xxx` 代表产品方案，目前支持的产品方案包括：
 
-- deb1
-- musepaper
-- musepaper2
-- musepapermini4g
-- musecard
-- musepi
-- musebook
+- deb1（内部研发用开发版）
+- musepaper（生态产品平板电脑 MUSE Paper，旧版硬件）
+- musepaper2（生态产品平板电脑 MUSE Paper，新版硬件）
+- musepapermini4g（带 4G 的 8 英寸平板电脑）
+- musecard（生态产品开发板 MUSE Card）
+- musepi（生态产品开发板 MUSE Pi）
+- musepipro（生态产品开发板 MUSE Pi Pro）
+- musebook（生态产品笔记本电脑 MUSE Book）
 
-The generated flashable img is located at:
+生成的可烧录的镜像路径：
 
 ```bash
-out/**xxx**/packages/phone/images/**openharmony-spacemit-xxx.zip**
+out/xxx/packages/phone/images/openharmony-spacemit-xxx.zip
 ```
 
-This img can be flashed using the TitanFlasher tool. The usage and download link for the TitanFlasher tool are as follows: [Click to View](https://developer.spacemit.com/documentation?token=O6wlwlXcoiBZUikVNh2cczhin5d)
+进入烧录模式后，可以通过进迭时空的烧录工具 TitanFlasher 烧录。
 
-# Build Individual Modules
+TitanFlasher 烧录工具的使用方法和下载连接如下：[点我查看](https://developer.spacemit.com/documentation?token=O6wlwlXcoiBZUikVNh2cczhin5d)
 
-## Build Kernel Individually
+# 5. 刷机
+
+## 5.1. USB 刷机
+
+参考 TitanFlasher 烧录工具[点我查看](https://developer.spacemit.com/documentation?token=O6wlwlXcoiBZUikVNh2cczhin5d)的 第 3.2.2.1 章节 “单机烧录”
+
+### 5.1.1.  进入烧录模式
+
+#### 5.1.1.1. MUSE Paper
+
+方式一：按键进入
+
+- 长按 `POWER`` ``键`` ` 关机
+- 按住 `音量+键`，同时按下 `POWER键` 开机
+- 保持按住 `音量 + 键` 一段时间，即可进入刷机模式
+- 使用 顶部中间的 Type-C 接口 连接 USB 线进行烧录。
+
+方式二：通过 `hdc` 命令进入
+
+- 开机后，连接上 `hdc`
+- 执行以下命令进入刷机模式：
+
+```yaml
+hdc shell
+reboot fastboot
+```
+
+- 使用 顶部中间的 Type-C 接口 连接 USB 线进行烧录。
+- 注意：hdc 调试口和烧录口不同，hdc 执行完命令后，需要切换到中间的 type-c 口
+
+> **注意：**hdc 调试口与烧录口不同。执行完命令后，需要切换到 中间的 Type-C 接口 进行烧录。
+
+方式三：通过串口命令进入
+
+- 开机后，通过串口执行以下命令：
+
+```yaml
+reboot fastboot
+```
+
+- 使用 顶部中间的 Type-C 接口 连接 USB 线进行烧录。
+
+#### 5.1.1.2.  MUSE Pi Pro / MUSE Pi / MUSE Card
+
+方式一：FDL + RST 组合进入
+
+- 插入 Type-C 接口，开机
+- 按住 `FDL`` 键`，同时按下 `RST`` 键`，进入刷机模式
+
+方式二：FDL + 上电进入
+
+- 插入 Type-C 接口，开机
+- 按住 `FDL 键` 的同时上电，设备将自动进入刷机模式。
+
+方式三：通过 hdc 命令进入
+
+- 插入 Type-C 接口，开机
+- 连接上 `hdc`
+- 执行以下命令进入刷机模式：
+
+```yaml
+hdc shell
+reboot fastboot
+```
+
+方式四：通过串口命令进入
+
+- 插入 Type-C 接口，开机
+- 通过串口执行以下命令：
+
+```yaml
+reboot fastboot
+```
+
+#### 5.1.1.3. MUSE Book
+
+方式一：按键进入
+
+- 长按 `POWER`` ``键` 关机
+- 用细针戳住 `FDL`` ``键`（笔记本右侧），同时按下 `POWER键` 开机
+- 保持 `FDL`` ``键` 多戳一会，进入刷机模式
+
+下图为 FDL 键位置示意：
+![](baseurl/resource/file/images?fileName=COtmbxe6mo5NYRxgvHZc7U3rn1c.png)
+
+方式二：通过 hdc 命令进入
+
+- 开机后，连接上 `hdc`
+- 执行以下命令进入刷机模式：
+
+```yaml
+hdc shell
+reboot fastboot
+```
+
+方式三：通过串口命令进入
+
+- 开机后，通过串口执行以下命令：
+
+```yaml
+reboot fastboot
+```
+
+## 5.2. 卡刷机
+
+卡刷机方式可参考 TitanFlasher 烧录工具[点我查看](https://developer.spacemit.com/documentation?token=O6wlwlXcoiBZUikVNh2cczhin5d) 的第 3.3.2 章节“制作量产卡”。
+
+制作好量产卡后，按以下步骤操作：
+
+1. 将 量产卡 插入设备。
+2. 执行以下任一操作进入卡烧录模式：
+
+   - 执行 `reboot` 命令；
+   - 或直接给设备 上电开机。
+
+系统将自动识别量产卡并开始烧录。
+
+烧录完成后，出现“recovery flash success”的打印信息，如下：
 
 ```bash
-./build.sh -product-name xxx --ccache --prebuilt-sdk -T build_kernel
+[ 481.578] finish image userdata.img flash, consume 104321 ms
+[ 481.586] no more partition to flash
+[ 481.592] bootinfo:0000000000400000, boot_info->crc32:dd152f83, sizeof(boot_info):8, download_buffer:0000000000400000
+[ 481.611] flash_mmc_boot_op, 0000000000400000
+[ 481.619] ........ wrote 512 bytes to EMMC_BOOT1
+[ 481.672] 185760 bytes read in 27 ms (6.6 MiB/s)
+[ 481.701] ........ wrote 185856 bytes to EMMC_BOOT1
+[ 481.710] flash_mmc_boot_op, 0000000000400000
+[ 481.720] ........ wrote 185856 bytes to EMMC_BOOT2
+[ 481.727] flashing over, use time:479773 ms
+[ 481.734] ################### recovery flash success ###################
 ```
 
-The above `build_kernel` is defined in `device/board/spacemit/xxx/kernel/BUILD.gn`:
+此时可拔出量产卡并重启设备。
+
+注意：若未拔出量产卡，重启设备后会再次进入卡烧录模式。
+
+# 6. 单独编译模块
+
+## 6.1. 单独编译内核
+
+执行以下命令单独编译内核：
+
+```bash
+./build.sh --product-name xxx --ccache --prebuilt-sdk -T build_kernel
+```
+
+上面的 `build_kernel` 定义在 `device/board/spacemit/xxx/kernel/BUILD.gn`：
 
 ```bash
 action("build_kernel") {
@@ -280,25 +539,46 @@ action("build_kernel") {
 
 ```
 
-Kernel source code path: `kernel/linux/spacemit_kernel-6.6`
+源码及输出路径说明：
 
-Patched kernel source code path in the out directory: `out/kernel/OBJ/xxx`
+- 内核源码路径：`kernel/linux/spacemit_kernel-6.6`
+- `out` 目录下生成的 patching 后的内核源码路径：`out/kernel/OBJ/xxx`
+- 编译生成的内核镜像路径：`out/kernel/OBJ/xxx/arch/riscv/boot/Image.itb`
+- 编译生成的 `dtb` 文件路径在：`out/kernel/OBJ/xxx/arch/riscv/boot/dts/spacemit/k1-x_xxx.dtb`
 
-Compiled kernel image path: `out/kernel/OBJ/xxx/arch/riscv/boot/Image.itb`
+生成的内核镜像和 `dtb` 文件会自动拷贝到 `out/xxx/packages/phone/images/bootfs` 目录中，并在打包脚本中一并打包进镜像文件。
 
-Compiled dtb file path: `out/kernel/OBJ/xxx/arch/riscv/boot/dts/spacemit/k1-x_xxx.dtb`
+### 6.1.1.  修改内核的 config
 
-The generated kernel image and dtb files are automatically copied to the `out/xxx/packages/phone/images/bootfs` directory, and the packaging script includes them in the img.
+编译过内核后，会生成 `out/kernel/OBJ/xxx/.config`，这个是未改动的原始的配置。
 
-## Build HDF Adaptation Layer Individually
+1. 进入 `out/kernel/OBJ/xxx/` 目录下，执行命令进入图形化的配置页面，如下：
 
-Take display as an example:
+   ```bash
+   cd out/kernel/OBJ/xxx/
+   make ARCH=riscv menuconfig
+   ```
+2. 修改完配置并退出图形界面后，执行命令保存配置，如下：
+
+   ```bash
+   make ARCH=riscv savedefconfig
+   ```
+3. 执行命令后，会生成 `out/kernel/OBJ/xxx/defconfig`，这个是修改生效后的 `defconfig`，将这个 `defconfig` 覆盖到原始目录下的 `k1_defconfig` 即可
+
+   ```bash
+   cp defconfig ../../../../kernel/linux/spacemit_kernel-6.6/arch/riscv/configs/k1_defconfig
+   ```
+4. 删除目录 `out/kernel/OBJ/xxx/` 后，重新编译内核
+
+## 6.2. 单独编译 HDF 适配层
+
+以 display 模块为例，可通过以下命令单独编译：
 
 ```c
 ./build.sh -product-name xxx --ccache --prebuilt-sdk -T display_composer_vendor
 ```
 
-Display adaptation code is located at `device/soc/spacemit/k1/hardware/display`. `display_composer_vendor` is defined in `device/soc/spacemit/k1/hardware/display/BUILD.gn`:
+display 的适配代码在 `device/soc/spacemit/k1/hardware/display`，`display_composer_vendor` 的定义在 `device/soc/spacemit/k1/hardware/display/BUILD.gn`
 
 ```bash
 ohos_shared_library("display_composer_vendor") {
@@ -309,24 +589,24 @@ ohos_shared_library("display_composer_vendor") {
     ...
 ```
 
-Compiled so is located at:
+编译后生成的 `.``so` 在：
 
 ```bash
 -rwxr-x---+ 1 fuqiang dc-sw-users 181000 Jun  7 08:55 ./out/deb1/hdf/spacemit_products/libdisplay_composer_vendor.z.so
 ```
 
-The so in the following folder is not updated; pay attention to the update time and md5 value:
+而下面文件夹中的 `.``so`  不会自动更新， 可通过对比 时间戳或 MD5 值 确认文件是否为最新版本。
 
 ```bash
 -rwxr-x---+ 1 fuqiang dc-sw-users 180968 Jun  6 16:02 ./out/deb1/packages/phone/vendor/lib64/libdisplay_composer_vendor.z.so
 ```
 
-The generated dynamic library can be pushed to the machine via hdc for debugging, avoiding reflashing the firmware. Command:
+生成的动态库可以通过 hdc 推送到机器中，方便调试，避免重新烧固件，命令如下：
 
 ```
 D:\>hdc shell
-# mount -o remount,rw /                #system partition writable
-# mount -o remount,rw /vendor          #vendor partition writable
+# mount -o remount,rw /                #system分区可读写
+# mount -o remount,rw /vendor          #vendor分区可读写
 # exit
 
 D:\>hdc file send xxx.so /vendor/lib64/
@@ -334,32 +614,75 @@ D:\>hdc shell
 # reboot
 ```
 
-## Build SDK Individually
+## 6.3. 单独编译 SDK
+
+使用以下命令单独编译 OpenHarmony SDK：
 
 ```bash
-./build.py --product-name ohos-sdk --ccache=true --xcache=false --load-test-config=false --get-warning-list=false --stat-ccache=false --compute-overlap-rate=false --deps-guard=false --generate-ninja-trace=false --gn-args skip_generate_module_list_file=true **sdk_platform=linux** **ndk_platform=linux** use_cfi=false use_thin_lto=false enable_lto_O0=true sdk_check_flag=false enable_ndk_doxygen=false archive_ndk=false sdk_for_hap_build=true enable_archive_sdk=false enable_notice_collection=false enable_process_notice=false
+./build.py --product-name ohos-sdk --ccache=true --xcache=false --load-test-config=false --get-warning-list=false --stat-ccache=false --compute-overlap-rate=false --deps-guard=false --generate-ninja-trace=false --gn-args skip_generate_module_list_file=true sdk_platform=linux ndk_platform=linux use_cfi=false use_thin_lto=false enable_lto_O0=true sdk_check_flag=false enable_ndk_doxygen=false archive_ndk=false sdk_for_hap_build=true enable_archive_sdk=false enable_notice_collection=false enable_process_notice=false
 ```
 
-By changing the `sdk_platform` and `ndk_platform` parameters, you can compile SDKs running on different OSs. NDK output is located at `out/sdk/sdk-native`.
+说明:
 
-## Fast Compilation
+- 通过更改 `sdk_platform` 和 `ndk_platform` 参数可以编译在不同 OS 运行的 SDK。
+- 编译完成后，NDK 输出位于 `out/sdk/sdk-native`。
 
-Use the following command to compile target modules faster:
+## 6.4. 快速编译
 
-```sql
+如果只想快速编译某个目标模块，可以使用 `ninja` 命令：
+
+```
 ninja -w dupbuild=warn -C out/xxx yyy -j8
 
-# xxx represents the scheme name
-# yyy represents the build target
+# xxx表示方案名
+# yyy表示构建目标
 ```
 
-For example, to compile the libomxvpu_dec target for the MUSEPaper scheme, use the command:
+示例：编译 MUSEPaper 方案的 `libomxvpu_dec` 目标，命令如下：
 
-```sql
+```
 ninja -w dupbuild=warn -C out/musepaper libomxvpu_dec -j8
 ```
 
-# FAQ
+# 7. FAQ
 
-Referenced from [Spacemit Developer Documentation](https://developer.spacemit.com/documentation?token=OQRQwIzlAiPAxikkNSJcKvFJnQf)
+## 7.1. 编译报错相关
+
+### 7.1.1. `make_ext4fs: command not found`
+
+报错示例如下：
+
+```bash
+make: Leaving directory '/data/home2/duancheng/WorkSpace/oh5/out/kernel/OBJ/musepaper2'
+../../device/board/spacemit/musepaper2/kernel/build_kernel.sh: line 129: make_ext4fs: command not found
 ```
+
+解决方案：按照文档上面 1.2 章节的说明来安装 `make_ext4fs`
+
+### 7.1.2. 编译 `dlp_manager` 和 `permission_manager` 报错
+
+原因：SDK 未编译
+
+解决方案：添加 `--prebuilt-sdk` 参数重新编译
+
+## 7.2. 启动相关
+
+### 7.2.1. 卡在 Logo
+
+原因：uboot 阶段或内核阶段异常，导致设备无法成功启动
+
+解决方案：该问题一般需要芯片原厂分析解决，提供串口的启动 log 通过技术支持窗口导入即可
+
+### 7.2.2. 卡开机动画
+
+卡开机动画的原因一般是 systemui 或者 launcher 没有成功启动
+
+- 原因 1：代码没有拉取大文件
+
+  更新代码后，忘记执行下面的命令：
+
+```bash
+repo forall -c 'git lfs pull'
+```
+
+解决方案：执行以上命令后，重新编译并烧录固件。

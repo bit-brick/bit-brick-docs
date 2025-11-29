@@ -1,52 +1,82 @@
-# K1 JOH5.0 Driver Development Guide
+# K1 OH5.0 驱动开发说明
 
-# Sensor Driver Development
 
-## Overview
 
-Sensors are common input devices used to perceive environmental states and implement corresponding responses. Compared to the original Linux driver mode, OH implements Sensor drivers in the HDF (Hardware Driver Foundation) layer. This implementation method enables one-time development with support for deployment in different kernel environments, such as lightweight systems, small systems, or standard Linux systems. Additionally, in the HDF framework, different drivers can be uniformly managed, with each driver providing services externally. For the application layer, only calling HDI (Hardware Device Interface) interfaces is needed to access driver service capabilities.
+# 修订记录
 
-## Sensor Driver Model
+<table>
+<tbody>
+<tr>
+<td>修订版本</td>
+<td>修订日期</td>
+<td>修订说明</td>
+</tr>
+<tr>
+<td>001</td>
+<td>2025-01-13</td>
+<td>初始版本</td>
+</tr>
+</tbody>
+</table>
 
-The Sensor driver model based on the HDF driver framework in OpenHarmony is as follows:
+---
 
-<span style={{display: 'flex',justifyContent: 'center',margin: '10px 0'}}>![](https://developer.spacemit.com/resource/file/images?fileName=C6azbk8T8oYBHcxBSeRcDqVXnpg.png)</span>
+# 1. Sensor 驱动开发
 
-Sensor driver models shield hardware device differences and provide stable Sensor basic capability interfaces for the upper Sensor service system, including Sensor list queries, Sensor start/stop, Sensor subscription and unsubscription, Sensor parameter configuration, and other functions.
+## 1.1 概述
 
-The development of Sensor device drivers is based on the HDF driver framework, combined with the operating system abstraction layer (OSAL, Operating System Abstraction Layer) and platform driver interface (such as I2C/SPI/UART bus and other platform resources) capabilities, shielding differences in operating systems and platform bus resources, to achieve the goal of "one-time development, multi-system deployment" for Sensor drivers.
+Sensor 是常见的输入设备，用于感知环境状态并触发相应的响应。相比传统的 Linux 驱动模式，OH 在 HDF（Hardware Driver Foundation）层实现了 Sensor 驱动。
 
-In OpenHarmony, the Sensor driver model is divided into the following levels:
+这种方式可实现一次开发、多内核部署，支持轻量系统、小型系统和标准 Linux 系统。同时，HDF 框架对不同驱动进行统一管理，每个驱动都能以服务形式对外提供能力。应用层可通过 HDI（Hardware Device Interface）接口直接访问，无需关注底层实现。
 
-- **Hardware**: This layer determines how Sensor devices are connected to the CPU, the communication method used by peripherals (such as I2C, SPI, GPIO, etc.), and so on.
-- **Driver**: This layer implements hardware peripheral drivers, including the bindInit and release functions in HdfDriverEntry, as well as ReadData in OpsCall.
-- **HDI**: Interface definition and implementation. The interface mainly includes stable interfaces such as querying all Sensor information, Sensor start/stop, Sensor subscription/unsubscription, Sensor parameter configuration, simplifying service development.
-- **Framework**: Upper Sensor services.
+## 1.2 Sensor 驱动模型
 
-## HCS Configuration
+OpenHarmony 中基于 HDF 驱动框架的 Sensor 驱动模型如下：
 
-For different platforms, the corresponding hcs file needs to be modified in the platform directory. The following example shows the modification method for adding a sensor module under the MusePaper platform.
+![](baseurl/resource/file/images?fileName=C6azbk8T8oYBHcxBSeRcDqVXnpg.png)
 
-### **Configure device\_info.hcs**
+Sensor 驱动模型屏蔽硬件器件差异，为上层 Sensor 服务系统提供稳定的 Sensor 基础能力接口，包括 Sensor 列表查询、Sensor 启停、Sensor 订阅及取消订阅、Sensor 参数配置等功能。
 
-- **File Path**: vendor/spacemit/musepaper/hdf\_config/khdf/device\_info/device\_info.hcs
-- **Configuration Description**: Add the following information to device\_info.hcs.
-- **Main Field Description**:
-- **policy**: Service policy. A value of "0" means the service is not published, "1" means the service is published to the kernel state, and "2" means the service is published to the user state.
-- **moduleName**: Same as the moduleName in the HdfDriverEntry structure implemented by the driver.
-- **deviceMatchAttr**: Private configuration information of the driver.
-- **serviceName**: Service name. A node with the serviceName will be generated under the /dev/ node (the prerequisite for generating the node is that the policy configuration is greater than or equal to 1).
+Sensor 驱动开发基于 HDF 框架，并结合操作系统抽象层（OSAL，Operating System Abstraction Layer）和平台驱动接口（如 I2C、SPI、UART 等总线资源），实现跨系统和跨平台的一致性，达到“一次开发，多系统部署”的目标。
 
-### **Configure sensor\_config.hcs**
+OpenHarmony 中 Sensor 驱动模型分为以下层级：
 
-- **File Path**: vendor/spacemit/musepaper/hdf\_config/khdf/sensor/sensor\_config.hcs
-- **Configuration Description**: Add the following content to sensor\_config.hcs: #include"accel/accel\_qm8658\_config.hcs"
+- **Hardware**：定义 Sensor 设备与 CPU 的连接方式，以及所使用的通信接口（如 I2C、SPI、GPIO 等）。
+- **Driver**：实现硬件外设驱动逻辑，包括 `HdfDriverEntry` 中的 `bindInit`、`realese` 函数，以及数据 `OpsCall` 里面的 `ReadData`。
+- **HDI**：定义并实现接口。接口主要包括所有 Sensor 信息查询、Sensor 启停、Sensor 订阅/取消订阅、Sensor 参数配置等稳定的接口，简化服务开发。
+- **Framework**：上层 Sensor 服务。
 
-### **Configure accel\_qm8658\_config.hcs**
+## 1.3 HCS 配置
 
-- **File Path**: vendor/spacemit/musepaper/hdf\_config/khdf/sensor/accel/accel\_qm8658\_config.hcs
-- **Configuration Description**:
-- Create a new folder named accel and create a new file accel\_qm8658\_config.hcs with the following content:
+针对不同平台，需要在对应平台目录中修改相应的 `.hcs` 文件。以下示例展示在 **MusePaper** 平台下新增 Sensor 模块的配置方法。
+
+### **1.3.1** **配置** **device_info.hcs**
+
+- **文件路径**：`vendor/spacemit/musepaper2/hdf_config/khdf/device_info/device_info.hcs`
+- **配置说明**：在 `device_info.hcs` 中添加以下信息。
+- **主要字段说明**：
+
+  - `policy`：服务策略。
+    - `0`：不发布服务
+    - `1`：向内核态发布服务
+    - `2`：向用户态发布服务
+  - **moduleName**：与驱动实现的 `HdfDriverEntry` 结构体中的 `moduleName` 相同。
+  - **deviceMatchAttr**：驱动的私有配置信息。
+  - **serviceName**：服务名称，最终会在 `/dev/` 节点下生成 `serviceName` 的节点（生成节点的前提条件是 `policy` 配置为大于等于 `1`）。
+
+### **1.3.2** **配置** **sensor_config.hcs**
+
+- **文件路径**：`vendor/spacemit/musepaper2/hdf_config/khdf/sensor/sensor_config.hcs`
+- **配置说明**：在 `sensor_config.hcs` 中添加如下内容：
+
+  ```yaml
+  #include"accel/accel_qm8658_config.hcs"
+  ```
+
+### **1.3.3** **配置** **accel_qm8658_config.hcs**
+
+- **文件路径**：`vendor/spacemit/musepaper/hdf_config/khdf/sensor/accel/accel_qm8658_config.hcs`
+- **配置说明**：新增文件夹 `accel`，并新建文件 `accel_qm8658_config.hcs`，文件内容如下：
 
 ```cpp
 #include"../sensor_common.hcs"
@@ -100,9 +130,9 @@ root{
 }
 ```
 
-## Compilation Option Modification
+## 1.4 编译选项修改
 
-1. Add the following content to drivers/adapter/khdf/linux/model/sensor/Kconfig:
+- 在 `drivers/adapter/khdf/linux/model/sensor/Kconfig` 中添加以下内容：
 
 ```cpp
 config DRIVERS_HDF_SENSOR_ACCEL_QM8658
@@ -113,20 +143,19 @@ config DRIVERS_HDF_SENSOR_ACCEL_QM8658
         Answer Y to enable HDF accel qm8658 sensor driver.
 ```
 
-1. Add the following content to drivers/adapter/khdf/linux/model/sensor/Makefile:
+- 在 `drivers/adapter/khdf/linux/model/sensor/Makefile` 中添加以下内容：
 
 ```cpp
 obj-$(CONFIG_DRIVERS_HDF_SENSOR_ACCEL_QM8658)+=$(SENSOR_ROOT_DIR)/chipset/accel/accel_qm8658.o
 ```
 
-1. Modify the Makefile corresponding to the driver implementation file as follows:
+- 修改 Makefile 对应的驱动实现文件如下：
 
-- drivers/framework/model/sensor/driver/chipset/accel/accel\_qm8658.c
-- drivers/framework/model/sensor/driver/chipset/accel/accel\_qm8658.h
+  - `drivers/framework/model/sensor/driver/chipset/accel/accel_qm8658.c`
+  - `drivers/framework/model/sensor/driver/chipset/accel/accel_qm8658.h`
+- 内核 defconfig 配置
 
-1. Kernel defconfig configuration
-
-Add the following content to the kernel/linux/spacemit\_kernel-6.6/arch/riscv/configs/k1\_defconfig file:
+在 `kernel/linux/spacemit_kernel-6.6/arch/riscv/configs/k1_defconfig` 文件中添加以下内容：
 
 ```cpp
 CONFIG_DRIVERS_HDF_SENSOR=y
@@ -134,9 +163,9 @@ CONFIG_DRIVERS_HDF_SENSOR_ACCEL=y
 CONFIG_DRIVERS_HDF_SENSOR_ACCEL_QM8658=y
 ```
 
-## Application Code Directory Description
+## 1.5 应用代码目录说明
 
-The interface implementation of Sensor drivers providing services externally is located under the drivers/peripheral/sensor path. The functional description of the directory is as follows:
+Sensor 驱动对外服务的接口实现均在 `drivers/peripheral/sensor` 路径下，该目录对应的功能说明如下：
 
 ```bash
 /drivers/peripheral/sensor
@@ -149,93 +178,101 @@ The interface implementation of Sensor drivers providing services externally is 
     └── unit
 ```
 
-- **hal**: Sensor module hal layer code
-- **include**: Internal header files of the sensor module hal layer
-- **src**: Implementation of the sensor module hal layer code
-- **interfaces**: Driver capability interfaces provided by the sensor module to upper-layer services
-- **include**: Interface definitions provided externally by the sensor module
-- **test**: Sensor module test code
-- **unit**: Sensor module unit test code
+- **hal**：sensor 模块 hal 层代码
+- **include**：sensor 模块 hal 层内部头文件
+- **src**：sensor 模块 hal 层代码的实现
+- **interfaces**：sensor 模块对上层服务提供的驱动能力接口
+- **include**：sensor 模块对外提供的接口定义
+- **test**：sensor 模块测试代码
+- **unit**：sensor 模块单元测试代码
 
-## Common Issue Handling
+## 1.6 常见问题处理
 
-1. Confirm the accuracy of HCS configuration, including I2C bus, Sensor register initialization, Sensor enablement, and other information.
-2. Confirm whether the compilation options have been modified to compile normally.
-3. If the application cannot be enabled, confirm whether the module needs to configure permissions and whether hdf.hcs needs to be touched to change the timestamp.
+1. 确认 HCS 配置的准确性，包括 I2C 总线、Sensor 寄存器初始化、Sensor 使能等信息。
+2. 确认是否修改了编译选项，使其正常编译进系统。
+3. 若应用使能不上，确认模块是否要配置权限，以及是否要 `touch hdf.hcs` 更改时间戳。
 
-# TouchScreen Driver Development
+# 2. TouchScreen 驱动开发
 
-## Overview
+## 2.1 概述
 
-TouchScreen is a common input device used to perceive user touches on the screen and implement corresponding responses. Compared to the original Linux driver mode, OpenHarmony implements TouchScreen drivers in the HDF layer. This implementation method enables one-time development with support for deployment in different kernel environments, such as lightweight systems, small systems, or standard Linux systems. Additionally, in the HDF framework, different drivers can be uniformly managed, with each driver providing services externally. For the application layer, only calling HDI interfaces is needed to access driver service capabilities.
+TouchScreen 是常见的输入设备，用于感知用户在屏幕上的触摸操作并作出相应响应。
 
-## TouchScreen Driver Model
+相比传统的 Linux 驱动模式，OpenHarmony 在 HDF 层实现了 TouchScreen 驱动，使其具备“一次开发，多系统部署”的能力，可支持轻量级系统、小型系统以及标准 Linux 系统。
 
-The TouchScreen driver model based on the HDF driver framework in OpenHarmony is as follows:
+在 HDF 框架下，不同驱动可统一管理，并以服务形式对外提供能力。应用层只需通过调用 HDI 接口，即可访问 TouchScreen 驱动服务。
 
-<span style={{display: 'flex',justifyContent: 'center',margin: '10px 0'}}>![](https://developer.spacemit.com/resource/file/images?fileName=UUAZbn5qxoNRORxB4WlcS4eAnqf.png)</span>
+## 2.2 TouchScreen 驱动模型
 
-In OpenHarmony, the TouchScreen driver model is divided into the following levels:
+OpenHarmony 中基于 HDF 驱动框架的 TouchScreen 驱动模型如下：
 
-- **Hardware**: This layer determines how TouchScreen devices are connected to the CPU, which IO ports are used for configuration, and the communication method used (such as I2C, SPI, UART, etc.).
-- **Kernel**: This layer mainly selects the appropriate kernel (Linux/LiteOS/RTOS) based on project requirements; the OSAL APIs in the Kernel layer mainly normalize different kernels to provide standardized operation interfaces for the HDF Drivers layer, minimizing modifications caused by differences between kernels.
-- **HDF Drivers**: This layer implements hardware peripheral drivers, completing the initialization of different peripherals, such as implementing the Init, Detect, Resume, Suspend, DataHandle, UpdateFirmware functions in struct TouchChipOps ops for TouchScreen.
-- **Input HDI**: This layer implements driver interface capabilities such as TouchScreen device management, business control, and data reporting, providing hardware driver capabilities to the upper layer.
-- **Framework**: Upper TouchScreen services.
+![](baseurl/resource/file/images?fileName=UUAZbn5qxoNRORxB4WlcS4eAnqf.png)
 
-## HCS Configuration
+OpenHarmony 中的 TouchScreen 驱动模型分为以下层级：
 
-For different platforms, the corresponding hcs file needs to be modified in the platform directory. The following example shows the modification method for adding the GT9271 touchscreen under the MUSEPaper platform.
+- **Hardware**：定义 TouchScreen 设备与 CPU 的连接方式，以及外设的通信接口（如 I2C、SPI、UART 等）和 IO 口配置。
+- **Kernel**：根据项目需求选择合适的内核（Linux / LiteOS / RTOS）。该层通过 OSAL API 统一不同内核的接口，为 HDF Drivers 层提供标准化的操作接口，最大限度的屏蔽了不同内核之间的差异导致上层的修改。
+- **HDF Drivers**：实现硬件驱动逻辑，完成设备初始化与操作。如 TouchScreen 驱动需实现 `struct TouchChipOps ops` 中的函数，如 Init、Detect、Resume、Suspend、DataHandle、UpdateFirmware 等。
+- **Input HDI**：该层实现了 TouchScreen 设备管理、业务控制、数据上报等驱动接口能力，为上层提供硬件驱动服务。
+- **Framework**：上层 TouchScreen 服务。
 
-### **Configure device\_info.hcs**
+## 2.3 HCS 配置
 
-- **File Path**: vendor/spacemit/musepaper/hdf\_config/khdf/device\_info/device\_info.hcs
-- **Configuration Description**: Add the following content to device\_info.hcs.
-- **Main Field Description**:
-- **policy**: Service policy. A value of "0" means the service is not published, "1" means the service is published to the kernel state, and "2" means the service is published to the user state.
-- **moduleName**: Same as the moduleName in the HdfDriverEntry structure implemented by the driver.
-- **deviceMatchAttr**: Private configuration information of the driver.
-- **serviceName**: Service name. A node with the serviceName will be generated under the /dev/ node (the prerequisite for generating the node is that the policy configuration is greater than or equal to 1).
+对于不同的平台，需要在对应的平台目录修改对应的 `.``hcs` 文件，下面示例为 MUSEPaper 平台下新增 GT9271 触摸屏的修改方法。
 
-### **Configure input\_config.hcs**
+### **2.3.1** **配置** **device_info.hcs**
 
-- **File Path**: vendor/spacemit/musepaper/hdf\_config/khdf/input/input\_config.hcs
-- **Configuration Description**: Modify the following configuration in input\_config.hcs.
+- **文件路径**：`vendor/spacemit/musepaper/hdf_config/khdf/device_info/device_info.hcs`
+- **配置说明**：在 `device_info.hcs` 中添加以下内容。
+- **主要字段说明**：
 
-### **Modify Configuration**
+  - `policy`：服务策略。
+    - `0`：不发布服务
+    - `1`：向内核态发布服务
+    - `2`：向用户态发布服务
+  - **moduleName**：与驱动实现的 `HdfDriverEntry` 结构体中的 `moduleName` 相同。
+  - **deviceMatchAttr**：驱动的私有配置信息。
+  - **serviceName**：服务名称，最终会在 `/dev/` 节点下生成 `serviceName` 的节点（生成节点的前提条件是 `policy` 配置为大于等于 `1`）。
 
-Add chip4 to the chipConfig field, indicating the addition of a new touchscreen driver.
+### **2.3.2** **配置** **input_config.hcs**
 
-## Compilation Option Modification
+- **文件路径**：`vendor/spacemit/musepaper/hdf_config/khdf/input/input_config.hcs`
+- **配置说明**：在 `input_config.hcs` 中修改如下配置。
 
-The following example introduces the relevant compilation option modifications for adding the GT9271 touchscreen driver.
+### **2.3.3** **修改配置**
 
-Add the following content to drivers/adapter/khdf/linux/model/input/Kconfig:
+在 `chipConfig` 字段中新增 `chip4`，表示新增的一个触摸屏驱动。
+
+## 2.4 编译选项修改
+
+下面以新增触摸屏 GT9271 的驱动为例介绍相关的编译选项修改。
+
+在 `drivers/adapter/khdf/linux/model/input/Kconfig` 中新增如下内容：
 
 ```cpp
 config DRIVERS_HDF_TP_10P10_GT9271
     bool "Enable HDF tp10P10 GT9271
 ```
 
-# UART Driver Development
+# 3. UART 驱动开发
 
-## Overview
+## 3.1 概述
 
-UART refers to Universal Asynchronous Receiver/Transmitter. In the HDF framework, the interface adaptation mode of UART adopts an independent service mode.
+UART（Universal Asynchronous Receiver/Transmitter，通用异步收发传输器）是一种常见的串行通信接口。在 HDF 框架中，UART 的接口适配模式采用独立服务模式。
 
-In this mode, each device object independently publishes a device service to handle external access. When the device manager receives an API access request, it achieves the purpose of calling the corresponding internal method of the actual device object by extracting the parameters of the request.
+在此模式下，每个 UART 设备对象会独立发布一个设备服务，用于处理外部访问。设备管理器在接收到 API 请求后，会根据请求参数调用对应设备对象的内部方法。
 
-The advantage of the independent service mode is that it can directly utilize the service management capabilities of HDFDeviceManager, but it also has certain disadvantages, such as the need to configure device nodes separately for each device, which increases memory usage.
+独立服务模式的优点是可直接借助 HDFDeviceManager 的服务管理能力；缺点是需要为每个设备单独配置设备节点，这会增加内存占用。
 
-The structure diagram of the UART independent service mode is as follows.
+UART 独立服务模式结构图如下图所示。
 
-<span style={{display: 'flex',justifyContent: 'center',margin: '10px 0'}}>![](https://developer.spacemit.com/resource/file/images?fileName=SEwUbFOKboX1SwxB5xAc5Sy1nbb.png)</span>
+![](baseurl/resource/file/images?fileName=SEwUbFOKboX1SwxB5xAc5Sy1nbb.png)
 
-## DTS Configuration
+## 3.2 DTS 配置
 
-**Configuration Description**
+**配置说明**
 
-Configure the corresponding serial port device node, such as configuring serial port 2:
+配置相应的串口设备节点，例如配置串口 2：
 
 ```cpp
 &uart2 {
@@ -245,79 +282,91 @@ Configure the corresponding serial port device node, such as configuring serial 
 };
 ```
 
-## HCS Configuration
+## 3.3 HCS 配置
 
-For different platforms, the corresponding hcs file needs to be modified in the platform directory.
+对于不同的平台，需要在对应的平台目录修改对应的 `.``hcs` 文件。
 
-### **Configure device\_info.hcs**
+### **3.3.1** **配置 device\_info.hcs**
 
-**File Path**
+**文件路径**
 
-vendor/spacemit/xxx/hdf\_config/khdf/device\_info/device\_info.hcs
+`vendor/spacemit/xxx/hdf_config/khdf/device_info/device_info.hcs`
 
-**Configuration Description**
+**配置说明**
 
-Add the following content to device\_info.hcs:
+在 `device_info.hcs` 中添加以下内容：
 
-During the configuration process, pay attention to the following points:
+在配置过程中需要注意如下几点：
 
-- **Policy**: Set node visibility. A value of "1" means hidden, i.e., the HDF node is not displayed in the dev directory; a value of "2" means visible, i.e., the HDF node is displayed in the dev directory.
-- **Permission**: File permissions.
-- **Priority**: Startup order, the larger the value, the later the startup.
-- **serviceName "HDF\_PLATFORM\_UART\_2" suffix "2"**: Corresponds to the port parameter of the application open function.
-- **deviceMatchAttr**: Must be consistent with the match\_attr value in rk3568\_uart\_config.hcs.
+- **Policy**：设置节点隐藏或显示。
 
-### **Configure rk3568\_uart\_config.hcs**
+  - 取值 `1` 表示隐藏，即在 `dev` 目录下不显示 HDF 节点；
+  - 取值 `2` 表示显示，即在 `dev` 目录下显示 HDF 节点。
+- **Permission**：文件权限。
+- **Priority**：启动顺序，数值越大启动越晚。
+- **serviceName**：设备服务名，例如 `HDF_PLATFORM_UART_2`，其中后缀 `2` 对应应用中 `open` 函数的 `port` 参数。
+- **deviceMatchAttr**：需与 `rk3568_uart_config.hcs` 中的 `match_attr` 取值一致。
 
-**File Path**
+### **3.3.2** **配置 ****rk3568_uart_config.hcs**
 
-vendor/spacemit/xxx/hdf\_config/khdf/platform/rk3568\_uart\_config.hcs
+**文件路径**
 
-**Configuration Description**
+`vendor/spacemit/xxx/hdf_config/khdf/platform/rk3568_uart_config.hcs`
 
-Modify the following in rk3568\_uart\_config.hcs:
+**配置说明**
 
-During the configuration process, pay attention to the following points:
+在 `rk3568_uart_config.hcs` 修改如下：
 
-- **device\_uart\_0x0002 suffix "0x0002"**: Serial port number, starting from 0x0000.
-- **Num**: Combined with the driver\_name value "ttyS" to form the driver device name, such as ttyS9.
+在配置过程中需要注意如下几点：
 
-If the driver device name does not start with ttyS, such as the driver device names of serial ports A ~ D on the RK3568A board starting with ttyXRUSB, additional modifications to driver\_name are required. For example:
+- **device_uart_0x0002**： 后缀 `0x0002` 为串口编号，从 `0x0000` 起递增。
+- **Num**：与 `driver_name` 值 `ttyS` 组成驱动设备名，例如 `ttyS9`。
+  若驱动设备名不以 `ttyS` 开头，例如 RK3568A 板的串口 A ~ D 的驱动设备名以 `ttyXRUSB` 开头，此时需要额外增加对 `driver_name` 的修改。例如：
 
-```bash
-device_uart_0x0002 :: uart_device {
-    num = 9;
-    driver_name = "ttyXRUSB"
-    match_attr = "rockchip_rk3568_uart_9";
-}
-```
+  ```bash
+  device_uart_0x0002 :: uart_device {
+      num = 9;
+      driver_name = "ttyXRUSB"
+      match_attr = "rockchip_rk3568_uart_9";
+  }
+  ```
 
-If no additional modifications to driver\_name are made, the default value of driver\_name in the template, i.e., "ttyS", is used.
+  如果不增加对 `driver_name` 的修改，则默认使用 template 中的 `driver_name` 值，即 `ttyS`。
 
-## Application Usage Process
+## 3.4 应用使用流程
 
-The API interface usage of UART is detailed in the OHOS API documentation.
+UART 的 API 接口使用，详见 OHOS 的 API 文档。
 
-Common UART API descriptions are as follows:
+常用的 UART API 说明如下：
 
-- **uartOpen(port: number)**: Where port is the suffix number of serviceName in the "Configure device\_info.hcs" section.
-- **uartSetBaud**: Set the baud rate of the specified serial port.
-- **uartSetAttribute**: Set the basic attributes of the specified serial port.
+- **uartOpen(port: number)**：其中，port 为 “配置 `device_info.hcs`” 章节中 `serviceName` 的后缀数字。
+- **uartSetBaud**：设置指定串口的波特率。
+- **uartSetAttribute**：设置指定串口的基本属性。
 
-## Common Issue Handling
+## 3.5 常见问题处理
 
-- Confirm whether tty devices are generated under /dev/. If not, refer to the "DTS Configuration" section to check the configuration.
-- Confirm whether HDF\_PLATFORM\_UART\_x is generated under /dev/ (x is the configured service\_name). If not, refer to the "HCS Configuration" section to check the configuration.
+- 确认 `/dev/` 下面是否有 `tty` 的设备生成。如果没有生成，请参考 “DTS 配置” 章节检查配置。
+- 确认 `/dev/` 下面是否有 `HDF_PLATFORM_UART_x` 生成（`x` 为配置的 `service_name`）。如果没有生成，请参考 “HCS 配置” 章节检查配置。
 
-**Data read/write not effective**:
+**数据读写不生效**：
 
-- Short-circuit RX and TX, test through two hdc terminals, one cat tty node, and one echo tty node. If the cat end does not receive data:
-- Confirm that the correct serial port pin is selected in pinctrl - 0 in the "DTS Configuration" section.
-- Check and ensure the hardware circuit is normal.
+- 将 RX 和 TX 短接，通过两个 hdc 终端去测试，一个执行 `cat tty` 节点，一个执行 `echo tty` 节点。如果 `cat` 端收不到数据：
+  - 请确认“DTS 配置”章节中的 pinctrl - 0 选择了正确的串口 pin 脚。
+  - 检查并确保硬件电路正常。
 
-**Sending is normal, data reading is lost**:
+**发送正常，读数据丢失**：
 
-- Check whether other applications are competing for data.
-- Check whether there is hardware interference.
+- 请检查是否有其他应用在抢数据。
+- 检查是否存在硬件干扰。
 
-Referenced from [Spacemit Developer Documentation](https://developer.spacemit.com/documentation?token=VzVbwUe9DignkzkXBTzcHMconub)
+# 4. LIGHT 驱动开发
+
+## 4.1 概述
+
+## 4.2 DTS 配置
+
+## 4.3 HCS 配置
+
+## 4.4 应用使用流程
+
+## 4.5 常见问题处理
