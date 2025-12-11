@@ -24,9 +24,9 @@ chmod +x npc
 nohup ./npc -server='你的服务端地址' -vkey='服务端设置的key'  > ./npc.log 2>&1 &
 ~~~
 
-## 2.自动启
+## 3.自动启
 我们可以把npc服务加入开机自启动，
-### 2.1 创建启动脚本
+### 3.1 创建启动脚本
 首先创建一个启动脚本，脚本内容如下：
 ` /home/bitbrick/dev/npc/start.sh`
 ~~~
@@ -70,7 +70,7 @@ exec ./npc -server=xxxxx -vkey=xxxx
 ~~~
 上述脚本加入了网络检测，只有当本地网口`eth0`或者`4G`、`5G`模块获取到IP地址的时候才会去启动npc,你可以按需修改
 
-### 2.2 创建配置文件
+### 3.2 创建配置文件
 在/etc/systemd/system/目录下创建一个npc.service配置文件，内容如下
 
 `/etc/systemd/system/npc.service`
@@ -100,7 +100,7 @@ Wants=quectel-dial.service
 ~~~
 是当你在使用4G、5G模块的拨号的时候可以选择的配置，如果不使用移动通讯模块进行拨号上网，则可以去掉这部分配置
 
-### 2.3 启用服务
+### 3.3 启用服务
 ~~~
 sudo systemctl daemon-reload
 sudo systemctl enable npc.service

@@ -25,10 +25,10 @@ nohup ./npc -server='your_server_address' -vkey='key_set_on_server'  > ./npc.log
 ~~~
 
 
-## 2. Auto start
+## 3. Auto start
 We can add the npc service to startup.
 
-### 2.1 Create the start script
+### 3.1 Create the start script
 First create a start script with the following content:
 ` /home/bitbrick/dev/npc/start.sh`
 ~~~
@@ -72,7 +72,7 @@ exec ./npc -server=xxxxx -vkey=xxxx
 ~~~
 The above script includes network detection: npc will only start when local interfaces `eth0` or the `4G`/`5G` modules have acquired an IP address. You can modify it as needed.
 
-### 2.2 Create the service file
+### 3.2 Create the service file
 Create an npc.service file under /etc/systemd/system/ with the following content:
 
 `/etc/systemd/system/npc.service`
@@ -102,7 +102,7 @@ Wants=quectel-dial.service
 ~~~
 are optional and can be used if you are using 4G/5G module dialing. If you are not using a mobile network module for internet access, you can remove these lines.
 
-### 2.3 Enable the service
+### 3.3 Enable the service
 ~~~
 sudo systemctl daemon-reload
 sudo systemctl enable npc.service
