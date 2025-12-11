@@ -2266,7 +2266,7 @@ const sidebars: SidebarsConfig = {
       ]
     },
 
-      // SBC 
+      // EDGE
     {
       type: 'category',
       collapsed: false,
@@ -2322,6 +2322,21 @@ const sidebars: SidebarsConfig = {
                 {
                   type: 'doc',
                   id: 'edge_epc1001/install/install',
+                }
+              ],
+            },
+            {
+              type: 'category',
+              collapsed: true,
+              label: 'Software Development Guide',
+              items: [
+                {
+                  type: 'doc',
+                  id: 'edge_epc1001/software/5g/5g',
+                },
+                {
+                  type: 'doc',
+                  id: 'edge_epc1001/software/npc/npc',
                 }
               ],
             },
