@@ -606,3 +606,38 @@ a:where(:not(.wp-element-button)){text-decoration:none;}
     border: 1px solid #eee;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   }
+
+  // DocSearch Button Styling
+  .header-widget-area .DocSearch-Button {
+    margin: 0;
+    border: 1px solid #e3e3e3 !important;
+    background: #fff !important;
+    border-radius: 6px !important;
+    padding: 0 12px !important;
+    height: 40px !important;
+    min-width: auto !important;
+    width: auto !important;
+    font-size: 14px !important;
+    transition: all 0.2s !important;
+    
+    &:hover {
+      border-color: #3578e5 !important;
+      box-shadow: none !important;
+    }
+
+    .DocSearch-Search-Icon {
+      width: 16px;
+      height: 16px;
+      color: #666;
+    }
+
+    .DocSearch-Button-Placeholder {
+      font-size: 14px;
+      padding: 0 0 0 6px;
+      color: #666;
+    }
+
+    .DocSearch-Button-Keys {
+      display: none;
+    }
+  }
