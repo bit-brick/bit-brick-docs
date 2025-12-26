@@ -321,6 +321,9 @@ const CustomHeader = () => {
         }}
         hitComponent={Hit}
         resultsFooterComponent={ResultsFooter}
+        searchParameters={{
+          facetFilters: selectedLang === '/zh' ? ['language:zh'] : ['language:en'],
+        }}
         {...siteConfig.themeConfig.algolia}
       />,
       document.body,
