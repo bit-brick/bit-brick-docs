@@ -1,13 +1,23 @@
 // src/components/CustomHeader.js
 import React, { useEffect, useState, useRef } from 'react';
 import Translate, {translate} from '@docusaurus/Translate';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import { useHistory } from '@docusaurus/router';
 
 
 const CustomHeader = () => {
-
+  const { siteConfig } = useDocusaurusContext();
+  const history = useHistory();
   const [selectedLang, setSelectedLang] = useState('/');
   const [communityDropdownOpen, setCommunityDropdownOpen] = useState(false);
   const communityRef = useRef(null);
+
+  const handleSearchClick = () => {
+    // Navigate to search page
+    const currentPath = window.location.pathname;
+    const searchPath = currentPath.startsWith('/zh') ? '/zh/search' : '/search';
+    history.push(searchPath);
+  };
 
   useEffect(() => {
     // 检查当前的路径是否包含 '/zh'
@@ -150,6 +160,41 @@ const CustomHeader = () => {
                               )}
                             </li>
                             <li id="menu-item-98" className="menu-item menu-item-type-post_type menu-item-object-page menu-item-98"><a href={selectedLang == '/zh' ? "https://www.bit-brick.com/zh/关于我们/":"https://www.bit-brick.com/about-us/"} className="menu-link"><Translate id='menu.about'>About us</Translate></a></li>
+                            <li className="menu-item" style={{marginLeft: '8px'}}>
+                              <button
+                                className="clean-btn"
+                                type="button"
+                                aria-label="Search"
+                                onClick={handleSearchClick}
+                                style={{
+                                  border: '1px solid #e3e3e3',
+                                  cursor: 'pointer',
+                                  padding: '6px 12px',
+                                  background: '#fff',
+                                  borderRadius: '6px',
+                                  height: '36px',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  gap: '6px',
+                                  fontSize: '14px',
+                                  color: '#666',
+                                  transition: 'all 0.2s',
+                                }}
+                                onMouseEnter={(e) => {
+                                  e.currentTarget.style.borderColor = '#3578e5';
+                                  e.currentTarget.style.color = '#3578e5';
+                                }}
+                                onMouseLeave={(e) => {
+                                  e.currentTarget.style.borderColor = '#e3e3e3';
+                                  e.currentTarget.style.color = '#666';
+                                }}
+                              >
+                                <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
+                                  <path d="M14.386 14.386l4.0877 4.0877-4.0877-4.0877c-2.9418 2.9419-7.7115 2.9419-10.6533 0-2.9419-2.9418-2.9419-7.7115 0-10.6533 2.9418-2.9419 7.7115-2.9419 10.6533 0 2.9419 2.9418 2.9419 7.7115 0 10.6533z" stroke="currentColor" fill="none" fillRule="evenodd" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5"></path>
+                                </svg>
+                                <span>Search</span>
+                              </button>
+                            </li>
                           </ul>
                         </div>
                       </nav>
