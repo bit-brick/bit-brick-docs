@@ -973,6 +973,28 @@ const sidebars: SidebarsConfig = {
                 },
               ],
             },
+             {
+              type: 'category',
+              collapsed: true,
+              label: 'AI',
+              items: [
+                {
+                  type: 'category',
+                  collapsed: true,
+                  label: 'OpenClaw',
+                  items: [
+                {
+                  type: 'doc',
+                  id: 'k1_pro/ai/openclaw/install_openclaw',
+                },
+                {
+                  type: 'doc',
+                  id: 'k1_pro/ai/openclaw/model_config',
+                },
+              ],
+                },  
+              ]
+            },
             {
               type: 'category',
               collapsed: true,
