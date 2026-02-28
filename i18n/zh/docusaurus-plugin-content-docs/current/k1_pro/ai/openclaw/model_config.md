@@ -23,7 +23,7 @@ https://platform.minimaxi.com/user-center/basic-information
 
    ![image-20260228084639160](./model_config.assets/image-20260228084639160.png)
 
-3. 复制创建好的api key sk-api-jmM9xkq8H8xD4zsmuvTwbcxCbq99nk0quPxNaywSsiHpVIJbnwamzegHB-jpnaPx-4Rp35EEzjcwb9AW6hWbGkVru5dOmULKbP-42_EQmVnzOCS0gx6I9OA
+3. 复制创建好的api key 
 
    ![image-20260228084735734](./model_config.assets/image-20260228084735734.png)
 
