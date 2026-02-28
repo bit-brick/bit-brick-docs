@@ -256,7 +256,7 @@ Filter models by provider
 
 > 在 OpenClaw 中通道（Channel）是连接用户与 AI 助手的桥梁，配置通道可以让用户通过熟悉的通讯平台与 OpenClaw 进行交互（发送消息）。
 
-这里我们可以直接跳过配置，后续通过 [OpenClaw飞书通道配置](#) 这个文档来进行配置，所以选择 `Skip for now`，回车确认。
+这里我们可以直接跳过配置，后续通过 [OpenClaw飞书通道配置](./channel_feishu.md) 这个文档来进行配置，所以选择 `Skip for now`，回车确认。
 
 
 

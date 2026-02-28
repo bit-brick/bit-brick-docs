@@ -991,6 +991,10 @@ const sidebars: SidebarsConfig = {
                   type: 'doc',
                   id: 'k1_pro/ai/openclaw/model_config',
                 },
+                 {
+                  type: 'doc',
+                  id: 'k1_pro/ai/openclaw/channel_feishu',
+                },
               ],
                 },  
               ]

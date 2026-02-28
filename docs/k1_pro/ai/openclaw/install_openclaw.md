@@ -1,12 +1,12 @@
 
 
-# 安装openclaw
+# Installing OpenClaw
 
-## 运行安装脚本
+## Run Installation Script
 
-`OpenClaw` 官方提供了一种安装脚本的方式来安装 `OpenClaw`：
+The official `OpenClaw` provides a script-based installation method:
 
-> 注意：此步骤需要开发板能够访问互联网。
+> Note: This step requires the development board to have internet access.
 
 
 
@@ -14,7 +14,7 @@
 curl -fsSL https://openclaw.ai/install.sh | bash
 ```
 
-效果：
+Result:
 
 
 
@@ -69,7 +69,7 @@ Cozy. I've already read your calendar. We need to talk.
 
 
 
-安装完成之后，就会进入新手引导界面：
+After installation completes, you will enter the onboarding interface:
 
 ```
 Starting setup
@@ -132,17 +132,17 @@ Starting setup
 
 
 
-## 基础配置
+## Basic Configuration
 
-在新手引导界面种，我们需要进行一些基础的配置来让 `OpenClaw` 能够正常使用，其他的都可以后续再进行更改。
+In the onboarding interface, we need to perform some basic configuration to make `OpenClaw` work properly. Other settings can be changed later.
 
-操作说明
+## Operating Instructions
 
-在引导页面操作主要依靠键盘的**上下左右键来进行选择**，**空格选中**，**回车键来确认选择**。
+Navigation on the onboarding page primarily uses the keyboard: **arrow keys to select**, **spacebar to check**, and **Enter to confirm**.
 
-### 同意风险
+### Agree to Risk Notice
 
-选择 `Yes`，回车确认。
+Select `Yes` and press Enter to confirm.
 
 
 
@@ -154,9 +154,9 @@ Starting setup
 
 
 
-### 选择快速开始
+### Select QuickStart Mode
 
-选择 `QuickStart`，回车确认。
+Select `QuickStart` and press Enter to confirm.
 
 
 
@@ -167,9 +167,9 @@ Starting setup
 └
 ```
 
-### 选择模型
+### Select Model
 
-这里我们可以直接跳过模型的配置，后续通过 [OpenClaw模型API配置](./model_config.md) 这个文档来进行配置，所以选择 `Skip for now`，回车确认。
+You can skip model configuration here. Refer to the [OpenClaw Model API Configuration](./model_config.md) document for detailed setup. Select `Skip for now` and press Enter to confirm.
 
 
 
@@ -207,7 +207,7 @@ Starting setup
 
 
 
-模型供应商选择所有供应商：
+Filter model providers - Select all providers:
 
 
 
@@ -240,7 +240,7 @@ Filter models by provider
 
 
 
-默认模型，我们选择保持不动即可，后面详细配置里面会进行修改：
+For the default model, you can keep it unchanged. It can be modified in detailed configuration later:
 
 
 
@@ -252,11 +252,11 @@ Filter models by provider
 
 
 
-### 通道配置
+### Channel Configuration
 
-> 在 OpenClaw 中通道（Channel）是连接用户与 AI 助手的桥梁，配置通道可以让用户通过熟悉的通讯平台与 OpenClaw 进行交互（发送消息）。
+> In OpenClaw, a channel is a bridge connecting users and AI assistants. Configuring channels allows users to interact with OpenClaw (send messages) through familiar communication platforms.
 
-这里我们可以直接跳过配置，后续通过 [OpenClaw飞书通道配置](#) 这个文档来进行配置，所以选择 `Skip for now`，回车确认。
+You can skip channel configuration here. Refer to the [OpenClaw Feishu Channel Configuration](./channel_feishu.md) document for detailed setup. Select `Skip for now` and press Enter to confirm.
 
 
 
@@ -287,9 +287,9 @@ Filter models by provider
 
 
 
-### 配置Skills
+### Configure Skills
 
-选择 `yes` 配置，可以选择你需要的`Skills` 也可以跳过，我们之后可以通过对话的方式，让 `OpenClaw` 自己配置自己的 `Skills` 不需要我们自己动手：
+Select `Yes` to configure. You can choose the `Skills` you need or skip. Later, you can let `OpenClaw` configure its own `Skills` through conversation without manual intervention:
 
 
 
@@ -330,9 +330,9 @@ Configure skills now? (recommended)
 
 
 
-### 相关的KEY配置
+### Configure API Keys
 
-全部选择 `No`：
+Select `No` for all:
 
 
 
@@ -360,9 +360,9 @@ Configure skills now? (recommended)
 
 
 
-### hook配置
+### Configure Hooks
 
-将所有的配置全部使用空格选中，然后回车确认：
+Select all configurations with spacebar, then press Enter to confirm:
 
 
 
@@ -386,7 +386,7 @@ Configure skills now? (recommended)
 
 
 
-### 完成安装
+### Complete Installation
 
 ```
 ◇  Systemd ────────────────────────────────────────────────────────────────────────────────╮
@@ -471,13 +471,13 @@ Session store (main): /home/bitbrick/.openclaw/agents/main/sessions/sessions.jso
 
 
 
-## 访问UI界面
+## Access Web UI
 
-想要访问 `OpenClaw` 的UI界面，我们需要设置两个配置参数，才能在局域网内进行访问:
+To access `OpenClaw`'s web interface, we need to configure two settings to enable access within the local network:
 
-> 如果没有 `openclaw` 命令，可以先执行 `source ~/.bashrc` 来加载环境变量。
+> If the `openclaw` command is not available, first run `source ~/.bashrc` to load environment variables.
 >
-> 可以使用 `openclaw help` 来查看 `openclaw` 命令的使用说明。
+> You can use `openclaw help` to view the usage instructions for the `openclaw` command.
 
 
 
@@ -535,7 +535,7 @@ Restarted systemd service: openclaw-gateway.service
 
 
 
-使用以下命令查看局域网内查看 `OpenClaw` 的 `UI` 访问地址 `Dashboard URL`：
+Use the following command to view the `OpenClaw` web UI access address and `Dashboard URL`:
 
 
 
@@ -551,10 +551,10 @@ Copy to clipboard unavailable.
 
 
 
-访问地址一般是 `http://<开发板IP地址>:18789/#token=<token>`，在浏览器中输入这个地址就可以访问 `OpenClaw` 的UI界面了：
+The access URL is typically `http://<board-ip>:18789/#token=<token>`. Enter this address in your browser to access `OpenClaw`'s web interface:
 
-> - 使用 `ifconfig` 命令可以查看`<开发板IP地址>`，替换掉原本的 `127.0.0.1` 就可以在局域网内访问了。
-> - `<token>` 是一个访问令牌，用于验证用户的访问权限，确保只有授权用户才能访问 `OpenClaw` 的UI界面。每次安装或者重置 `OpenClaw` 之后，这个 `token` 都会发生变化，所以需要使用最新的 `token` 来访问UI界面。我们使用 `openclaw dashboard` 命令获取的访问地址就是包含了最新 `token` 的地址，可以直接使用这个地址来访问UI界面。
+> - Use the `ifconfig` command to find `<board-ip>`. Replace `127.0.0.1` with this IP to access from within the local network.
+> - `<token>` is an access token that verifies user permissions and ensures only authorized users can access `OpenClaw`'s web interface. The token changes each time you install or reset `OpenClaw`, so you need to use the latest token. The access URL obtained from the `openclaw dashboard` command includes the latest token, so you can use it directly to access the web interface.
 
 
 
