@@ -1,6 +1,6 @@
 
 
-# 安装openclaw
+# 安装OpenClaw
 
 ## 运行安装脚本
 

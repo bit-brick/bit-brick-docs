@@ -6,12 +6,12 @@ To configure OpenClaw model API, follow these steps:
 
 1. **Select Model Provider**: Choose a large language model provider such as OpenAI, Anthropic, etc., and register to obtain API keys.
 2. **Obtain API Key**: On the model provider's official website, create an account and get the API key, which will be used for communication between OpenClaw and the large model.
-3. **Configure OpenClaw**: In OpenClaw's settings interface, enter the model provider's API key and select the model type you want to use (such as GPT-4, MinMax2.5, etc.).
+3. **Configure OpenClaw**: In OpenClaw's settings interface, enter the model provider's API key and select the model type you want to use (such as GPT-4, MiniMax2.5, etc.).
 4. **Test Connection**: After configuration, you can use OpenClaw's test functionality to verify that the API connection is successful and ensure OpenClaw can properly invoke the large model for task processing.
 
-We'll use MinMax as an example:
+We'll use MiniMax as an example:
 
-1. First, visit the MinMax Developer Platform to register and click `Get your key`:
+1. First, visit the MiniMax Developer Platform to register and click `Get your key`:
 
 ```
 https://platform.minimaxi.com/user-center/basic-information
