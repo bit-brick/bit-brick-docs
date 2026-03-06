@@ -6,12 +6,12 @@
 
 1. **选择模型提供商**：首先，用户需要选择一个大模型提供商，如OpenAI、Anthropic等，并注册获取API密钥。
 2. **获取API密钥**：在模型提供商的官方网站上，用户需要创建一个账户并获取API密钥，这个密钥将用于OpenClaw与大模型的通信。
-3. **配置OpenClaw**：在OpenClaw的设置界面中，用户需要输入模型提供商的API密钥，并选择要使用的模型类型（如GPT-4、MinMax2.5等）。
+3. **配置OpenClaw**：在OpenClaw的设置界面中，用户需要输入模型提供商的API密钥，并选择要使用的模型类型（如GPT-4、MiniMax2.5等）。
 4. **测试连接**：配置完成后，用户可以通过OpenClaw的测试功能来验证API连接是否成功，并确保OpenClaw能够正确调用大模型进行任务处理。
 
-我们以MinMax为例：
+我们以MiniMax为例：
 
-1. 首先进入到 MinMax 开发平台注册，点击 `获取你的 key`：
+1. 首先进入到 MiniMax 开发平台注册，点击 `获取你的 key`：
 
 ```
 https://platform.minimaxi.com/user-center/basic-information
